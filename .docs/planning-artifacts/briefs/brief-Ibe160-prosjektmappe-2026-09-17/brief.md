@@ -1,11 +1,13 @@
 ---
 title: LifeMode Product Brief
-status: final
+status: draft
 created: 2026-09-17
 updated: 2026-09-17
 ---
 
 # Product Brief: LifeMode
+
+> **1. utkast** — dette er et førsteutkast til produktbrief, lagt frem for gjennomgang og godkjenning av resten av gruppen før det anses som endelig.
 
 ## Executive Summary
 
