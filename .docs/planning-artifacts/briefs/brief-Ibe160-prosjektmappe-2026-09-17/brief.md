@@ -5,114 +5,119 @@ created: 2026-09-17
 updated: 2026-09-17
 ---
 
-# Product Brief: LifeMode
+# Product Brief: LifeMode/Aftermath/Ripple (game name is not set)
 
 > **1. utkast** — dette er et førsteutkast til produktbrief, lagt frem for gjennomgang og godkjenning av resten av gruppen før det anses som endelig.
 
 ## Executive Summary
 
-LifeMode is an AI-native life and personal finance simulation game for young people aged approximately 14–20, built as an IBE160 course project by a student team, for delivery in December 2026, targeting Norway first.
+LifeMode is an AI-native life and personal finance simulation game for young people aged approximately 14–20 in Norway. Players create an avatar and move through realistic life stages such as receiving confirmation money, getting a summer job, saving, studying, moving away from home, paying rent, using credit and managing unexpected expenses. Decisions carry forward, meaning choices made early in the game can create opportunities or problems later. The core idea is simple: Let young people make expensive financial mistakes before those mistakes cost real money.
 
-The player creates an avatar and progresses through realistic life stages — confirmation money, a summer job, saving, driving licence, education, moving out, rent, credit, a first car, and larger financial decisions. Every decision carries forward: saving early opens future options, using credit solves a short-term problem but raises future pressure, a cheap car may mean expensive repairs later. The core idea is simple: **let young people make expensive financial mistakes before those mistakes cost real money.**
+Instead of teaching personal finance mainly through quizzes, theory or isolated examples, LifeMode lets players experience financial consequences inside a safe simulation. An AI-powered Life Game Master generates events, dilemmas, NPCs and branching situations based on the player's accumulated state and previous choices, while a separate deterministic financial engine handles income, expenses, savings, debt, interest and other numerical consequences. This matters because many financial concepts remain abstract until they affect real choices, and recent Norwegian research points to gaps in young people's financial knowledge and unused potential for more practical financial education.
 
-What makes this possible is a specific architectural split. An AI model acts as the "Life Game Master," generating events, NPCs, dilemmas, and branching narrative from the player's simulated state and history — so no two playthroughs, and no two players, converge on the same story. A separate, deterministic financial engine owns all the math: interest, savings growth, debt, income, and budgets. The AI creates the life; the financial engine determines the consequences. No product on the market today combines these two things for this audience, in this market — see [What Makes This Different](#what-makes-this-different).
+The timing is favorable because generative AI now makes adaptive, state-driven simulation experiences more feasible than traditional fixed decision trees. The first MVP targets Norwegian users aged 14–20 and is being developed as part of the IBE160 course for delivery in December 2026. If successful, LifeMode can grow over the next 2–3 years into a broader AI-powered simulation of early adulthood, covering increasingly complex decisions around education, career, housing, relationships, loans, family and long-term financial trade-offs.
+
+---
 
 ## The Problem
 
-Many young people enter adulthood without an intuitive understanding of how financial decisions interact over time. Savings, interest, credit, debt, fixed expenses, rent, budgeting, and emergency funds may be understandable in theory but feel abstract until they have real consequences.
+Young people gradually enter adult financial life without necessarily understanding how financial decisions interact over time. Concepts such as saving, interest, credit, debt, fixed expenses, rent, budgeting and emergency funds may be understandable in theory, but they often remain abstract until they create real consequences.
 
-Example: you have NOK 1,500. Your friends are going on a trip costing NOK 3,200. Stay home, work extra, borrow, or use credit? A few simulated months later, the player sees how that choice affected debt, monthly expenses, and future opportunities.
+For example, a young person may have NOK 1,500 available while friends plan a trip costing NOK 3,200. Do they stay home, work extra shifts, borrow money or use credit? Credit may solve the immediate problem, but later repayments and interest can reduce the money available for rent, food, transport or future opportunities. 
 
-Today, these lessons are mostly learned through parents, school, online content, or real-world trial and error — and real-world trial and error is expensive. Finans Norge's own 2025 research states that Norwegian youth "struggle with financial knowledge" and that schools "aren't using the potential" to address it — the industry body most invested in financial literacy is naming the same gap LifeMode targets.
+Today, young people mainly learn these lessons through parents, school, online content or real-world trial and error. Research highlighted by Finans Norge in 2025 shows that Norwegian youth have only moderate knowledge of personal finance, particularly around interest, loans and long-term planning, while also pointing to significant untapped potential for more practical financial education in upper-secondary schools. [Finans Norge, 2025][finans-norge]
+
+The cost of the status quo is that many important financial lessons are learned only after real money is involved. A poor decision can create debt, reduce future flexibility and become expensive before the person fully understands why. The opportunity is therefore to let young people experience financial trade-offs and consequences before those decisions become real.
+
+---
 
 ## The Solution
 
-LifeMode turns personal finance into a dynamic life simulation across the stages above, where every decision reshapes the life ahead. The goal is not simply to become as rich as possible: the game balances financial security, freedom, lifestyle, debt, time, and stress, so personal finance becomes part of the player's life story rather than a separate learning module.
+LifeMode turns personal finance into a dynamic life simulation rather than a traditional financial-literacy course. The first version follows the player from approximately age 14 to 20 through interconnected decisions involving: initial savings → summer job → spending → saving → driving licence → education → moving out → rent → recurring expenses → credit → unexpected costs
 
-**AI as the game engine, not a chatbot feature.** The AI Game Master generates life events, dilemmas, NPCs, conversations, and branching storylines based on the player's current simulated situation and history — for example, a player with an old car, little savings, and existing credit debt may face a realistic repair crisis. A deterministic financial engine calculates everything numeric: interest, debt, repayments, income, recurring expenses, budgets. The central loop is: **choose → consequence → AI-generated new situation → adapt → continue life.**
+Every choice changes the player's financial and life situation. A player who spends most of their savings early may have fewer options later. A player who buys an inexpensive older car may face repair costs. A player who has built an emergency fund may handle the same event without taking on debt.
 
-This split isn't incidental — it's the answer to a real design question the team pressure-tested during discovery: *why does this need an LLM instead of hand-authored branching content?* Two concrete answers, not "AI is more scalable" in the abstract:
+An AI-powered Life Game Master uses the player's accumulated state and previous decisions to generate relevant events, dilemmas, NPCs, conversations and branching situations. A separate deterministic financial engine ensures that financial consequences remain consistent and realistic.
 
-1. **Combinatorial narrative variety.** The story must react coherently to a near-infinite combination of accumulated state (age × savings × debt × prior choices). Hand-authoring branches to cover that space doesn't scale; an LLM can generate a specific, coherent situation from state on demand.
-2. **Open-ended negotiation.** Players can argue with an NPC — e.g., negotiating a lower interest rate with the bank — where argument quality genuinely affects the outcome, not a fixed menu of pre-written responses.
+The design principle is: The AI creates the life; the financial engine determines the consequences.
 
-That second mechanic reintroduces a known risk (an LLM being too agreeable, undermining the "let consequences bite" premise), so the team set a guardrail: the deterministic engine sets a base value and a bounded interval, and the AI can only select a result *within* that interval based on argument quality — never outside it. The AI does not get to be lenient; realism is the design goal, not friendliness. (Detail: [addendum.md](addendum.md#ai-negotiation-mechanic--guardrail-detail).)
+This creates the core gameplay loop: Choose → consequence → updated state → AI-generated situation → adapt → continue life
 
-## Win Condition
+**Why generative AI?**
 
-At the start of a playthrough, the player receives a mission: reach a target net worth by around age 20. The target is randomized/personalized per playthrough rather than fixed, so no two players are chasing the same number — reinforcing that no two playthroughs should converge on the same story.
+The use of generative AI answers a central design question:
+"Why does this need an LLM instead of hand-authored branching content?"
 
-Net worth alone isn't the whole picture. A parallel **happiness/wellbeing meter** ("lykkebarometer") tracks what a pure net-worth number hides: stress, free time, social life, housing quality. Like the financial numbers, it is computed deterministically from measurable state (debt load, hours worked, living conditions, free time) — the AI creates the situations that move these numbers, but does not judge the outcome itself, keeping the "the AI creates the life, the financial engine determines the consequences" principle intact.
+There are two concrete reasons:
 
-This produces three possible endings, not a binary win/lose:
+1. **Combinatorial narrative variety**
+The story must react coherently to a near-infinite combination of accumulated state (age × savings × debt × possessions × prior choices × current circumstances). Hand-authoring branches to cover that space doesn't scale; an LLM can generate a specific, coherent situation from state on demand.
 
-1. **Real win** — net worth target reached and wellbeing stayed above a healthy threshold.
-2. **Hollow win** — net worth target reached, but wellbeing collapsed getting there: the money cost too much.
-3. **Loss** — net worth target missed, or an unmanageable debt spiral occurs before the deadline.
+2. **Open-ended interaction and negotiation**
+Players can argue with an NPC — for example, negotiating a lower interest rate with the bank, where the quality of the player's reasoning genuinely affects the outcome, rather than the interaction being limited to a fixed menu of pre-written responses.
+
+These interactions must still respect the game's financial rules. The AI cannot override those rules or simply reward the player because it is being agreeable. The goal is realistic consequence, not AI-generated leniency. Detailed negotiation guardrails are documented in addendum.md.
+
+**Winning the game**
+
+The objective is not simply to accumulate as much money as possible. At the start of a playthrough, the player can receive a longer-term mission, such as reaching a target net worth by the end of the simulated period. The target can vary between playthroughs so that players are not always pursuing the same goal.
+  
+Net worth alone is not the whole picture. A parallel simulated Life Balance score reflects factors such as working hours, free time, debt pressure, social life and living conditions.
+
+Life Balance is strictly a game mechanic. It is not intended to measure the player's real happiness, mental health or psychological wellbeing. For example, working extreme hours may increase income and net worth while reducing free time and Life Balance. Spending money on an experience may reduce savings while improving other aspects of the simulated life.
+
+A playthrough can therefore produce different outcomes:
+
+- **Balanced success** - the financial target is reached while Life Balance remains sustainable
+  
+- **Hollow financial success** — the financial target is reached, but at a high simulated personal cost
+
+- **Unsuccessful run** — the target is missed or previous decisions create an unsustainable debt situation
+
+The purpose is not to teach players that becoming as wealthy as possible is always the best outcome. It is to let them experience the trade-offs involved in building a financially sustainable life.
+
+---
 
 ## What Makes This Different
 
-The market splits into two camps that don't overlap:
+Existing products generally approach this problem from two different directions.
 
-- **Life-simulation games** (e.g. BitLife) have narrative and choice, but finance is shallow flavor — reviewers note it can even desensitize players to financial recklessness, the opposite of a literacy goal.
-- **Teen financial-literacy apps** (Zogo, Greenlight, EVERFI, and the closest Nordic comparable, Sweden's Gimi) have correct-ish financial content and proven bank/school distribution, but deliver it as quizzes or courseware — no narrative agency, no branching consequence.
+1. **Life-simulation games**, such as BitLife, provide characters, choices and branching stories, but personal finance is primarily one part of the entertainment experience rather than a detailed financial-learning system.
 
-No product found — in this research, globally or in Norway — pairs a deterministic, correct financial engine with an LLM-generated branching life narrative. In Norway specifically, existing efforts (Nordea's Økonomipeil, Finans Norge's Skolemeny/Pengequiz, Gimi) are courseware or quiz-based; none is a simulation. LifeMode would be a domestic first-mover on this combination. Full competitive landscape and sources: [addendum.md](addendum.md#competitive--comparable-landscape-research-detail).
+2. **Teen financial-literacy products**, such as Zogo, Greenlight, EVERFI and Sweden's Gimi, focus more directly on financial knowledge but generally use lessons, quizzes, guided content or predefined scenarios rather than an open-ended life simulation with persistent narrative consequences.
 
-**Honest caveat:** the team is aware of the obvious rebuttal — Zogo and EVERFI already prove that bank/school distribution works with cheap, fully-controllable static content, so an evaluator may reasonably ask whether an LLM is worth its cost and risk versus a well-designed decision tree. The answer the team is building toward is the combinatorial-narrative and open-ended-negotiation mechanics above; this should be validated, not just asserted, once a playable MVP exists.
+In Norway, examples such as Nordea's Økonomipeil and Finans Norge's Skolemeny/Pengequiz also focus on financial education rather than a generative life simulation. 
+
+In our initial competitive research, we have not identified a product aimed at this audience that combines a deterministic personal-finance simulation with an LLM-generated branching life narrative. This is an initial research finding rather than a claim that no comparable product exists globally. Full competitive research and source detail are documented in:[appendum](./appendum.md)
+
+The central differentiation is the combination of: real financial consequences + persistent game state + generative life simulation
+
+The project's advantage is not a proprietary AI model. At the MVP stage, there is no proven defensible technical moat. If the product succeeds, the advantage will come from execution: combining financial simulation, generative narrative, game design and safety into one coherent experience that is realistic enough to teach meaningful consequences while entertaining enough that young people voluntarily continue playing.
+
+**Honest caveat**: Zogo and EVERFI demonstrate that bank- and school-distributed financial education can work with relatively cheap, highly controllable static content. An evaluator may therefore reasonably ask whether an LLM provides enough additional value to justify its added complexity, cost and risk compared with a well-designed decision tree.
+
+The answer the team is building toward is the combination of **combinatorial narrative variety and open-ended negotiation described above**. This should be validated through the playable MVP rather than simply asserted.
+
+---
 
 ## Who This Serves
 
-**Primary users** — Young people aged approximately 14–20, especially those approaching their first major financial decisions. Success for the player means understanding financial consequences better, without it feeling like schoolwork.
+- **Primary users** — Young people aged approximately 14–20 in Norway, especially those approaching their first meaningful financial decisions. They need a way to understand financial consequences through experience rather than theory. Success means making more informed choices and understanding how earlier decisions affect later opportunities, without the experience feeling like schoolwork. 
 
-**Parents** — May pay for a family version giving teenagers a safe environment to make financial mistakes, and giving parents an easier way into money conversations (including visibility into event categories their teen encountered — see addendum).
+- **Potential secondary user/customer group** - Parents need a safe way for teenagers to practise financial decision-making and a better starting point for conversations about money. A future Family version could include shared scenarios, conversation starters and limited visibility into the types of situations a teenager has encountered without exposing private session content.Details in: [appendum](./appendum.md)
 
-**Schools** — Can use selected scenarios to teach budgeting, credit, saving, and living costs interactively.
+- **Schools** - could use selected scenarios as a practical supplement to financial education, particularly around budgeting, saving, credit and living costs. Success for schools would mean a more engaging way to teach financial consequences while giving teachers structured scenarios to work with.
 
-**Banks and other partners** — Banks, insurers, or municipalities may fund access through financial literacy initiatives. Any partnership stays independent from the game's financial logic and must not become disguised financial advertising.
+- **Banks, insurers, municipalities and other organizations** - potential future B2B2C partners that could fund access through financial-literacy initiatives. This is a longer-term commercial hypothesis rather than part of the initial user-research phase, and any partnership should remain independent from the game's financial logic and avoid becoming disguised financial-product advertising.
 
-## Business Model
-
-LifeMode can combine several revenue streams, so it is not solely dependent on teenagers paying directly:
-
-- **Family Premium** — parents pay for expanded simulations, family challenges, and additional content.
-- **School licences** — schools pay per class, pupil, or institution.
-- **B2B2C partnerships** — banks, insurers, or other organizations fund access as part of financial literacy initiatives (a channel already proven for EVERFI, Zogo, and Nordea's Økonomipeil).
-- **Scenario packs** (future) — modules such as moving out, first car, student life, credit and debt, first job, housing.
-
-## Scope
-
-**MVP** simulates roughly ages 15–20, with a limited number of meaningful decisions: confirmation money or initial savings, summer job, first salary, spending versus saving, basic interest, subscriptions, driving licence, education, moving away from home, rent, food and living costs, credit, unexpected expenses, and emergency savings. It should feel like a complete simulated life stage, not a collection of disconnected quizzes.
-
-**Explicitly out of scope for MVP:** real bank connections, real financial data, personalized financial advice, real investments, cryptocurrency, advanced mortgages, complex tax calculations, real-money transactions.
-
-The goal is to validate whether users enjoy the core loop enough to keep playing, and whether they develop a stronger understanding of financial consequences.
-
-## Technology Overview
-
-LifeMode is a website — a mobile-first, responsive web application (smartphones, tablets, laptops, desktop) that should feel like a mobile game even though it runs in the browser. Responsive behavior is a core requirement from the start, tested across small mobile widths, tablet, and desktop.
-
-- HTML / CSS for structure and responsive styling
-- JavaScript / TypeScript for frontend interactivity
-- Python for the backend — game logic, the deterministic financial simulation engine, and orchestration of calls to the AI Game Master API
-- Supabase for database, authentication, and backend services
-- A free-tier LLM API as the runtime AI Game Master — provider not locked in yet (candidates include Google Gemini's free tier or an open-weight model via a free host such as Groq); final choice is an architecture-phase decision. **Zero ongoing cost is a hard constraint**: the team has no budget for paid API usage, so the chosen provider's free-tier rate limits are a real design boundary, not just a cost-optimization — and reduced safety-tuning guarantees relative to a frontier provider are a tradeoff to design around (see Privacy & Safety).
-- Claude Code as the development assistant; BMAD Method as the development methodology
-
-High-level flow: responsive frontend (HTML/CSS/JS) → Python backend (financial simulation engine + orchestration) → Supabase (database/auth) and the AI Game Master API → validation and game rules → updated player state → game interface.
-
-## Privacy & Safety
-
-Because the audience includes minors, LifeMode collects as little real-world personal information as possible. The MVP needs no bank access, real salary information, national identity numbers, location history, contact lists, or private messages — the game economy is fully simulated (e.g. `simulated_age`, `simulated_savings`, `simulated_income`), and the AI never needs the player's real identity.
-
-Because the entire user base is 14–20 and the closest structural comparable (an LLM driving open-ended narrative) has a well-documented 2021 safety incident involving minors, the team is treating content safety as a named risk to design against from the start, not an afterthought. This matters more, not less, given the zero-budget constraint on the AI provider (see Technology Overview): a free-tier or open-weight model cannot be assumed to carry the same safety tuning as a frontier provider, so the structured-output and pre-display moderation principles below carry more of the safety burden by design, rather than relying on the model's own training. Working design principles (structured AI output, constrained player input for negotiation, pre-display moderation, no human reading of private sessions, parent-facing visibility as a feature) are recorded for the architecture phase in [addendum.md](addendum.md#ai-safety--content-moderation--design-principles).
-
-**Open concern: the AI going out of control.** Even with a minimal-PII, fully simulated economy by design, the AI narrative/negotiation layer introduces a specific, unresolved privacy risk: an open-ended AI conversation could drift into asking for or generating real personal information, or otherwise behave unpredictably in a way that undermines the privacy-by-design intent. This is flagged here as a known open concern for the architecture phase, not yet mitigated — distinct from the content-moderation risk above.
+---
 
 ## Success Criteria
 
-The first pilot should demonstrate that:
+The first version should demonstrate user value, technical viability and early evidence of commercial potential.
 
+**User success**
+User testing of the playable MVP should aim to show that:
 - most users complete the first simulated life stage
 - at least 50% voluntarily return for another session
 - users describe the experience as more like a game than schoolwork
@@ -120,11 +125,66 @@ The first pilot should demonstrate that:
 - understanding of key financial concepts improves
 - users want to replay with different choices
 - different playthroughs produce meaningfully different stories
+- users understand the trade-off between financial outcomes and Life Balance
 
-Early commercial validation should include interest from parents, at least one school willing to test the product, and interest from potential institutional partners.
+These criteria will be evaluated through post-development user testing, not the initial discovery survey.
+
+**Business validation**
+Early commercial validation should measure:
+- the share of surveyed parents who see value in a safe financial simulation for teenagers
+- the share who indicate willingness to pay for a future Family version
+
+Schools, banks, insurers, municipalities and other organizations remain longer-term commercial hypotheses and are not part of the initial validation phase.
+
+**Technical success**
+The MVP should also demonstrate that:
+- the complete full-stack application can run locally
+- authentication correctly identifies users and separates their stored data
+- player accounts, game state, decisions and playthroughs persist correctly in the database
+- AI-generated events can use stored player state and previous decisions as context
+- the deterministic financial engine calculates financial consequences independently of the AI model
+- AI output is validated before it can influence authoritative game state
+- malformed or unexpected AI output does not corrupt the simulation
+- the primary gameplay flow works on smartphones, tablets, laptops and desktop screens
+
+---
+
+## Scope
+
+The MVP will simulate approximately ages 14–20 through a focused set of financial and life decisions, including initial savings, summer jobs and first salary, spending versus saving, interest, subscriptions, driving licence, education, moving out, rent, living costs, credit, a first car, unexpected expenses and emergency savings.
+
+It should feel like a complete simulated life stage, not a collection of disconnected quizzes.
+
+The MVP will include persistent player state, a deterministic financial engine, AI-generated life events and NPC interactions based on previous decisions, and a simulated Life Balance mechanic alongside financial progress. Open-ended interaction with AI-controlled NPCs is included, but financial outcomes must remain within boundaries defined by the deterministic game engine.
+
+The MVP will be a mobile-first responsive web application supporting smartphones, tablets, laptops and desktops. It must be able to run locally without depending on paid runtime services. Public production deployment is not required for the MVP; the application may be tested locally or in a controlled test environment.
+
+Because the target audience includes minors, the MVP follows privacy-by-design and data-minimization principles. It uses simulated financial information and does not require real bank accounts, real salary or debt information, national identity numbers or transaction data. AI-generated content cannot directly modify authoritative financial state and must remain within application-defined rules. Detailed security and AI-safety measures are documented in the technical architecture: [architecture_technical_design](./architecture_technical_design.md)
+
+**Explicitly out of scope for the MVP**
+The MVP will not include:
+- real bank connections or real financial data
+- personalized financial advice
+- real investments or cryptocurrency
+- advanced mortgages or complex tax calculations
+- real-money transactions
+- financial-product recommendations
+- large-scale multiplayer functionality
+- a fully simulated adult lifetime
+- native iOS or Android applications
+
+---
 
 ## Vision
+If LifeMode succeeds, it can grow over the next 2–3 years from a financial simulation for ages 14–20 into a broader AI-powered simulation of early adulthood.
 
-If LifeMode succeeds, it can evolve from a personal finance game into a broader AI-powered simulation of adulthood: education → career → salary → housing → relationships → loans → insurance → family → investments → unexpected life events. The long-term ambition is a safe environment where young people can experience important adult decisions before those decisions become real.
+Players could face increasingly complex decisions around education, career, salary, housing, relationships, loans, insurance, family, investments and unexpected life events. The AI Game Master could create more varied and personalized life paths, while deterministic systems continue to control financial rules and long-term consequences.
 
-LifeMode is where you learn how life works by living it once before it counts.
+Players could also pursue different long-term goals, such as financial freedom, home ownership, entrepreneurship, family life or a balanced lifestyle, increasing replayability and reinforcing that personal finance is ultimately about trade-offs rather than maximizing a single number.
+
+Future versions could expand into family, school and partner-funded use, while keeping the core experience independent and financially neutral.
+
+A safe simulation of adulthood where young people can experience important decisions before those decisions become real.
+
+## Sources
+[finans-norge]: https://www.finansnorge.no/artikler/2025/08/ungdom-sliter-med-okonomikunnskap--skolen-utnytter-ikke-potensialet/
