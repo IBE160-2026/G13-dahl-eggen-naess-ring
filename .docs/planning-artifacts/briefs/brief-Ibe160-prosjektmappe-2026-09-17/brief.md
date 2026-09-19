@@ -43,10 +43,10 @@ The design principle is: The AI creates the life; the financial engine determine
 
 This creates the core gameplay loop: Choose → consequence → updated state → AI-generated situation → adapt → continue life
 
-**Why generative AI?**
+### Why generative AI?
 
 The use of generative AI answers a central design question:
-"Why does this need an LLM instead of hand-authored branching content?"
+**Why does this need an LLM instead of hand-authored branching content?**
 
 There are two concrete reasons:
 
@@ -56,9 +56,9 @@ The story must react coherently to a near-infinite combination of accumulated st
 2. **Open-ended interaction and negotiation**
 Players can argue with an NPC — for example, negotiating a lower interest rate with the bank, where the quality of the player's reasoning genuinely affects the outcome, rather than the interaction being limited to a fixed menu of pre-written responses.
 
-These interactions must still respect the game's financial rules. The AI cannot override those rules or simply reward the player because it is being agreeable. The goal is realistic consequence, not AI-generated leniency. Detailed negotiation guardrails are documented in addendum.md.
+These interactions must still respect the game's financial rules. The AI cannot override those rules or simply reward the player because it is being agreeable. The goal is realistic consequence, not AI-generated leniency. Detailed negotiation guardrails are documented in [architecture_technical_design.md] and [addendum.md].
 
-**Winning the game**
+### How success is defined in the game
 
 The objective is not simply to accumulate as much money as possible. At the start of a playthrough, the player can receive a longer-term mission, such as reaching a target net worth by the end of the simulated period. The target can vary between playthroughs so that players are not always pursuing the same goal.
   
@@ -68,11 +68,9 @@ Life Balance is strictly a game mechanic. It is not intended to measure the play
 
 A playthrough can therefore produce different outcomes:
 
-- **Balanced success** - the financial target is reached while Life Balance remains sustainable
-  
-- **Hollow financial success** — the financial target is reached, but at a high simulated personal cost
-
-- **Unsuccessful run** — the target is missed or previous decisions create an unsustainable debt situation
+> **Balanced success** - the financial target is reached while Life Balance remains sustainable  
+> **Hollow financial success** — the financial target is reached, but at a high simulated personal cost
+> **Unsuccessful run** — the target is missed or previous decisions create an unsustainable debt situation
 
 The purpose is not to teach players that becoming as wealthy as possible is always the best outcome. It is to let them experience the trade-offs involved in building a financially sustainable life.
 
@@ -105,6 +103,8 @@ The answer the team is building toward is the combination of **combinatorial nar
 - **Primary users** — Young people aged approximately 14–20 in Norway, especially those approaching their first meaningful financial decisions. They need a way to understand financial consequences through experience rather than theory. Success means making more informed choices and understanding how earlier decisions affect later opportunities, without the experience feeling like schoolwork. 
 
 - **Potential secondary user/customer group** - Parents need a safe way for teenagers to practise financial decision-making and a better starting point for conversations about money. A future Family version could include shared scenarios, conversation starters and limited visibility into the types of situations a teenager has encountered without exposing private session content.Details in: [appendum](./appendum.md)
+
+- **Future institutional customers and partners**
 
 - **Schools** - could use selected scenarios as a practical supplement to financial education, particularly around budgeting, saving, credit and living costs. Success for schools would mean a more engaging way to teach financial consequences while giving teachers structured scenarios to work with.
 
