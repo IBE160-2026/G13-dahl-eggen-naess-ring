@@ -35,6 +35,25 @@ Player
 
 ---
 
+## Technology Choices and Rationale
+
+This section will document and justify the final technology choices for LifeMode in relation to the specific needs of the application.
+
+The rationale will be expanded as the technology stack is finalized and should explain why each selected technology is appropriate for requirements such as:
+
+- responsive full-stack web development
+- persistent game state
+- authentication and authorization
+- deterministic financial calculations
+- AI integration and orchestration
+- privacy and security
+- local development and reproducible execution
+- zero or minimal runtime cost
+
+The purpose is to connect each technology decision to an actual product or technical requirement rather than listing technologies without justification.
+
+---
+
 ## Database and Data Model
 
 Supabase will provide the persistent database for the MVP.
