@@ -2,6 +2,8 @@
 
 This document contains the technical, implementation, security and development-process detail that supports the Product Brief but does not belong in the Product Brief itself.
 
+---
+
 ## Technology Overview
 
 LifeMode is a website, a mobile-first, responsive web application for smartphones, tablets, laptops and desktop screens that should feel like a mobile game even though it runs in the browser. Responsive behavior is a core requirement from the start and should be tested across small mobile widths, tablet and desktop.

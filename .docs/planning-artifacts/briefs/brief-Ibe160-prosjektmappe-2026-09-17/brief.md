@@ -2,7 +2,7 @@
 title: LifeMode Product Brief
 status: draft
 created: 2026-09-17
-updated: 2026-09-17
+updated: 2026-09-20
 ---
 
 # Product Brief: LifeMode/Aftermath/Ripple (game name is not set)
@@ -184,7 +184,5 @@ Players could also pursue different long-term goals, such as financial freedom, 
 
 Future versions could expand into family, school and partner-funded use, while keeping the core experience independent and financially neutral.
 
-A safe simulation of adulthood where young people can experience important decisions before those decisions become real.
+> "A safe simulation of adulthood where young people can experience important decisions before those decisions become real".
 
-## Sources
-[finans-norge]: https://www.finansnorge.no/artikler/2025/08/ungdom-sliter-med-okonomikunnskap--skolen-utnytter-ikke-potensialet/
