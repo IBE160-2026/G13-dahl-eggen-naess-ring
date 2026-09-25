@@ -1,37 +1,15 @@
 ---
 title: LifeMode Addendum
 related_brief: brief.md
-updated: 2026-09-17
+updated: 2026-09-20
 ---
 
 # Addendum: LifeMode
 
 Supporting depth that informs the brief but belongs in later work (architecture, PRD) rather than the 1-2 page brief itself.
 
-## Competitive & Comparable Landscape (research detail)
+## LLM-as-game-master products and pitfalls
 
-**Life-simulation games**
-- BitLife (Candywriter) is the category leader: text-based, choice-driven life sim covering careers, relationships, crime, health. Finance is present but shallow — earn via careers/gambling/crime, can invest in stocks/real estate, but decisions resolve instantly via swipes/taps rather than sustained budgeting.
-- Reviewers criticize BitLife for "oversimplifying real-life complexity" and creating "a misleading sense of control"; one piece warns prolonged play "can desensitize young minds" to financial recklessness/gambling — the opposite of financial-literacy intent despite touching the same subject matter.
-- Gap vs. LifeMode: no life-sim separates a deterministic financial ledger (correct interest/amortization) from narrative; none is explicitly a learning tool for real-world financial mistakes; none stages content by Nordic-relevant life milestones (confirmation money, russefeiring, studielån/Lånekassen, leiekontrakt).
-- Sources: bitlife-game.org; playbitlifegame.com; nahswingspan.com "BitLife Ruined My Real Life"; Google Play listings for Life Simulator 2026 / Life Simulator Business Game.
-
-**Teen-focused financial-literacy apps**
-- Zogo: gamified micro-learning (1,200+ modules), rewards redeemable for gift cards, distributed via bank/credit-union co-branding (B2B2C) — closest existing model to LifeMode's bank-partnership monetization, but quiz/courseware, not simulation/narrative.
-- Greenlight / Copper / Step: real debit-card/neobank products for teens with parent controls and bundled literacy features. Monetized via tiered family subscriptions — validates the family-subscription price point, but these are banking apps with a literacy layer, not a life-sim.
-- EVERFI: B2B2C courseware licensed through banks who sponsor it into schools, reaching 60M+ learners — direct analog for LifeMode's "school license + bank sponsor" go-to-market, but compliance-style e-learning, not gameplay.
-- Common pattern: gamification = points/quizzes/rewards on courseware, or a real financial product with a literacy add-on bolted on. None combine an LLM-driven narrative/GM layer with a deterministic finance simulation.
-- Sources: zogo.com; prnewswire.com (Zogo Finovate release); greenlight.com; getcopper.com; techcrunch.com (Copper $29M raise); bankingdive.com (Step); everfi.com; cypherlearning.com financial literacy games list.
-
-**Norwegian/Nordic comparables and potential partners**
-- Finans Norge runs Skolemeny.no (directory of free bank-provided teaching materials) and the annual "NM i Pengequiz". Finans Norge's own 2025 research states Norwegian youth "struggle with financial knowledge" and schools "aren't using the potential" — the incumbent industry body publicly flags the exact gap LifeMode targets.
-- Nordea "Økonomipeil": free, curriculum-anchored personal-finance program for grades 9-10/videregående (videos, assignments, quizzes) — an existing bank-school program, a natural partner or competitor for licensing.
-- Gimi (Sweden, backed by/partnered with Nordea, Tink, Marqeta): nearest Nordic comparable — app+card for ages ~7-15 combining pocket-money/chore tracking with gamified lessons (XP, quizzes) on budgeting/saving/interest. 800k+ downloads, "most popular pocket-money app in the Nordics." Skews younger, is courseware-gamified rather than simulation/narrative, no LLM/GM layer.
-- OsloMet runs "UngKomp" academic research into videregående students' financial knowledge; Forbrukerrådet Ung publishes guidance for youth moving out/renting/first purchases — potential research/credibility partners, not products.
-- No Norwegian product found that combines simulation gameplay + deterministic finance + AI narrative — LifeMode would be first-mover domestically for the "simulated consequence-based" approach.
-- Sources: finansnorge.no (Skolemeny, Pengequiz, 2025 ungdom-sliter article); nordea.no/okonomipeil; tink.com (Gimi blog); oslomet.no (UngKomp); forbrukerradet.no/ung.
-
-**LLM-as-game-master products and pitfalls**
 - AI Dungeon (Latitude) is the reference case: state-of-the-art AI-GM systems split a deterministic backend (rules, causal/graph-based state) from the LLM (narration/dialogue only), because LLMs used directly as randomness sources produce numbers that look random but statistically aren't, and free-running LLMs will silently rewrite established rules/state. This validates LifeMode's planned separation of the deterministic financial engine from the AI narrative layer.
 - Documented LLM-GM failure modes (per "Can LLM Agents Stick to the Script?" and RPGBENCH): hallucination/factual contradiction, "forcibly changing reality," ignoring player input, and a "helpfulness bias" — RLHF-tuned models tend to grant requests that should be impossible, eroding narrative friction/consequence.
 - Content-safety precedent: AI Dungeon's 2021 controversy — a GPT-3 upgrade caused generation of sexual content involving minors; Latitude's fix (aggressive filtering + human moderators reading private stories) caused backlash over over-blocking and privacy (moderators reading unpublished/private content). Directly relevant since LifeMode's entire user base is minors (14-20) — both under- and over-moderation are live risks, and "humans reading kids' private sessions to tune the model" is a specific trust/privacy trap to avoid by design.
