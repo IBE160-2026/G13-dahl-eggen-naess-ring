@@ -31,6 +31,30 @@ Raised during brief discovery because the entire user base is minors (14-20) and
 - GDPR / Datatilsynet review of minors' data handling — aligns with the already-stated goal of collecting no real PII (simulated_age, simulated_savings, etc.).
 - Review of Anthropic's usage policies for products directed at minors before scaling beyond MVP.
 
+## Win Condition & Endgame — Design Discussion (not decided)
+
+Raised during brief discovery for the "Out (not now)" scope item on the endgame system. Not settled — the team is still discussing whether to keep this shape or simplify it. Recorded here so the idea isn't lost, not as a commitment.
+
+One option discussed: at the start of a playthrough, the player receives a mission to reach a target net worth by around age 20. The target is randomized/personalized per playthrough rather than fixed, so no two players chase the same number, reinforcing that no two playthroughs should converge on the same story.
+
+Net worth alone isn't the whole picture in this option. A parallel happiness/wellbeing meter ("lykkebarometer") tracks what a pure net-worth number hides: stress, free time, social life, housing quality. Like the financial numbers, it would be computed deterministically from measurable state (debt load, hours worked, living conditions, free time) — the AI creates the situations that move these numbers, but does not judge the outcome itself, keeping the "the AI creates the life, the financial engine determines the consequences" principle intact.
+
+This would produce three possible endings, not a binary win/lose:
+- **Real win** — net worth target reached and wellbeing stayed above a healthy threshold.
+- **Hollow win** — net worth target reached, but wellbeing collapsed getting there: the money cost too much.
+- **Loss** — net worth target missed, or an unmanageable debt spiral occurs before the deadline.
+
+**Second option discussed:** instead of the system assigning a target, the player picks a life goal at the start of the playthrough, from a small set such as long-term savings, short-term savings, a specific target amount, or job/education. The chosen goal sets the win condition for that playthrough — its target and its deadline — so "what does winning mean" is answered by the player rather than fixed by the system. This also means the AI-generated events and dilemmas can lean toward situations relevant to the chosen goal (e.g. more education/career-shaped dilemmas for a job/education goal).
+
+The wellbeing meter still runs in parallel, but what it weighs shifts with the chosen goal: a job/education goal would weigh stress and free time more heavily, a savings goal would weigh housing quality and social life more heavily, and so on. As in the first option, it is computed deterministically from measurable state, not judged by the AI.
+
+This would produce the same three-outcome shape as the first option, but measured against the player's chosen goal instead of a system-set net-worth target:
+- **Real win** — chosen goal reached and wellbeing stayed above a healthy threshold.
+- **Hollow win** — chosen goal reached, but wellbeing collapsed getting there.
+- **Loss** — chosen goal missed, or an unmanageable debt spiral occurs before the deadline.
+
+Open question for the group: a system-assigned target, a player-chosen goal, or a combination of the two — and whether the three-ending, dual-meter shape survives either way.
+
 ## AI Negotiation Mechanic — Guardrail Detail
 
 Emerged from discovery: the negotiation mechanic (arguing with the bank for a better interest rate) is the sharpest point where the "helpfulness bias" risk meets the core financial-simulation loop. Team decision: the deterministic financial engine sets a base value and a bounded interval (e.g., a defined rate range); the AI selects a value *within* that interval based on argument quality — never outside it. This keeps "the financial engine determines the consequences" true even for AI-mediated outcomes, and the team explicitly does not want the AI to default to lenient/agreeable outcomes — realism over friendliness is the design goal.
