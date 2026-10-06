@@ -5,7 +5,7 @@ created: 2026-09-17
 updated: 2026-09-24
 ---
 
-# Product Brief: LifeMode
+# Product Brief: LifeMode/Aftermath/Ripple (game name is not set)
 
 > Draft for group review. Detail that does not belong in a 1-2 page brief (competitor research, AI guardrail design, safety principles, business model) lives in [addendum.md](addendum.md) and moves on to the PRD and architecture.
 
