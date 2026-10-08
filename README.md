@@ -10,3 +10,7 @@ Repoet inneholder gruppens applikasjon og dokumentasjon av utvikling, testing og
 - Sara Eggen
 - Sara H Naess
 - Nora Ring
+
+## Vurdering
+
+- [Sensorveiledning del 1](docs/sensorveiledning/sensorveiledning-ibe160-del1.md) – hva sensor vurderer i del 1 (applikasjon og prosess, 70 %). Originalen ligger som [PDF](docs/sensorveiledning/sensorveiledning-ibe160-del1.pdf).
