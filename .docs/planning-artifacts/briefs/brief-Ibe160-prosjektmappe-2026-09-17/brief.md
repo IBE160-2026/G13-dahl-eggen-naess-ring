@@ -2,7 +2,7 @@
 title: LifeMode Product Brief
 status: draft
 created: 2026-09-17
-updated: 2026-09-24
+updated: 2026-10-08
 ---
 
 # Product Brief: LifeMode/Aftermath/Ripple (game name is not set)
@@ -28,6 +28,13 @@ Today these lessons come from parents, school, online content, or real-world tri
 ## The Solution
 
 The player creates an avatar and lives through a simulated stretch of life, roughly ages 15-20: first money, a summer job, saving, driving licence, education, moving out, rent, credit and unexpected expenses. Each decision changes the situation the player meets next. The player sees why their life looks the way it does, because a choice made in month 3 comes back in month 9.
+
+**The game loop.** The game moves forward one simulated month at a time:
+
+1. **See the situation:** the player sees this month's event or dilemma together with their current money: balance, savings, debt and fixed costs.
+2. **Choose:** the player picks one of a few options, e.g. stay home, work extra, borrow or use credit.
+3. **See the consequence in numbers:** the financial engine applies the choice and shows what changed and why.
+4. **Next month:** income, fixed costs, interest and instalments are applied, and the next situation builds on everything the player has done so far.
 
 Two things change for the player. First, personal finance becomes part of a life story rather than a separate lesson, so it feels like a game rather than schoolwork. Second, the story is different for each player, because the situations they meet come from their own choices and history, so replaying with different choices gives a different life.
 
@@ -75,8 +82,9 @@ Measured in a small playtest (10-20 people in the target age group) before the D
 1. Create an avatar and live a simulated stretch of life, ages about 15-20, with the key money decisions: saving, first job, spending vs. saving, driving licence, education, moving out and rent, credit, unexpected expenses.
 2. A financial engine that calculates all numbers correctly and consistently: income, interest, debt, expenses.
 3. AI-generated events and dilemmas that fit the player's own situation and history.
-4. AI output that is structured and checked before the player sees it.
-5. A mobile-first responsive website, built with a free-tier AI model (zero ongoing cost).
+4. AI output that is structured and checked before the player sees it. If the AI fails, times out, or returns an invalid or unsafe event, the game shows a pre-written event instead, so the player never sees a blank screen or unchecked output.
+5. A library of pre-written events that lets the whole game be played from start to finish without the AI. This mode is also used for automated tests and when the app is run without an AI key.
+6. A mobile-first responsive website, built with a free-tier AI model (zero ongoing cost).
 
 **Out (not now)**
 
