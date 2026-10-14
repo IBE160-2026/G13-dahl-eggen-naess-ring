@@ -49,7 +49,21 @@ Krav for hvert gruppemedlem:
 
 Loggfilene blir commitet og pushet sammen med det øvrige arbeidet.
 
+## Regel: sensitiv informasjon logges aldri
+
+Alle prompts sjekkes for passord og annen sensitiv informasjon **før** de skrives til loggen. Alt som er sensitivt byttes ut med `********`. Regelen gjelder alltid, også når noen redigerer eller committer loggfilene for hånd.
+
+Hooken maskerer automatisk:
+
+- verdier etter ord som `passord`, `password`, `pin`, `token`, `secret`, `api-nøkkel`, `API_KEY` o.l. (f.eks. `passord: ********`, `GEMINI_API_KEY=********`, «passordet mitt er ********»)
+- kjente formater for API-nøkler og tokens (Anthropic, OpenAI, GitHub, Groq, Google/Gemini, AWS, Slack, Supabase og JWT)
+- passord i tilkoblingsadresser (`postgres://bruker:********@vert`) og `Bearer`-tokens
+- private nøkler (PEM-blokker)
+- fødselsnumre, betalingskortnumre og e-postadresser
+
+Den automatiske sjekken fanger ikke alt. Se over egne logger før dere committer, og masker manuelt med `********` hvis noe sensitivt har sluppet gjennom. Har en hemmelighet allerede blitt pushet, må den regnes som lekket og byttes ut (ny nøkkel eller nytt passord).
+
 ## Begrensninger
 
 - Bare prompts sendt via **Claude Code i denne mappen** blir logget. Prompts i ChatGPT, claude.ai i nettleseren eller andre verktøy kommer ikke med automatisk.
-- Prompten logges ordrett. **Ikke lim inn passord, API-nøkler eller andre hemmeligheter**, for loggen pushes til GitHub.
+- Prompten logges ordrett, bortsett fra det som maskeres (se regelen over). **Ikke lim inn passord, API-nøkler eller andre hemmeligheter** likevel, for loggen pushes til GitHub.

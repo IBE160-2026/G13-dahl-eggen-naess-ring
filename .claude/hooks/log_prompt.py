@@ -22,6 +22,60 @@ def git(args, cwd):
         return ""
 
 
+MASK = "********"
+
+# Ord som betyr at verdien etter er hemmelig, f.eks. «passord: abc123» eller «API_KEY=...».
+SECRET_WORDS = (
+    r"passord(?:et)?|password|passwd|pwd|pass|passphrase|pin(?:-?kode)?"
+    r"|hemmelighet|secret|client[_-]?secret|token|access[_-]?token|refresh[_-]?token"
+    r"|api[_-]?n(?:ø|o)kkel(?:en)?|api[_-]?key|apikey|access[_-]?key|private[_-]?key"
+    r"|service[_-]?role[_-]?key|anon[_-]?key|auth(?:orization)?"
+)
+
+# Mønstre der hele treffet er sensitivt.
+SECRET_PATTERNS = [
+    # Private nøkler (PEM-blokker)
+    r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----",
+    # Kjente formater for API-nøkler og tokens
+    r"\bsk-(?:ant-)?[A-Za-z0-9_-]{16,}",  # Anthropic / OpenAI
+    r"\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{20,}",  # GitHub
+    r"\bgithub_pat_[A-Za-z0-9_]{20,}",
+    r"\bgsk_[A-Za-z0-9]{20,}",  # Groq
+    r"\bAIza[0-9A-Za-z_-]{30,}",  # Google / Gemini
+    r"\bAKIA[0-9A-Z]{16}\b",  # AWS
+    r"\bxox[abprs]-[A-Za-z0-9-]{10,}",  # Slack
+    r"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}",  # JWT (bl.a. Supabase)
+    r"\bsb_(?:secret|publishable)_[A-Za-z0-9_-]{16,}",  # Supabase
+    # Norsk fødselsnummer (11 siffer, evt. med mellomrom etter fødselsdato)
+    r"\b[0-7]\d[01]\d\d{2}\s?\d{5}\b",
+    # Betalingskortnummer (13–19 siffer, evt. gruppert)
+    r"\b(?:\d{4}[ -]?){3}\d{1,7}\b",
+    # E-postadresser
+    r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b",
+]
+
+
+def redact(text):
+    """Bytter ut passord, nøkler og annen sensitiv informasjon med ********."""
+    # Brukernavn:passord i URL-er, f.eks. postgres://bruker:hemmelig@vert
+    text = re.sub(r"(\b[a-z][a-z0-9+.-]*://[^\s:/@]+:)[^\s@/]+(@)", rf"\1{MASK}\2", text, flags=re.I)
+    # «Authorization: Bearer <token>»
+    text = re.sub(r"(\bBearer\s+)[A-Za-z0-9._~+/=-]+", rf"\1{MASK}", text, flags=re.I)
+    # «passord: x», «API_KEY=x», «passordet mitt er x», «"token": "x"»
+    text = re.sub(
+        rf"((?:[A-Za-z0-9]+_)*\b(?:{SECRET_WORDS})\b(?:_[A-Za-z0-9]+)*[\"']?"
+        r"(?:\s+(?:mitt|min|vårt|v[åa]r|til\s+\S+))?"
+        r"\s*(?::|=|\bis\b|\ber\b)\s*[\"']?)"
+        r"(?!\*{8})[^\s\"',;]+",
+        rf"\1{MASK}",
+        text,
+        flags=re.I,
+    )
+    for pattern in SECRET_PATTERNS:
+        text = re.sub(pattern, MASK, text, flags=re.S)
+    return text
+
+
 def fence_for(text):
     # Bruk en kodeblokk-gjerde som er lengre enn alle backtick-rekker i prompten.
     longest = max((len(m) for m in re.findall(r"`+", text)), default=0)
@@ -34,6 +88,8 @@ def main():
     prompt = data.get("prompt", "")
     if not prompt.strip():
         return
+    # Regel: sensitiv informasjon skal aldri skrives til loggen.
+    prompt = redact(prompt)
 
     project_dir = os.environ.get("CLAUDE_PROJECT_DIR") or data.get("cwd") or os.getcwd()
     person = (
