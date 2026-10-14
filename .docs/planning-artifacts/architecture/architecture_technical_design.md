@@ -347,7 +347,7 @@ Where appropriate, the product should use:
 
 Parent-facing functionality should not provide unrestricted access to private player conversations.
 
-Detailed AI-safety and moderation principles can be documented in [addendum.md](./addendum.md).
+Detailed AI-safety and moderation principles can be documented in [addendum.md](../briefs/brief-Ibe160-prosjektmappe-2026-09-17/addendum.md).
 
 ---
 

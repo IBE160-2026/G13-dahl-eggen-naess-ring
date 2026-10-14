@@ -2,7 +2,7 @@
 title: LifeMode Product Brief
 status: draft
 created: 2026-09-17
-updated: 2026-09-24
+updated: 2026-10-14
 ---
 
 # Product Brief: LifeMode/Aftermath/Ripple (game name is not set)
@@ -11,7 +11,7 @@ updated: 2026-09-24
 
 ## Executive Summary
 
-For young people aged about 14-20 in Norway, LifeMode is a mobile-friendly life and money simulation game where every choice carries forward. You save early and it opens options later; you use credit to solve a problem today and it raises the pressure tomorrow; a cheap first car turns into an expensive repair. The idea is simple: **let young people make expensive financial mistakes before those mistakes cost real money.**
+For young people aged 15-20 in Norway, LifeMode is a mobile-friendly life and money simulation game where every choice carries forward. You save early and it opens options later; you use credit to solve a problem today and it raises the pressure tomorrow; a cheap first car turns into an expensive repair. The idea is simple: **let young people make expensive financial mistakes before those mistakes cost real money.**
 
 Today, most young people meet credit, rent and fixed costs for the first time with real money. School and online content explain the concepts, but they feel abstract until the consequences arrive. Now is a good time to change this: free-tier AI models can generate a situation that fits each player's own history at no cost, and Finans Norge's 2025 research says Norwegian youth "struggle with financial knowledge" and that schools "aren't using the potential" to address it.
 
@@ -27,7 +27,16 @@ Today these lessons come from parents, school, online content, or real-world tri
 
 ## The Solution
 
-The player creates an avatar and lives through a simulated stretch of life, roughly ages 15-20: first money, a summer job, saving, driving licence, education, moving out, rent, credit and unexpected expenses. Each decision changes the situation the player meets next. The player sees why their life looks the way it does, because a choice made in month 3 comes back in month 9.
+The player creates an avatar and lives through a simulated stretch of life from age 15 to 20: first money, part-time and summer jobs, saving, everyday fixed costs, credit from age 18, and unexpected expenses. Each decision changes the situation the player meets next. The player sees why their life looks the way it does, because a choice made in month 3 comes back in month 9.
+
+**The game loop.** The game moves forward one simulated month at a time:
+
+1. **See the situation:** the player sees this month's event or dilemma together with their current money: balance, savings, debt and fixed costs.
+2. **Choose:** the player picks one of a few options, e.g. stay home, work extra, borrow or use credit.
+3. **See the consequence in numbers:** the financial engine applies the choice and shows what changed and why.
+4. **Next month:** income, fixed costs, interest and instalments are applied, and the next situation builds on everything the player has done so far.
+
+Quiet months without a dilemma are calculated automatically and shown as a short summary, so a full playthrough from 15 to 20 has about 20-30 real choices. When the financial engine detects a crisis (the account goes below zero, two missed minimum card payments in a row, or debt above three months of income), the month becomes a **crisis month**: two or three linked choices where the player tries to deal with the problem, for example by selling something, taking extra shifts, asking for a payment plan or ignoring it. A crisis does not end the game in version one; ignored debt keeps growing and leads to new crisis months.
 
 Two things change for the player. First, personal finance becomes part of a life story rather than a separate lesson, so it feels like a game rather than schoolwork. Second, the story is different for each player, because the situations they meet come from their own choices and history, so replaying with different choices gives a different life.
 
@@ -48,7 +57,7 @@ What LifeMode combines, and what we did not find elsewhere in our research, is a
 
 ## Who This Serves
 
-**Primary user:** young people aged about 14-20, especially those approaching their first real financial decisions (the first version simulates ages 14-20). They want to feel grown-up and make their own choices, and they do not want it to feel like homework. Success in their day: a 10-15 minute session on their phone, after which they can say "that's why that happened" about a decision they made.
+**Primary user:** young people aged 15-20, especially those approaching their first real financial decisions. The first version simulates the same span, ages 15-20. They want to feel grown-up and make their own choices, and they do not want it to feel like homework. Success in their day: a 10-15 minute session on their phone, after which they can say "that's why that happened" about a decision they made.
 
 Parents, schools and banks may later pay for or fund access, but the first version is designed for the player.
 
@@ -72,11 +81,12 @@ Measured in a small playtest (10-20 people in the target age group) before the D
 
 **In (version one)**
 
-1. Create an avatar and live a simulated stretch of life, ages about 15-20, with the key money decisions: saving, first job, spending vs. saving, driving licence, education, moving out and rent, credit, unexpected expenses.
-2. A financial engine that calculates all numbers correctly and consistently: income, interest, debt, expenses.
+1. Create an avatar and live a simulated stretch of life from 15 to 20 with five money mechanisms: wages from part-time and summer jobs, saving (savings account and BSU), fixed costs (mobile and transport), consumer loans and credit cards from age 18, and unexpected expenses. Quiet months are skipped, and crisis months give the player linked choices to handle a problem.
+2. A financial engine that follows a small, written rule set with realistic Norwegian 2026 numbers: wages, frikort tax, savings interest, consumer loans and credit cards (only from age 18, as in Norway), and fixed costs such as mobile and transport. Every month is processed in the same order and in whole kroner, and worked examples with expected results serve as the test answer key. Rules, sources and examples are in [addendum.md](addendum.md#financial-engine--rule-set-v1).
 3. AI-generated events and dilemmas that fit the player's own situation and history.
-4. AI output that is structured and checked before the player sees it.
-5. A mobile-first responsive website, built with a free-tier AI model (zero ongoing cost).
+4. AI output that is structured and checked before the player sees it. If the AI fails, times out, or returns an invalid or unsafe event, the game shows a pre-written event instead, so the player never sees a blank screen or unchecked output.
+5. A library of pre-written events that lets the whole game be played from start to finish without the AI. This mode is also used for automated tests and when the app is run without an AI key.
+6. A mobile-first responsive website, built with a free-tier AI model (zero ongoing cost).
 
 **Out (not now)**
 
@@ -85,8 +95,9 @@ Measured in a small playtest (10-20 people in the target age group) before the D
 3. Parent visibility into what their teen encountered.
 4. Real bank connections, real financial data, personal advice, investments, crypto, advanced mortgages, complex tax, real-money transactions.
 5. Payments, family or school accounts, and partner features.
+6. Further life areas, planned as later steps: moving out and rent first, then driving licence and education.
 
-Scope test: without items 1-3 on the Out list, we can still find out whether the AI-driven life is fun and teaches consequences.
+Scope test: without items 1-3 and 6 on the Out list, we can still find out whether the AI-driven life is fun and teaches consequences.
 
 ## Constraints and Open Risks
 
@@ -94,6 +105,6 @@ Because the players are minors, LifeMode collects as little real personal inform
 
 ## Vision
 
-**Now:** prove that an AI-driven life story with correct money mechanics is fun and makes consequences understandable. **Next:** add negotiation, the wellbeing meter and endings, a parent view and scenarios for schools. **In 2-3 years:** a wider simulation of adulthood, covering education, career, housing, relationships, loans, insurance and family, where young people can experience important adult decisions before they are real.
+**Now:** prove that an AI-driven life story with correct money mechanics is fun and makes consequences understandable. **Next:** add moving out and rent, driving licence and education, negotiation, the wellbeing meter and endings, a parent view and scenarios for schools. **In 2-3 years:** a wider simulation of adulthood, covering education, career, housing, relationships, loans, insurance and family, where young people can experience important adult decisions before they are real.
 
 LifeMode is where you learn how life works by living it once before it counts.
