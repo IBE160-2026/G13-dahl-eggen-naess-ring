@@ -2,10 +2,10 @@
 title: LifeMode Product Brief
 status: draft
 created: 2026-09-17
-updated: 2026-10-14
+updated: 2026-10-22
 ---
 
-# Product Brief: LifeMode/Aftermath/Ripple (game name is not set)
+# Product Brief: LifeMode
 
 > Draft for group review. Detail that does not belong in a 1-2 page brief (competitor research, AI guardrail design, safety principles, business model) lives in [addendum.md](addendum.md) and moves on to the PRD and architecture.
 
@@ -63,7 +63,11 @@ Parents, schools and banks may later pay for or fund access, but the first versi
 
 ## Success Criteria
 
-Measured in a small playtest (10-20 people in the target age group) before the December delivery. The targets below are proposals for the group to adjust.
+Two kinds of criteria: playtest criteria that need real players, and functional criteria that become automated test cases and need no player at all. The targets below are proposals for the group to adjust.
+
+### Playtest (small group, 10-20 people, before December delivery)
+
+Because most of the target group are minors, the playtest is run with fellow students and other volunteers aged 18-20, the upper end of the target group, who can consent for themselves. Players aged 15-17 join only with written consent from a parent or guardian, and only if the group has time to handle that properly; the playtest does not depend on them. No names or contact details are stored with the results: debrief answers and quiz scores are recorded anonymously.
 
 | Signal | Metric / evidence | Target | When measured |
 |---|---|---|---|
@@ -73,9 +77,22 @@ Measured in a small playtest (10-20 people in the target age group) before the D
 | Behaviour | Voluntarily come back for a second session or replay | 50% or more | Within one week of the first session |
 | Experience | "It felt more like a game than schoolwork" (1-5) | Median 4 or higher | Debrief |
 | Experience | Two playthroughs with different choices are described as different stories | Most players | After replay |
-| Quality / trust | All money numbers match an independent check of the financial engine | 100% | Before the playtest |
-| Quality / trust | Unsafe or off-topic AI output shown to a player | Zero | During the playtest, from logs |
 | Mission | At least one parent or teacher who sees it wants to try it | Yes | After the playtest |
+
+### Functional / testable (automated, no playtest needed)
+
+| # | Criterion | Expected result | How tested |
+|---|---|---|---|
+| F1 | Consumer loan of NOK 20,000 at 15% over 12 months | Monthly payment NOK 1,805, final payment NOK 1,808, total paid NOK 21,663 | Unit test against Rule Set v1 worked example 3 |
+| F2 | NOK 10,000 in a savings account for 12 months at 2.87% | Balance NOK 10,289 | Unit test against worked example 2 |
+| F3 | Credit card debt of NOK 3,200, minimum payments only | Paid off after 13 months, total paid NOK 3,606 | Unit test against worked example 4 |
+| F4 | A crisis trigger condition is met (account below NOK 0, two missed minimum payments in a row, or debt above 3x average monthly income) | Engine starts a crisis month with linked choices every time; never silently skipped | Unit test per trigger condition |
+| F5 | AI returns an invalid, malformed, or unsafe event | Game shows a pre-written fallback event; never a blank screen or unfiltered output | Automated test with a mocked failing AI response |
+| F6 | A full playthrough from age 15 to 20 | Completable start to finish using only the pre-written event library, with zero AI calls | Automated run with AI disabled |
+| F7 | Summer job at 16: 120 hours at the under-18 hourly wage (NOK 139.40) | NOK 16,728 paid out, no tax withheld (below the frikort limit) | Unit test against worked example 1 |
+| F8 | An 18-year-old earns NOK 110,000 in one calendar year | NOK 5,000 tax (50% of the NOK 10,000 above the frikort limit) | Unit test against worked example 5 |
+
+All worked examples and the full rule set are in [addendum.md](addendum.md#financial-engine--rule-set-v1).
 
 ## Scope
 
@@ -102,6 +119,8 @@ Scope test: without items 1-3 and 6 on the Out list, we can still find out wheth
 ## Constraints and Open Risks
 
 Because the players are minors, LifeMode collects as little real personal information as possible: the whole economy is simulated and the AI never needs the player's real identity. A free-tier model carries less built-in safety tuning than a frontier model, so checking the AI's output before display carries more of the safety work. An unresolved concern for the architecture phase is that an open-ended AI could drift into asking for or producing real personal information. Design principles are in [addendum.md](addendum.md#ai-safety--content-moderation--design-principles).
+
+The MVP depends on Supabase (including authentication, since v1 has login from the start) and a free-tier AI provider. Supabase runs self-hosted via Docker for local development and evaluation, so a sensor can run the full application without the team's own cloud account or database keys. Only the AI provider key needs to be supplied separately, or the game runs AI-free end to end using the pre-written event library (Scope In, item 5).
 
 ## Vision
 

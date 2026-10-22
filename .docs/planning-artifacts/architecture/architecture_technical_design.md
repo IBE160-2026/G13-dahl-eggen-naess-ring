@@ -210,11 +210,13 @@ Docker will be used to support reproducible local execution and final project de
 
 The goal is that the application can be started locally using documented setup instructions without requiring a public production environment.
 
+Supabase runs self-hosted via Docker (Supabase CLI / Docker Compose) for local development, testing, and sensor evaluation. This means the database and authentication layer do not depend on the team's own cloud project or keys — anyone can bring the full stack up locally with documented setup instructions. Only the AI provider key is supplied separately, or the game runs AI-free using the pre-written event library.
+
 Docker should help ensure that:
 
 - team members can run the application in a consistent environment
 - required services and dependencies are easier to reproduce across computers
-- the final delivery can be tested locally
+- the final delivery (including Supabase) can be tested locally without cloud credentials
 - setup differences between development machines are reduced
 
 Public production hosting is not required for the MVP.
