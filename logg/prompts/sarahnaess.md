@@ -36,8 +36,6 @@ bmad
 
 ---
 
-<<<<<<< Updated upstream
-=======
 ## 2026-10-22 12:32:01
 
 | Felt | Verdi |
@@ -174,4 +172,3 @@ create pull request to main
 
 ---
 
->>>>>>> Stashed changes
