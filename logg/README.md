@@ -43,7 +43,7 @@ En `UserPromptSubmit`-hook i `.claude/settings.json` kjører `.claude/hooks/log_
 
 Krav for hvert gruppemedlem:
 
-1. Python 3 installert (`python3` eller `python`).
+1. Python 3 installert (`python3` eller `python`), eller [uv](https://docs.astral.sh/uv/) installert. Hooken bruker `uv run --no-project python` som reserve når Python ikke ligger på PATH.
 2. Siste versjon av repoet hentet (`git pull`), slik at hooken er med.
 3. Claude Code startet på nytt etterpå, og hooken godkjent hvis Claude Code spør.
 
