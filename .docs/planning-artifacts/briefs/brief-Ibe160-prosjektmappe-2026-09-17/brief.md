@@ -1,13 +1,13 @@
 ---
 title: LifeMode Product Brief
-status: draft
+status: final
 created: 2026-09-17
 updated: 2026-10-22
 ---
 
 # Product Brief: LifeMode
 
-> Draft for group review. Detail that does not belong in a 1-2 page brief (competitor research, AI guardrail design, safety principles, business model) lives in [addendum.md](addendum.md) and moves on to the PRD and architecture.
+> Detail that does not belong in a 1-2 page brief (competitor research, AI guardrail design, safety principles, business model) lives in [addendum.md](addendum.md) and moves on to the PRD and architecture.
 
 ## Executive Summary
 
