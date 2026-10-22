@@ -36,11 +36,6 @@ bmad
 
 ---
 
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/main
 ## 2026-10-22 12:32:01
 
 | Felt | Verdi |
@@ -160,8 +155,6 @@ logg should also always be commited
 
 ---
 
-<<<<<<< HEAD
-=======
 ## 2026-10-22 13:03:40
 
 | Felt | Verdi |
@@ -179,5 +172,3 @@ create pull request to main
 
 ---
 
->>>>>>> Stashed changes
->>>>>>> origin/main
