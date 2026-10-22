@@ -63,7 +63,7 @@ Parents, schools and banks may later pay for or fund access, but the first versi
 
 ## Success Criteria
 
-Two kinds of criteria: playtest criteria that need real players, and functional criteria that become automated test cases and need no player at all. The targets below are proposals for the group to adjust.
+Two kinds of criteria: playtest criteria that need real players, and functional criteria that become automated test cases and need no player at all. The targets below are the group's starting values and may be adjusted once real playtest data exists.
 
 ### Playtest (small group, 10-20 people, before December delivery)
 
@@ -73,7 +73,7 @@ Because most of the target group are minors, the playtest is run with fellow stu
 |---|---|---|---|
 | User outcome | Player explains in their own words how an earlier decision affected a later outcome | 70% or more | Short debrief right after the session |
 | User outcome | Average score on a 5-question money quiz, before vs. after | Higher after | Before and after one session |
-| Behaviour | Complete the first simulated life stage | 70% or more | During the session |
+| Behaviour | Complete the full playthrough from age 15 to 20 | 70% or more | During the session |
 | Behaviour | Voluntarily come back for a second session or replay | 50% or more | Within one week of the first session |
 | Experience | "It felt more like a game than schoolwork" (1-5) | Median 4 or higher | Debrief |
 | Experience | Two playthroughs with different choices are described as different stories | Most players | After replay |
@@ -100,10 +100,10 @@ All worked examples and the full rule set are in [addendum.md](addendum.md#finan
 
 1. Create an avatar and live a simulated stretch of life from 15 to 20 with five money mechanisms: wages from part-time and summer jobs, saving (savings account and BSU), fixed costs (mobile and transport), consumer loans and credit cards from age 18, and unexpected expenses. Quiet months are skipped, and crisis months give the player linked choices to handle a problem.
 2. A financial engine that follows a small, written rule set with realistic Norwegian 2026 numbers: wages, frikort tax, savings interest, consumer loans and credit cards (only from age 18, as in Norway), and fixed costs such as mobile and transport. Every month is processed in the same order and in whole kroner, and worked examples with expected results serve as the test answer key. Rules, sources and examples are in [addendum.md](addendum.md#financial-engine--rule-set-v1).
-3. AI-generated events and dilemmas that fit the player's own situation and history.
-4. AI output that is structured and checked before the player sees it. If the AI fails, times out, or returns an invalid or unsafe event, the game shows a pre-written event instead, so the player never sees a blank screen or unchecked output.
-5. A library of pre-written events that lets the whole game be played from start to finish without the AI. This mode is also used for automated tests and when the app is run without an AI key.
-6. A mobile-first responsive website, built with a free-tier AI model (zero ongoing cost).
+3. *(Second stage, after the base works.)* AI-generated events and dilemmas that fit the player's own situation and history, so the AI acts as the game's play driver.
+4. *(Second stage.)* AI output that is structured and checked before the player sees it. If the AI fails, times out, or returns an invalid or unsafe event, the game shows a pre-written event instead, so the player never sees a blank screen or unchecked output.
+5. A library of pre-written events that lets the whole game be played from start to finish without the AI. This is the base the game is built on first, with no AI involved. The same mode is used for automated tests and when the app is run without an AI key.
+6. A mobile-first responsive website with zero ongoing cost, using the course stack: TypeScript frontend and Python backend, with Supabase as the required database. The AI, when added, uses a free-tier model.
 
 **Out (not now)**
 
@@ -120,7 +120,7 @@ Scope test: without items 1-3 and 6 on the Out list, we can still find out wheth
 
 Because the players are minors, LifeMode collects as little real personal information as possible: the whole economy is simulated and the AI never needs the player's real identity. A free-tier model carries less built-in safety tuning than a frontier model, so checking the AI's output before display carries more of the safety work. An unresolved concern for the architecture phase is that an open-ended AI could drift into asking for or producing real personal information. Design principles are in [addendum.md](addendum.md#ai-safety--content-moderation--design-principles).
 
-The MVP depends on Supabase (including authentication, since v1 has login from the start) and a free-tier AI provider. We considered dropping login and saving the game locally for v1, as suggested in feedback, and chose to keep it. A playthrough from 15 to 20 is longer than one sitting, so the player must be able to take a break and pick up the same life later, also on another device. The project is also expected to use a database, and building on it from the start is a deliberate trade-off: a little more setup now instead of rebuilding storage later, when we would need it anyway. Login stores only what authentication needs, never real personal details in the game itself. Supabase runs self-hosted via Docker for local development and evaluation, so a sensor can run the full application without the team's own cloud account or database keys. Only the AI provider key needs to be supplied separately, or the game runs AI-free end to end using the pre-written event library (Scope In, item 5).
+The MVP is built in two stages. First the base: the TypeScript frontend, the Python backend with the financial engine, and Supabase for database and authentication (v1 has login from the start), all playable with the pre-written event library and no AI. Then the AI is added as the play driver using a free-tier provider. The stack follows the course requirement (TypeScript and Python), and Supabase is the required database. We considered dropping login and saving the game locally for v1, as suggested in feedback, and chose to keep it. A playthrough from 15 to 20 is longer than one sitting, so the player must be able to take a break and pick up the same life later, also on another device. The project is also expected to use a database, and building on it from the start is a deliberate trade-off: a little more setup now instead of rebuilding storage later, when we would need it anyway. Login needs an email address, which is the minimal personal information required to make it work; it is stored only for authentication, and the game itself never holds real personal details. Supabase runs self-hosted via Docker for local development and evaluation, so a sensor can run the full application without the team's own cloud account or database keys. Only the AI provider key needs to be supplied separately, or the game runs AI-free end to end using the pre-written event library (Scope In, item 5).
 
 ## Vision
 

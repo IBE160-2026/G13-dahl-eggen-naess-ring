@@ -9,12 +9,19 @@ This document contains the technical, implementation, security and development-p
 LifeMode is a website, a mobile-first, responsive web application for smartphones, tablets, laptops and desktop screens that should feel like a mobile game even though it runs in the browser. Responsive behavior is a core requirement from the start and should be tested across small mobile widths, tablet and desktop.
 
 - **HTML / CSS** for structure and responsive styling
-- **JavaScript / TypeScript** for frontend interactivity
-- **Python** for the backend — game logic, the deterministic financial simulation engine, validation and orchestration of calls to the AI Game Master API
-- **Supabase** for database, authentication and  backend services
-- **A free-tier LLM API** as the runtime AI Game Master — provider not locked in yet. Candidates include Google Gemini's free tier or an open-weight model through a free hosting provider such as Groq. The final choice will be an architecture-phase decision. 
+- **TypeScript** for the frontend (course requirement)
+- **Python** for the backend (course requirement) — game logic, the deterministic financial simulation engine, validation and, in the second stage, orchestration of calls to the AI Game Master API
+- **Supabase** for database and authentication (required database)
+- **A free-tier LLM API** as the runtime AI Game Master, added in the second stage — provider not locked in yet. Candidates include Google Gemini's free tier or an open-weight model through a free hosting provider such as Groq. The choice is deferred until the base game works.
 - **Claude Code** as the development assistant
 - **BMAD Method** as the development methodology
+
+### Build stages
+
+The game is built in two stages:
+
+1. **Base (stage one):** TypeScript frontend, Python backend with the deterministic financial engine, Supabase for database and login, and a library of pre-written events. The whole 15–20 playthrough works with no AI.
+2. **AI play driver (stage two):** an LLM generates events and dilemmas from the player's history, inside the limits the engine sets. The pre-written library remains the fallback and the AI-free mode.
 
 **Zero ongoing cost is a hard constraint**: the team has no budget for paid API usage, so the chosen provider's free-tier rate limits are a real design boundary, not just a cost-optimization — and reduced safety-tuning guarantees relative to a frontier provider are a tradeoff to design around (see Privacy & Safety).
 
@@ -28,7 +35,8 @@ Player
 → Responsive frontend (HTML / CSS / JavaScript / TypeScript)  
 → Python backend  
 → Deterministic financial simulation + game orchestration  
-→ Supabase (database / authentication) and AI Game Master API  
+→ Supabase (database / authentication)  
+→ Event source: pre-written event library (stage one) or AI Game Master API (stage two, with fallback to the library)  
 → Validation and game rules  
 → Updated player state  
 → Game interface
@@ -37,9 +45,14 @@ Player
 
 ## Technology Choices and Rationale
 
-This section will document and justify the final technology choices for LifeMode in relation to the specific needs of the application.
+The stack is fixed by the course and the brief, so it is not an open choice:
 
-The rationale will be expanded as the technology stack is finalized and should explain why each selected technology is appropriate for requirements such as:
+- **TypeScript (frontend) and Python (backend):** required by the course. Python also suits the deterministic financial engine, which is plain, easily unit-tested logic.
+- **Supabase:** the required database. It also provides authentication, so no separate login service is needed.
+- **Self-hosted Supabase via Docker:** the database and login run locally, so a sensor can run the full application without the team's cloud account or keys.
+- **LLM:** not part of the base. It is added later as a play driver, and the game stays fully playable without it.
+
+Each technology maps to these requirements:
 
 - responsive full-stack web development
 - persistent game state
@@ -50,7 +63,7 @@ The rationale will be expanded as the technology stack is finalized and should e
 - local development and reproducible execution
 - zero or minimal runtime cost
 
-The purpose is to connect each technology decision to an actual product or technical requirement rather than listing technologies without justification.
+The AI provider choice is the one remaining open decision and will be justified when stage two starts.
 
 ---
 
@@ -65,8 +78,10 @@ The database must store the state required for a player's game to continue acros
 - financial state
 - decisions
 - generated life events
-- Life Balance state
 - game history
+- the pre-written event library and which events a playthrough has already seen
+
+The Life Balance (wellbeing) state is not stored in version one; it belongs to the endgame, which is not yet decided.
 
 The database acts as the persistent source of truth for stored player and game data.
 
@@ -76,16 +91,17 @@ Game state should be updated through the backend rather than directly by the AI 
 
 ## AI Architecture
 
+*This section describes stage two. In stage one, events come from the pre-written event library.*
+
 ### Game Master
 
 The AI Game Master is responsible for generating the dynamic narrative layer of the game, including:
 
 - life events
 - dilemmas
-- NPC interactions
-- conversations
-- branching narrative
 - context-specific situations based on stored player state and previous decisions
+
+Later steps may add NPC interactions, conversations and branching narrative.
 
 The AI receives relevant game context from the application but does not own or directly control authoritative financial state.
 
@@ -96,6 +112,8 @@ The core principle is:
 ---
 
 ### Deterministic financial control
+
+The engine follows Rule Set v1 in [addendum.md](../briefs/brief-Ibe160-prosjektmappe-2026-09-17/addendum.md#financial-engine--rule-set-v1): one round is one month, processed in a fixed order, in whole kroner, with rates and limits stored as configuration. The engine, not the AI, starts crisis months when its trigger conditions are met. The worked examples in the addendum are the answer key for its unit tests.
 
 The deterministic backend remains responsible for all authoritative financial calculations and critical game-state updates, including:
 
@@ -114,7 +132,9 @@ This separation allows the narrative to remain flexible while financial conseque
 
 ---
 
-### Open-ended negotiation guardrails
+### Open-ended negotiation guardrails (future, not in version one)
+
+Negotiation with NPCs is out of scope for version one. This section records the design for when it is added.
 
 Open-ended interaction introduces a specific design risk: an LLM may become overly agreeable and undermine the premise that financial consequences should matter.
 
@@ -137,6 +157,12 @@ This creates a clear separation of responsibility:
 > **The deterministic engine defines what is possible. The AI evaluates the interaction within those limits.**
 
 The goal is **realistic consequence, not AI-generated leniency**.
+
+---
+
+### Pre-written events and fallback
+
+The pre-written event library is a stage-one component, not just a safety net. It lets the whole game be played start to finish with no AI, and it is used for automated tests and when the app runs without an AI key. In stage two, if the AI fails, times out, or returns an invalid or unsafe event, the backend shows a pre-written event instead. The player never sees a blank screen or unchecked output.
 
 ---
 
@@ -250,6 +276,8 @@ Relevant user stories should include responsive behaviour in their acceptance cr
 
 ## Privacy, Security and AI Safety
 
+The AI-specific parts of this section apply from stage two. The authentication, data-minimization and authoritative-state parts apply from stage one.
+
 Because the target audience includes minors, LifeMode follows a **privacy-by-design, data-minimization and least-privilege approach**.
 
 ---
@@ -291,6 +319,8 @@ Supabase will also be used for authentication. Authentication and database permi
 Supabase Row Level Security should be used where relevant for exposed tables.
 
 Privileged credentials and service keys must never be placed in frontend code. Authentication and database permissions must ensure that one player cannot access another player's stored game data.
+
+Login uses an email address. This is the minimal personal information needed to make authentication work. It is stored only for authentication and is never part of the game state or sent to the AI.
 
 Authentication is responsible for:
 - registration
@@ -345,9 +375,8 @@ Where appropriate, the product should use:
 - pre-display content checks
 - minimal exposure of personal information
 - no human review of private play sessions by default
-- carefully scoped parent-facing visibility
 
-Parent-facing functionality should not provide unrestricted access to private player conversations.
+A parent view is out of scope for version one. If added later, it should not provide unrestricted access to private player conversations.
 
 Detailed AI-safety and moderation principles can be documented in [addendum.md](../briefs/brief-Ibe160-prosjektmappe-2026-09-17/addendum.md).
 
@@ -387,12 +416,18 @@ This material can later support the project reflection report.
 ## Technical success criteria 
 
 The MVP should also demonstrate that:
+
+**Stage one (base, no AI)**
 - the complete full-stack application can run locally
+- the financial engine passes the unit tests for functional criteria F1–F8 in the brief
+- a full playthrough from age 15 to 20 can be completed using only the pre-written event library, with zero AI calls
 - authentication correctly identifies users and separates their stored data
 - player accounts, game state, decisions and playthroughs persist correctly in the database
+- the primary gameplay flow works on smartphones, tablets, laptops and desktop screens
+
+**Stage two (AI play driver)**
 - AI-generated events can use stored player state and previous decisions as context
 - the deterministic financial engine calculates financial consequences independently of the AI model
 - AI output is validated before it can influence authoritative game state
-- malformed or unexpected AI output does not corrupt the simulation
-- the primary gameplay flow works on smartphones, tablets, laptops and desktop screens
+- malformed or unexpected AI output does not corrupt the simulation, and an invalid event is replaced by a pre-written one (F5)
   

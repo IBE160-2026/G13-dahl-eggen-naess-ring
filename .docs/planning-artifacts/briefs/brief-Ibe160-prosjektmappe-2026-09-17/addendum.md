@@ -51,7 +51,7 @@ Rent (NOK 8,770) stays in the parameter table for the later moving-out step; it 
 | 4 | The trip from the brief: NOK 3,200 on a credit card, paying only the minimum each month | Paid off after 13 months; total paid NOK 3,606 (NOK 406 interest) |
 | 5 | An 18-year-old earns NOK 110,000 in one calendar year | NOK 5,000 tax (50% of NOK 10,000 above the limit) |
 
-Examples 2-4 were calculated with a script applying rules 2, 4 and 5 month by month and should be re-checked by hand by the team before they become test cases.
+Examples 2-4 were calculated with a script applying rules 2, 4 and 5 month by month, and examples 1 and 5 are direct arithmetic. All five were independently recomputed on 2026-10-22 and match. Note that example 2 depends on rule 2 (rounding each month); a plain compound formula gives NOK 10,291.
 
 ## LLM-as-game-master products and pitfalls
 
