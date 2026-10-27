@@ -15,7 +15,8 @@ Ta i bruk GitHub Issues for åpne punkter fra sesjonsloggene, slik at de lagres 
 - `CLAUDE.md`: instruksen peker til GitHub Issues.
 - Labelen `sesjonslogg` er opprettet i repoet.
 - Issue #10 (godkjenning av at promptlogg-hooken fjernes) og #11 (kravet om lagrede prompts i sensorveiledningen) er opprettet fra den gamle `issues.md`. Fila er slettet, og den gamle loggen har fått issuenumrene.
-- Commit eaf1e6a på `sesjonslogg/github-issues`. Ikke pushet.
+- Commit eaf1e6a på `sesjonslogg/github-issues`. Etter at PR #9 ble merget, ble grenen pushet og PR #15 opprettet mot `main`. Bare de to commitene fra denne økten er med. Den lokale grenen har i tillegg loggcommiten `7a0546f` fra en annen økt (konkurrentanalyse-deep-recon), og den ble holdt utenfor.
+- #10 er lukket, siden PR #9 er merget og hook-fjerningen dermed godkjent. Lenkene i #10 og #11 peker nå til `main`.
 
 ### Åpne punkter
 Ingen.
