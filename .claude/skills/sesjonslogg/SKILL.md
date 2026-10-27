@@ -1,11 +1,11 @@
 ---
 name: sesjonslogg
-description: Dokumenterer arbeidssesjonen i `.logs/` i prosjektroten (Oppgave + Plan + Resultat + åpne punkter) og vedlikeholder åpne punkter i `issues.md`, slik at sluttoppsummeringer og «husk at»-punkter ikke forsvinner i chat-scrollback. Bruk denne ved slutten av ENHVER arbeidsøkt eller fullført oppgave som endret tilstand — også små mekaniske økter som en commit, push, publisering eller konfig-endring — alltid før du skriver sluttoppsummeringen til brukeren, og særlig når oppsummeringen inneholder «åpne punkter», «gjenstår», «husk at», «legg merke til», «neste steg», «ikke gjort» eller lignende. Bruk den også når brukeren sier «logg sesjonen», «logg dette», «oppdater loggen», «skriv sesjonslogg», og når du trenger å vite hva som ble gjort i en tidligere sesjon (les da `.logs/` og `issues.md` i stedet for å gjette).
+description: Dokumenterer arbeidssesjonen i `.logs/` i prosjektroten (Oppgave + Plan + Resultat + åpne punkter) og vedlikeholder åpne punkter som GitHub Issues (label `sesjonslogg`), slik at sluttoppsummeringer og «husk at»-punkter ikke forsvinner i chat-scrollback. Bruk denne ved slutten av ENHVER arbeidsøkt eller fullført oppgave som endret tilstand — også små mekaniske økter som en commit, push, publisering eller konfig-endring — alltid før du skriver sluttoppsummeringen til brukeren, og særlig når oppsummeringen inneholder «åpne punkter», «gjenstår», «husk at», «legg merke til», «neste steg», «ikke gjort» eller lignende. Bruk den også når brukeren sier «logg sesjonen», «logg dette», «oppdater loggen», «skriv sesjonslogg», og når du trenger å vite hva som ble gjort i en tidligere sesjon (les da `.logs/` og åpne issues med `gh issue list --label sesjonslogg` i stedet for å gjette).
 ---
 
 # Sesjonslogg
 
-Formål: brukeren leser ikke alltid sluttoppsummeringen i terminalen, og den forsvinner uansett når vinduet lukkes. Hva som ble gjort og bevisst *ikke* ble gjort skal overleve som Markdown i `.logs/`; hvert reelt «husk at …» / «gjenstår …»-punkt skal i tillegg overleve som en linje i `issues.md`. Loggen er brukerens sesjonshukommelse, mens `issues.md` er den samlede lista over det som gjenstår.
+Formål: brukeren leser ikke alltid sluttoppsummeringen i terminalen, og den forsvinner uansett når vinduet lukkes. Hva som ble gjort og bevisst *ikke* ble gjort skal overleve som Markdown i `.logs/`; hvert reelt «husk at …» / «gjenstår …»-punkt skal i tillegg overleve som et GitHub Issue i prosjektets repo. Loggen er brukerens sesjonshukommelse, mens issuene med label `sesjonslogg` er gruppens samlede liste over det som gjenstår.
 
 ## Hvor og når
 
@@ -47,7 +47,7 @@ testresultater, hva som ble verifisert. Konkret nok til at en fremtidig sesjon k
 bygge videre uten å gjette.
 
 ### Åpne punkter
-- Alt som gjenstår, ble bevisst utsatt, eller må huskes. Hvert punkt speiles i `issues.md` (se under).
+- Alt som gjenstår, ble bevisst utsatt, eller må huskes. Hvert punkt får et GitHub Issue (se under) — skriv issuenummeret bak punktet: `… (#12)`.
 - Skriv «Ingen.» hvis det ikke er noen.
 ```
 
@@ -57,16 +57,15 @@ Dato-overskriften bærer klokkeslettet for når loggen skrives **og hvem som kj�
 
 Etter at loggfila er skrevet (ny fil, ny dato-seksjon eller oppdatert dagens seksjon), **skal** den committes umiddelbart, før sluttoppsummeringen. Ellers blir loggene glemt som ukommitterte filer og kommer ut av sync mellom brukere og maskiner. Dette er et krav, ikke et valg — ikke spør om lov, og hopp det ikke over fordi økten var liten.
 
-**Commit kun loggfila og `issues.md` — ingenting annet.** `issues.md` oppdateres i samme økt (se under), og må med, ellers blir den stående ukommittert og kommer ut av sync. Andre endringer i arbeidskopien (kode, konfig, utracket filer, ting brukeren selv har staget) skal ikke bli med. Bruk en path-begrenset commit, slik at annet som allerede ligger i staging-området ikke dras med:
+**Commit kun loggfila — ingenting annet.** Andre endringer i arbeidskopien (kode, konfig, utracket filer, ting brukeren selv har staget) skal ikke bli med. Bruk en path-begrenset commit, slik at annet som allerede ligger i staging-området ikke dras med:
 
 ```sh
-git add -- ".logs/<bruker-slug>/<fil>.md" ".logs/<bruker-slug>/issues.md"
-git commit -m "Logg: <tittel>" -- ".logs/<bruker-slug>/<fil>.md" ".logs/<bruker-slug>/issues.md"
+git add -- ".logs/<bruker-slug>/<fil>.md"
+git commit -m "Logg: <tittel>" -- ".logs/<bruker-slug>/<fil>.md"
 ```
 
 - Meldingen er `Logg: <tittel>` (tittelen er den samme som i fila, f.eks. `Logg: kurstab-redesign`), pluss eventuelle attribusjonslinjer harnessen krever for commits. Angir prosjektets `CLAUDE.md`/`AGENTS.md` en egen commit-meldingskonvensjon for logger, følg den i stedet.
-- Var `issues.md` uendret i økten (eller finnes den ikke), utelates den fra kommandoene, og bare loggfila committes.
-- Kontroller etterpå med `git show --stat HEAD` at commiten inneholder nøyaktig disse filene: loggfila og eventuelt `issues.md`. Inneholder den mer, angre med `git reset --soft HEAD~1`, unstage det som ikke hører til, og commit på nytt.
+- Kontroller etterpå med `git show --stat HEAD` at commiten inneholder nøyaktig loggfila. Inneholder den mer, angre med `git reset --soft HEAD~1`, unstage det som ikke hører til, og commit på nytt.
 - **Ikke push** med mindre brukeren ber om det i økten. Skillen committer bare lokalt.
 - Er `.logs/` git-ignorert, eller er prosjektet ikke et git-repo, hopp over commit og nevn det kort i sluttoppsummeringen.
 - Hook-feil: løs årsaken og commit på nytt. Aldri `--no-verify`.
@@ -74,7 +73,7 @@ git commit -m "Logg: <tittel>" -- ".logs/<bruker-slug>/<fil>.md" ".logs/<bruker-
 
 ## Hva er (ikke) et åpent punkt?
 
-Et åpent punkt er noe som gjenstår i selve produktet eller prosjektet: en manglende test, en kjent bug, konfig som må settes ved deploy, en beslutning som venter, noe brukeren eksplisitt ba deg huske. Git- og prosesstatus er **ikke** åpne punkter — brukeren ser git-status selv, og slike punkter drukner de ekte. (I Resultat-seksjonen kan commit-hash eller «ukommittert» nevnes kort som faktum.) Eksempler på ting som IKKE skal inn i Åpne punkter eller `issues.md`:
+Et åpent punkt er noe som gjenstår i selve produktet eller prosjektet: en manglende test, en kjent bug, konfig som må settes ved deploy, en beslutning som venter, noe brukeren eksplisitt ba deg huske. Git- og prosesstatus er **ikke** åpne punkter — brukeren ser git-status selv, og slike punkter drukner de ekte. (I Resultat-seksjonen kan commit-hash eller «ukommittert» nevnes kort som faktum.) Eksempler på ting som IKKE skal inn i Åpne punkter eller bli issues:
 
 - «Ingen av endringene er committet — husk å committe.» / «må pushes»
 - Samordningsbeskjeder om repo-tilstand: «NN må `git pull` / re-synke klonene sine»
@@ -82,19 +81,29 @@ Et åpent punkt er noe som gjenstår i selve produktet eller prosjektet: en mang
 
 Unntaket er når tilstanden er reelt kritisk — f.eks. en migrasjon er kjørt mot en delt database mens koden ikke er delt, slik at andre kan rammes.
 
-## issues.md
+## GitHub Issues
 
-`.logs/<bruker-slug>/issues.md` er brukerens samlede liste over åpne punkter på tvers av alle sesjoner — det er denne brukeren faktisk sjekker. Opprett fila med overskriften `# Åpne punkter` hvis den mangler. Vedlikehold den hver gang du logger, **før** sesjonsfila committes:
+Åpne punkter føres som GitHub Issues i prosjektets repo, med label `sesjonslogg`. Der ser hele gruppa dem, og de kan tildeles, diskuteres og lukkes fra PR-er. Bruk `gh` (repoet utledes fra `origin`). Vedlikehold issuene hver gang du logger, **før** sesjonsfila skrives ferdig og committes, slik at issuenumrene kan stå i loggen:
 
-1. **Les lista først**, så du ikke dupliserer et punkt som alt er åpent.
-2. **Legg til** hvert nytt åpent punkt fra økten, med dato og lenke til sesjonsfila:
-   ```markdown
-   - [ ] 2026-08-08 [kurstab-redesign](999-2026-08-08-14-31-07-kurstab-redesign.md) — e2e-test for tastaturnavigasjon gjenstår
+1. **Les lista først**, så du ikke dupliserer et punkt som alt er åpent:
+   ```sh
+   gh issue list --label sesjonslogg --state open --limit 100
    ```
-   Ikke legg til noe for `Ingen.`.
-3. **Lukk** punkter denne økten løste — også punkter fra tidligere sesjoner. Marker løste punkter med `[x]` og løsningsdato: `- [x] … (løst 2026-08-08)`. Ikke slett linjer — historikken har verdi. Referer til det lukkede punktet i Resultat.
+   Finnes det et åpent issue for samme sak, gjenbruk det (eventuelt med en kommentar) i stedet for å opprette et nytt.
+2. **Opprett** ett issue per nytt åpent punkt. Tittelen er punktet, kort og konkret. Brødteksten forklarer konteksten og lenker til sesjonsfila via grenen den er committet på:
+   ```sh
+   gh issue create --label sesjonslogg --assignee @me \
+     --title "E2e-test for tastaturnavigasjon gjenstår" \
+     --body "Fra sesjonslogg [kurstab-redesign](https://github.com/<eier>/<repo>/blob/<gren>/.logs/<bruker-slug>/<fil>.md), 2026-08-08.
 
-Unntak: sier prosjektets rot-`CLAUDE.md`/`AGENTS.md` eksplisitt at åpne punkter skal føres et annet sted (f.eks. i en egen issue-tracker), følg den instruksen i stedet. Uten slik instruks gjelder alltid `issues.md`.
+   <1–3 setninger om hvorfor dette gjenstår og hva som må til.>"
+   ```
+   Mangler labelen i repoet, opprett den først: `gh label create sesjonslogg --color 5319e7 --description "Åpent punkt fra en sesjonslogg"`. Ikke opprett noe for `Ingen.`. Skriv issuenummeret bak punktet i loggens Åpne punkter.
+3. **Lukk** issues denne økten løste — også fra tidligere sesjoner — med en kommentar om hva som løste det: `gh issue close <nr> --comment "Løst i <commit/PR>, se sesjonslogg <tittel>."`. Løses punktet av en PR, skriv heller `Closes #<nr>` i PR-beskrivelsen, så lukkes det ved merge. Referer til lukkede issues i Resultat.
+
+Er `gh` ikke installert eller ikke innlogget, eller mangler repoet en GitHub-remote: skriv punktene i loggens Åpne punkter som vanlig, og si tydelig i sluttoppsummeringen at issuene ikke ble opprettet og hvorfor. Ikke falle tilbake til en lokal liste.
+
+Unntak: sier prosjektets rot-`CLAUDE.md`/`AGENTS.md` eksplisitt at åpne punkter skal føres et annet sted, følg den instruksen i stedet.
 
 ## Forankring i CLAUDE.md/AGENTS.md
 
@@ -102,9 +111,9 @@ Sjekk ved hver bruk om prosjektets rot-`CLAUDE.md` eller `AGENTS.md` refererer t
 
 - Legg regelen der prosjektets agent-instruksjoner faktisk bor: i `AGENTS.md` hvis den finnes (eller hvis `CLAUDE.md` bare er en `@AGENTS.md`-import), ellers i `CLAUDE.md`; finnes ingen av dem, opprett `CLAUDE.md` med regelen.
 - Hold den kort og tilpass filens eksisterende struktur og språk, f.eks.:
-  > **Logg sesjonen.** Når en oppgave/økt avsluttes — før sluttoppsummeringen — bruk `sesjonslogg`-skillen: den logger Oppgave + Plan + Resultat + åpne punkter per bruker i `.logs/<bruker>/`, fører åpne punkter i `issues.md` og committer loggfilene.
+  > **Logg sesjonen.** Når en oppgave/økt avsluttes — før sluttoppsummeringen — bruk `sesjonslogg`-skillen: den logger Oppgave + Plan + Resultat + åpne punkter per bruker i `.logs/<bruker>/`, fører åpne punkter som GitHub Issues og committer loggfila.
 - Ikke dupliser: står referansen alt et sted i en av filene, er alt i orden.
 
 ## Ved oppstart av en fortsettelse
 
-Når brukeren refererer til tidligere arbeid («fortsett med …», «hva gjorde vi sist med …»), les den relevante fila i `.logs/` (brukerens egen mappe først, deretter eventuelt andre brukeres) og brukerens `issues.md` **før** du begynner — det er raskere og sikrere enn å rekonstruere fra koden eller hukommelsen.
+Når brukeren refererer til tidligere arbeid («fortsett med …», «hva gjorde vi sist med …»), les den relevante fila i `.logs/` (brukerens egen mappe først, deretter eventuelt andre brukeres) og de åpne issuene (`gh issue list --label sesjonslogg`) **før** du begynner — det er raskere og sikrere enn å rekonstruere fra koden eller hukommelsen.
