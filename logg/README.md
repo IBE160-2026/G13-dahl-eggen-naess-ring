@@ -1,16 +1,18 @@
-# Promptlogg
+# Promptlogg (avsluttet prototype)
 
-Denne mappen inneholder alle prompts gruppen har sendt til Claude Code i dette repoet. Loggen skrives automatisk.
+> **Status: avsluttet 2026-10-27.** Dette var en prototype-logger gruppen laget før Bård kom med sin løsning, `sesjonslogg`-skillen (se `.claude/skills/sesjonslogg/SKILL.md` og `CLAUDE.md`). Nye økter dokumenteres nå i `.logs/<bruker>/`. Promptene som ble logget her fra 2026-10-08 til 2026-10-27 er beholdt uendret som dokumentasjon av prosessen.
+
+Mappen inneholder prompts gruppen sendte til Claude Code i dette repoet mens loggeren var i bruk. Loggen ble skrevet automatisk.
 
 ## Hvor finner jeg hva?
 
 - `prompts/<navn>.md`: én fil per gruppemedlem, med navn fra `git config user.name`. Nyeste prompt ligger nederst.
 
-Hver person har sin egen fil, slik at loggene ikke gir merge-konflikter når flere jobber samtidig.
+Hver person hadde sin egen fil, slik at loggene ikke ga merge-konflikter når flere jobbet samtidig.
 
 ## Format
 
-Hver prompt logges som én oppføring:
+Hver prompt ble logget som én oppføring:
 
 ````markdown
 ## 2026-10-08 14:32:05
@@ -37,33 +39,12 @@ Selve prompten, ordrett.
 | Økt-ID | De første 8 tegnene av Claude Code-øktens ID. Prompts med samme ID hører til samme samtale. |
 | Verktøy | Hvilket AI-verktøy prompten ble sendt til |
 
-## Slik fungerer det
+## Slik fungerte det
 
-En `UserPromptSubmit`-hook i `.claude/settings.json` kjører `.claude/hooks/log_prompt.py` hver gang noen sender en prompt i Claude Code i dette repoet. Skriptet legger til en oppføring i personens loggfil.
+En `UserPromptSubmit`-hook i `.claude/settings.json` kjørte `.claude/hooks/log_prompt.py` hver gang noen sendte en prompt i Claude Code i dette repoet. Skriptet la til en oppføring i personens loggfil, og maskerte passord, API-nøkler, tokens, fødselsnumre, kortnumre og e-postadresser med `********` før de ble skrevet.
 
-Krav for hvert gruppemedlem:
+Hooken er fjernet fra `.claude/settings.json`, så ingen nye prompts blir logget. Skriptet ligger igjen i `.claude/hooks/` som en del av prototypen.
 
-1. Python 3 installert (`python3` eller `python`), eller [uv](https://docs.astral.sh/uv/) installert. Hooken bruker `uv run --no-project python` som reserve når Python ikke ligger på PATH.
-2. Siste versjon av repoet hentet (`git pull`), slik at hooken er med.
-3. Claude Code startet på nytt etterpå, og hooken godkjent hvis Claude Code spør.
+## Regel: sensitiv informasjon
 
-Loggfilene blir commitet og pushet sammen med det øvrige arbeidet.
-
-## Regel: sensitiv informasjon logges aldri
-
-Alle prompts sjekkes for passord og annen sensitiv informasjon **før** de skrives til loggen. Alt som er sensitivt byttes ut med `********`. Regelen gjelder alltid, også når noen redigerer eller committer loggfilene for hånd.
-
-Hooken maskerer automatisk:
-
-- verdier etter ord som `passord`, `password`, `pin`, `token`, `secret`, `api-nøkkel`, `API_KEY` o.l. (f.eks. `passord: ********`, `GEMINI_API_KEY=********`, «passordet mitt er ********»)
-- kjente formater for API-nøkler og tokens (Anthropic, OpenAI, GitHub, Groq, Google/Gemini, AWS, Slack, Supabase og JWT)
-- passord i tilkoblingsadresser (`postgres://bruker:********@vert`) og `Bearer`-tokens
-- private nøkler (PEM-blokker)
-- fødselsnumre, betalingskortnumre og e-postadresser
-
-Den automatiske sjekken fanger ikke alt. Se over egne logger før dere committer, og masker manuelt med `********` hvis noe sensitivt har sluppet gjennom. Har en hemmelighet allerede blitt pushet, må den regnes som lekket og byttes ut (ny nøkkel eller nytt passord).
-
-## Begrensninger
-
-- Bare prompts sendt via **Claude Code i denne mappen** blir logget. Prompts i ChatGPT, claude.ai i nettleseren eller andre verktøy kommer ikke med automatisk.
-- Prompten logges ordrett, bortsett fra det som maskeres (se regelen over). **Ikke lim inn passord, API-nøkler eller andre hemmeligheter** likevel, for loggen pushes til GitHub.
+Regelen gjelder fortsatt for de eksisterende loggfilene: blir det funnet passord eller annen sensitiv informasjon i dem, byttes den ut med `********`. Har en hemmelighet allerede blitt pushet, må den regnes som lekket og byttes ut (ny nøkkel eller nytt passord).
