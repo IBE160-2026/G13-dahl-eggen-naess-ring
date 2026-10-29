@@ -1,0 +1,55 @@
+# Digest providers-a, round 1, worker 1
+
+Access date for all sources: 2026-10-27. Note: quotes come from WebFetch extraction, which runs a summarising model over each page. Check clause wording against the live page before citing it in a decision document.
+
+## Google Gemini API / Google AI Studio (free tier)
+
+- D1: Minimum age for anyone using the API is 18. Quote: "You must be 18 years of age or older to use the APIs." | https://ai.google.dev/gemini-api/terms | Google | effective 2026-03-23, last updated 2026-04-28 | accessed 2026-10-27 | high | terms
+- D1: A ban on API clients aimed at or likely to reach under-18s. Fragment quoted: "...directed towards or is likely to be accessed by individuals under the age of 18." The full sentence was not captured. A game for players aged 15–20 is "likely to be accessed by" under-18s. | https://ai.google.dev/gemini-api/terms | Google | 2026-04-28 | accessed 2026-10-27 | high (fragment) / medium (exact surrounding wording) | terms
+- D1: The terms do not say how minors could be allowed in. None found. | same | | | accessed 2026-10-27 | medium | terms
+- D2: For Unpaid Services, prompts and outputs are used to improve products, and humans may review them. Quotes: "Google uses the content you submit to the Services and any generated responses to provide, improve, and develop" and "human reviewers may read, annotate, and process your API input and output." Also: "Do not submit sensitive, confidential, or personal information to the Unpaid Services." Paid Services: prompts and responses are not used to improve products. | https://ai.google.dev/gemini-api/terms | Google | 2026-04-28 | accessed 2026-10-27 | high | data-use
+- D2: Retention. The only retention mentioned is for tuning data: "Tuning content may be retained in connection with your tuned models." No general retention period was captured for free-tier prompts. No opt-out was found for the unpaid tier. | same | | | accessed 2026-10-27 | medium | data-use
+- D3: The free tier cannot serve EEA users. Quote: "You may use only Paid Services when making API Clients available to users in the European Economic Area" (Switzerland and the UK are also covered). For these regions, the Paid Services data-use terms "apply to all Services, including Google AI Studio and unpaid quota in the Gemini API". Norway is in the EEA, so a free-tier app open to Norwegian players breaches the terms. | https://ai.google.dev/gemini-api/terms | Google | 2026-04-28 | accessed 2026-10-27 | high | region
+- D3: The DPA ("Data Processing Addendum for Products Where Google is a Data Processor") is tied to Paid Services. Account and usage data fall under the "Google Controller-Controller Data Protection Terms". | same | | | accessed 2026-10-27 | medium | region
+- D4: The rate-limits page no longer publishes per-model free-tier RPM, RPD or TPM numbers. It points to AI Studio (https://aistudio.google.com/rate-limit). What it does say: limits apply per project, RPD resets at midnight Pacific time, and preview models have tighter limits. | https://ai.google.dev/gemini-api/docs/rate-limits | Google | last updated 2026-10-26 | accessed 2026-10-27 | high | limits
+- D4: Structured or JSON output support was not checked this run. Unverified belief: Gemini supports `responseSchema` / JSON mode. | n/a | | | | low | limits
+
+## Mistral AI La Plateforme (free "Experiment" / "Free" plan)
+
+- D1: The Commercial Terms set no minimum age. They do restrict minors' data and use. Quotes from Section 2.2(c), a list of things the Customer may not do: "include any personal information of children under 13 or the applicable age of digital consent as Customer Data" and "allow minors to use the Mistral AI Products without legally adequate consent from their parent or guardian". The Customer is "solely responsible for (i) actions of any End User". So minors are allowed only with legally adequate parental or guardian consent. The terms contain no blanket under-18 ban. | https://legal.mistral.ai/terms/commercial-terms-of-service | Mistral AI | effective 2026-09-25 | accessed 2026-10-27 | high | terms
+- D1: The Usage Policy has no clause on minors or age verification. It does have a CSAM ban: "Any generation or attempt to generate CSAM on our Mistral AI Products is strictly prohibited." | https://legal.mistral.ai/terms/usage-policy | Mistral AI | effective 2026-06-11 | accessed 2026-10-27 | high | terms
+- D1: Account capacity. The person accepting must have "the legal authority to bind Customer". No age number is given in the Commercial Terms. | commercial terms URL | Mistral AI | 2026-09-25 | accessed 2026-10-27 | medium | terms
+- D2: On the Experiment/Free plan, inputs and outputs may be used for training by default, and the user can opt out at any time. Pay-per-use (Scale) data is not used for training. Feedback ratings (thumbs up/down) give permission to train whatever the plan. | https://help.mistral.ai/en/articles/347617-do-you-use-my-user-data-to-train-your-artificial-intelligence-models | Mistral AI | not captured | accessed 2026-10-27 (via search snippets of multiple article versions; page not fetched directly) | medium | data-use
+- D2: The Commercial Terms (4.2) allow training where the Customer has "not opted-out of training on a Mistral AI Product set to opt-in by default". For Labs/Preview models: "Mistral AI may use Customer Data and Outputs generated from Labs or Preview Models to train". The opt-out "does not apply to Labs or Preview Models", and Labs models are "restricted to professional use only". | commercial terms URL | Mistral AI | 2026-09-25 | accessed 2026-10-27 | high | data-use
+- D2: The Commercial Terms state no retention period. | same | | | accessed 2026-10-27 | medium | data-use
+- D3: The DPA applies when the product is used on Mistral infrastructure (Section 12.3: "Mistral AI may Process Personal Data on behalf of Customer as a Data Processor"). The DPA is listed at https://legal.mistral.ai/terms/data-processing-addendum (not fetched). The terms do not name a hosting location. Mistral's registered office is in Paris. | commercial terms URL | Mistral AI | 2026-09-25 | accessed 2026-10-27 | medium | region
+- D3: Neither terms page has an EEA-specific restriction on serving end users. As an EU company, Mistral has separate EU consumer terms. | https://legal.mistral.ai/terms | Mistral AI | no date | accessed 2026-10-27 | medium | region
+- D4: Mistral's official docs do not publish the free-tier numbers. Limits are set per organisation (requests per second, tokens per minute, tokens per month) and shown in the Admin Console. The free tier has the lowest limits and is meant for evaluation and prototyping, not production. Third-party figures (about 1 request per second, about 500K TPM, about 1B tokens per month) are not verified. | https://docs.mistral.ai/deployment/ai-studio/tier (search snippet) | Mistral AI | not captured | accessed 2026-10-27 | medium | limits
+- D4: Sign-up for the free plan needs a verified phone number and no card. Training may be used on this plan. (TechCrunch, 2024-09-17: free tier launched.) | https://techcrunch.com/2024/09/17/mistral-launches-a-free-tier-for-developers-to-test-its-ai-models | TechCrunch (secondary) | 2024-09-17 (stale) | accessed 2026-10-27 | low | limits
+
+## Anthropic API (policy reference only, not free)
+
+- D1: The Usage Policy defines minors as follows: "We define a minor or child to be any individual under the age of 18 years old, regardless of jurisdiction." It also says "Any specific age eligibility requirements for use of our products will be set out in our Terms of Service." | https://www.anthropic.com/legal/aup | Anthropic | effective 2026-11-12 (per page; future date relative to access, version history linked) | accessed 2026-10-27 | high | terms
+- D1: Minors are allowed under conditions. Quote: "organizations providing minors with the ability to directly interact with products that incorporate our API(s)" "must comply with the additional guidelines outlined in our Support article". | https://www.anthropic.com/legal/aup | Anthropic | 2026-11-12 | accessed 2026-10-27 | high | terms
+- D1: Required safeguards. Quotes: "Age verification systems to ensure only intended users can access the product"; "Content moderation and filtering to block inappropriate or harmful content"; "Monitoring and reporting mechanisms to identify and address potential issues". Anthropic "may provide a child-safety system prompt, which organizations serving minors should implement". Also: "It is the responsibility of organizations to comply with all applicable child safety and data privacy regulations" and "Organizations must disclose to their users that they are interacting with an AI system rather than a human." The guidelines also recommend educational resources and a public statement of compliance. | https://support.claude.com/en/articles/9307344-responsible-use-of-anthropic-s-models-guidelines-for-organizations-serving-minors | Anthropic | last updated 2026-03-16 (older than 3 months) | accessed 2026-10-27 | high | terms
+- D1: A separate "child safety guide for developers" exists (support article 15591275, seen only in the Italian search result). It was not fetched. | https://support.claude.com/it/articles/15591275 | Anthropic | n/a | accessed 2026-10-27 | low | terms
+- D2, D3, D4: Not researched (out of scope for a paid reference provider).
+
+## Leads worth chasing
+
+- Gemini terms: capture the full sentence around "directed towards or likely to be accessed by individuals under the age of 18", including what it prohibits and any exceptions.
+- Google Generative AI Prohibited Use Policy (https://policies.google.com/terms/generative-ai/use-policy). Not fetched.
+- AI Studio rate-limit page: current free-tier RPM and RPD for Gemini Flash models (needs login). Also the Gemini structured-output docs.
+- Mistral DPA (https://legal.mistral.ai/terms/data-processing-addendum): processing location, subprocessors, and whether it covers the free plan.
+- Mistral help article 347617: fetch it directly to confirm the opt-out wording and the "Free plan" rename. Also check the help-center article on Experiment/Free plan requirements (the old URLs 450104 and 455206 return 404).
+- Mistral "applicable age of digital consent": in Norway this is 13 under the personopplysningsloven (unverified). Check what counts as "legally adequate consent" for players aged 15–17.
+- Anthropic child-safety developer guide (article 15591275, English version).
+
+## Looked for but not found
+
+- A Google mechanism that would let minors use an app on the free (or paid) tier. None found.
+- An opt-out from training or human review on the Gemini unpaid tier. None found.
+- Published free-tier rate-limit numbers for Gemini on ai.google.dev (moved to AI Studio) or for Mistral in its docs (moved to the Admin Console).
+- A minimum-age clause in Mistral's Commercial Terms or Usage Policy.
+- A data retention period for free-tier prompts at Google (general) or Mistral.
+- A hosting location in Mistral's Commercial Terms.
