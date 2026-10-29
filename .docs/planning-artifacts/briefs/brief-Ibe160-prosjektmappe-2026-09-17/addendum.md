@@ -21,7 +21,8 @@ Added 2026-10-14 in response to teacher feedback: the engine must "always calcul
 | Consumer loan interest | 15% per year (fixed) | [ASSUMPTION] No official 2026 average found; market offers range about 9-22% nominal (Smarte Penger, DNB, bytt.no). 15% sits mid-range. |
 | Credit card interest (when interest is paid) | 22.6% per year | SSB table 12844, households, 2026 Q2 |
 | Hourly wage, under 16 / under 18 / 18+ | NOK 136.41 / 139.40 / 195.04 | Virke/HK Landsoverenskomsten minimum rates from 1 April 2026 (18+ = wage step 1) |
-| Tax-free card (frikort) limit | NOK 100,000 per calendar year; 50% withheld above it | Regjeringen, tax rates 2026 |
+| Tax-free card (frikort) limit | NOK 100,000 per calendar year; employers withhold 50% above it, but that is withholding, not final tax | Skatteetaten, frikort and forskuddsutskrivingen 2026 |
+| Tax 2026 | Trygdeavgift lower limit NOK 99,650; rate 7.6% (5.1% under 17), never more than 25% of income above the lower limit. Minstefradrag 46%, max NOK 95,700. Personfradrag NOK 114,540. Tax on ordinary income 22%. Trinnskatt step 1: 1.7% from NOK 226,100 | Skatteetaten, satser 2026 (see research `domain-norwegian-youth-finance-rules-2026-10-27`) |
 | Rent, 1-room flat (hybel) | NOK 8,770 per month (whole country) | SSB table 09895, 2025 (Bergen 7,510, Oslo 10,090) |
 | Youth public transport, 30 days | NOK 238 | Ruter, from August 2026 (state-subsidised until April 2027) |
 | Mobile subscription | NOK 299 per month | [ASSUMPTION] typical youth plan, not sourced |
@@ -32,7 +33,7 @@ Added 2026-10-14 in response to teacher feedback: the engine must "always calcul
 
 1. **One round is one month.** Each month is processed in a fixed order: income → tax → fixed costs → loan instalments and interest on debt → interest on savings → the month's event and the player's choice.
 2. **Whole kroner.** All amounts are whole NOK. Monthly interest is `balance × annual rate / 12`, rounded to the nearest krone (0.5 rounds up).
-3. **Tax.** Income within a calendar year is tax-free up to NOK 100,000 (frikort). Income above the limit is taxed at 50%.
+3. **Tax.** Tax is calculated on the player's total wage income for the calendar year, using 2026 rates. Up to NOK 99,650 there is no tax. Above that, trygdeavgift applies: 7.6% of the whole income (5.1% under 17), but never more than 25% of the income above NOK 99,650. Income tax is 22% of ordinary income (income minus minstefradrag) above the personfradrag, plus trinnskatt step 1; higher trinnskatt steps are not modelled. Each month the tax step deducts the increase in the year's calculated tax. The 50% that employers withhold above the frikort limit is withholding, settled in the tax assessment, and is not modelled as tax in version one.
 4. **Consumer loan.** An annuity loan: equal monthly payments `P × r / (1 − (1 + r)^−n)` with `r` = annual rate / 12, rounded to whole kroner. The final payment is adjusted so the balance ends at exactly zero.
 5. **Credit card.** If the full balance is paid by the end of the month, no interest is charged. Otherwise interest is charged on the whole balance, and the minimum payment is the larger of 3% of the balance and NOK 300 (or the whole balance if it is smaller).
 6. **Credit only from 18.** Consumer loans and credit cards are available only from the player's 18th birthday, as in Norway, where minors cannot take on loans. Before 18 the player cannot borrow.
@@ -49,9 +50,9 @@ Rent (NOK 8,770) stays in the parameter table for the later moving-out step; it 
 | 2 | NOK 10,000 in a savings account for 12 months at 2.87% | NOK 10,289 (NOK 289 interest) |
 | 3 | Consumer loan of NOK 20,000 at 15% over 12 months | Monthly payment NOK 1,805, final payment NOK 1,808; total paid NOK 21,663 (NOK 1,663 interest) |
 | 4 | The trip from the brief: NOK 3,200 on a credit card, paying only the minimum each month | Paid off after 13 months; total paid NOK 3,606 (NOK 406 interest) |
-| 5 | An 18-year-old earns NOK 110,000 in one calendar year | NOK 5,000 tax (50% of NOK 10,000 above the limit) |
+| 5 | An 18-year-old earns NOK 110,000 in one calendar year | NOK 2,588 tax, all of it trygdeavgift: the lower of 7.6% × 110,000 (NOK 8,360) and 25% × 10,350 (NOK 2,587.50, rounded up). Income tax is 0, because ordinary income (110,000 − 50,600 minstefradrag = 59,400) is below the personfradrag |
 
-Examples 2-4 were calculated with a script applying rules 2, 4 and 5 month by month, and examples 1 and 5 are direct arithmetic. All five were independently recomputed on 2026-10-22 and match. Note that example 2 depends on rule 2 (rounding each month); a plain compound formula gives NOK 10,291.
+Examples 2-4 were calculated with a script applying rules 2, 4 and 5 month by month, and examples 1 and 5 are direct arithmetic. All five were independently recomputed on 2026-10-22 and match. Example 5 was corrected on 2026-10-29 after domain research showed that the earlier 50% figure (NOK 5,000) was withholding, not final tax. Note that example 2 depends on rule 2 (rounding each month); a plain compound formula gives NOK 10,291.
 
 ## LLM-as-game-master products and pitfalls
 
