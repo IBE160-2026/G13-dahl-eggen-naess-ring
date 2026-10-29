@@ -19,9 +19,10 @@ Kjøre bmad-brainstorming på de fire åpne temaene fra #19 (sluttspill ved 20, 
   4. «Lagring, ikke identitet»: anonym innlogging/gjenopptakskode, ingen fritekst, ingen ekte alder, playtest kun 18–20, anonymt debrief-skjema.
 - Kommentert resultatene på #19 (holdes åpen til teamet bestemmer) og F8-funnet på #16.
 - Brainstorm-filene er ikke committet.
+- F8 rettet etter brukerens ønske: `brief.md` (F8 → 2 588 kr trygdeavgift, «frikort tax» → «tax on 2026 rates», `updated: 2026-10-29`) og `addendum.md` (regel 3 omskrevet til 2026-skatteberegning med trygdeavgift, minstefradrag, personfradrag og trinnskatt trinn 1; regneeksempel 5 → 2 588 kr; ny parameterrad for skatt 2026; frikort-raden presiserer at 50 % er forskuddstrekk). Kilde: research `domain-norwegian-youth-finance-rules-2026-10-27`. Ikke committet.
 
 ### Åpne punkter
 - Teamet må ta stilling til forslagene før PRD (#19).
-- Rett F8 til ~2 588 kr (#16).
+- Resten av finansregel-rettingene: BSU-fradrag 0 kr uten skatt, arbeidstidsgrenser, opplysningstekster om forenklinger (#16).
 - Les Groq-kvoter og Cloudflare AUP (#17).
 - Verifiser norsk aldersgrense for digitalt samtykke (antatt 13 år) før PRD-krav om innlogging (#21).
