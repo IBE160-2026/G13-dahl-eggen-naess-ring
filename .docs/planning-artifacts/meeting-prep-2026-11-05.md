@@ -30,11 +30,18 @@ Notes: `.docs/planning-artifacts/research/playtest-competitors-2026-10-31/notes.
 
 - Koll på cashen looks too childish. LifeMode needs a more grown-up visual style.
 - Proposed differentiator: good finance is not just having the most money, but how you use it. Wellbeing (free time, social life, stress, housing) is tied directly into the outcome. Kept open for the team, but the current lean is yes.
-- PersonalFinanceLab has not been tried yet.
+- PersonalFinanceLab has not been tried yet. Desk research shows it already scores "Quality of Life" alongside money, so it is worth playing before deciding the wellbeing design.
 
 ## 4. Research in progress
 
-- **Remaining desk research:** competitors (#14), AI provider quotas and terms (#17), and the open questions from the domain research. Report: `.docs/planning-artifacts/research/remaining-pre-prd-research-2026-10-31/research.md` (being written).
+- **Remaining desk research (done):** report in `.docs/planning-artifacts/research/remaining-pre-prd-research-2026-10-31/research.md`. Key points:
+  - **Differentiation:** neither the engine + LLM split nor wellbeing is unique on its own. Life Finance (hackathon, July 2026, US, adults) has the same split and even uses Groq. PersonalFinanceLab, SmooLah and Payback weigh happiness or quality of life against money. Only the combination holds: Norwegian rules + ages 15-20 + wellbeing in the outcome + AI narration.
+  - **Norway:** still no digital personal-finance game for ages 15-20. The closest are Ungt Entreprenørskap's classroom programmes and NDLA text.
+  - **Koll på cashen:** money carries over between its four life phases; no wellbeing mechanic.
+  - **AI (#17):** Groq free plan allows about 1,000 requests and 200K tokens a day per model (gpt-oss-20b/120b); the token cap binds first at roughly 285 short events a day. Account holder must be 18+, and the customer is responsible for legal compliance when minors use the app (not a ban). Cloudflare gives 10,000 free neurons a day, roughly 700-1,100 events. Exact per-account limits can only be checked in the Groq console.
+  - **Credit-card minimum:** 3% at 22% interest likely fails utlånsforskriften § 13 (repay within 5 years). Recommendation: 3.5%, min NOK 200-300 (DNB uses 3.5%, min 200). This would change rule 5 and worked example 4 in `addendum.md`.
+  - **Trygdeavgift:** the 5.1% rate applies to every year before the calendar year you turn 17.
+  - **Credit in practice:** SpareBank 1 requires age 20+ for consumer loans. DNB publishes no income floor.
 - **User survey «Unge og penger» (done):** 133 responses, analysed in `briefs/brief-Ibe160-prosjektmappe-2026-09-17/user-research.md`. Key points:
   - Regrets are about value for money, not amount (impulse buys that add up, clothes, trends, collectibles). This supports the wellbeing differentiator.
   - Only 38% think about how a purchase affects their money months ahead, and 39% often run out. Persistent consequences hit the real weak spot.
@@ -52,7 +59,8 @@ Notes: `.docs/planning-artifacts/research/playtest-competitors-2026-10-31/notes.
 
 ## 6. Brainstorm topics for the meeting
 
-- How is wellbeing measured, and how does it affect the ending, if we choose it?
+- How is wellbeing measured, and how does it affect the ending, if we choose it? How do we make it different from PersonalFinanceLab's "Quality of Life" and SmooLah's happiness meter?
+- Credit-card minimum payment: change from 3% to 3.5% (rule 5 and worked example 4)?
 - What visual style fits 15-20-year-olds without feeling childish?
 - Family as an actor: borrowing from or asking parents is a common real choice. How should the game model it, and what does it cost the player?
 - Event library: which survey regrets become events (small purchases adding up, trend buys, blind boxes and in-game purchases, binding subscriptions)?

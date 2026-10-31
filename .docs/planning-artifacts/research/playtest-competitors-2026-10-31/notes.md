@@ -15,8 +15,8 @@ Played by Myggsaa on 2026-10-31.
 - **Visual style is too childish for LifeMode's audience.** LifeMode needs a different, more grown-up graphic style that 15-20-year-olds take seriously. This goes into the UX work (DESIGN.md) as a deliberate contrast.
 - **Differentiation: wellbeing must be tied directly into the economy.** In LifeMode, good personal finance is not only about ending up with the most money, but also about how the money is used. The happiness/wellbeing side (free time, social life, stress, housing) should be built directly into the loop and the outcome, so that hoarding money at the cost of wellbeing is not a "win".
 
-### Not yet answered
-- Does money carry over between life phases in Koll på cashen?
+### Answered by desk research
+- Money does carry over between Koll på cashen's four life phases (savings and income), but the home deposit is fixed at 15% of the price. No wellbeing mechanic. See `research/remaining-pre-prd-research-2026-10-31/research.md`.
 
 ## PersonalFinanceLab
 
