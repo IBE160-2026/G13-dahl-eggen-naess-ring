@@ -22,5 +22,7 @@
   - #21 manglet labelen `sesjonslogg` og har fått den.
   - Lenkene til sesjonsloggene i #12, #13, #14, #16, #17, #18, #19 og #21 pekte på grenen `sesjonslogg/github-issues`, der filene 995–997 ikke finnes. Det samme gjaldt to kommentarer i #16 og #19. Alle lenkene peker nå på commiten der loggfila ble lagt til (permalenke), slik at de overlever merge og sletting av grenen. Lenkene er sjekket mot GitHub-API-et.
 
+- **#16 BSU-fradrag:** Brukeren avklarte at det ikke gis fradrag uten skatt, men at BSU likevel gir god rente. `addendum.md` har fått en ny parameterrad for BSU-fradrag, regel 9 (fradrag = min(10 % av årets innskudd, årets skatt), beregnes i desember, 0 kr uten skatt, ikke overførbart, spillet forklarer at BSU lønner seg gjennom renta) og regneeksempel 6 (17-åring på frikort, 10 000 kr i 12 mnd, gir fradrag 0 kr og saldo 10 576 kr mot 10 289 kr på sparekonto, regnet med skript etter regel 2). `updated` er satt til 2026-10-31. Beslutningen er kommentert på #16. Endringen i addendumet er ikke committet.
+
 ### Åpne punkter
-Ingen.
+- Resten av #16: arbeidstidsgrenser for 15-åringer i grunnskolen og opplysningstekster om forenklinger (#16).
