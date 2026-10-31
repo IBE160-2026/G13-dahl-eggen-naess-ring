@@ -17,6 +17,10 @@
   - Linje 2: `ctx` / `5h` / `7d` i prosent, grønn under 50 %, gul fra 50 % og rød fra 80 %.
   - Testet med ekte input fra økta. Midlertidig dumpfil i `%TEMP%` er slettet.
   - Begrensning: Claude Code sender ikke den absolutte tokenkvoten i abonnementet, bare prosent av 5t- og 7d-grensen. «Totalbruk mot tilgjengelig» vises derfor som tokens mot kontekstvindu og API-tilsvarende kostnad, og abonnementsbruken som prosent på linje 2.
+- **Loggcommit pushet** til `docs/pre-prd-research-og-brainstorm`.
+- **Issue-opprydding:**
+  - #21 manglet labelen `sesjonslogg` og har fått den.
+  - Lenkene til sesjonsloggene i #12, #13, #14, #16, #17, #18, #19 og #21 pekte på grenen `sesjonslogg/github-issues`, der filene 995–997 ikke finnes. Det samme gjaldt to kommentarer i #16 og #19. Alle lenkene peker nå på commiten der loggfila ble lagt til (permalenke), slik at de overlever merge og sletting av grenen. Lenkene er sjekket mot GitHub-API-et.
 
 ### Åpne punkter
 Ingen.
