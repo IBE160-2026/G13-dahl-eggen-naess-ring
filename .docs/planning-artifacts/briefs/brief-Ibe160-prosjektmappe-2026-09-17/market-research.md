@@ -25,7 +25,7 @@
 
 -  EVERFI provides B2B2C financial-education courseware through banks and schools and has reached 60M+ learners. It is a relevant comparison for a possible school-license and bank-sponsored model, but its approach is structured e-learning rather than gameplay.
 
-- A common pattern across these products is that gamification consists of points, quizzes and rewards added to courseware, or financial-literacy features added to real banking products. None identified in the initial research combine an LLM-driven narrative/Game Master layer with a deterministic financial simulation.
+- A common pattern across these products is that gamification consists of points, quizzes and rewards added to courseware, or financial-literacy features added to real banking products. The initial research found none that combine an LLM-driven narrative/Game Master layer with a deterministic financial simulation; later research (2026-10-31) found one hackathon prototype that does (Life Finance, see below).
 
 ---
 
@@ -43,6 +43,21 @@
 
 ---
 
+### Finance simulations with wellbeing or life stages (added 2026-10-31)
+
+Found in the follow-up research (`research/competitive-youth-finance-sim-games-gap-fill-2026-10-27/` and `../../research/remaining-pre-prd-research-2026-10-31/`). These are LifeMode's nearest comparators.
+
+- **Koll på cashen** (Finansinspektionen and Riksbanken, Sweden, 2025): a free life-stage personal-finance game for the same age group, with four life phases where savings and income carry over. No wellbeing mechanic. Played by the team on 2026-10-31: the visual style is too childish for 15-20-year-olds.
+- **PersonalFinanceLab Personal Budget Game** (US/Canada): paid school licence, 12 simulated months, where choices shift net worth, credit score and a Quality of Life Score. The closest match to LifeMode's monthly loop with wellbeing, but more complex, fixed-script, US-based and aimed at college level.
+- **SmooLah** (Singapore Management University, ages 17-26): tracks net worth, happiness, peace of mind and energy; the game resets if one of them reaches zero.
+- **Payback** (NGPF, US): trades student debt against happiness, social life and academics.
+- **Life Finance** (hackathon prototype, July 2026): the same split as LifeMode, where code owns the money and an LLM narrates, and it shows wellbeing previews for each choice. US/USD, for adults, live demo but not maintained since July 2026.
+- **Taloussankari** (Finland): a live chat-style web game in 7 chapters for 8th graders that tracks only cash and experience. No AI and no wellbeing.
+- **Money Wise** and **Infinite Life Simulation**: mobile life sims available in the Norwegian stores, both built on US contexts; Infinite Life Simulation uses an LLM and is rated 18+.
+- **In Norway** there is still no digital personal-finance game for ages 15-20. The closest are Ungt Entreprenørskap's classroom programmes ØkonoMIN (upper secondary) and Økonomi og karrierevalg (10th grade), which include a digital budget tool, plus text and tasks on NDLA.
+
+---
+
 ### Market gap
 
 The research points to a gap between two existing product categories:
@@ -56,6 +71,12 @@ The specific combination LifeMode is exploring is:
 In the team's initial research, no Norwegian product has been identified that combines simulation gameplay, deterministic financial consequences and an AI-generated narrative layer.
 
 This should be treated as an initial research finding rather than a claim that no comparable product exists globally.
+
+**Narrowed on 2026-10-31.** The follow-up research showed that none of the parts is unique on its own: Life Finance has the engine-plus-AI split, and PersonalFinanceLab, SmooLah and Payback weigh wellbeing against money. The team's differentiation is therefore:
+
+> **Built for Norway: a personal-finance life game for 15-20-year-olds, based on Norwegian rules and life stages, that combines good money management with wellbeing without becoming complicated.**
+
+PersonalFinanceLab is the closest product with wellbeing, but it is more complex, US-based and aimed at older students. No product found is built on Norwegian rules such as BSU, frikort and studielån. This is a starting point; the team will refine it later.
 
 ---
 
@@ -93,6 +114,17 @@ Potential partnerships remain longer-term hypotheses and are not part of the ini
 - bankingdive.com (Step)
 - everfi.com
 - cypherlearning.com (financial-literacy games list)
+
+### Follow-up research (2026-10-31)
+- `research/competitive-youth-finance-sim-games-gap-fill-2026-10-27/research.md`
+- `../../research/remaining-pre-prd-research-2026-10-31/research.md` (sources 1-26)
+- kollpacashen.se (teacher guide)
+- personalfinancelab.com (Budget Game)
+- skbi.smu.edu.sg (SmooLah FAQ)
+- ngpf.org (Payback)
+- github.com/tiennguyentony/life_finance
+- taloussankari.com
+- ue.no (ØkonoMIN, Økonomi og karrierevalg)
 
 ### Norwegian and Nordic sources
 - finansnorge.no (Skolemeny, Pengequiz and 2025 "ungdom sliter med økonomikunnskap" article)

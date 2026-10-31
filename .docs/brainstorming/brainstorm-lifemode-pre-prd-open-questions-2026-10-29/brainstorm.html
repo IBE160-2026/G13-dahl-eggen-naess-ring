@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LifeMode: Seeds to Twenty</title>
+<meta name="description" content="A keepsake of the LifeMode pre-PRD brainstorm (29 Oct 2026): four techniques, four themes, 105 ideas and six insights.">
+<style>
+:root{
+  --bg:#fbf6ec; --bg2:#f4ecdc; --ink:#1f1b16; --muted:#6c6357; --card:#ffffff; --line:#e4d8c3;
+  --e:#b86e00; --c:#0b7f81; --l:#6447b8; --p:#b8345e;
+  --e-soft:#fcecc9; --c-soft:#d4efee; --l-soft:#e9e2fa; --p-soft:#f9dde7;
+  --stem:#6f9a3c; --napkin:#fffdf5; --paper:#fffefa; --paper-ink:#24201a; --shadow:0 1px 2px rgba(40,30,10,.08),0 6px 18px rgba(40,30,10,.07);
+  --scrawl:"Segoe Print","Bradley Hand","Chalkboard SE","Comic Sans MS","Marker Felt",cursive;
+  --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Liberation Mono",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#13110e; --bg2:#1b1814; --ink:#f2ebdf; --muted:#a89e90; --card:#1f1c17; --line:#3a332a;
+    --e:#f0b23f; --c:#4fcbc7; --l:#a991f2; --p:#f27ca2;
+    --e-soft:#3a2b0e; --c-soft:#0f2e2e; --l-soft:#272040; --p-soft:#3b1a27;
+    --stem:#8cc152; --napkin:#25211b; --paper:#211e19; --paper-ink:#ece5d8; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.35);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#13110e; --bg2:#1b1814; --ink:#f2ebdf; --muted:#a89e90; --card:#1f1c17; --line:#3a332a;
+  --e:#f0b23f; --c:#4fcbc7; --l:#a991f2; --p:#f27ca2;
+  --e-soft:#3a2b0e; --c-soft:#0f2e2e; --l-soft:#272040; --p-soft:#3b1a27;
+  --stem:#8cc152; --napkin:#25211b; --paper:#211e19; --paper-ink:#ece5d8; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--sans);overflow-wrap:break-word}
+a{color:inherit}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+section{overflow-x:clip;padding:64px 0 56px}
+h1,h2,h3{line-height:1.12;margin:0}
+.kicker{font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:62ch;margin:12px 0 0}
+
+/* ---------- theme tags & filter ---------- */
+.tag{display:inline-flex;align-items:center;gap:5px;font:600 11px/1 var(--sans);padding:4px 8px 4px 6px;border-radius:999px;white-space:nowrap}
+.tag i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.tag.E{background:var(--e-soft);color:var(--e)} .tag.E i{background:var(--e)}
+.tag.C{background:var(--c-soft);color:var(--c)} .tag.C i{background:var(--c)}
+.tag.L{background:var(--l-soft);color:var(--l)} .tag.L i{background:var(--l)}
+.tag.P{background:var(--p-soft);color:var(--p)} .tag.P i{background:var(--p)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.filter{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.filter .wrap{display:flex;gap:8px;align-items:center;padding-top:10px;padding-bottom:10px;overflow-x:auto;scrollbar-width:none}
+.filter .wrap::-webkit-scrollbar{display:none}
+.filter span.lbl{font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);flex:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);font:600 13px/1 var(--sans);padding:8px 12px;border-radius:999px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip i{width:9px;height:9px;border-radius:50%}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip b{font-weight:500;opacity:.7}
+.idea{transition:opacity .25s,filter .25s}
+body[data-f] .idea.dim{opacity:.16;filter:grayscale(1)}
+
+/* ---------- hero ---------- */
+.hero{padding:56px 0 40px;background:radial-gradient(1200px 400px at 80% -10%,var(--e-soft),transparent 60%),radial-gradient(900px 380px at -10% 110%,var(--c-soft),transparent 60%)}
+.hero h1{font:800 clamp(40px,8vw,88px)/.95 var(--sans);letter-spacing:-.03em;margin-top:14px}
+.hero h1 em{font-style:normal;font-family:var(--serif);font-weight:400;color:var(--e)}
+.hero .sub{font-size:clamp(17px,2.2vw,21px);max-width:60ch;margin:18px 0 0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px;font:13px/1.4 var(--mono);color:var(--muted)}
+.ribbon{margin:44px 0 8px;position:relative}
+.ribbon ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);position:relative}
+.ribbon ol::before{content:"";position:absolute;left:8%;right:8%;top:21px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--stem),var(--c),var(--l),var(--p),var(--e))}
+.ribbon li{text-align:center;position:relative}
+.ribbon a{text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 2px}
+.ribbon .age{width:46px;height:46px;border-radius:50%;background:var(--card);border:3px solid var(--ink);display:grid;place-items:center;font:800 17px/1 var(--sans);position:relative;z-index:1;transition:transform .2s}
+.ribbon a:hover .age,.ribbon a:focus-visible .age{transform:scale(1.12)}
+.ribbon li:last-child .age{background:var(--e);border-color:var(--e);color:#1f1b16}
+.ribbon .what{font:600 12px/1.25 var(--sans)}
+.ribbon .verb{font:11px/1.2 var(--mono);color:var(--muted)}
+.setup{margin-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px}
+.setup div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+.setup h3{font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.setup p{margin:0;font-size:15px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:10px;margin-top:14px}
+.legend div{border-radius:14px;padding:14px 16px;border:1px solid var(--line);background:var(--card)}
+.legend b{display:block;font-size:15px}
+.legend span{font-size:13px;color:var(--muted)}
+.legend .E{border-left:6px solid var(--e)} .legend .C{border-left:6px solid var(--c)} .legend .L{border-left:6px solid var(--l)} .legend .P{border-left:6px solid var(--p)}
+
+.sechead{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:end;margin-bottom:34px}
+.sechead .bigage{font:800 clamp(64px,12vw,120px)/.8 var(--sans);letter-spacing:-.05em;color:transparent;-webkit-text-stroke:2px var(--ink)}
+.sechead h2{font:800 clamp(28px,4.6vw,46px)/1.02 var(--sans);letter-spacing:-.02em;margin-top:8px}
+
+/* ---------- Yes And: the vine ---------- */
+#yes{background:linear-gradient(var(--bg),var(--bg2))}
+.vine{list-style:none;margin:0;padding:0;position:relative}
+.vine::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:4px;margin-left:-2px;border-radius:4px;background:var(--stem);opacity:.85}
+.vine li{position:relative;width:50%;padding:0 36px 18px 0}
+.vine li.r{margin-left:50%;padding:0 0 18px 36px}
+.vine li.thread{width:100%;margin:10px 0 26px;padding:0;text-align:center}
+.vine li.thread span{position:relative;z-index:1;display:inline-block;background:var(--ink);color:var(--bg);font:700 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:9px 14px;border-radius:999px;max-width:100%}
+.vine .knot{position:absolute;top:14px;right:-15px;width:30px;height:30px;z-index:2;display:grid;place-items:center;background:var(--bg);border-radius:50%}
+.vine li.r .knot{right:auto;left:-15px}
+.vine .bud{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);position:relative}
+.vine .bud::after{content:"";position:absolute;top:22px;right:-8px;width:14px;height:14px;background:var(--card);border-top:1px solid var(--line);border-right:1px solid var(--line);transform:rotate(45deg)}
+.vine li.r .bud::after{right:auto;left:-8px;transform:rotate(-135deg)}
+.vine .say{font:700 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--stem);margin-bottom:6px;display:block}
+.vine li.seed .say{color:var(--e)}
+.vine p{margin:0}
+@media (max-width:720px){
+  .vine::before{left:15px}
+  .vine li,.vine li.r{width:100%;margin-left:0;padding:0 0 16px 46px}
+  .vine .knot,.vine li.r .knot{left:0;right:auto}
+  .vine .bud::after,.vine li.r .bud::after{left:-8px;right:auto;transform:rotate(-135deg)}
+  .vine li.thread{text-align:left;padding-left:0}
+}
+
+/* ---------- SCAMPER: letter tiles ---------- */
+.scamper{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.tile .L{position:absolute;right:-6px;top:-26px;font:900 130px/1 var(--sans);color:var(--l);opacity:.12;pointer-events:none}
+.tile h3{font:800 22px/1 var(--sans);display:flex;align-items:baseline;gap:10px}
+.tile h3 b{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:10px;background:var(--l);color:var(--card);font-size:22px;flex:none}
+.tile .q{font-size:13px;color:var(--muted);margin:6px 0 12px}
+.tile ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.tile li{border-top:1px dashed var(--line);padding-top:10px}
+.tile li p{margin:0;font-size:15px}
+.tile.pot{grid-column:1/-1;background:var(--l-soft);border-color:transparent}
+.tile.pot ul{grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px}
+.tile.pot li{border:0;background:var(--card);border-radius:12px;padding:12px 14px}
+.bars{margin-top:10px;display:grid;gap:5px}
+.bar{display:grid;grid-template-columns:92px 1fr 26px;gap:8px;align-items:center;font:12px/1 var(--mono)}
+.bar div{height:12px;border-radius:0 4px 4px 0;background:var(--l)}
+.bar.crisis div{background:var(--p)}
+.bar em{font-style:normal;text-align:right;color:var(--muted)}
+.bars .sum{font:700 12px/1 var(--mono);text-align:right;color:var(--muted);margin-top:2px}
+
+/* ---------- Five Whys: drill ---------- */
+#whys{background:linear-gradient(var(--bg),var(--bg2))}
+.drills{display:grid;gap:22px}
+.drill{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:18px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+.drill.solo{grid-template-columns:1fr}
+@media (max-width:760px){.drill{grid-template-columns:1fr}}
+.shaft{display:grid;gap:8px}
+.shaft .qq{font:800 20px/1.2 var(--sans)}
+.shaft .step{position:relative;padding:10px 12px;border-radius:10px;background:var(--bg2);font-size:15px}
+.shaft .step::before{content:"why?";font:700 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.shaft .step:nth-of-type(1){margin-left:12px}.shaft .step:nth-of-type(2){margin-left:24px}.shaft .step:nth-of-type(3){margin-left:36px}
+.shaft .root{margin-left:0;padding:14px 16px;border-radius:12px;background:var(--ink);color:var(--bg);font:700 16px/1.35 var(--sans);position:relative}
+.shaft .root::before{content:"\25BC  root";display:block;font:700 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-bottom:6px}
+.branches{display:grid;gap:10px;align-content:start}
+.branches .bh{font:700 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.branches .idea{border-left:3px solid var(--line);padding:4px 0 4px 12px}
+.branches .idea p{margin:0;font-size:15px}
+.principle{grid-column:1/-1;border:2px dashed var(--p);border-radius:14px;padding:14px 16px;text-align:center}
+.principle p{margin:0;font:italic 400 clamp(19px,2.6vw,24px)/1.3 var(--serif)}
+.principle .tags{justify-content:center}
+
+/* ---------- Drunk History: napkins ---------- */
+#drunk{background:repeating-linear-gradient(90deg,transparent 0 46px,color-mix(in srgb,var(--line) 45%,transparent) 46px 48px),var(--bg)}
+.titlecard{display:inline-block;border:3px double var(--ink);padding:12px 18px;transform:rotate(-1.5deg);background:var(--card)}
+.titlecard h2{font:400 clamp(30px,5vw,50px)/1 var(--serif);font-style:italic;margin:0}
+.napkins{columns:250px;column-gap:18px;margin-top:30px}
+.napkin{break-inside:avoid;display:inline-block;width:100%;margin:0 0 18px;background:var(--napkin);border-radius:4px;padding:16px 16px 14px;box-shadow:var(--shadow);position:relative;transition:transform .25s;background-image:radial-gradient(circle at 8px 8px,color-mix(in srgb,var(--line) 70%,transparent) 1.2px,transparent 1.6px);background-size:16px 16px}
+.napkin:hover{transform:rotate(0) scale(1.02)!important}
+.napkin .quote{font:400 20px/1.3 var(--scrawl);margin:0}
+.napkin .gloss{margin:8px 0 0;font-size:13px;color:var(--muted)}
+.napkin.plain p.txt{margin:0;font-size:15px}
+.napkin .hic{position:absolute;top:-10px;right:10px;font:700 11px/1 var(--mono);background:var(--p);color:#fff;padding:4px 7px;border-radius:4px;transform:rotate(6deg)}
+.napkin.quoted::before{content:"\201C";position:absolute;left:8px;top:-14px;font:700 54px/1 var(--serif);color:var(--p);opacity:.5}
+
+/* ---------- Harvest: Life Wrapped ---------- */
+#harvest{background:radial-gradient(900px 500px at 50% 0,var(--e-soft),transparent 70%),var(--bg)}
+.deck{max-width:760px;margin:0 auto}
+.viewport{border-radius:28px;overflow:hidden;position:relative;box-shadow:0 20px 50px rgba(0,0,0,.25);touch-action:pan-y}
+.track{display:flex;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.slide{flex:0 0 100%;min-width:0;color:#fff;padding:54px 30px 38px;min-height:560px;display:flex;flex-direction:column;position:relative}
+.no-js .track{flex-direction:column}
+.slide .k{font:700 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+.slide h3{font:900 clamp(32px,6vw,54px)/1 var(--sans);letter-spacing:-.03em;margin:14px 0 16px}
+.slide p{font-size:17px;line-height:1.5;margin:0 0 12px;max-width:56ch}
+.slide .tags .tag{background:rgba(255,255,255,.2);color:#fff}
+.slide .tags .tag i{background:#fff}
+.slide .num{font:900 clamp(56px,13vw,110px)/.9 var(--sans);letter-spacing:-.05em}
+.s0{background:linear-gradient(150deg,#1b1340,#4a1f8c 55%,#c0367a)}
+.s1{background:linear-gradient(150deg,#6b3500,#b8620a 55%,#d99a1e)}
+.s2{background:linear-gradient(150deg,#06393b,#0b6c6e 50%,#5a3fb0)}
+.s3{background:linear-gradient(150deg,#25184f,#5536a8 60%,#7f55d9)}
+.s4{background:linear-gradient(150deg,#4a0c25,#962a52 60%,#c4466e)}
+.s5{background:linear-gradient(150deg,#082a3a,#0d5c67 50%,#9b2b5a)}
+.s6{background:linear-gradient(150deg,#2a2008,#6e4f08 50%,#0b6c6e)}
+.s7{background:linear-gradient(150deg,#121212,#3b2a12 60%,#b8620a)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:8px 0 14px}
+.stats div{background:rgba(255,255,255,.12);border-radius:14px;padding:12px 14px}
+.stats b{display:block;font:900 30px/1 var(--sans)}
+.stats span{font-size:13px;opacity:.9}
+.hub{width:100%;height:auto;display:block;margin:4px 0 12px}
+.hub text{font-family:var(--sans)}
+.vs{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:baseline;margin:6px 0 14px}
+.vs s{font:900 clamp(34px,8vw,60px)/1 var(--sans);opacity:.6;text-decoration-thickness:5px}
+.vs b{font:900 clamp(40px,10vw,76px)/1 var(--sans)}
+.progress{position:absolute;top:16px;left:18px;right:18px;display:flex;gap:5px;z-index:3}
+.progress span{flex:1;height:4px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden}
+.progress span.on{background:#fff}
+.no-js .progress{display:none}
+.controls{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px}
+.controls button{border:1px solid var(--line);background:var(--card);color:var(--ink);font:700 14px/1 var(--sans);padding:12px 18px;border-radius:999px;cursor:pointer}
+.controls button:disabled{opacity:.35;cursor:default}
+.controls .count{font:13px/1 var(--mono);color:var(--muted)}
+.no-js .controls{display:none}
+.hint{text-align:center;font:12px/1.4 var(--mono);color:var(--muted);margin-top:10px}
+
+/* ---------- receipt ---------- */
+#receipt{padding-top:24px}
+.receipt{max-width:420px;margin:0 auto;background:var(--paper);color:var(--paper-ink);font:14px/1.5 var(--mono);padding:28px 24px 34px;position:relative;box-shadow:var(--shadow);
+  -webkit-mask:linear-gradient(#000 0 0) top/100% calc(100% - 12px) no-repeat,radial-gradient(circle at 8px 0,transparent 0 6px,#000 6.5px) bottom/16px 12px repeat-x;
+          mask:linear-gradient(#000 0 0) top/100% calc(100% - 12px) no-repeat,radial-gradient(circle at 8px 0,transparent 0 6px,#000 6.5px) bottom/16px 12px repeat-x}
+.receipt h2{font:800 18px/1.2 var(--mono);text-align:center;letter-spacing:.06em}
+.receipt .c{text-align:center}
+.receipt hr{border:0;border-top:2px dashed currentColor;opacity:.35;margin:14px 0}
+.receipt .row{display:flex;justify-content:space-between;gap:12px}
+.receipt .row span:first-child{min-width:0}
+.receipt .tot{font-weight:800;font-size:16px}
+.receipt ul{margin:6px 0 0;padding-left:18px}
+.receipt li{margin:4px 0}
+.barcode{height:46px;margin:16px auto 6px;max-width:260px;background:repeating-linear-gradient(90deg,currentColor 0 2px,transparent 2px 4px,currentColor 4px 5px,transparent 5px 9px,currentColor 9px 12px,transparent 12px 13px)}
+footer{text-align:center;color:var(--muted);font:12px/1.5 var(--mono);padding:30px 16px 50px}
+</style>
+</head>
+<body class="no-js">
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">LifeMode &middot; pre-PRD brainstorm &middot; issue #19</div>
+    <h1>Planted at 15.<br><em>Harvested</em> at 20.</h1>
+    <p class="sub">A keepsake of the session that tried to settle LifeMode's four open questions, for the mobile life-and-money game where choices you make at 15 come back months later as fruit or as thorns.</p>
+    <div class="meta"><span>29 Oct 2026</span><span>mode: autonomous</span><span>status: complete</span><span id="metaCount">105 ideas &middot; 6 insights</span></div>
+
+    <nav class="ribbon" aria-label="Session timeline">
+      <ol>
+        <li><a href="#setup"><span class="age">15</span><span class="what">The setup</span><span class="verb">born</span></a></li>
+        <li><a href="#yes"><span class="age">16</span><span class="what">Yes And</span><span class="verb">plant</span></a></li>
+        <li><a href="#scamper"><span class="age">17</span><span class="what">SCAMPER</span><span class="verb">grow</span></a></li>
+        <li><a href="#whys"><span class="age">18</span><span class="what">Five Whys</span><span class="verb">dig</span></a></li>
+        <li><a href="#drunk"><span class="age">19</span><span class="what">Drunk History</span><span class="verb">russ</span></a></li>
+        <li><a href="#harvest"><span class="age">20</span><span class="what">The harvest</span><span class="verb">wrapped</span></a></li>
+      </ol>
+    </nav>
+
+    <div id="setup" class="setup">
+      <div><h3>The goal</h3><p>Settle the four open questions well enough that the PRD (UJ-5 and the FRs) can be written.</p></div>
+      <div><h3>The direction</h3><p>The user picked <b>Ideate-for-me</b> with a batch: Yes And Building, SCAMPER, Five Whys and Drunk History Retelling (random). Start with theme 1, the endgame.</p></div>
+      <div><h3>The grounding</h3><p>The brief (endgame out of scope), the addendum's endgame options, the PRD memlog UJ-1 to UJ-5, and research #16, #17 and #18.</p></div>
+    </div>
+    <div class="legend" aria-label="The four themes">
+      <div class="E"><b>Endgame at 20</b><span>What happens when the avatar turns 20?</span></div>
+      <div class="C"><b>Causality visibility</b><span>How does a player see that month 3 caused month 40?</span></div>
+      <div class="L"><b>Event library</b><span>What events, how many, built how?</span></div>
+      <div class="P"><b>Privacy &amp; consent</b><span>Players aged 15-17, logins and playtests.</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="filter" role="toolbar" aria-label="Filter ideas by theme">
+  <div class="wrap" id="chips">
+    <span class="lbl">Highlight</span>
+  </div>
+</div>
+
+<main>
+<section id="yes">
+  <div class="wrap">
+    <div class="sechead"><div class="bigage" aria-hidden="true">16</div><div><div class="kicker">Technique 1 &middot; theme 1 chaining into theme 2</div><h2>Yes And Building</h2></div></div>
+    <p class="lede" style="margin:-16px 0 34px">Every idea is a seed, and each "yes, and" grows the vine one leaf further. It starts with an ending that declares neither win nor lose and ends up at a timeline that remembers for you.</p>
+    <ol class="vine" id="vine"></ol>
+  </div>
+</section>
+
+<section id="scamper">
+  <div class="wrap">
+    <div class="sechead"><div class="bigage" aria-hidden="true">17</div><div><div class="kicker">Technique 2 &middot; mainly theme 3, spilling into theme 2</div><h2>SCAMPER</h2></div></div>
+    <p class="lede" style="margin:-16px 0 34px">Seven levers pulled on the event library: what to swap, merge, borrow from real Norwegian teen life, blow up, repurpose, cut and flip.</p>
+    <div class="scamper" id="scamperGrid"></div>
+  </div>
+</section>
+
+<section id="whys">
+  <div class="wrap">
+    <div class="sechead"><div class="bigage" aria-hidden="true">18</div><div><div class="kicker">Technique 3 &middot; theme 4, then the roots of themes 1 and 2</div><h2>Five Whys</h2></div></div>
+    <p class="lede" style="margin:-16px 0 34px">Age 18 is the level-up, the moment the bank card shows up. Here the session stopped growing outward and dug down instead. Each shaft ends at a root, and the ideas branch from that root.</p>
+    <div class="drills" id="drills"></div>
+  </div>
+</section>
+
+<section id="drunk">
+  <div class="wrap">
+    <div class="sechead"><div class="bigage" aria-hidden="true">19</div><div><div class="kicker">Technique 4 &middot; all four themes, the raw truth</div><div class="titlecard" style="margin-top:10px"><h2>Drunk History Retelling</h2></div></div></div>
+    <p class="lede" style="margin:-10px 0 0">Russ season. The whole problem retold the way a tired 19-year-old would explain it on a napkin: blunt, funny and usually right. The quoted napkins are the retellings, and the plain ones are what the session sobered up into.</p>
+    <div class="napkins" id="napkins"></div>
+  </div>
+</section>
+
+<section id="harvest">
+  <div class="wrap">
+    <div class="sechead"><div class="bigage" aria-hidden="true">20</div><div><div class="kicker">Synthesis &middot; the insights</div><h2>Life Wrapped: the harvest</h2></div></div>
+    <p class="lede" style="margin:-16px 0 30px">The session handled its own ending the way it wants the game to: a swipeable recap of what mattered most. Swipe, tap the arrows or use your arrow keys.</p>
+
+    <div class="deck" id="deck">
+      <div class="viewport" id="viewport" tabindex="0" aria-roledescription="carousel" aria-label="Insights, Life Wrapped style">
+        <div class="progress" id="progress" aria-hidden="true"></div>
+        <div class="track" id="track">
+
+          <article class="slide s0" aria-roledescription="slide">
+            <div class="k">Your brainstorm, wrapped</div>
+            <h3>Five years of a life, in one morning.</h3>
+            <div class="stats">
+              <div><b id="wIdeas">105</b><span>ideas planted</span></div>
+              <div><b>4</b><span>techniques</span></div>
+              <div><b>4</b><span>themes</span></div>
+              <div><b>6</b><span>insights harvested</span></div>
+            </div>
+            <p>Your top technique by volume was <b id="wTop">Drunk History</b>. Your most-planted theme was <b id="wTheme">Endgame at 20</b>. Here is what grew.</p>
+          </article>
+
+          <article class="slide s1" aria-roledescription="slide">
+            <div class="k">Insight 1 &middot; theme 1 resolved</div>
+            <h3>It was a naming problem.</h3>
+            <p>Split <b>"ending"</b> from <b>"win condition"</b>. The ending is IN v1: a Life-at-20 summary, the top-3 decisions and replay-from-fork. The win condition and the wellbeing meter stay OUT.</p>
+            <p>UJ-5 stays, rewritten to that shape. An optional cheap goal is a letter from your 15-year-old self, checked at 20, with no meter.</p>
+            <div class="tags"><span class="tag E"><i></i>Endgame at 20</span></div>
+          </article>
+
+          <article class="slide s2" aria-roledescription="slide">
+            <div class="k">Insight 2 &middot; the hidden link</div>
+            <h3>One requirement, two hats.</h3>
+            <svg class="hub" viewBox="0 0 420 250" role="img" aria-label="A causal-link id on every effect powers echo tags, the Why tap, the top-3 decisions, counterfactual lines, the ending screen and tests F9 and F10">
+              <g stroke="rgba(255,255,255,.55)" stroke-width="2" stroke-dasharray="4 4">
+                <line x1="210" y1="125" x2="70" y2="40"/><line x1="210" y1="125" x2="210" y2="22"/><line x1="210" y1="125" x2="350" y2="40"/>
+                <line x1="210" y1="125" x2="70" y2="210"/><line x1="210" y1="125" x2="210" y2="228"/><line x1="210" y1="125" x2="350" y2="210"/>
+              </g>
+              <g fill="rgba(255,255,255,.16)" stroke="rgba(255,255,255,.7)" stroke-width="1.5">
+                <rect x="12" y="24" width="116" height="32" rx="16"/><rect x="152" y="6" width="116" height="32" rx="16"/><rect x="292" y="24" width="116" height="32" rx="16"/>
+                <rect x="12" y="194" width="116" height="32" rx="16"/><rect x="152" y="212" width="116" height="32" rx="16"/><rect x="292" y="194" width="116" height="32" rx="16"/>
+              </g>
+              <g fill="#fff" font-size="13" font-weight="700" text-anchor="middle">
+                <text x="70" y="45">Echo tags</text><text x="210" y="27">"Why?" tap</text><text x="350" y="45">Top-3 decisions</text>
+                <text x="70" y="215">Counterfactuals</text><text x="210" y="233">Ending screen</text><text x="350" y="215">Tests F9 / F10</text>
+              </g>
+              <circle cx="210" cy="125" r="62" fill="#fff"/>
+              <g text-anchor="middle" fill="#06393b">
+                <text x="210" y="116" font-size="14" font-weight="900">causal-link id</text>
+                <text x="210" y="135" font-size="12" font-family="ui-monospace,Consolas,monospace">choice_id</text>
+                <text x="210" y="151" font-size="12" font-family="ui-monospace,Consolas,monospace">&#8594; effect</text>
+              </g>
+            </svg>
+            <p>One engine mechanism, a causal-link id on every effect, powers echo tags, the "Why?" tap, the top-3 decisions, the counterfactual lines <i>and</i> the ending screen. Themes 1 and 2 are one requirement wearing two hats. It is a candidate FR, plus new tests F9 and F10.</p>
+            <div class="tags"><span class="tag E"><i></i>Endgame at 20</span><span class="tag C"><i></i>Causality visibility</span></div>
+          </article>
+
+          <article class="slide s3" aria-roledescription="slide">
+            <div class="k">Insight 3 &middot; theme 3</div>
+            <h3>One schema to hold every event.</h3>
+            <p>Each event has a mechanism, an age window, requires/sets flags, boomerang pairs, a teaching_point, an LK20 tag and a source.</p>
+            <div class="stats">
+              <div><b>~30</b><span>minimum for F6</span></div>
+              <div><b>60-80</b><span>target before playtest</span></div>
+              <div><b>~10</b><span>crisis sets</span></div>
+              <div><b>55/45</b><span>pre/post-18 by months, with post-18 events heavier</span></div>
+            </div>
+            <p>Before 18, "debt" is only informal: a friend lends you money.</p>
+            <div class="tags"><span class="tag L"><i></i>Event library</span></div>
+          </article>
+
+          <article class="slide s4" aria-roledescription="slide">
+            <div class="k">Insight 4 &middot; theme 4, via Five Whys</div>
+            <h3>We need persistence, not identity.</h3>
+            <p>Directions: anonymous sign-in or a resume code (email optional), no free-text input, never ask for a real age, playtest with 18-20 only, and keep playtest data on a separate anonymous form.</p>
+            <p><b>Still open:</b> a legal check of the Norwegian digital consent age.</p>
+            <div class="tags"><span class="tag P"><i></i>Privacy &amp; consent</span></div>
+          </article>
+
+          <article class="slide s5" aria-roledescription="slide">
+            <div class="k">Insight 5 &middot; cross-theme tension</div>
+            <h3>Privacy decides the measurement.</h3>
+            <p>Banning free text (privacy) decides how the 70% causality criterion is measured: a multiple-choice in-app question at 20 plus a spoken debrief, not typed answers.</p>
+            <div class="tags"><span class="tag P"><i></i>Privacy &amp; consent</span><span class="tag C"><i></i>Causality visibility</span></div>
+          </article>
+
+          <article class="slide s6" aria-roledescription="slide">
+            <div class="k">Insight 6 &middot; side finding</div>
+            <h3>Plot twist: the tax was wrong.</h3>
+            <div class="vs"><s>5 000 kr</s><b>&asymp; 2 588 kr</b></div>
+            <p>Brief F8 says 5 000 kr in tax on 110 000 kr. Research #16 says the real tax is about 2 588 kr, and the 50% is withholding. Fix it in the PRD and turn it into a skatteoppgj&oslash;r event.</p>
+            <div class="tags"><span class="tag L"><i></i>Event library</span></div>
+          </article>
+
+          <article class="slide s7" aria-roledescription="slide">
+            <div class="k">That's your session</div>
+            <div class="num">Wanna try<br>again?</div>
+            <p style="margin-top:18px">Here is your money, here is why. Next stop: writing UJ-5 and the FRs.</p>
+            <p style="opacity:.8;font-size:14px">Locked teaser &middot; Chapter 2: moving out &middot; coming later</p>
+          </article>
+
+        </div>
+      </div>
+      <div class="controls">
+        <button id="prev" type="button" aria-label="Previous slide">&#8592; Back</button>
+        <span class="count" id="count" aria-live="polite">1 / 8</span>
+        <button id="next" type="button" aria-label="Next slide">Next &#8594;</button>
+      </div>
+      <div class="hint">swipe &middot; arrows &middot; &larr; &rarr;</div>
+    </div>
+  </div>
+</section>
+
+<section id="receipt">
+  <div class="wrap">
+    <div class="receipt" aria-label="Session receipt">
+      <h2>LIFE AT 20<br>SESSION RECEIPT</h2>
+      <div class="c">LifeMode &middot; brainstorm #19<br>2026-10-29 10:32</div>
+      <hr>
+      <div id="rTech"></div>
+      <hr>
+      <div class="row tot"><span>IDEAS TOTAL</span><span id="rTotal">105</span></div>
+      <div class="row"><span>Insights (free with purchase)</span><span>6</span></div>
+      <hr>
+      <div><b>BY THEME</b> (ideas can carry several)</div>
+      <div id="rTheme"></div>
+      <hr>
+      <div><b>STILL OWED</b></div>
+      <ul>
+        <li>Legal check: Norwegian digital consent age (believed 13)</li>
+        <li>Verify the Groq/Cloudflare API terms (training, data location)</li>
+        <li>Tone/safety review of the friendly-roast epilogue</li>
+        <li>Fix brief F8 tax figure in the PRD</li>
+        <li>"Players like you" benchmark: parked for v2</li>
+      </ul>
+      <hr>
+      <div class="row"><span>Win condition</span><span>0.00</span></div>
+      <div class="row"><span>Wellbeing meter</span><span>0.00</span></div>
+      <div class="row"><span>Personal data collected</span><span>0.00</span></div>
+      <div class="barcode" aria-hidden="true"></div>
+      <div class="c">THANK YOU FOR PLAYING<br>choices come back</div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>Generated from <code>.memlog.md</code> &middot; LifeMode, IBE160 G13 &middot; every idea in the log is on this page</footer>
+
+<script>
+document.body.classList.remove('no-js');
+const THEMES={E:'Endgame at 20',C:'Causality visibility',L:'Event library',P:'Privacy & consent'};
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const tags=th=>'<div class="tags">'+th.split('').map(k=>'<span class="tag '+k+'"><i></i>'+THEMES[k]+'</span>').join('')+'</div>';
+const SEED='<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="14" rx="6" ry="8" fill="var(--e)"/><path d="M12 6c0-3 2-5 5-5-0 3-2 5-5 5z" fill="var(--stem)"/></svg>';
+const SPROUT='<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22V11" stroke="var(--stem)" stroke-width="2.5" stroke-linecap="round"/><path d="M12 12C12 7 8 4 3 4c0 5 4 8 9 8zM12 10c0-4 3-7 8-7 0 4-3 7-8 7z" fill="var(--stem)"/></svg>';
+
+/* ---- Yes And Building (memlog order) ---- */
+const YES=[
+ {th:'Thread 1 · what happens at 20?'},
+ ["At 20 the game does not declare win or lose. It ends with a 'Life at 20' report: balance, savings, BSU, debt, plus the 3 choices that mattered most.",'E',0],
+ ["Frame the report as a 20th-birthday scene where the avatar opens a letter from their 15-year-old self.",'E',1],
+ ["At age 15 the player picks the letter's wish from a short list ('saved for a car', 'no debt', 'afford a trip with friends'). A lightweight player-chosen goal without the full wellbeing meter.",'E',1],
+ ["At 20 the letter is checked against reality: 'You wanted X. You got Y.' A goal check without a win/lose label.",'E',1],
+ ["A three-tier verdict light ('kept the promise / partly / broke it') mirroring the addendum's real/hollow/loss shape, but with no wellbeing meter.",'E',1],
+ ["The gap between promise and outcome is explained by the top 3 decisions ranked by their kroner impact (bridges to theme 2).",'EC',1],
+ ["'Replay from a fork': the player can jump back to one of the 3 key decisions and replay from there (makes UJ-5 replay cheap and targeted).",'E',1],
+ ["A fork replay produces a side-by-side 'two lives at 20' comparison.",'E',1],
+ ["The two-lives comparison is a shareable card ('my life at 20 vs. my other life') with only fictional avatar data.",'EP',1],
+ ["Reconcile UJ-5 with the brief: UJ-5 = ending summary + replay (IN scope). The win condition + wellbeing meter stay OUT. Write it as 'Ending screen v1' with explicit non-goals: no score, no wellbeing meter.",'E',0],
+ ["Every number on the ending screen comes from deterministic engine state, so it works in AI-free mode (F6).",'E',1],
+ ["In stage 2 the AI may write a one-paragraph epilogue, but the numbers always come from the engine. A template epilogue is the fallback (F5 pattern).",'E',1],
+ ["A 'players like you' benchmark on net worth at 20 (aggregate across players). Flagged as v2, needs aggregate data.",'E',1],
+ ["Achievements-lite badges (never missed a payment, BSU used, survived a crisis month) give a win feeling without a single win condition.",'E',1],
+ ["Each badge card states the money lesson it represents.",'E',1],
+ ["A 'Comeback' badge for surviving a crisis month reframes failure as the best story.",'E',1],
+ ["Hidden mission: a randomized target net worth revealed only at the end ('your secret goal was 15 000 kr, you hit 12 400'). A cheap test of addendum option 1 without a meter.",'E',0],
+ ["A/B in playtest: half get the letter-goal ending, half get the plain summary ending. Compare the replay rate against the 50% target.",'E',0],
+ {th:'Thread 2 · chaining into causality'},
+ ["Echo tag: when a past choice causes the current event, the card shows 'Because in month 3 you...'",'C',0],
+ ["Life timeline ribbon: choice dots along 15-20. Consequences draw a line back to the dot that caused them.",'C',0],
+ ["The engine records a causal-link id on every effect (choice_id -> effect) so the UI can always answer 'why'. Candidate FR.",'C',0],
+ ["A 'Why?' tap on every changed number shows the breakdown and which earlier choices it comes from.",'C',0],
+ ["The month summary leads with the single biggest consequence of a past choice, not a full list.",'C',0]
+];
+
+/* ---- SCAMPER ---- */
+const SCAMPER=[
+ ['S','Substitute','What do we swap out?',[
+  ["Categorize events by money mechanism (wages, saving, fixed costs, credit/loans, unexpected), which maps 1:1 to the five mechanisms in scope, plus a social-pressure tag.",'L'],
+  ["Replace fully unique hand-written events with templates + variables (amount, item, fictional friend) so 20 templates give many variants.",'L']]],
+ ['C','Combine','What belongs together?',[
+  ["One event schema: id, mechanism, min_age, max_age, month_window, requires_flags, sets_flags, options[], teaching_point, lk20_tag, source.",'L'],
+  ["Author boomerang pairs together: a 'seed' event and its 'return' event in the same file, so UJ-3 is guaranteed by content.",'LC'],
+  ["Combine social pressure with money: friends' trip, concert, birthday, gaming purchase. The brief's own 3 200 kr trip example is the archetype.",'L']]],
+ ['A','Adapt','What can we borrow from real life?',[
+  ["Adapt real Norwegian teen milestones: konfirmasjon money at 15, moped/first summer job at 16, driving licence and bank card at 18, russ at 19.",'L'],
+  ["Key events to the calendar: Christmas gifts in December, summer jobs June-August, skatteoppgjør in spring after the first taxed year.",'L'],
+  ["A skatteoppgjør event that teaches withholding vs. real tax (research #16: 50% is withholding, real tax on 110 000 kr is about 2 588 kr). Also fixes F8.",'L'],
+  ["Summer job rules for under-18s (max 2 h/day, 12 h/week during school for lower secondary) shape which 'work extra' options exist before 18.",'L']]],
+ ['M','Magnify','What do we blow up?',[
+  ["Magnify age 18 as a level-up event: bank card offer, credit unlocked. Onboarding into credit.",'L'],
+  ["Size: ~60 simulated months, 20-30 real choices per run. Target 60-80 events in v1 (about 2.5-3x one run, enough for replay variety) plus ~10 crisis-month events.",'L'],
+  ["Minimum viable library for F6: ~30 events covering every age window and mechanism plus the crisis set. Grow to 60+ before playtest.",'L'],
+  ["Before/after 18 split by playable months (36 months 15-18, 24 months 18-20): roughly 55% pre-18 / 45% post-18, but post-18 events heavier and more expensive.",'L'],
+  ["Escalation curve: pre-18 amounts in hundreds, post-18 in thousands.",'L']]],
+ ['P','Put to other uses','What else can the library be?',[
+  ["The library doubles as test fixtures (F6), safety fallback (F5) and few-shot examples for the stage-2 AI generator.",'L'],
+  ["Tag each event with an LK20 code (MAT01-06, 1P-Y per research #18) so the library doubles as a teacher-facing curriculum map.",'L']]],
+ ['E','Eliminate','What do we cut? (the thorns)',[
+  ["No pre-18 credit/BNPL events (illegal). Instead 'older friend lends you 500 kr' as informal debt before 18.",'L'],
+  ["No events that ask about the player's real life or need real personal data.",'LP'],
+  ["No moving-out/rent events in v1 (out of scope). Keep the library honest to scope.",'L'],
+  ["No options that are obviously right. Every event needs at least one tempting bad option.",'L']]],
+ ['R','Reverse','What if we flip it?',[
+  ["Positive surprises too: grandma's gift, tax refund, won a competition. Not only bad luck.",'L'],
+  ["Player-initiated actions ('look for a summer job', 'open BSU') instead of only waiting for events.",'L'],
+  ["The player as lender: a friend asks to borrow 500 kr and may or may not pay it back (boomerang).",'LC'],
+  ["'Do nothing' is a valid option with its own consequence.",'L']]],
+ ['+','Left in the pot','More SCAMPER ideas that fit no single letter',[
+  ["Recurring fictional NPCs (the same friend appears across years) make cause and effect easier to follow.",'LC'],
+  ["Russ as a big boomerang: saving for russebuss from 16 vs. borrowing at 18-19. Very Norwegian, very relatable.",'LC'],
+  ["Event count by mechanism: wages 12, saving 10, fixed costs 8, credit/loans 15, unexpected 15, social 10, crisis 10 = 80.",'L','chart'],
+  ["Every amount in an event must trace to Rule Set v1 or a sourced 2026 number (source field in the schema).",'L'],
+  ["Team workshop: each member writes 10 events from things that actually happened to them or friends at 15-20.",'L']]]
+];
+
+/* ---- Five Whys ---- */
+const WHYS=[
+ {q:'Why login?',th:'P',steps:['Pause/resume across devices.','A run is longer than one sitting.'],root:'We need persistence, not identity.',br:[
+  ["Supabase anonymous sign-in, with an optional email upgrade only if the player wants cross-device resume.",'P'],
+  ["Resume code: a short passphrase shown once and typed on another device. Cross-device without email.",'P']]},
+ {q:'Why consent?',th:'P',steps:['The app itself needs minimal data; the consent burden comes from the playtest (research on minors).'],root:'Separate app data from playtest data.',br:[
+  ["Decision candidate: a December playtest with 18-20 only, explicitly excluding 15-17. Removes the guardian-consent workload (the brief already allows this).",'P'],
+  ["If 15-17 are ever included: paper guardian consent, no names attached to data, key list held by the teacher only.",'P']]},
+ {q:'Why is email sensitive?',th:'P',steps:['It identifies a minor.'],root:'Collect as little as possible. Never ask for a real birthdate or real age; the avatar age is fictional.',br:[
+  ["No free-text input in v1: the avatar name comes from a generated list. Removes PII risk in AI prompts (research #17: no personal data to the LLM).",'P'],
+  ["A data minimization table in the PRD: field, purpose, retention, who can see it.",'P'],
+  ["Retention rule: delete inactive accounts after N months, plus a 'delete my account' button.",'P'],
+  ["A privacy notice written for a 15-year-old: five plain bullets.",'P'],
+  ["The playtest debrief and quiz go on a separate anonymous form with a random session code, never linked to the account id.",'P'],
+  ["A light privacy impact checklist (DPIA-lite) in the docs because the target group is minors.",'P'],
+  ["AI calls send only engine state and flags, never user id or email. Logs are redacted.",'P'],
+  ["Verify the Groq/Cloudflare API terms: no training on API data, data location (#17).",'P'],
+  ["Verify the Norwegian age of digital consent (believed to be 13 under personopplysningsloven) and whether it covers our login. A legal check before the PRD states it.",'P']],
+  principle:["Root principle: 'the game does not need to know who you are'. Identity-free gameplay as a PRD design principle.",'P']},
+ {q:'Why an endgame?',th:'E',steps:['To drive completion (70%) and replay (50%).','Why replay? To show that choices matter.'],root:'The ending must create curiosity about the other life, not a score.',br:[]},
+ {q:'Why does UJ-5 conflict with the brief?',th:'E',steps:['The brief scoped out the win condition, not the ending.'],root:"A naming problem: split 'ending' from 'win condition'.",br:[]},
+ {q:'Why do players miss causality?',th:'C',steps:['Delay plus forgetting.'],root:'The game has to remember for them and point back explicitly.',br:[
+  ["Guarantee at least 3 boomerang events per playthrough (content rule + automated test).",'CL'],
+  ["The first echo arrives within the first session, within ~5 choices, so new players learn the pattern early.",'C']]}
+];
+
+/* ---- Drunk History: [quote|null, gloss/text, themes] ---- */
+const DRUNK=[
+ ["At 20 the game just goes: here is your money, here is why, wanna try again?","Ending = receipt + retry.",'E'],
+ ["Nobody remembers month 3. The game has to point at it and go THAT, that is where it went wrong.",null,'C'],
+ ["Teens don't care about net worth, they care if they can afford the trip.","Ending in relatable items: driving licence yes, Spain trip no.",'E'],
+ [null,"Purchasing-power translation: big numbers shown as '= X months of mobile bills' or '= Y concert tickets'.",'EC'],
+ ["The bank card at 18 is basically the villain.","Give the credit card a recurring character voice in events.",'L'],
+ ["Just test with the 18-year-olds, nobody has to sign anything from parents, done.",null,'P'],
+ ["If the AI breaks you get the boring premade one, nobody dies.","The fallback is a feature, not a failure.",'EL'],
+ ["Crisis month is the drama episode.","The ending explicitly references the crisis as the story peak.",'EL'],
+ [null,"Friendly roast tone in the epilogue ('you paid 2 100 kr in interest for a phone you dropped'). Needs a tone/safety review.",'E'],
+ [null,"A 'Life Wrapped' ending (Spotify Wrapped style): swipeable slides of your five years.",'E'],
+ [null,"Wrapped slides: most expensive decision, best decision, months in crisis, total interest paid vs. earned.",'E'],
+ [null,"Interest paid vs. interest earned as one headline number. It shows compounding both ways.",'EC'],
+ [null,"Replay with the same random seed but different choices, so the difference is only the choices (a fair comparison).",'EC'],
+ [null,"Ghost replay: during a replay a ghost marker shows what you chose last time at each fork.",'EC'],
+ [null,"Weekly zoom only inside crisis months; everything else stays monthly.",'L'],
+ [null,"A locked teaser after the ending: 'Chapter 2: moving out, coming later'. It shows the vision and keeps the scope.",'EL'],
+ [null,"The ending card shows one key lesson, chosen deterministically from the mechanism with the biggest kroner impact.",'EC'],
+ [null,"No parent view (out of scope), but the opt-in share card is how parents end up seeing it. The player stays in control.",'EP'],
+ [null,"Counterfactual line: 'If you had saved instead you would have 2 340 kr more'. The engine computes it for deterministic mechanisms only (interest, instalments).",'CE'],
+ [null,"In-app question at 20: 'Which choice mattered most?', then reveal the engine's answer. Rehearses the debrief and measures the 70% criterion.",'EC'],
+ [null,"Measure the in-app question as multiple choice (no free text, for privacy). Keep free explanations for the spoken debrief.",'CP'],
+ [null,"A seed icon on choices that will come back. The return shows as fruit (good) or a thorn (bad).",'C'],
+ [null,"Named callbacks in plain teen language: 'Remember the cheap car from 18? It's back.'",'C'],
+ [null,"At most one echo explanation per month to avoid overload.",'C'],
+ [null,"New functional criterion F9: every possible end state produces a valid ending screen (automated).",'E'],
+ [null,"New functional criterion F10: every boomerang/echo explanation references an existing earlier choice id (causality integrity test).",'C'],
+ [null,"Delete all playtest data after course grading, with the date stated in the PRD.",'P'],
+ [null,"An informed-consent info sheet for the 18-20 playtesters too, even though they are adults.",'P'],
+ [null,"The share card contains only fictional avatar data, no account info.",'P'],
+ [null,"Each playthrough logs an anonymous 'decision path' so the team can see which choices players make (aggregated, no account link).",'P'],
+ [null,"Crisis library: 10 crisis-month sets, 2-3 linked choices each, one per trigger type x age band.",'L']
+];
+
+/* ---- render ---- */
+const all=[]; // {th, tech}
+const vine=document.getElementById('vine'); let side=0, yesN=0;
+YES.forEach(it=>{
+  if(!Array.isArray(it)){vine.insertAdjacentHTML('beforeend','<li class="thread"><span>'+esc(it.th)+'</span></li>');side=0;return;}
+  const [t,th,y]=it; yesN++; all.push({th,tech:'Yes And Building'});
+  vine.insertAdjacentHTML('beforeend','<li class="idea '+(side++%2?'r':'')+' '+(y?'yes':'seed')+'" data-th="'+th+'"><span class="knot">'+(y?SPROUT:SEED)+'</span><div class="bud"><span class="say">'+(y?'Yes, and&hellip;':'New seed')+'</span><p>'+esc(t)+'</p>'+tags(th)+'</div></li>');
+});
+
+const grid=document.getElementById('scamperGrid');
+const counts=[['Wages',12],['Saving',10],['Fixed costs',8],['Credit/loans',15],['Unexpected',15],['Social',10],['Crisis',10]];
+const chart='<div class="bars" aria-label="Event count by mechanism, total 80">'+counts.map(([k,v])=>'<div class="bar'+(k==='Crisis'?' crisis':'')+'"><span>'+k+'</span><div style="width:'+(v/15*100)+'%"></div><em>'+v+'</em></div>').join('')+'<div class="sum">= 80 events</div></div>';
+SCAMPER.forEach(([L,word,q,items])=>{
+  const li=items.map(([t,th,x])=>{all.push({th,tech:'SCAMPER'});return '<li class="idea" data-th="'+th+'"><p>'+esc(t)+'</p>'+(x?chart:'')+tags(th)+'</li>';}).join('');
+  grid.insertAdjacentHTML('beforeend','<article class="tile'+(L==='+'?' pot':'')+'"><span class="L" aria-hidden="true">'+L+'</span><h3><b>'+L+'</b>'+word+'</h3><div class="q">'+q+'</div><ul>'+li+'</ul></article>');
+});
+
+const drills=document.getElementById('drills');
+WHYS.forEach(w=>{
+  all.push({th:w.th,tech:'Five Whys'});
+  const shaft='<div class="shaft idea" data-th="'+w.th+'"><div class="qq">'+esc(w.q)+'</div>'+w.steps.map(s=>'<div class="step">'+esc(s)+'</div>').join('')+'<div class="root">'+esc(w.root)+'</div>'+tags(w.th)+'</div>';
+  const br=w.br.length?'<div class="branches"><div class="bh">So, branching from the root &darr;</div>'+w.br.map(([t,th])=>{all.push({th,tech:'Five Whys'});return '<div class="idea" data-th="'+th+'"><p>'+esc(t)+'</p>'+tags(th)+'</div>';}).join('')+'</div>':'';
+  let pr='';
+  if(w.principle){all.push({th:w.principle[1],tech:'Five Whys'});pr='<div class="principle idea" data-th="'+w.principle[1]+'"><p>'+esc(w.principle[0])+'</p>'+tags(w.principle[1])+'</div>';}
+  drills.insertAdjacentHTML('beforeend','<article class="drill'+(br?'':' solo')+'">'+shaft+br+pr+'</article>');
+});
+
+const nap=document.getElementById('napkins'); const rot=[-2.2,1.6,-0.8,2.4,-1.5,0.9,-2.8,1.2];
+DRUNK.forEach(([q,g,th],i)=>{
+  all.push({th,tech:'Drunk History'});
+  const r='style="transform:rotate('+rot[i%rot.length]+'deg)"';
+  const hic=(i===2||i===12||i===23)?'<span class="hic" aria-hidden="true">*hic*</span>':'';
+  nap.insertAdjacentHTML('beforeend', q
+    ? '<div class="napkin quoted idea" data-th="'+th+'" '+r+'>'+hic+'<p class="quote">'+esc(q)+'</p>'+(g?'<p class="gloss">&rarr; '+esc(g)+'</p>':'')+tags(th)+'</div>'
+    : '<div class="napkin plain idea" data-th="'+th+'" '+r+'>'+hic+'<p class="txt">'+esc(g)+'</p>'+tags(th)+'</div>');
+});
+
+/* ---- stats, receipt, filter ---- */
+const total=all.length, byTech={}, byTheme={E:0,C:0,L:0,P:0};
+all.forEach(a=>{byTech[a.tech]=(byTech[a.tech]||0)+1;a.th.split('').forEach(k=>byTheme[k]++);});
+document.getElementById('metaCount').textContent=total+' ideas · 6 insights';
+document.getElementById('wIdeas').textContent=total;
+document.getElementById('rTotal').textContent=total;
+const topT=Object.entries(byTech).sort((a,b)=>b[1]-a[1])[0][0];
+document.getElementById('wTop').textContent=topT+' ('+byTech[topT]+' ideas)';
+const topK=Object.entries(byTheme).sort((a,b)=>b[1]-a[1])[0][0];
+document.getElementById('wTheme').textContent=THEMES[topK]+' ('+byTheme[topK]+')';
+document.getElementById('rTech').innerHTML=Object.entries(byTech).map(([k,v])=>'<div class="row"><span>'+k+'</span><span>'+v+'</span></div>').join('');
+document.getElementById('rTheme').innerHTML=Object.entries(byTheme).map(([k,v])=>'<div class="row"><span>'+esc(THEMES[k])+'</span><span>'+v+'</span></div>').join('');
+
+const chips=document.getElementById('chips');
+const mk=(k,label,n,color)=>{const b=document.createElement('button');b.className='chip';b.type='button';b.dataset.k=k;b.setAttribute('aria-pressed',k==='all'?'true':'false');b.innerHTML=(color?'<i style="background:var(--'+color+')"></i>':'')+esc(label)+' <b>'+n+'</b>';chips.appendChild(b);};
+mk('all','All',total);
+Object.keys(THEMES).forEach(k=>mk(k,THEMES[k],byTheme[k],k.toLowerCase()));
+chips.addEventListener('click',e=>{
+  const b=e.target.closest('.chip'); if(!b) return; const k=b.dataset.k;
+  chips.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b?'true':'false'));
+  if(k==='all'){document.body.removeAttribute('data-f');document.querySelectorAll('.idea.dim').forEach(n=>n.classList.remove('dim'));return;}
+  document.body.setAttribute('data-f',k);
+  document.querySelectorAll('.idea').forEach(n=>n.classList.toggle('dim',!(n.dataset.th||'').includes(k)));
+});
+
+/* ---- Life Wrapped deck ---- */
+const track=document.getElementById('track'), slides=[...track.children], N=slides.length;
+const prog=document.getElementById('progress'); prog.innerHTML=slides.map(()=>'<span></span>').join('');
+const prev=document.getElementById('prev'), next=document.getElementById('next'), count=document.getElementById('count');
+let cur=0;
+function go(i){
+  cur=Math.max(0,Math.min(N-1,i));
+  track.style.transform='translateX('+(-cur*100)+'%)';
+  [...prog.children].forEach((s,j)=>s.classList.toggle('on',j<=cur));
+  slides.forEach((s,j)=>s.setAttribute('aria-hidden',j===cur?'false':'true'));
+  prev.disabled=cur===0; next.disabled=cur===N-1; count.textContent=(cur+1)+' / '+N;
+}
+prev.onclick=()=>go(cur-1); next.onclick=()=>go(cur+1);
+const vp=document.getElementById('viewport');
+vp.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){go(cur+1);e.preventDefault();}if(e.key==='ArrowLeft'){go(cur-1);e.preventDefault();}});
+let x0=null; vp.addEventListener('pointerdown',e=>{x0=e.clientX;});
+vp.addEventListener('pointerup',e=>{if(x0===null)return;const dx=e.clientX-x0;x0=null;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1));else{const r=vp.getBoundingClientRect();if(Math.abs(dx)<6)go(cur+(e.clientX>r.left+r.width/3?1:-1));}});
+go(0);
+</script>
+</body>
+</html>

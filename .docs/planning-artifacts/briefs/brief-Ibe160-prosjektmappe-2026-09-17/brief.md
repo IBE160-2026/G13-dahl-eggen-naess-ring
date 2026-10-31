@@ -2,7 +2,7 @@
 title: LifeMode Product Brief
 status: final
 created: 2026-09-17
-updated: 2026-10-22
+updated: 2026-10-31
 ---
 
 # Product Brief: LifeMode
@@ -48,8 +48,11 @@ Two things change for the player. First, personal finance becomes part of a life
 | Life-sim games (e.g. BitLife) | Fun, with lots of choice | Finance is shallow flavour there; here the money is correct and the consequences are real |
 | Teen finance apps (Zogo, Greenlight, EVERFI, Sweden's Gimi; in Norway Økonomipeil, Skolemeny, Pengequiz) | Correct content, and banks and schools already distribute them | They are quizzes and courseware with no story of your own; LifeMode is a simulation |
 | Learning from real mistakes | Nothing to set up | Same lesson, without the real cost |
+| Other finance simulations (Sweden's Koll på cashen, PersonalFinanceLab) | Free or school-licensed, with life stages or a wellbeing score | Built on foreign rules; Koll på cashen feels childish and has no wellbeing, and PersonalFinanceLab is more complex and US-based. LifeMode is Norwegian and combines money and wellbeing simply |
 
 What LifeMode combines, and what we did not find elsewhere in our research, is a **financial engine that always calculates correctly** together with an **AI that creates events and dilemmas from the player's own history**. The AI creates the life; the engine decides the consequences. Why an AI rather than a hand-written decision tree: the story has to fit a huge combination of age, savings, debt and earlier choices, and hand-written branches do not scale to that.
+
+**Narrowed differentiation (2026-10-31).** Later research showed that neither the engine-plus-AI split nor a wellbeing score is unique on its own (see `market-research.md`, Market gap). What sets LifeMode apart is that it is **built for Norway**: Norwegian rules and life stages for 15-20-year-olds, combining good money management with wellbeing without becoming complicated. The AI layer is not part of the MVP; it is planned for later.
 
 **What the advantage is, and is not:** it is not a technical moat, since anyone could combine a financial engine with an AI. Our edge is being first with this combination for Norwegian teenagers, and a small team that can iterate quickly on what playtesters tell us.
 
@@ -90,7 +93,7 @@ Because most of the target group are minors, the playtest is run with fellow stu
 | F5 | AI returns an invalid, malformed, or unsafe event | Game shows a pre-written fallback event; never a blank screen or unfiltered output | Automated test with a mocked failing AI response |
 | F6 | A full playthrough from age 15 to 20 | Completable start to finish using only the pre-written event library, with zero AI calls | Automated run with AI disabled |
 | F7 | Summer job at 16: 120 hours at the under-18 hourly wage (NOK 139.40) | NOK 16,728 paid out, no tax withheld (below the frikort limit) | Unit test against worked example 1 |
-| F8 | An 18-year-old earns NOK 110,000 in one calendar year | NOK 5,000 tax (50% of the NOK 10,000 above the frikort limit) | Unit test against worked example 5 |
+| F8 | An 18-year-old earns NOK 110,000 in one calendar year | NOK 2,588 tax, all of it trygdeavgift (capped at 25% of the NOK 10,350 above the NOK 99,650 lower limit); no income tax | Unit test against worked example 5 |
 
 All worked examples and the full rule set are in [addendum.md](addendum.md#financial-engine--rule-set-v1).
 
@@ -99,7 +102,7 @@ All worked examples and the full rule set are in [addendum.md](addendum.md#finan
 **In (version one)**
 
 1. Create an avatar and live a simulated stretch of life from 15 to 20 with five money mechanisms: wages from part-time and summer jobs, saving (savings account and BSU), fixed costs (mobile and transport), consumer loans and credit cards from age 18, and unexpected expenses. Quiet months are skipped, and crisis months give the player linked choices to handle a problem.
-2. A financial engine that follows a small, written rule set with realistic Norwegian 2026 numbers: wages, frikort tax, savings interest, consumer loans and credit cards (only from age 18, as in Norway), and fixed costs such as mobile and transport. Every month is processed in the same order and in whole kroner, and worked examples with expected results serve as the test answer key. Rules, sources and examples are in [addendum.md](addendum.md#financial-engine--rule-set-v1).
+2. A financial engine that follows a small, written rule set with realistic Norwegian 2026 numbers: wages, tax on 2026 rates, savings interest, consumer loans and credit cards (only from age 18, as in Norway), and fixed costs such as mobile and transport. Every month is processed in the same order and in whole kroner, and worked examples with expected results serve as the test answer key. Rules, sources and examples are in [addendum.md](addendum.md#financial-engine--rule-set-v1).
 3. *(Second stage, after the base works.)* AI-generated events and dilemmas that fit the player's own situation and history, so the AI acts as the game's play driver.
 4. *(Second stage.)* AI output that is structured and checked before the player sees it. If the AI fails, times out, or returns an invalid or unsafe event, the game shows a pre-written event instead, so the player never sees a blank screen or unchecked output.
 5. A library of pre-written events that lets the whole game be played from start to finish without the AI. This is the base the game is built on first, with no AI involved. The same mode is used for automated tests and when the app is run without an AI key.
