@@ -2,7 +2,7 @@
 title: LifeMode Product Brief
 status: final
 created: 2026-09-17
-updated: 2026-10-29
+updated: 2026-10-31
 ---
 
 # Product Brief: LifeMode
@@ -48,8 +48,11 @@ Two things change for the player. First, personal finance becomes part of a life
 | Life-sim games (e.g. BitLife) | Fun, with lots of choice | Finance is shallow flavour there; here the money is correct and the consequences are real |
 | Teen finance apps (Zogo, Greenlight, EVERFI, Sweden's Gimi; in Norway Økonomipeil, Skolemeny, Pengequiz) | Correct content, and banks and schools already distribute them | They are quizzes and courseware with no story of your own; LifeMode is a simulation |
 | Learning from real mistakes | Nothing to set up | Same lesson, without the real cost |
+| Other finance simulations (Sweden's Koll på cashen, PersonalFinanceLab) | Free or school-licensed, with life stages or a wellbeing score | Built on foreign rules; Koll på cashen feels childish and has no wellbeing, and PersonalFinanceLab is more complex and US-based. LifeMode is Norwegian and combines money and wellbeing simply |
 
 What LifeMode combines, and what we did not find elsewhere in our research, is a **financial engine that always calculates correctly** together with an **AI that creates events and dilemmas from the player's own history**. The AI creates the life; the engine decides the consequences. Why an AI rather than a hand-written decision tree: the story has to fit a huge combination of age, savings, debt and earlier choices, and hand-written branches do not scale to that.
+
+**Narrowed differentiation (2026-10-31).** Later research showed that neither the engine-plus-AI split nor a wellbeing score is unique on its own (see `market-research.md`, Market gap). What sets LifeMode apart is that it is **built for Norway**: Norwegian rules and life stages for 15-20-year-olds, combining good money management with wellbeing without becoming complicated. The AI layer is not part of the MVP; it is planned for later.
 
 **What the advantage is, and is not:** it is not a technical moat, since anyone could combine a financial engine with an AI. Our edge is being first with this combination for Norwegian teenagers, and a small team that can iterate quickly on what playtesters tell us.
 
