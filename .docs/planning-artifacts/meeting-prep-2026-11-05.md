@@ -38,7 +38,7 @@ Notes: `.docs/planning-artifacts/research/playtest-competitors-2026-10-31/notes.
   - **Differentiation:** neither the engine + LLM split nor wellbeing is unique on its own. Life Finance (hackathon, July 2026, US, adults) has the same split and even uses Groq. PersonalFinanceLab, SmooLah and Payback weigh happiness or quality of life against money. Only the combination holds: Norwegian rules + ages 15-20 + wellbeing in the outcome + AI narration.
   - **Norway:** still no digital personal-finance game for ages 15-20. The closest are Ungt Entreprenørskap's classroom programmes and NDLA text.
   - **Koll på cashen:** money carries over between its four life phases; no wellbeing mechanic.
-  - **AI (#17):** Groq free plan allows about 1,000 requests and 200K tokens a day per model (gpt-oss-20b/120b); the token cap binds first at roughly 285 short events a day. Account holder must be 18+, and the customer is responsible for legal compliance when minors use the app (not a ban). Cloudflare gives 10,000 free neurons a day, roughly 700-1,100 events. Exact per-account limits can only be checked in the Groq console.
+  - **AI (#17, closed: no AI in the MVP, provider chosen later):** Groq free plan allows about 1,000 requests and 200K tokens a day per model (gpt-oss-20b/120b); the token cap binds first at roughly 285 short events a day. Account holder must be 18+, and the customer is responsible for legal compliance when minors use the app (not a ban). Cloudflare gives 10,000 free neurons a day, roughly 700-1,100 events. Exact per-account limits can only be checked in the Groq console.
   - **Credit-card minimum:** 3% at 22% interest likely fails utlånsforskriften § 13 (repay within 5 years). Recommendation: 3.5%, min NOK 200-300 (DNB uses 3.5%, min 200). This would change rule 5 and worked example 4 in `addendum.md`.
   - **Trygdeavgift:** the 5.1% rate applies to every year before the calendar year you turn 17.
   - **Credit in practice:** SpareBank 1 requires age 20+ for consumer loans. DNB publishes no income floor.
@@ -53,7 +53,6 @@ Notes: `.docs/planning-artifacts/research/playtest-competitors-2026-10-31/notes.
 ## 5. Other open issues
 
 - #12: narrow the differentiation claim and add new competitors to `market-research.md` (depends on decision 1 and section 3).
-- #17: switch AI provider in the architecture (Gemini out, Groq primary, Cloudflare fallback).
 - #18: use the new LK20 subject codes; have a teacher review the quiz proposals.
 - #11: are the session logs enough to meet the requirement for saved prompts and AI sessions?
 
