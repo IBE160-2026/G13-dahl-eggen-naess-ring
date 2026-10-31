@@ -55,7 +55,7 @@ Additional qualitative research, such as concept testing or interviews, may be u
 
 Anonymous Google Form, 133 responses. Raw data is kept outside the repo; only aggregated results and short, non-identifying quotes are recorded here. Percentages are of all 133 respondents. Analysed 2026-10-31.
 
-**What the survey covered, and what it did not.** It measured young people's money habits, knowledge and wishes. It did not ask whether the LifeMode concept sounds fun, or whether mechanics such as wellbeing and lasting consequences make sense. Those questions from the Research Purpose above are still open, and so is the parent survey.
+**What the survey covered, and what it did not.** It measured young people's money habits, knowledge and wishes. It did not ask whether the LifeMode concept sounds fun, or whether mechanics such as wellbeing and lasting consequences make sense. Those questions from the Research Purpose above are still open. The team decided on 2026-10-31 not to run the parent survey in this round.
 
 ### Respondents
 
@@ -127,7 +127,7 @@ Most frequent: budgeting and saving; interest; BSU, credit cards and loans; payi
 - **Family is the main source of money, knowledge and help.** Borrowing from or asking parents is a common real-world choice, both in the trip dilemma and with unexpected expenses. The event library should include family as an actor, with its own consequences.
 - **Event library candidates:** small purchases that add up, trend-driven buys, collectibles and loot-box-style spending, in-game purchases, subscriptions with binding periods, unused memberships, takeaway.
 - **Teaching priorities:** BSU and credit/consumer loans are the least understood terms, and BSU is weakest among 15-16-year-olds. Explanations must use plain language. The BSU disclosure should cover both the NOK 0 deduction without tax and the fact that the money is locked.
-- **Scope question for the team: investing.** Funds and stocks are a frequent wish, but investing is not one of the five money mechanisms in the brief. The team should decide whether it stays out of version one.
+- **Investing stays out for now.** Funds and stocks are a frequent wish, but investing is not one of the five money mechanisms in the brief. Decided on 2026-10-31: kept out of version one for now; a candidate for later.
 - **Current use of credit is low** (4%), and buy now pay later is rare (6%). The credit mechanics from 18 introduce something most players have not tried yet, so they need more explanation than the rest.
 
 ### Limitations
@@ -135,7 +135,7 @@ Most frequent: budgeting and saving; interest; BSU, credit cards and loans; payi
 - A convenience sample, probably spread through the team's own networks and schools, so it is not representative.
 - Self-reported behaviour; for example, 14% reporting peer pressure may be low, given how many regrets in the free text are about trends and what others have.
 - The 19-20 group has only 8 respondents.
-- No questions on the LifeMode concept itself, and no parent survey yet.
+- No questions on the LifeMode concept itself. No parent survey in this round (team decision, 2026-10-31).
 
 ---
 

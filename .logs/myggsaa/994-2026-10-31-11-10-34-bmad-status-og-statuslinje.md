@@ -35,6 +35,7 @@
 - Committet i `2f8d28b`.
 - **Underagent:** startet på resten av researchen (#14, #17 og de åpne spørsmålene fra domeneresearchen). Rapporten skrives til `.docs/planning-artifacts/research/remaining-pre-prd-research-2026-10-31/research.md` og var ikke ferdig da loggen ble skrevet.
 
+- **Beslutninger fra brukeren:** fond og investering holdes utenfor første versjon foreløpig, og det blir ingen foreldreundersøkelse i denne omgangen. Begge beslutningene er skrevet inn i `user-research.md` og møtenotatet. Brukeren ville ikke ha issues for dette.
+
 ### Åpne punkter
-- Investering (fond og aksjer) er etterspurt i undersøkelsen, men er ikke med blant mekanismene i briefen. Teamet må bestemme om det skal med i første versjon. Står i møtenotatet.
-- Undersøkelsen testet ikke selve spillkonseptet, og foreldreundersøkelsen er ikke gjennomført. Står i møtenotatet.
+Ingen nye issues. Om vi trenger en kort konsepttest før PRD-en, står som tema i møtenotatet.

@@ -40,8 +40,8 @@ Notes: `.docs/planning-artifacts/research/playtest-competitors-2026-10-31/notes.
   - Only 38% think about how a purchase affects their money months ahead, and 39% often run out. Persistent consequences hit the real weak spot.
   - Family is the main source of money, knowledge and help (88% learned most from family). Family should be an actor in the events.
   - BSU (31% don't understand it) and credit/consumer loans (20%) are the least understood terms.
-  - Many want to learn about funds and investing, which is not in the brief's five mechanisms.
-  - The survey did not test the LifeMode concept itself, and the parent survey has not been run.
+  - Many want to learn about funds and investing. Decided 2026-10-31: investing stays out of version one for now.
+  - The survey did not test the LifeMode concept itself. Decided 2026-10-31: no parent survey in this round.
 
 ## 5. Other open issues
 
@@ -54,7 +54,6 @@ Notes: `.docs/planning-artifacts/research/playtest-competitors-2026-10-31/notes.
 
 - How is wellbeing measured, and how does it affect the ending, if we choose it?
 - What visual style fits 15-20-year-olds without feeling childish?
-- Investing (funds and stocks): in or out of version one? The survey shows strong interest.
 - Family as an actor: borrowing from or asking parents is a common real choice. How should the game model it, and what does it cost the player?
 - Event library: which survey regrets become events (small purchases adding up, trend buys, blind boxes and in-game purchases, binding subscriptions)?
 - Do we need a short concept test before the PRD, since the survey did not ask about the game itself?
