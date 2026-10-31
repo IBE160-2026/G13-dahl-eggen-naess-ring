@@ -52,9 +52,9 @@ Notes: `.docs/planning-artifacts/research/playtest-competitors-2026-10-31/notes.
 
 ## 5. Other open issues
 
-- #12: narrow the differentiation claim and add new competitors to `market-research.md` (depends on decision 1 and section 3).
+- #12 (first version done 2026-10-31): differentiation is now "built for Norway: Norwegian rules and life stages for 15-20-year-olds, combining good money management with wellbeing without becoming complicated". New competitors added to `market-research.md`. To be refined further.
 - #18: use the new LK20 subject codes; have a teacher review the quiz proposals.
-- #11: are the session logs enough to meet the requirement for saved prompts and AI sessions?
+- #11 (settled 2026-10-31): the session logs are enough for the requirement on saved prompts and AI sessions; the session-log skill was made by the course teacher.
 
 ## 6. Brainstorm topics for the meeting
 

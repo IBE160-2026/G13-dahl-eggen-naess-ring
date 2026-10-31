@@ -37,6 +37,7 @@
 
 - **Beslutninger fra brukeren:** fond og investering holdes utenfor første versjon foreløpig, og det blir ingen foreldreundersøkelse i denne omgangen. Begge beslutningene er skrevet inn i `user-research.md` og møtenotatet. Brukeren ville ikke ha issues for dette.
 - **#12 Kjennetegn:** Brukeren formulerte det slik: LifeMode er laget for norske forhold og unikt for Norge, og kombinerer god økonomi og lykke uten å bli for komplisert. PersonalFinanceLab er mer komplisert. Dette er en start som teamet skal se mer på senere. `market-research.md` har fått seksjonen «Finance simulations with wellbeing or life stages» (Koll på cashen, PersonalFinanceLab, SmooLah, Payback, Life Finance, Taloussankari, Money Wise / Infinite Life Simulation, UE-programmene), og Market gap er snevret inn. `brief.md` har fått en ny rad i sammenligningstabellen og avsnittet «Narrowed differentiation», som også sier at KI ikke er med i MVP-en. `updated` er satt til 2026-10-31.
+- **#11:** Brukeren avklarte at sesjonsloggene må holde, siden det er faglæreren som har laget skillen som logger øktene. Beslutningen står i møtenotatet.
 
 ### Åpne punkter
 Ingen nye issues. Om vi trenger en kort konsepttest før PRD-en, står som tema i møtenotatet.
