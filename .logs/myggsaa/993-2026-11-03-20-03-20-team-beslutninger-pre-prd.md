@@ -28,13 +28,14 @@
 - **Tolkninger gruppen bør se over:**
   - Tap er bare at målet ikke nås. Den tidligere «gjeldsspiral»-tapet er tatt ut, fordi regel 8 sier at en krise aldri avslutter spillet i første versjon.
   - F9 og F10 kommer fra brainstormingen. F9 er tilpasset de tre sluttene.
-- **Ikke endret:** Regel 7 (72 måneder), kredittkortets minstebeløp og `market-research.md`. #19 er kommentert, men holdes åpen til dokumentendringene er committet. Dokumentendringene er ukommittert.
+- **Ikke endret:** Regel 7 (72 måneder), kredittkortets minstebeløp og `market-research.md`.
 
 - **Korrigert personvernbeslutning:** Brukeren erstattet anonym innlogging med kode med innlogging med brukernavn: ingen e-post, ingen ekte alder, ingen fritekst utover brukernavnet, og speltest bare med 18–20-åringer. Addendum, brief, arkitektur, møtenotat og PRD-logg er oppdatert.
 - **Vurdering i addendumet:** Et brukernavn bør behandles som personopplysning, men det utløser ikke samtykkekrav i seg selv. Aldersgrensen gjelder når samtykke er behandlingsgrunnlaget. Vurderingen bygger på prosjektets egen lesning av regelverket og er ikke juridisk råd. Søket fant ikke Datatilsynets egen veiledning om dette.
 - **Passord:** Brukeren bestemte at spilleren lager eget passord ved registrering, og at Supabase Auth lagrer det. Glemt passord aksepteres uten tilbakestilling i MVP-en, og gjenbruk av passord tas ikke hensyn til nå. Dette erstatter anbefalingen om generert kode i addendum, brief, arkitektur og PRD-logg. Intern e-postadresse laget av brukernavnet er planlagt, men ikke testet på selvhostet Supabase.
 - **Anbefalt, ikke vedtatt:** Genererte brukernavn og et annet behandlingsgrunnlag enn samtykke.
-- **Personvernspørsmålene utsatt:** Brukeren bestemte at de åpne spørsmålene ikke er viktige for MVP-en og skal sjekkes før lansering. #24 er holdt åpen som en påminnelse om dette, og addendum, møtenotat og PRD-logg er oppdatert. Dokumentendringene er fortsatt ukommittert.
+- **Personvernspørsmålene utsatt:** Brukeren bestemte at de åpne spørsmålene ikke er viktige for MVP-en og skal sjekkes før lansering. #24 er holdt åpen som en påminnelse om dette, og addendum, møtenotat og PRD-logg er oppdatert.
+- **Committet og pushet:** Dokumentendringene ligger i `87ba251` på `docs/pre-prd-research-og-brainstorm` (PR #22). #19 er lukket med en kommentar som viser til commiten.
 
 ### Åpne punkter
 - Definer livsmål og velværemåler (#23)
