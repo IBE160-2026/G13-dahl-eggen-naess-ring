@@ -1,6 +1,6 @@
-# Promptlogg (avsluttet prototype)
+# Promptlogg (avsluttet og arkivert prototype)
 
-> **Status: avsluttet 2026-10-27.** Dette var en prototype-logger gruppen laget før Bård kom med sin løsning, `sesjonslogg`-skillen (se `.claude/skills/sesjonslogg/SKILL.md` og `CLAUDE.md`). Nye økter dokumenteres nå i `.logs/<bruker>/`. Promptene som ble logget her fra 2026-10-08 til 2026-10-27 er beholdt uendret som dokumentasjon av prosessen.
+> **Status: avsluttet 2026-10-27.** Dette var en prototype-logger gruppen laget før Bård kom med sin løsning, `sesjonslogg`-skillen (se `.claude/skills/sesjonslogg/SKILL.md` og `CLAUDE.md`). Nye økter dokumenteres nå i `.logs/<bruker>/`. Promptene som ble logget her fra 2026-10-08 til 2026-10-27 er beholdt uendret som dokumentasjon av prosessen. Mappen er flyttet fra `logg/` til `arkiv/promptlogg/` (2026-11-03), og hook-skriptet fra `.claude/hooks/` til samme mappe.
 
 Mappen inneholder prompts gruppen sendte til Claude Code i dette repoet mens loggeren var i bruk. Loggen ble skrevet automatisk.
 
@@ -43,7 +43,7 @@ Selve prompten, ordrett.
 
 En `UserPromptSubmit`-hook i `.claude/settings.json` kjørte `.claude/hooks/log_prompt.py` hver gang noen sendte en prompt i Claude Code i dette repoet. Skriptet la til en oppføring i personens loggfil, og maskerte passord, API-nøkler, tokens, fødselsnumre, kortnumre og e-postadresser med `********` før de ble skrevet.
 
-Hooken er fjernet fra `.claude/settings.json`, så ingen nye prompts blir logget. Skriptet ligger igjen i `.claude/hooks/` som en del av prototypen.
+Hooken er fjernet fra `.claude/settings.json`, så ingen nye prompts blir logget. Skriptet (`log_prompt.py`) ligger arkivert i denne mappen og kjøres ikke.
 
 ## Regel: sensitiv informasjon
 
