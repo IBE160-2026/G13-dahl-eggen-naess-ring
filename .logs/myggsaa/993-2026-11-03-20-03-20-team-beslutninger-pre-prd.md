@@ -45,7 +45,7 @@
   - Slutten viser topp 3-valg, og omspill starter fra 15 år.
   - Hvis tiden ikke strekker til, kuttes «hvis du hadde valgt annerledes»-linjer først og deretter hendelser ned mot 30.
 - **Mine standardvalg, ikke spurt om:** Effekter uten valg lagres med systemårsak. «Hvis du hadde valgt annerledes» gjelder der motoren kan regne det sikkert, først rente og avdrag. Topp 3 rangeres etter effekt i kroner. Alle livsmål sjekkes ved 20. Beløp, vekter og terskel er konfigurasjon som settes under tuning.
-- **Dokumenter:** Addendum, brief, arkitektur, møtenotat og PRD-logg er oppdatert og ukommittert. #23, #25, #26 og #27 lukkes når endringene er committet.
+- **Committet og pushet:** Endringene i addendum, brief, arkitektur, møtenotat og PRD-logg ligger i `f3d0679` (PR #22). #23, #25, #26 og #27 er lukket med kommentarer som viser til commiten.
 
 ### Åpne punkter
 - Sjekk personvern for innlogging med brukernavn før lansering, ikke før MVP (#24)
