@@ -32,11 +32,12 @@
 
 - **Korrigert personvernbeslutning:** Brukeren erstattet anonym innlogging med kode med innlogging med brukernavn: ingen e-post, ingen ekte alder, ingen fritekst utover brukernavnet, og speltest bare med 18–20-åringer. Addendum, brief, arkitektur, møtenotat og PRD-logg er oppdatert.
 - **Vurdering i addendumet:** Et brukernavn bør behandles som personopplysning, men det utløser ikke samtykkekrav i seg selv. Aldersgrensen gjelder når samtykke er behandlingsgrunnlaget. Vurderingen bygger på prosjektets egen lesning av regelverket og er ikke juridisk råd. Søket fant ikke Datatilsynets egen veiledning om dette.
-- **Anbefalt, venter på teamet:** Genererte brukernavn, en generert kode som innloggingshemmelighet, og et annet behandlingsgrunnlag enn samtykke. Dokumentendringene er fortsatt ukommittert.
+- **Anbefalt, ikke vedtatt:** Genererte brukernavn, en generert kode som innloggingshemmelighet, og et annet behandlingsgrunnlag enn samtykke.
+- **Personvernspørsmålene utsatt:** Brukeren bestemte at de åpne spørsmålene ikke er viktige for MVP-en og skal sjekkes før lansering. #24 er holdt åpen som en påminnelse om dette, og addendum, møtenotat og PRD-logg er oppdatert. Dokumentendringene er fortsatt ukommittert.
 
 ### Åpne punkter
 - Definer livsmål og velværemåler (#23)
-- Behandlingsgrunnlag og tiltak for innlogging med brukernavn (#24)
+- Sjekk personvern for innlogging med brukernavn før lansering, ikke før MVP (#24)
 - Er et gjennomspill 60 eller 72 måneder? (#25)
 - Presiser årsakslenker, «hvis du hadde valgt annerledes» og omspill (#26)
 - Hva kuttes først hvis omfanget ikke rekker til desember? (#27)
