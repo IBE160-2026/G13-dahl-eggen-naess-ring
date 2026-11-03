@@ -10,6 +10,15 @@ Goal from the lecturer: be "fit for fight" with enough research to start the PRD
 
 ## 1. Decisions the team must make (blocks the PRD)
 
+**Decided (recorded 2026-11-03):**
+
+1. **Endgame:** life goal plus a wellbeing meter, with three endings (real win, hollow win, loss). This replaces the brainstorm proposal in the table below.
+2. **Choice → consequence:** cause links plus "Hvorfor?", with new test criteria F9 and F10.
+3. **Event library:** at least 30 events, target 60-80, plus about 10 crises, split roughly 55/45.
+4. **Privacy (corrected):** login with a username, no email, no real age, and playtests only with 18-20-year-olds. The remaining privacy questions do not block the MVP and will be checked before go-live (#24).
+
+Details are in `briefs/brief-Ibe160-prosjektmappe-2026-09-17/addendum.md`. The table below shows the starting point for these decisions.
+
 From issue #19, brainstorm on 2026-10-29 (`.docs/brainstorming/brainstorm-lifemode-pre-prd-open-questions-2026-10-29/`).
 
 | # | Topic | Brainstorm proposal | New input since then |

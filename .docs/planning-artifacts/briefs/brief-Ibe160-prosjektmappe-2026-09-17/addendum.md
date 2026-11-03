@@ -1,7 +1,7 @@
 ---
 title: LifeMode Addendum
 related_brief: brief.md
-updated: 2026-10-31
+updated: 2026-11-03
 ---
 
 # Addendum: LifeMode
@@ -97,9 +97,25 @@ Raised during brief discovery because the entire user base is minors (15-20) and
 - GDPR / Datatilsynet review of minors' data handling — aligns with the already-stated goal of collecting no real PII (simulated_age, simulated_savings, etc.).
 - Review of Anthropic's usage policies for products directed at minors before scaling beyond MVP.
 
-## Win Condition & Endgame — Design Discussion (not decided)
+## Win Condition & Endgame — Decision
 
-Raised during brief discovery for the "Out (not now)" scope item on the endgame system. Not settled — the team is still discussing whether to keep this shape or simplify it. Recorded here so the idea isn't lost, not as a commitment.
+**Decided by the team (recorded 2026-11-03, issue #19): the second option below, a player-chosen life goal plus a wellbeing meter.** This is the MVP solution and can be revisited later.
+
+- The player picks a life goal at the start of the playthrough.
+- The wellbeing meter is weighted differently depending on the chosen goal.
+- There are three endings:
+  - **Real win:** goal reached and wellbeing stayed above a healthy threshold.
+  - **Hollow win:** goal reached, but wellbeing collapsed getting there.
+  - **Loss:** the player did not reach the goal.
+- The engine calculates the goal check and the wellbeing meter from measurable state, so all three endings work with no AI.
+
+Why: it sets LifeMode apart from similar games such as Koll på cashen, and it shows that good money management is not just about earning as much as possible.
+
+A debt spiral does not cause a separate early loss, unlike in the options below. Rule 8 says a crisis never ends the game in version one, and the team defined a loss only as missing the goal.
+
+### Options considered
+
+Kept as a record of the discussion. Where the text below differs from the decision above, the decision applies.
 
 One option discussed: at the start of a playthrough, the player receives a mission to reach a target net worth by around age 20. The target is randomized/personalized per playthrough rather than fixed, so no two players chase the same number, reinforcing that no two playthroughs should converge on the same story.
 
@@ -119,7 +135,71 @@ This would produce the same three-outcome shape as the first option, but measure
 - **Hollow win** — chosen goal reached, but wellbeing collapsed getting there.
 - **Loss** — chosen goal missed, or an unmanageable debt spiral occurs before the deadline.
 
-Open question for the group: a system-assigned target, a player-chosen goal, or a combination of the two — and whether the three-ending, dual-meter shape survives either way.
+## Choice and Consequence — Decision
+
+**Decided by the team (recorded 2026-11-03, issue #19): cause links plus "Hvorfor?".**
+
+Every effect in the engine stores which choice triggered it. The same link drives:
+
+- echo badges, when an earlier choice comes back
+- a "Hvorfor?" button that explains a change
+- "if you had chosen differently" lines, calculated by the engine and never by the AI
+- the ending
+
+The decision adds test criteria F9 and F10 to the brief.
+
+## Event Library — Decision
+
+**Decided by the team (recorded 2026-11-03, issue #19): at least 30 events, with a target of 60-80, plus about 10 crises.**
+
+- **Split:** roughly 55/45 before and after age 18.
+- **Fixed schema for every event:**
+  - mechanism
+  - age
+  - flags
+  - boomerang pair
+  - teaching point
+  - LK20 code
+  - source
+
+## Privacy — Decision
+
+**Decided by the team (recorded 2026-11-03, issues #19 and #21): login with a username.** This replaces the earlier decision on anonymous login with a code.
+
+- **Login:** the player logs in with a username to save and resume progress.
+- **Data:** no email and no real age in the MVP.
+- **Input:** no free text beyond the username itself.
+- **Playtests:** still only with 18-20-year-olds.
+- **Later, not MVP:** possibly two modes, school and private.
+
+### Assessment: username, consent and age limit
+
+This is the project's own reading of GDPR art. 4, 6 and 8 and personopplysningsloven § 5, not legal advice. The team decided on 2026-11-03 that the open privacy questions do not block the MVP and will be checked before LifeMode goes live (issue #24).
+
+- **Is a username personal data?** Yes, if a player uses a real name. An invented username can also count, because it is tied to one person's stored game and can be combined with other data such as an IP address. LifeMode should therefore treat all usernames as personal data.
+- **Does that trigger a consent requirement?** Not by itself. Personal data needs a legal basis, and consent is only one of several. The age limit applies when consent is the legal basis for an online service offered directly to a child.
+- **What still applies without consent?** The other privacy rules: a named legal basis, clear information to the player, data minimisation, security and deletion.
+- **What if consent were used?** The age limit would apply: 13 today, proposed 15. Some 10th graders are 14 for part of the school year, so they would need parental consent if the limit is raised. LifeMode would then have to check age and reach parents, which conflicts with collecting no real age and no email. Consent should therefore not be the legal basis.
+
+### Recommended measures (not decided, to check before go-live)
+
+1. **Generate usernames automatically.** The player picks from suggestions such as "RaskRev482" and can ask for new ones. No free text is then needed, which also removes the risk of real names, phone numbers and offensive names. This is stricter than the decision above, which allows free text in the username.
+2. **If usernames are typed in,** tell the player not to use a real name, limit the length and characters, and reject email addresses and phone numbers. Guidance reduces the risk, but it cannot guarantee that nobody uses a real name.
+3. **Keep the username private.** It is not shown to other players and is never sent to an AI.
+4. **Document a legal basis other than consent,** and give short player information in language a 15-year-old understands.
+5. **Keep as little data as possible.** Use no analytics or advertising cookies, delete inactive games after a set time, and give the player a delete button.
+
+These measures reduce the risk and keep LifeMode outside the consent requirement, but they do not take it outside the privacy rules. Generated usernames can still count as personal data.
+
+### Login secret: a password the player creates
+
+**Decided by the team (recorded 2026-11-03):** the player creates their own password at registration.
+
+- **Storage:** Supabase Auth stores the password as a hash. The password is never kept in the project's own tables, logs or game state, and is never sent to an AI.
+- **Forgotten password:** accepted for the MVP. Without email the player cannot reset the password and loses access to the game.
+- **Password reuse:** not addressed for now, even though some players will use a password they also use elsewhere.
+
+Supabase Auth normally logs in with email or phone, so the planned approach is an internal address made from the username, such as `raskrev482@lifemode.invalid`, with email confirmation turned off. The address is not real and is never shown to the player. This has not been tested on self-hosted Supabase, so it should be tried early in the build.
 
 ## AI Negotiation Mechanic — Guardrail Detail
 

@@ -72,16 +72,17 @@ The AI provider choice is the one remaining open decision and will be justified 
 Supabase will provide the persistent database for the MVP.
 
 The database must store the state required for a player's game to continue across sessions, including:
-- user/account reference
+- player reference tied to the username
 - avatar configuration
 - playthroughs
+- the chosen life goal
 - financial state
+- wellbeing state
 - decisions
+- cause links from each engine effect to the choice that triggered it
 - generated life events
 - game history
 - the pre-written event library and which events a playthrough has already seen
-
-The Life Balance (wellbeing) state is not stored in version one; it belongs to the endgame, which is not yet decided.
 
 The database acts as the persistent source of truth for stored player and game data.
 
@@ -320,11 +321,13 @@ Supabase Row Level Security should be used where relevant for exposed tables.
 
 Privileged credentials and service keys must never be placed in frontend code. Authentication and database permissions must ensure that one player cannot access another player's stored game data.
 
-Login uses an email address. This is the minimal personal information needed to make authentication work. It is stored only for authentication and is never part of the game state or sent to the AI.
+The player logs in with a username and a password they create at registration. LifeMode does not collect an email address or real age, and neither the username nor the password is sent to the AI. Supabase Auth stores the password as a hash, and it is never kept in the project's own tables, logs or game state. A forgotten password cannot be reset in the MVP. See the privacy decision in [addendum.md](../briefs/brief-Ibe160-prosjektmappe-2026-09-17/addendum.md#privacy--decision).
+
+Supabase Auth normally logs in with email or phone. The planned approach is an internal address made from the username, such as `raskrev482@lifemode.invalid`, with email confirmation turned off. The username is stored in a separate table protected by Row Level Security. This has not been tested on self-hosted Supabase and should be tried early in the build.
 
 Authentication is responsible for:
-- registration
-- login
+- creating a player with a username and password
+- logging in with the username and password
 - user sessions
 - identifying which stored data belongs to each player
 
@@ -420,9 +423,10 @@ The MVP should also demonstrate that:
 **Stage one (base, no AI)**
 - the complete full-stack application can run locally
 - the financial engine passes the unit tests for functional criteria F1–F8 in the brief
+- the three endings and the cause links pass functional criteria F9 and F10 in the brief
 - a full playthrough from age 15 to 20 can be completed using only the pre-written event library, with zero AI calls
 - authentication correctly identifies users and separates their stored data
-- player accounts, game state, decisions and playthroughs persist correctly in the database
+- players, game state, decisions and playthroughs persist correctly in the database
 - the primary gameplay flow works on smartphones, tablets, laptops and desktop screens
 
 **Stage two (AI play driver)**

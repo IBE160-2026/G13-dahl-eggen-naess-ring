@@ -2,7 +2,7 @@
 title: LifeMode Product Brief
 status: final
 created: 2026-09-17
-updated: 2026-10-31
+updated: 2026-11-03
 ---
 
 # Product Brief: LifeMode
@@ -27,7 +27,7 @@ Today these lessons come from parents, school, online content, or real-world tri
 
 ## The Solution
 
-The player creates an avatar and lives through a simulated stretch of life from age 15 to 20: first money, part-time and summer jobs, saving, everyday fixed costs, credit from age 18, and unexpected expenses. Each decision changes the situation the player meets next. The player sees why their life looks the way it does, because a choice made in month 3 comes back in month 9.
+The player creates an avatar, picks a life goal and lives through a simulated stretch of life from age 15 to 20: first money, part-time and summer jobs, saving, everyday fixed costs, credit from age 18, and unexpected expenses. Each decision changes the situation the player meets next. The player sees why their life looks the way it does, because a choice made in month 3 comes back in month 9.
 
 **The game loop.** The game moves forward one simulated month at a time:
 
@@ -39,6 +39,8 @@ The player creates an avatar and lives through a simulated stretch of life from 
 Quiet months without a dilemma are calculated automatically and shown as a short summary, so a full playthrough from 15 to 20 has about 20-30 real choices. When the financial engine detects a crisis (the account goes below zero, two missed minimum card payments in a row, or debt above three months of income), the month becomes a **crisis month**: two or three linked choices where the player tries to deal with the problem, for example by selling something, taking extra shifts, asking for a payment plan or ignoring it. A crisis does not end the game in version one; ignored debt keeps growing and leads to new crisis months.
 
 Two things change for the player. First, personal finance becomes part of a life story rather than a separate lesson, so it feels like a game rather than schoolwork. Second, the story is different for each player, because the situations they meet come from their own choices and history, so replaying with different choices gives a different life.
+
+**How it ends.** A wellbeing meter runs alongside the money and is weighted according to the player's life goal. The game has three endings: a **real win** (goal reached with wellbeing intact), a **hollow win** (goal reached, but wellbeing collapsed) and a **loss** (goal not reached). Good money management is not just about earning as much as possible. Every effect in the engine stores the choice that triggered it, so the game can show why something happened, what a different choice would have changed, and how the player's choices led to the ending.
 
 ## What Makes This Different
 
@@ -70,7 +72,7 @@ Two kinds of criteria: playtest criteria that need real players, and functional 
 
 ### Playtest (small group, 10-20 people, before December delivery)
 
-Because most of the target group are minors, the playtest is run with fellow students and other volunteers aged 18-20, the upper end of the target group, who can consent for themselves. Players aged 15-17 join only with written consent from a parent or guardian, and only if the group has time to handle that properly; the playtest does not depend on them. No names or contact details are stored with the results: debrief answers and quiz scores are recorded anonymously.
+Because most of the target group are minors, the playtest is run only with fellow students and other volunteers aged 18-20, the upper end of the target group. Players aged 15-17 do not take part. No names or contact details are stored with the results: debrief answers and quiz scores are recorded anonymously.
 
 | Signal | Metric / evidence | Target | When measured |
 |---|---|---|---|
@@ -94,6 +96,8 @@ Because most of the target group are minors, the playtest is run with fellow stu
 | F6 | A full playthrough from age 15 to 20 | Completable start to finish using only the pre-written event library, with zero AI calls | Automated run with AI disabled |
 | F7 | Summer job at 16: 120 hours at the under-18 hourly wage (NOK 139.40) | NOK 16,728 paid out, no tax withheld (below the frikort limit) | Unit test against worked example 1 |
 | F8 | An 18-year-old earns NOK 110,000 in one calendar year | NOK 2,588 tax, all of it trygdeavgift (capped at 25% of the NOK 10,350 above the NOK 99,650 lower limit); no income tax | Unit test against worked example 5 |
+| F9 | Every possible end state: goal reached or missed, with wellbeing above or below the threshold | Exactly one valid ending screen: real win, hollow win or loss | Automated test per end state |
+| F10 | Every echo badge and "Hvorfor?" explanation | Refers to an earlier choice that exists in the playthrough | Automated integrity test of the cause links |
 
 All worked examples and the full rule set are in [addendum.md](addendum.md#financial-engine--rule-set-v1).
 
@@ -105,28 +109,30 @@ All worked examples and the full rule set are in [addendum.md](addendum.md#finan
 2. A financial engine that follows a small, written rule set with realistic Norwegian 2026 numbers: wages, tax on 2026 rates, savings interest, consumer loans and credit cards (only from age 18, as in Norway), and fixed costs such as mobile and transport. Every month is processed in the same order and in whole kroner, and worked examples with expected results serve as the test answer key. Rules, sources and examples are in [addendum.md](addendum.md#financial-engine--rule-set-v1).
 3. *(Second stage, after the base works.)* AI-generated events and dilemmas that fit the player's own situation and history, so the AI acts as the game's play driver.
 4. *(Second stage.)* AI output that is structured and checked before the player sees it. If the AI fails, times out, or returns an invalid or unsafe event, the game shows a pre-written event instead, so the player never sees a blank screen or unchecked output.
-5. A library of pre-written events that lets the whole game be played from start to finish without the AI. This is the base the game is built on first, with no AI involved. The same mode is used for automated tests and when the app is run without an AI key.
+5. A library of pre-written events that lets the whole game be played from start to finish without the AI. This is the base the game is built on first, with no AI involved. The same mode is used for automated tests and when the app is run without an AI key. The library has at least 30 events, with a target of 60-80, plus about 10 crises, split roughly 55/45 before and after age 18. Every event follows a fixed schema: mechanism, age, flags, boomerang pair, teaching point, LK20 code and source.
 6. A mobile-first responsive website with zero ongoing cost, using the course stack: TypeScript frontend and Python backend, with Supabase as the required database. The AI, when added, uses a free-tier model.
+7. A life goal chosen at the start and a wellbeing meter weighted by that goal, leading to one of three endings: real win, hollow win or loss. The engine calculates them, so they work with no AI. Details are in [addendum.md](addendum.md#win-condition--endgame--decision).
+8. Cause links: every effect in the engine stores the choice that triggered it. They drive echo badges, a "Hvorfor?" button, "if you had chosen differently" lines and the ending.
+9. Login with a username and a password the player creates, to save and resume progress, with no email, no real age and no free text beyond the username. Supabase Auth stores the password, and a forgotten password cannot be reset in the MVP. Details are in [addendum.md](addendum.md#privacy--decision).
 
 **Out (not now)**
 
 1. Open-ended negotiation with NPCs (e.g. arguing with the bank).
-2. The endgame system: a win condition and wellbeing meter, and how they resolve into an ending. Shape not decided; options under discussion is in [addendum.md](addendum.md#win-condition--endgame-design-discussion-not-decided).
-3. Parent visibility into what their teen encountered.
-4. Real bank connections, real financial data, personal advice, investments, crypto, advanced mortgages, complex tax, real-money transactions.
-5. Payments, family or school accounts, and partner features.
-6. Further life areas, planned as later steps: moving out and rent first, then driving licence and education.
+2. Parent visibility into what their teen encountered.
+3. Real bank connections, real financial data, personal advice, investments, crypto, advanced mortgages, complex tax, real-money transactions.
+4. Payments, family or school accounts, and partner features. Separate school and private modes are a possible later step.
+5. Further life areas, planned as later steps: moving out and rent first, then driving licence and education.
 
-Scope test: without items 1-3 and 6 on the Out list, we can still find out whether the AI-driven life is fun and teaches consequences.
+Scope test: without items 1, 2 and 5 on the Out list, we can still find out whether the AI-driven life is fun and teaches consequences.
 
 ## Constraints and Open Risks
 
-Because the players are minors, LifeMode collects as little real personal information as possible: the whole economy is simulated and the AI never needs the player's real identity. A free-tier model carries less built-in safety tuning than a frontier model, so checking the AI's output before display carries more of the safety work. An unresolved concern for the architecture phase is that an open-ended AI could drift into asking for or producing real personal information. Design principles are in [addendum.md](addendum.md#ai-safety--content-moderation--design-principles).
+Because the players are minors, LifeMode collects as little real personal information as possible: the whole economy is simulated, the game asks only for a username to log in, and the AI never needs the player's real identity. A username can count as personal data, so the privacy rules still apply. Consent should not be the legal basis, because the age limit for digital consent (13 today, proposed 15) would then apply; see the assessment in [addendum.md](addendum.md#privacy--decision). A free-tier model carries less built-in safety tuning than a frontier model, so checking the AI's output before display carries more of the safety work. An unresolved concern for the architecture phase is that an open-ended AI could drift into asking for or producing real personal information. Design principles are in [addendum.md](addendum.md#ai-safety--content-moderation--design-principles).
 
-The MVP is built in two stages. First the base: the TypeScript frontend, the Python backend with the financial engine, and Supabase for database and authentication (v1 has login from the start), all playable with the pre-written event library and no AI. Then the AI is added as the play driver using a free-tier provider. The stack follows the course requirement (TypeScript and Python), and Supabase is the required database. We considered dropping login and saving the game locally for v1, as suggested in feedback, and chose to keep it. A playthrough from 15 to 20 is longer than one sitting, so the player must be able to take a break and pick up the same life later, also on another device. The project is also expected to use a database, and building on it from the start is a deliberate trade-off: a little more setup now instead of rebuilding storage later, when we would need it anyway. Login needs an email address, which is the minimal personal information required to make it work; it is stored only for authentication, and the game itself never holds real personal details. Supabase runs self-hosted via Docker for local development and evaluation, so a sensor can run the full application without the team's own cloud account or database keys. Only the AI provider key needs to be supplied separately, or the game runs AI-free end to end using the pre-written event library (Scope In, item 5).
+The MVP is built in two stages. First the base: the TypeScript frontend, the Python backend with the financial engine, and Supabase for database and authentication (v1 has login from the start), all playable with the pre-written event library and no AI. Then the AI is added as the play driver using a free-tier provider. The stack follows the course requirement (TypeScript and Python), and Supabase is the required database. We considered dropping login and saving the game locally for v1, as suggested in feedback, and chose to keep it. A playthrough from 15 to 20 is longer than one sitting, so the player must be able to take a break and pick up the same life later, also on another device. The project is also expected to use a database, and building on it from the start is a deliberate trade-off: a little more setup now instead of rebuilding storage later, when we would need it anyway. The player logs in with a username, and no email address is collected. Supabase runs self-hosted via Docker for local development and evaluation, so a sensor can run the full application without the team's own cloud account or database keys. Only the AI provider key needs to be supplied separately, or the game runs AI-free end to end using the pre-written event library (Scope In, item 5).
 
 ## Vision
 
-**Now:** prove that an AI-driven life story with correct money mechanics is fun and makes consequences understandable. **Next:** add moving out and rent, driving licence and education, negotiation, the wellbeing meter and endings, a parent view and scenarios for schools. **In 2-3 years:** a wider simulation of adulthood, covering education, career, housing, relationships, loans, insurance and family, where young people can experience important adult decisions before they are real.
+**Now:** prove that an AI-driven life story with correct money mechanics is fun and makes consequences understandable. **Next:** add moving out and rent, driving licence and education, negotiation, a parent view and scenarios for schools. **In 2-3 years:** a wider simulation of adulthood, covering education, career, housing, relationships, loans, insurance and family, where young people can experience important adult decisions before they are real.
 
 LifeMode is where you learn how life works by living it once before it counts.
