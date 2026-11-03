@@ -30,9 +30,13 @@
   - F9 og F10 kommer fra brainstormingen. F9 er tilpasset de tre sluttene.
 - **Ikke endret:** Regel 7 (72 måneder), kredittkortets minstebeløp og `market-research.md`. #19 er kommentert, men holdes åpen til dokumentendringene er committet. Dokumentendringene er ukommittert.
 
+- **Korrigert personvernbeslutning:** Brukeren erstattet anonym innlogging med kode med innlogging med brukernavn: ingen e-post, ingen ekte alder, ingen fritekst utover brukernavnet, og speltest bare med 18–20-åringer. Addendum, brief, arkitektur, møtenotat og PRD-logg er oppdatert.
+- **Vurdering i addendumet:** Et brukernavn bør behandles som personopplysning, men det utløser ikke samtykkekrav i seg selv. Aldersgrensen gjelder når samtykke er behandlingsgrunnlaget. Vurderingen bygger på prosjektets egen lesning av regelverket og er ikke juridisk råd. Søket fant ikke Datatilsynets egen veiledning om dette.
+- **Anbefalt, venter på teamet:** Genererte brukernavn, en generert kode som innloggingshemmelighet, og et annet behandlingsgrunnlag enn samtykke. Dokumentendringene er fortsatt ukommittert.
+
 ### Åpne punkter
 - Definer livsmål og velværemåler (#23)
-- Behandlingsgrunnlag og personverninfo for anonym innlogging (#24)
+- Behandlingsgrunnlag og tiltak for innlogging med brukernavn (#24)
 - Er et gjennomspill 60 eller 72 måneder? (#25)
 - Presiser årsakslenker, «hvis du hadde valgt annerledes» og omspill (#26)
 - Hva kuttes først hvis omfanget ikke rekker til desember? (#27)
