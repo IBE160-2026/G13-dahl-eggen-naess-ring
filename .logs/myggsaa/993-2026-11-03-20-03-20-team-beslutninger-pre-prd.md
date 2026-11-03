@@ -32,7 +32,8 @@
 
 - **Korrigert personvernbeslutning:** Brukeren erstattet anonym innlogging med kode med innlogging med brukernavn: ingen e-post, ingen ekte alder, ingen fritekst utover brukernavnet, og speltest bare med 18–20-åringer. Addendum, brief, arkitektur, møtenotat og PRD-logg er oppdatert.
 - **Vurdering i addendumet:** Et brukernavn bør behandles som personopplysning, men det utløser ikke samtykkekrav i seg selv. Aldersgrensen gjelder når samtykke er behandlingsgrunnlaget. Vurderingen bygger på prosjektets egen lesning av regelverket og er ikke juridisk råd. Søket fant ikke Datatilsynets egen veiledning om dette.
-- **Anbefalt, ikke vedtatt:** Genererte brukernavn, en generert kode som innloggingshemmelighet, og et annet behandlingsgrunnlag enn samtykke.
+- **Passord:** Brukeren bestemte at spilleren lager eget passord ved registrering, og at Supabase Auth lagrer det. Glemt passord aksepteres uten tilbakestilling i MVP-en, og gjenbruk av passord tas ikke hensyn til nå. Dette erstatter anbefalingen om generert kode i addendum, brief, arkitektur og PRD-logg. Intern e-postadresse laget av brukernavnet er planlagt, men ikke testet på selvhostet Supabase.
+- **Anbefalt, ikke vedtatt:** Genererte brukernavn og et annet behandlingsgrunnlag enn samtykke.
 - **Personvernspørsmålene utsatt:** Brukeren bestemte at de åpne spørsmålene ikke er viktige for MVP-en og skal sjekkes før lansering. #24 er holdt åpen som en påminnelse om dette, og addendum, møtenotat og PRD-logg er oppdatert. Dokumentendringene er fortsatt ukommittert.
 
 ### Åpne punkter
