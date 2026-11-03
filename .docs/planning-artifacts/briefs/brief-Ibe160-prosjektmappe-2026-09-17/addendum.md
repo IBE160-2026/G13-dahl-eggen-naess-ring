@@ -39,8 +39,8 @@ Added 2026-10-14 in response to teacher feedback: the engine must "always calcul
 4. **Consumer loan.** An annuity loan: equal monthly payments `P × r / (1 − (1 + r)^−n)` with `r` = annual rate / 12, rounded to whole kroner. The final payment is adjusted so the balance ends at exactly zero.
 5. **Credit card.** If the full balance is paid by the end of the month, no interest is charged. Otherwise interest is charged on the whole balance, and the minimum payment is the larger of 3% of the balance and NOK 300 (or the whole balance if it is smaller).
 6. **Credit only from 18.** Consumer loans and credit cards are available only from the player's 18th birthday, as in Norway, where minors cannot take on loans. Before 18 the player cannot borrow.
-7. **Quiet months.** A month without an event is still processed by rules 1-5, but the player only sees a short summary. A playthrough from 15 to 20 (72 months) is tuned to about 20-30 real choices.
-8. **Crisis months.** The engine, not the AI, starts a crisis month when any of these is true at the end of a month: the current account is below NOK 0; the credit card minimum payment has been missed two months in a row; or total debt is above 3 × the average monthly income over the last three months. A crisis month has 2-3 linked choices with real-world actions (sell something, take extra shifts, ask for a payment plan, ignore it), and the engine calculates the effect of each. In version one a crisis never ends the game: ignored debt keeps growing under rules 4-5 and triggers new crisis months.
+7. **Quiet months.** A month without an event is still processed by rules 1-5, but the player only sees a short summary. A playthrough from 15 to the 20th birthday (60 months) is tuned to about 20-30 real choices.
+8. **Crisis months.** The engine, not the AI, starts a crisis month when any of these is true at the end of a month: the current account is below NOK 0; the credit card minimum payment has been missed two months in a row; or total debt is above 3 × the average monthly income over the last three months. A crisis month has 2-3 linked choices with real-world actions (sell something, take extra shifts, ask for a payment plan, ignore it), and the engine calculates the effect of each. In version one a crisis never ends the game: ignored debt keeps growing under rules 4-5 and triggers new crisis months. A crisis condition still active when the game ends at age 20 leads to the loss ending.
 9. **BSU deduction.** The deduction is calculated once a year, in December's tax step: the lower of 10% of the year's BSU deposits (deposits capped at NOK 27,500) and the year's calculated tax under rule 3. If the player pays no tax, the deduction is NOK 0, and unused deduction is lost. The game says so plainly ("BSU deduction: NOK 0, you have no tax to reduce") and shows that BSU still pays off through its higher interest (5.61% against 2.87% on an ordinary savings account).
 10. **Working hours follow Norwegian law.** The engine never lets the player work more hours than arbeidsmiljøloven allows. The limit depends on whether the player is in compulsory schooling, not on age alone: a 15-year-old in 10th grade gets 12 h per school week, while a 16- or 17-year-old in upper secondary school gets 40 h per week. Summer jobs use the limits for weeks without school. Rules on night work (§ 11-3) are not modelled, because the game does not track time of day.
 
@@ -101,17 +101,25 @@ Raised during brief discovery because the entire user base is minors (15-20) and
 
 **Decided by the team (recorded 2026-11-03, issue #19): the second option below, a player-chosen life goal plus a wellbeing meter.** This is the MVP solution and can be revisited later.
 
-- The player picks a life goal at the start of the playthrough.
-- The wellbeing meter is weighted differently depending on the chosen goal.
-- There are three endings:
-  - **Real win:** goal reached and wellbeing stayed above a healthy threshold.
-  - **Hollow win:** goal reached, but wellbeing collapsed getting there.
-  - **Loss:** the player did not reach the goal.
-- The engine calculates the goal check and the wellbeing meter from measurable state, so all three endings work with no AI.
+- **Life goals:** the player picks one of three goals at the start, and all of them are checked at age 20:
+  - save for something big (a savings target)
+  - be debt-free with a buffer
+  - afford a big experience, such as a trip
+- **Wellbeing meter:** calculated from three parts, weighted differently depending on the chosen goal:
+  - stress, from debt and crisis months
+  - free time, from hours worked
+  - social life, from choices in events, so each choice in the event library carries a wellbeing effect
+- **Housing:** not part of the meter in version one, because moving out and rent are out of scope.
+- **Four endings** (corrected 2026-11-03), checked in this order when the game ends at age 20:
+  1. **Loss:** the economy is critical, meaning a crisis condition from rule 8 is active: the account is below NOK 0, the card minimum has been missed two months in a row, or debt is above 3 × average monthly income. The consequences are shown clearly. The text also reflects wellbeing, for example "you had a good life, but the economy did not hold".
+  2. **Real win:** goal reached and wellbeing above the threshold.
+  3. **Hollow win:** goal reached, but wellbeing below the threshold.
+  4. **Goal not reached:** neither a win nor a loss. Saving little or spending a lot is allowed. The player gets advice on modest savings goals and their benefits, and a reflection on the consequences of not saving.
+- **Going below zero during the game:** this starts a crisis month with clear consequences, not a loss. Rule 8 still applies, so the player can recover before age 20.
+- **Numbers:** target amounts, wellbeing weights and the threshold are configuration, set when the game is tuned.
+- **No AI needed:** the engine calculates everything from measurable state, so all four endings work with no AI.
 
 Why: it sets LifeMode apart from similar games such as Koll på cashen, and it shows that good money management is not just about earning as much as possible.
-
-A debt spiral does not cause a separate early loss, unlike in the options below. Rule 8 says a crisis never ends the game in version one, and the team defined a loss only as missing the goal.
 
 ### Options considered
 
@@ -144,9 +152,25 @@ Every effect in the engine stores which choice triggered it. The same link drive
 - echo badges, when an earlier choice comes back
 - a "Hvorfor?" button that explains a change
 - "if you had chosen differently" lines, calculated by the engine and never by the AI
-- the ending
+- the ending, which shows the three choices that mattered most
 
 The decision adds test criteria F9 and F10 to the brief.
+
+Details (recorded 2026-11-03, issue #26):
+
+- **Effects with no choice behind them:** wages in a quiet month or a random expense are stored with a system cause instead of a choice. "Hvorfor?" explains these from the rules.
+- **"If you had chosen differently" lines:** only where the engine can calculate the result reliably, starting with interest and instalments.
+- **Top three choices:** ranked by their effect in kroner.
+- **Replay:** starts again from age 15. Replay from a crossroads is left out of the MVP, because it requires storing earlier game states.
+
+## MVP Scope Priority — Decision
+
+**Decided by the team (recorded 2026-11-03, issue #27): content is cut before the core.** If time runs short before December, cut in this order:
+
+1. "If you had chosen differently" lines
+2. Events, down to the minimum of 30
+
+The engine, wellbeing, the endings, cause links, "Hvorfor?" and login stay. The AI layer is already outside the MVP.
 
 ## Event Library — Decision
 
@@ -161,45 +185,46 @@ The decision adds test criteria F9 and F10 to the brief.
   - teaching point
   - LK20 code
   - source
+  - wellbeing effect for each choice (added 2026-11-03, issue #23)
 
 ## Privacy — Decision
 
-**Decided by the team (recorded 2026-11-03, issues #19 and #21): login with a username.** This replaces the earlier decision on anonymous login with a code.
+**Decided by the team (updated 2026-11-03): login with an email address and a password.** This replaces the earlier decisions on anonymous login with a code (issue #19) and then on login with a username (issues #19 and #21).
 
-- **Login:** the player logs in with a username to save and resume progress.
-- **Data:** no email and no real age in the MVP.
-- **Input:** no free text beyond the username itself.
+- **Login:** the player logs in with an email address and a password to save and resume progress.
+- **Data:** an email address, but no username and no real age in the MVP.
+- **Input:** no free text beyond the email address itself.
 - **Playtests:** still only with 18-20-year-olds.
 - **Later, not MVP:** possibly two modes, school and private.
 
-### Assessment: username, consent and age limit
+### Assessment: email address, consent and age limit
 
 This is the project's own reading of GDPR art. 4, 6 and 8 and personopplysningsloven § 5, not legal advice. The team decided on 2026-11-03 that the open privacy questions do not block the MVP and will be checked before LifeMode goes live (issue #24).
 
-- **Is a username personal data?** Yes, if a player uses a real name. An invented username can also count, because it is tied to one person's stored game and can be combined with other data such as an IP address. LifeMode should therefore treat all usernames as personal data.
+- **Is an email address personal data?** Yes. It often contains a real name, and it is tied to one person's stored game. LifeMode should therefore treat all email addresses as personal data.
 - **Does that trigger a consent requirement?** Not by itself. Personal data needs a legal basis, and consent is only one of several. The age limit applies when consent is the legal basis for an online service offered directly to a child.
 - **What still applies without consent?** The other privacy rules: a named legal basis, clear information to the player, data minimisation, security and deletion.
-- **What if consent were used?** The age limit would apply: 13 today, proposed 15. Some 10th graders are 14 for part of the school year, so they would need parental consent if the limit is raised. LifeMode would then have to check age and reach parents, which conflicts with collecting no real age and no email. Consent should therefore not be the legal basis.
+- **What if consent were used?** The age limit would apply: 13 today, proposed 15. Some 10th graders are 14 for part of the school year, so they would need parental consent if the limit is raised. LifeMode would then have to check age and reach parents, which conflicts with collecting no real age and having no contact with parents. Consent should therefore not be the legal basis.
 
 ### Recommended measures (not decided, to check before go-live)
 
-1. **Generate usernames automatically.** The player picks from suggestions such as "RaskRev482" and can ask for new ones. No free text is then needed, which also removes the risk of real names, phone numbers and offensive names. This is stricter than the decision above, which allows free text in the username.
-2. **If usernames are typed in,** tell the player not to use a real name, limit the length and characters, and reject email addresses and phone numbers. Guidance reduces the risk, but it cannot guarantee that nobody uses a real name.
-3. **Keep the username private.** It is not shown to other players and is never sent to an AI.
-4. **Document a legal basis other than consent,** and give short player information in language a 15-year-old understands.
-5. **Keep as little data as possible.** Use no analytics or advertising cookies, delete inactive games after a set time, and give the player a delete button.
+1. **Use the email address only for login and password recovery.** It is not shown in the game, not used for marketing and never sent to an AI.
+2. **Document a legal basis other than consent,** and give short player information in language a 15-year-old understands.
+3. **Keep as little data as possible.** Use no analytics or advertising cookies, delete inactive games and their email addresses after a set time, and give the player a delete button.
 
-These measures reduce the risk and keep LifeMode outside the consent requirement, but they do not take it outside the privacy rules. Generated usernames can still count as personal data.
+These measures reduce the risk and keep LifeMode outside the consent requirement, but they do not take it outside the privacy rules.
 
 ### Login secret: a password the player creates
 
 **Decided by the team (recorded 2026-11-03):** the player creates their own password at registration.
 
 - **Storage:** Supabase Auth stores the password as a hash. The password is never kept in the project's own tables, logs or game state, and is never sent to an AI.
-- **Forgotten password:** accepted for the MVP. Without email the player cannot reset the password and loses access to the game.
+- **Forgotten password:** the player can reset it by email from the login screen.
+- **Changing password:** a logged-in player can change it from inside the game.
+- **Email confirmation:** no confirmation step before play. The player types the address twice when creating a user, to catch typos, because a mistyped address means a reset email can't reach the player.
 - **Password reuse:** not addressed for now, even though some players will use a password they also use elsewhere.
 
-Supabase Auth normally logs in with email or phone, so the planned approach is an internal address made from the username, such as `raskrev482@lifemode.invalid`, with email confirmation turned off. The address is not real and is never shown to the player. This has not been tested on self-hosted Supabase, so it should be tried early in the build.
+Supabase Auth normally logs in with email or phone, so no internal address is needed. Sending reset email within the zero-cost constraint and on self-hosted Supabase has not been tested, so it should be tried early in the build.
 
 ## AI Negotiation Mechanic — Guardrail Detail
 
