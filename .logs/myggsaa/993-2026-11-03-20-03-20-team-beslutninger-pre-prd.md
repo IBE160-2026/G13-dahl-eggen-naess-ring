@@ -37,9 +37,15 @@
 - **Personvernspørsmålene utsatt:** Brukeren bestemte at de åpne spørsmålene ikke er viktige for MVP-en og skal sjekkes før lansering. #24 er holdt åpen som en påminnelse om dette, og addendum, møtenotat og PRD-logg er oppdatert.
 - **Committet og pushet:** Dokumentendringene ligger i `87ba251` på `docs/pre-prd-research-og-brainstorm` (PR #22). #19 er lukket med en kommentar som viser til commiten.
 
+- **Avklart #23, #25, #26 og #27 (brukerens valg):**
+  - 60 måneder, så regel 7 er rettet. Spillet slutter på 20-årsdagen.
+  - Tre livsmål: spare til noe stort, gjeldfri med buffer, og råd til en stor opplevelse.
+  - Velvære regnes fra stress, fritid og sosialt liv. Hendelsesskjemaet får en velværeeffekt per valg.
+  - Fire slutter, som endrer vedtaket om tre: tap (krisevilkår i regel 8 aktivt ved 20), ekte seier, hul seier og «målet ikke nådd» (råd, ikke tap). Minus underveis gir bare krisemåned, og brukeren korrigerte en skrivefeil om dette.
+  - Slutten viser topp 3-valg, og omspill starter fra 15 år.
+  - Hvis tiden ikke strekker til, kuttes «hvis du hadde valgt annerledes»-linjer først og deretter hendelser ned mot 30.
+- **Mine standardvalg, ikke spurt om:** Effekter uten valg lagres med systemårsak. «Hvis du hadde valgt annerledes» gjelder der motoren kan regne det sikkert, først rente og avdrag. Topp 3 rangeres etter effekt i kroner. Alle livsmål sjekkes ved 20. Beløp, vekter og terskel er konfigurasjon som settes under tuning.
+- **Dokumenter:** Addendum, brief, arkitektur, møtenotat og PRD-logg er oppdatert og ukommittert. #23, #25, #26 og #27 lukkes når endringene er committet.
+
 ### Åpne punkter
-- Definer livsmål og velværemåler (#23)
 - Sjekk personvern for innlogging med brukernavn før lansering, ikke før MVP (#24)
-- Er et gjennomspill 60 eller 72 måneder? (#25)
-- Presiser årsakslenker, «hvis du hadde valgt annerledes» og omspill (#26)
-- Hva kuttes først hvis omfanget ikke rekker til desember? (#27)
