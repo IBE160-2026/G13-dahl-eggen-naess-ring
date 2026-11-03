@@ -39,8 +39,8 @@ Added 2026-10-14 in response to teacher feedback: the engine must "always calcul
 4. **Consumer loan.** An annuity loan: equal monthly payments `P × r / (1 − (1 + r)^−n)` with `r` = annual rate / 12, rounded to whole kroner. The final payment is adjusted so the balance ends at exactly zero.
 5. **Credit card.** If the full balance is paid by the end of the month, no interest is charged. Otherwise interest is charged on the whole balance, and the minimum payment is the larger of 3% of the balance and NOK 300 (or the whole balance if it is smaller).
 6. **Credit only from 18.** Consumer loans and credit cards are available only from the player's 18th birthday, as in Norway, where minors cannot take on loans. Before 18 the player cannot borrow.
-7. **Quiet months.** A month without an event is still processed by rules 1-5, but the player only sees a short summary. A playthrough from 15 to 20 (72 months) is tuned to about 20-30 real choices.
-8. **Crisis months.** The engine, not the AI, starts a crisis month when any of these is true at the end of a month: the current account is below NOK 0; the credit card minimum payment has been missed two months in a row; or total debt is above 3 × the average monthly income over the last three months. A crisis month has 2-3 linked choices with real-world actions (sell something, take extra shifts, ask for a payment plan, ignore it), and the engine calculates the effect of each. In version one a crisis never ends the game: ignored debt keeps growing under rules 4-5 and triggers new crisis months.
+7. **Quiet months.** A month without an event is still processed by rules 1-5, but the player only sees a short summary. A playthrough from 15 to the 20th birthday (60 months) is tuned to about 20-30 real choices.
+8. **Crisis months.** The engine, not the AI, starts a crisis month when any of these is true at the end of a month: the current account is below NOK 0; the credit card minimum payment has been missed two months in a row; or total debt is above 3 × the average monthly income over the last three months. A crisis month has 2-3 linked choices with real-world actions (sell something, take extra shifts, ask for a payment plan, ignore it), and the engine calculates the effect of each. In version one a crisis never ends the game: ignored debt keeps growing under rules 4-5 and triggers new crisis months. A crisis condition still active when the game ends at age 20 leads to the loss ending.
 9. **BSU deduction.** The deduction is calculated once a year, in December's tax step: the lower of 10% of the year's BSU deposits (deposits capped at NOK 27,500) and the year's calculated tax under rule 3. If the player pays no tax, the deduction is NOK 0, and unused deduction is lost. The game says so plainly ("BSU deduction: NOK 0, you have no tax to reduce") and shows that BSU still pays off through its higher interest (5.61% against 2.87% on an ordinary savings account).
 10. **Working hours follow Norwegian law.** The engine never lets the player work more hours than arbeidsmiljøloven allows. The limit depends on whether the player is in compulsory schooling, not on age alone: a 15-year-old in 10th grade gets 12 h per school week, while a 16- or 17-year-old in upper secondary school gets 40 h per week. Summer jobs use the limits for weeks without school. Rules on night work (§ 11-3) are not modelled, because the game does not track time of day.
 
@@ -101,17 +101,25 @@ Raised during brief discovery because the entire user base is minors (15-20) and
 
 **Decided by the team (recorded 2026-11-03, issue #19): the second option below, a player-chosen life goal plus a wellbeing meter.** This is the MVP solution and can be revisited later.
 
-- The player picks a life goal at the start of the playthrough.
-- The wellbeing meter is weighted differently depending on the chosen goal.
-- There are three endings:
-  - **Real win:** goal reached and wellbeing stayed above a healthy threshold.
-  - **Hollow win:** goal reached, but wellbeing collapsed getting there.
-  - **Loss:** the player did not reach the goal.
-- The engine calculates the goal check and the wellbeing meter from measurable state, so all three endings work with no AI.
+- **Life goals:** the player picks one of three goals at the start, and all of them are checked at age 20:
+  - save for something big (a savings target)
+  - be debt-free with a buffer
+  - afford a big experience, such as a trip
+- **Wellbeing meter:** calculated from three parts, weighted differently depending on the chosen goal:
+  - stress, from debt and crisis months
+  - free time, from hours worked
+  - social life, from choices in events, so each choice in the event library carries a wellbeing effect
+- **Housing:** not part of the meter in version one, because moving out and rent are out of scope.
+- **Four endings** (corrected 2026-11-03), checked in this order when the game ends at age 20:
+  1. **Loss:** the economy is critical, meaning a crisis condition from rule 8 is active: the account is below NOK 0, the card minimum has been missed two months in a row, or debt is above 3 × average monthly income. The consequences are shown clearly. The text also reflects wellbeing, for example "you had a good life, but the economy did not hold".
+  2. **Real win:** goal reached and wellbeing above the threshold.
+  3. **Hollow win:** goal reached, but wellbeing below the threshold.
+  4. **Goal not reached:** neither a win nor a loss. Saving little or spending a lot is allowed. The player gets advice on modest savings goals and their benefits, and a reflection on the consequences of not saving.
+- **Going below zero during the game:** this starts a crisis month with clear consequences, not a loss. Rule 8 still applies, so the player can recover before age 20.
+- **Numbers:** target amounts, wellbeing weights and the threshold are configuration, set when the game is tuned.
+- **No AI needed:** the engine calculates everything from measurable state, so all four endings work with no AI.
 
 Why: it sets LifeMode apart from similar games such as Koll på cashen, and it shows that good money management is not just about earning as much as possible.
-
-A debt spiral does not cause a separate early loss, unlike in the options below. Rule 8 says a crisis never ends the game in version one, and the team defined a loss only as missing the goal.
 
 ### Options considered
 
@@ -144,9 +152,25 @@ Every effect in the engine stores which choice triggered it. The same link drive
 - echo badges, when an earlier choice comes back
 - a "Hvorfor?" button that explains a change
 - "if you had chosen differently" lines, calculated by the engine and never by the AI
-- the ending
+- the ending, which shows the three choices that mattered most
 
 The decision adds test criteria F9 and F10 to the brief.
+
+Details (recorded 2026-11-03, issue #26):
+
+- **Effects with no choice behind them:** wages in a quiet month or a random expense are stored with a system cause instead of a choice. "Hvorfor?" explains these from the rules.
+- **"If you had chosen differently" lines:** only where the engine can calculate the result reliably, starting with interest and instalments.
+- **Top three choices:** ranked by their effect in kroner.
+- **Replay:** starts again from age 15. Replay from a crossroads is left out of the MVP, because it requires storing earlier game states.
+
+## MVP Scope Priority — Decision
+
+**Decided by the team (recorded 2026-11-03, issue #27): content is cut before the core.** If time runs short before December, cut in this order:
+
+1. "If you had chosen differently" lines
+2. Events, down to the minimum of 30
+
+The engine, wellbeing, the endings, cause links, "Hvorfor?" and login stay. The AI layer is already outside the MVP.
 
 ## Event Library — Decision
 
@@ -161,6 +185,7 @@ The decision adds test criteria F9 and F10 to the brief.
   - teaching point
   - LK20 code
   - source
+  - wellbeing effect for each choice (added 2026-11-03, issue #23)
 
 ## Privacy — Decision
 

@@ -423,7 +423,7 @@ The MVP should also demonstrate that:
 **Stage one (base, no AI)**
 - the complete full-stack application can run locally
 - the financial engine passes the unit tests for functional criteria F1–F8 in the brief
-- the three endings and the cause links pass functional criteria F9 and F10 in the brief
+- the four endings and the cause links pass functional criteria F9 and F10 in the brief
 - a full playthrough from age 15 to 20 can be completed using only the pre-written event library, with zero AI calls
 - authentication correctly identifies users and separates their stored data
 - players, game state, decisions and playthroughs persist correctly in the database
