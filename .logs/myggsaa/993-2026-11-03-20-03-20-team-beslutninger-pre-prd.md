@@ -47,5 +47,7 @@
 - **Mine standardvalg, ikke spurt om:** Effekter uten valg lagres med systemårsak. «Hvis du hadde valgt annerledes» gjelder der motoren kan regne det sikkert, først rente og avdrag. Topp 3 rangeres etter effekt i kroner. Alle livsmål sjekkes ved 20. Beløp, vekter og terskel er konfigurasjon som settes under tuning.
 - **Committet og pushet:** Endringene i addendum, brief, arkitektur, møtenotat og PRD-logg ligger i `f3d0679` (PR #22). #23, #25, #26 og #27 er lukket med kommentarer som viser til commiten.
 
+- **#20:** Lukket som duplikat av #21. Brukeren bestemte at #12, #13 og #18 kan tas senere, og de står åpne.
+
 ### Åpne punkter
 - Sjekk personvern for innlogging med brukernavn før lansering, ikke før MVP (#24)
