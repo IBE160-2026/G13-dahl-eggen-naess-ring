@@ -189,42 +189,42 @@ The engine, wellbeing, the endings, cause links, "Hvorfor?" and login stay. The 
 
 ## Privacy — Decision
 
-**Decided by the team (recorded 2026-11-03, issues #19 and #21): login with a username.** This replaces the earlier decision on anonymous login with a code.
+**Decided by the team (updated 2026-11-03): login with an email address and a password.** This replaces the earlier decisions on anonymous login with a code (issue #19) and then on login with a username (issues #19 and #21).
 
-- **Login:** the player logs in with a username to save and resume progress.
-- **Data:** no email and no real age in the MVP.
-- **Input:** no free text beyond the username itself.
+- **Login:** the player logs in with an email address and a password to save and resume progress.
+- **Data:** an email address, but no username and no real age in the MVP.
+- **Input:** no free text beyond the email address itself.
 - **Playtests:** still only with 18-20-year-olds.
 - **Later, not MVP:** possibly two modes, school and private.
 
-### Assessment: username, consent and age limit
+### Assessment: email address, consent and age limit
 
 This is the project's own reading of GDPR art. 4, 6 and 8 and personopplysningsloven § 5, not legal advice. The team decided on 2026-11-03 that the open privacy questions do not block the MVP and will be checked before LifeMode goes live (issue #24).
 
-- **Is a username personal data?** Yes, if a player uses a real name. An invented username can also count, because it is tied to one person's stored game and can be combined with other data such as an IP address. LifeMode should therefore treat all usernames as personal data.
+- **Is an email address personal data?** Yes. It often contains a real name, and it is tied to one person's stored game. LifeMode should therefore treat all email addresses as personal data.
 - **Does that trigger a consent requirement?** Not by itself. Personal data needs a legal basis, and consent is only one of several. The age limit applies when consent is the legal basis for an online service offered directly to a child.
 - **What still applies without consent?** The other privacy rules: a named legal basis, clear information to the player, data minimisation, security and deletion.
-- **What if consent were used?** The age limit would apply: 13 today, proposed 15. Some 10th graders are 14 for part of the school year, so they would need parental consent if the limit is raised. LifeMode would then have to check age and reach parents, which conflicts with collecting no real age and no email. Consent should therefore not be the legal basis.
+- **What if consent were used?** The age limit would apply: 13 today, proposed 15. Some 10th graders are 14 for part of the school year, so they would need parental consent if the limit is raised. LifeMode would then have to check age and reach parents, which conflicts with collecting no real age and having no contact with parents. Consent should therefore not be the legal basis.
 
 ### Recommended measures (not decided, to check before go-live)
 
-1. **Generate usernames automatically.** The player picks from suggestions such as "RaskRev482" and can ask for new ones. No free text is then needed, which also removes the risk of real names, phone numbers and offensive names. This is stricter than the decision above, which allows free text in the username.
-2. **If usernames are typed in,** tell the player not to use a real name, limit the length and characters, and reject email addresses and phone numbers. Guidance reduces the risk, but it cannot guarantee that nobody uses a real name.
-3. **Keep the username private.** It is not shown to other players and is never sent to an AI.
-4. **Document a legal basis other than consent,** and give short player information in language a 15-year-old understands.
-5. **Keep as little data as possible.** Use no analytics or advertising cookies, delete inactive games after a set time, and give the player a delete button.
+1. **Use the email address only for login and password recovery.** It is not shown in the game, not used for marketing and never sent to an AI.
+2. **Document a legal basis other than consent,** and give short player information in language a 15-year-old understands.
+3. **Keep as little data as possible.** Use no analytics or advertising cookies, delete inactive games and their email addresses after a set time, and give the player a delete button.
 
-These measures reduce the risk and keep LifeMode outside the consent requirement, but they do not take it outside the privacy rules. Generated usernames can still count as personal data.
+These measures reduce the risk and keep LifeMode outside the consent requirement, but they do not take it outside the privacy rules.
 
 ### Login secret: a password the player creates
 
 **Decided by the team (recorded 2026-11-03):** the player creates their own password at registration.
 
 - **Storage:** Supabase Auth stores the password as a hash. The password is never kept in the project's own tables, logs or game state, and is never sent to an AI.
-- **Forgotten password:** accepted for the MVP. Without email the player cannot reset the password and loses access to the game.
+- **Forgotten password:** the player can reset it by email from the login screen.
+- **Changing password:** a logged-in player can change it from inside the game.
+- **Email confirmation:** no confirmation step before play. The player types the address twice when creating a user, to catch typos, because a mistyped address means a reset email can't reach the player.
 - **Password reuse:** not addressed for now, even though some players will use a password they also use elsewhere.
 
-Supabase Auth normally logs in with email or phone, so the planned approach is an internal address made from the username, such as `raskrev482@lifemode.invalid`, with email confirmation turned off. The address is not real and is never shown to the player. This has not been tested on self-hosted Supabase, so it should be tried early in the build.
+Supabase Auth normally logs in with email or phone, so no internal address is needed. Sending reset email within the zero-cost constraint and on self-hosted Supabase has not been tested, so it should be tried early in the build.
 
 ## AI Negotiation Mechanic — Guardrail Detail
 

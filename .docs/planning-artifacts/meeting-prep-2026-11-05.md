@@ -15,7 +15,7 @@ Goal from the lecturer: be "fit for fight" with enough research to start the PRD
 1. **Endgame:** three life goals plus a wellbeing meter (stress, free time, social life), with four endings (real win, hollow win, goal not reached, loss). A loss requires a crisis condition still active at age 20. Going below zero during the game only starts a crisis month. This replaces the brainstorm proposal in the table below.
 2. **Choice → consequence:** cause links plus "Hvorfor?", with new test criteria F9 and F10.
 3. **Event library:** at least 30 events, target 60-80, plus about 10 crises, split roughly 55/45.
-4. **Privacy (corrected):** login with a username, no email, no real age, and playtests only with 18-20-year-olds. The remaining privacy questions do not block the MVP and will be checked before go-live (#24).
+4. **Privacy (corrected):** login with an email address and a password, no username, no real age, and playtests only with 18-20-year-olds. A forgotten password can be reset by email. The remaining privacy questions do not block the MVP and will be checked before go-live (#24).
 
 Details are in `briefs/brief-Ibe160-prosjektmappe-2026-09-17/addendum.md`. The table below shows the starting point for these decisions.
 
