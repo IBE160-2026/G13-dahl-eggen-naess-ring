@@ -1,7 +1,7 @@
 ---
 title: LifeMode PRD addendum
 created: 2026-11-03
-updated: 2026-11-03
+updated: 2026-11-04
 ---
 
 # Addendum: LifeMode PRD
@@ -77,19 +77,18 @@ Decided on 2026-11-04.
 
 **Family help.** Family can give or lend money, but mostly as a loan that has to be paid back, so the player learns from it. It's not always on offer: in the survey only 17% got family help with an unexpected expense, so most of the time the player has to find another way. Sometimes family can cover only part of the amount.
 
-**Moped.** The player has a moped from age 16, either bought or received as a gift. It costs fuel, repairs and insurance, and the parents may pay part of the insurance. Its resale value drops with age and use. Prices should follow the real market. In the MVP, whether the moped is a gift and the parents' share of the insurance are random. Once the AI game engine is added, they can be based on real data.
+**Moped.** The player has a moped from age 16, either bought or received as a gift. It costs fuel, repairs and insurance, and the parents may pay part of the insurance. Its resale value drops with age and use. Prices should follow the real market. In the MVP, the player chooses whether to buy a moped, a gift offer comes up now and then, and the parents' share of the insurance is random. Once the AI game engine is added, they can be based on real data.
 
-**Car licence.** By 18 the player has a car licence or is working towards one. The parents pay for it as a gift. For now the gift is random or depends on something other than tobacco and alcohol. After that, the player pays for fuel when borrowing the parents' car. This changes brief Scope Out #5, which listed the driving licence as a later step; the brief was updated on 2026-11-04. If the moped licence is in, the car licence is in too, so there's more to play. [OPEN: on 2026-11-05 the team decides whether to use the common Norwegian deal of no tobacco or alcohol before 18, given the ban on marketing them to minors. The question is in `meeting-prep-2026-11-05.md`.]
-
+**Car licence.** By 18 some players get a car licence as a gift from their parents. The gift is random, and a player without it can pay for the licence at a real price. With a licence, the player pays for fuel when borrowing the parents' car. This changes brief Scope Out #5, which listed the driving licence as a later step; the brief was updated on 2026-11-04. If the moped licence is in, the car licence is in too, so there's more to play.
 **What the card costs.** The small cost in worked example 4 comes from the small amount, not the rate: 22.6% a year is a normal card rate (SSB; the market's effective rates run from 20% to 30%). At a small balance, the NOK 300 minimum pays the debt off quickly. Interest is charged every month, so the game shows both this month's interest and the total cost of paying only the minimum. Under rule 5:
 
 | Card debt | Interest in month 1 | Months to pay off at the minimum | Total interest |
 |---|---|---|---|
 | NOK 3,200 (worked example 4) | NOK 60 | 13 | NOK 406 |
-| NOK 8,400 (about one month's wage) | NOK 158 | 41 | NOK 3,649 |
-| NOK 10,000 (top of a typical first limit) | NOK 188 | 53 | NOK 5,878 |
+| NOK 8,400 (about one month's wage) | NOK 158 | 41 | NOK 3,645 |
+| NOK 10,000 (top of a typical first limit) | NOK 188 | 51 | NOK 5,508 |
 
-UJ-4 shows the cost for the player's own balance. The figures use the 3% minimum in rule 5. If the team moves the minimum to 3.5% (meeting topic), the time to pay off and the total interest drop a little.
+UJ-4 shows the cost for the player's own balance. The figures use the proposed 3.5% minimum in rule 5, with monthly interest rounded under rule 2. The proposal only changes balances above about NOK 8,600, where 3.5% is more than NOK 300. At 3%, NOK 10,000 took 53 months.
 
 **How to build it.** Accepted on 2026-11-04. Each addition reuses something the engine already has, so the only really new thing is an owned moped.
 
@@ -103,7 +102,7 @@ UJ-4 shows the cost for the player's own balance. The figures use the 3% minimum
 | Car licence as a gift | One event |
 | The moped in the room | One of the room states, so it's gone once he sells it |
 
-If time runs short, cut in this order: the "if you had chosen differently" lines, then the parents' share of the moped insurance and family gifts (family loans stay), then events down to 30. The warning, the moped and selling it stay, because UJ-4 depends on them. (Changed by UJ-5 below: the lines on the ending screen stay.)
+If time runs short, cut in this order: the "if you had chosen differently" lines, then the parents' share of the moped insurance, then events down to 30. The warning, the moped and selling it stay, because UJ-4 depends on them. (Changed by UJ-5 below: the lines on the ending screen stay.)
 
 ## The ending in UJ-5
 
@@ -119,6 +118,21 @@ Decided on 2026-11-04.
 
 **Markus's life goal.** He chose saving for something big in UJ-1, with a flat as the big thing. A 15-year-old picks what he wants rather than "debt-free", and choosing the flat means the card debt at 18 puts his goal at risk. In the second round he goes for saving for something big or for being debt-free with a buffer, and chases money at the cost of his wellbeing, which gives the hollow win.
 
-**"If you had chosen differently" on the ending screen.** These lines stay for the three choices that mattered most, and only those three can be opened. The lines in "Hvorfor?" during play, including the BSU comparison, are cut first. New cut order: those lines during play, then the parents' share of the moped insurance and family gifts, then events down to 30.
+**"If you had chosen differently" on the ending screen.** These lines stay for the three choices that mattered most, and only those three can be opened. The lines in "Hvorfor?" during play, including the BSU comparison, are cut first. New cut order: those lines during play, then the parents' share of the moped insurance, then events down to 30.
 
 **Comparing playthroughs: later.** For now the ending shows a summary of the playthrough and the tips. Comparing one playthrough with the next is a candidate for a later step.
+
+## Proposals awaiting the team
+
+Proposed by Dahl on 2026-11-04, for the team to confirm on 2026-11-05. Several change decisions from 2026-11-03 and 2026-11-04.
+
+| Proposal | Why |
+|---|---|
+| No tobacco or alcohol choices for now | Research found them probably allowed on conditions, but their effect on young players is unknown and can't be tested in playtests with 18-20-year-olds |
+| The player chooses to buy a moped, with occasional gift offers | A random draw between buying and a gift could make saving up pointless, which works against UJ-3 |
+| The car licence gift is random, and a player without it can pay | Gives a large, real money choice at 18 |
+| All family gifts stay | They are no longer on the cut list |
+| Family loans don't count towards the 3× income crisis trigger | A teenager with no income would otherwise go into crisis from any loan |
+| A hollow win shows at least one choice that hurt wellbeing | A kroner ranking alone may not show why wellbeing ended up low |
+| Card minimum of 3.5%, min NOK 300 | Matches Bank Norwegian, and DNB also uses 3.5%. Cards with limits up to NOK 30,000 fall outside utlånsforskriften, so this is about realism |
+| Account deletion in the game | The game stores email addresses of players as young as 15, and the privacy check (#24) recommends it |
