@@ -70,6 +70,7 @@ Notes: `.docs/planning-artifacts/research/playtest-competitors-2026-10-31/notes.
 - How is wellbeing measured, and how does it affect the ending, if we choose it? How do we make it different from PersonalFinanceLab's "Quality of Life" and SmooLah's happiness meter?
 - Credit-card minimum payment: change from 3% to 3.5% (rule 5 and worked example 4)?
 - What visual style fits 15-20-year-olds without feeling childish?
-- Family as an actor: borrowing from or asking parents is a common real choice. How should the game model it, and what does it cost the player?
+- Family as an actor (decided 2026-11-04 in PRD UJ-4): family can sometimes give or lend money, but it's not always on offer and often covers only part of the amount. A loan has to be paid back, at no interest.
+- Car licence as a gift from the parents (PRD UJ-4): may the gift depend on the common Norwegian deal of no tobacco or alcohol before 18? The concern is the ban on marketing tobacco and alcohol to minors, since the game would need choices where a 15-17-year-old can say yes to them. For now the gift is random or depends on something else. Possible ways around it: never show a product or anyone using it, and only ask at 18 whether the player kept the deal; base the gift on something else; or make it random.
 - Event library: which survey regrets become events (small purchases adding up, trend buys, blind boxes and in-game purchases, binding subscriptions)?
 - Do we need a short concept test before the PRD, since the survey did not ask about the game itself?
