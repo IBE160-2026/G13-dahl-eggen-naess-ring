@@ -344,6 +344,10 @@ Decided by the team, as Dahl reported on 2026-11-05 (`.memlog.md`). The game get
 
 This replaces "the licence is a payment only, with no exam or driving" from 2026-11-03. See FR-28, FR-30, and D10. A minigame is the first thing in the game the player does with skill rather than by choosing, and it runs on the device, so FR-51 sets how its result reaches the engine. Dahl added on 2026-11-05 that the team sees minigames along the lines of the driving test for the licence, so the MVP's minigames are for the licences. Still open (OQ-16): what failing one costs, among other things.
 
+### Example purchases in the month summary
+
+Decided by Dahl on 2026-11-05 (`.memlog.md`). The spending level is a percentage, but the most common regret in the survey is small purchases that add up, such as snacks and takeaway. So the month summary names a few example purchases next to the total. This adds some writing and no new rules, and it isn't in the worked examples, because it changes no figures (FR-23).
+
 ### Pocket money and V2
 
 Decided by the team, as Dahl reported on 2026-11-05 (`.memlog.md`). Pocket money, and earning it, goes in V2, for example through minigames. The AI play driver also stays in V2 for now.

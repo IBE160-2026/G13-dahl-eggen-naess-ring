@@ -604,6 +604,7 @@ From the 18th birthday, the player pays for mobile and transport every month. Be
 - Fixed and everyday costs and spending are deducted at their place in the rule 1 order.
 - **Spending level:** low is 50%, normal is 75%, and high is 95% of the wage income left after tax, fixed costs, and everyday costs. The default is normal. With no wage left, nothing is spent. A change in the money view applies from the next month. The shares are configuration.
 - **It costs something either way:** low spending lowers social life by 2 a month, and high spending raises it by 2 (rule 12).
+- **Shown as purchases:** the month summary shows what was spent in total, with a few example purchases that fit the player's age and spending level, such as canteen, clothes, and cinema. The examples are pre-written and have no amounts of their own, so the only figure shown is the one the engine calculated (NFR-4).
 - **Transport:** it's the public transport ticket, or moped insurance and fuel in months when the player owns a moped (rule 14). The ticket and the moped costs are never charged in the same month. With a car licence, car fuel for borrowing the parents' car is added.
 - **Moped costs:** they're the player's own at any age, apart from any share of the insurance the parents pay (FR-29).
 - **Before 18:** a player with no job who keeps a NOK 10,000 pengegave in savings never goes below NOK 0 (worked example 15). The MVP has no pocket money (§4.3). The month summary says when the player takes over the bills at 18.
