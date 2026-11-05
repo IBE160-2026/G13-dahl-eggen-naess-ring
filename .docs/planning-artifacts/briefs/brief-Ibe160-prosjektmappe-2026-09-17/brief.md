@@ -114,6 +114,7 @@ All worked examples and the full rule set are in [addendum.md](addendum.md#finan
 7. One of three life goals chosen at the start (save for something big, be debt-free with a buffer, or afford a big experience) and a wellbeing meter weighted by that goal, based on stress, free time and social life. They lead to one of four endings: real win, hollow win, goal not reached or loss. The engine calculates them, so they work with no AI. Details are in [addendum.md](addendum.md#win-condition--endgame--decision).
 8. Cause links: every effect in the engine stores the choice that triggered it. They drive echo badges, a "Hvorfor?" button, "if you had chosen differently" lines and an ending that shows the three choices that mattered most. Replay starts again from age 15.
 9. Login with an email address and a password the player creates, to save and resume progress, with no username, no real age and no free text beyond the email address. Supabase Auth stores the password. A forgotten password can be reset by email, and a logged-in player can change their password. Details are in [addendum.md](addendum.md#privacy--decision).
+10. Moped and car licence: the player pays for the moped licence at real prices, can own a moped from 16 with fuel, repairs, insurance and a falling resale value, and has a car licence by 18 as a gift from their parents. Family can sometimes give or lend money. Details are in the PRD addendum.
 
 **Out (not now)**
 
@@ -121,11 +122,11 @@ All worked examples and the full rule set are in [addendum.md](addendum.md#finan
 2. Parent visibility into what their teen encountered.
 3. Real bank connections, real financial data, personal advice, investments, crypto, advanced mortgages, complex tax, real-money transactions.
 4. Payments, family or school accounts, and partner features. Separate school and private modes are a possible later step.
-5. Further life areas, planned as later steps: moving out and rent first, then driving licence and education.
+5. Further life areas, planned as later steps: moving out and rent first, then education. The moped and car licence moved into version one on 2026-11-04. The education step must make clear that a student loan while studying isn't the same as credit card debt.
 
 Scope test: without items 1, 2 and 5 on the Out list, we can still find out whether the AI-driven life is fun and teaches consequences.
 
-If time runs short before December, content is cut before the core: first the "if you had chosen differently" lines, then events down to the minimum of 30.
+If time runs short before December, content is cut before the core: first the "if you had chosen differently" lines during play (those for the three choices on the ending screen stay), then the parents' share of the moped insurance and family gifts (family loans stay), then events down to the minimum of 30.
 
 ## Constraints and Open Risks
 
@@ -135,6 +136,6 @@ The MVP is built in two stages. First the base: the TypeScript frontend, the Pyt
 
 ## Vision
 
-**Now:** prove that an AI-driven life story with correct money mechanics is fun and makes consequences understandable. **Next:** add moving out and rent, driving licence and education, negotiation, a parent view and scenarios for schools. **In 2-3 years:** a wider simulation of adulthood, covering education, career, housing, relationships, loans, insurance and family, where young people can experience important adult decisions before they are real.
+**Now:** prove that an AI-driven life story with correct money mechanics is fun and makes consequences understandable. **Next:** add moving out and rent, education, negotiation, a parent view and scenarios for schools. **In 2-3 years:** a wider simulation of adulthood, covering education, career, housing, relationships, loans, insurance and family, where young people can experience important adult decisions before they are real.
 
 LifeMode is where you learn how life works by living it once before it counts.
