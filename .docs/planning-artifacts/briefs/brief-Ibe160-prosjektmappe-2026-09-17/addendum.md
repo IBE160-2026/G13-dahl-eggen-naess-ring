@@ -29,6 +29,12 @@ Added 2026-10-14 in response to teacher feedback: the engine must "always calcul
 | Youth public transport, 30 days | NOK 238 | Ruter, from August 2026 (state-subsidised until April 2027) |
 | Mobile subscription | NOK 299 per month | [ASSUMPTION] typical youth plan, not sourced |
 | Example unexpected expense | NOK 2,500 (broken phone screen) | [ASSUMPTION] not sourced |
+| Moped licence, total | NOK 12,000 (range 8,000-15,000) | TeoriPortalen, 2026-05-01, and Testen.no, 2026-07-24; commercial estimates (see research `prices-moped-and-licences-2026-11-05`) |
+| Car licence (class B), total | NOK 32,500 (midpoint of 25,000-40,000) | Testen.no, 2026-07-24, commercial estimate |
+| New moped | NOK 29,000 | Dealer ads on FINN for 2026 models, seen 2026-11-05 |
+| Used moped, about 7-8 years old | NOK 13,750 | [ASSUMPTION] Midpoint of two private ads on FINN, seen 2026-11-05; not market data |
+| Moped insurance | NOK 3,000 per year | [ASSUMPTION] Not verified at a primary source (#29) |
+| Petrol 95 | NOK 20.64 per litre | SSB table 09654, average January-September 2026 |
 | Policy rate (background only) | 4.5% | Norges Bank API, 13 Oct 2026 |
 
 ### Rules
@@ -37,7 +43,7 @@ Added 2026-10-14 in response to teacher feedback: the engine must "always calcul
 2. **Whole kroner.** All amounts are whole NOK. Monthly interest is `balance × annual rate / 12`, rounded to the nearest krone (0.5 rounds up).
 3. **Tax.** Tax is calculated on the player's total wage income for the calendar year, using 2026 rates. Up to NOK 99,650 there is no tax. Above that, trygdeavgift applies: 7.6% of the whole income (5.1% under 17), but never more than 25% of the income above NOK 99,650. Income tax is 22% of ordinary income (income minus minstefradrag) above the personfradrag, plus trinnskatt step 1; higher trinnskatt steps are not modelled. Each month the tax step deducts the increase in the year's calculated tax. The 50% that employers withhold above the frikort limit is withholding, settled in the tax assessment, and is not modelled as tax in version one.
 4. **Consumer loan.** An annuity loan: equal monthly payments `P × r / (1 − (1 + r)^−n)` with `r` = annual rate / 12, rounded to whole kroner. The final payment is adjusted so the balance ends at exactly zero.
-5. **Credit card.** If the full balance is paid by the end of the month, no interest is charged. Otherwise interest is charged on the whole balance, and the minimum payment is the larger of 3.5% of the balance and NOK 300 (or the whole balance if it is smaller).
+5. **Credit card.** If the full balance is paid by the end of the month, no interest is charged. Otherwise interest is charged on the whole balance, and the minimum payment is the larger of 3.5% of the balance before the month's interest and NOK 300 (or the whole balance if it is smaller).
 6. **Credit only from 18.** Consumer loans and credit cards are available only from the player's 18th birthday, as in Norway, where minors cannot take on loans. Before 18 the player cannot borrow.
 7. **Quiet months.** A month without an event is still processed by rules 1-5, but the player only sees a short summary. A playthrough from 15 to the 20th birthday (60 months) is tuned to about 20-30 real choices.
 8. **Crisis months.** The engine, not the AI, starts a crisis month when any of these is true at the end of a month: the current account is below NOK 0; the credit card minimum payment has been missed two months in a row; or total debt, not counting family loans, is above 3 × the average monthly income over the last three months. A crisis month has 2-3 linked choices with real-world actions (sell something, take extra shifts, ask for a payment plan, ignore it), and the engine calculates the effect of each. In version one a crisis never ends the game: ignored debt keeps growing under rules 4-5 and triggers new crisis months. A crisis condition still active when the game ends at age 20 leads to the loss ending.
