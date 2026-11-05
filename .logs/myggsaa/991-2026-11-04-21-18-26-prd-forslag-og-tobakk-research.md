@@ -26,3 +26,26 @@ Finne ut hvor prosjektet står i BMAD, gå gjennom det teamet må avgjøre i PRD
 - Avklar avvik i korttallene: 5 885 kr mot 5 878 kr ved 3 % (#38).
 - Sjekk at F5 kan flyttes til KI-trinnet mot kurskravene (#39).
 - Brief og arkitektur beskriver fortsatt KI som del av første versjon (#32).
+
+## 2026-11-05 kl. 09:18 — Myggsaa
+
+### Oppgave
+Finne status i BMAD, hente siste endringer og føre inn tre beslutninger i PRD-en: ingen tobakk og alkohol, kortminimum på 3,5 % og sletting av konto.
+
+### Plan
+- Sjekket status og kjørte `git pull`. PR #37 og #40 var allerede merget til `main`.
+- Laget grenen `docs/prd-team-beslutninger` fra `origin/main`.
+- Førte beslutningene inn i PRD, addendum og memlog.
+
+### Resultat
+- **`prd.md`:** fjernet OPEN-merket på FR-44, flyttet OQ-2 og OQ-10 til en liste over avklarte spørsmål, og snevret OQ-1 inn til førerkortgaven.
+- **`addendum.md`:** de tre forslagene er flyttet til en egen tabell over beslutninger, og korttallene omtales ikke lenger som et forslag.
+- **`.memlog.md`:** beslutningene er ført inn, med Dahls begrunnelse for sletting: det er lett å håndtere i Supabase.
+- Endringene i disse tre filene er ikke committet. PRD-en er fortsatt `draft`.
+- #34, #35 og #36 er ikke lukket, fordi lukkingen ble avvist av tillatelsessjekken.
+
+### Åpne punkter
+- Lukk #34, #35 og #36 med beslutningene som kommentar. #36 dekker også A-28 til det er avklart.
+- Bekreft A-28: sletting krever gjeldende passord og kan ikke angres (#36).
+- Teamet må bekrefte tilfeldig førerkortgave med mulighet til å betale selv (OQ-1, FR-30) og de øvrige forslagene i addendumet (#28).
+- Avvik i korttallene ved 3 % betyr ikke lenger noe for spillet, så #38 kan trolig lukkes.
