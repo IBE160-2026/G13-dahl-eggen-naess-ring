@@ -1,0 +1,1154 @@
+[
+ {
+  "lens": "adversarial",
+  "location": "4.4 (FR-14, FR-17)",
+  "trigger_condition": "No FR says how the engine picks active vs quiet months, which event fires, or how age, flags and boomerang pairs gate selection.",
+  "guard_snippet": "Add FR-17a Event scheduling: active/quiet month rule, eligibility (age, flags, already-seen), seeded random selection, boomerang delay range, no repeats, whether FR-24 expenses are events or automatic deductions.",
+  "potential_consequence": "Architecture and stories each invent selection logic; 20-30 choices, 10-15 min sessions and FR-43 can't be designed or tested.",
+  "id": "A1"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-11, FR-12, FR-27 (random draws)",
+  "trigger_condition": "Only the pengegave is drawn once and stored; other draws happen 'each time', so reloading gives a new draw.",
+  "guard_snippet": "FR-12: every random draw made server-side once, stored before shown, reused on reload; per-playthrough seed. Test: reload shows same family-help result and expense.",
+  "potential_consequence": "Players reroll until family says yes; determinism breaks across devices.",
+  "id": "A2"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-9, FR-43 (restart)",
+  "trigger_condition": "FR-9 implies mid-game restart; FR-43 covers only play-again after the ending; old playthrough data rules missing.",
+  "guard_snippet": "State whether abandoning before 20 is allowed (confirm, irreversible), one active playthrough, and retention of finished/abandoned playthroughs.",
+  "potential_consequence": "Restart-scumming for a big pengegave or the licence gift; minors' game data piles up indefinitely.",
+  "id": "A3"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-25, FR-9",
+  "trigger_condition": "No loan cap, income requirement or terms: borrow ~NOK 100,000 in the last month, save it, win 'save for something big'.",
+  "guard_snippet": "FR-25: max loan N x monthly wage, income requirement, allowed terms. FR-9: savings goals measured as net worth. Test: borrowing in month 59 can't turn a non-win into a win.",
+  "potential_consequence": "Winning strategy is to borrow just before the end, teaching the opposite of the product's purpose.",
+  "id": "A4"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-9",
+  "trigger_condition": "The three life goals have no measurable definition (which balances, family loans as debt, experience bought or held).",
+  "guard_snippet": "Per goal, a formula evaluated at 20; experience goal states whether a purchase event marks it achieved; reference play pattern for 'reachable from NOK 10,000'.",
+  "potential_consequence": "F9 ending tests can't be written; experience goal copies the savings goal or can't be won if bought at 19.",
+  "id": "A5"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-33, FR-41",
+  "trigger_condition": "Wellbeing has no scale, no combination rule, no final-vs-average rule; 'above/below' leaves equality uncovered.",
+  "guard_snippet": "Define 0-100 score as weighted sum of (100 - stress), free time, social life; state final value or last-N average; 'at or above' for real win.",
+  "potential_consequence": "F9 fails at the boundary; neglect wellbeing for 4.5 years and fix it at the end for a real win.",
+  "id": "A6"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-41, FR-24, FR-32",
+  "trigger_condition": "A random expense in month 60 can push the account below 0 and give a loss with no crisis month left.",
+  "guard_snippet": "No random expenses in the last N months, or a final crisis month before the ending, or loss conditions must persist 2+ months.",
+  "potential_consequence": "Careful player gets a random loss; contradicts 'the game always shows why'.",
+  "id": "A7"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-32 (options)",
+  "trigger_condition": "Crisis options have no rules: payment-plan terms undefined, nothing to sell, already at max hours, repeat cadence undefined.",
+  "guard_snippet": "Payment-plan terms as config; show options only when possible; at least one always available; at most one crisis per N months per trigger.",
+  "potential_consequence": "Every remaining month becomes a crisis; a crisis with no valid option leaves the player stuck.",
+  "id": "A8"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-32 triggers, rule 8 (account model)",
+  "trigger_condition": "Triggers ignore liquid savings and seasonal income; negative balance under 18 and its interest undefined.",
+  "guard_snippet": "Define the account model (current, savings, BSU, auto-draw), negative-balance interest, net-debt vs income for 3x, zero-income floor; worked examples.",
+  "potential_consequence": "Solvent players and summer-job players get false crisis months every autumn.",
+  "id": "A9"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-26, FR-23, UJ-4",
+  "trigger_condition": "No mechanism for spending on the card or choosing the monthly payment; over-limit undefined; UJ-4 fuel on card vs FR-23 fixed cost.",
+  "guard_snippet": "Options state payment method; player chooses full/minimum/custom with default; missed minimum doesn't also push account below 0; over-limit purchase rejected; limit rise rule.",
+  "potential_consequence": "UJ-4 core loop can't be built; missed-minimum trigger unreachable or double-fires with below-zero.",
+  "id": "A10"
+ },
+ {
+  "lens": "adversarial",
+  "location": "UJ-4 vs FR-26 / FR-29",
+  "trigger_condition": "UJ-4 debt 'much larger than his monthly wage' and five months of shifts after the moped sale, but the limit is NOK 5,000-10,000 and the moped resells for ~NOK 10,000.",
+  "guard_snippet": "Make numbers consistent (interest/limit increase, or smaller story) and add a month-by-month worked example of UJ-4.",
+  "potential_consequence": "The flagship credit journey can't be reproduced by the engine as configured.",
+  "id": "A11"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-23 (age 15-17)",
+  "trigger_condition": "Mobile and transport (~NOK 32,000 over 60 months) are deducted from 15 with no pocket money; a no-job player goes below 0 at ~16.5.",
+  "guard_snippet": "State which fixed costs the player pays per age (e.g. parents pay until 18), or add pocket money; check FR-9 reachability against a no-job run.",
+  "potential_consequence": "Cautious under-18 players fall into repeated crises; early game feels like punishment.",
+  "id": "A12"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-20, OQ-9",
+  "trigger_condition": "How the player chooses hours is engine logic but is left to UX in OQ-9 and marked non-blocking; rule 10 needs school vs holiday weeks.",
+  "guard_snippet": "Move the hours mechanism into an FR (persistent weekly hours, changed via events), define weekly-to-monthly conversion, mark OQ-9 blocking FR-20 and FR-33.",
+  "potential_consequence": "Engine stories can't compute wages or free time; rule 10 enforcement untestable.",
+  "id": "A13"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-12, FR-18, FR-20, FR-21 (calendar)",
+  "trigger_condition": "No start month, birthday month or school calendar, but tax and BSU work per calendar year.",
+  "guard_snippet": "Add a calendar definition (start month, birthday month, school year Aug-Jun, school-end months); replace 'about 19' with an exact month.",
+  "potential_consequence": "Tax, BSU deduction, wage changes and hour limits differ by implementer; mid-year bugs go unnoticed.",
+  "id": "A14"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-18",
+  "trigger_condition": "Only credit has an exact unlock age; summer job, part-time job, car licence and full-time job ages are vague.",
+  "guard_snippet": "Table in FR-18: option -> unlock age and month with source rule; state whether the under-16 wage rate is used.",
+  "potential_consequence": "Teaser, event author and engine disagree on when options open.",
+  "id": "A15"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-22",
+  "trigger_condition": "No BSU yearly deposit cap and no withdrawal rule; BSU at 5.61% beats savings with no downside.",
+  "guard_snippet": "Cap BSU deposits at NOK 27,500/year; define withdrawal (only for flat goal / blocked / reverses deduction); add a D-text.",
+  "potential_consequence": "Best strategy is everything in BSU; the game teaches BSU is a better savings account.",
+  "id": "A16"
+ },
+ {
+  "lens": "adversarial",
+  "location": "NFR-4, FR-12, FR-17 (versioning)",
+  "trigger_condition": "Config and events can change during playtests, but nothing ties a playthrough to its config/library version.",
+  "guard_snippet": "NFR-4: each playthrough stores its config and event-library version; changes apply only to new playthroughs; cause links point to existing event versions.",
+  "potential_consequence": "Retuning mid-playtest silently changes existing games and breaks FR-12 and F10.",
+  "id": "A17"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-36, FR-42",
+  "trigger_condition": "Compound effects have many causes; 'ranked by effect in kroner' has no baseline or sign.",
+  "guard_snippet": "Define multi-cause attribution (e.g. pro rata), a choice's kroner effect, most-negative vs largest-absolute ranking, and fewer-than-three behaviour.",
+  "potential_consequence": "'Hvorfor?' points to an arbitrary purchase; top three may show helpful choices with 'avoid the problem' text.",
+  "id": "A18"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-39 vs FR-42",
+  "trigger_condition": "FR-42 requires counterfactual lines for top three; FR-39 allows them only where reliably calculable; top choices change later events.",
+  "guard_snippet": "Define which choices are eligible (calculable method, e.g. replay with same draws) and a pre-written fallback line.",
+  "potential_consequence": "The MVP ending screen shows made-up counterfactuals or can't be built.",
+  "id": "A19"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-7 vs NFR-4",
+  "trigger_condition": "'Save and update the cloud when idle' implies client-held state the server lacks.",
+  "guard_snippet": "Remove FR-7 or name exactly what it saves, never game state or financial values.",
+  "potential_consequence": "A second source of truth, sync conflicts, client tampering.",
+  "id": "A20"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-6, FR-8 (connectivity)",
+  "trigger_condition": "Play 'on the bus' but no rule for a choice in flight when the connection drops or two devices on the same month.",
+  "guard_snippet": "Choice counts only on server confirm; pending UI with idempotent retry; first confirmed wins, other device reloads with a message; offline read-only.",
+  "potential_consequence": "Players on patchy connections lose choices or see conflicting states.",
+  "id": "A21"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-1",
+  "trigger_condition": "'Email already has a user' reveals registration; no email confirmation lets anyone register a classmate's address.",
+  "guard_snippet": "Rate-limit sign-up; record the enumeration trade-off; owner can take over via reset and delete (FR-3, FR-44).",
+  "potential_consequence": "Anyone can check which minors' addresses have accounts; pranks block real owners.",
+  "id": "A22"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-1, FR-2, FR-3, NFR-5",
+  "trigger_condition": "No password policy, login throttling or reset throttling; zero-cost email quotas are small.",
+  "guard_snippet": "Min password length (e.g. 8), login throttle per account and IP, reset-email limit per address and IP, same response either way.",
+  "potential_consequence": "Brute-forceable minors' accounts; one script exhausts the email quota and blocks recovery for everyone.",
+  "id": "A23"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-3, FR-4, FR-5 (shared PCs)",
+  "trigger_condition": "Password change/reset doesn't end other sessions; no 'log out everywhere'; OQ-5 deferred.",
+  "guard_snippet": "Password change or reset ends other sessions; 'log out on all devices'; MVP session lifetime as config.",
+  "potential_consequence": "A classmate makes permanent choices in someone's game on a school PC.",
+  "id": "A24"
+ },
+ {
+  "lens": "adversarial",
+  "location": "OQ-4 / FR-3",
+  "trigger_condition": "OQ-4 (reset email at zero cost and locally) marked non-blocking, but FR-3 is MVP and self-hosted Supabase has no email by default.",
+  "guard_snippet": "OQ-4 blocks FR-3 acceptance and playtests; deadline by first sprint; fallback (free SMTP relay, Mailpit locally).",
+  "potential_consequence": "Testers can't reset passwords during the playtest; completion and return metrics ruined.",
+  "id": "A25"
+ },
+ {
+  "lens": "adversarial",
+  "location": "NFR-3",
+  "trigger_condition": "Brief addendum's legal basis, player notice and inactive-account deletion aren't requirements; no age statement at sign-up.",
+  "guard_snippet": "NFR-3: plain-Norwegian player information at sign-up, delete inactive accounts after N months, legal basis recorded; optional 'I am 15 or older'.",
+  "potential_consequence": "Playtest MVP ships without basic privacy measures; minors' emails kept indefinitely.",
+  "id": "A26"
+ },
+ {
+  "lens": "adversarial",
+  "location": "8.1 vs NFR-3",
+  "trigger_condition": "Completion and return metrics need linked game data, but NFR-3 keeps results anonymous; testers are all 18-20.",
+  "guard_snippet": "Random tester code linking game and survey without email; record 18-20 as a validity limit; plan a 15-17 test with parental consent.",
+  "potential_consequence": "Metrics fall back to self-report or someone breaks NFR-3; success declared on the wrong group.",
+  "id": "A27"
+ },
+ {
+  "lens": "adversarial",
+  "location": "NFR-5, NFR-6, 8.1 (hosting)",
+  "trigger_condition": "No hosted environment named for phone playtests; free tiers pause idle projects.",
+  "guard_snippet": "NFR naming the playtest hosting (provider, tier, limits) and a keep-alive within the tier's rules.",
+  "potential_consequence": "Testers returning after a week find the game paused; return and pace metrics distorted.",
+  "id": "A28"
+ },
+ {
+  "lens": "adversarial",
+  "location": "5 NFRs (performance)",
+  "trigger_condition": "No response-time requirement though every choice is a server round trip.",
+  "guard_snippet": "NFR-10 Responsiveness: choice result within 1 s p90 on 4G, quiet-month summary within 1 s, first screen within 3 s cold.",
+  "potential_consequence": "Lag hurts the 2-minute first choice and the 'feels like a game' target with nothing to point to.",
+  "id": "A29"
+ },
+ {
+  "lens": "adversarial",
+  "location": "NFR-1 (platform)",
+  "trigger_condition": "Web app, PWA or native, and supported browsers, not stated.",
+  "guard_snippet": "State web app (PWA yes/no) and supported browsers; define 'opens or returns' for a browser tab.",
+  "potential_consequence": "UX and architecture assume different platforms; FR-8 check fails when a tab stays open.",
+  "id": "A30"
+ },
+ {
+  "lens": "adversarial",
+  "location": "NFR-7",
+  "trigger_condition": "'Attempts to get around the rules' and 'invalid financial values' can't be tested as written.",
+  "guard_snippet": "List the rejected cases (wrong month, option not offered, hours over rule 10, credit before 18, over limit, nonexistent item, bad amounts, replayed request ID) with stated errors.",
+  "potential_consequence": "Rejection paths go untested; request-editing players skip rules.",
+  "id": "A31"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-40",
+  "trigger_condition": "Only D1-D6 exist; new simplifications (0% family loans, moped depreciation, licences as payment, fixed card limit, no student loans, monthly hours, no interest during breaks) have no texts.",
+  "guard_snippet": "Add D7+ player texts with the mechanism each belongs to.",
+  "potential_consequence": "FR-40's test fails or is waived; unrealistic mechanics presented as real.",
+  "id": "A32"
+ },
+ {
+  "lens": "adversarial",
+  "location": "8.3",
+  "trigger_condition": "New rules are promised worked examples and unit tests, but none are given.",
+  "guard_snippet": "Add worked examples to the addendum: wellbeing over UJ-4's five months, each F9 ending incl. boundary, moped resale after 2 years, family loan payoff, card warning, 3x trigger with/without family loan.",
+  "potential_consequence": "New engine logic is tested against whatever the developer wrote.",
+  "id": "A33"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-17, 7.1, FR-43",
+  "trigger_condition": "The cut list allows 30 events while a playthrough uses 20-30 choices.",
+  "guard_snippet": "Set minimum from the replay goal (e.g. 2x active months per age band) or a testable FR-43 overlap limit; raise the cut floor.",
+  "potential_consequence": "Replay feels identical; 'different stories' and replay metrics fail.",
+  "id": "A34"
+ },
+ {
+  "lens": "adversarial",
+  "location": "3 Glossary / FR-17",
+  "trigger_condition": "'Mechanism', 'flags' and 'boomerang pair' are used as schema requirements but not defined.",
+  "guard_snippet": "Glossary entries with field types for Flag, Boomerang pair and Mechanism.",
+  "potential_consequence": "Authored content fails or passes the schema check with meaningless fields.",
+  "id": "A35"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-32 vs FR-27",
+  "trigger_condition": "FR-32's 3x bullet omits the family-loan exception stated in FR-27 and rule 8.",
+  "guard_snippet": "'total debt, not counting family loans, is above 3x the average monthly income over the last three months'.",
+  "potential_consequence": "Implementing from FR-32 alone puts teenagers into a crisis for any family loan.",
+  "id": "A36"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-31",
+  "trigger_condition": "Warning trigger ambiguous between prediction ('can't be paid in full') and event ('interest starts'); timing differs under rule 1.",
+  "guard_snippet": "State exact condition and timing (e.g. card balance > current account at end of month m, shown before m+1 interest); add a test.",
+  "potential_consequence": "Warning comes too late or on balances the player was about to pay.",
+  "id": "A37"
+ },
+ {
+  "lens": "adversarial",
+  "location": "FR-29",
+  "trigger_condition": "Resale start value for a new moped unclear; gift offers could reach unlicensed players; transport after sale undefined.",
+  "guard_snippet": "State starting resale value for new and used, gift only with a licence, and transport cost after a sale.",
+  "potential_consequence": "New moped loses half its value on day one; illegal gift ownership; selling removes all transport cost.",
+  "id": "A38"
+ },
+ {
+  "lens": "adversarial",
+  "location": "0 Document Purpose",
+  "trigger_condition": "'The latest logged decision applies' lets any .memlog.md entry silently override the PRD; no path given.",
+  "guard_snippet": "PRD is authoritative; behaviour-changing log decisions must be reflected here before downstream use; give the full path.",
+  "potential_consequence": "Downstream work can't trust the PRD without auditing the log; the sensor gets conflicting sources.",
+  "id": "A39"
+ },
+ {
+  "lens": "adversarial",
+  "location": "NFR-2",
+  "trigger_condition": "'WCAG 2.x AA' names no version; room states, echo badges and moped visuals have no text alternatives.",
+  "guard_snippet": "'WCAG 2.2 level AA'; every room state and echo badge has a text equivalent; nothing by colour alone.",
+  "potential_consequence": "Accessibility can't be checked; screen-reader users miss the core consequence feedback.",
+  "id": "A40"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.10 FR-41 (endings 2-4)",
+  "trigger_condition": "Goal reached and wellbeing exactly equal to the threshold at age 20.",
+  "guard_snippet": "if goal_reached and wellbeing >= threshold: REAL_WIN elif goal_reached: HOLLOW_WIN else: GOAL_NOT_REACHED",
+  "potential_consequence": "Neither win branch matches; a player who reached the goal gets 'Goal not reached'.",
+  "id": "E1"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.4 FR-12 with §4.5 FR-26 (rule 1 order vs rule 5)",
+  "trigger_condition": "Card interest step runs before the month's choice, where the card may be paid.",
+  "guard_snippet": "define card payment as its own step before the interest step, or evaluate the rule 5 paid-in-full test after the choice step",
+  "potential_consequence": "Engine cannot know at the interest step whether the balance gets paid; interest misapplied.",
+  "id": "E2"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.5 FR-25/FR-26, §4.7 FR-32 (payment step)",
+  "trigger_condition": "Current account cannot cover card minimum or loan instalment at the payment step.",
+  "guard_snippet": "paid = min(due, available); if paid < due: mark_missed(); never overdraw for scheduled payments; define who chooses the card payment amount",
+  "potential_consequence": "Undefined whether account overdraws, payment counts as missed, or both rule 8 triggers fire.",
+  "id": "E3"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.7 FR-31",
+  "trigger_condition": "Player could pay the card in full but chooses to pay less.",
+  "guard_snippet": "show_warning if card_balance_after_payment > 0 at month end and previous month balance was 0, regardless of ability to pay",
+  "potential_consequence": "Warning keyed to 'can't be paid' never shows; interest accrues unexplained.",
+  "id": "E4"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.7 FR-32 (Never skipped)",
+  "trigger_condition": "A rule 8 trigger stays true for many consecutive months.",
+  "guard_snippet": "start one crisis per trigger episode; re-arm only after the condition has cleared or after a configured cooldown",
+  "potential_consequence": "Every remaining month becomes a crisis; about 10 crisis events repeat; regular events vanish.",
+  "id": "E5"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.7 FR-32",
+  "trigger_condition": "Two or three rule 8 triggers are true at the same month end.",
+  "guard_snippet": "if any(triggers): start exactly one crisis month; select crisis event by a fixed trigger priority",
+  "potential_consequence": "Stacked crisis months or unclear crisis event; per-trigger F4 tests ambiguous.",
+  "id": "E6"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.7 FR-32 with §4.4 FR-17/FR-18",
+  "trigger_condition": "Crisis month falls in a month already holding a scheduled, age-unlock or boomerang event.",
+  "guard_snippet": "crisis replaces that month's event and the displaced event is rescheduled to the next free month",
+  "potential_consequence": "Age unlock or boomerang event silently lost, or one month carries two events.",
+  "id": "E7"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.7 FR-32 with §4.10 FR-41 (month 60)",
+  "trigger_condition": "A rule 8 trigger first becomes true at the end of month 60.",
+  "guard_snippet": "no random expenses in month 60, or check triggers before the final choice and run a last crisis month",
+  "potential_consequence": "Loss ending from a random draw, with no crisis month to respond in.",
+  "id": "E8"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.10 FR-41 (Loss: condition is active)",
+  "trigger_condition": "At 20, card minimum missed in months 58-59 but paid in month 60.",
+  "guard_snippet": "define active per trigger: balance < 0 now; missed = last two months both missed; debt ratio evaluated now",
+  "potential_consequence": "Loss versus win depends on an undefined meaning of an active miss-streak.",
+  "id": "E9"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.7 FR-32 (2-3 linked choices)",
+  "trigger_condition": "First linked crisis choice clears all triggers, e.g. family pays in full.",
+  "guard_snippet": "after each linked choice re-check triggers; end the crisis month when none remain true",
+  "potential_consequence": "Player forced through remaining crisis choices, e.g. selling the moped needlessly.",
+  "id": "E10"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.7 FR-32 (ask for a payment plan)",
+  "trigger_condition": "Player picks 'ask for a payment plan' in a crisis month.",
+  "guard_snippet": "add a Rule Set v1 rule for payment plans (term, rate, instalment) with a worked example, or remove the option",
+  "potential_consequence": "No rule exists, so the engine cannot compute or test the effect deterministically.",
+  "id": "E11"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.7 FR-32 (3x income trigger), §4.5 FR-26",
+  "trigger_condition": "Three-month average income is zero while any card or loan debt exists.",
+  "guard_snippet": "handle avg_income == 0 explicitly, e.g. trigger = debt > max(3 * avg_income, configured_floor); define card status when wage ends",
+  "potential_consequence": "Any card balance instantly starts a crisis, every month, after a job ends.",
+  "id": "E12"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.7 FR-32 (average monthly income)",
+  "trigger_condition": "Moped sale, family gift, pengegave or interest lands in the income average.",
+  "guard_snippet": "income_for_rule8 = wage income only (state gross or net); exclude sales, gifts, interest and loan payouts",
+  "potential_consequence": "One-off cash inflates the average and suppresses or delays a debt crisis.",
+  "id": "E13"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.5 FR-25",
+  "trigger_condition": "Zero-income player takes one or several consumer loans of unbounded amount and term.",
+  "guard_snippet": "require wage income as for cards; config min/max amount and term; max one active loan; define early payoff",
+  "potential_consequence": "Instant crisis, or terms past 20; NFR-7 'invalid value' has no definition.",
+  "id": "E14"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.3 FR-9 with §4.5 FR-25/FR-27",
+  "trigger_condition": "Player borrows near 19 and holds the cash as savings at age 20.",
+  "guard_snippet": "goal check on net position: savings - outstanding debt (including family loans) >= target",
+  "potential_consequence": "Savings goal won with borrowed money, the exploit already flagged for student loans.",
+  "id": "E15"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.3 FR-9 (be debt-free with a buffer)",
+  "trigger_condition": "Debt-free goal checked while a 0% family loan or card balance remains.",
+  "guard_snippet": "define debt for the goal check: all loans including family loans, plus card balance at month end",
+  "potential_consequence": "Goal outcome undefined, because family loans are excluded from debt elsewhere.",
+  "id": "E16"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.3 FR-9 (afford a big experience)",
+  "trigger_condition": "Player buys the big experience before 20, spending the money.",
+  "guard_snippet": "goal_reached = experience_purchased_by_20 or balance >= target at 20; state which",
+  "potential_consequence": "Player who achieved the experience fails a balance-based check at 20.",
+  "id": "E17"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.7 FR-32 (current account below NOK 0)",
+  "trigger_condition": "Current account below 0 while savings or BSU exceed the deficit.",
+  "guard_snippet": "auto-transfer from savings before the end-of-month check, or offer a transfer; define interest on a negative balance",
+  "potential_consequence": "Solvent player gets a crisis month; negative balance is a free overdraft.",
+  "id": "E18"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.4 FR-13 with FR-18 (rule 6)",
+  "trigger_condition": "Under-18 player picks an option costing more than the current balance.",
+  "guard_snippet": "if age < 18 and option.cost > available_funds: disable or hide the option",
+  "potential_consequence": "A negative balance acts as credit before 18, bypassing rule 6.",
+  "id": "E19"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.5 FR-22 (BSU)",
+  "trigger_condition": "Player deposits over NOK 27,500 a year in BSU, or withdraws from BSU.",
+  "guard_snippet": "reject BSU deposits above the yearly cap; define withdrawal as blocked or as losing the deduction",
+  "potential_consequence": "Unlimited 5.61% savings, or BSU used as free liquidity in a crisis.",
+  "id": "E20"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.5 FR-21, §4.4 FR-15 (rule 3, rule 9)",
+  "trigger_condition": "Game months count from the 15th birthday, but tax uses calendar years.",
+  "guard_snippet": "config start_calendar_month; tax rate by age at a defined date; map December step and summer weeks",
+  "potential_consequence": "Under-17 rate, December BSU deduction and summer job timing cannot be placed.",
+  "id": "E21"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.5 FR-20 (rule 10)",
+  "trigger_condition": "Player leaves grunnskole mid-game; weekly hour limits applied to monthly rounds.",
+  "guard_snippet": "track school_status with transition month; monthly_cap = weekly_cap * configured weeks, split school and non-school weeks",
+  "potential_consequence": "Wrong hour cap applied, or the limit check is impossible at month granularity.",
+  "id": "E22"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.7 FR-32 with §4.5 FR-20 (extra shifts)",
+  "trigger_condition": "Crisis offers extra shifts to a player with no job or already at the cap.",
+  "guard_snippet": "offer extra_shifts only if has_job and hours < rule10_cap; otherwise omit the option",
+  "potential_consequence": "Option does nothing or breaks rule 10; NFR-7 may reject an offered choice.",
+  "id": "E23"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.5 FR-27 (family loan at 0%)",
+  "trigger_condition": "Family loan built on the rule 4 annuity formula with r = 0.",
+  "guard_snippet": "if r == 0: payment = round(P / n); final = P - payment * (n - 1)",
+  "potential_consequence": "0/0 division gives NaN instalments, or event-set instalments never reach exactly zero.",
+  "id": "E24"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.5 FR-27 with FR-18 (rule 6)",
+  "trigger_condition": "Family loan offered to a player under 18.",
+  "guard_snippet": "state that rule 6 covers bank credit only and family loans are allowed from 15",
+  "potential_consequence": "Rule 6 'cannot borrow before 18' either blocks family loans or is broken.",
+  "id": "E25"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.5 FR-27 (draws each time)",
+  "trigger_condition": "Player asks family again after a refusal in the same event or crisis.",
+  "guard_snippet": "draw family help once per event or crisis and store it; allow one active family loan at a time",
+  "potential_consequence": "Repeated draws guarantee help; stacked family loans bypass the 3x trigger.",
+  "id": "E26"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.3 FR-11, §4.4 FR-12, §4.2 FR-6/FR-7",
+  "trigger_condition": "Player reloads before a random draw (expense, help, gift, event) is persisted.",
+  "guard_snippet": "persist every random draw and quiet-month advance at draw time, as FR-11 does for the pengegave",
+  "potential_consequence": "Player rerolls bad draws by closing and reopening the app.",
+  "id": "E27"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.6 FR-29 (gift offer)",
+  "trigger_condition": "Gift moped offered to a player without a moped licence, or already owning one.",
+  "guard_snippet": "gift_offer precondition: has_moped_licence and not owns_moped",
+  "potential_consequence": "Breaks 'owning requires the licence', or two mopeds with doubled costs.",
+  "id": "E28"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.6 FR-29 (resale value)",
+  "trigger_condition": "Moped sold after a partial year, bought new, or held four years.",
+  "guard_snippet": "value = start_price(new or used) * (1 - share) ^ years_owned, floor 0; define partial-year rounding",
+  "potential_consequence": "Linear drops can go negative; new vs used start and partial years undefined.",
+  "id": "E29"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.5 FR-24, §4.4 FR-17",
+  "trigger_condition": "Moped repair expense or moped event drawn after the moped is sold.",
+  "guard_snippet": "each expense and event carries preconditions (owns_moped, has_card, has_job) checked at draw time",
+  "potential_consequence": "Player pays to repair a moped they no longer own.",
+  "id": "E30"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.4 FR-17 (boomerang pair), §4.9 FR-37",
+  "trigger_condition": "Boomerang follow-up would fall after month 60.",
+  "guard_snippet": "schedule a follow-up only if its month <= 60; otherwise resolve it in the ending summary",
+  "potential_consequence": "Promised consequence never appears; the late choice looks free.",
+  "id": "E31"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.4 FR-17 (library size)",
+  "trigger_condition": "No unused age-eligible event left for an active month, e.g. library cut to 30.",
+  "guard_snippet": "fallback: allow repeats after a cooldown, or turn the month into a quiet month",
+  "potential_consequence": "Active month with no event, or an event repeats within a playthrough.",
+  "id": "E32"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.5 FR-23 (transport)",
+  "trigger_condition": "Player owns a moped while public transport is also a fixed cost.",
+  "guard_snippet": "transport = moped costs if owns_moped else public transport; prorate insurance on sale",
+  "potential_consequence": "Transport charged twice, or insurance billed after the moped is sold.",
+  "id": "E33"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.6 FR-30",
+  "trigger_condition": "Player pays for the car licence before the random gift draw resolves.",
+  "guard_snippet": "draw the gift at a fixed age before the paid licence is offered; never both",
+  "potential_consequence": "Player pays NOK 32,500 and then also receives the gift.",
+  "id": "E34"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.8 FR-33",
+  "trigger_condition": "Wellbeing parts change without bounds; point of measurement for endings unspecified.",
+  "guard_snippet": "clamp each component to [0, max]; define ending wellbeing as value at 20 or playthrough average",
+  "potential_consequence": "Unbounded stress from chained crises; last-month recovery can erase four bad years.",
+  "id": "E35"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.8 FR-34",
+  "trigger_condition": "Several belongings change at once, e.g. moped sold and phone broken.",
+  "guard_snippet": "room = independent layers per belonging, or a fixed priority over the handful of states",
+  "potential_consequence": "Room shows wrong or stale belongings when states combine.",
+  "id": "E36"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.9 FR-36 (the choice that caused it)",
+  "trigger_condition": "One effect has several causes, e.g. card interest built from many purchases.",
+  "guard_snippet": "cause_link = list of (choice_id or rule_id, share_in_kroner)",
+  "potential_consequence": "'Hvorfor?' and the top-three kroner ranking misattribute shared effects.",
+  "id": "E37"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.10 FR-42 (three choices)",
+  "trigger_condition": "Fewer than three choices have a kroner effect, or several tie.",
+  "guard_snippet": "if count < 3: show fewer; tie-break by absolute effect, then earliest month",
+  "potential_consequence": "Ending cannot fill three slots; ranking non-deterministic, breaking F9 tests.",
+  "id": "E38"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.10 FR-42 (ranked by effect, tip on avoiding the problem)",
+  "trigger_condition": "A top-three choice had a positive kroner effect, e.g. early saving.",
+  "guard_snippet": "rank by absolute effect; positive choices get a confirming text, not an avoid-the-problem tip",
+  "potential_consequence": "Player is told how a good choice's 'problem' could have been avoided.",
+  "id": "E39"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.9 FR-39 with §4.10 FR-42",
+  "trigger_condition": "A top-three choice is not one the engine can recalculate reliably.",
+  "guard_snippet": "rank only choices with computable counterfactuals, or store state at each choice for re-simulation",
+  "potential_consequence": "Ending line missing or unreliable; needs earlier states the MVP doesn't store.",
+  "id": "E40"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.10 FR-42 (hollow win)",
+  "trigger_condition": "Low wellbeing comes mostly from system causes (crisis months, hours), not one choice.",
+  "guard_snippet": "define the worst wellbeing choice via wellbeing cause links; fall back to the largest system cause",
+  "potential_consequence": "No valid wellbeing choice to show; the hollow-win requirement cannot be met.",
+  "id": "E41"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.4 FR-16 with §4.10 FR-41/FR-43",
+  "trigger_condition": "Player logs in again after the playthrough has ended at 20.",
+  "guard_snippet": "on login with a finished playthrough: show the ending summary again with Play again",
+  "potential_consequence": "Recap expects a next choice that doesn't exist; ending becomes unreachable.",
+  "id": "E42"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.10 FR-43",
+  "trigger_condition": "Player starts a new life partway through a playthrough.",
+  "guard_snippet": "allow Play again only after an ending, or confirm and discard the current game explicitly",
+  "potential_consequence": "Pengegave and goal rerolled at will; current game lost without warning.",
+  "id": "E43"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.1 FR-1 to §4.3 FR-11 (onboarding)",
+  "trigger_condition": "Sitting ends after account creation but before goal, avatar or first choice.",
+  "guard_snippet": "persist onboarding step; resume at first incomplete step on login; store the pengegave when drawn",
+  "potential_consequence": "Undefined landing state; pengegave may be redrawn before the first choice.",
+  "id": "E44"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.9 FR-40 (first time the mechanism appears)",
+  "trigger_condition": "Player replays or switches device after seeing a simplification text.",
+  "guard_snippet": "store seen_disclosures server-side, scoped per account or per playthrough as decided",
+  "potential_consequence": "Texts repeat every replay, or never reappear in a new playthrough.",
+  "id": "E45"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.1 FR-1 (existing email) vs FR-2/FR-3",
+  "trigger_condition": "Someone tries to register with an email that already has a user.",
+  "guard_snippet": "same response for duplicate sign-up; notify the existing owner by email instead",
+  "potential_consequence": "Registration reveals which emails have accounts, undoing FR-2/FR-3 non-disclosure.",
+  "id": "E46"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.1 FR-1/FR-2",
+  "trigger_condition": "Same email typed with different letter case or surrounding spaces.",
+  "guard_snippet": "email = trim(lowercase(email)) before the uniqueness check, login and reset",
+  "potential_consequence": "Duplicate accounts for one address, or failed logins for its owner.",
+  "id": "E47"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.1 FR-1 (no email confirmation)",
+  "trigger_condition": "Player registers with someone else's address, or the same typo twice.",
+  "guard_snippet": "send a notice to the address on sign-up, with a link to claim or delete the account",
+  "potential_consequence": "Real owner can reset and take over the game, and cannot register.",
+  "id": "E48"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.1 FR-1/FR-2/FR-4",
+  "trigger_condition": "Repeated failed logins, or a trivially short password at creation.",
+  "guard_snippet": "rate-limit login per account and IP; minimum password length at FR-1 and FR-4",
+  "potential_consequence": "Accounts of 15-year-olds open to guessing; hashing alone doesn't prevent it.",
+  "id": "E49"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.1 FR-3",
+  "trigger_condition": "Player requests a reset several times; expiry window unspecified.",
+  "guard_snippet": "a new reset request invalidates earlier links; expiry = configured value",
+  "potential_consequence": "Older links stay valid; 'expires' cannot be tested without a value.",
+  "id": "E50"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.1 FR-3/FR-4/FR-44",
+  "trigger_condition": "Password changed, reset or account deleted while another device stays logged in.",
+  "guard_snippet": "revoke all sessions on password change, reset and deletion; other devices return to login",
+  "potential_consequence": "School PC session keeps access, or keeps writing to a deleted account.",
+  "id": "E51"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.2 FR-8 (old progress cannot overwrite)",
+  "trigger_condition": "Two devices at the same state submit different choices for one event.",
+  "guard_snippet": "each choice carries the state version; server accepts the first, rejects the second and returns fresh state",
+  "potential_consequence": "Losing device's choice dropped or applied silently; no rejection UX defined.",
+  "id": "E52"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.2 FR-6/FR-8, NFR-7",
+  "trigger_condition": "Connection drops after a choice is sent but before the server confirms.",
+  "guard_snippet": "client shows a pending state, retries with the same idempotency key, shows the result only after ack",
+  "potential_consequence": "Player sees a choice as made that was never saved, or vice versa.",
+  "id": "E53"
+ },
+ {
+  "lens": "edge-case-hunter",
+  "location": "§4.5 FR-26 (first limit)",
+  "trigger_condition": "Purchase would exceed the card limit, or interest pushes the balance above it.",
+  "guard_snippet": "decline purchases above the limit; allow interest above it; define over-limit consequences",
+  "potential_consequence": "Card behaviour undefined at the NOK 10,000 limit that UJ-4 uses.",
+  "id": "E54"
+ },
+ {
+  "lens": "structure",
+  "location": "§10 Assumptions Index (773-806)",
+  "original_text": "Whole section (491 words)",
+  "revised_text": "CUT; MOVE table to .memlog.md or addendum.md; MOVE the live item (#39) into §9 as an open question",
+  "changes": "All entries confirmed and repeat FR consequences (A-7 = FR-3, A-28 = FR-44); only open item hidden in the intro. ~465 words saved.",
+  "id": "S1"
+ },
+ {
+  "lens": "structure",
+  "location": "§3 Glossary, Playthrough row (130)",
+  "original_text": "60 in-game months, tuned to about 20-30 real choices",
+  "revised_text": "MOVE 'tuned to about 20-30 real choices' into §4.4 / FR-17 (and OQ-8 if a tuning value); glossary keeps only the definition",
+  "changes": "Buried requirement: sets library size and session pace but appears nowhere in §4.",
+  "id": "S2"
+ },
+ {
+  "lens": "structure",
+  "location": "§6 Non-Goals and §7 MVP Scope (672-720)",
+  "original_text": "Positions 6-7, after ~5,000 words of FRs/NFRs",
+  "revised_text": "MOVE both before §4; or CONDENSE §7.1 to 'Everything in §4 is in scope' (~110 words saved)",
+  "changes": "Pyramid puts scope first; cut order and 'always stays' list are what epics depend on.",
+  "id": "S3"
+ },
+ {
+  "lens": "structure",
+  "location": "§0 Document Purpose (10-19)",
+  "original_text": "Purpose, sources, conventions; no status",
+  "revised_text": "QUESTION: add a status line (draft 2026-11-05, no AI in MVP, OQ-3 and OQ-6 block)",
+  "changes": "Status and blockers now only in frontmatter and §9 'Blocks' column. ~30 words added.",
+  "id": "S4"
+ },
+ {
+  "lens": "structure",
+  "location": "§3 Glossary (126-152)",
+  "original_text": "After §2.3, which already uses its terms; several body terms missing",
+  "revised_text": "MOVE §3 after §0, or add pointer in §0; QUESTION: add boomerang pair, flags, LK20 code, D1-D6 (maybe BSU, frikort, trygdeavgift, Virke/HK)",
+  "changes": "Readers meet terms before their definition or never get one; boomerang pair and flags are schema fields.",
+  "id": "S5"
+ },
+ {
+  "lens": "structure",
+  "location": "4.1 Notes (214-216), NFR-3 last line (630), §7.2 row (719), §9 OQ-5/OQ-6",
+  "original_text": "Privacy check (#24) and shared school PCs (#31) each stated three times",
+  "revised_text": "CONDENSE: keep only in §9; pointers like '(open: OQ-6)' elsewhere",
+  "changes": "One place per open item. ~40 words saved.",
+  "id": "S6"
+ },
+ {
+  "lens": "structure",
+  "location": "§0 Tags (16-19)",
+  "original_text": "Legend for [ASSUMPTION], [OPEN], [NOTE FOR PM]",
+  "revised_text": "CUT [ASSUMPTION] and [OPEN]; possibly the whole legend",
+  "changes": "Labels never appear in the body. ~22-35 words saved.",
+  "id": "S7"
+ },
+ {
+  "lens": "structure",
+  "location": "§9 'Resolved on 2026-11-05' (768-771)",
+  "original_text": "Resolved list for OQ-1, OQ-2, OQ-10",
+  "revised_text": "MOVE to .memlog.md",
+  "changes": "Already logged and applied in FR-30, NFR-8, FR-44, rule 5. ~48 words saved.",
+  "id": "S8"
+ },
+ {
+  "lens": "structure",
+  "location": "FR-30 (457), FR-27 (424), FR-36 (533), NFR-4 (641), UJ-5 (115, 123)",
+  "original_text": "Decision-history lines ('The gift doesn't depend on tobacco or alcohol…', 'Family gifts stay in the MVP.', 'F10 is read as…', 'as decided', 'A full-time job from about 19.')",
+  "revised_text": "CUT each line",
+  "changes": "Answers debates the reader never saw. ~55 words saved.",
+  "id": "S9"
+ },
+ {
+  "lens": "structure",
+  "location": "UJ-4 persona/entry state (100-101), edge cases (110-112)",
+  "original_text": "Rule asides and both edge cases (~106 words)",
+  "revised_text": "CONDENSE: keep Markus's own facts; rule text becomes FR pointers (FR-27, FR-32, FR-41)",
+  "changes": "Repeats FR-27/29/30/32 nearly verbatim. ~100 words saved.",
+  "id": "S10"
+ },
+ {
+  "lens": "structure",
+  "location": "UJ-5 steps 3-4 (120-121)",
+  "original_text": "'The summary shows the three choices that mattered most… Only those three can be opened.' / tips text",
+  "revised_text": "CONDENSE: 'He opens one of the three choices that mattered most to see how things could have gone, with a short tip on how the problem could have been avoided (FR-42).'",
+  "changes": "Repeats FR-42 and FR-19. ~40 words saved.",
+  "id": "S11"
+ },
+ {
+  "lens": "structure",
+  "location": "§2.3 Key User Journeys (59-124)",
+  "original_text": "Five journeys, 1,790 words",
+  "revised_text": "PRESERVE story, persona pattern and concrete figures",
+  "changes": "Examiner's way in and UX's main input; trim only spec repetition.",
+  "id": "S12"
+ },
+ {
+  "lens": "structure",
+  "location": "§6 (674-680) and §7.2 (706-720)",
+  "original_text": "Three non-goals repeat out-of-scope items",
+  "revised_text": "MERGE §6 into §7 as 'Never in v1' next to 'Later'; drop duplicate break row",
+  "changes": "Readers must compare two lists to tell never from not yet. ~25 words saved.",
+  "id": "S13"
+ },
+ {
+  "lens": "structure",
+  "location": "4.1 Description (158)",
+  "original_text": "Data-minimization and hash sentences",
+  "revised_text": "CONDENSE to '(see NFR-3)'",
+  "changes": "NFR-3 states the same; hash mentioned three times. ~30 words saved.",
+  "id": "S14"
+ },
+ {
+  "lens": "structure",
+  "location": "4.5 Description (353)",
+  "original_text": "'All of them use real Norwegian 2026 figures… stored as configuration, with its source and date.'",
+  "revised_text": "CONDENSE to 'Figures follow NFR-4.'",
+  "changes": "Duplicate of NFR-4. ~25 words saved.",
+  "id": "S15"
+ },
+ {
+  "lens": "structure",
+  "location": "FR-23 (390), FR-38 (548), FR-39 (556), §7.1 (697-702)",
+  "original_text": "'This is on the cut list', 'cut first', 'first thing cut'",
+  "revised_text": "CONDENSE each to a pointer like '(cut list, item 1)'",
+  "changes": "Two FRs each claim to be cut first; cut order should live in one place.",
+  "id": "S16"
+ },
+ {
+  "lens": "structure",
+  "location": "§8.3 last paragraph (754)",
+  "original_text": "'The new rules from this PRD get worked examples and unit tests…'",
+  "revised_text": "MOVE to NFR-9 or NFR-4",
+  "changes": "Testing obligation, not a success metric.",
+  "id": "S17"
+ },
+ {
+  "lens": "structure",
+  "location": "NFR-3 (624), NFR-6 (649)",
+  "original_text": "'Supabase Auth stores the password…' / 'so Supabase is self-hosted'",
+  "revised_text": "QUESTION: keep the requirements, MOVE the Supabase choice to architecture unless the course requires it",
+  "changes": "Technology choice is an architecture decision.",
+  "id": "S18"
+ },
+ {
+  "lens": "structure",
+  "location": "§4 order",
+  "original_text": "4.1 Account … 4.10 Ending",
+  "revised_text": "PRESERVE",
+  "changes": "Follows UJ-1 to UJ-5 and maps cleanly to epics.",
+  "id": "S19"
+ },
+ {
+  "lens": "structure",
+  "location": "§5 NFR headings (603-670)",
+  "original_text": "#### under ##",
+  "revised_text": "QUESTION: promote NFR-1 to NFR-9 to ###",
+  "changes": "Skipped heading level breaks outline and screen readers.",
+  "id": "S20"
+ },
+ {
+  "lens": "structure",
+  "location": "§4.4, FR-12, §3",
+  "original_text": "Time model in text only",
+  "revised_text": "QUESTION: add a small Mermaid diagram: playthrough -> session -> month, with rule 1 order",
+  "changes": "Every FR depends on the time model. ~40 words of diagram source.",
+  "id": "S21"
+ },
+ {
+  "lens": "prose",
+  "location": "§0 (12), NFR-6 (649), OQ-4 (761)",
+  "original_text": "'the sensor' / 'A sensor can run' / 'the sensor's local run'",
+  "revised_text": "'the examiner (sensor)' once, then 'examiner'",
+  "changes": "False friend: English 'sensor' is a device.",
+  "id": "P1"
+ },
+ {
+  "lens": "prose",
+  "location": "FR-20 (359)",
+  "original_text": "'Virke/HK tariff rate'",
+  "revised_text": "'Virke/HK collective-agreement rate'",
+  "changes": "False friend: 'tariff' usually means a customs duty.",
+  "id": "P2"
+ },
+ {
+  "lens": "prose",
+  "location": "§2 (37), UJ-1 edge case (72)",
+  "original_text": "'short sessions' / 'The session can end abruptly'",
+  "revised_text": "'short bursts' / 'Play can stop abruptly' (or 'sitting')",
+  "changes": "Glossary: session = one in-game year; line 72 contradicts line 71.",
+  "id": "P3"
+ },
+ {
+  "lens": "prose",
+  "location": "UJ-4 Resolution (109)",
+  "original_text": "'so it no longer earns interest'",
+  "revised_text": "'so it no longer accrues interest'",
+  "changes": "Debt doesn't earn interest; reads as income.",
+  "id": "P4"
+ },
+ {
+  "lens": "prose",
+  "location": "UJ-4 step 2 (104)",
+  "original_text": "'shows the card's interest rate, in kroner for his own balance: …'",
+  "revised_text": "'shows the card's interest rate and, in kroner for his own balance, what the interest costs him this month and …'",
+  "changes": "An interest rate can't be in kroner.",
+  "id": "P5"
+ },
+ {
+  "lens": "prose",
+  "location": "UJ-5 Second playthrough (124)",
+  "original_text": "'puts everything into money'",
+  "revised_text": "'puts money ahead of everything else'",
+  "changes": "Unclear; could mean converting assets to cash.",
+  "id": "P6"
+ },
+ {
+  "lens": "prose",
+  "location": "§0 (12), §2.2, §6, OQ-7, 'MVP' throughout",
+  "original_text": "'first version', 'v1', 'version one', 'MVP' used interchangeably",
+  "revised_text": "Consider glossing once: 'the first version of LifeMode (v1, also called the MVP)'",
+  "changes": "One gloss tells readers they mean the same scope.",
+  "id": "P7"
+ },
+ {
+  "lens": "prose",
+  "location": "§3 Pengegave (140)",
+  "original_text": "'Money Markus gets at the start of the game'",
+  "revised_text": "'Money the player gets at the start of the game'",
+  "changes": "Glossary defines a game term through a persona.",
+  "id": "P8"
+ },
+ {
+  "lens": "prose",
+  "location": "§3 Echo badge (144), FR-37 (537)",
+  "original_text": "'an earlier choice has come back' / 'When an earlier choice comes back…'",
+  "revised_text": "Consider: 'an effect comes from an earlier choice' / 'an echo badge marks the effect…'",
+  "changes": "Vague 'comes back' and ambiguous 'it'.",
+  "id": "P9"
+ },
+ {
+  "lens": "prose",
+  "location": "FR-21 (373)",
+  "original_text": "'Tax uses the character's age in the game, with the simulated year fixed at 2026 rates.'",
+  "revised_text": "'Tax uses the player's in-game age, and every simulated year uses 2026 rates.'",
+  "changes": "'Character' undefined; 'year fixed at rates' doesn't parse.",
+  "id": "P10"
+ },
+ {
+  "lens": "prose",
+  "location": "§8.1 (726)",
+  "original_text": "'These are starting values…'",
+  "revised_text": "'The targets below are starting values…'",
+  "changes": "'These' reads as the playtesters.",
+  "id": "P11"
+ },
+ {
+  "lens": "prose",
+  "location": "§8.1 (740)",
+  "original_text": "'…and the quiz before the first sitting and after the last one.'",
+  "revised_text": "'…and the quiz is taken before the first sitting and after the last one.'",
+  "changes": "Elided verb misattaches.",
+  "id": "P12"
+ },
+ {
+  "lens": "prose",
+  "location": "FR-6 (226)",
+  "original_text": "'…doesn't lose a choice, which saving only when idle wouldn't guarantee.'",
+  "revised_text": "'…doesn't lose a choice. Saving only when idle wouldn't guarantee that.'",
+  "changes": "Unclear trailing 'which'.",
+  "id": "P13"
+ },
+ {
+  "lens": "prose",
+  "location": "FR-8 (241, 246), FR-35 (517), FR-40 (560)",
+  "original_text": "'it checks the cloud' / 'until it is back' / 'what it opened' / 'The text is shown…'",
+  "revised_text": "'the game checks' / 'until the connection is back' / 'what the choice opened' / 'Each disclosure is shown…'",
+  "changes": "Unclear pronoun references.",
+  "id": "P14"
+ },
+ {
+  "lens": "prose",
+  "location": "UJ-4 Persona (100)",
+  "original_text": "'driving licence'",
+  "revised_text": "'car licence'",
+  "changes": "A moped licence is also a driving licence; FR-30 says car licence.",
+  "id": "P15"
+ },
+ {
+  "lens": "prose",
+  "location": "§1 (25), serial comma throughout",
+  "original_text": "'credit only from 18 and the moped licence at 16'",
+  "revised_text": "'credit only from 18, and the moped licence at 16'",
+  "changes": "Reads as one item; Microsoft style uses the serial comma; PRD is inconsistent.",
+  "id": "P16"
+ },
+ {
+  "lens": "prose",
+  "location": "§2 survey (42), FR-17 Notes (333)",
+  "original_text": "'small purchases that add up, clothes, trend buys and collectibles' / candidate events list",
+  "revised_text": "Consider colon or serial comma; semicolons in the FR-17 list; 'event topics'",
+  "changes": "Ambiguous list boundaries.",
+  "id": "P17"
+ },
+ {
+  "lens": "prose",
+  "location": "§1 (29)",
+  "original_text": "'…than Koll på cashen.'",
+  "revised_text": "Consider a one-line description of Koll på cashen",
+  "changes": "Only mention; readers may not know it.",
+  "id": "P18"
+ },
+ {
+  "lens": "prose",
+  "location": "§1 Now/Next/Later (31-33)",
+  "original_text": "Three lines with single line breaks",
+  "revised_text": "Consider blank lines or a bulleted list",
+  "changes": "Markdown merges them into one paragraph.",
+  "id": "P19"
+ },
+ {
+  "lens": "prose",
+  "location": "FR-42 (591)",
+  "original_text": "'at least one of the three is the choice that hurt wellbeing most, even if it wouldn't rank by kroner'",
+  "revised_text": "Consider: 'one of the three is the choice that hurt wellbeing most, even if it wouldn't make the top three by kroner'",
+  "changes": "'At least one' contradicts 'the' single choice.",
+  "id": "P20"
+ },
+ {
+  "lens": "prose",
+  "location": "FR-25 (401), FR-22 (377)",
+  "original_text": "'repaid as an annuity at a fixed 15%' / 'at 2.87% or in BSU at 5.61%'",
+  "revised_text": "Consider: 'repaid in equal monthly instalments (an annuity loan) at a fixed 15% a year' / '… a year'",
+  "changes": "'Annuity' reads as a pension product; rates lack a period.",
+  "id": "P21"
+ },
+ {
+  "lens": "prose",
+  "location": "FR-26 (411)",
+  "original_text": "'NOK 3,200 paid at the minimum is paid off after 13 months'",
+  "revised_text": "'A NOK 3,200 balance, with only the minimum paid each month, is paid off after 13 months'",
+  "changes": "Reads as if NOK 3,200 is a payment.",
+  "id": "P22"
+ },
+ {
+  "lens": "prose",
+  "location": "FR-22 (381)",
+  "original_text": "'When the player has no tax'",
+  "revised_text": "'When the player pays no tax'",
+  "changes": "Idiom.",
+  "id": "P23"
+ },
+ {
+  "lens": "prose",
+  "location": "UJ-1 step 1 (65), 4.1 Description (158)",
+  "original_text": "'The first screen offers log in or create a new user.'",
+  "revised_text": "'The first screen offers two choices: log in or create a new user.' / '**Log in** and **Create user**'",
+  "changes": "Doesn't parse; UI labels in bold.",
+  "id": "P24"
+ },
+ {
+  "lens": "prose",
+  "location": "UJ-2 Resolution (82)",
+  "original_text": "'progress keeps saving automatically'",
+  "revised_text": "'the game keeps saving his progress automatically'",
+  "changes": "Progress doesn't save itself.",
+  "id": "P25"
+ },
+ {
+  "lens": "prose",
+  "location": "FR-29 (443)",
+  "original_text": "'This way, saving up pays off as in UJ-3.'",
+  "revised_text": "Consider: 'Buying one is how saving up pays off, as in UJ-3.'",
+  "changes": "Unclear referent.",
+  "id": "P26"
+ },
+ {
+  "lens": "prose",
+  "location": "FR-32 (481)",
+  "original_text": "'real-world actions'",
+  "revised_text": "Consider: 'realistic actions'",
+  "changes": "Could mean actions outside the game.",
+  "id": "P27"
+ },
+ {
+  "lens": "prose",
+  "location": "UJ-2 Persona (75)",
+  "original_text": "'realised'",
+  "revised_text": "'realized'",
+  "changes": "Spelling consistency (-ize elsewhere).",
+  "id": "P28"
+ },
+ {
+  "lens": "prose",
+  "location": "Various (15 minor)",
+  "original_text": "cannot/can't (169, 245); en dashes and '15- to 20-year-olds'; capitalization after bold sub-labels; repeated 'paid back' (422); 'first limit' (414, 765); 'is configuration' (237, 260, 414, 506); UJ-5 tense (115, 119); 'spends it on' (100); 'to know he can afford' (109); 'run out' (41); line 66; 'including F1-F3' (291); 'run from the README' (670); 'held fixed for the game' (637)",
+  "revised_text": "See prose lens report; ask to expand",
+  "changes": "Minor consistency and idiom fixes.",
+  "id": "P29"
+ }
+]
