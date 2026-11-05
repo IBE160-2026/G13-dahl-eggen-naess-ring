@@ -2,7 +2,7 @@
 title: LifeMode PRD
 status: draft
 created: 2026-10-22
-updated: 2026-11-04
+updated: 2026-11-05
 ---
 
 # PRD: LifeMode
@@ -63,7 +63,7 @@ What the survey "Unge og penger" found (133 responses):
   - **Entry state:** No account, on his phone, possibly on the bus. His mother has no account and no view of his game.
   - **Path:** Markus reaches his first real choice within about 2 minutes.
     1. The first screen offers log in or create a new user. Markus creates one with an email address and password.
-    2. He chooses his life goal: saving for something big, which for him is a flat of his own. [ASSUMPTION: the target is an amount the game sets and that can be reached by 20, such as a start on the deposit, since a whole flat is out of reach by then.]
+    2. He chooses his life goal: saving for something big, which for him is a flat of his own. The target is an amount the game sets and that can be reached by 20, such as a start on the deposit, since a whole flat is out of reach by then.
     3. He chooses his avatar. In the game he is 15 and has just received a pengegave, a random amount between NOK 10,000 and NOK 30,000.
     4. His first real choice is what to do with the pengegave. Right afterwards, his money, wellbeing and future opportunities change, and his room or belongings change with them.
     5. A new event follows, for example a summer job opportunity or saving for a moped licence.
@@ -87,7 +87,7 @@ What the survey "Unge og penger" found (133 responses):
 
 - **UJ-3. Markus sees that the little he saved has grown, and starts to think the moped might be possible.**
   - **Persona + context:** Markus spent most of his pengegave on things that felt exciting at the time, but after a short tip from the game he put a little into savings. He has heard that a moped is expensive.
-  - **Entry state:** Logged in, mid-game. [ASSUMPTION: some in-game months after the first choice.]
+  - **Entry state:** Logged in, mid-game. Some in-game months after the first choice.
   - **Path:**
     1. He sees that his savings have grown, because they have earned interest.
     2. He is glad and curious, so he presses "Hvorfor?".
@@ -97,7 +97,7 @@ What the survey "Unge og penger" found (133 responses):
   - **Resolution:** He starts thinking about other ways to earn more. With savings and a summer job, the moped he thought was too expensive might be possible after all.
 
 - **UJ-4. Markus uses his first credit card like a debit card, and pays it off before it becomes a crisis.**
-  - **Persona + context:** Markus, 18, has a part-time job, which is how he got his first credit card. He uses it as if it were a debit card, without thinking that it has to be paid back, with interest if he doesn't pay in time. He spends it on school lunches, on a city trip with his friends where he pays for everyone, and on fuel for his moped and for his parents' car when he borrows it. His parents paid for his driving licence as a gift. [OPEN, team confirms: the gift is random, so only some players get it. A player without it can pay for the licence (FR-30).]
+  - **Persona + context:** Markus, 18, has a part-time job, which is how he got his first credit card. He uses it as if it were a debit card, without thinking that it has to be paid back, with interest if he doesn't pay in time. He spends it on school lunches, on a city trip with his friends where he pays for everyone, and on fuel for his moped and for his parents' car when he borrows it. His parents paid for his driving licence as a gift. The gift is random, so only some players get it. A player without it can pay for the licence (FR-30).
   - **Entry state:** Logged in, aged 18, a couple of in-game months after getting the card. He has had a moped since he turned 16, and it costs him fuel, repairs and insurance. He chose to buy it or took a gift offer when one came up (FR-29). Whether his parents pay part of the insurance is random in the MVP.
   - **Path:**
     1. The game warns him that his card debt is much larger than his monthly wage, and that he can't pay off the whole balance before the interest-free deadline. This isn't a crisis month yet, and he decides for himself whether to act.
@@ -112,15 +112,15 @@ What the survey "Unge og penger" found (133 responses):
     - **Family help:** family can sometimes give or lend money, but it isn't always on offer, it's often less than the full amount, and a loan has to be paid back. The engine draws whether family can help and how much each time, and a family loan carries no interest.
 
 - **UJ-5. Markus turns 20, sees how his life turned out, and plays again to get rich.**
-  - **Persona + context:** Markus is about to turn 20 in the game. He sorted out his credit card at 18, and since then he has been careful with money. After upper secondary school he has taken a job, and he saves some of his wage every month towards a flat. He is more aware of what he spends. [ASSUMPTION: a full-time job from about 19.]
+  - **Persona + context:** Markus is about to turn 20 in the game. He sorted out his credit card at 18, and since then he has been careful with money. After upper secondary school he has taken a job, and he saves some of his wage every month towards a flat. He is more aware of what he spends. A full-time job from about 19.
   - **Entry state:** Logged in, in the last in-game month before his 20th birthday. His social life and stress have settled down.
   - **Path:**
     1. He turns 20, and the game ends.
     2. He sees a summary of how his life went. He has saved towards his flat, has no debt and is doing fairly well. This is the real win: he reached his goal of saving for something big, and his wellbeing is above the threshold.
     3. The summary shows the three choices that mattered most, by their effect in kroner. He opens one to see how things could have gone if he had chosen differently. Only those three can be opened.
-    4. With each choice he also gets advice on how the problem could have been avoided. [ASSUMPTION: these are short, general, pre-written tips about the situation in the game, as decided for tips, and not personal advice.]
+    4. With each choice he also gets advice on how the problem could have been avoided. These are short, general, pre-written tips about the situation in the game, as decided for tips, and not personal advice.
   - **Climax:** He feels a bit stupid for ending up in so much debt at 18, but proud that he found a way out.
-  - **Resolution:** He has seen how things like the moped licence and the credit card affect his money, and now he wants to find out how to get rich. He starts again from 15. [ASSUMPTION: he chooses a life goal again and gets a new pengegave, as decided.]
+  - **Resolution:** He has seen how things like the moped licence and the credit card affect his money, and now he wants to find out how to get rich. He starts again from 15. He chooses a life goal again and gets a new pengegave, as decided.
   - **Second playthrough:** He chooses to save for something big or to be debt-free with a buffer, and puts everything into money. He finds that getting rich is possible, but chasing as much money as possible often costs him his social life and raises his stress. This is the hollow win: goal reached, wellbeing below the threshold. The summary includes the choice that hurt his wellbeing most, so he can see why (FR-42).
 
 ## 3. Glossary
@@ -155,7 +155,7 @@ What the survey "Unge og penger" found (133 responses):
 
 ### 4.1 Account and login
 
-**Description:** The first screen offers log in and create user, with a link for a forgotten password. An account is an email address and a password, with no username, so the email address is the only personal detail the player types in. [ASSUMPTION: the email address is used only for login and password recovery, and is never shown in the game or used for marketing.] The password is stored only as a hash and never in the game's own data. Realizes UJ-1 and UJ-2.
+**Description:** The first screen offers log in and create user, with a link for a forgotten password. An account is an email address and a password, with no username, so the email address is the only personal detail the player types in. The email address is used only for login and password recovery, and is never shown in the game or used for marketing. The password is stored only as a hash and never in the game's own data. Realizes UJ-1 and UJ-2.
 
 **Functional Requirements:**
 
@@ -182,7 +182,7 @@ A registered player can log in with their email address and password on any devi
 A player who has forgotten their password can reset it by email from the login screen. Realizes UJ-2.
 
 **Consequences (testable):**
-- [ASSUMPTION: the reset link can be used once and expires.]
+- The reset link can be used once and expires.
 - The response is the same whether or not the email address has a user.
 - The player's game is unchanged after a reset.
 
@@ -191,23 +191,23 @@ A player who has forgotten their password can reset it by email from the login s
 A logged-in player can change their password from inside the game.
 
 **Consequences (testable):**
-- [ASSUMPTION: changing the password requires the current password.]
+- Changing the password requires the current password.
 - The old password stops working immediately.
 - The player's game is unchanged.
 
 #### FR-5: Log out
 
-[ASSUMPTION: not on the team's list, but a player needs it on any device they share.] A logged-in player can log out from inside the game.
+A logged-in player can log out from inside the game, because a player needs this on any device they share.
 
 **Consequences (testable):**
 - After logging out, the game can't be reached on that device without logging in again.
 
 #### FR-44: Delete account
 
-[OPEN, team confirms.] A logged-in player can delete their account and game data from inside the game, after confirming.
+A logged-in player can delete their account and game data from inside the game, after confirming.
 
 **Consequences (testable):**
-- [ASSUMPTION: deleting requires the current password and can't be undone.]
+- Deleting requires the current password and can't be undone.
 - After deletion, the email address and the game data are gone, and the old login no longer works.
 - The same email address can create a new user afterwards.
 
@@ -223,7 +223,7 @@ A logged-in player can change their password from inside the game.
 
 #### FR-6: Save every choice
 
-[ASSUMPTION: added so an abrupt stop doesn't lose a choice, which saving only when idle wouldn't guarantee.] Each choice is saved to the cloud as soon as the player makes it. Realizes UJ-1.
+Each choice is saved to the cloud as soon as the player makes it, so an abrupt stop doesn't lose a choice, which saving only when idle wouldn't guarantee. Realizes UJ-1.
 
 **Consequences (testable):**
 - If the game closes right after a choice, that choice is still there on the next login.
@@ -242,8 +242,8 @@ When the player opens or returns to the game on a device, it checks the cloud fo
 
 **Consequences (testable):**
 - Progress made on the PC appears on the phone when the game is opened there.
-- [ASSUMPTION: a device showing old progress cannot overwrite a newer choice.]
-- [ASSUMPTION: with no connection, for example on the bus, the game says so and doesn't accept new choices until it is back. Saved choices aren't affected.]
+- A device showing old progress cannot overwrite a newer choice.
+- With no connection, for example on the bus, the game says so and doesn't accept new choices until it is back. Saved choices aren't affected.
 
 ### 4.3 Starting a life
 
@@ -258,14 +258,14 @@ The player chooses one of three life goals: save for something big, be debt-free
 **Consequences (testable):**
 - The goal is chosen before the avatar.
 - Each goal has a target the engine checks at age 20. The targets are configuration, and each one can be reached from the lowest pengegave of NOK 10,000.
-- [ASSUMPTION: the goal can't be changed during a playthrough, only when starting again.]
+- The goal can't be changed during a playthrough, only when starting again.
 
 #### FR-10: Create an avatar
 
 The player creates an avatar for their life in the game. Realizes UJ-1.
 
 **Consequences (testable):**
-- [ASSUMPTION: the player picks from a small set of preset looks. Nothing is typed in, so the avatar has no free-text name.]
+- The player picks from a small set of preset looks. Nothing is typed in, so the avatar has no free-text name.
 
 #### FR-11: Get a pengegave and make the first choice
 
@@ -310,7 +310,7 @@ A month with no event is processed by the same rules and shown only as a short s
 A session ends after one in-game year with a teaser about what comes next, such as "Next year the summer job unlocks". Realizes UJ-1.
 
 **Consequences (testable):**
-- Nothing locks the player out in real time. [ASSUMPTION: the player can carry straight on into the next year.]
+- Nothing locks the player out in real time. The player can carry straight on into the next year.
 
 #### FR-16: Recap on return
 
@@ -326,7 +326,7 @@ The game is driven by a library of pre-written events. Realizes UJ-1 to UJ-5.
 
 **Consequences (testable):**
 - **Size:** at least 30 events, with a target of 60-80, plus about 10 crises. Roughly 55% come before age 18 and 45% after.
-- **Schema:** every event follows a fixed schema: mechanism, age, flags, boomerang pair, teaching point, LK20 code, source, and a wellbeing effect for each choice. [ASSUMPTION: an automated check rejects an event that breaks the schema.]
+- **Schema:** every event follows a fixed schema: mechanism, age, flags, boomerang pair, teaching point, LK20 code, source, and a wellbeing effect for each choice. An automated check rejects an event that breaks the schema.
 - **No AI needed:** the whole game can be played from start to finish with zero AI calls (F6).
 
 **Notes:**
@@ -362,7 +362,7 @@ The player can earn hourly wages from part-time and summer jobs, at the Virke/HK
 - A summer job at 16, 120 hours at NOK 139.40, pays NOK 16,728 with no tax (worked example 1, F7).
 - The engine never allows more hours than the limits in rule 10, including extra shifts.
 - More hours worked means less free time.
-- [ASSUMPTION: a full-time job becomes available after upper secondary school, from about 19.]
+- A full-time job becomes available after upper secondary school, from about 19.
 
 #### FR-21: Tax
 
@@ -370,7 +370,7 @@ Tax is calculated from the year's total wage income at 2026 rates (rule 3).
 
 **Consequences (testable):**
 - An 18-year-old earning NOK 110,000 in a calendar year pays NOK 2,588, all of it trygdeavgift (worked example 5, F8).
-- [ASSUMPTION: tax uses the character's age in the game, with the simulated year fixed at 2026 rates.]
+- Tax uses the character's age in the game, with the simulated year fixed at 2026 rates.
 
 #### FR-22: Saving and BSU
 
@@ -411,7 +411,7 @@ From age 18, a player with a wage can get a credit card, under rule 5. Realizes 
 - NOK 3,200 paid at the minimum is paid off after 13 months, NOK 3,606 in total (worked example 4, F3).
 - The game shows, in kroner, this month's interest and the total cost of paying only the minimum, for the player's own balance.
 - The player can choose to stop using the card.
-- [ASSUMPTION: a card needs a wage income, and the first limit is NOK 5,000-10,000, set as configuration.]
+- A card needs a wage income, and the first limit is NOK 5,000-10,000, set as configuration.
 
 #### FR-27: Help from family
 
@@ -419,8 +419,8 @@ In some events and crisis months, family can give or lend money. Talking to fami
 
 **Consequences (testable):**
 - Help isn't always on offer, and it often covers only part of the amount. The engine draws whether family can help, and how much, each time.
-- A family loan is paid back at 0% interest. [ASSUMPTION: it is paid back in monthly instalments set by the event.]
-- A family loan doesn't count towards the crisis trigger of debt above 3× income (FR-32). [OPEN, team confirms.] Otherwise a teenager with no income would go into crisis from any loan.
+- A family loan is paid back at 0% interest. It is paid back in monthly instalments set by the event.
+- A family loan doesn't count towards the crisis trigger of debt above 3× income (FR-32). Otherwise a teenager with no income would go into crisis from any loan.
 - Family can sometimes give cash. Family gifts stay in the MVP.
 
 ### 4.6 Moped and driving licences
@@ -440,17 +440,17 @@ From age 16, the player can choose to take the moped licence. They pay for drivi
 
 #### FR-29: Own a moped
 
-From age 16, the player can own a moped. They choose whether to buy one, and now and then a random event offers one as a gift. [OPEN, team confirms: this replaces a random draw between buying and a gift, so that saving up pays off as in UJ-3.] Realizes UJ-3 and UJ-4.
+From age 16, the player can own a moped. They choose whether to buy one, and now and then a random event offers one as a gift. This way, saving up pays off as in UJ-3. Realizes UJ-3 and UJ-4.
 
 **Consequences (testable):**
 - **Running costs:** fuel and insurance are transport costs (FR-23), and repairs come as unexpected expenses (FR-24).
 - **Resale value:** it drops by a fixed share for each year the player has owned the moped, starting from real used prices. Tracking actual use comes later.
 - **Selling:** the player can sell the moped at its current resale value. It then disappears from the room.
-- [ASSUMPTION: owning a moped requires the moped licence.]
+- Owning a moped requires the moped licence.
 
 #### FR-30: Car licence
 
-By age 18, some players get a car licence as a gift from their parents. The engine draws who gets it. A player without the gift can pay for the licence at a real price. With a licence, the player pays for fuel when borrowing the parents' car. [OPEN, team confirms.] Realizes UJ-4.
+By age 18, some players get a car licence as a gift from their parents. The engine draws who gets it. A player without the gift can pay for the licence at a real price. With a licence, the player pays for fuel when borrowing the parents' car. Realizes UJ-4.
 
 **Consequences (testable):**
 - The gift costs the player nothing. Car fuel is a transport cost (FR-23).
@@ -469,7 +469,7 @@ When a card balance can't be paid in full and interest starts, the game warns th
 
 **Consequences (testable):**
 - The warning doesn't start a crisis month on its own.
-- [ASSUMPTION: the warning is shown each time interest starts again after the balance has been paid in full.]
+- The warning is shown each time interest starts again after the balance has been paid in full.
 
 #### FR-32: Crisis month
 
@@ -530,7 +530,7 @@ After a choice, the game shows what it opened or closed. Realizes UJ-1.
 Every effect in the engine stores the choice that caused it. An effect with no choice behind it, such as wages in a quiet month or a random expense, is stored with a system cause. Realizes UJ-3.
 
 **Consequences (testable):**
-- Every cause link points to a choice that exists in the playthrough, or to a rule (F10). [ASSUMPTION: F10 is read as "a choice or a system cause".]
+- Every cause link points to a choice that exists in the playthrough, or to a rule (F10). F10 is read as "a choice or a system cause".
 
 #### FR-37: Echo badges
 
@@ -588,7 +588,7 @@ The ending shows how the life went and the three choices that mattered most, ran
 
 **Consequences (testable):**
 - Only these three choices can be opened.
-- On a hollow win, at least one of the three is the choice that hurt wellbeing most, even if it wouldn't rank by kroner. [OPEN, team confirms.]
+- On a hollow win, at least one of the three is the choice that hurt wellbeing most, even if it wouldn't rank by kroner.
 - The tips are general and pre-written (FR-19).
 
 #### FR-43: Play again
@@ -638,7 +638,7 @@ The backend engine decides every financial result and all critical game state, a
 - Every figure is stored as configuration with its source and date, never hard-coded.
 - The worked examples are the test answer key.
 
-[ASSUMPTION: the disclosed simplifications are a requirement, as a product choice.]
+The disclosed simplifications are a requirement, as a product choice.
 
 #### NFR-5: Zero ongoing cost
 
@@ -667,7 +667,7 @@ Player-facing text is in Norwegian, in plain language a 15-year-old understands.
 
 #### NFR-9: Automated tests
 
-The engine tests, meaning the worked examples and the F-criteria, run from the README and in GitHub Actions. [ASSUMPTION: on every pull request.]
+The engine tests, meaning the worked examples and the F-criteria, run from the README and in GitHub Actions on every pull request.
 
 ## 6. Non-Goals
 
@@ -737,7 +737,7 @@ There are 10-20 playtesters before the December delivery, all 18-20-year-olds. T
 | Pace | One session, one in-game year | 10-15 minutes on a phone |
 | Mission | A parent or teacher who sees the game wants to try it | At least one |
 
-[ASSUMPTION: completion is measured across several sittings during the test period, and the quiz before the first sitting and after the last one.]
+Completion is measured across several sittings during the test period, and the quiz before the first sitting and after the last one.
 
 ### 8.2 Counter-metrics
 
@@ -748,29 +748,31 @@ There are 10-20 playtesters before the December delivery, all 18-20-year-olds. T
 ### 8.3 Functional criteria
 
 F1-F10 from the brief apply, with two changes:
-- [ASSUMPTION: F5, the fallback when the AI fails, moves to the AI stage, because the MVP has no AI.]
-- [ASSUMPTION: F10 is read as "an earlier choice or a system cause" (FR-36).]
+- F5, the fallback when the AI fails, moves to the AI stage, because the MVP has no AI.
+- F10 is read as "an earlier choice or a system cause" (FR-36).
 
-[ASSUMPTION: the new rules from this PRD get worked examples and unit tests in the same way. These cover the card warning, family loans and the moped's resale value.]
+The new rules from this PRD get worked examples and unit tests in the same way. These cover the card warning, family loans and the moped's resale value.
 
 ## 9. Open Questions
 
 | # | Question | Owner | Blocks |
 |---|---|---|---|
-| OQ-1 | Does the team confirm leaving out tobacco and alcohol choices, with a random car licence gift? (#34) | Team, meeting 2026-11-05 | No |
-| OQ-2 | Does the team confirm a card minimum of 3.5%, min NOK 300? This is written into rule 5 and UJ-4. Worked example 4 doesn't change. Cards this small fall outside utlånsforskriften § 13, so this is about realism (#35) | Team, meeting 2026-11-05 | No |
-| OQ-3 | Real prices for the moped licence, a new and a used moped, the car licence, insurance, fuel, repairs and car fuel (#29) | Team | Writing those events |
+| OQ-3 | Prices are in the brief addendum's parameters (research `prices-moped-and-licences-2026-11-05`). Still missing: moped insurance from a primary source, moped repairs, and a better used-moped price (#29) | Team | Writing those events |
 | OQ-4 | How password reset email can work at zero cost and in the sensor's local run (#30) | Architecture | No |
 | OQ-5 | Staying logged in on shared school PCs (#31) | Team, later | No |
 | OQ-6 | The privacy check before go-live, including email addresses of players as young as 15 (#24) | Team | Go-live |
 | OQ-7 | The brief and the architecture still describe AI as part of version one (#32) | Team | No |
 | OQ-8 | Tuning values: goal targets, wellbeing weights and threshold, idle time, the first card limit, how often family helps, and how fast the moped loses value | Team, when tuning | No |
 | OQ-9 | What the avatar contains, and how the player chooses working hours | UX | No |
-| OQ-10 | Does the team confirm account deletion in the game (FR-44)? (#36) | Team, meeting 2026-11-05 | No |
+
+**Resolved on 2026-11-05:**
+- **OQ-1:** no tobacco or alcohol choices (#34), and the car licence gift is random, with the option to pay (FR-30).
+- **OQ-2:** the card minimum is 3.5%, min NOK 300 (#35).
+- **OQ-10:** the player can delete their account in the game (FR-44, #36).
 
 ## 10. Assumptions Index
 
-Dahl confirmed A-1, A-3, A-12, A-13, A-14, A-15, A-18 and A-26 on 2026-11-04, and the team confirms them in review. A-26 should also be checked against the course requirements.
+All of these were confirmed on 2026-11-05, so the entries are no longer tagged in the text. A-26 has been checked against part 1 of the sensor guide, which only mentions AI in the development process; other course requirements are still to be checked (#39).
 
 | # | Assumption | Where |
 |---|---|---|

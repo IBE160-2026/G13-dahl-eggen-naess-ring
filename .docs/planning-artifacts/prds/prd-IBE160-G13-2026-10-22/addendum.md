@@ -88,7 +88,7 @@ Decided on 2026-11-04.
 | NOK 8,400 (about one month's wage) | NOK 158 | 41 | NOK 3,645 |
 | NOK 10,000 (top of a typical first limit) | NOK 188 | 51 | NOK 5,508 |
 
-UJ-4 shows the cost for the player's own balance. The figures use the proposed 3.5% minimum in rule 5, with monthly interest rounded under rule 2. The proposal only changes balances above about NOK 8,600, where 3.5% is more than NOK 300. At 3%, NOK 10,000 took 53 months.
+UJ-4 shows the cost for the player's own balance. The figures use the 3.5% minimum in rule 5, with monthly interest rounded under rule 2. Compared with 3%, it only changes balances above about NOK 8,600, where 3.5% is more than NOK 300. At 3%, NOK 10,000 took 53 months.
 
 **How to build it.** Accepted on 2026-11-04. Each addition reuses something the engine already has, so the only really new thing is an owned moped.
 
@@ -122,17 +122,18 @@ Decided on 2026-11-04.
 
 **Comparing playthroughs: later.** For now the ending shows a summary of the playthrough and the tips. Comparing one playthrough with the next is a candidate for a later step.
 
-## Proposals awaiting the team
+## Team decisions on Dahl's proposals
 
-Proposed by Dahl on 2026-11-04, for the team to confirm on 2026-11-05. Several change decisions from 2026-11-03 and 2026-11-04.
+Decided on 2026-11-05.
 
-| Proposal | Why |
+| Decision | Why |
 |---|---|
 | No tobacco or alcohol choices for now | Research found them probably allowed on conditions, but their effect on young players is unknown and can't be tested in playtests with 18-20-year-olds |
+| Card minimum of 3.5%, min NOK 300 | Matches Bank Norwegian, and DNB also uses 3.5%. Cards with limits up to NOK 30,000 fall outside utlånsforskriften, so this is about realism |
+| Account deletion in the game, with the current password and no undo | The game stores email addresses of players as young as 15, and the privacy check (#24) recommends it. Requiring the password stops someone else deleting the account on a shared PC |
+| The card minimum is calculated on the balance before the month's interest | Keeps a NOK 350 first payment on NOK 10,000, 51 months and NOK 5,508. Calculating it after interest gives NOK 5,437 at 3.5% (#38) |
 | The player chooses to buy a moped, with occasional gift offers | A random draw between buying and a gift could make saving up pointless, which works against UJ-3 |
 | The car licence gift is random, and a player without it can pay | Gives a large, real money choice at 18 |
 | All family gifts stay | They are no longer on the cut list |
 | Family loans don't count towards the 3× income crisis trigger | A teenager with no income would otherwise go into crisis from any loan |
 | A hollow win shows at least one choice that hurt wellbeing | A kroner ranking alone may not show why wellbeing ended up low |
-| Card minimum of 3.5%, min NOK 300 | Matches Bank Norwegian, and DNB also uses 3.5%. Cards with limits up to NOK 30,000 fall outside utlånsforskriften, so this is about realism |
-| Account deletion in the game | The game stores email addresses of players as young as 15, and the privacy check (#24) recommends it |

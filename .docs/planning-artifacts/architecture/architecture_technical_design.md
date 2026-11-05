@@ -18,10 +18,10 @@ LifeMode is a website, a mobile-first, responsive web application for smartphone
 
 ### Build stages
 
-The game is built in two stages:
+The MVP is stage one. Stage two is a later step and not part of the MVP:
 
-1. **Base (stage one):** TypeScript frontend, Python backend with the deterministic financial engine, Supabase for database and login, and a library of pre-written events. The whole 15–20 playthrough works with no AI.
-2. **AI play driver (stage two):** an LLM generates events and dilemmas from the player's history, inside the limits the engine sets. The pre-written library remains the fallback and the AI-free mode.
+1. **Base (stage one, the MVP):** TypeScript frontend, Python backend with the deterministic financial engine, Supabase for database and login, and a library of pre-written events. The whole 15–20 playthrough works with no AI.
+2. **AI play driver (stage two, after the MVP):** an LLM generates events and dilemmas from the player's history, inside the limits the engine sets. The pre-written library remains the fallback and the AI-free mode.
 
 **Zero ongoing cost is a hard constraint**: the team has no budget for paid API usage, so the chosen provider's free-tier rate limits are a real design boundary, not just a cost-optimization — and reduced safety-tuning guarantees relative to a frontier provider are a tradeoff to design around (see Privacy & Safety).
 
@@ -237,7 +237,7 @@ Docker will be used to support reproducible local execution and final project de
 
 The goal is that the application can be started locally using documented setup instructions without requiring a public production environment.
 
-Supabase runs self-hosted via Docker (Supabase CLI / Docker Compose) for local development, testing, and sensor evaluation. This means the database and authentication layer do not depend on the team's own cloud project or keys — anyone can bring the full stack up locally with documented setup instructions. Only the AI provider key is supplied separately, or the game runs AI-free using the pre-written event library.
+Supabase runs self-hosted via Docker (Supabase CLI / Docker Compose) for local development, testing, and sensor evaluation. This means the database and authentication layer do not depend on the team's own cloud project or keys — anyone can bring the full stack up locally with documented setup instructions. The MVP needs no AI provider key, because the game runs on the pre-written event library.
 
 Docker should help ensure that:
 
@@ -422,7 +422,7 @@ This material can later support the project reflection report.
 
 The MVP should also demonstrate that:
 
-**Stage one (base, no AI)**
+**Stage one (the MVP, no AI)**
 - the complete full-stack application can run locally
 - the financial engine passes the unit tests for functional criteria F1–F8 in the brief
 - the four endings and the cause links pass functional criteria F9 and F10 in the brief
@@ -431,7 +431,7 @@ The MVP should also demonstrate that:
 - players, game state, decisions and playthroughs persist correctly in the database
 - the primary gameplay flow works on smartphones, tablets, laptops and desktop screens
 
-**Stage two (AI play driver)**
+**Stage two (AI play driver, after the MVP)**
 - AI-generated events can use stored player state and previous decisions as context
 - the deterministic financial engine calculates financial consequences independently of the AI model
 - AI output is validated before it can influence authoritative game state
