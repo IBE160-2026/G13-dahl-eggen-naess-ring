@@ -48,4 +48,4 @@ Finne status i BMAD, hente siste endringer og føre inn tre beslutninger i PRD-e
 - Lukk #34, #35 og #36 med beslutningene som kommentar. #36 dekker også A-28 til det er avklart.
 - Bekreft A-28: sletting krever gjeldende passord og kan ikke angres (#36).
 - Teamet må bekrefte tilfeldig førerkortgave med mulighet til å betale selv (OQ-1, FR-30) og de øvrige forslagene i addendumet (#28).
-- Avvik i korttallene ved 3 % betyr ikke lenger noe for spillet, så #38 kan trolig lukkes.
+- Avklar om minstebeløpet regnes av saldoen før eller etter renter (#38). Det gir 5 508 kr eller 5 437 kr for 10 000 kr ved 3,5 %. Etter renter gir også det gamle tallet 5 878 kr ved 3 %. Det gamle tallet 3 649 kr for 8 400 kr er ikke gjenskapt; begge varianter gir 3 645 kr.
