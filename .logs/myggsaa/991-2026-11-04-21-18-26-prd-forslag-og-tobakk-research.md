@@ -41,10 +41,14 @@ Finne status i BMAD, hente siste endringer og føre inn tre beslutninger i PRD-e
 - **`prd.md`:** fjernet OPEN-merket på FR-44, flyttet OQ-2 og OQ-10 til en liste over avklarte spørsmål, og snevret OQ-1 inn til førerkortgaven.
 - **`addendum.md`:** de tre forslagene er flyttet til en egen tabell over beslutninger, og korttallene omtales ikke lenger som et forslag.
 - **`.memlog.md`:** beslutningene er ført inn, med Dahls begrunnelse for sletting: det er lett å håndtere i Supabase.
-- Endringene i disse tre filene er ikke committet. PRD-en er fortsatt `draft`.
+- Dahl godtok også resten: A-28, minstebeløp regnet av saldoen før renter, tilfeldig førerkortgave med mulighet til å betale selv, kjøp av moped ved eget valg, familiegaver av kuttlisten, familielån utenfor krisetesten, hul seier med et valg som skadet trivselen, F5 til KI-trinnet og antakelsene A-1 til A-27. Antakelsesmerkene er fjernet fra `prd.md`.
+- **#38:** forskjellen på 5 878 kr og 5 885 kr ved 3 % kommer av om minstebeløpet regnes etter eller før renter. Med før renter står 5 508 kr ved 3,5 %. Det gamle tallet 3 649 kr for 8 400 kr ble ikke gjenskapt; begge variantene gir 3 645 kr.
+- **#32:** brief og arkitektur beskriver nå KI som et senere steg utenfor MVP-en.
+- **#29:** priser er lagt inn i briefens addendum, med kilder i `.docs/planning-artifacts/research/prices-moped-and-licences-2026-11-05/research.md`. Bensinprisen er hentet direkte fra SSB-tabell 09654.
+- PRD-en er fortsatt `draft`. Finalize er ikke kjørt.
 - Lukket: #34, #35 og #36. Dahl lukket dem selv, fordi lukkingen herfra ble avvist av tillatelsessjekken.
 
 ### Åpne punkter
-- Bekreft A-28: sletting krever gjeldende passord og kan ikke angres (#28).
-- Teamet må bekrefte tilfeldig førerkortgave med mulighet til å betale selv (OQ-1, FR-30) og de øvrige forslagene i addendumet (#28).
-- Avklar om minstebeløpet regnes av saldoen før eller etter renter (#38). Det gir 5 508 kr eller 5 437 kr for 10 000 kr ved 3,5 %. Etter renter gir også det gamle tallet 5 878 kr ved 3 %. Det gamle tallet 3 649 kr for 8 400 kr er ikke gjenskapt; begge varianter gir 3 645 kr.
+- Finn forsikringspris fra en primærkilde, reparasjonspriser og en bedre pris på brukt moped (#29).
+- Sjekk F5 mot kurskravene utover sensorveiledningen del 1 (#39).
+- Kjør gjennomgang og Finalize av PRD-en (#28).
