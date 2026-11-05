@@ -1,7 +1,7 @@
 ---
 title: LifeMode PRD addendum
 created: 2026-11-03
-updated: 2026-11-04
+updated: 2026-11-05
 ---
 
 # Addendum: LifeMode PRD
@@ -30,16 +30,35 @@ Decided on 2026-11-03 from UJ-1. These features come from the team's journey and
 
 **Sessions:** one session is one in-game year, and nothing locks the player out in real time. Five years at 20-30 choices gives about 4-6 choices a year, which fits a 10-15 minute session. Waiting in real time would work against the target of 70% finishing the game.
 
-**Moped licence:** when the player chooses to take it, they pay for driving lessons, mandatory lessons and the licence itself, at real prices from sources such as Statens vegvesen, driving schools and SSB. The recap's teaser names the cost, so no new screen is needed. [ASSUMPTION: payment only, with no exam or driving mechanics.] Owning a moped and the car licence were added from UJ-4; see "Credit card debt, family and the moped in UJ-4".
+**Moped licence:** when the player chooses to take it, they pay for driving lessons, mandatory lessons and the licence itself, at real prices from sources such as Statens vegvesen, driving schools and SSB. The recap's teaser names the cost, so no new screen is needed. It's a payment only, with no exam or driving mechanics. Owning a moped and the car licence were added from UJ-4; see "Credit card debt, family and the moped in UJ-4".
 
 ## Login with email: consequences for the build
 
 Decided on 2026-11-03. This replaces the earlier decision on username, no email and no reset. Questions for architecture:
 
 - **Sending email:** password reset needs a way to send email within the hard constraint of zero ongoing cost.
-- **Examiner's local run:** the app has to run from Docker without the team's cloud account or keys, so reset email must either work there or have a stated local replacement.
+- **Examiner's local run:** the app has to run from Docker without the team's cloud account or keys, so reset email has to work there, through the local inbox described under "Reset email routes".
 - **Internal address plan:** the plan to build a fake address from the username (`@lifemode.invalid`) is no longer needed.
 - **Playtests:** playtesters aged 18-20 will now give a real email address, while the brief says no contact details are stored with results, so the two have to be kept apart.
+- **Sign-up shows whether an address has a user.** Accepted: hiding it needs an email confirmation step before play, which the team ruled out on 2026-11-03. The sign-up limit stops bulk checks, and the owner can take back an address someone else registered by resetting the password and deleting the account. FR-2 and FR-3 still don't reveal it. The same typo made in both email fields isn't caught: the player can play, but can't reset the password. To be reviewed in the privacy check (#24).
+
+**Default limits (all configuration):**
+
+| Limit | Default | Why |
+|---|---|---|
+| Sign-up attempts per network | 60 an hour | A class of 30 with one retry each fits |
+| Password length | At least 8 characters, at least 64 allowed | A 12-15-character minimum would slow sign-up for a 15-year-old |
+| Failed logins per address | 10 in 15 minutes, then a 15-minute pause | Stops guessing, and the message stays neutral |
+| Login attempts per network | 300 an hour | A class of 30 at three attempts each isn't blocked |
+| Reset emails | 1 per address a minute and 5 a day; total per day at most 80% of the free quota | One script can't use up the quota and block recovery [needs figure: the chosen service's quota] |
+| Reset link | 60 minutes, and a new link cancels older ones | |
+| Login without "stay logged in" | Until the browser closes, or 30 minutes with no activity | Shared school PCs |
+| Login with "stay logged in" | Until logout, or 30 days without play | The box is unticked by default, which suits shared school PCs. The cost is that a phone player logs in again more often, which could lower the return rate. Check this in the playtest |
+
+**Reset email routes (OQ-4, #30):**
+- **Examiner's local run:** reset emails go to a local mail inbox that comes with the local login stack, and the README gives its address. The Supabase CLI includes one (Inbucket, or Mailpit in newer versions; verify).
+- **Hosted playtest:** a free-tier email relay whose quota covers 10-20 testers plus the limits above. Supabase's default sender is reported to deliver only to the project team's own addresses, a few an hour (verify).
+- **Fallback if no free relay works:** a tester who asks in person gets a one-time reset link that the team creates with the login service's admin tools. This works for 10-20 testers the team knows, but not for go-live.
 
 Updated to match on 2026-11-03: brief (Scope In #9, Constraints), brief addendum (Privacy, Login secret), architecture (Database and Data Model, Authentication and authorization) and issue #24.
 
@@ -73,11 +92,11 @@ Decided on 2026-11-03. Some events carry a short, general, pre-written tip that 
 
 Decided on 2026-11-04.
 
-**A warning comes before a crisis.** The crisis triggers stay as they are. A first card for ages 18-20 usually has a limit of NOK 5,000-10,000, and 10 hours a week at NOK 195.04 pays about NOK 8,400 a month, so a new card rarely pushes debt above 3× income on its own. Instead, the game warns the player once the balance can't be paid in full and interest starts, and the player decides whether to act. A crisis month starts only if the minimum is missed two months in a row, or if interest pushes the debt above 3× average monthly income.
+**A warning comes before a crisis.** A first card for ages 18-20 usually has a limit of NOK 5,000-10,000, and 10 hours a week at NOK 195.04 pays NOK 8,452 a month, so a new card rarely pushes debt above 3× income on its own. Instead, the game warns the player once a card bill isn't paid in full and interest starts, and the player decides whether to act. With a NOK 10,000 limit, the 3× income trigger is out of reach on a 10-hour wage (3 × NOK 8,452 = NOK 25,356), so in UJ-4 only the missed minimum can start a crisis.
 
-**Family help.** Family can give or lend money, but mostly as a loan that has to be paid back, so the player learns from it. It's not always on offer: in the survey only 17% got family help with an unexpected expense, so most of the time the player has to find another way. Sometimes family can cover only part of the amount.
+**Family help.** Family can give or lend money, but mostly as a loan that has to be paid back, so the player learns from it. It's not always on offer: in the survey, 36% had an unexpected expense that was hard to pay, and about half of them got family help (17% of all respondents). So roughly half the time, the player has to find another way. Sometimes family can cover only part of the amount.
 
-**Moped.** The player has a moped from age 16, either bought or received as a gift. It costs fuel, repairs and insurance, and the parents may pay part of the insurance. Its resale value drops with age and use. Prices should follow the real market. In the MVP, the player chooses whether to buy a moped, a gift offer comes up now and then, and the parents' share of the insurance is random. Once the AI game engine is added, they can be based on real data.
+**Moped.** The player has a moped from age 16, either bought or received as a gift. It costs fuel, repairs and insurance, and the parents may pay part of the insurance. Its resale value drops with the time owned (rule 14), and use comes later. Prices should follow the real market. In the MVP, the player chooses whether to buy a moped, a gift offer comes up now and then, and the parents' share of the insurance is random. Once the AI game engine is added, they can be based on real data.
 
 **Car licence.** By 18 some players get a car licence as a gift from their parents. The gift is random, and a player without it can pay for the licence at a real price. With a licence, the player pays for fuel when borrowing the parents' car. This changes brief Scope Out #5, which listed the driving licence as a later step; the brief was updated on 2026-11-04. If the moped licence is in, the car licence is in too, so there's more to play.
 **What the card costs.** The small cost in worked example 4 comes from the small amount, not the rate: 22.6% a year is a normal card rate (SSB; the market's effective rates run from 20% to 30%). At a small balance, the NOK 300 minimum pays the debt off quickly. Interest is charged every month, so the game shows both this month's interest and the total cost of paying only the minimum. Under rule 5:
@@ -100,9 +119,24 @@ UJ-4 shows the cost for the player's own balance. The figures use the 3.5% minim
 | Family loan | The existing loan rules at 0% interest |
 | Moped resale value | Drops by a fixed share per year owned; tracking actual use comes later |
 | Car licence as a gift | One event |
-| The moped in the room | One of the room states, so it's gone once he sells it |
+| The moped in the room | One of the room layers, so it's gone once it's sold |
 
-If time runs short, cut in this order: the "if you had chosen differently" lines, then the parents' share of the moped insurance, then events down to 30. The warning, the moped and selling it stay, because UJ-4 depends on them. (Changed by UJ-5 below: the lines on the ending screen stay.)
+If time runs short, cut in the order in PRD §4.1. The warning, the moped and selling it stay, because UJ-4 depends on them.
+
+**UJ-4 month by month.** Markus keeps the moped. With a NOK 10,000 limit, a sale for about NOK 9,300 and five months of extra shifts can't both be true: the sale alone would nearly clear the debt. This trace shows that the engine can reproduce UJ-4 under rules 1, 2, and 5.
+
+Entry state at month W: age 18. Card bill NOK 10,000 at the debt step, at the limit after the city trip, lunches, and fuel, so the card takes no more purchases and his spending comes from the current account. Payment setting: the whole balance. No savings. Wage 10 h a week, NOK 8,452. Mobile NOK 299 and moped insurance NOK 250. Spending level: high. Moped fuel is left out until #43 gives it a source. Tax is NOK 0 while his wages so far this year stay under NOK 99,650.
+
+| Month | Wage | Costs | Spending | Free for the card | Bill | Interest | Paid | Card after | What happens |
+|---|---|---|---|---|---|---|---|---|---|
+| W | 8,452 | 549 | 7,508 (high) | 395 | 10,000 | 188 | 395 | 9,793 | Interest starts, so the card warning shows: NOK 188 this month, and 51 months and NOK 5,508 at the minimum. Talks to his mother: the family draw gives no money. Turns the card off, asks for one extra 2-hour shift a week, moves spending down to normal. Checks the moped: about NOK 9,300 (rule 14, a gift moped owned about 26 months), less than he owes, and he'd pay for the bus without it. Keeps it |
+| W+1 | 10,142 | 549 | 7,195 (normal) | 2,398 | 9,793 | 184 | 2,398 | 7,579 | 12 h a week, well within rule 10 |
+| W+2 | 10,142 | 549 | 7,195 | 2,398 | 7,579 | 143 | 2,398 | 5,324 | |
+| W+3 | 10,142 | 549 | 7,195 | 2,398 | 5,324 | 100 | 2,398 | 3,026 | |
+| W+4 | 10,142 | 549 | 7,195 | 2,398 | 3,026 | 57 | 2,398 | 685 | |
+| W+5 | 10,142 | 549 | 7,195 | 2,398 | 685 | 0 | 685 | 0 | Paid in full, no interest: back on track, with NOK 1,713 left |
+
+He pays NOK 672 in interest in total, against NOK 5,508 at the minimum. No trigger fires. Wellbeing is worked example 17a in the brief addendum. The sale was dropped from the story confirmed on 2026-11-04 (SE), because the numbers can't support it, and the team confirms that in the pull request.
 
 ## The ending in UJ-5
 
@@ -118,7 +152,7 @@ Decided on 2026-11-04.
 
 **Markus's life goal.** He chose saving for something big in UJ-1, with a flat as the big thing. A 15-year-old picks what he wants rather than "debt-free", and choosing the flat means the card debt at 18 puts his goal at risk. In the second round he goes for saving for something big or for being debt-free with a buffer, and chases money at the cost of his wellbeing, which gives the hollow win.
 
-**"If you had chosen differently" on the ending screen.** These lines stay for the three choices that mattered most, and only those three can be opened. The lines in "Hvorfor?" during play, including the BSU comparison, are cut first. New cut order: those lines during play, then the parents' share of the moped insurance, then events down to 30.
+**"If you had chosen differently" on the ending screen.** These lines stay for the three choices that mattered most, and only those three can be opened. The lines in "Hvorfor?" during play, including the BSU comparison, are cut first.
 
 **Comparing playthroughs: later.** For now the ending shows a summary of the playthrough and the tips. Comparing one playthrough with the next is a candidate for a later step.
 
@@ -137,3 +171,166 @@ Decided on 2026-11-05.
 | All family gifts stay | They are no longer on the cut list |
 | Family loans don't count towards the 3× income crisis trigger | A teenager with no income would otherwise go into crisis from any loan |
 | A hollow win shows at least one choice that hurt wellbeing | A kroner ranking alone may not show why wellbeing ended up low |
+
+## Dahl's decisions on the PRD review
+
+Proposed on 2026-11-05, for the team to approve in the pull request. The review is `review-2026-11-05.md`, and the full reasoning and alternatives are in `review-2026-11-05-solutions.md`. Dahl chose M4, M5, M6, M8, M12, M13, and G1 one at a time, and accepted the recommendations for the rest.
+
+| Proposal | Decision | Changes an earlier decision? |
+|---|---|---|
+| M4 | Debt trigger uses net debt and wages, with a NOK 5,000 floor | Yes: "crisis triggers unchanged" (2026-11-04) |
+| M5 | Parents pay mobile and public transport until 18 | No |
+| M6 | One crisis month at a time, then a 2-month cooldown | Yes: F4 and "2-3 linked choices" reworded |
+| M8 | Loss only if a trigger from month 59 is still true in month 60 | Narrows "active at 20" |
+| M12 | Choices start and stop monthly everyday costs | No, scope addition |
+| M13 | In UJ-4, Markus keeps the moped | Yes: "sells the moped, not enough" (2026-11-04) |
+| G1 | Everyone is born in January | No |
+| G3 | Part-time job from 15, up to 12 h a week | Fixes a contradiction in UJ-1 |
+| G4 | Life goals measured on net position at 20 | No |
+| G5 | Wellbeing is one score. The ending first used the average of months 49-60, and the table below changes that to months 37-60 | Adds overwork to stress and social life |
+| X3 | At least 50 regular events | Yes: "minimum 30" (#19) |
+| X7 | Ending ranks by size of kroner effect, with texts by sign | Rewords UJ-5 step 4 |
+| X9 | One life at a time, and starting over is allowed after confirming | No |
+| K3 | "Stay logged in on this device" box, unticked by default | Brings part of #31 into the MVP |
+| K5 | A choice counts only when the server confirms it | Rewords FR-7 (2026-11-03) |
+| K9 | Player information, deletion after 12 months, and no tracking | Makes three brief-addendum recommendations MVP requirements |
+
+The other 41 proposals fix gaps without changing a decision.
+
+## Dahl's decisions on the final PRD check
+
+Proposed on 2026-11-05, for the team to approve in the pull request. The checks are `review-rubric.md`, `reconcile-inputs.md`, and `verify-applied.md`.
+
+| Decision | Why | Changes an earlier decision? |
+|---|---|---|
+| A spending level (low 50%, normal 75%, high 95% of what's left of the wage). Low lowers social life by 2 a month, and high raises it by 2 | Nothing else absorbed wages: a player who saved nothing until month 54 still reached NOK 166,249 on six months of full-time pay, and UJ-4 relied on a cost level no rule created. It also gives money against wellbeing a monthly lever | Adds to M12, which stays. Dahl first chose event-started costs over a spending level, but those alone can't absorb a wage with about five choices a year |
+| Debt-free buffer raised from NOK 50,000 to NOK 100,000, and a careless run must miss goals 1 and 2 | The buffer was reachable in two months of full-time pay. The earlier check tested only that goals weren't too hard | Changes the G4 default |
+| Unlocked options stay open in the money view (FR-48), and a quiet month waits for a tap (FR-49) | Milestones came once and events never repeat, so a player who couldn't afford the licence in month 13 had no second chance, which contradicted UJ-3 | No |
+| Ending wellbeing uses months 37-60 | With months 49-60, a player who worked 40 h a week for years could ease off in the last year and end at 55, a real win. With months 37-60 the same run ends at 41, a hollow win. Markus in UJ-4 stays at 60 or above | Changes G5 |
+| Crisis events are written per trigger and age, can repeat, and a third step ends the month (FR-32) | About 10 crisis events can't cover about 8 crisis months with no repeats, and nothing ended a month if no choice cleared the trigger | No |
+| The experience moves to months 44 and 56, and a pushed-out summer job stays open until its July pay month | Two required events landed in June for goal-3 players, and the loser could arrive after the July it pays for | Moves the months in G4 |
+| Playtest counters that survive deletion, only in the playtest environment (FR-50) | FR-43 deletes the playthroughs the metrics count | Exception in NFR-3 |
+| Four more cut steps, and dates set by the team (OQ-13) | The old cut list removed no feature with real build cost, and the lecturer asked for "en minimal versjon som sikkert kan bli ferdig" | Adds to the cut list |
+| OQ-6 blocks the first playtest, and OQ-11 is widened and blocks epics | Real email addresses first arrive with the playtest, and the project has no go-live. If the course requires AI in the app, architecture and epics change | Narrows "privacy questions don't block" (2026-11-03), which still holds for the MVP and the PRD |
+
+## Changes from the proposal
+
+The examiner's guide requires anything left out or changed from the approved proposal to be described and justified. The proposal isn't in the repo, so this table is incomplete (OQ-15).
+
+| Change | Why |
+|---|---|
+| AI-generated events moved to a second stage, so the MVP has no AI. F5 moves with them | Team decision, logged on 2026-11-03. The lecturer's feedback of 2026-10-06 advised building the engine and the event library first, so the game works with no AI, and rated in-app AI among the hardest parts. Whether this meets the course requirements is OQ-11 |
+
+## Event scheduling: the default template
+
+**Active months:** months 1, 3, 6, 8, and 10 of each in-game year (January, March, June, August, October). There are never more than two quiet months in a row. The June offers (summer job in months 18, 30, and 42, the full-time job in month 54 to start in month 55) and goal 3's experience event (months 44 and 56) fall in active months. Months 59-60 are quiet by default. A crisis or card warning can still take them.
+
+**Eligibility at draw time** covers `owns_moped`, `has_moped_licence`, `has_job`, and `has_car_licence`. The placements that must be guaranteed are in FR-46.
+
+**Who gets a month, in order:** crisis month, card warning, milestones and follow-ups by due month (a milestone wins a tie), then a drawn event. An unexpected expense isn't in this list, because it's a deduction with a system cause.
+
+**Library size.** About 8 milestones reach every playthrough, and the other 17 slots are drawn evenly from the rest, so the expected number of shared events is 8 + 17² / (N − 8):
+
+| Library N | Shared at least | Shared on average | Share of 25 |
+|---|---|---|---|
+| 30 | 20 | 21 | 85% |
+| 40 | 10 | 17 | 68% |
+| 50 | 8 | 15 | 60% |
+| 60 | 8 | 14 | 54% |
+| 80 | 8 | 12 | 48% |
+
+Flag gating raises overlap and different choices lower it, so the seeded content check, not this table, is the real test. The check runs 1,000 seeded playthroughs with random choices.
+
+## Event schema
+
+| Field | Content | Checked |
+|---|---|---|
+| id, version | Unique text id, and a whole-number version (NFR-4) | Id unique; version rises on any change |
+| type, trigger | Regular or crisis. A crisis event also names its rule 8 trigger | Every trigger is covered at each age where it can occur |
+| mechanism | One or more from the fixed list | Names exist |
+| age range | From and to, in years and months, within 15y0m-19y11m | From ≤ to |
+| requires flags, blocks flags | Lists of flag names | Names exist in the flag list |
+| milestone | The unlock it belongs to (FR-18), or none | Unlock exists |
+| boomerang | None, or a pair id and a role (opener or follow-up). The opener also has a delay range in months | Both halves exist; 2 ≤ min ≤ max ≤ 12; the follow-up requires a flag that an opener option sets |
+| teaching point | One sentence | Not empty |
+| LK20 code | One or more codes from the fixed list, or "none", because no core aim names tax or BSU | Codes exist |
+| source | The parameter keys the event's figures use, or a citation for any other figure | Every amount traces to a parameter or a citation |
+| options | 2-4 options, each with text, a money effect, a monthly-cost effect, a card-payable flag, a binding period, effects on stress and social life, flags set or cleared, a short text for each flag the player sees opened or closed (FR-35), and optionally a tip and an ending text. An option can also have a type with its own values: take a job, extra shifts (hours and months), take a loan (allowed range and terms), a family loan (amount of at least NOK 500, over 2-12 months), or an amount the player enters (allowed range) | Every option states its wellbeing effect; every regular event has an option with no cost; every crisis event has asking family and ignoring it; values stay inside these limits |
+
+Unexpected expenses are a separate list, each with a kind, an amount, the flags it needs, and a source.
+
+## How the engine keeps results repeatable
+
+**Random draws.** One seed per playthrough. Each draw is derived from the seed, the month, and what is drawn (for example "family help, event E-41"), so it doesn't depend on the order of requests. Engine tests can set the seed or force a result. The player can still reroll the pengegave by starting over, which is harmless because every goal is reachable from NOK 10,000. Rerolling the car licence gift means replaying three in-game years.
+
+**Content versions.** Each playthrough keeps the versions it started with (NFR-4). Old versions are kept while any playthrough uses them. Engine code fixes apply to all playthroughs, and the worked examples guard them.
+
+**Cause link shares.** Interest on a balance is shared in proportion to each choice's part at the start of the month. Payments and withdrawals reduce every part in proportion. Rounding uses largest remainder, with ties to the earliest cause. Example: a card balance of NOK 6,000 is a city trip (NOK 4,000) and a jacket (NOK 2,000). The month's interest is NOK 113. The shares are 75.33 and 37.67, the floors give 112, and the remaining krone goes to the largest remainder: trip NOK 75, jacket NOK 38.
+
+## The ending screen
+
+**Texts.** To keep authoring small, ending texts are written per mechanism and sign, about 18 texts, plus pre-written texts for system causes. An option can override with its own ending text. Wages stay a system cause, so job and hours choices have no linked kroner and can't appear among the three choices. That's an accepted trade-off: wages are the game's largest money flow, and linking them would crowd out the choices the summary is meant to show.
+
+**"If you had chosen differently."** The line types, in order, are debt cost, money kept, and a pre-written fallback (FR-39). The comparison needs no authoring field. Re-running the playthrough with one choice swapped was rejected, because later events diverge and the result is hard to explain or test. The "everything else equal" assumption has its own disclosure (D15).
+
+**Keeping only one life.** Deleting ended lives is the simplest privacy answer and keeps minors' data small.
+
+## Privacy measures in the MVP
+
+**Player information covers:** what is stored (email, password as a hash, game data), what for (login, recovery, saving the game), how long, how to delete it, which services handle the data (the login service and any email relay), that there's no marketing, no other sharing, and no AI, who to contact, and who the game is for (15-20).
+
+**Deleting inactive accounts:** 12 months covers a whole school year and a summer, far longer than a five-session playthrough needs. No warning email is sent, so the address stays login and recovery only.
+
+**No age statement.** "I am 15 or older" stores and proves nothing. The brief addendum advises against consent as the legal basis, so the consent age doesn't apply, and it would turn away 14-year-olds in 10th grade or teach them to tick it falsely. Revisit if #24 chooses consent.
+
+**Before the first playtest (OQ-6, #24):** who the controller is (group or university), the legal basis, and the full privacy text.
+
+**Playtest data.** Game metrics are counted per account in the playtest environment. Before export, each account is replaced by a random tester code, and no email addresses leave the system. If game data is linked to survey answers, one team member keeps the code-to-account key apart from the results. It's deleted when the analysis is done, no later than the December delivery. Until then the results are pseudonymous, and after that anonymous.
+
+## For the architecture
+
+These came out of the PRD review and belong in the next `bmad-architecture` run. They aren't in `architecture_technical_design.md` yet.
+
+- **Authentication:** where email normalization and the sign-up limit live; which limits the login service gives out of the box and which need the backend; how a revoked login reaches the backend; token lifetimes; the chosen email relay and its quota. Supabase facts in this addendum come from general knowledge and need verifying.
+- **Connectivity:** a state version per playthrough, a request ID for retries, browser visibility and online events, and the error format and codes.
+- **Engine state:** storage for draws and the seed, content versions, the per-cause parts of each balance, and the card and account settings.
+- **Hosting:** the document says no hosting provider is needed, which still holds for go-live, but NFR-11 requires a playtest environment. Name the provider, tier, and limits. The hosted Supabase free tier may pause idle projects (verify).
+- **Responsiveness:** a server budget of at most 300 ms to process and save one month, for 9 out of 10 requests, with the backend and database in the same region. A browser test with network throttling plays a scripted first session, and a Lighthouse mobile run checks the first screen before each playtest.
+- **Mobile-first:** add NFR-1's supported browsers and test devices as the test matrix.
+- **Game flow:** the two-part month and the state check on every changing request (FR-49), and the open-option model (FR-48).
+- **Playtest:** the counters in FR-50, switched off outside the playtest environment, and how they're exported.
+- **Examiner:** seeding test users at the states NFR-6 names, and `.env.example`.
+- **Other:** a scheduled deletion job, self-hosted fonts, and the accessibility check in CI.
+
+## Confirmed assumptions (2026-11-05)
+
+| # | Assumption | Where |
+|---|---|---|
+| A-1 | The goal's target is an amount the game sets, reachable by 20, such as a start on a flat deposit | UJ-1, FR-9 |
+| A-2 | UJ-3 takes place some in-game months after the first choice | UJ-3 |
+| A-3 | A full-time job is available from month 55, at age 19 | UJ-5, FR-20 |
+| A-4 | In the ending, the advice consists of general, pre-written tips | UJ-5, FR-42 |
+| A-5 | A replay means choosing a goal again and drawing a new pengegave | UJ-5, FR-43 |
+| A-6 | The email address is used only for login and recovery, and is never shown or used for marketing | 5.1 |
+| A-7 | A reset link works once and expires | FR-3 |
+| A-8 | Changing the password requires the current one | FR-4 |
+| A-9 | The player can log out | FR-5 |
+| A-10 | Every choice is saved as soon as it's made | FR-6 |
+| A-11 | A device showing older progress can't overwrite a newer choice | FR-8 |
+| A-12 | With no connection, the game accepts no new choices | FR-8 |
+| A-13 | The goal can't be changed during a playthrough | FR-9 |
+| A-14 | The avatar is picked from preset looks, with no free text | FR-10 |
+| A-15 | The player can carry straight on into the next year | FR-15 |
+| A-16 | An automated check enforces the event schema | FR-17 |
+| A-17 | Tax uses the character's age in the game and fixed 2026 rates | FR-21 |
+| A-18 | A card needs a steady wage, and the first limit is NOK 5,000-10,000 | FR-26 |
+| A-19 | A family loan is repaid in monthly instalments | FR-27 |
+| A-20 | Owning a moped requires the moped licence | FR-29 |
+| A-21 | The card warning comes back each time interest starts again | FR-31 |
+| A-22 | F10 accepts a system cause | FR-36, 7.3 |
+| A-23 | The disclosed simplifications are a requirement | FR-40 |
+| A-24 | GitHub Actions runs the tests on every pull request | NFR-9 |
+| A-25 | Completion and the quiz are measured across sittings | 7.1 |
+| A-26 | F5 moves to the AI stage. Checked against part 1 of the examiner's guide only (OQ-11, #39) | 7.3 |
+| A-27 | The new rules get worked examples and unit tests | NFR-4 |
+| A-28 | Deleting an account requires the current password and can't be undone | FR-44 |
