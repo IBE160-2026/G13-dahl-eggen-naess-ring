@@ -116,7 +116,7 @@ The survey is a convenience sample, probably spread through the team's own netwo
     - **Family help:** not always on offer and often partial. Family loans are interest-free (FR-27).
 
 - **UJ-5. Markus turns 20, sees how his life turned out, and plays again to get rich.**
-  - **Persona + context:** Markus is about to turn 20 in the game. He sorted out his credit card at 18, and since then he has been careful with money. He worked 20 h a week through his last year and a half at school, and after upper secondary school he has taken a full-time job. He keeps his spending low and saves the rest towards a flat (worked example 23).
+  - **Persona + context:** Markus is about to turn 20 in the game. He sorted out his credit card at 18, and since then he has been careful with money. He worked 20 h a week through his last eight months at school, and after upper secondary school he has taken a full-time job. He keeps his spending low and saves the rest towards a flat (worked example 23).
   - **Entry state:** Logged in, in the last in-game month before his 20th birthday. His stress has settled down, though he has cut back on social things to save.
   - **Path:**
     1. He turns 20, and the game ends.
@@ -522,7 +522,7 @@ An option that has unlocked stays open until the player takes it, and opens agai
 **Consequences (testable):**
 - **What stays open:** the moped licence, buying a moped, the paid car licence, the credit card, a consumer loan, a part-time or full-time job, and, for goal-3 players, the experience. The conditions and prices are the same as in the event.
 - **Same option:** an open option is the same option as in the event, with all its effects, flags, and texts, and the content check enforces this.
-- **Can't pay yet:** the option shows the missing amount and stays open. Test: a player on normal spending with NOK 8,000 saved can't afford the moped licence in month 13, and buys it after the summer job in month 19, which leaves NOK 4,182.
+- **Can't pay yet:** the option shows the missing amount and stays open. Test: a player on normal spending with NOK 8,000 saved can't afford the moped licence in month 13, and buys it after the summer job in month 19, when NOK 4,182 of the wage is left after spending, so they have NOK 12,182 before interest.
 - **Blocked for another reason:** the option shows what's missing, such as a steady wage, stays open, and is refused until the condition is met (NFR-7).
 - **Saying no or quitting:** a player who declines a job or quits can take a job again later.
 - **Dated offers:** a summer job stays open only until that July's income step (months 19, 31, and 43). If a crisis month pushes out the June offer, it can still be taken from the money view until then. The experience stays open until the end of month 56.
@@ -577,7 +577,7 @@ A player with a job sets how many hours a week they work. The setting stays unti
 
 **Consequences (testable):**
 - The player has at most one part-time or full-time job, plus a summer job in July. They set weekly hours when taking the job, and can change them or quit in any month. A change applies from the next month.
-- Monthly pay is weekly hours × 52 / 12 × the hourly rate for the player's age, in whole kroner. A full-time week of 37.5 h at 18+ pays NOK 31,694 a month.
+- Monthly pay is weekly hours × 52 / 12 × the hourly rate for the player's age, in whole kroner, for at most 173 h a month (rule 10). A full-time week of 37.5 h at 18+ pays NOK 31,694 a month, and a 40 h week pays NOK 33,742.
 - **Weekly limit:** hours never go above rule 10: 12 h a week in grunnskole (months 1-18), and 40 h a week from month 19.
 - **Monthly cap:** a summer job and part-time hours share one monthly cap of 173 h. The engine cuts the summer job to fit at July's income step, using that month's hours, extra shifts included. With 30 h a week of part-time work (130 h), a 120 h summer job is cut to 43 h. If the player's hours leave 0 h when the offer is made, no summer job is offered, and the game says why.
 - A full-time job is 37.5 h a week and can be raised to 40.

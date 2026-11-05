@@ -106,22 +106,22 @@ Rent (NOK 8,770) stays in the parameter table for the later moving-out step; it 
 
 The BSU deduction comes in months 12, 24, 36, 48 and 60. 10 h a week at 18: 10 × 52/12 × 195.04 = NOK 8,452 a month. Full-time, 37.5 h: NOK 31,694. A summer job in month 19 is 120 × 139.40 = NOK 16,728, as in worked example 1.
 
-**17a. Wellbeing over UJ-4 (rule 12).** Markus, 18, in Vg2, works 10 h a week. He starts at stress 20, free time 80, social life 60, wellbeing 74. Weights 40/30/30. W is the month interest starts. The kroner amounts are in the PRD addendum's UJ-4 trace.
+**17a. Wellbeing over UJ-4 (rule 12).** Markus, 18, in Vg2, works 10 h a week. He starts at stress 20, free time 80, social life 60, wellbeing 74. Weights 40/30/30. W is the month interest starts, month 41 (May), so W+2 is July with no school. This is a set test state, not a scheduled playthrough, so a test starts from it instead of playing from month 1. The cabin weekend and the party are set directly, because months 43 and 47 are quiet with the default active months (PRD addendum). In real play they would land in nearby active months, and the wellbeing in those rows would move by a few points. Social life starts at 60 here, which is on the low side for a player already on high. The kroner amounts are in the PRD addendum's UJ-4 trace, and example 23 continues the same run.
 
 | Month | What happens | Hours | Spending | Stress | Free time | Social | Wellbeing |
 |---|---|---|---|---|---|---|---|
 | W | Card interest starts, and the warning shows. He stops the card, moves spending down and asks for 2 h more a week (social −5). High gives no +2, because interest was charged | 10 | High | 25 | 80 | 55 | 71 |
 | W+1 | Interest. Extra shift starts | 12 | Normal | 30 | 76 | 55 | 67 |
-| W+2 | Interest. He turns down a cabin weekend (social −5) | 12 | Normal | 35 | 76 | 50 | 64 |
+| W+2 | July. Interest. He has said no to the summer job and turns down a cabin weekend (social −5) | 12 | Normal | 35 | 100 | 50 | 71 |
 | W+3 | Interest | 12 | Normal | 40 | 76 | 50 | 62 |
 | W+4 | Interest | 12 | Normal | 45 | 76 | 50 | 60 |
-| W+5 | The card is paid in full, so no interest. He sets 10 h from next month | 12 | Normal | 40 | 76 | 50 | 62 |
-| W+6 | He goes to a party (social +10) | 10 | Normal | 35 | 80 | 60 | 68 |
-| W+7 to W+9 | No effect on wellbeing from events | 10 | Normal | 30, 25, 20 | 80 | 60 | 70, 72, 74 |
+| W+5 | The card is paid in full, so no interest. He sets 20 h and low spending from next month | 12 | Normal | 40 | 76 | 50 | 62 |
+| W+6 | He goes to a party (social +10), and low spending lowers social life by 2 | 20 | Low | 35 | 60 | 58 | 61 |
+| W+7 to W+9 | No effect on wellbeing from events | 20 | Low | 30, 25, 20 | 60 | 56, 54, 52 | 63, 64, 66 |
 
 For example, W+1: 0.4 × 70 + 0.3 × 76 + 0.3 × 55 = 67.3, which rounds to 67. Wellbeing never drops below 60, so a real win at 20 is still possible.
 
-**17b. Ending wellbeing (months 19-60).** A careful player on normal spending works 10 h a week to month 54, then 37.5 h full-time: ending wellbeing is 75. A money chaser on low spending, with weights 40/30/30, works 12 h a week from month 4 to 18, 40 h from month 19 to 48, 10 h in months 49-54, and 37.5 h full-time after that. There's no summer job, because the 173 h cap leaves no room (rule 10). He has NOK 437,364 at 20. His ending wellbeing is 34, below the threshold of 50, so he gets a hollow win. It's 37 with goal 2's weights and 29 with goal 3's. Easing off earlier doesn't make up for it: 40 h to month 36 gives NOK 349,522 and 39, and 40 h to month 24 gives NOK 280,699 and 43. The threshold sits between 25 h and 26 h a week beside school: on normal spending from month 19, 25 h gives 68 and 26 h gives 41. On low spending, 25 h gives NOK 305,678 and exactly 50, which is the real win's boundary.
+**17b. Ending wellbeing (months 19-60).** A careful player on normal spending takes the three summer jobs, works 10 h a week from month 20 to 54, then 37.5 h full-time: ending wellbeing is 75. A money chaser on low spending, with weights 40/30/30, works 12 h a week from month 4 to 18, 40 h from month 19 to 48, 10 h in months 49-54, and 37.5 h full-time after that. There's no summer job, because the 173 h cap leaves no room (rule 10). He has NOK 436,849 at 20. His ending wellbeing is 34, below the threshold of 50, so he gets a hollow win. It's 37 with goal 2's weights and 29 with goal 3's. Easing off earlier doesn't make up for it. With the same run and the summer jobs that fit under the cap, 40 h to month 36 gives NOK 349,232 and 39, and 40 h to month 24 gives NOK 280,578 and 43. The limit in free time sits between 25 h and 26 h a week beside school. With no job before month 19, the same hours from month 19 to 60, no full-time job, and summer jobs cut to the cap, normal spending gives NOK 190,387 and 68 at 25 h, and NOK 196,098 and 41 at 26 h. On low spending, 25 h gives NOK 305,678 and an average of 50.43, shown as 50, a real win close to the boundary of 49.5.
 
 **18. Endings at 20 (rule 13, PRD FR-41)**
 
@@ -133,7 +133,7 @@ For example, W+1: 0.4 × 70 + 0.3 × 76 + 0.3 × 55 = 67.3, which rounds to 67. 
 | d | No condition, net savings NOK 112,000, months 19-60 sum to 2,079 (average 49.5, shown as 50) | Real win (boundary) |
 | e | As d, but the sum is 2,078 (average 49.48, shown as 49) | Hollow win |
 | f | No condition, net savings NOK 99,999, ending wellbeing 80 | Goal not reached |
-| g | No condition. Without a loan, net savings would be NOK 95,625. With NOK 50,000 borrowed in month 58, the last month it's possible (rules 4 and 6, 12 months, instalment NOK 4,513): cash NOK 136,599, loan left NOK 42,175, net NOK 94,424 | Goal not reached either way |
+| g | No condition, and savings interest left out for simplicity. Without a loan, net savings would be NOK 95,625. With NOK 50,000 borrowed in month 58, the last month it's possible (rules 4 and 6, 12 months, instalment NOK 4,513): cash NOK 136,599, loan left NOK 42,175, net NOK 94,424 | Goal not reached either way |
 | h | Debt-free goal: lowest available money in months 49-60 is NOK 40,000. At 20: family loan NOK 1,500 left, ending wellbeing 70 | Goal not reached. The player could have paid the loan off early (PRD FR-45) |
 | i | Debt-free goal: lowest available money in months 49-60 is NOK 30,000 (exactly the target), no debt at 20, ending wellbeing 55 | Real win |
 | i2 | Debt-free goal: NOK 150,000 and no debt at 20, but available money was NOK 29,999 at the end of month 49 | Goal not reached |
@@ -154,42 +154,42 @@ For example, W+1: 0.4 × 70 + 0.3 × 76 + 0.3 × 55 = 67.3, which rounds to 67. 
 
 For the used moped, bought in month 16 and sold in month 40: insurance is charged in months 17-40, so 24 × NOK 250 = NOK 6,000. The player pays the public transport ticket in months 41-60, never together with the moped's costs. Before 18, the parents pay the ticket.
 
-**20. Reference run for goal reachability (rule 13).** Start with a NOK 10,000 pengegave, moved to the savings account at the first choice, so it earns interest from month 2. Everything left in the current account is moved to savings at each month's choice step, so a month's wage earns interest from the next month. No job until the summer jobs: 120 h in months 19, 31 and 43. Part-time 10 h a week in months 20-54 and full-time 37.5 h in months 55-60. Normal spending (rule 16) all the way. Mobile and transport (NOK 537 a month) from month 37, under PRD FR-23. No moped, licence, card or loan. Net savings at 20: NOK 120,393, with no tax in years 1-3, NOK 6,295 in year 4 and NOK 25,298 in year 5. The balance is NOK 55,797 in month 42, NOK 72,206 in month 49, NOK 80,991 in month 54 and NOK 95,266 in month 56. The lowest balance is NOK 10,000. Ending wellbeing is 75. Goals 1 and 2 are reached, and goal 3 is checked once its price has a source. With one NOK 2,500 unexpected expense each June, net savings are NOK 106,928, the lowest available money in months 49-60 is NOK 61,563, and both goals are still reached. If the player never moves the wage to savings, net savings are NOK 114,673, or NOK 102,173 with the expenses.
+**20. Reference run for goal reachability (rule 13).** Start with a NOK 10,000 pengegave, moved to the savings account at the first choice, so it earns interest from month 2. Everything left in the current account is moved to savings at each month's choice step, so a month's wage earns interest from the next month. No job until the summer jobs: 120 h in months 19, 31 and 43. Part-time 10 h a week in months 20-54 and full-time 37.5 h in months 55-60. Normal spending (rule 16) all the way. Mobile and transport (NOK 537 a month) from month 37, under PRD FR-23. No moped, licence, card or loan. Net savings at 20: NOK 120,393, with no tax in years 1-3, NOK 6,295 in year 4 and NOK 25,298 in year 5. The balance is NOK 55,797 in month 42, NOK 72,206 in month 49, NOK 80,991 in month 54 and NOK 95,266 in month 56. The lowest balance is NOK 10,000. Ending wellbeing is 75. Goals 1 and 2 are reached, and goal 3 is checked once its price has a source. With one NOK 2,500 unexpected expense each June, net savings are NOK 106,928, the lowest available money in months 49-60 is NOK 61,563, and both goals are still reached. If the pengegave goes to savings but the wage always stays in the current account, net savings are NOK 116,184, or NOK 103,065 with the expenses, with savings covering any shortfall (PRD FR-45).
 
 **21. Earlier play has to matter (rules 13 and 16).** The same jobs as in example 20, with no unexpected expenses unless stated.
 
-| # | Run | Net savings at 20 | Goals 1 and 2 (NOK 100,000) |
+| # | Run | Net savings at 20 | Goal 1 (NOK 100,000) |
 |---|---|---|---|
 | a | Careless: pengegave spent in month 1, high spending to month 54, low from month 55. Ending wellbeing 83 | NOK 71,584 | Missed |
-| a2 | As a, with full-time at 40 h | NOK 75,091 | Missed |
+| a2 | As a, with full-time at 40 h, paid for 173 h | NOK 74,985 | Missed |
 | a3 | As a, low from month 53 | NOK 77,362 | Missed |
 | a4 | As a, NOK 10,000 kept | NOK 83,094 | Missed |
 | a5 | As a, low from month 49 | NOK 88,995 | Missed |
 | b | High spending all the way, NOK 10,000 kept | NOK 25,029 | Missed |
-| c | Low spending all the way, NOK 10,000 kept. Ending wellbeing 57, with social life at 0 from month 49 | NOK 193,674 | Reached |
+| c | Low spending all the way, NOK 10,000 kept. Ending wellbeing 57, with social life at 0 from month 48 | NOK 193,674 | Reached |
 | d | Summer jobs only before month 55, pengegave spent, low all the way | NOK 81,752 | Missed |
 | e | No job at all before month 55, pengegave spent, normal to month 54, low after. Below NOK 0 from month 37 to 54, with crises not modelled | NOK 57,701 | Missed |
 | f | As d, with a NOK 30,000 pengegave kept | NOK 116,297 | Reached: keeping a large pengegave counts as earlier care |
 
-In the runs that miss, the lowest available money in months 49-60 is at most NOK 19,456, so they miss goal 2's NOK 30,000 too. In month 56, runs a to a5 hold NOK 31,248-48,495, below the experience price range, so they can't pay for goal 3 in time. The reference run holds NOK 95,266, or NOK 81,929 with expenses.
+For goal 2, runs c and f reach the NOK 30,000 buffer, with a lowest available money in months 49-60 of NOK 113,050 and NOK 48,120. In the other runs it's at most NOK 19,456, so they miss. In month 56, runs a to a5 hold NOK 31,248-48,495, below the experience price range, so they can't pay for goal 3 in time. The reference run holds NOK 95,266, or NOK 81,929 with expenses.
 
-Switching level around big pay doesn't beat normal on money: low in months 19, 31, 43 and 55-60 and high otherwise gives NOK 109,705 and ending wellbeing 83, against NOK 120,393 and 75. Alternating high and low month by month gives NOK 120,373 and 74. Moving to low from month 55 after a careful start gives NOK 145,280 and 74.
+Switching level around big pay doesn't beat normal on money: low in months 19, 31, 43 and 55-60 and high otherwise gives NOK 109,705 and ending wellbeing 83, against NOK 120,393 and 75. Alternating month by month depends on where the big pay falls: low in odd months, which include the summer pay months and month 55, gives NOK 120,373 and 74, and high in odd months gives NOK 98,333 and 75, which misses goal 1. Moving to low from month 55 after a careful start gives NOK 145,280 and 74.
 
-**22. Moped against the goal (rules 13, 14 and 16).** The reference run with the moped licence in month 20 (NOK 12,000) and a moped bought in month 32, sold in month 60. Insurance is charged from the month after buying, and moped fuel has no figure yet, so it's left out.
+**22. Moped against the goal (rules 13, 14 and 16).** The reference run with the moped licence from month 20 (NOK 12,000) and a moped from month 32, each bought at the first choice step the player can pay for it, and sold in month 60. With the yearly expenses, the licence moves to month 21. Insurance is charged from the month after buying, and moped fuel has no figure yet, so it's left out.
 
 | # | Run | Net savings at 20 | With NOK 2,500 a year | Goal 1 (NOK 100,000) |
 |---|---|---|---|---|
-| a | Used moped, sold for NOK 8,937, 10 h, normal | NOK 100,010 | NOK 86,553 | Reached only with no expenses |
-| b | Used moped, 14 h, normal | NOK 121,808 | NOK 108,356 | Reached |
-| c | Used moped, 10 h, normal, low from month 49 | NOK 132,659 | NOK 119,205 | Reached |
-| d | New moped, sold for NOK 18,850, 10 h, normal | NOK 94,641 | NOK 88,149 | Missed |
-| e | New moped, 10 h, normal, low from month 49 | NOK 127,291 | NOK 120,804 | Reached |
+| a | Used moped, bought in month 32, sold for NOK 8,938, 10 h, normal | NOK 100,068 | NOK 86,637 | Reached only with no expenses |
+| b | Used moped, 14 h, normal | NOK 121,864 | NOK 108,441 | Reached |
+| c | Used moped, 10 h, normal, low from month 49 | NOK 132,719 | NOK 119,291 | Reached |
+| d | New moped, 10 h, normal. Bought in month 34 and sold for NOK 19,575, or with expenses in month 39 and sold for NOK 21,388 | NOK 95,079 | NOK 84,396 | Missed |
+| e | New moped, 10 h, normal, low from month 49, bought as in d | NOK 127,729 | NOK 117,050 | Reached |
 
-The paid car licence (NOK 32,500 in month 40) on the reference run gives NOK 86,222, so it has to be made up elsewhere too.
+The paid car licence (NOK 32,500 in month 40) on the reference run gives NOK 86,299, so it has to be made up elsewhere too.
 
-**23. Markus in UJ-5.** Markus leaves UJ-4 in month 46 with NOK 122, the moped kept, and costs of NOK 549 a month. To reach goal 1 he works 20 h a week on low spending in months 47-54, then 37.5 h full-time on low: NOK 104,824 at 20, with moped fuel left out. On normal he ends at NOK 62,637, and with 10 h on low at NOK 85,297.
+**23. Markus in UJ-5.** Markus leaves UJ-4 in month 46 with NOK 122, the moped kept, and costs of NOK 549 a month. To reach goal 1 he works 20 h a week on low spending in months 47-54, then 37.5 h full-time on low: NOK 104,824 at 20, with moped fuel left out. On normal he ends at NOK 62,637, and with 10 h on low at NOK 85,297. Wellbeing in months 47-60 runs from 61 to 70, and social life ends at 32. If months 19-40 average 74, his ending wellbeing is about 70, a real win.
 
-Examples 7-21 were added on 2026-11-05 from the PRD review and the final check, and examples 22-23 from the independent review the same day. Examples 17, 20, 21, 22 and 23 were recalculated after the independent review with a script applying rules 1, 2, 3, 10, 12 and 16 month by month, with two accounts. The review found that the earlier figures in 17b, 20 and 21d came from a script that broke the monthly cap in rule 10 and the interest order in rule 1. The new figures have been calculated only by this script, and an independent check is still to come.
+Examples 7-21 were added on 2026-11-05 from the PRD review and the final check, and examples 22-23 from the independent review the same day. Examples 17, 20, 21, 22 and 23 were recalculated after the independent review with a script applying rules 1, 2, 3, 10, 12 and 16 month by month, with two accounts and purchases at the choice step. The review found that the earlier figures in 17b, 20 and 21d came from a script that broke the monthly cap in rule 10 and the interest order in rule 1. An independent recalculation from the rule text the same day found further errors in 17, 20, 21, 22 and the 40 h pay, and these figures have been corrected to match it.
 
 Examples 2-4 and 6 were calculated with a script applying rules 2, 4 and 5 month by month, and examples 1 and 5 are direct arithmetic. All five were independently recomputed on 2026-10-22 and match. Example 5 was corrected on 2026-10-29 after domain research showed that the earlier 50% figure (NOK 5,000) was withholding, not final tax. Rules 9-10, the working-hour parameter and example 6 were added on 2026-10-31 (issue #16). Note that example 2 depends on rule 2 (rounding each month); a plain compound formula gives NOK 10,291.
 
