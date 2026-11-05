@@ -201,7 +201,7 @@ D7-D25 were added on 2026-11-05 from the PRD review. A disclosure is seen once p
 | D20 | Payment plan (rule 15) | The first payment plan offer | «Forenklet: I spillet blir en betalingsavtale et nedbetalingslån over 12 måneder med samme rente som kortet, og kortet sperres til lånet er betalt. I virkeligheten avtaler du vilkårene med banken.» |
 | D21 | Consumer loan (FR-25) | The first loan offer | «Forenklet: I spillet koster det ingenting å betale ned lånet før tiden, og banken ser bare på lønna di de siste tre månedene.» |
 | D22 | BSU withdrawal (FR-22) | The first BSU deposit | «Forenklet: I spillet kan du bare ta ut hele BSU-en, og da avsluttes den. Du betaler også tilbake skattefradraget du har fått. I virkeligheten skal BSU brukes til bolig, og bruker du pengene til noe annet, mister du fradraget.» |
-| D23 | Fixed costs before 18 (FR-23) | The first month summary | «I spillet betaler foreldrene mobilen og bussen din til du fyller 18. Da overtar du regningene.» |
+| D23 | Fixed costs before 18 (FR-23) | The first month summary | «I spillet betaler foreldrene mobilen og bussen din til du fyller 18. Da overtar du regningene. Lommepenger er ikke med i denne versjonen.» |
 | D24 | BSU: opening age (FR-18, FR-22) | The first BSU offer | «Forenklet: I spillet kan du opprette BSU selv fra du er 15. I virkeligheten må en foresatt som regel være med, og Skatteetaten fraråder BSU før du er 17 hvis du ikke har skattepliktig arbeidsinntekt.» |
 | D25 | Spending level (FR-23, rule 16) | The first wage | «Forenklet: I spillet velger du et forbruksnivå, og en fast del av lønna di går til forbruk hver måned. I virkeligheten går pengene til mange små kjøp, og det er lett å miste oversikten.» |
 

@@ -139,7 +139,7 @@ The examiner's guide requires anything left out or changed from the approved pro
 
 | Change | Why |
 |---|---|
-| AI-generated events moved to a second stage, so the MVP has no AI. F5 moves with them | Team decision, logged on 2026-11-03. The lecturer's feedback of 2026-10-06 advised building the engine and the event library first, so the game works with no AI, and rated in-app AI among the hardest parts. Whether this meets the course requirements is OQ-11 |
+| AI-generated events moved to V2, so the MVP has no AI. F5 moves with them | Team decision, logged on 2026-11-03. The lecturer's feedback of 2026-10-06 advised building the engine and the event library first, so the game works with no AI, and rated in-app AI among the hardest parts. Whether this meets the course requirements is OQ-11 |
 
 ## Decision history
 
@@ -342,7 +342,13 @@ Proposed by Dahl on 2026-11-05 and accepted by the team, as Dahl reported the sa
 
 Decided by the team, as Dahl reported on 2026-11-05 (`.memlog.md`). The game gets small minigames along the way, to make it more fun. Not all of them are defined yet. The example so far is the licence: to take it, the player plays a game where they drive a route and have to follow some rules.
 
-This replaces "the licence is a payment only, with no exam or driving" from 2026-11-03. See FR-28, FR-30, and D10. A minigame is the first thing in the game the player does with skill rather than by choosing, and it runs on the device, so FR-51 sets how its result reaches the engine. Still open (OQ-16): which minigames, how many are in the MVP, and what failing one costs.
+This replaces "the licence is a payment only, with no exam or driving" from 2026-11-03. See FR-28, FR-30, and D10. A minigame is the first thing in the game the player does with skill rather than by choosing, and it runs on the device, so FR-51 sets how its result reaches the engine. Dahl added on 2026-11-05 that the team sees minigames along the lines of the driving test for the licence, so the MVP's minigames are for the licences. Still open (OQ-16): what failing one costs, among other things.
+
+### Pocket money and V2
+
+Decided by the team, as Dahl reported on 2026-11-05 (`.memlog.md`). Pocket money, and earning it, goes in V2, for example through minigames. The AI play driver also stays in V2 for now.
+
+In the survey, 68% get money from parents or pocket money, so the MVP differs from many players' lives here: a player with no job has no income before 18. D23 tells the player. M5 had already left pocket money out, because it had no sourced figure.
 
 ## Confirmed assumptions (2026-11-05)
 
@@ -373,6 +379,6 @@ This replaces "the licence is a payment only, with no exam or driving" from 2026
 | A-23 | The disclosed simplifications are a requirement | FR-40 |
 | A-24 | GitHub Actions runs the tests on every pull request | NFR-9 |
 | A-25 | Completion and the quiz are measured across sittings | §7.1 |
-| A-26 | F5 moves to the AI stage. Checked against part 1 of the examiner's guide only (OQ-11, #39) | §7.3 |
+| A-26 | F5 moves to V2, with the AI. Checked against part 1 of the examiner's guide only (OQ-11, #39) | §7.3 |
 | A-27 | The new rules get worked examples and unit tests | NFR-4 |
 | A-28 | Deleting an account requires the current password and can't be undone | FR-44 |

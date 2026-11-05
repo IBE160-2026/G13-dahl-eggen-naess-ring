@@ -31,7 +31,7 @@ LifeMode lets young people in Norway make expensive money mistakes before those 
 **It feels like a game, not schoolwork.** A 15-year-old should prefer it to scrolling on the bus. It should be more rewarding and smoother to play than Koll på cashen, a free Swedish personal-finance game for the same age group.
 
 - **Now (this PRD):** a complete game from 15 to 20, built on a pre-written event library and a deterministic financial engine, with no AI.
-- **Next:** AI-generated events as a second stage (brief Scope In, items 3-4). After that, moving out and rent, education, negotiation, a parent view, and modes for schools.
+- **Next (V2):** AI as the game's play driver, generating events (brief Scope In, items 3-4), and pocket money the player can earn, for example through minigames. After that, moving out and rent, education, negotiation, a parent view, and modes for schools.
 - **Later:** a wider simulation of adult life.
 
 ## 2. Target User
@@ -41,7 +41,7 @@ LifeMode is for young people aged 15-20 in Norway who want or need to learn abou
 What the survey "Unge og penger" found (133 responses):
 - **They want to learn:** 63% would like to learn more about money.
 - **Thinking ahead is the weak spot:** 88% know how much money they have, but only 38% think about how a purchase affects their money months ahead, and 39% often run out of money.
-- **What they regret:** mostly small purchases that add up: clothes, trend buys, and collectibles.
+- **What they regret:** most often small purchases that add up, such as snacks and takeaway, and also clothes, trend buys, and collectibles.
 - **What they understand least:** BSU and credit.
 - **Where they learn:** family is the main source of money, knowledge, and help, and 88% learned most about money from family.
 
@@ -174,6 +174,7 @@ The survey is a convenience sample, probably spread through the team's own netwo
 | Teaser | A short line about what comes next, at the end of a session or in a recap |
 | Tip | A short, general, pre-written hint in an event, which the player can ignore. It isn't personal advice |
 | Trygdeavgift | The national insurance contribution on wages (rule 3) |
+| V2 | The next version after the MVP |
 | Virke/HK | The retail collective agreement whose minimum hourly rates the game uses (D2) |
 | Wage income | Hourly wages before tax. It doesn't include sales, gifts, the pengegave, family money, interest, or loan payouts |
 | Wellbeing | A score from 0 to 100 made from stress, free time, and social life, weighted by the life goal (rule 12) |
@@ -192,7 +193,7 @@ The survey is a convenience sample, probably spread through the team's own netwo
 - Wellbeing, room layers, and visible future opportunities (5.8)
 - Cause links, echo badges, "Hvorfor?", "if you had chosen differently" lines, and disclosed simplifications (5.9)
 - Four endings, the ending summary, and playing again from 15 (5.10)
-- Minigames, including the driving game for a licence (5.11)
+- Minigames for the licences, such as the driving game (5.11)
 - Playtest records (5.12)
 
 **Cut list.** If time runs short, content is cut before the core, in this order:
@@ -220,7 +221,8 @@ Version one of LifeMode won't:
 
 | Item | Status |
 |---|---|
-| AI-generated events and AI checks | Second stage, after the base works |
+| AI-generated events and AI checks | V2 for now, after the base works |
+| Pocket money, and earning it, for example through minigames | V2. The MVP has none, so a player with no job has no income before 18 |
 | Avatar and home that develop over time | Later |
 | Unlocks based on progress towards the goal, and new areas | Later |
 | Funds and investing | Candidate for later |
@@ -464,7 +466,7 @@ The game is driven by a library of pre-written events. Realizes UJ-1 to UJ-5.
 - **No AI needed:** the whole game can be played from start to finish with zero AI calls (F6).
 
 **Notes:**
-- Candidate event topics from the survey are small purchases that add up; trend buys; collectibles and in-game purchases; subscriptions with a binding period; budgeting and paying bills; and the costs of russ at 18-19, with no alcohol content. Family appears as an actor in events.
+- Candidate event topics from the survey are small purchases that add up, such as snacks and takeaway; clothes; trend buys; collectibles and in-game purchases; subscriptions with a binding period; and budgeting and paying bills. From the market research, the costs of russ at 18-19, with no alcohol content. Family appears as an actor in events.
 
 #### FR-46: Event scheduling
 
@@ -604,7 +606,7 @@ From the 18th birthday, the player pays for mobile and transport every month. Be
 - **It costs something either way:** low spending lowers social life by 2 a month, and high spending raises it by 2 (rule 12).
 - **Transport:** it's the public transport ticket, or moped insurance and fuel in months when the player owns a moped (rule 14). The ticket and the moped costs are never charged in the same month. With a car licence, car fuel for borrowing the parents' car is added.
 - **Moped costs:** they're the player's own at any age, apart from any share of the insurance the parents pay (FR-29).
-- **Before 18:** a player with no job who keeps a NOK 10,000 pengegave in savings never goes below NOK 0 (worked example 15). The month summary says when the player takes over the bills at 18.
+- **Before 18:** a player with no job who keeps a NOK 10,000 pengegave in savings never goes below NOK 0 (worked example 15). The MVP has no pocket money (§4.3). The month summary says when the player takes over the bills at 18.
 - **Everyday costs:** some event options start, change, or stop a monthly everyday cost, such as canteen lunches or a subscription. It's charged with the fixed costs until a later choice stops it, and it links to the choice that started it. From the money view, the player can stop one that has no binding period. A cost with a binding period can't be stopped before the period ends.
 - **Card:** with card use on, spending goes on the card as far as it fits under the limit, and the rest comes from the current account. Card-payable costs follow FR-26.
 
@@ -880,7 +882,7 @@ The player can start a new life from age 15. Realizes UJ-5.
 
 ### 5.11 Minigames
 
-**Description:** Minigames come up along the way, so the player sometimes uses skill rather than only choosing. Not all of them are defined yet (OQ-16). The only one known so far is the driving game for a licence. Realizes UJ-2.
+**Description:** Minigames come up along the way, so the player sometimes uses skill rather than only choosing. In the MVP, minigames are for the licences, such as a driving game. More can come in V2, such as earning pocket money (§4.3). Realizes UJ-2.
 
 **Functional Requirements:**
 
@@ -1074,7 +1076,7 @@ There are 10-20 playtesters before the December delivery, all 18-20-year-olds. T
 
 F1-F10 from the brief apply, with these changes:
 - F4 is read as: a trigger that's true outside a cooldown always starts a crisis month. During a cooldown the trigger is shown, not skipped silently.
-- F5, the fallback when the AI fails, moves to the AI stage, because the MVP has no AI.
+- F5, the fallback when the AI fails, moves to V2, because the MVP has no AI.
 - F9 has one test for each combination of crisis active or not, goal reached or missed, and ending wellbeing at or above the threshold or below it, plus both boundaries.
 - F10 is read as "an earlier choice or a system cause" (FR-36).
 
@@ -1089,12 +1091,12 @@ UX and architecture can start. The Blocks column names the work each question ho
 | OQ-6 | Who is responsible for the data in the playtest, on which legal basis, and whether the institution requires a notification for student projects. Also what applies to the email addresses of players as young as 15 before any go-live (#24). Ask the lecturer | Team | First playtest |
 | OQ-8 | Tuning values: goal targets, spending levels and their social effect, wellbeing weights, start values, monthly changes and threshold, the idle check interval, the first card limit, how often family helps (the survey suggests about half of those in need), the parents' insurance share, how fast the moped loses value, how often the car licence gift comes, how car fuel is charged and what the licence gives the player, active months and their positions, unexpected expenses per year, boomerang delays, and which belongings get room layers | Team, when tuning | Event balancing |
 | OQ-9 | What the avatar contains, which control the player uses to set weekly hours (the mechanism is in FR-47), and whether an option's wellbeing effect is shown before the pick | UX | Nothing |
-| OQ-11 | Whether a delivery with no AI in the app meets the course requirements, including moving F5 to the AI stage. So far it's checked only against part 1 of the examiner's guide, and the lecturer's difficulty rating leaned partly on in-app AI (#39). Ask the lecturer | Team | Epics |
+| OQ-11 | Whether a delivery with no AI in the app meets the course requirements, including moving F5 to V2. So far it's checked only against part 1 of the examiner's guide, and the lecturer's difficulty rating leaned partly on in-app AI (#39). Ask the lecturer | Team | Epics |
 | OQ-12 | Whether typing the email address twice (FR-1) falls under an exception in WCAG 2.2 criterion 3.3.7, Redundant Entry | UX | Nothing |
 | OQ-13 | The dates for feature freeze and playtest start, worked back from the exact delivery date | Team | Sprint planning |
 | OQ-14 | Whether a free host meets NFR-5, NFR-10, and NFR-11 together: zero cost, EU/EEA storage, 7 days of availability, and a usable screen within 10 seconds after sleep. Which of these gives way first, and what the fallback is | Architecture | First playtest |
 | OQ-15 | The approved proposal isn't in the repo. The examiner's guide requires anything left out or changed from it to be described and justified, so the proposal needs adding to the repo, and the "Changes from the proposal" table in the addendum needs finishing | Team | Delivery |
-| OQ-16 | Minigames: which ones come beyond the driving game, how many are in the MVP and where they go on the cut list, what failing costs, whether the car licence gift needs the driving game too, and the way past for a player who can't play one | Team, UX | Building them, and the epics for them |
+| OQ-16 | Minigames in the MVP: what failing costs, whether the car licence gift needs the driving game too, the way past for a player who can't play one, and where they go on the cut list | Team, UX | Building them, and the epics for them |
 
 ## 9. Assumptions
 
