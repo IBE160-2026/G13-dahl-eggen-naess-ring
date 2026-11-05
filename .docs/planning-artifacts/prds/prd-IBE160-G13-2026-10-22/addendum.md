@@ -21,25 +21,26 @@ These items came out of the PRD review and belong in the next `bmad-architecture
 - **Responsiveness:** a server budget of at most 300 ms to process and save one month, for 9 out of 10 requests, with the backend and database in the same region. A browser test with network throttling plays a scripted first session, and a Lighthouse mobile run checks the first screen before each playtest.
 - **Mobile-first:** add NFR-1's supported browsers and test devices as the test matrix.
 - **Game flow:** the two-part month and the state check on every request that changes the game (FR-49), and the open-option model (FR-48).
-- **Minigames:** they run on the device, unlike the rest of the game. Settle how a result reaches the server and gets checked (FR-51), and how automated runs and seeded test users get past them.
-- **Playtest:** the records in FR-50, switched off outside the playtest environment, and how they're exported.
+- **Minigames:** they run on the server like the rest of the game, one saved answer at a time (FR-51). A real-time game would need its own decision on how to check results, so it's left for V2.
+- **V2:** events reach the game through one schema and one selection step, which is enough for now. Generated events and their replay under FR-12 aren't designed, and V2 may need rework there.
+- **Playtest:** the records in FR-50, the setting that keeps them off outside the playtest environment, test-user marking, and how they're exported.
 - **Examiner:** seeding test users at the states NFR-6 names, and `.env.example`.
 - **Other:** a scheduled deletion job, self-hosted fonts, and the accessibility check in CI.
 
 ### UJ-4 month by month
 
-Reflects M13, the spending level, and the 3.5% minimum, all decided on 2026-11-05. Markus keeps the moped (M13). This replaces the sale in the story that SE (sarahnaess) confirmed on 2026-11-04. With a NOK 10,000 limit, a sale for about NOK 9,300 and five months of extra shifts can't both be true: the sale alone would nearly clear the debt. This trace shows that the engine can reproduce UJ-4 under rules 1, 2, and 5.
+Reflects M13, the spending level with costs on top, and the 3.5% minimum, all decided on 2026-11-05. Markus keeps the moped (M13). This replaces the sale in the story that SE (sarahnaess) confirmed on 2026-11-04. With a NOK 10,000 limit, a sale for about NOK 9,300 and five months of extra shifts can't both be true: the sale alone would nearly clear the debt. This trace shows that the engine can reproduce UJ-4 under rules 1, 2, and 5.
 
-Entry state at month W: age 18. Card bill at the debt step: NOK 10,000. That's his limit, reached after the city trip, lunches, and fuel, so the card takes no more purchases and his spending comes from the current account. Payment setting: the whole balance. No savings. Wage 10 h a week, NOK 8,452. Mobile NOK 299 and moped insurance NOK 250. Spending level: high. Moped fuel is left out of the costs until #43 gives it a source. Tax is NOK 0 while his wages so far this year stay under NOK 99,650.
+Entry state at month W: age 18. His earlier bills were paid in full, including lunches and fuel. In month W−1, after that month's bill was paid, he put a NOK 10,000 city trip for everyone on the card at the event step. Card bill at the debt step: NOK 10,000. That's his limit, so the card takes no more purchases and his spending comes from the current account. Payment setting: the whole balance. NOK 1,000 in the current account and no savings. Wage 10 h a week, NOK 8,452. Mobile NOK 299 and moped insurance NOK 250. Spending level: high. Moped fuel is left out of the costs until #43 gives it a source. Tax is NOK 0 while his wages so far this year stay under NOK 99,650.
 
 | Month | Wage | Costs | Spending | Free for the card | Bill | Interest | Paid | Card after | What happens |
 |---|---|---|---|---|---|---|---|---|---|
-| W | 8,452 | 549 | 7,508 (high) | 395 | 10,000 | 188 | 395 | 9,793 | Card warning shows, and Markus acts (see below) |
-| W+1 | 10,142 | 549 | 7,195 (normal) | 2,398 | 9,793 | 184 | 2,398 | 7,579 | 12 h a week, well within rule 10 |
-| W+2 | 10,142 | 549 | 7,195 | 2,398 | 7,579 | 143 | 2,398 | 5,324 | |
-| W+3 | 10,142 | 549 | 7,195 | 2,398 | 5,324 | 100 | 2,398 | 3,026 | |
-| W+4 | 10,142 | 549 | 7,195 | 2,398 | 3,026 | 57 | 2,398 | 685 | |
-| W+5 | 10,142 | 549 | 7,195 | 2,398 | 685 | 0 | 685 | 0 | Paid in full, no interest: back on track, with NOK 1,713 left |
+| W | 8,452 | 549 | 8,029 (high) | 874 | 10,000 | 188 | 874 | 9,314 | Card warning shows, and Markus acts (see below) |
+| W+1 | 10,142 | 549 | 7,607 (normal) | 1,986 | 9,314 | 175 | 1,986 | 7,503 | 12 h a week, well within rule 10 |
+| W+2 | 10,142 | 549 | 7,607 | 1,986 | 7,503 | 141 | 1,986 | 5,658 | |
+| W+3 | 10,142 | 549 | 7,607 | 1,986 | 5,658 | 107 | 1,986 | 3,779 | |
+| W+4 | 10,142 | 549 | 7,607 | 1,986 | 3,779 | 71 | 1,986 | 1,864 | |
+| W+5 | 10,142 | 549 | 7,607 | 1,986 | 1,864 | 0 | 1,864 | 0 | Paid in full, no interest: back on track, with NOK 122 left |
 
 In month W:
 - Interest starts, so the card warning shows: NOK 188 this month, and 51 months and NOK 5,508 in total interest if he pays only the minimum.
@@ -47,25 +48,37 @@ In month W:
 - He turns the card off, asks for one extra 2-hour shift a week, and moves spending down to normal.
 - He checks what the moped would sell for: about NOK 9,300 (rule 14, a gift moped owned about 26 months), less than he owes, and he'd pay for the bus without it. He keeps it.
 
-He pays NOK 672 in interest in total, against NOK 5,508 at the minimum. No crisis trigger fires. Worked example 17a in the brief addendum covers his wellbeing.
+He pays NOK 682 in interest in total, against NOK 5,508 at the minimum. No crisis trigger fires. Worked example 17a in the brief addendum covers his wellbeing, and example 23 covers what he has to do after this to reach his goal.
 
 ### Event scheduling and library size
 
-**Active months:** months 1, 3, 6, 8, and 10 of each in-game year (January, March, June, August, October). There are never more than two quiet months in a row. The June offers and goal 3's experience event in FR-46 fall in active months. Months 59-60 are quiet by default. A crisis or card warning can still take them.
+**Active months:** months 1, 3, 6, 8, and 10 of each in-game year (January, March, June, August, October). There are never more than two quiet months in a row. The June offers and goal 3's experience event in FR-46 fall in active months. Months 59-60 are quiet by default. A crisis, a card warning, or a pushed-out milestone or follow-up can still take them.
+
+**Set placements by year.** The rest of each year's five months are follow-ups and drawn events.
+
+| Year | Months | Set placements |
+|---|---|---|
+| 1 | 1-12 | Month 1 pengegave, month 3 part-time job |
+| 2 | 13-24 | Month 13 moped licence, a moped offer once the player has a licence, month 18 summer job |
+| 3 | 25-36 | Month 30 summer job |
+| 4 | 37-48 | Month 37 car licence draw, month 39 credit card, month 42 summer job, month 44 experience for goal 3 |
+| 5 | 49-60 | Month 49 consumer loan, month 54 full-time job |
 
 **Eligibility at draw time** covers `owns_moped`, `has_moped_licence`, `has_job`, and `has_car_licence`. The placements that must be guaranteed are in FR-46.
 
 **Who gets a month:** the order in FR-46. An unexpected expense isn't in it, because it's a deduction with a system cause.
 
-**Library size.** X3 sets the minimum at 50, and FR-17 targets 60-80. About 8 milestones reach every playthrough, and the other 17 of the 25 slots are drawn evenly from the rest, so the expected number of events two playthroughs share is 8 + 17² / (N − 8):
+**Library size.** X3 sets the minimum at 50, and FR-17 targets 60-80. The table above gives 11 milestones in every playthrough, and 12 for goal 3. The other 14 of the 25 slots are drawn evenly from the rest, so the expected number of events two playthroughs share is 11 + 14² / (N − 11):
 
 | Library N | Shared at least | Shared on average | Share of 25 |
 |---|---|---|---|
 | 30 | 20 | 21 | 85% |
-| 40 | 10 | 17 | 68% |
-| 50 | 8 | 15 | 60% |
-| 60 | 8 | 14 | 54% |
-| 80 | 8 | 12 | 48% |
+| 40 | 11 | 18 | 71% |
+| 50 | 11 | 16 | 64% |
+| 60 | 11 | 15 | 60% |
+| 80 | 11 | 14 | 55% |
+
+For goal 3 at N = 50 it's 12 + 13² / 38 = 16.4, or 66%, just inside FR-43's two-thirds. That's why the experience has one event, not two.
 
 Flag gating raises overlap and different choices lower it, so the seeded content check, not this table, is the real test. The check runs 1,000 seeded playthroughs with random choices.
 
@@ -99,7 +112,7 @@ An option can also have a type with its own values:
 - a loan (allowed range and terms)
 - a family loan (amount of at least NOK 500, over 2-12 months)
 - an amount the player enters (allowed range)
-- a minigame (which one, and the result for passing and for not passing, FR-51)
+- a minigame (which one, its situations and right answers, and the result for passing and for not passing, FR-51)
 
 **What the content check enforces on options:** every option states its wellbeing effect; every regular event has an option with no cost; every crisis event includes asking family and ignoring it; values stay inside the limits above.
 
@@ -107,7 +120,7 @@ Unexpected expenses are a separate list, each with a kind, an amount, the flags 
 
 ### How the engine keeps results repeatable and traceable
 
-**Random draws.** One seed per playthrough. Each draw is derived from the seed, the month, and what is drawn (for example "family help, event E-41"), so it doesn't depend on the order of requests. Engine tests can set the seed or force a result. The player can still reroll the pengegave by starting over, which is harmless because every goal is reachable from NOK 10,000. Rerolling the car licence gift means replaying three in-game years.
+**Random draws.** One seed per playthrough. Each draw is derived from the seed, the month, and what is drawn (for example "family help, event E-41"), so it doesn't depend on the order of requests. Engine tests can set the seed or force a result. The player can still reroll the pengegave by starting over, and a kept NOK 30,000 is enough for goal 1 with only summer jobs and low spending (worked example 21f). That's accepted: keeping it is a good choice, every goal is reachable from NOK 10,000, and the game has no score to compete on. Rerolling the car licence gift means replaying three in-game years.
 
 **Content versions.** Each playthrough keeps the versions it started with (NFR-4). Old versions are kept while any playthrough uses them. Engine code fixes apply to all playthroughs, and the worked examples guard them.
 
@@ -338,11 +351,30 @@ Proposed by Dahl on 2026-11-05 and accepted by the team, as Dahl reported the sa
 | Four more cut steps, and dates set by the team (OQ-13) | The old cut list removed no feature with real build cost, and the lecturer asked for "en minimal versjon som sikkert kan bli ferdig" | Adds to the cut list | PRD §4.1, OQ-13 |
 | OQ-6 blocks the first playtest, and OQ-11 is widened and blocks epics | Real email addresses first arrive with the playtest, and the project has no go-live. If the course requires AI in the app, architecture and epics change | Narrows "privacy questions don't block" (2026-11-03), which still holds for the MVP and the PRD | PRD §8 |
 
+### Decisions from the independent review
+
+Dahl asked Claude on 2026-11-05 to decide the findings from the independent review (`review-2026-11-05-independent.md`), and the team sees them in PR #52. Every finding's outcome is in `review-2026-11-05-independent-solutions.md`. The figures come from a month-by-month simulation. Where a row disagrees with an earlier table, this one applies.
+
+| Decision | Why | Changes an earlier decision? | Now in |
+|---|---|---|---|
+| Spending is a share of the wage after tax, with costs on top. It can't take the account below zero or draw on savings | With the old base, spending absorbed most costs: NOK 12,000 of costs lowered net savings by only NOK 620 on high, so event-started costs and the moped barely mattered. Now it's NOK 12,340 on normal, and cause links and FR-39 tell the truth. A 3-month hold was tested and dropped, because it isn't needed at 60% | Changes the spending base from the final check | Rule 16, FR-23, FR-45 |
+| Low spending is 60%, not 50%, and the reference run works 10 h a week, not 8 | Six months on low made 86% of the careless run's money, and small changes took it past the target. With 60%, every careless variant ends at or below NOK 88,995, while the reference run with expenses ends at NOK 106,928. A household contribution from month 55 was tested and dropped: it adds a mechanic with no source, and it hits the reference run as hard | Changes the shares from the final check | Rule 16, examples 20-21 |
+| Ending wellbeing uses months 19-60. A social life below 20 raises stress, and high spending gives no social bonus while interest is charged | With months 37-60, working 40 h a week until month 36 and then easing off was still a real win. Now it ends at 39. Permanent debt on high scored the same as a debt-free player on normal. Saving at 25 h on low all the way now ends at the boundary, and on 8-10 h a saver ends at 57, which stays a real win | Changes the window from the final check | Rule 12, FR-33 |
+| The limit of 25 h a week stays, shown in the hours control | Scaling the penalty adds a formula for little teaching value, and a visible limit explains the drop. It remains a cliff: 25 h gives 68 and 26 h gives 41 | No | FR-47 |
+| Goal 2 needs NOK 30,000 of available money at the end of each of months 49-60, and no debt at 20 | With a NOK 100,000 buffer, everyone reaching goal 2 also reached goal 1. This one is different in kind, and six good months can't reach it | Changes the buffer from the final check | Rule 13, FR-9 |
+| Goal 3 needs the purchase by the end of month 56. One offer in month 44, then open in the money view | Buying and not buying were the same inequality, so the offers and events changed nothing. Two offers broke "no repeats" and FR-43's limit at 50 events | Changes goal 3 and the months from the final check | Rule 13, FR-9, FR-18 |
+| No consumer loan in months 59-60 | A loan could clear the below-zero trigger and turn the loss into a win | No | Rule 6, FR-25 |
+| The driving game is turn-based and judged by the server. It stays on the cut list, with "payment only" as the fallback, and the gift licence needs no game | A real-time game would let the device report its own pass, break NFR-7 and FR-7, and clash with WCAG AA. This keeps the route and the rules from the team's idea, and it's much cheaper to build. A real-time game can come in V2 | Narrows FR-51. Dahl described a game where the player drives a route and follows rules, so the team should check it still matches | FR-51, §4.1 |
+| Car fuel is a cost the player starts or stops, and a licence opens car events | Half of players got a recurring cost they never chose, and the licence gave nothing | Settles part of OQ-8 | FR-23, FR-30 |
+| Early payoff for family loans and payment plans, and a crisis month rechecks its triggers when it opens | A player with cash could lose goal 2 for lack of a button, and a player could get a crisis for a problem their wage had already fixed | No | FR-45, Rule 8, FR-32 |
+| Half of the events before 18 have two options with no cost | A player with no money got a first session of locked options. Pocket money stays in V2 | No | FR-17 |
+| The AI driver stays in V2, and the team doesn't wait for the lecturer's answer | Decided by the team, as Dahl reported on 2026-11-05. The PRD is updated if that changes. So no fallback is written, and OQ-11 no longer blocks epics | Changes OQ-11's blocker from the final check | §8 |
+
 ### Minigames
 
 Decided by the team, as Dahl reported on 2026-11-05 (`.memlog.md`). The game gets small minigames along the way, to make it more fun. Not all of them are defined yet. The example so far is the licence: to take it, the player plays a game where they drive a route and have to follow some rules.
 
-This replaces "the licence is a payment only, with no exam or driving" from 2026-11-03. See FR-28, FR-30, and D10. A minigame is the first thing in the game the player does with skill rather than by choosing, and it runs on the device, so FR-51 sets how its result reaches the engine. Dahl added on 2026-11-05 that the team sees minigames along the lines of the driving test for the licence, so the MVP's minigames are for the licences. Still open (OQ-16): what failing one costs, among other things.
+This replaces "the licence is a payment only, with no exam or driving" from 2026-11-03. See FR-28, FR-30, and D10. A minigame is the first thing in the game the player does with skill rather than by choosing, and it runs on the device, so FR-51 sets how its result reaches the engine. Dahl added on 2026-11-05 that the team sees minigames along the lines of the driving test for the licence, so the MVP's minigames are for the licences. The independent review later made the driving game turn-based. See the table above.
 
 ### Example purchases in the month summary
 
