@@ -42,10 +42,9 @@ Finne status i BMAD, hente siste endringer og føre inn tre beslutninger i PRD-e
 - **`addendum.md`:** de tre forslagene er flyttet til en egen tabell over beslutninger, og korttallene omtales ikke lenger som et forslag.
 - **`.memlog.md`:** beslutningene er ført inn, med Dahls begrunnelse for sletting: det er lett å håndtere i Supabase.
 - Endringene i disse tre filene er ikke committet. PRD-en er fortsatt `draft`.
-- #34, #35 og #36 er ikke lukket, fordi lukkingen ble avvist av tillatelsessjekken.
+- Lukket: #34, #35 og #36. Dahl lukket dem selv, fordi lukkingen herfra ble avvist av tillatelsessjekken.
 
 ### Åpne punkter
-- Lukk #34, #35 og #36 med beslutningene som kommentar. #36 dekker også A-28 til det er avklart.
-- Bekreft A-28: sletting krever gjeldende passord og kan ikke angres (#36).
+- Bekreft A-28: sletting krever gjeldende passord og kan ikke angres (#28).
 - Teamet må bekrefte tilfeldig førerkortgave med mulighet til å betale selv (OQ-1, FR-30) og de øvrige forslagene i addendumet (#28).
 - Avklar om minstebeløpet regnes av saldoen før eller etter renter (#38). Det gir 5 508 kr eller 5 437 kr for 10 000 kr ved 3,5 %. Etter renter gir også det gamle tallet 5 878 kr ved 3 %. Det gamle tallet 3 649 kr for 8 400 kr er ikke gjenskapt; begge varianter gir 3 645 kr.
