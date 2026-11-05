@@ -97,11 +97,11 @@ What the survey "Unge og penger" found (133 responses):
   - **Resolution:** He starts thinking about other ways to earn more. With savings and a summer job, the moped he thought was too expensive might be possible after all.
 
 - **UJ-4. Markus uses his first credit card like a debit card, and pays it off before it becomes a crisis.**
-  - **Persona + context:** Markus, 18, has a part-time job, which is how he got his first credit card. He uses it as if it were a debit card, without thinking that it has to be paid back, with interest if he doesn't pay in time. He spends it on school lunches, on a city trip with his friends where he pays for everyone, and on fuel for his moped and for his parents' car when he borrows it. His parents paid for his driving licence as a gift. [OPEN: for now the gift is random or depends on something other than tobacco and alcohol. On 2026-11-05 the team decides whether to use the common Norwegian deal of no tobacco or alcohol before 18, given the ban on marketing them to minors.]
-  - **Entry state:** Logged in, aged 18, a couple of in-game months after getting the card. He has had a moped since he turned 16, and it costs him fuel, repairs and insurance. Whether he bought the moped or got it as a gift, and whether his parents pay part of the insurance, is random in the MVP.
+  - **Persona + context:** Markus, 18, has a part-time job, which is how he got his first credit card. He uses it as if it were a debit card, without thinking that it has to be paid back, with interest if he doesn't pay in time. He spends it on school lunches, on a city trip with his friends where he pays for everyone, and on fuel for his moped and for his parents' car when he borrows it. His parents paid for his driving licence as a gift. [OPEN, team confirms: the gift is random, so only some players get it. A player without it can pay for the licence (FR-30).]
+  - **Entry state:** Logged in, aged 18, a couple of in-game months after getting the card. He has had a moped since he turned 16, and it costs him fuel, repairs and insurance. He chose to buy it or took a gift offer when one came up (FR-29). Whether his parents pay part of the insurance is random in the MVP.
   - **Path:**
     1. The game warns him that his card debt is much larger than his monthly wage, and that he can't pay off the whole balance before the interest-free deadline. This isn't a crisis month yet, and he decides for himself whether to act.
-    2. The game shows the card's interest rate, in kroner for his own balance: what the interest costs him this month, and what the whole debt will cost if he pays only the minimum. At 22.6% a year on NOK 10,000, NOK 188 of his first NOK 300 minimum payment goes to interest. Paying only the minimum takes 53 months and costs NOK 5,878 in interest in total. He panics a little, because the longer he waits, the harder it gets.
+    2. The game shows the card's interest rate, in kroner for his own balance: what the interest costs him this month, and what the whole debt will cost if he pays only the minimum. At 22.6% a year on NOK 10,000, NOK 188 of his first NOK 350 minimum payment goes to interest. Paying only the minimum takes 51 months and costs NOK 5,508 in interest in total. He panics a little, because the longer he waits, the harder it gets.
     3. He talks to his mother. She wants to help but can't afford to, so she suggests he stops using the card until he has the repayment under control, and takes extra shifts to pay it down faster.
     4. He stops using the card and takes extra shifts, within the working-hour limits in rule 10.
     5. He sells his moped. After two years its price has dropped with age and use, and the sale doesn't cover the debt.
@@ -121,7 +121,7 @@ What the survey "Unge og penger" found (133 responses):
     4. With each choice he also gets advice on how the problem could have been avoided. [ASSUMPTION: these are short, general, pre-written tips about the situation in the game, as decided for tips, and not personal advice.]
   - **Climax:** He feels a bit stupid for ending up in so much debt at 18, but proud that he found a way out.
   - **Resolution:** He has seen how things like the moped licence and the credit card affect his money, and now he wants to find out how to get rich. He starts again from 15. [ASSUMPTION: he chooses a life goal again and gets a new pengegave, as decided.]
-  - **Second playthrough:** He chooses to save for something big or to be debt-free with a buffer, and puts everything into money. He finds that getting rich is possible, but chasing as much money as possible often costs him his social life and raises his stress. This is the hollow win: goal reached, wellbeing below the threshold.
+  - **Second playthrough:** He chooses to save for something big or to be debt-free with a buffer, and puts everything into money. He finds that getting rich is possible, but chasing as much money as possible often costs him his social life and raises his stress. This is the hollow win: goal reached, wellbeing below the threshold. The summary includes the choice that hurt his wellbeing most, so he can see why (FR-42).
 
 ## 3. Glossary
 
@@ -201,6 +201,15 @@ A logged-in player can change their password from inside the game.
 
 **Consequences (testable):**
 - After logging out, the game can't be reached on that device without logging in again.
+
+#### FR-44: Delete account
+
+[OPEN, team confirms.] A logged-in player can delete their account and game data from inside the game, after confirming.
+
+**Consequences (testable):**
+- [ASSUMPTION: deleting requires the current password and can't be undone.]
+- After deletion, the email address and the game data are gone, and the old login no longer works.
+- The same email address can create a new user afterwards.
 
 **Notes:**
 - [NOTE FOR PM: staying logged in on shared school PCs is left for the team to solve later.]
@@ -410,12 +419,13 @@ In some events and crisis months, family can give or lend money. Talking to fami
 
 **Consequences (testable):**
 - Help isn't always on offer, and it often covers only part of the amount. The engine draws whether family can help, and how much, each time.
-- A family loan is paid back at 0% interest. [ASSUMPTION: it is paid back in monthly instalments set by the event, and it counts as debt for the rule 8 triggers.]
-- Family gifts are on the cut list. Family loans stay.
+- A family loan is paid back at 0% interest. [ASSUMPTION: it is paid back in monthly instalments set by the event.]
+- A family loan doesn't count towards the crisis trigger of debt above 3× income (FR-32). [OPEN, team confirms.] Otherwise a teenager with no income would go into crisis from any loan.
+- Family can sometimes give cash. Family gifts stay in the MVP.
 
 ### 4.6 Moped and driving licences
 
-**Description:** At 16 the player can get the moped licence and a moped, and by 18 they have a car licence from their parents. These add costs, choices and something to sell. Realizes UJ-2 and UJ-4.
+**Description:** At 16 the player can get the moped licence and a moped, and by 18 some players get a car licence from their parents. These add costs, choices and something to sell. Realizes UJ-2 and UJ-4.
 
 **Functional Requirements:**
 
@@ -430,7 +440,7 @@ From age 16, the player can choose to take the moped licence. They pay for drivi
 
 #### FR-29: Own a moped
 
-From age 16, the player can own a moped. They either buy it or get it as a gift, and which one is drawn at random. Realizes UJ-4.
+From age 16, the player can own a moped. They choose whether to buy one, and now and then a random event offers one as a gift. [OPEN, team confirms: this replaces a random draw between buying and a gift, so that saving up pays off as in UJ-3.] Realizes UJ-3 and UJ-4.
 
 **Consequences (testable):**
 - **Running costs:** fuel and insurance are transport costs (FR-23), and repairs come as unexpected expenses (FR-24).
@@ -440,11 +450,12 @@ From age 16, the player can own a moped. They either buy it or get it as a gift,
 
 #### FR-30: Car licence
 
-By age 18, the player has a car licence, paid for by their parents as a gift. After that, the player pays for fuel when borrowing the parents' car. Realizes UJ-4.
+By age 18, some players get a car licence as a gift from their parents. The engine draws who gets it. A player without the gift can pay for the licence at a real price. With a licence, the player pays for fuel when borrowing the parents' car. [OPEN, team confirms.] Realizes UJ-4.
 
 **Consequences (testable):**
-- The licence costs the player nothing. Car fuel is a transport cost (FR-23).
-- [OPEN: for now, the gift is random or depends on something other than tobacco and alcohol. On 2026-11-05 the team decides whether to use the deal of no tobacco or alcohol before 18.]
+- The gift costs the player nothing. Car fuel is a transport cost (FR-23).
+- The gift doesn't depend on tobacco or alcohol, because the MVP has no such choices.
+- Every price has a source and a date (#29).
 
 ### 4.7 Warnings and crises
 
@@ -577,6 +588,7 @@ The ending shows how the life went and the three choices that mattered most, ran
 
 **Consequences (testable):**
 - Only these three choices can be opened.
+- On a hollow win, at least one of the three is the choice that hurt wellbeing most, even if it wouldn't rank by kroner. [OPEN, team confirms.]
 - The tips are general and pre-written (FR-19).
 
 #### FR-43: Play again
@@ -611,6 +623,7 @@ The email address and the password are the only real personal data. The game col
 **How the data is handled:**
 - Supabase Auth stores the password, only as a hash. It is never kept in game data or logs.
 - A player can reach only their own data.
+- A player can delete their account and game data (FR-44).
 
 **Playtests:** only 18-20-year-olds take part. Results are recorded anonymously and kept apart from the testers' accounts.
 
@@ -650,7 +663,7 @@ Player-facing text is in Norwegian, in plain language a 15-year-old understands.
 - **Tips:** they sound like tips, not lectures.
 - **Visual style:** grown-up, not childish.
 - **Credit:** the credit mechanics get more explanation than the rest, because most players have never used credit.
-- **Tobacco and alcohol:** no content markets them. [OPEN: the deal of no tobacco or alcohol before 18, FR-30.]
+- **Tobacco and alcohol:** the MVP has no tobacco or alcohol choices, and no content markets them.
 
 #### NFR-9: Automated tests
 
@@ -670,12 +683,12 @@ Version one of LifeMode won't:
 
 ### 7.1 In Scope
 
-- Account, login and password recovery by email (4.1)
+- Account, login, password recovery by email and account deletion (4.1)
 - Saving to the cloud and syncing between devices (4.2)
 - A start with a life goal, an avatar and a pengegave (4.3)
 - Months, sessions of one in-game year, teasers, recaps, the event library, age unlocks and tips (4.4)
 - Five money mechanisms plus help from family (4.5)
-- The moped licence, owning a moped, and the car licence as a gift (4.6)
+- The moped licence, owning a moped, and the car licence as a gift or paid for (4.6)
 - The card warning and crisis months (4.7)
 - Wellbeing, room states and visible future opportunities (4.8)
 - Cause links, echo badges, "Hvorfor?", "if you had chosen differently" lines and disclosed simplifications (4.9)
@@ -683,7 +696,7 @@ Version one of LifeMode won't:
 
 **If time runs short,** content is cut before the core, in this order:
 1. "If you had chosen differently" lines during play, including the BSU comparison
-2. The parents' share of the moped insurance, and family gifts (family loans stay)
+2. The parents' share of the moped insurance
 3. Events, down to the minimum of 30
 
 These always stay: the engine, wellbeing, the endings, cause links, "Hvorfor?", the card warning, the moped and login.
@@ -704,6 +717,7 @@ These always stay: the engine, wellbeing, the endings, cause links, "Hvorfor?", 
 | Replay from a crossroads | Out. It needs earlier game states to be stored |
 | Interest or events during a long break | Left out |
 | Staying logged in on shared school PCs | The team will solve it later (#31) |
+| Tobacco and alcohol choices | Left out for now. The basis, if the team returns to it, is `research/domain-norwegian-tobacco-alcohol-advertising-la-2026-11-04/research.md` |
 
 ## 8. Success Metrics
 
@@ -743,18 +757,20 @@ F1-F10 from the brief apply, with two changes:
 
 | # | Question | Owner | Blocks |
 |---|---|---|---|
-| OQ-1 | Can the car licence gift depend on no tobacco or alcohol before 18, given the ban on marketing them to minors? | Team, meeting 2026-11-05 | No. The gift is random for now |
-| OQ-2 | Should the card minimum be 3% or 3.5% (utlånsforskriften § 13)? This changes rule 5, worked example 4 and the figures in UJ-4 | Team, meeting 2026-11-05 | No |
-| OQ-3 | Real prices for the moped licence, a new and a used moped, insurance, fuel, repairs and car fuel (#29) | Team | Writing those events |
+| OQ-1 | Does the team confirm leaving out tobacco and alcohol choices, with a random car licence gift? (#34) | Team, meeting 2026-11-05 | No |
+| OQ-2 | Does the team confirm a card minimum of 3.5%, min NOK 300? This is written into rule 5 and UJ-4. Worked example 4 doesn't change. Cards this small fall outside utlånsforskriften § 13, so this is about realism (#35) | Team, meeting 2026-11-05 | No |
+| OQ-3 | Real prices for the moped licence, a new and a used moped, the car licence, insurance, fuel, repairs and car fuel (#29) | Team | Writing those events |
 | OQ-4 | How password reset email can work at zero cost and in the sensor's local run (#30) | Architecture | No |
 | OQ-5 | Staying logged in on shared school PCs (#31) | Team, later | No |
 | OQ-6 | The privacy check before go-live, including email addresses of players as young as 15 (#24) | Team | Go-live |
 | OQ-7 | The brief and the architecture still describe AI as part of version one (#32) | Team | No |
 | OQ-8 | Tuning values: goal targets, wellbeing weights and threshold, idle time, the first card limit, how often family helps, and how fast the moped loses value | Team, when tuning | No |
 | OQ-9 | What the avatar contains, and how the player chooses working hours | UX | No |
-| OQ-10 | The architecture lists account deletion under security testing, but no requirement covers deleting an account | Team | No |
+| OQ-10 | Does the team confirm account deletion in the game (FR-44)? (#36) | Team, meeting 2026-11-05 | No |
 
 ## 10. Assumptions Index
+
+Dahl confirmed A-1, A-3, A-12, A-13, A-14, A-15, A-18 and A-26 on 2026-11-04, and the team confirms them in review. A-26 should also be checked against the course requirements.
 
 | # | Assumption | Where |
 |---|---|---|
@@ -776,7 +792,7 @@ F1-F10 from the brief apply, with two changes:
 | A-16 | An automated check enforces the event schema | FR-17 |
 | A-17 | Tax uses the character's age in the game and fixed 2026 rates | FR-21 |
 | A-18 | A card needs a wage income, and the first limit is NOK 5,000-10,000 | FR-26 |
-| A-19 | A family loan is repaid monthly and counts as debt for rule 8 | FR-27 |
+| A-19 | A family loan is repaid in monthly instalments | FR-27 |
 | A-20 | Owning a moped requires the moped licence | FR-29 |
 | A-21 | The card warning comes back each time interest starts again | FR-31 |
 | A-22 | F10 accepts a system cause | FR-36, 8.3 |
@@ -785,3 +801,4 @@ F1-F10 from the brief apply, with two changes:
 | A-25 | Completion and the quiz are measured across sittings | 8.1 |
 | A-26 | F5 moves to the AI stage | 8.3 |
 | A-27 | The new rules get worked examples and unit tests | 8.3 |
+| A-28 | Deleting an account requires the current password and can't be undone | FR-44 |

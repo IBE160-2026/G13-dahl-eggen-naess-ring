@@ -114,7 +114,7 @@ All worked examples and the full rule set are in [addendum.md](addendum.md#finan
 7. One of three life goals chosen at the start (save for something big, be debt-free with a buffer, or afford a big experience) and a wellbeing meter weighted by that goal, based on stress, free time and social life. They lead to one of four endings: real win, hollow win, goal not reached or loss. The engine calculates them, so they work with no AI. Details are in [addendum.md](addendum.md#win-condition--endgame--decision).
 8. Cause links: every effect in the engine stores the choice that triggered it. They drive echo badges, a "Hvorfor?" button, "if you had chosen differently" lines and an ending that shows the three choices that mattered most. Replay starts again from age 15.
 9. Login with an email address and a password the player creates, to save and resume progress, with no username, no real age and no free text beyond the email address. Supabase Auth stores the password. A forgotten password can be reset by email, and a logged-in player can change their password. Details are in [addendum.md](addendum.md#privacy--decision).
-10. Moped and car licence: the player pays for the moped licence at real prices, can own a moped from 16 with fuel, repairs, insurance and a falling resale value, and has a car licence by 18 as a gift from their parents. Family can sometimes give or lend money. Details are in the PRD addendum.
+10. Moped and car licence: the player pays for the moped licence at real prices, can own a moped from 16 with fuel, repairs, insurance and a falling resale value, and may get a car licence by 18 as a gift from their parents, or can pay for it. Family can sometimes give or lend money. Details are in the PRD addendum.
 
 **Out (not now)**
 
@@ -126,7 +126,7 @@ All worked examples and the full rule set are in [addendum.md](addendum.md#finan
 
 Scope test: without items 1, 2 and 5 on the Out list, we can still find out whether the AI-driven life is fun and teaches consequences.
 
-If time runs short before December, content is cut before the core: first the "if you had chosen differently" lines during play (those for the three choices on the ending screen stay), then the parents' share of the moped insurance and family gifts (family loans stay), then events down to the minimum of 30.
+If time runs short before December, content is cut before the core: first the "if you had chosen differently" lines during play (those for the three choices on the ending screen stay), then the parents' share of the moped insurance, then events down to the minimum of 30.
 
 ## Constraints and Open Risks
 
