@@ -1,7 +1,7 @@
 ---
 title: LifeMode Addendum
 related_brief: brief.md
-updated: 2026-11-03
+updated: 2026-11-05
 ---
 
 # Addendum: LifeMode
@@ -36,19 +36,40 @@ Added 2026-10-14 in response to teacher feedback: the engine must "always calcul
 | Moped insurance | NOK 3,000 per year | [ASSUMPTION] Not verified at a primary source (#29) |
 | Petrol 95 | NOK 20.64 per litre | SSB table 09654, average January-September 2026 |
 | Policy rate (background only) | 4.5% | Norges Bank API, 13 Oct 2026 |
+| Goal target: save for something big | NOK 100,000 net savings | Game design, tuning (PRD OQ-8) |
+| Goal target: debt-free buffer | Available money of at least NOK 30,000 at the end of each of months 49-60, and no debt at 20 | Game design, tuning (PRD OQ-8); about 3 months of hybel rent |
+| Big experience price | [needs figure], about NOK 50,000-75,000 so that the careless runs can't pay in time and the reference run can (example 21) | To be researched and dated (PRD OQ-3, #43) |
+| Spending level | Low 60%, normal 75% (default), high 95% of the wage after tax; social life −2 a month on low, +2 on high | Game design, tuning (PRD OQ-8) |
+| First card limit | NOK 5,000-10,000, default NOK 10,000 | Game design, PRD FR-26 |
+| Crisis debt floor | NOK 5,000 | Game design; the bottom of the first-card limit range |
+| Crisis cooldown | 2 months | Game design, tuning |
+| Payment plan term | 12 months | Game design, tuning |
+| Wellbeing start values | Stress 20, social life 60 | Game design, tuning (PRD OQ-8) |
+| Wellbeing weights, calm/free time/social | Save for something big 40/30/30; debt-free with a buffer 50/25/25; big experience 30/30/40 | Game design, tuning (PRD OQ-8) |
+| Wellbeing threshold | 50 | Game design, tuning (PRD OQ-8) |
+| Moped depreciation and floor | 15% of the start value a year; floor 20% of the start value | [ASSUMPTION] Tuning values; research found no Norwegian resale figures (PRD OQ-8) |
+| Moped and car fuel use | [needs figure: litres a month] × NOK 20.64 | To be researched and dated (PRD OQ-3, #43) |
+| Youth everyday spending | [needs figure], to check the spending levels and event-started costs against | To be researched and dated, for example SIFO's reference budget (PRD OQ-3, #43) |
+| Car licence gift chance | 50% | Game design, tuning (PRD OQ-8) |
 
 ### Rules
 
-1. **One round is one month.** Each month is processed in a fixed order: income → tax → fixed costs → loan instalments and interest on debt → interest on savings → the month's event and the player's choice.
+1. **One round is one month.** Each month is processed in a fixed order: income → tax → fixed costs, everyday costs and spending → unexpected expense → loan instalments, the card bill and interest on debt → interest on savings → the month's event and the player's choice → wellbeing. The rule 8 check runs at the end of the month.
 2. **Whole kroner.** All amounts are whole NOK. Monthly interest is `balance × annual rate / 12`, rounded to the nearest krone (0.5 rounds up).
 3. **Tax.** Tax is calculated on the player's total wage income for the calendar year, using 2026 rates. Up to NOK 99,650 there is no tax. Above that, trygdeavgift applies: 7.6% of the whole income (5.1% under 17), but never more than 25% of the income above NOK 99,650. Income tax is 22% of ordinary income (income minus minstefradrag) above the personfradrag, plus trinnskatt step 1; higher trinnskatt steps are not modelled. Each month the tax step deducts the increase in the year's calculated tax. The 50% that employers withhold above the frikort limit is withholding, settled in the tax assessment, and is not modelled as tax in version one.
-4. **Consumer loan.** An annuity loan: equal monthly payments `P × r / (1 − (1 + r)^−n)` with `r` = annual rate / 12, rounded to whole kroner. The final payment is adjusted so the balance ends at exactly zero.
-5. **Credit card.** If the full balance is paid by the end of the month, no interest is charged. Otherwise interest is charged on the whole balance, and the minimum payment is the larger of 3.5% of the balance before the month's interest and NOK 300 (or the whole balance if it is smaller).
-6. **Credit only from 18.** Consumer loans and credit cards are available only from the player's 18th birthday, as in Norway, where minors cannot take on loans. Before 18 the player cannot borrow.
+4. **Consumer loan.** An annuity loan: equal monthly payments `P × r / (1 − (1 + r)^−n)` with `r` = annual rate / 12, rounded to whole kroner. The final payment is adjusted so the balance ends at exactly zero. At 0% (family loans), each instalment is the amount divided by the number of months, rounded under rule 2, and the final instalment is the amount minus the others.
+5. **Credit card.** Each month's debt step pays the card bill: the card balance at that point, including this month's card-payable costs. The engine pays the player's chosen amount (the whole balance, the minimum or a fixed amount), but never more than the current account and savings hold. If the whole balance is paid, no interest is charged. Otherwise interest is charged on the whole balance first, and then the payment is made. The minimum is the larger of 3.5% of the balance before the month's interest and NOK 300, or the whole balance after interest if that is smaller. Paying the minimum never counts as paying in full. Paying less than the minimum is a missed minimum, and it leaves an overdue amount: the minimum minus what was paid. Later payments cover the overdue amount first, and the player can also clear it with an extra payment, which lowers the balance at once and doesn't undo interest already charged. With the setting on the minimum, the payment is this month's minimum plus any overdue amount. A fixed amount is at least the minimum, in steps of NOK 100. A purchase that would take the balance above the limit is declined. Interest can take it above the limit.
+6. **Credit only from 18.** Consumer loans and credit cards are available only from the player's 18th birthday, as in Norway, where minors cannot take on loans. Before 18 the player cannot borrow from a bank. Family loans (PRD FR-27) aren't bank credit and are possible from 15. A consumer loan can't be taken in months 59-60, so borrowing can't clear a trigger at the last check.
 7. **Quiet months.** A month without an event is still processed by rules 1-5, but the player only sees a short summary. A playthrough from 15 to the 20th birthday (60 months) is tuned to about 20-30 real choices.
-8. **Crisis months.** The engine, not the AI, starts a crisis month when any of these is true at the end of a month: the current account is below NOK 0; the credit card minimum payment has been missed two months in a row; or total debt, not counting family loans, is above 3 × the average monthly income over the last three months. A crisis month has 2-3 linked choices with real-world actions (sell something, take extra shifts, ask for a payment plan, ignore it), and the engine calculates the effect of each. In version one a crisis never ends the game: ignored debt keeps growing under rules 4-5 and triggers new crisis months. A crisis condition still active when the game ends at age 20 leads to the loss ending.
-9. **BSU deduction.** The deduction is calculated once a year, in December's tax step: the lower of 10% of the year's BSU deposits (deposits capped at NOK 27,500) and the year's calculated tax under rule 3. If the player pays no tax, the deduction is NOK 0, and unused deduction is lost. The game says so plainly ("BSU deduction: NOK 0, you have no tax to reduce") and shows that BSU still pays off through its higher interest (5.61% against 2.87% on an ordinary savings account).
-10. **Working hours follow Norwegian law.** The engine never lets the player work more hours than arbeidsmiljøloven allows. The limit depends on whether the player is in compulsory schooling, not on age alone: a 15-year-old in 10th grade gets 12 h per school week, while a 16- or 17-year-old in upper secondary school gets 40 h per week. Summer jobs use the limits for weeks without school. Rules on night work (§ 11-3) are not modelled, because the game does not track time of day.
+8. **Crisis months.** The engine, not the AI, checks these triggers at the end of every month: the current account is below NOK 0 (savings already used up); the credit card minimum payment has been missed two months in a row, and the overdue amount hasn't been paid; or debt is above the larger of 3 × the average monthly wage income and NOK 5,000. Debt means the card balance, consumer loans and payment plans, not counting family loans, minus a positive current account and the savings account (not BSU), never below 0. Wage income is hourly wages before tax over this month and the two before; months before the game started count as 0. Sales, gifts, the pengegave, family money, interest and loan payouts don't count. The NOK 5,000 floor is configuration. If a trigger is true and no cooldown is running, the next month is a crisis month. When that month opens, after rule 1 has run up to interest on savings, the triggers are checked again. If none is true, the crisis month is skipped: the month runs as usual with a short note, with no crisis stress and no cooldown. There is only one crisis month at a time, however many triggers are true, and its event follows the most urgent trigger: below zero, then missed minimum, then debt. A crisis month has up to 3 linked choices with realistic actions (sell something, take extra shifts, ask for a payment plan, stop the card, ask family, ignore it), and the engine calculates the effect of each. An option is shown only when it is possible, and an option whose effect would land after month 60 isn't shown; asking family and ignoring it are always offered. Money actions and open options can also be used in a crisis month. They use no choice. After each choice or action the triggers are checked again, and the crisis month ends as soon as none is true, when the player ignores it, or after the third choice. Money that a crisis choice or a money action brings in during a crisis month goes first to a negative current account, then to overdue card minimums, and the rest stays in the current account. The missed-minimum trigger counts as solved once the overdue minimums are paid, or the card balance moves into a payment plan. After a crisis month, no new one starts for two months (configuration), and the game shows any trigger that is true during the cooldown. In version one a crisis never ends the game: ignored debt keeps growing under rules 4-5 and starts new crisis months after each cooldown. The loss ending applies when a trigger that was true at the end of month 59 is still true at the end of month 60. Month 60 is then a crisis month, even during a cooldown, unless the check when it opens finds no trigger true. A trigger that first becomes true at the end of month 60 doesn't give a loss.
+9. **BSU deduction.** The deduction is calculated once a year, when the player continues from December, so deposits made that month count. In month 60 this comes before the rule 13 check. It's paid into the current account and isn't wage income, so it isn't part of rule 16. It is the lower of 10% of the year's BSU deposits (deposits capped at NOK 27,500) and the year's calculated tax under rule 3. If the player pays no tax, the deduction is NOK 0, and unused deduction is lost. The game says so plainly ("BSU deduction: NOK 0, you have no tax to reduce") and shows that BSU still pays off through its higher interest (5.61% against 2.87% on an ordinary savings account). Deposits above the year's NOK 27,500 are not accepted. The player can only withdraw the whole BSU. The BSU then closes, and the deductions received so far are taken from the payout at once, outside rule 16.
+10. **Working hours follow Norwegian law.** The engine never lets the player work more hours than arbeidsmiljøloven allows. The limit depends on whether the player is in compulsory schooling, not on age alone: a 15-year-old in 10th grade gets 12 h per school week, while a 16- or 17-year-old in upper secondary school gets 40 h per week. Summer jobs use the limits for weeks without school. Rules on night work (§ 11-3) are not modelled, because the game does not track time of day. In the game, the player sets weekly hours. Monthly hours are weekly hours × 52 / 12, and the monthly cap is the weekly cap × 52 / 12, rounded down. In grunnskole (months 1-18, rule 11) the cap is 12 h a week in every month, because no summer job is offered before 16. From month 19 it is 40 h a week, and summer-job hours in July count towards the same monthly cap of 173 h. A 40 h week is paid for 173 h a month, and the engine cuts a summer job to fit the cap at July's income step, using that month's hours, extra shifts included. If the cut would leave 0 h when the offer is made, no summer job is offered, and the game says why. Daily limits aren't modelled.
+11. **Calendar.** The player is born in January. Game month 1 is January of the year the player turns 15, and month 60 is December of the year they turn 19. The game ends on the 20th birthday, after month 60. Game year k (months 12k − 11 to 12k) is one calendar year: the player is 14 + k all year, and it is the income year for rules 3 and 9. The school year runs from August to June, and July is the summer month. The player is in grunnskole in months 1-18 (10th grade from month 8), in upper secondary school in months 20-54, and out of school from month 55. Trygdeavgift is 5.1% in game years 1-2, the years before the calendar year the player turns 17.
+12. **Wellbeing.** Stress, free time and social life are whole numbers from 0 to 100. Stress starts at 20 and social life at 60. Each month, free time = 100 − 2 × (school hours + weekly work hours − 30), within 0-100 and rounded under rule 2. School counts as 30 hours a week in school months (rule 11), and weekly work hours are the month's hours ÷ (52 / 12). Each event choice changes stress and social life by its own effect, at most 20 points either way. Last in the month, after the choice, these apply in this order. In a month with spending (rule 16), social life falls by 2 on the low level. On high it rises by 2, unless interest was charged on debt that month. If interest was charged on any debt, stress rises by 5. If free time is below 50, stress rises by 5, and social life falls by 5. If social life is then below 20, stress rises by 5. A postponed family-loan instalment raises stress by 5. Each of these rises stops at 50, and stress already above 50 stays where it is. In a crisis month, stress rises by 10, with no such stop. If none of these apply and stress is above 20, it falls by 5, but not below 20. An event's own effect doesn't count as one of these. Each part is then kept within 0-100. Wellbeing = w1 × (100 − stress) + w2 × free time + w3 × social life, rounded to a whole number (0.5 rounds up), with weights set by the life goal that add up to 100%. Ending wellbeing is the average wellbeing in months 19-60, rounded the same way.
+13. **Life goals at 20.** The goal is checked once, after month 60 has been processed, including its choice. Debt is the card balance plus what's left of consumer loans, payment plans and family loans. Family loans count as debt here, although they don't count towards the 3× trigger in rule 8. Net savings = current account + savings account + BSU − debt. Available money = current account + savings account − debt. Belongings such as a moped don't count. Save for something big: net savings ≥ the target. Be debt-free with a buffer: debt is NOK 0 at 20, and available money ≥ the buffer target at the end of each of months 49-60. Afford a big experience: the experience was bought by the end of month 56, and available money ≥ NOK 0 at 20. The experience can only be paid for from the current and savings accounts. A goal measure equal to its target counts as reached.
+14. **Moped.** The player owns at most one moped and needs the moped licence to own one. The start value is the price paid (new NOK 29,000, used NOK 13,750), or NOK 13,750 for a gift moped. Resale value = start value × (1 − 15% × months owned / 12), rounded to whole kroner, never below 20% of the start value. Months owned = the sale month − the month the player got the moped. In a month when the player owns a moped at the fixed-cost step, transport is moped insurance (NOK 250) and moped fuel, and the public transport ticket isn't charged. A moped got in month m is first charged in month m + 1, and a moped sold in month m is last charged in month m. If the engine draws that the parents pay part of the insurance, the player's NOK 250 falls by that share. The draw is made once, when the player gets the moped.
+15. **Payment plan.** In a crisis month, the player can turn the card balance into a payment plan: an annuity loan under rule 4 at the card's interest rate, over 12 months. The card is blocked until the plan is paid, so card use is off and spending comes from the current account. Plan instalments are charged like consumer-loan instalments, and the plan can be paid off early with no fee. Only one plan can run at a time. The term is configuration.
+16. **Spending level.** The player sets a spending level: low 60%, normal 75% or high 95%. The default is normal. Each month, after fixed and everyday costs have been charged, that share of the wage income after tax is spent, rounded under rule 2, so costs come on top of spending. Spending is never more than the current account holds at that point. It never draws on savings or takes the account below NOK 0. With no wage, nothing is spent. With card use on, card-payable costs go on the card first, and then spending goes on it as far as it fits under the limit. The rest comes from the current account, up to what it holds, and that isn't a declined purchase. A change applies from the next month. The shares are configuration.
 
 Rent (NOK 8,770) stays in the parameter table for the later moving-out step; it is not used in version one.
 
@@ -62,6 +83,113 @@ Rent (NOK 8,770) stays in the parameter table for the later moving-out step; it 
 | 4 | The trip from the brief: NOK 3,200 on a credit card, paying only the minimum each month | Paid off after 13 months; total paid NOK 3,606 (NOK 406 interest) |
 | 5 | An 18-year-old earns NOK 110,000 in one calendar year | NOK 2,588 tax, all of it trygdeavgift: the lower of 7.6% × 110,000 (NOK 8,360) and 25% × 10,350 (NOK 2,587.50, rounded up). Income tax is 0, because ordinary income (110,000 − 50,600 minstefradrag = 59,400) is below the personfradrag |
 | 6 | A 17-year-old on frikort (no tax) keeps NOK 10,000 in a BSU for 12 months | BSU deduction NOK 0 (no tax to reduce). Balance NOK 10,576 (NOK 576 interest), against NOK 10,289 in an ordinary savings account (example 2) |
+| 7 | Card warning. Setting: whole balance. Last month paid in full. Bill NOK 6,000; current account and savings hold NOK 4,000 | Pays NOK 4,000. Interest NOK 113. Balance NOK 2,113. Warning this month, reason "couldn't pay". At the minimum, the NOK 6,000 bill would take 26 months and NOK 1,599 in interest. Next month the account covers NOK 2,113: paid in full, no interest, no warning |
+| 7b | Card warning, chosen. Setting: minimum. Bill NOK 3,000; account holds NOK 20,000 | Interest NOK 57, pays NOK 300, balance NOK 2,757. Warning, reason "chose to pay less", with an option to pay the whole balance. At the minimum: 12 months, NOK 357 |
+| 8 | Family loan of NOK 5,000 over 6 months at 0% | NOK 833 five times and a final NOK 835. If the account can't cover month 3, that instalment moves to the end: 7 months, still NOK 5,000, never below NOK 0 |
+| 9 | Debt trigger, age 19, wage NOK 8,452 in each of the last three months (limit NOK 25,356). The current account is NOK 0 unless stated | (a) Card NOK 9,000 + consumer loan NOK 17,000, no savings: NOK 26,000, crisis next month. (b) Same, but the NOK 17,000 is a family loan: NOK 9,000, no crisis. (c) As (a) with NOK 2,000 in savings: NOK 24,000, no crisis. (d) No wage for three months, card NOK 4,000: floor NOK 5,000, no crisis; card NOK 6,000: crisis. (e) A NOK 8,800 moped sale leaves the average unchanged. (f) As (a) with NOK 2,000 in the current account: NOK 24,000, no crisis |
+| 10 | Crisis cadence, cooldown 2. The account is still below zero after each month's income, unless stated | Below zero at the end of month 40: crisis in month 41, ignored. Months 42-43: cooldown, crisis shown. Still below zero at the end of month 43: crisis in month 44. The first linked choice sells the moped, the account is back above 0, and the crisis ends after one choice. Debt passes the 3× line at the end of month 45: shown, but month 46 is still in the cooldown. Still true at the end of month 46: crisis in month 47. If the account is below zero at the end of month 50 and month 51's wage clears it: no crisis in month 51, only a note, no stress and no cooldown |
+| 11 | Month 60 | Trigger true at the end of month 58: crisis in month 59. Still true at the end of month 59: month 60 is a crisis month despite the cooldown. Minimum missed in months 58 and 59 and paid in month 60: not a loss. A random expense first takes the account below 0 at the end of month 60: not a loss, and the summary names it |
+| 12 | Payment plan for a NOK 10,000 card balance (rule 15) | 12 months at 22.6%: NOK 939 eleven times, a final NOK 935, NOK 11,264 in total (NOK 1,264 interest), against 51 months and NOK 5,508 at the minimum. The card is blocked until the plan is paid |
+| 13 | Consumer loan cap. Average wage NOK 8,452, card balance NOK 4,000 | Maximum NOK 25,356 − 4,000 = NOK 21,356, rounded down to NOK 21,000. Example 3's NOK 20,000 fits. No wage in one of the last three months: no loan offered |
+| 14 | BSU cap. NOK 20,000 deposited earlier in the calendar year, then a NOK 10,000 deposit | NOK 7,500 accepted; NOK 2,500 stays in the current account |
+| 15 | Fixed costs before 18. No job, NOK 10,000 pengegave kept in savings | No mobile or transport costs before 18, so never below NOK 0 before 18. If NOK 537 a month were charged from 15, the account would go below 0 after about 19 months |
+
+**16. Calendar and pay (rules 10-11)**
+
+| Game year | Months | Age | School | Hourly rate | Trygdeavgift | Weekly cap |
+|---|---|---|---|---|---|---|
+| 1 | 1-12 | 15 | 9th grade (1-6), summer (7), 10th grade (8-12) | 136.41 | 5.1% | 12 h |
+| 2 | 13-24 | 16 | 10th grade (13-18), summer (19), Vg1 (20-24) | 139.40 | 5.1% | 12 h to month 18, then 40 h |
+| 3 | 25-36 | 17 | Vg1 (25-30), summer (31), Vg2 (32-36) | 139.40 | 7.6% | 40 h |
+| 4 | 37-48 | 18 | Vg2 (37-42), summer (43), Vg3 (44-48) | 195.04 | 7.6% | 40 h |
+| 5 | 49-60 | 19 | Vg3 (49-54), out of school (55-60) | 195.04 | 7.6% | 40 h |
+
+The BSU deduction comes in months 12, 24, 36, 48 and 60. 10 h a week at 18: 10 × 52/12 × 195.04 = NOK 8,452 a month. Full-time, 37.5 h: NOK 31,694. A summer job in month 19 is 120 × 139.40 = NOK 16,728, as in worked example 1.
+
+**17a. Wellbeing over UJ-4 (rule 12).** Markus, 18, in Vg2, works 10 h a week. He starts at stress 20, free time 80, social life 60, wellbeing 74. Weights 40/30/30. W is the month interest starts, month 41 (May), so W+2 is July with no school. This is a set test state, not a scheduled playthrough, so a test starts from it instead of playing from month 1. The cabin weekend and the party are set directly, because months 43 and 47 are quiet with the default active months (PRD addendum). In real play they would land in nearby active months, and the wellbeing in those rows would move by a few points. Social life starts at 60 here, which is on the low side for a player already on high. The kroner amounts are in the PRD addendum's UJ-4 trace, and example 23 continues the same run.
+
+| Month | What happens | Hours | Spending | Stress | Free time | Social | Wellbeing |
+|---|---|---|---|---|---|---|---|
+| W | Card interest starts, and the warning shows. He stops the card, moves spending down and asks for 2 h more a week (social −5). High gives no +2, because interest was charged | 10 | High | 25 | 80 | 55 | 71 |
+| W+1 | Interest. Extra shift starts | 12 | Normal | 30 | 76 | 55 | 67 |
+| W+2 | July. Interest. He has said no to the summer job and turns down a cabin weekend (social −5) | 12 | Normal | 35 | 100 | 50 | 71 |
+| W+3 | Interest | 12 | Normal | 40 | 76 | 50 | 62 |
+| W+4 | Interest | 12 | Normal | 45 | 76 | 50 | 60 |
+| W+5 | The card is paid in full, so no interest. He sets 20 h and low spending from next month | 12 | Normal | 40 | 76 | 50 | 62 |
+| W+6 | He goes to a party (social +10), and low spending lowers social life by 2 | 20 | Low | 35 | 60 | 58 | 61 |
+| W+7 to W+9 | No effect on wellbeing from events | 20 | Low | 30, 25, 20 | 60 | 56, 54, 52 | 63, 64, 66 |
+
+For example, W+1: 0.4 × 70 + 0.3 × 76 + 0.3 × 55 = 67.3, which rounds to 67. Wellbeing never drops below 60, so a real win at 20 is still possible.
+
+**17b. Ending wellbeing (months 19-60).** A careful player on normal spending takes the three summer jobs, works 10 h a week from month 20 to 54, then 37.5 h full-time: ending wellbeing is 75. A money chaser on low spending, with weights 40/30/30, works 12 h a week from month 4 to 18, 40 h from month 19 to 48, 10 h in months 49-54, and 37.5 h full-time after that. There's no summer job, because the 173 h cap leaves no room (rule 10). He has NOK 436,849 at 20. His ending wellbeing is 34, below the threshold of 50, so he gets a hollow win. It's 37 with goal 2's weights and 29 with goal 3's. Easing off earlier doesn't make up for it. With the same run and the summer jobs that fit under the cap, 40 h to month 36 gives NOK 349,232 and 39, and 40 h to month 24 gives NOK 280,578 and 43. The limit in free time sits between 25 h and 26 h a week beside school. With no job before month 19, the same hours from month 19 to 60, no full-time job, and summer jobs cut to the cap, normal spending gives NOK 190,387 and 68 at 25 h, and NOK 196,098 and 41 at 26 h. On low spending, 25 h gives NOK 305,678 and an average of 50.43, shown as 50, a real win close to the boundary of 49.5.
+
+**18. Endings at 20 (rule 13, PRD FR-41)**
+
+| # | State after month 60 | Ending |
+|---|---|---|
+| a | Current account −NOK 400 at the end of months 59 and 60 (rule 8 still true), net savings NOK 120,000, ending wellbeing 70 | Loss |
+| b | Trigger true at the end of months 59 and 60, net savings NOK 30,000, ending wellbeing 30 | Loss |
+| c | No condition, net savings NOK 100,000 (exactly the target), ending wellbeing 62 | Real win |
+| d | No condition, net savings NOK 112,000, months 19-60 sum to 2,079 (average 49.5, shown as 50) | Real win (boundary) |
+| e | As d, but the sum is 2,078 (average 49.48, shown as 49) | Hollow win |
+| f | No condition, net savings NOK 99,999, ending wellbeing 80 | Goal not reached |
+| g | No condition, and savings interest left out for simplicity. Without a loan, net savings would be NOK 95,625. With NOK 50,000 borrowed in month 58, the last month it's possible (rules 4 and 6, 12 months, instalment NOK 4,513): cash NOK 136,599, loan left NOK 42,175, net NOK 94,424 | Goal not reached either way |
+| h | Debt-free goal: lowest available money in months 49-60 is NOK 40,000. At 20: family loan NOK 1,500 left, ending wellbeing 70 | Goal not reached. The player could have paid the loan off early (PRD FR-45) |
+| i | Debt-free goal: lowest available money in months 49-60 is NOK 30,000 (exactly the target), no debt at 20, ending wellbeing 55 | Real win |
+| i2 | Debt-free goal: NOK 150,000 and no debt at 20, but available money was NOK 29,999 at the end of month 49 | Goal not reached |
+| j | Experience goal: bought in month 56. At 20: current and savings accounts NOK 3,000, card balance NOK 2,000, so available money is NOK 1,000. Ending wellbeing 66 | Real win |
+| k | Experience goal: bought in month 56, ending wellbeing 29 (the money chaser in 17b, with goal 3's weights) | Hollow win |
+| k2 | Experience goal: not bought, NOK 200,000 at 20, ending wellbeing 70 | Goal not reached |
+| l | Loss check: account below 0 at the end of month 59, and a request for a consumer loan in month 60 | The loan is refused, so the trigger stays true: Loss |
+
+**19. Moped resale and costs (rule 14)**
+
+| Moped | Start value | Months owned | Resale value |
+|---|---|---|---|
+| Used, bought month 16, sold month 40 | 13,750 | 24 | 13,750 × 0.70 = NOK 9,625 |
+| New, owned 24 months | 29,000 | 24 | 29,000 × 0.70 = NOK 20,300 |
+| Gift, got month 13, sold month 40 | 13,750 | 27 | 13,750 × 0.6625 = 9,109.375, so NOK 9,109 |
+| Used, owned 7 months | 13,750 | 7 | 13,750 × 0.9125 = 12,546.875, so NOK 12,547 |
+| Floor check, rate tuned to 25%, 48 months | 13,750 | 48 | 0, so the floor of NOK 2,750 applies |
+
+For the used moped, bought in month 16 and sold in month 40: insurance is charged in months 17-40, so 24 × NOK 250 = NOK 6,000. The player pays the public transport ticket in months 41-60, never together with the moped's costs. Before 18, the parents pay the ticket.
+
+**20. Reference run for goal reachability (rule 13).** Start with a NOK 10,000 pengegave, moved to the savings account at the first choice, so it earns interest from month 2. Everything left in the current account is moved to savings at each month's choice step, so a month's wage earns interest from the next month. No job until the summer jobs: 120 h in months 19, 31 and 43. Part-time 10 h a week in months 20-54 and full-time 37.5 h in months 55-60. Normal spending (rule 16) all the way. Mobile and transport (NOK 537 a month) from month 37, under PRD FR-23. No moped, licence, card or loan. Net savings at 20: NOK 120,393, with no tax in years 1-3, NOK 6,295 in year 4 and NOK 25,298 in year 5. The balance is NOK 55,797 in month 42, NOK 72,206 in month 49, NOK 80,991 in month 54 and NOK 95,266 in month 56. The lowest balance is NOK 10,000. Ending wellbeing is 75. Goals 1 and 2 are reached, and goal 3 is checked once its price has a source. With one NOK 2,500 unexpected expense each June, net savings are NOK 106,928, the lowest available money in months 49-60 is NOK 61,563, and both goals are still reached. If the pengegave goes to savings but the wage always stays in the current account, net savings are NOK 116,184, or NOK 103,065 with the expenses, with savings covering any shortfall (PRD FR-45).
+
+**21. Earlier play has to matter (rules 13 and 16).** The same jobs as in example 20, with no unexpected expenses unless stated.
+
+| # | Run | Net savings at 20 | Goal 1 (NOK 100,000) |
+|---|---|---|---|
+| a | Careless: pengegave spent in month 1, high spending to month 54, low from month 55. Ending wellbeing 83 | NOK 71,584 | Missed |
+| a2 | As a, with full-time at 40 h, paid for 173 h | NOK 74,985 | Missed |
+| a3 | As a, low from month 53 | NOK 77,362 | Missed |
+| a4 | As a, NOK 10,000 kept | NOK 83,094 | Missed |
+| a5 | As a, low from month 49 | NOK 88,995 | Missed |
+| b | High spending all the way, NOK 10,000 kept | NOK 25,029 | Missed |
+| c | Low spending all the way, NOK 10,000 kept. Ending wellbeing 57, with social life at 0 from month 48 | NOK 193,674 | Reached |
+| d | Summer jobs only before month 55, pengegave spent, low all the way | NOK 81,752 | Missed |
+| e | No job at all before month 55, pengegave spent, normal to month 54, low after. Below NOK 0 from month 37 to 54, with crises not modelled | NOK 57,701 | Missed |
+| f | As d, with a NOK 30,000 pengegave kept | NOK 116,297 | Reached: keeping a large pengegave counts as earlier care |
+
+For goal 2, runs c and f reach the NOK 30,000 buffer, with a lowest available money in months 49-60 of NOK 113,050 and NOK 48,120. In the other runs it's at most NOK 19,456, so they miss. In month 56, runs a to a5 hold NOK 31,248-48,495, below the experience price range, so they can't pay for goal 3 in time. The reference run holds NOK 95,266, or NOK 81,929 with expenses.
+
+Switching level around big pay doesn't beat normal on money: low in months 19, 31, 43 and 55-60 and high otherwise gives NOK 109,705 and ending wellbeing 83, against NOK 120,393 and 75. Alternating month by month depends on where the big pay falls: low in odd months, which include the summer pay months and month 55, gives NOK 120,373 and 74, and high in odd months gives NOK 98,333 and 75, which misses goal 1. Moving to low from month 55 after a careful start gives NOK 145,280 and 74.
+
+**22. Moped against the goal (rules 13, 14 and 16).** The reference run with the moped licence from month 20 (NOK 12,000) and a moped from month 32, each bought at the first choice step the player can pay for it, and sold in month 60. With the yearly expenses, the licence moves to month 21. Insurance is charged from the month after buying, and moped fuel has no figure yet, so it's left out.
+
+| # | Run | Net savings at 20 | With NOK 2,500 a year | Goal 1 (NOK 100,000) |
+|---|---|---|---|---|
+| a | Used moped, bought in month 32, sold for NOK 8,938, 10 h, normal | NOK 100,068 | NOK 86,637 | Reached only with no expenses |
+| b | Used moped, 14 h, normal | NOK 121,864 | NOK 108,441 | Reached |
+| c | Used moped, 10 h, normal, low from month 49 | NOK 132,719 | NOK 119,291 | Reached |
+| d | New moped, 10 h, normal. Bought in month 34 and sold for NOK 19,575, or with expenses in month 39 and sold for NOK 21,388 | NOK 95,079 | NOK 84,396 | Missed |
+| e | New moped, 10 h, normal, low from month 49, bought as in d | NOK 127,729 | NOK 117,050 | Reached |
+
+The paid car licence (NOK 32,500 in month 40) on the reference run gives NOK 86,299, so it has to be made up elsewhere too.
+
+**23. Markus in UJ-5.** Markus leaves UJ-4 in month 46 with NOK 122, the moped kept, and costs of NOK 549 a month. To reach goal 1 he works 20 h a week on low spending in months 47-54, then 37.5 h full-time on low: NOK 104,824 at 20, with moped fuel left out. On normal he ends at NOK 62,637, and with 10 h on low at NOK 85,297. Wellbeing in months 47-60 runs from 61 to 70, and social life ends at 32. If months 19-40 average 74, his ending wellbeing is about 70, a real win.
+
+Examples 7-21 were added on 2026-11-05 from the PRD review and the final check, and examples 22-23 from the independent review the same day. Examples 17, 20, 21, 22 and 23 were recalculated after the independent review with a script applying rules 1, 2, 3, 10, 12 and 16 month by month, with two accounts and purchases at the choice step. The review found that the earlier figures in 17b, 20 and 21d came from a script that broke the monthly cap in rule 10 and the interest order in rule 1. An independent recalculation from the rule text the same day found further errors in 17, 20, 21, 22 and the 40 h pay, and these figures have been corrected to match it.
 
 Examples 2-4 and 6 were calculated with a script applying rules 2, 4 and 5 month by month, and examples 1 and 5 are direct arithmetic. All five were independently recomputed on 2026-10-22 and match. Example 5 was corrected on 2026-10-29 after domain research showed that the earlier 50% figure (NOK 5,000) was withholding, not final tax. Rules 9-10, the working-hour parameter and example 6 were added on 2026-10-31 (issue #16). Note that example 2 depends on rule 2 (rounding each month); a plain compound formula gives NOK 10,291.
 
@@ -74,11 +202,35 @@ The rule set is deliberately simpler than real life. To keep the game honest, th
 | D1 | Tax (rule 3) | «Forenklet: Skatten regnes ut fra hele årsinntekten din med satsene for 2026. I virkeligheten kan arbeidsgiveren trekke 50 % av lønna til du har skattekort, eller når frikortet er brukt opp. Det som er trukket for mye, får du tilbake i skatteoppgjøret.» |
 | D2 | Wages | «Timelønna i spillet er minstesatsen i tariffavtalen for varehandelen (Virke/HK) fra 1. april 2026. Norge har ingen lovbestemt minstelønn, så den ekte lønna di kan bli både høyere og lavere.» |
 | D3 | BSU interest | «BSU-renta i spillet er gjennomsnittet for norske banker i august 2026 (SSB). Noen banker gir mer, og renta endrer seg over tid.» |
-| D4 | Credit approval (rules 4-6) | «Forenklet: I spillet kan du få lån og kredittkort fra du fyller 18. I virkeligheten sjekker banken inntekt, gjeld og betalingsanmerkninger, og mange krever fast inntekt eller at du er eldre.» |
+| D4 | Credit approval (rules 4-6) | «Forenklet: I spillet kan du få lån og kredittkort fra du fyller 18. I virkeligheten sjekker banken inntekt, gjeld og betalingsanmerkninger, og mange krever fast inntekt eller at du er eldre. Lån fra familien er ikke banklån, og de kan du få før du fyller 18.» |
 | D5 | Consumer loan interest | «Lånerenta på 15 % er et anslag midt i markedet. Ekte forbrukslån koster ofte mellom 9 og 22 %, avhengig av bank og hvem du er.» |
 | D6 | All rates | «Alle satser og beløp er 2026-tall. De holdes faste gjennom hele spillet, selv om spillet varer fra du er 15 til du er 20.» |
 
 Added on 2026-10-31 (issue #16), based on the required disclosures in research `domain-norwegian-youth-finance-rules-2026-10-27`.
+
+D7-D25 were added on 2026-11-05 from the PRD review. A disclosure is seen once per account (PRD FR-40). The team should proofread the Norwegian.
+
+| # | Applies to | Shown first when | Text shown to the player |
+|---|---|---|---|
+| D7 | Family help (FR-27) | Family first offers a loan | «Forenklet: Lån fra familien har ingen rente i spillet, og du betaler tilbake et fast beløp hver måned. I virkeligheten avtaler familier slike lån på mange måter. Spillet regner ikke med familielån når det sjekker om gjelden din er for stor, men du må betale dem tilbake likevel.» |
+| D8 | Moped: resale value (FR-29) | The player first owns a moped | «Forenklet: Mopeden taper 15 % av kjøpsprisen hvert år du eier den. I virkeligheten avhenger prisen av modell, stand og hvor mye den er kjørt. Prisene i spillet bygger på annonser på FINN høsten 2026.» |
+| D9 | Fixed costs: moped fuel and insurance (FR-23) | The first moped running cost | «Forenklet: Drivstoff og forsikring koster et fast beløp hver måned i spillet. I virkeligheten bruker du mer drivstoff jo mer du kjører, og prisen på forsikring avhenger blant annet av alderen din, hvor du bor og hvilken moped du har.» |
+| D10 | Licences (FR-28, FR-30) | The first licence offer | «Forenklet: I spillet betaler du for lappen og må klare et lite kjørespill. I virkeligheten må du gjennom kurs og bestå prøver, og det tar tid. Prisen er et anslag, og trafikkskolene tar ulike priser.» |
+| D11 | Credit card: limit and fees (FR-26) | The first card offer | «Forenklet: Kortet ditt har én fast kredittgrense i spillet, og du betaler ingen gebyrer, verken for å gå over grensen eller for å betale for sent. I virkeligheten setter banken grensen ut fra inntekten og gjelden din, den kan endres senere, og det koster ofte gebyr.» |
+| D12 | Wages and hours (FR-20, FR-47, rule 10) | The first job offer | «Forenklet: Du velger hvor mange timer du jobber i uka, og spillet gjør det om til lønn for hele måneden, med 52 uker delt på 12 måneder. Skolen regnes som 30 timer i uka. Spillet følger arbeidstidsreglene for alderen din, men holder ikke oversikt over enkeltdager eller om du jobber kveld eller natt.» |
+| D13 | Full-time job, no studies (FR-20) | The full-time job offer | «Forenklet: I spillet kan du ikke begynne å studere etter videregående, så det finnes ikke studielån. I virkeligheten er studielån fra Lånekassen rentefritt så lenge du studerer på heltid, og det er noe helt annet enn kredittkortgjeld.» |
+| D14 | Feature: breaks and recap (FR-16) | The first recap | «Forenklet: Tiden i spillet går bare når du spiller. Mens du er borte, kommer det ingen renter, regninger eller hendelser, uansett hvor lenge du er borte.» |
+| D15 | Feature: "if you had chosen differently" (FR-39) | The first ending summary | «Forenklet: Når spillet viser hva som kunne skjedd hvis du hadde valgt annerledes, regner det bare på pengene i det ene valget, som om alt annet var likt, og som om pengene sto på sparekonto. I virkeligheten kunne et annet valg også ha endret det som skjedde senere.» |
+| D16 | Feature: wellbeing (FR-33) | The first wellbeing change | «Forenklet: Trivsel er mye mer enn tre tall. Spillet måler bare stress, fritid og sosialt liv, for å vise at et godt liv handler om mer enn penger. Tallet sier ikke noe om hvordan du har det i virkeligheten.» |
+| D17 | Calendar (rule 11) | The first session | «Forenklet: I spillet har alle bursdag i januar. Skoleåret går fra august til juni, og juli er sommerferie.» |
+| D18 | Accounts: savings cover the account (FR-45) | The first automatic transfer | «Forenklet: I spillet flytter vi penger fra sparekontoen automatisk når brukskontoen ikke har nok. I virkeligheten må du flytte pengene selv, ellers kan betalingen bli avvist.» |
+| D19 | Accounts: negative balance (FR-45) | The first negative balance | «Forenklet: Går du i minus i spillet, betaler du ikke renter eller gebyrer, men det starter en krisemåned. I virkeligheten kan ubetalte regninger gi purregebyr og inkasso.» |
+| D20 | Payment plan (rule 15) | The first payment plan offer | «Forenklet: I spillet blir en betalingsavtale et nedbetalingslån over 12 måneder med samme rente som kortet, og kortet sperres til lånet er betalt. I virkeligheten avtaler du vilkårene med banken.» |
+| D21 | Consumer loan (FR-25) | The first loan offer | «Forenklet: I spillet koster det ingenting å betale ned lånet før tiden, og banken ser bare på lønna di de siste tre månedene.» |
+| D22 | BSU withdrawal (FR-22) | The first BSU deposit | «Forenklet: I spillet kan du bare ta ut hele BSU-en, og da avsluttes den. Du betaler også tilbake skattefradraget du har fått. I virkeligheten skal BSU brukes til bolig, og bruker du pengene til noe annet, mister du fradraget.» |
+| D23 | Fixed costs before 18 (FR-23) | The first month summary | «I spillet betaler foreldrene mobilen og bussen din til du fyller 18. Da overtar du regningene. Lommepenger er ikke med i denne versjonen.» |
+| D24 | BSU: opening age (FR-18, FR-22) | The first BSU offer | «Forenklet: I spillet kan du opprette BSU selv fra du er 15. I virkeligheten må en foresatt som regel være med, og Skatteetaten fraråder BSU før du er 17 hvis du ikke har skattepliktig arbeidsinntekt.» |
+| D25 | Spending level (FR-23, rule 16) | The first wage | «Forenklet: I spillet velger du et forbruksnivå, og en fast del av lønna di går til forbruk hver måned. I virkeligheten går pengene til mange små kjøp, og det er lett å miste oversikten.» |
 
 ## LLM-as-game-master products and pitfalls
 
@@ -112,17 +264,19 @@ Raised during brief discovery because the entire user base is minors (15-20) and
   - be debt-free with a buffer
   - afford a big experience, such as a trip
 - **Wellbeing meter:** calculated from three parts, weighted differently depending on the chosen goal:
-  - stress, from debt and crisis months
-  - free time, from hours worked
-  - social life, from choices in events, so each choice in the event library carries a wellbeing effect
+  - stress, from interest on debt, crisis months and working too much
+  - free time, from hours of school and work
+  - social life, from choices in events, the spending level and working too much, so each choice in the event library carries a wellbeing effect
+
+  The formula is rule 12, and the goal formulas are rule 13.
 - **Housing:** not part of the meter in version one, because moving out and rent are out of scope.
-- **Four endings** (corrected 2026-11-03), checked in this order when the game ends at age 20:
-  1. **Loss:** the economy is critical, meaning a crisis condition from rule 8 is active: the account is below NOK 0, the card minimum has been missed two months in a row, or debt is above 3 × average monthly income. The consequences are shown clearly. The text also reflects wellbeing, for example "you had a good life, but the economy did not hold".
-  2. **Real win:** goal reached and wellbeing above the threshold.
-  3. **Hollow win:** goal reached, but wellbeing below the threshold.
+- **Four endings** (corrected 2026-11-03, boundaries set 2026-11-05), checked in this order when the game ends at age 20:
+  1. **Loss:** the economy is critical, meaning a rule 8 trigger that was true at the end of month 59 is still true at the end of month 60. The consequences are shown clearly. The text also reflects wellbeing, for example "you had a good life, but the economy did not hold".
+  2. **Real win:** goal reached and ending wellbeing at or above the threshold.
+  3. **Hollow win:** goal reached, but ending wellbeing below the threshold.
   4. **Goal not reached:** neither a win nor a loss. Saving little or spending a lot is allowed. The player gets advice on modest savings goals and their benefits, and a reflection on the consequences of not saving.
 - **Going below zero during the game:** this starts a crisis month with clear consequences, not a loss. Rule 8 still applies, so the player can recover before age 20.
-- **Numbers:** target amounts, wellbeing weights and the threshold are configuration, set when the game is tuned.
+- **Numbers:** target amounts, wellbeing weights and the threshold are configuration, with defaults in the parameter table, and are adjusted when the game is tuned.
 - **No AI needed:** the engine calculates everything from measurable state, so all four endings work with no AI.
 
 Why: it sets LifeMode apart from similar games such as Koll på cashen, and it shows that good money management is not just about earning as much as possible.
@@ -166,23 +320,25 @@ Details (recorded 2026-11-03, issue #26):
 
 - **Effects with no choice behind them:** wages in a quiet month or a random expense are stored with a system cause instead of a choice. "Hvorfor?" explains these from the rules.
 - **"If you had chosen differently" lines:** only where the engine can calculate the result reliably, starting with interest and instalments.
-- **Top three choices:** ranked by their effect in kroner.
+- **Top three choices:** ranked by the size of their effect in kroner, plus or minus (PRD FR-42).
 - **Replay:** starts again from age 15. Replay from a crossroads is left out of the MVP, because it requires storing earlier game states.
 
 ## MVP Scope Priority — Decision
 
 **Decided by the team (recorded 2026-11-03, issue #27): content is cut before the core.** If time runs short before December, cut in this order:
 
-1. "If you had chosen differently" lines
-2. Events, down to the minimum of 30
+1. "If you had chosen differently" lines during play, including the BSU comparison
+2. The parents' share of the moped insurance
+3. Events, down to the minimum of 50 (changed on 2026-11-05, proposed by Dahl from the PRD review; earlier 30)
 
-The engine, wellbeing, the endings, cause links, "Hvorfor?" and login stay. The AI layer is already outside the MVP.
+The engine, wellbeing, the endings, cause links, "Hvorfor?", the card warning, the moped and login stay. The AI layer is already outside the MVP.
 
 ## Event Library — Decision
 
-**Decided by the team (recorded 2026-11-03, issue #19): at least 30 events, with a target of 60-80, plus about 10 crises.**
+**Decided by the team (recorded 2026-11-03, issue #19): a target of 60-80 events, plus about 10 crises. The minimum was 30, and on 2026-11-05 Dahl proposed raising it to 50, twice the 25 regular active months, because 30 events would make two playthroughs share at least 20 of their 25 events (PRD FR-17, FR-43).**
 
 - **Split:** roughly 55/45 before and after age 18.
+- **Per year:** every in-game year has at least 10 events whose age range covers it.
 - **Fixed schema for every event:**
   - mechanism
   - age
@@ -212,7 +368,9 @@ This is the project's own reading of GDPR art. 4, 6 and 8 and personopplysningsl
 - **What still applies without consent?** The other privacy rules: a named legal basis, clear information to the player, data minimisation, security and deletion.
 - **What if consent were used?** The age limit would apply: 13 today, proposed 15. Some 10th graders are 14 for part of the school year, so they would need parental consent if the limit is raised. LifeMode would then have to check age and reach parents, which conflicts with collecting no real age and having no contact with parents. Consent should therefore not be the legal basis.
 
-### Recommended measures (not decided, to check before go-live)
+### Recommended measures
+
+On 2026-11-05 Dahl proposed making the build measures below MVP requirements (PRD NFR-3): player information, deleting accounts after 12 months without a login, and no tracking. The controller and the legal basis stay open until before go-live (#24).
 
 1. **Use the email address only for login and password recovery.** It is not shown in the game, not used for marketing and never sent to an AI.
 2. **Document a legal basis other than consent,** and give short player information in language a 15-year-old understands.
