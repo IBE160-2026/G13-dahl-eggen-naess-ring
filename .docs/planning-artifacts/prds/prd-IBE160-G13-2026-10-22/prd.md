@@ -1,8 +1,8 @@
 ---
 title: LifeMode PRD
-status: draft
+status: final
 created: 2026-10-22
-updated: 2026-11-05
+updated: 2026-11-09
 ---
 
 # PRD: LifeMode
@@ -11,7 +11,7 @@ updated: 2026-11-05
 
 This PRD sets out what the first version of LifeMode (version one, also called the MVP) must do and why. The team, the downstream BMAD work (UX, architecture, epics and stories), and the examiner (sensor) all work from it. It builds on the product brief, `briefs/brief-Ibe160-prosjektmappe-2026-09-17/brief.md`. The brief's addendum holds the financial rule set (Rule Set v1), its parameters, and the worked examples. This PRD refers to those rules by number ("rule 5") and restates one only where a requirement needs the detail. Terms are defined in §3 Glossary.
 
-**Status:** draft, updated 2026-11-05. No AI in this version. Open questions that block work are marked in §8.
+**Status:** final, updated 2026-11-09. No AI in this version. Open questions that block work are marked in §8.
 
 This PRD's own `addendum.md` holds detail that belongs downstream, along with the reasons behind several decisions. Every decision and change is logged in `.docs/planning-artifacts/prds/prd-IBE160-G13-2026-10-22/.memlog.md`, where a later entry replaces an earlier one. `#N` means a GitHub issue in the project's repo.
 
