@@ -31,7 +31,7 @@ Finne ut hvor prosjektet står i BMad og hva som er neste steg. Teamet har beste
   - Beslutningshistorikk P1–P8.
 - **Beslutningsloggen** har fått 4 beslutnings- og antakelseslinjer og 4 endringslinjer.
 - **Issues:** #54 er lukket som avgjort, #48 har fått en kommentar med de nye tuningverdiene, og #55, #56 og #57 er opprettet.
-- Ingenting av PRD-arbeidet er committet ennå. Grenen er ikke pushet. Arkitekturmappen ligger fortsatt ucommittet.
+- PRD-arbeidet er committet (d514529), og grenen `docs/prd-endringer` er pushet. PR #58 er åpnet mot `main` for teamets gjennomgang. Etter Dahls ønske venter review og uavhengig omregning til teamet er klare. Arkitekturmappen ligger fortsatt ucommittet og er ikke med i PR-en.
 
 ### Åpne punkter
 - Regneeksempel 24–26 må regnes om uavhengig, og PRD-en trenger reviewer-pass, triage og polering før den settes final. Deretter kan arkitekturen fullføres (#55)
