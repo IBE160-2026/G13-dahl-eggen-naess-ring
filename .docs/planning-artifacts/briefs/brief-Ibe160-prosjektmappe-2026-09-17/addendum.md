@@ -52,11 +52,12 @@ Added 2026-10-14 in response to teacher feedback: the engine must "always calcul
 | Youth everyday spending | [needs figure], to check the spending levels and event-started costs against | To be researched and dated, for example SIFO's reference budget (PRD OQ-3, #43) |
 | Car licence gift chance | 50% | Game design, tuning (PRD OQ-8) |
 | Activity slots | The month's free time (rule 12) ÷ 20, rounded down, at least 1 and at most 4 | Game design, tuning (PRD FR-52, OQ-8) |
-| Activity effects | Each activity within ±10 on stress and on social life; all activities in a month together at most ±15 on each, counted in that month's wellbeing only | Game design, tuning (PRD FR-53, OQ-8, OQ-19) |
+| Activity effects | Each activity within ±10 on stress and on social life; all activities in a month together at most ±15 on each, counted in that month's wellbeing only | Game design, tuning (PRD FR-53, OQ-8) |
 | Activity prices | [needs figure] per activity, with a source and date | To be researched and dated (PRD OQ-17) |
 | Messages a month | At most 3 new, of which 0-2 invitations. Offers and the event copy don't count. An invitation repeats at most once per in-game year | Game design, tuning (PRD FR-55, OQ-8) |
 | Employer extra-shift offers | A drawn offer with a chance per in-game year [tuning value]; default +4 h a week for 3 months | Game design, tuning (PRD FR-47, FR-55, OQ-8) |
 | Gift moped offer | A drawn offer, at most once per playthrough, with a chance per in-game year [tuning value] | Game design, tuning (PRD FR-29, FR-55, OQ-8) |
+| Savings interest message | Once per playthrough, the first month the savings interest earned so far passes NOK 50 | Game design, tuning (PRD FR-55, UJ-3) |
 
 ### Rules
 
@@ -197,7 +198,7 @@ The paid car licence (NOK 32,500 in month 40) on the reference run gives NOK 86,
 
 Examples 1-23 plan no activities, so their figures stand as before (PRD FR-9). Examples 24-26 were added on 2026-11-10 with the month plan (PRD FR-52, FR-53). On 2026-11-11, examples 25 and 26 were updated and examples 27 and 28 added, from the PRD review fixes. Activity prices and effects in them are placeholder values until PRD OQ-17 gives them a source.
 
-**24. Activity slots (rule 12, PRD FR-52).** Slots = free time ÷ 20, rounded down, at most 4.
+**24. Activity slots (rule 12, PRD FR-52).** Slots = free time ÷ 20, rounded down, at least 1 and at most 4.
 
 | Situation | Free time | Slots |
 |---|---|---|
@@ -224,7 +225,7 @@ Examples 1-23 plan no activities, so their figures stand as before (PRD FR-9). E
 The activities come after spending and aren't part of rule 16.
 
 - **Extra shifts:** with 10 h a week the wage would be NOK 6,041, spending NOK 4,531, and the current account NOK 1,760 before the activities. The extra shifts therefore leave NOK 604 more this month after spending (PRD FR-47, FR-56).
-- **Savings target:** the car licence (NOK 32,500) is pinned. Progress is the current account plus savings (PRD FR-57): NOK 24,000 before the month (73.8%) and NOK 2,364 + NOK 23,556 = NOK 25,920 when it opens (79.8%). It passes 75% this month, so the bank's "three quarters" message arrives (PRD FR-55). After the activities it's NOK 25,270 (77.8%).
+- **Savings target:** the car licence (NOK 32,500) is pinned. Progress is the current account plus savings (PRD FR-57): NOK 24,000 before the month (73.8%) and NOK 2,364 + NOK 23,556 = NOK 25,920 when it opens (79.8%). In October his activities cost less than NOK 375, so progress was still under 75% when October opened. It passes 75% this month, so the bank's "three quarters" message arrives (PRD FR-55). After the activities it's NOK 25,270 (77.8%).
 - **Activity spend:** the money view's activity spend for the year rises by NOK 650 (PRD FR-57).
 
 *Variant b, an activity dropped:* the same month with no savings. After planning the concert and the evening with friends (NOK 650 of NOK 2,364), the player deposits NOK 2,000 in BSU, which leaves NOK 364. When they continue, the concert (NOK 450) can't be paid from the current account or savings, so it's dropped with a note and has no effect. The evening with friends is paid, which leaves NOK 164.
@@ -239,7 +240,7 @@ The activities come after spending and aren't part of rule 16.
 
 In every case December starts from stress 25 and social life 55.
 
-*Case c, the hollow win holds:* the money chaser in example 17b fills every slot every month with activities at the effect limits (stress −10, social +10 each, at most ±15 a month on each). Each activity can be planned only once a month, so the bound comes from the limits, not from one activity repeated. He has 1 slot at 40 h in school, and 3-4 when he works less. His ending wellbeing rises from 34 to 42 (goal 1 weights), from 37 to 46 (goal 2), and from 29 to 37 (goal 3), all below the threshold of 50. The careful player in 17b rises from 75 to 85 with goal 1's weights. If activity effects lasted into later months, social life would pile up, because nothing pulls it back down. One free activity a slot (stress −2, social +4) would then lift the money chaser to 65 and remove the hollow win (PRD OQ-19).
+*Case c, the hollow win holds:* the money chaser in example 17b fills every slot every month with activities at the effect limits (stress −10, social +10 each, at most ±15 a month on each). Each activity can be planned only once a month, so the bound comes from the limits, not from one activity repeated. He has 1 slot at 40 h in school, and 3-4 when he works less. His ending wellbeing rises from 34 to 42 (goal 1 weights), from 37 to 46 (goal 2), and from 29 to 37 (goal 3), all below the threshold of 50. The careful player in 17b rises from 75 to 85 with goal 1's weights. If activity effects lasted into later months, social life would pile up, because nothing pulls it back down. One free activity a slot (stress −2, social +4) would then lift the money chaser to 65 and remove the hollow win, which is why effects count for their month only (PRD FR-33).
 
 *Case d, the boundary moves:* in 17b's boundary runs on normal spending, with activities at the same limits in every slot, the 26 h run rises from 41 to 52, a real win, and the 25 h run from 68 to 79. A 26 h school month gives 2 slots, enough to reach the monthly cap. The threshold and the activity effects are therefore tuned together, and the content check reports these runs with the catalogue's best free activities (PRD FR-33, OQ-8).
 
@@ -281,7 +282,7 @@ D7-D25 were added on 2026-11-05 from the PRD review. A disclosure is seen once p
 | D12 | Wages and hours (FR-20, FR-47, rule 10) | The first job offer | «Forenklet: Du velger hvor mange timer du jobber i uka, og spillet gjør det om til lønn for hele måneden, med 52 uker delt på 12 måneder. Skolen regnes som 30 timer i uka. Spillet følger arbeidstidsreglene for alderen din, men holder ikke oversikt over enkeltdager eller om du jobber kveld eller natt.» |
 | D13 | Full-time job, no studies (FR-20) | The full-time job offer | «Forenklet: I spillet kan du ikke begynne å studere etter videregående, så det finnes ikke studielån. I virkeligheten er studielån fra Lånekassen rentefritt så lenge du studerer på heltid, og det er noe helt annet enn kredittkortgjeld.» |
 | D14 | Feature: breaks and recap (FR-16) | The first recap | «Forenklet: Tiden i spillet går bare når du spiller. Mens du er borte, kommer det ingen renter, regninger eller hendelser, uansett hvor lenge du er borte.» |
-| D15 | Feature: "if you had chosen differently" (FR-39) | The first ending summary | «Forenklet: Når spillet viser hva som kunne skjedd hvis du hadde valgt annerledes, regner det bare på pengene i det ene valget, som om alt annet var likt, og som om pengene sto på sparekonto. I virkeligheten kunne et annet valg også ha endret det som skjedde senere.» |
+| D15 | Feature: "if you had chosen differently" (FR-39) | The first ending summary | «Forenklet: Når spillet viser hva som kunne skjedd hvis du hadde valgt annerledes, regner det bare på pengene i det ene valget, som om alt annet var likt, og som om pengene sto på sparekonto. For en gruppe aktiviteter regner det på det de kostet til sammen. I virkeligheten kunne et annet valg også ha endret det som skjedde senere.» |
 | D16 | Feature: wellbeing (FR-33) | The first wellbeing change | «Forenklet: Trivsel er mye mer enn tre tall. Spillet måler bare stress, fritid og sosialt liv, for å vise at et godt liv handler om mer enn penger. Tallet sier ikke noe om hvordan du har det i virkeligheten.» |
 | D17 | Calendar (rule 11) | The first session | «Forenklet: I spillet har alle bursdag i januar. Skoleåret går fra august til juni, og juli er sommerferie.» |
 | D18 | Accounts: savings cover the account (FR-45) | The first automatic transfer | «Forenklet: I spillet flytter vi penger fra sparekontoen automatisk når brukskontoen ikke har nok. I virkeligheten må du flytte pengene selv, ellers kan betalingen bli avvist.» |
@@ -292,7 +293,7 @@ D7-D25 were added on 2026-11-05 from the PRD review. A disclosure is seen once p
 | D23 | Fixed costs before 18 (FR-23) | The first month summary | «I spillet betaler foreldrene mobilen og bussen din til du fyller 18. Da overtar du regningene. Lommepenger er ikke med i denne versjonen.» |
 | D24 | BSU: opening age (FR-18, FR-22) | The first time the player opens BSU in the money view | «Forenklet: I spillet kan du opprette BSU selv fra du er 15. I virkeligheten må en foresatt som regel være med, og Skatteetaten fraråder BSU før du er 17 hvis du ikke har skattepliktig arbeidsinntekt.» |
 | D25 | Spending level (FR-23, rule 16) | The first wage | «Forenklet: I spillet velger du et forbruksnivå, og en fast del av lønna di går til forbruk hver måned. I virkeligheten går pengene til mange små kjøp, og det er lett å miste oversikten.» |
-| D26 | Month plan and activities (FR-52, FR-53) | The first month plan | «Forenklet: En måned har noen få ledige plasser for fritid. Jo mer du jobber, jo færre blir de. Spillet følger ikke dager eller klokkeslett, og en aktivitet gjør bare den måneden bedre. Vil du ha et godt sosialt liv, må du fortsette å gjøre ting.» |
+| D26 | Month plan and activities (FR-52, FR-53) | The first month plan | «Forenklet: En måned har noen få ledige plasser for fritid. Jo mer du jobber, jo færre blir de. Spillet følger ikke dager eller klokkeslett, og en aktivitet gjør bare den måneden bedre. Det sosiale livet ditt over tid følger valgene dine, forbruksnivået og hvor mye du jobber.» |
 
 D26 was added on 2026-11-10 with the month plan.
 
