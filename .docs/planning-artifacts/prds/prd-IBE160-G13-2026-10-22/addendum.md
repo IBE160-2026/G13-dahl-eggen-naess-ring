@@ -22,17 +22,24 @@ These items came out of the PRD review and belong in the next `bmad-architecture
 - **Mobile-first:** add NFR-1's supported browsers and test devices as the test matrix.
 - **Game flow:** the two-part month and the state check on every request that changes the game (FR-49), and the open-option model (FR-48).
 - **Month plan and phone (2026-11-10):**
-  - **State:** the month plan (FR-52, FR-53) and the month's messages (FR-55) belong in the playthrough's state.
-  - **Requests:** placing and removing activities are requests that name their month. Continuing carries the version of the month plan the device showed, and is refused if the plan has changed since (FR-49).
-  - **Also in state:** the savings-target pin and the bank thresholds already sent for it (FR-55, FR-57). Nothing about reading messages is stored (FR-54).
+  - **State:** the month plan (FR-52, FR-53), the month's messages (FR-55), the savings-target pin, and the bank thresholds already sent for it (FR-55, FR-57) belong in the playthrough's state. Nothing about reading messages is stored (FR-54).
+  - **Requests:** placing and removing activities are requests that name their month. The request to continue carries the version of the month plan the device showed, and is refused if the plan has changed since (FR-49).
   - **Applying the plan:** the planned activities are applied in the same request as continuing, before wellbeing.
   - **Content:** events, activities, and messages make up the content library (FR-17). Each type has its own schema and versions (NFR-4).
   - **Selection:** one selection step decides what arrives each month, the event and the messages, from the state and the seed. Name it as one unit (see "Ready for V2").
 - **Minigames:** they run on the server like the rest of the game, one saved answer at a time (FR-51). A real-time game would need its own decision on how to check results, so it's left for V2.
-- **V2:** events, activities, and messages reach the game through one schema per type and one selection step, which is enough for now. Generated content and its replay under FR-12 aren't designed, and V2 may need rework there. See "Ready for V2: AI as game master".
+- **V2:** events, activities, and messages reach the game through one schema per type and one selection step, which is enough for now. Generated content and its replay under FR-12 aren't designed. The architecture should leave room to store generated content with the playthrough, so that V2 needs less rework. See "Ready for V2: AI as game master".
 - **Playtest:** the records in FR-50, the setting that keeps them off outside the playtest environment, test-user marking, and how they're exported.
 - **Examiner:** seeding test users at the states NFR-6 names, and `.env.example`.
 - **Other:** a scheduled deletion job, self-hosted fonts, and the accessibility check in CI.
+
+### For UX
+
+From the concept sketches:
+- **Shift pay:** the concept's "+500 kr per extra activity slot" becomes the engine's figure from FR-47.
+- **Estimated net:** the month plan's estimate covers activity costs only, not shifts (FR-52).
+- **Transfers:** «Overføring til sparing» is shown as a transfer, not a cost. FR-42 counts it as zero.
+- **Labels:** the PRD says "month plan", because rule 11 and D17 already use "calendar". What the screen is called, such as «Kalender», is UX's choice.
 
 ### UJ-4 month by month
 
@@ -55,7 +62,7 @@ In month W:
 - He turns the card off, asks for one extra 2-hour shift a week, and moves spending down to normal.
 - He checks what the moped would sell for: about NOK 9,300 (rule 14, a gift moped owned about 26 months), less than he owes, and he'd pay for the bus without it. He keeps it.
 
-He pays NOK 682 in interest in total, against NOK 5,508 at the minimum. W+1 is June, so the summer job is on offer, and he says no because he already has the extra shifts. Taking it would pay NOK 33,547 in July, and the card would be paid in full that month, with NOK 363 in interest. The trace shows the slower path, and a player can choose either. No crisis trigger fires. Worked example 17a in the brief addendum covers his wellbeing, and example 23 covers what he has to do after this to reach his goal.
+He pays NOK 682 in interest in total, against NOK 5,508 at the minimum. W+1 is June, so the summer job is on offer, and he says no because he already has the extra hours. Taking it would pay NOK 33,547 in July, and the card would be paid in full that month, with NOK 363 in interest. The trace shows the slower path, and a player can choose either. No crisis trigger fires. Worked example 17a in the brief addendum covers his wellbeing, and example 23 covers what he has to do after this to reach his goal.
 
 ### Event scheduling and library size
 
@@ -68,10 +75,10 @@ He pays NOK 682 in interest in total, against NOK 5,508 at the minimum. W+1 is J
 | 1 | 1-12 | Month 3 part-time job |
 | 2 | 13-24 | Month 13 moped licence, a gift moped as a drawn offer once the player has a licence, month 18 summer job |
 | 3 | 25-36 | Month 30 summer job |
-| 4 | 37-48 | Month 37 car licence result (one family message: the gift, or the paid licence opens), month 39 credit card, month 42 summer job, month 44 experience for goal 3 |
+| 4 | 37-48 | Month 37 car licence result (one family message: the gift, or the option to pay for the licence), month 39 credit card, month 42 summer job, month 44 experience for goal 3 |
 | 5 | 49-60 | Month 49 consumer loan, month 54 full-time job |
 
-**Drawn offers.** The employer's extra shifts and the gift moped aren't tied to a month. Each has flags and a chance per in-game year (configuration, brief addendum parameters), and can be taken only in the month it arrives (FR-54, FR-55).
+**Drawn offers.** The employer's extra shifts and the gift moped aren't tied to a month. Each has required and blocking flags and a chance per in-game year, set in configuration (see "Parameters" in the brief addendum). It can be taken only in the month it arrives (FR-54, FR-55).
 
 **Eligibility at draw time** covers `owns_moped`, `has_moped_licence`, `has_job`, and `has_car_licence`. The offers that must be guaranteed are in FR-55.
 
@@ -135,7 +142,7 @@ The offers in FR-18 used to be milestone events with a `milestone` field. Since 
 | id, version | Unique text ID, and a whole-number version (NFR-4) | ID unique; version rises on any change |
 | availability | Basic (always available) or invitation (only with an invitation message) | Every invitation activity has at least one invitation message |
 | kind | From a fixed list, such as concerts, time with friends, rest, hobby, trips. FR-42 groups by it | Kind exists |
-| mechanism | One from the fixed list, usually everyday spending and free time, for the disclosure and the cause | Name exists |
+| mechanism | One from the fixed list, usually "everyday spending and free time", for the disclosure and the cause | Name exists |
 | age range, requires flags, blocks flags | As for events | As for events |
 | cost | NOK 0 or more, with a card-payable flag | Whole kroner; at least two basic activities cost NOK 0, need no flags, and cover ages 15-20 |
 | effects | Stress and social life, each within ±10 | Inside the limits |
@@ -147,10 +154,11 @@ The offers in FR-18 used to be milestone events with a `milestone` field. Since 
 | Field | Content | Checked |
 |---|---|---|
 | id, version | Unique text ID, and a whole-number version | ID unique; version rises on any change |
-| kind | Info, invitation, or offer. The phone's copy of the highlight event comes from the event's sender (event schema), not from a message | Kind exists |
+| kind | Info, invitation, or offer. The phone's copy of the highlight event comes from the event's sender field (event schema), not from a message | Kind exists |
 | sender | Friend, family, employer, or bank, with a fictional name | Sender is from the fixed list |
 | links to | Info: nothing. Invitation: an activity. Offer: an open option (FR-48), extra shifts (FR-47), or a one-time gift (FR-29, FR-30) | The target exists. An invitation's activity covers the message's age range, and the message requires at least the activity's flags |
-| when | Offers: the FR-18 offer-message column. The summer job message repeats in months 18, 30, and 42. Drawn offers (extra shifts, gift moped): required and blocking flags and a chance per in-game year. Invitations: an age range and flags, repeatable at most once per in-game year. Info: an age range and flags, one-off or repeatable. Bank messages: progress towards the savings target or goal 1 passing 25, 50, 75, or 100%, once per threshold and target | Every FR-18 row with an offer month has exactly one offer message |
+| when | Offers: the month in FR-18's offer-message column. The summer job message repeats in months 18, 30, and 42. Drawn offers (extra shifts, gift moped): required and blocking flags and a chance per in-game year. Invitations: an age range and flags, repeatable, at most once each per in-game year. Info: an age range and flags, one-off or repeatable. Bank messages: progress towards the savings target or goal 1 passing 25, 50, 75, or 100%, once per threshold and target | Every FR-18 row with an offer month has exactly one offer message |
+| tip, teaching point, LK20 code | Optional. The credit card and consumer loan offers must have a tip and a teaching point (FR-19) | Present where required; LK20 codes exist |
 | text | Norwegian. Any amount is a placeholder the engine fills in (NFR-4) | No typed-in amounts; no alcohol or tobacco (NFR-8) |
 
 ### Ready for V2: AI as game master
@@ -194,11 +202,17 @@ The team wants AI to act as the game engine where possible in V2, and not in the
 
 ## Changes from the proposal
 
-The examiner's guide requires anything left out or changed from the approved proposal to be described and justified. The proposal isn't in the repo, so this table is incomplete (OQ-15).
+The examiner's guide requires anything left out or changed from the approved proposal to be described and justified. The proposal isn't in the repo, so this table is incomplete (OQ-15). Rows marked *to check* are decisions that may or may not differ from the proposal.
 
 | Change | Why |
 |---|---|
 | AI-generated events moved to V2, so the MVP has no AI. F5 moves with them | Team decision, logged on 2026-11-03. The lecturer's feedback of 2026-10-06 advised building the engine and the event library first, so the game works with no AI, and rated in-app AI among the hardest parts. Whether this meets the course requirements is OQ-11 |
+| *To check:* login with an email address and a password, with no username | Password recovery needs an address, and a username would be a second identifier to protect (NFR-3) |
+| *To check:* the car licence is in the MVP | Added from UJ-4 on 2026-11-04, so Markus has a reason to borrow the parents' car in the card story (FR-30) |
+| *To check:* minigames for the licences | Decided on 2026-11-05, so the player sometimes uses skill, not only choices (FR-51) |
+| *To check:* no tobacco or alcohol choices | Content suitable for a 15-year-old, and the marketing rules for minors (NFR-8, research of 2026-11-04) |
+| *To check:* no student loan | Education is a later life area (PRD §4.3) |
+| *To check:* four game areas: the month plan, the phone, the job view, and the money view | Team decision of 2026-11-10: more game, less quiz |
 
 ## Decision history
 
@@ -318,7 +332,7 @@ UJ-4 shows the cost for the player's own balance. The figures use the 3.5% minim
 | Car licence as a gift | One event |
 | The moped in the room | One of the room layers, so it's gone once it's sold |
 
-If time runs short, cut in the order in PRD §4.1. The warning, the moped and selling it stay, because UJ-4 depends on them.
+If time runs short, cut in the order in PRD §4.4. The warning, the moped and selling it stay, because UJ-4 depends on them.
 
 ### UJ-5: no student loan, Markus's goal, and the ending
 
@@ -387,14 +401,14 @@ Proposed by Dahl on 2026-11-05 and accepted by the team, as Dahl reported the sa
 
 | Decision | Why | Changes an earlier decision? | Now in |
 |---|---|---|---|
-| A spending level (low 50%, normal 75%, high 95% of what's left of the wage). Low lowers social life by 2 a month, and high raises it by 2 | Nothing else absorbed wages: a player who saved nothing until month 54 still reached NOK 166,249 on six months of full-time pay, and UJ-4 relied on a cost level no rule created. It also gives the player a monthly lever for trading money against wellbeing | Adds to M12, which stays. Dahl first chose event-started costs over a spending level, but those alone can't absorb a wage with about five choices a year | FR-23 |
-| Debt-free buffer raised from NOK 50,000 to NOK 100,000, and a careless run must miss goals 1 and 2 | The buffer was reachable in two months of full-time pay. The earlier check tested only that goals weren't too hard | Changes the G4 default | FR-9 |
+| A spending level (low 50%, normal 75%, high 95% of what's left of the wage). Low lowers social life by 2 a month, and high raises it by 2. *Superseded: low is now 60% (FR-23).* | Nothing else absorbed wages: a player who saved nothing until month 54 still reached NOK 166,249 on six months of full-time pay, and UJ-4 relied on a cost level no rule created. It also gives the player a monthly lever for trading money against wellbeing | Adds to M12, which stays. Dahl first chose event-started costs over a spending level, but those alone can't absorb a wage with about five choices a year | FR-23 |
+| Debt-free buffer raised from NOK 50,000 to NOK 100,000, and a careless run must miss goals 1 and 2. *Superseded: goal 2 is now NOK 30,000 at each month-end 49-60 (FR-9).* | The buffer was reachable in two months of full-time pay. The earlier check tested only that goals weren't too hard | Changes the G4 default | FR-9 |
 | Unlocked options stay open in the money view (FR-48), and a quiet month waits for a tap (FR-49) | Milestones came once and events never repeated, so a player who couldn't afford the licence in month 13 had no second chance, which contradicted UJ-3 | No | FR-48, FR-49 |
-| Ending wellbeing uses months 37-60 | With months 49-60, a player who worked 40 h a week for years could ease off in the last year and end at 55, a real win. With months 37-60, the same run ends at 41, a hollow win. Markus in UJ-4 stays at 60 or above | Changes G5 | FR-33 |
+| Ending wellbeing uses months 37-60. *Superseded: the window is now months 19-60 (rule 12).* | With months 49-60, a player who worked 40 h a week for years could ease off in the last year and end at 55, a real win. With months 37-60, the same run ends at 41, a hollow win. Markus in UJ-4 stays at 60 or above | Changes G5 | FR-33 |
 | Crisis events are written per trigger and age and can repeat, and a third step ends the crisis month (FR-32) | About 10 crisis events can't cover about 8 crisis months with no repeats, and nothing ended a crisis month if no choice cleared the trigger | No | FR-32 |
 | The experience offer moves to months 44 and 56, and a pushed-out summer job stays open until its July pay month | Two required events landed in June for goal-3 players, and a summer job offer pushed out of June could arrive after the July it pays in | Moves the months in G4 | FR-9, FR-46, FR-48 |
 | Playtest records that survive deletion, only in the playtest environment (FR-50) | FR-43 deletes the playthroughs the metrics count | Exception in NFR-3 | FR-50 |
-| Four more cut steps, and dates set by the team (OQ-13) | The old cut list removed no feature with real build cost, and the lecturer asked for "en minimal versjon som sikkert kan bli ferdig" | Adds to the cut list | PRD §4.1, OQ-13 |
+| Four more cut steps, and dates set by the team (OQ-13) | The old cut list removed no feature with real build cost, and the lecturer asked for "en minimal versjon som sikkert kan bli ferdig" | Adds to the cut list | PRD §4.4, OQ-13 |
 | OQ-6 blocks the first playtest, and OQ-11 is widened and blocks epics | Real email addresses first arrive with the playtest, and the project has no go-live. If the course requires AI in the app, architecture and epics change | Narrows "privacy questions don't block" (2026-11-03), which still holds for the MVP and the PRD | PRD §8 |
 
 ### Decisions from the independent review
@@ -456,9 +470,36 @@ Decided by the team, as Dahl reported on 2026-11-10 (`.memlog.md`). The change s
 - **Estimated net:** the plan's estimate covers activity costs only, not shifts.
 - **Transfers:** "Overføring til sparing" is shown as a transfer, not a cost (FR-42 counts it as zero).
 
+### Sources for the 2026-11-10 revision
+
+Added on 2026-11-11 from saegg1205's branch `docs/prd-sara-endringer`. The revision had two sources: the team's written prompt («Videreutvikle LifeMode PRD – mer spill, mindre quiz») and the UX concept sketches for the four areas. Neither is stored in the repo, so this section records what the PRD took from the prompt. The sketches are recorded through "UX concept alignment" above and "For UX" under "Detail for downstream work".
+
+**The team's prompt, by area:**
+- **Whole game:** calendar, job, phone, and money are four parts of one life, not four minigames. What the player does in one place affects the others. The player shouldn't have to answer questions all the time, but plan, reach goals, discover chances, and live with the results. In the PRD: §5.5-5.8, FR-52 to FR-57.
+- **Calendar:** time is as limited as money. No 30-day calendar to fill in over 60 months. Instead, a limited number of activity slots each month. School and daily duties are automatic, and the player plans only the free time left. More shifts mean more money and less time, and more friends and free time mean better wellbeing and less income. In the PRD: the month plan and slots (§5.5, FR-52, FR-53, P1).
+- **Job:** a simple job system where the player applies, gets shifts, and gradually gets better chances. Turning up for shifts can lead to more shift offers later, and frequent overwork raises stress. In the MVP a job can be just a wage, a shift limit, and a few job events, with rules that fit ages 15-20. In the PRD: the job view (§5.7, FR-56), FR-47, and FR-48. Job development over time is V2 (§4.3).
+- **Phone:** a simple inbox, not a quiz dressed as a chat, with pre-written messages and no free AI chat. Messages link to other areas: Emma's invitation adds a concert to the calendar, an extra-shift offer updates work, and a bill due is drawn through the money system. Some messages are information, some open chances, and some need action. In the PRD: §5.6, FR-54, FR-55, and the message schema. Emma is the friend named here, not in the UX concept.
+- **Money:** the engine, not the story or the messages, decides every amount, and the amounts add up exactly. Earning NOK 1,000, spending NOK 550, and moving NOK 400 to savings must match to the krone. The player can set money aside for goals, see upcoming costs, and understand why the balance changed, without a full online bank in V1. In the PRD: the money view (§5.8, FR-57), FR-45, and NFR-4.
+- **Balance:** calendar and money are the core systems, while the phone and the job make life more dynamic. The phone doesn't always have new messages, and the job doesn't always need a decision. Some months are about saving and planning, others about new chances, unexpected costs, or big life changes. In the PRD: 4 active months a year and quiet months (FR-46, P4).
+
+**The month example, as the team wrote it:**
+
+> 1. Mobilen får en melding. En venn inviterer deg på konsert. Du får en ny aktivitet tilgjengelig.
+> 2. Kalenderen oppdateres. Konserten krever én aktivitetsplass. Du har allerede lagt inn flere jobbvakter.
+> 3. Spilleren planlegger. Du flytter på aktiviteter for å få plass. Du trenger kanskje å redusere antall jobbvakter.
+> 4. Økonomimotoren beregner resultatet. Du får mindre lønn denne måneden, og konserten koster penger. Men du får også en sosial opplevelse.
+> 5. Neste måned begynner. Sparepengene, trivselen og kalenderbeslutningene videreføres. Tidligere valg kan påvirke fremtidige muligheter.
+
+**How UJ-6 differs from the example:**
+- **Persona and figures:** Markus, his hours, the car licence target, month 35, and all amounts are the PRD's own, taken from worked examples 24-26 (D1, D2).
+- **Shifts:** in the example the player places shifts in the calendar and cuts them to get less pay this month. In the PRD, shifts are never placed in a slot, and hours change from the next month (P3, rule 10). Markus therefore sees in the job view what ending the extra shifts would give from December, and keeps them.
+- **What carries over:** savings and the month's wellbeing score carry over. An activity's effect on stress and social life counts in its own month only (rule 12, decided 2026-11-11). The player plans one month at a time, and planning the next month is V2 (P2, §4.3).
+
+**Not taken from that branch:** it solved the same contradiction as D1 and D2 (Markus saving for the moped licence at 17 although he has had a moped since 16) by moving the concert journey to month 15, with examples 24-26 recalculated for that month, and by renumbering the journeys by age. This PRD keeps the car licence in month 35, which feeds UJ-4 (D1), and keeps the journey IDs stable while ordering them by age (§2.3), so that reviews, issues, and logs keep matching. Its other changes were already here: OQ-19 decided, ending extra shifts, and the wording of UJ-6 step 3.
+
 ### Review fixes (2026-11-11)
 
-Decided by sarahnaess on 2026-11-11, who asked to apply the recommended fixes from `review-2026-11-11-solutions.md` (`.memlog.md`). The team reviews them in PR #59. The review is `review-2026-11-11.md`. These decisions settle what the 2026-11-10 revision left open or contradictory:
+Decided by sarahnaess, who asked on 2026-11-11 to apply the recommended fixes from `review-2026-11-11-solutions.md` (`.memlog.md`). The team reviews them in PR #59. The review is `review-2026-11-11.md`. These decisions settle what the 2026-11-10 revision left open or contradictory:
 
 | # | Decision | Why | Alternative rejected |
 |---|---|---|---|
@@ -466,9 +507,9 @@ Decided by sarahnaess on 2026-11-11, who asked to apply the recommended fixes fr
 | D2 | UJ-6 is in November (month 35), a quiet month | October is active, and UJ-6 is the only journey showing an ordinary month | October with a highlight event added |
 | D3 | The credit card's offer message comes in month 39, and the card opens in month 37 | It matches the UJ-4 trace and keeps month 37 for the car licence | Month 37 |
 | D4 | An offer arrives even when the player doesn't qualify yet, and shows what's missing | Offers stay guaranteed, and the condition is part of the lesson | Waiting until the player qualifies |
-| D5 | Savings-target progress is the current account plus savings | It's the amount the missing amount uses, so the two never disagree | The savings account only |
+| D5 | Savings-target progress is the current account plus savings | The missing amount uses the same total, so the two never disagree | The savings account only |
 | D6 | No read state for messages, and no unread badges | Nothing new to store or replay | A stored read flag |
-| D7 | Invitations repeat, at most once each per in-game year | Supply meets the 0-2 drawn a month without a much larger library | One-off invitations with a minimum of 12 a year |
+| D7 | Invitations repeat, at most once each per in-game year | Supply meets the 0-2 invitations drawn a month without a much larger library | One-off invitations with a minimum of 12 a year |
 | D8 | Stress and social life are shown as the usual value and this month's value | Rule 12 is unchanged, and "Hvorfor?" matches the number it explains | Counting this month's activities in the social-life row, which would let activities change carried stress |
 | D9 | A "careful player with some free time" run is pass/fail, and targets are tuned once prices exist | Goal 1 was only shown reachable without activities | Lowering goal 1 now |
 | D10 | A plan that would set off a trigger asks the player to confirm, and isn't blocked | The player decides, as in UJ-4 | Blocking continuing |
@@ -476,13 +517,25 @@ Decided by sarahnaess on 2026-11-11, who asked to apply the recommended fixes fr
 | D12 | A "same as last month" action for the month plan | It keeps 12 plans a session from becoming a chore | Leaving it to UX |
 
 **Checked while applying:**
-- **UJ-6 and example 25:** Markus owns a moped, so its insurance (NOK 250) is his own at 17 (FR-23), and example 25 now includes it. For the bank's "three quarters" message to fire in November, progress must pass 75% that month. That gives NOK 500 + NOK 23,500 before the month (73.8%) and NOK 25,920 after it opens (79.8%). The proposal's NOK 24,400 had already passed 75% in October.
+- **UJ-6 and example 25:** Markus owns a moped, so its insurance (NOK 250) is his own at 17 (FR-23), and example 25 now includes it. For the bank's "three quarters" message to fire in November, progress must pass 75% that month. Example 25 therefore has NOK 500 + NOK 23,500 before the month (73.8%) and NOK 25,920 after it opens (79.8%). The proposal's NOK 24,400 had already passed 75% in October.
 - **UJ-4 timing:** a script ran months 35-40 from that state. With NOK 650 of activities a month he has about NOK 31,100 by month 40, and about NOK 34,300 if he plans no paid activities from December. UJ-4 therefore says he paid for the licence "at 18, cutting back on paid activities", with no month. The proposal's "month 39" didn't hold.
 - **Example 26c:** a script that reproduces 17b (34, 37, 29) and the old 26c (41, 44, 37) gives 42, 46, and 37 at the real limits (stress −10). The careful player rises from 75 to 85 with goal 1's weights. The old "82-85" wasn't reproduced.
 - **Boundary (26d):** with activities at the limits, the 17b run at 26 h on normal spending rises from 41 to 52, and the 25 h run from 68 to 79. The threshold and the activity effects are tuned together (OQ-8).
 - **P4 correction:** FR-46 lost milestones, but follow-ups can still be pushed out. One that can't get a month by month 60 is now dropped and reported.
 
-## Confirmed assumptions (2026-11-05)
+### Finalize (2026-11-11)
+
+Decided by sarahnaess on 2026-11-11 during Finalize, from the rubric review (`review-rubric.md`) and the input reconciliation (`reconcile-revision-proposal-2026-11-10.md`, `reconcile-review-2026-11-11.md`). sarahnaess checked the new figures in examples 25-28 and 26c/d and found them OK.
+- **Month-only activity effects are decided** (was OQ-19). They're in FR-33, FR-53, rule 12, and D26. Lasting effects would pile up and remove the hollow win. Effects fading back towards a baseline were also rejected, because they need a new rule, new tuning, and new worked examples before the delivery.
+- **What a slot is worth goes to tuning (OQ-8).** With ±10 per activity and a ±15 cap, two activities reach the cap, so slots 3 and 4 add little. The content check reports ending wellbeing at 1-4 slots, and ±5 with a ±20 cap are values to try. The figures in examples 26a-d are unchanged.
+- **Low spending and social life:** FR-33 and D26 now say that activities lift only the month, and that the social life that carries over follows events, spending, and hours. Letting a social activity skip the low-spending −2 row is a tuning candidate under OQ-8.
+- **Cut timing:** cuts are applied in groups at checkpoints set under OQ-13 (§4.4).
+- **Ending extra shifts:** running extra shifts can be ended from the job view, from the next month (FR-47, FR-56). The team's month example lets the player cut shifts to make room for an activity, and the change still applies only from the next month (P3).
+- **Disclosure D11 fires when the card opens (month 37),** not on the card's month-39 message, because the card can be taken from the money view from month 37. This differs from fix O1 in `review-2026-11-11-solutions.md`.
+- **Offers carry teaching:** the credit card and consumer loan offers have a tip and a teaching point (FR-19), as P4 planned.
+- **Smaller fixes:** FR-49's month 59-60 warning, the FR-9 reference runs, UJ-3's interest message (FR-55), "eligible" instead of "can be placed" for invitations, NFR-7's list of inputs, NFR-8's "actions, not quizzes", the glossary terms, the §7 targets, and the UJ-4 wording on extra hours.
+
+## Confirmed assumptions (2026-11-05, A-29 and A-30 added 2026-11-11)
 
 | # | Assumption | Where |
 |---|---|---|
@@ -514,3 +567,5 @@ Decided by sarahnaess on 2026-11-11, who asked to apply the recommended fixes fr
 | A-26 | F5 moves to V2, with the AI. Checked against part 1 of the examiner's guide only (OQ-11, #39) | §7.3 |
 | A-27 | The new rules get worked examples and unit tests | NFR-4 |
 | A-28 | Deleting an account requires the current password and can't be undone | FR-44 |
+| A-29 | The first reference run and worked examples 1-23 plan no activities | FR-9 |
+| A-30 | In UJ-6, Markus pays his own moped insurance at 17, and moped fuel is left out until it has a source | UJ-6, brief example 25 |

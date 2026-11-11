@@ -1,121 +1,187 @@
 # PRD Quality Review — LifeMode
 
+Reviewed 2026-11-11: `prd.md` (draft, after the 2026-11-10 revision and the 2026-11-11 review fixes), its `addendum.md`, and Rule Set v1 in the brief addendum. This replaces the rubric review of 2026-11-05.
+
 ## Overall verdict
 
-The engine specification holds up: every worked figure I recomputed matches, terms and IDs are disciplined, and the NFRs have product-specific bounds. The risk is in the game around the engine: by the PRD's own numbers a player who saves nothing until month 54 still reaches the savings goal, and no requirement says how a player buys, borrows, or gets a job once a one-time milestone event has passed. Architecture can start now, but UX should hold the money view and crisis flow, and epics should wait until the decisions listed below are made.
+The PRD can be set final. The engine is its strongest part: every figure I recomputed matches, IDs and cross-references are clean, and nearly every FR has a testable consequence, so UX, architecture, and stories can extract from it directly. Two things are at risk. The first is the revision's own thesis, "time is as limited as money": activity limits make the slot count barely matter, and month-only effects can't stop low spending from draining social life. The second is delivery: the core that can't be cut grew by three game areas, and the dates for feature freeze and the playtest (OQ-13) are still open.
 
-## Can downstream work start?
+**What I checked.** With throwaway scripts I recomputed:
+- the card table in the addendum (NOK 3,200, 8,400, and 10,000 at the minimum)
+- the UJ-4 trace (NOK 682 interest, NOK 122 left)
+- worked examples 17b (34/37/29, careful player 75), 24, 25 (NOK 8,457, 6,343, and 604; 73.8% rising to 79.8%), 26c (42/46/37, careful player 85), 26d (41 to 52, 68 to 79), and 28 (NOK 2,335)
+- FR-39's NOK 17,270, UJ-3's NOK 84, and the figures in FR-25, FR-47, and FR-48
 
-| Workflow | Start? | What it needs |
-|---|---|---|
-| Architecture | Yes, now | Takes four open inputs with it: the offer model, advancing the month, playtest records, and hosting feasibility |
-| UX | Partly | Login, first session, recap, and ending can start. The money view and crisis flow need decisions 1 and 3 first |
-| Epics and stories | Not yet | Need decisions 1-6, because they add or change stories and acceptance criteria |
+All of them match. Because the wellbeing script reproduces the PRD's own figures, I used it to test the alternatives proposed below. I didn't check legal claims, prices, or free-tier limits.
 
-**Decisions for the team**
-1. How a player takes an option after its milestone has passed (offer model)
-2. Whether baseline living costs exist, and a requirement that careless play can miss a goal
-3. What a crisis event is, and whether crisis events can repeat
-4. What happens when required events collide in months 18, 30, 42, and 54
-5. What the game records for the playtest metrics, given that FR-43 deletes playthroughs
-6. A dated floor scope, with cuts that actually save time
+## Decision-readiness — strong
 
-**Questions for the lecturer, this week:** who the data controller is for the playtest (OQ-6), and whether a December delivery with no in-app AI meets the course requirements (OQ-11).
+Decisions are stated as decisions, with the reason next to them or one link away. The addendum names the rejected alternative for every decision from 2026-11-10 and 2026-11-11 (P1-P8, D1-D12), and several trade-offs state what they cost:
+- Wages stay a system cause, although that keeps job choices off the ending screen (addendum, "The ending screen").
+- The 25-hour cliff stays because "a visible limit explains the drop".
+- Sign-up reveals whether an address already has a user.
 
-**What I checked.** With throwaway scripts I recomputed worked examples 2-4, 6, 7, 7b, 12, 18g, 19, and 20, and the UJ-4 card table. By hand I checked examples 1, 5, 8, 13, 17a, 17b, and 18d-e, and the UJ-4 month-by-month trace. All match. Example 20 reproduces exactly (NOK 227,572, lowest balance NOK 10,024, NOK 90,109 at month 42, NOK 142,199 at month 54), and the simulations below reuse the same script. I did not check legal claims, market prices, Supabase behaviour, or free-tier limits.
-
-## Decision-readiness — adequate
-
-Decisions read as decisions, and the addendum often says what was given up: "Sign-up shows whether an address has a user. Accepted", no student loan and why, re-running a playthrough rejected and why. §8 is short and names owners. The weak point is its opening claim, "None of these blocks UX, architecture, or epics". That holds for most rows, but not for OQ-6 and OQ-11. OQ-8 also marks itself "No" while covering a problem that tuning alone may not fix (see Strategic coherence).
+§8 gives every question an owner and a Blocks column, and OQ-8 says the threshold and the activity effects are tuned together. Someone pushing back on month-only activity effects gets a real answer in OQ-19 and example 26c, not a dodge. The one question that isn't really open is OQ-19 itself.
 
 ### Findings
 
-- **[high]** OQ-6 is tied to a go-live this project doesn't have (§8 OQ-6, NFR-3, NFR-11) — NFR-3 and OQ-6 leave the controller and legal basis until "go-live", but no go-live is in scope, and the architecture says "Public production hosting is not required for the MVP". The first real personal data arrives with the NFR-11 playtest: real email addresses, game data, and possibly linked survey answers. The player information must say "who to contact" (addendum, Privacy measures), so FR-1 can't pass acceptance without a controller. The "doesn't block" call dates from 2026-11-03, before NFR-11 existed, and the memlog first records it under username login with no email (line 15). *Fix:* change Blocks to "first playtest", and ask the lecturer now who the controller is, which legal basis applies, and whether the institution requires a notification for student projects.
-- **[high]** OQ-11 asks too narrow a question and is wrongly outside architecture and epics (§8 OQ-11, §1, §4.3, A-26) — It asks only whether F5 can move. The real question is whether a delivery with no in-app AI meets the course requirements. The examiner reads the approved proposal first and expects anything left out to be "beskrevet og begrunnet" (sensorveiledning §3 step 1, §4.2). The lecturer's feedback rated the project hard partly because of in-app AI, though it also advised building the engine first. `extract-product.md` notes the proposal wasn't read, the overall guide and any part 2 guide weren't found, and the PRD gives no justification beyond "Second stage, after the base works". If the answer is no, architecture and epics change, with about five weeks left. *Fix:* reword OQ-11 to the real question, ask before epics, read the proposal, and add the justification to §4.3.
-- **[medium]** Hosting feasibility has no open question (NFR-5, NFR-10, NFR-11, §8) — The PRD requires zero cost, EU/EEA storage, at least 7 days of availability, and a usable first screen within 10 seconds after sleep. The addendum already suspects idle pausing. Unlike email (OQ-4), hosting has no fallback if no free tier meets all of this, and NFR-10 sets no budget for logging in after a sleep. *Fix:* add it to §8 with architecture as owner, say which bound gives way first, and name a fallback.
+- **[low]** OQ-19 is a decision written as a question (§8 OQ-19, FR-33, FR-53, rule 12, D26) — It asks the team to "confirm that activity effects count for their month only". It then gives the answer and the reason the alternative fails ("Lasting effects pile up … they remove the hollow win"), and it blocks "Nothing". Month-only effects are already written into FR-33, FR-53, rule 12, D26, and examples 26 and 28. An open question in a final PRD invites someone to reopen this during tuning. *Fix:* record it as decided in the addendum's "Review fixes" table and remove OQ-19, or say what evidence would reopen it.
 
 ## Substance over theater — strong
 
-There is one protagonist across five journeys, and he drives real decisions: UJ-4 produced the card warning, moped ownership, and family loans. §1 narrows the differentiation claim honestly to "Built for Norway first and foremost", and the Vision couldn't be swapped into another product. NFRs carry real bounds (320 CSS pixels, 24 × 24 touch targets, 1 and 3 seconds on throttled 4G). A search found none of the usual filler words. The survey figures in §2 match `user-research.md`, apart from one misread number in the addendum.
+Nothing here is furniture. One protagonist carries six journeys, and the journeys produced real rules:
+- UJ-4 produced the card warning and family loans.
+- UJ-6 produced the job view's extra-shift figure (NOK 604) and the savings-target thresholds.
+
+The Vision couldn't be moved to another product ("frikort, BSU, credit only from 18, and the moped licence at 16"), and the differentiation claim is narrowed to what the team has actually tried. The NFRs carry thresholds: 320 CSS pixels, 24 × 24 touch targets, and 1 second for 9 of 10 choices on throttled 4G. The survey figures in §2 match `user-research.md`. The PRD also states the survey's limits: it's a convenience sample with only 8 respondents aged 19-20.
 
 ### Findings
 
-- **[medium]** The 17% family-help figure uses the wrong base (addendum, "Family help"; OQ-8) — The addendum says "only 17% got family help with an unexpected expense, so most of the time the player has to find another way". The survey says 36% had a hard-to-pay expense and "about half of them (17% of all)" got family help. Among those who needed help, then, about half got it. If the team tunes "how often family helps" from 17%, the game teaches the wrong thing. *Fix:* correct the addendum and memlog reading, and set the default from about half, or state the chosen value as a game-design decision.
-- **[low]** Two pieces of required work have no visible consumer (FR-10, FR-17) — Nothing in the PRD uses the avatar after it's picked. Every event must carry an LK20 code, but no FR shows or uses it, and §4.2 rules out classroom use. *Fix:* say what each is for, or put them on the cut list.
+- **[low]** Two required items still have nothing that uses them (FR-10, FR-17 schema, glossary "LK20 code") — Every event must carry an LK20 code, and the content check enforces it. But no FR shows, uses, or reports the code, and §4.2 rules out classroom use. The avatar is picked in FR-10 and never appears again: not in the room (FR-34), the recap, or the ending. This was raised on 2026-11-05 and is unchanged. *Fix:* say in one line what each is for, such as a curriculum coverage report from the content check, or put them on the cut list.
 
-## Strategic coherence — thin
+## Strategic coherence — adequate
 
-The thesis is clear: "every choice carries forward", and wellbeing counts in how the game ends. The metrics test that thesis, 7.2 has useful counter-metrics, and the cut order protects the core. But the rule set doesn't yet deliver the thesis. Full-time wages in the last six months swamp everything earlier, nothing creates ongoing cost pressure, and a player can avoid the hollow win by easing off for one year. These three findings come from running the PRD's own rules, and they reach the game's main payoff.
+The PRD has a clear thesis, and most features serve it: players learn from what their own choices lead to. Every effect carries a cause link (FR-36), and every change has a "Hvorfor?". Choices come back as boomerang pairs with enforced minimums (FR-17), and the ending ranks the choices that mattered (FR-42).
 
-### Findings
+The metrics test the thesis, not just activity. One target is "Can explain how an earlier decision affected a later outcome — 70% or more", and counter-metrics watch for tapping through and for the game turning into a lesson. The cut order follows the thesis, with content cut before the core.
 
-- **[critical]** The goals can be reached without any of the first 54 months mattering (§1, FR-9, FR-20, FR-41, brief addendum example 20, OQ-8) — I simulated a player who works 8 h a week, spends every krone through month 54, and ends that month with NOK 0 and no debt. He then takes the guaranteed full-time job and has only the NOK 537 fixed costs. He passes NOK 100,000 in month 58 and has NOK 166,249 at 20. With no job at all before month 55 he has NOK 173,982. With a maxed NOK 10,000 card and a NOK 25,000 loan still open at month 54, he has roughly NOK 128,000. Goal 2's NOK 50,000 falls in month 56. He could also spend about NOK 11,000 a month in months 55-60 and still reach goal 1. On a full-time wage the debt trigger needs net debt above NOK 95,082, so the loss ending is practically out of reach too. The real win becomes the default for anyone who takes the job, which contradicts §1. FR-9 and OQ-8 check only that goals aren't too hard, so OQ-8's "No" hides the opposite problem. *Fix:* add an FR-9 consequence that an automated careless run must miss goals 1 and 2, then either raise the targets above about NOK 175,000 or change the mechanism (living costs from month 55, or a later full-time start). Make this block event balancing.
-- **[high]** UJ-4 depends on a cost level no requirement creates (UJ-4, FR-23, addendum UJ-4 trace, OQ-3) — The five-month payoff rests on NOK 7,500 a month in everyday costs, 89% of Markus's wage. With only his fixed costs he has NOK 7,903 free, and the NOK 10,000 card is gone in two months for NOK 188 in interest. FR-23 creates everyday costs only through event options, with about five choices a year and no baseline, and no rule uses the "Youth everyday spending" parameter. Example 20's "half of the wage is spent" has no in-game mechanism either, so real runs would save more than it shows. OQ-3 calls this a missing figure, but the mechanism is missing too, and the addendum's claim that "the engine can reproduce UJ-4" holds only if that cost exists. *Fix:* decide in FR-23 whether a baseline exists. "One spending level", the alternative to M12 in the solutions document, is a ready option. Then re-run the UJ-4 trace and example 20, and mark this as blocking event writing.
-- **[high]** The hollow win can be avoided by easing off for the last year (§1, FR-33, rule 12, UJ-5) — §1 says "getting rich at any cost gives a hollow win". I simulated a player working 40 h a week from month 19 to 48, about NOK 839,000 gross, reaching stress 50 and social life 0. He then works 10 h a week in months 49-54 and 37.5 h in months 55-60, with no social events at all. Ending wellbeing is 55 with goal 1's weights and 58 with goal 2's, both above the threshold of 50, so he gets a real win. Goal 3's weights give 47. Goals 1 and 2 are the ones UJ-5's second playthrough uses. FR-33's line that "one good last month can't make up for a bad year" is true, but one good year makes up for three bad ones. *Fix:* decide whether this is acceptable. If not, add a condition, such as a social-life floor or a longer window, and add the run as a worked example. If so, soften §1.
-- **[medium]** Nothing requires the library to contain the mechanism the thesis rests on (FR-17, addendum Event schema, §1) — The brief's example is "a choice made in month 3 comes back in month 9", but `boomerang` may be "None" on every event. The content check counts events per year and measures overlap, not pairs or coverage by mechanism. A library with no boomerang pairs and no credit events after 18 passes. *Fix:* add minimums for boomerang pairs and events per mechanism and age band, and have the content check enforce them.
-- **[medium]** Job and hours choices can never rank among "the three choices that mattered most" (FR-36, FR-42, addendum "The ending screen") — Wages have a system cause, so taking a job, working 40 h, or taking extra shifts has zero linked kroner, though wages are the game's largest money flow. The addendum says job choices "never fill all three places", which understates it: they can't fill any. UJ-4's extra shifts won't appear in UJ-5's summary. *Fix:* name the trade-off, or link extra-shift pay to the choice.
+Earlier balance problems are fixed and guarded. Careless runs miss all three goals (example 21), and the content check fails if any change lifts the money chaser to 50 (FR-33).
 
-## Done-ness clarity — thin
-
-The two halves differ sharply. Money, login, and sync FRs are excellent: exact figures, worked examples, and edge cases, with no "handles gracefully" anywhere. Game-flow FRs are where an engineer would get stuck, because taking an option, running a crisis, resolving a collision, and advancing a month are all undefined or contradictory. Since downstream stories lean on this dimension hardest, I rate it on the weaker half.
+The weak part is the revision's second thesis, "Time is as limited as money" (§1, §5.5). The money side of that trade-off is real: activities cost kroner, and the job view shows what extra shifts leave after spending. The time side mostly isn't, because of two parameter choices.
 
 ### Findings
 
-- **[critical]** No requirement says how a player takes an option after its milestone has passed (FR-18, FR-25, FR-26, FR-28, FR-29, FR-30, FR-45, FR-46, FR-47, UJ-2, UJ-3) — A milestone takes "the first active month at or after its unlock month", and "no event appears twice". FR-13 shows an unaffordable option with the missing amount and blocks it. FR-45's list of money actions doesn't include taking the licence, buying a moped, taking a loan, getting a card, or finding a job. So a player who can't pay NOK 12,000 in month 13 has no guaranteed second chance, yet UJ-3 ends with "savings and a summer job" making the moped possible, and that pay arrives in month 19. UJ-2 also says "if he later chooses". FR-9 and example 18g assume a loan in month 59, which the addendum says stays quiet, so that loan has no entry point. A player who declines or quits a job has no way back, though cards, loans, and extra shifts all need one. Only the experience has an explicit second offer (FR-9), which shows the gap. *Fix:* choose one model, such as: a milestone opens the option permanently and it stays available from the money view until taken. Extend FR-45's list, add a rule for declined or unaffordable milestones to FR-46, update the schema, and add a test where a licence is bought after month 19.
-- **[high]** A crisis event isn't defined, and its repeat rule points nowhere (FR-17, FR-32, FR-46, FR-31, addendum Event schema) — FR-46 says "Crisis events follow FR-32", but FR-32 has no selection or repeat rule. There are about 10 crisis events, while an ignored problem brings a crisis every third month (rule 8, example 10), about 8 after 18 alone, each with up to 3 linked choices. Undefined: whether a linked choice is its own event, how the next choice differs, coverage by age and trigger (a 15-year-old below zero has no card and perhaps no job), and what ends the month after a third choice with a trigger still true. Extra shifts change hours only from next month (FR-47), so they can't clear a trigger in the crisis month. The player seems to have to choose "ignore it" to leave. The schema has no type or trigger field, so the check on "every crisis event" can't identify one. Only the moped has a sale rule, though "selling something" appears throughout. The card warning repeats (A-21), but no-repeats exempts only crisis events. *Fix:* define the structure in FR-32, add type and trigger fields, state the repeat rule, and exempt the warning.
-- **[high]** Required events collide, and the collision rules lose them (FR-9, FR-18, FR-32, FR-46, addendum Event scheduling, example 18j) — Every goal-3 player has two required events in month 42 (summer job, experience) and two in month 54 (full-time job, experience). The experience isn't in the FR-18 table, so it isn't a milestone. It isn't a follow-up either. Under FR-46's order it would lose both times and has no rule for moving, so a goal-3 player might never see the offer FR-9 promises, and example 18j's "bought in month 54" couldn't happen. If it counts as a milestone, the summer job moves to month 44, after its July pay month. A crisis in June has the same effect on any summer job: FR-32 says "Nothing is lost", but an offer moved to August has missed July. *Fix:* move the experience away from the June offers, such as to months 44 and 56, state its place in the order, and add a rule for time-bound offers.
-- **[medium]** "Overdue" is used but never defined (rule 5, rule 8, FR-32, example 11) — Rule 8 treats the missed-minimum trigger as solved "once the overdue minimums are paid", and crisis money goes "to overdue card minimums". Rule 5 has no arrears step, and the three payment settings don't cover one. FR-32 omits the overdue clause. Example 11's "paid in month 60" could mean that month's minimum or all arrears, and a loss depends on which. *Fix:* define the overdue amount and how it's paid in rule 5, and add a worked example.
-- **[medium]** Nothing defines what moves the game to the next month (FR-6, FR-8, FR-12, FR-14, FR-45, rule 1, rule 8) — Rule 1 runs the month in two parts around the choice, the rule 8 check runs at its "end", and money actions can happen in between. Open: does a quiet month wait for a tap, can a money action clear a trigger before the check, and what happens to a stale device's money action, since FR-8 covers only two devices answering the same event? *Fix:* add a short FR for advancing the month, with its states and a state check on every changing request.
-- **[medium]** NFR-7's refusals contradict the FRs (NFR-7, FR-22, FR-26, FR-47, example 14) — NFR-7 refuses a BSU deposit above the cap and says a refusal leaves the game unchanged, but example 14 accepts NOK 7,500 of a NOK 10,000 deposit. It refuses a card purchase above the limit, but FR-26 pays it from the current account. NFR-7 also says the device sends only an option and an amount, yet FR-45's money actions aren't options. Each case needs its own test, so these will conflict. *Fix:* mark each case as refused or capped, and widen the description to cover money actions.
-- **[medium]** The car licence has no rule and no upside (FR-23, FR-30, rule set) — The rule set has no car rule and no worked example, despite NFR-4. FR-23 adds car fuel "with a car licence", with no way to stop borrowing, and doesn't say how often it's charged or whether it replaces the ticket. No requirement gives the licence a benefit, so paying NOK 32,500 is never the better choice, and the gift only adds a monthly cost. The addendum calls this "a large, real money choice". *Fix:* add a benefit and a rule with a worked example, or cut the paid licence.
-- **[medium]** Teasers, recaps, and opened or closed options have almost no testable content (FR-15, FR-16, FR-35) — The teaser supports the 50% return target, but FR-15's only consequence is about lockout. FR-16 doesn't define "comes back": every reload, every login, or after a gap? From month 55 FR-18 has nothing left to unlock, so the recap's teaser has nothing to name. FR-35 says what's shown "comes from the event's flags", but flags are yes/no names with no player text, and the schema has no such field. *Fix:* define the trigger, the content source, and a fallback for each.
-- **[medium]** Session length after sign-up is undefined, and the default has an unnamed cost (FR-1, FR-5, UJ-1) — FR-5's choice happens "at login", but FR-1 sends a new player straight to the life goal, so nothing covers a session started by sign-up. With the box unticked by default, a phone player must log in again whenever the browser closes or after 30 idle minutes. The default suits shared school PCs, while UJ-1 is a phone on a bus, and its cost to the 50% return target isn't named. *Fix:* specify the sign-up case and state the trade-off.
-- **[low]** "Every option states its wellbeing effect" doesn't say when (FR-13, FR-33) — Before the pick makes the social cost a visible trade-off, and after makes it a consequence. *Fix:* state which, since it changes how the game plays.
+- **[high]** The number of slots barely changes wellbeing (FR-52, FR-53, FR-33, rule 12, examples 26a-26d, UJ-6, §7.1) — Each activity may move stress and social life by up to ±10, but all activities in a month together only by ±15. Two strong activities therefore reach the cap, and slots three and four add almost nothing. The PRD's own numbers show this:
+  - **UJ-6:** Markus's three planned activities give 74 that month (example 26a). A fourth, the gaming evening from 26b, gives 75. The slot that the extra shifts cost him is worth 1 point in one month. Over the three months that's about 0.07 points of ending wellbeing, against NOK 1,812 more after spending. UJ-6's climax, "cost him a slot every month", is true on screen but makes almost no difference to the outcome.
+  - **Example 26c:** the money chaser has 1 slot in 27 school months at 40 h and gains 8 points (34 to 42). The careful player has 4 slots every month and gains 10 (75 to 85).
+  - **Where slots matter:** with activities at the limits, two slots already reach the cap, so a player loses nothing until 31 h a week leaves one slot. The real time lever is still the free-time cliff between 25 h and 26 h, which was there before the revision.
+  - **The metric:** the §7.1 row "Can explain why more work hours gave them fewer activity slots" measures whether players notice the mechanic, not whether it matters, so it passes either way.
+
+  I reran the 17b runs with ±5 per activity and a ±20 monthly cap. The chaser stays hollow (41, 45, 36), and the careful player rises to 89. The 26 h boundary run stays below the threshold at 49, where it now becomes a real win at 52 (26d). Smaller per-activity effects would make slots matter and protect the hollow win at the same time. *Fix:* add a tuning target to FR-52 or OQ-8, such as "in a typical school month, the fourth slot is worth at least N wellbeing points", and have the content check report ending wellbeing at 1, 2, 3, and 4 slots. Consider ±5 per activity with a ±20 cap as starting values, then rerun 26c and 26d.
+
+- **[medium]** Month-only activities can't stop low spending from draining social life (FR-33, FR-23, rule 12, D26, example 21c) — On the low spending level, social life falls by 2 in every month with a wage, and the loss carries over. Activities can't offset it, because their effects count only for the month, and rule 12's rows use the value that carries over.
+  - **My run:** a saver works 10 h a week on low spending, with goal 1's weights, and fills every slot every month. The social life that carries over still falls to 0 by month 48, and the "social life below 20" row pushes stress to 50.
+  - **What the player sees:** the month's shown social life is then 15, the most the +15 cap allows. The player plans four social activities a month and still sees a social life under 20, and "Hvorfor?" says «Det vanlige sosiale livet ditt er under 20».
+  - **The contradiction:** FR-33 says "A good social life has to be kept up", and D26 says «Vil du ha et godt sosialt liv, må du fortsette å gjøre ting». On low spending, nothing in the month plan keeps it up.
+
+  The ending isn't wrong: this saver ends at 68, a real win. The lesson is: being frugal ruins your social life whatever you do with your free time. *Fix:* one option is to let a month with at least one social activity skip the low-spending −2 row. That changes a row rather than carrying an effect, so nothing piles up. In my run the chaser then ends at 45, 48, and 41, still hollow, but goal 2's margin drops to 2 points, so tune it under OQ-8. The other option is to reword FR-33 and D26: the social life that carries over follows events and the spending level, and activities lift only the month.
+
+- **[low]** Some §7 targets can't fail (§7.1, §7.2, §1):
+  - Three rows have "Most players" as the target.
+  - The Mission row ("A parent or teacher who sees the game wants to try it") has no method, since parents and teachers aren't in the playtest.
+  - §1's bar, "more rewarding and smoother to play than Koll på cashen", has no metric at all.
+  - The planning counter-metric, "fewer than a third of months holding an applied activity", can be met by tapping "Same as last month" (FR-52) with two free basic activities planned, so it can't tell real planning from habit.
+
+  *Fix:* turn "Most players" into a share, such as 60%, and drop or define the Mission row. Base the planning counter-metric on something a single tap can't fake: the share of invitations applied, which FR-50 already records, or the months whose plan differs from the month before.
+
+## Done-ness clarity — strong
+
+Nearly every FR has consequences an engineer can test, most with a figure:
+- the slot count for each number of hours (FR-52)
+- the payment order for a card-paid activity (FR-45, example 27)
+- the ranking tie-break (FR-42)
+- the refusals, each with its own test, and five named cases that aren't refusals (NFR-7)
+
+The worked examples serve as the answer key, and the ones I recomputed match. The non-functional sections give bounds, not adjectives. The soft spots are small: "a small set of preset looks" (FR-10, parked in OQ-9) and "a few states" for each room layer (FR-34). The real gaps are where a journey depends on something no FR produces.
+
+### Findings
+
+- **[medium]** No requirement produces UJ-3's opening message, and its step 4 contradicts UJ-1 (UJ-3, FR-55, message schema, UJ-1 step 5) — UJ-3 opens with "The bank sends a message: his savings have grown, because they have earned interest". FR-55 defines bank messages only as progress towards the savings target or goal 1 passing 25, 50, 75, or 100%. Info messages are drawn by age range and flags (message schema, "when"), with no condition on savings. So nothing guarantees this message, and a drawn one could tell a player with no savings that their savings have grown. The stories for UJ-3, the journey that shows the thesis working, would have nothing to build on.
+
+  Step 4 points Markus to "a part-time job now or a summer job next year", which puts UJ-3 in year 1. But in UJ-1 step 5 he takes the part-time job in month 3, and UJ-4 says he saved for the licence "from his part-time job". *Fix:* add a bank message triggered by the game state to FR-55 and the message schema, such as the first month the year's savings interest passes a set amount, once per playthrough, with the engine's figure. Or move the moment to the December summary, which already shows the year's figures. In step 4, write "more hours now or a summer job next year".
+
+- **[low]** "Can be placed" isn't defined for the message draw (FR-55 "Who can get one", UJ-6 edge cases) — FR-55 draws an invitation "only if its activity can be placed this month". It may include payment, as placing does in FR-53. Then a player with little money never gets a paid invitation, which removes the "small purchases add up" moment for the players who need it most. UJ-6's edge case "He can't afford the concert" could then happen only after he spends money during the month. *Fix:* write "if its activity is eligible this month (age range and flags)", or state that payment is part of the check.
+
+- **[low]** NFR-7's list of what the device sends is narrower than the FRs (NFR-7 opening paragraph, FR-57, FR-52, FR-40, FR-43) — NFR-7 says "The device sends only which option, money action, or activity the player picked … and the server ignores anything else." These requests fit none of those three:
+  - pinning a savings target (FR-57 says pinning "isn't a choice")
+  - "Same as last month", and removing a planned activity
+  - marking a disclosure as seen, which FR-40 stores per account
+  - ending a life early (FR-43)
+
+  Read literally, the server ignores all of them. *Fix:* reword it as "the device sends only the player's inputs, never a result", and list pins, plan changes, and disclosure markers among the inputs.
 
 ## Scope honesty — adequate
 
-§2.2, §4.2, and §4.3 do real work, and the validity limit in 7.1 is unusually honest about testing only 18-20-year-olds. Open-items density is low: seven OQs, and assumptions confirmed and indexed. The gap is what's left unsaid about time: the PRD names no build window, and the cut list doesn't reach anything large. Playtest instrumentation is also silently assumed.
+Omissions are stated, and most come with an argument:
+- §4.2 says what version one will never do.
+- §4.3 gives every later item a status and often a reason, such as "Replay from a crossroads | Out. It needs earlier game states to be stored".
+- §2.2 names the non-users and ties one of them to UJ-1.
+- The cut order in §4.4 is named and ordered, and says what each cut leaves behind. Item 7, for example, keeps the licences as a payment and changes D10.
+
+The PRD has no inline `[ASSUMPTION]` or `[NOTE FOR PM]` tags. It uses 14 open questions instead, each with an owner and a blocker, which works for this team. That's a reasonable number of open items for the stakes: only OQ-4, OQ-6, and OQ-14 hold up the playtest, and OQ-15 holds up delivery. The schedule and the proposal are less honest than the rest.
 
 ### Findings
 
-- **[high]** The cut list saves little, and the PRD has no schedule (§4.1, addendum "Progression", lecturer feedback) — The cuts are in-play "if you had chosen differently" lines, one insurance draw, and events down to a minimum of 50, which the review just raised from 30. What's left is nearly all 47 FRs, 11 NFRs, 60 events with sources, about 18 ending texts, D1-D23, and up to 6 room layers. The addendum put delivery about five weeks from 2026-11-03. UX, architecture, and epics haven't run, and the playtest needs at least 7 days plus analysis before delivery, so the build window may be only about two to three weeks. The PRD gives no feature freeze or playtest date. The lecturer asked for "en minimal versjon som sikkert kan bli ferdig", and this isn't one. *Fix:* add dates for feature freeze and playtest start, and a floor tier with real savings. Candidates: login hardening (see Shape fit), the paid car licence, gift mopeds, fewer room layers, the 12-month deletion job, and a smaller event target.
-- **[high]** The playtest metrics can't be measured from what the PRD builds (§7.1, FR-43, NFR-3) — 7.1 counts completion, return within a week, time to first choice, session length, and restarts "from the game's own records". But FR-43 deletes a finished playthrough when the player starts a new life, and it deletes an abandoned one, so replay, which the metrics encourage, erases the evidence of completion. No FR requires timestamps, per-account counters, or the export tool with tester codes that NFR-3 describes, and NFR-3 keeps "only the current playthrough, or the last finished one". The epics would have no story for this, so the gap would likely surface only during the playtest. *Fix:* add an FR for playtest records: which counters survive deletion, that they exist only in the playtest environment, and how they're exported. Add the exception to NFR-3.
-- **[medium]** NFR-3 overstates what is collected and shared (NFR-3, FR-1, FR-2, addendum Reset email routes, Privacy measures) — It says email and password are "the only real personal data". But per-network limits process network addresses, game data is tied to the email, as the brief addendum itself says, and the hosted reset route sends addresses through a third-party relay, while the player information promises "no sharing". That text must be true when players read it. *Fix:* list the data accurately, and name the login service and email relay as processors.
+- **[high]** The core that can't be cut grew, and nothing says when cutting starts (§4.4, OQ-13, §7.1 "Dates", addendum "UJ-1 and UJ-2") — The 2026-11-10 revision added:
+  - FR-52 to FR-57
+  - three new content schemas
+  - 12-20 invitation activities, and enough invitation and info messages for at least 6 invitations a year
 
-## Downstream usability — adequate
+  §4.4 now lists "the month plan with the basic activities, the phone with offers and invitations, and the job view" among the things that always stay. The revision proposal's own capacity question (OQ-22, "which of FR-52 to FR-57 are built first, and where the cut line goes now") was closed by putting FR-57 and the activity grouping at the top of the cut list (memlog, 2026-11-10).
 
-The Glossary is strong, FR, UJ, and NFR IDs are complete and unique, and cross-references resolve. FR sections stand alone reasonably well. The gaps are in what downstream will extract first: the event schema, the word "choice", and requirements that sit only in the addendum.
+  OQ-13, which sets the dates for feature freeze and the playtest, is still open. On 2026-11-03 the addendum put delivery about five weeks away, so about four weeks remain, and the playtest needs at least 7 days plus analysis (§7.1). "If time runs short" has no date or condition, so nobody can tell when to start cutting. With eleven cuts taken one at a time, the later ones would come too late to save any build time. *Fix:* settle OQ-13 now, since the delivery date is known, and tie the cut list to checkpoints, such as "if the month loop isn't playable from start to end by [date], apply cuts 1-6 at once". Also state the size of the smallest build (the always-stay list with every cut applied), so the team can see whether it fits.
+
+- **[medium]** "Changes from the proposal" has only one row (addendum "Changes from the proposal", OQ-15, OQ-11) — The examiner's guide requires anything left out of or changed from the approved proposal to be described and justified, and OQ-15 blocks delivery. The table lists only AI moving to V2. Yet the PRD's own history records several scope changes that may differ from the proposal:
+  - login with email instead of a username
+  - the car licence (brief Scope Out #5 was changed on 2026-11-04)
+  - minigames
+  - no tobacco or alcohol choices
+  - no student loan
+  - the four game areas
+
+  Without the proposal, nobody can say which of these the examiner will look for. OQ-11, whether a delivery with no AI in the app meets the course requirements, depends on the same document. *Fix:* add the proposal to the repo, ideally before the PRD is set final, and fill in the table. Until then, list the known candidates in the table, marked "to check against the proposal".
+
+- **[low]** Moped fuel is NOK 0 in every figure the journeys rely on (UJ-4, UJ-5, UJ-6, the addendum's UJ-4 trace, brief examples 22, 23, and 25, OQ-3) — UJ-4 says the moped "costs him fuel, repairs, and insurance". But the trace and the examples leave fuel out "until #43 gives it a source".
+  - **UJ-4:** I reran the trace at 10 litres a month (NOK 206 at the rule set's petrol price). Clearing the card takes six months instead of five, with NOK 776 in interest instead of NOK 682. UJ-4's "After five months" would change.
+  - **UJ-5:** the NOK 4,824 margin over goal 1 survives.
+
+  *Fix:* set a placeholder in the parameter table now and rerun the trace and examples 22, 23, and 25. Or say in UJ-4 that its months leave fuel out.
+
+## Downstream usability — strong
+
+Downstream work can extract from this cleanly:
+- **Glossary:** 55 terms, with FR pointers. The domain nouns I traced (activity, invitation, offer, real choice, ending wellbeing, net savings, available money) mean the same thing in the FRs, the UJs, the metrics, and the schemas.
+- **IDs:** FR-1 to FR-57 each appear exactly once. UJ-1 to UJ-6 and NFR-1 to NFR-11 are complete, and the gaps in the OQ numbering are explained.
+- **References:** every reference I checked resolves, including FR, NFR, OQ, UJ, rule, D, and worked-example references.
+- **Sections:** each section stands alone, because it cites IDs and glossary terms instead of saying "see above".
+- **Addendum:** it gives architecture a ready list (state, requests, the selection step, hosting, seeding), plus full schemas for events, activities, and messages.
+- **Journeys:** all six have a named protagonist and an entry state.
 
 ### Findings
 
-- **[medium]** The event schema can't hold what the FRs ask of events (addendum Event schema, FR-17, FR-27, FR-47, FR-35, NFR-7) — FR-47 uses "the event's amount" and "number of months" for extra shifts, FR-27 has instalments "set by the event", and NFR-7 refers to "the option's allowed range". None has a field, and neither do taking a job, opening a loan, or FR-35's player text. Unexpected expenses have no schema. The content check is automated, so authors would hit this immediately. *Fix:* go through FR-13 to FR-47 for every event-driven effect, and add option types with parameters before event writing starts.
-- **[medium]** "Choice" isn't in the Glossary, though cause links depend on it (FR-36, FR-37, FR-39, FR-42, FR-45, UJ-3) — FR-36 shares savings interest between "deposits", which are money actions, and FR-45 says those don't use up "the month's choice". Are they choices for cause links, echo badges, and the FR-42 ranking? FR-39 compares options "in the same event", and a money action has no event. UJ-3's moment depends on the answer. *Fix:* define choice, real choice, option, and money action, and state which ones can be a cause.
-- **[medium]** Binding requirements live only in the addendum, and precedence isn't complete (§0, FR-46, addendum) — "Placements that must be guaranteed", "a milestone wins a tie", the 1,000 seeded playthroughs, and the cause-share rounding are all binding and testable, but §0 describes the addendum as detail "that belongs downstream". §0 also doesn't say whether the PRD or Rule Set v1 wins when they differ, as FR-32 and rule 8 do. *Fix:* move the guarantees into FR-46, and state the precedence.
-- **[medium]** UJ-3 and UJ-4 don't describe the same life (UJ-3, UJ-4, addendum trace, example 19) — In UJ-3 Markus spent most of his pengegave, has about NOK 3,000 saved, and hopes a summer job makes the moped possible. In UJ-4 he has had it "since he turned 16", about 26 months in the trace, which needs NOK 25,750 by about month 15. Bought after the month 19 summer job, it has about 20 months on it at month 40 and sells for NOK 10,313, so the sale would nearly or fully clear the debt, and step 5's reason for keeping it fails. *Fix:* change UJ-4's entry state and re-check step 5 against the later purchase date.
+- **[low]** Terms the FRs rely on are missing from the glossary (§3; FR-47, FR-48, FR-54, FR-55, FR-32) — These terms are defined only inside one FR, or not at all, though each appears in several places:
+  - extra shifts
+  - drawn offer
+  - dated offer
+  - card use
+  - trigger
+  - cooldown
+  - threshold (the wellbeing threshold)
+  - reference run
 
-## Shape fit — adequate
+  "Extra shifts" also changes meaning in UJ-4. There it means a raised hours setting (the trace adds 2 h a week for five months), not FR-47's offer (+4 h for 3 months by default). *Fix:* add the eight terms. In UJ-4, write "raises his hours", or make the extra hours an extra-shift option of the card warning.
 
-Journey-led is the right shape for a consumer game that feeds UX, architecture, and stories, and the UJs carry real weight. Two things don't fit a graded project with about five weeks left. One reader the grade depends on, the examiner, has no path through the game, and account security is sized for a public launch that isn't planned.
+## Shape fit — strong
+
+A PRD built around user journeys is the right shape for a consumer game that feeds UX, architecture, and stories. The journeys carry real weight: each has a protagonist, an entry state, a climax, and edge cases tied to FRs. The financial rules live in Rule Set v1, with worked examples as the test key. That suits a product graded partly on whether it calculates correctly.
+
+The two misfits raised on 2026-11-05 are fixed. The examiner gets seeded test users at the card, crisis, and ending states (NFR-6), and login hardening is the last cut (§4.4 item 11). Six journeys for one protagonist over five years is a fitting number, and UJ-6 is the only one set in a quiet month.
 
 ### Findings
 
-- **[medium]** The examiner can't reasonably reach the game's main features (NFR-6, sensorveiledning §3 step 4, §4.2) — A playthrough is five sessions at 10-15 minutes, so 50-75 minutes. The card can't appear before month 37, and the ending comes after month 60. NFR-6 promises only "test users". Criterion 2 (functionality, 20%) and criterion 4 (design, 10%) depend on the examiner seeing these flows. *Fix:* require seeded test users at set points, such as month 36 with a steady wage and month 58 near each ending, and list them in the README. Engine tests already need seeding.
-- **[medium]** Login hardening is sized for a launch outside this project (FR-1, FR-2, FR-3, FR-5, NFR-3, §2.2, §4.1) — In this project's lifetime the users are 10-20 known testers and one examiner. Yet the PRD specifies sign-up and login limits per network, per-address pauses, daily email caps, two session modes, logging out everywhere, and a 12-month deletion job that can't fire before delivery. FR-1 and FR-2 design for a school class, though §2.2 and §4.2 rule out classroom use. "Login" is on the keep-always list with no line between core and hardening. *Fix:* keep sign-up, login, reset, logout, deletion, and basic throttling, and move the rest to a "before go-live" list.
+- **[low]** The examiner has no reading path (§0) — The PRD is about 1,300 lines. Together with its addendum and Rule Set v1 it comes to about 260 KB, written to be looked up rather than read through. §0 names the examiner as a reader but doesn't say where to start. *Fix:* add two lines to §0: read §1, §2.3, §4, and §7 for the product, and use §5 and §6 as reference.
 
 ## Mechanical notes
 
-- **IDs:** FR-1 to FR-47 are all present and unique, and FR-44 to FR-47 sit out of numeric order on purpose. UJ-1 to UJ-5 and NFR-1 to NFR-11 are complete. The gaps in OQ numbers (1, 2, 5, 7, 10) are explained only in the memlog.
-- **No UJ link:** FR-4, FR-5, FR-21, FR-25, FR-40, and FR-44 name no journey. That's fine for some, but FR-25 is a core money rule.
-- **Success metrics** have no IDs, so stories can't cite them.
-- **Issue references:** "#29", "#43" and similar are never explained as GitHub issues.
-- **Assumptions:** no inline tags remain, and A-1 to A-28 point to live sections. A-18 still says "a wage income", where FR-26 now says a steady wage.
-- **"Mechanism" drift:** §5.5 says "five money mechanisms", and the Glossary's fixed list has nine.
-- **Example 17a vs the scheduler:** W+7 to W+9 are three quiet months in a row, which the addendum's default template says never happens.
-- **Example 20 vs rule 1:** the lowest balance of NOK 10,024 in month 1 means the pengegave earned interest before the first choice, but rule 1 puts savings interest before the choice, and FR-39 counts from the month after it.
-- **Addendum overlap table:** "Shared at least" shows 0 for N = 50-80, but the same paragraph says about 8 milestones reach every playthrough, so the floor is at least 8. "About 8" also undercounts, because the summer job needs three events under no-repeats.
-- **40 h vs the cap:** 40 × 52 / 12 is 173.33 h, above rule 10's 173 h cap (NOK 33,807 against NOK 33,742 at 18+). FR-47 also doesn't say which hours are trimmed when a summer job and part-time hours exceed the cap.
-- **Example 13** rounds a loan down to the nearest NOK 1,000, which FR-25 doesn't mention.
-- **"Age and use":** UJ-4 step 5 and the addendum's moped paragraph say resale drops with use, but rule 14 uses time owned only.
-- **Brief:** it still says "two or three linked choices" and "debt above three months of income". §0's precedence covers this, but the brief's status is final.
-- **December BSU deposits:** rule 9 calculates the deduction at December's tax step, before that month's money actions, so a deposit later in December counts towards the cap but not that year's deduction.
-- **FR-43 vs FR-40:** "Nothing carries over" sits alongside disclosures seen "once per account".
+- **IDs:** FR-1 to FR-57 are unique and contiguous. They aren't in document order (FR-44 is in 5.1, FR-49 in 5.4), which keeps the IDs stable and is fine. UJ-6 sits between UJ-3 and UJ-4 because the journeys follow Markus's life in order. One line in §2.3 would stop readers thinking it's misplaced.
+- **Broken cross-references:** three places in the addendum still point to "PRD §4.1" for the cut list, which is now §4.4. They are line 321 ("cut in the order in PRD §4.1") and the "Now in" column at lines 397 and 413.
+- **Superseded values in the decision tables:** the addendum's "Decisions from the final PRD check" still reads "low 50%", "Debt-free buffer raised from NOK 50,000 to NOK 100,000", and "months 37-60", each pointing to a current FR. The precedence rule ("the later one applies") covers this, but a reader who lands on that table gets the wrong current value. A "superseded" mark on those rows would help.
+- **Teaser example and teaser rule:** FR-15 and UJ-1 use the example "Next year the summer job unlocks". FR-15's rule says the teaser names "the next age unlock (FR-18)", which at the end of year 1 is the moped licence in month 13, as UJ-2 shows.
+- **FR-56 and FR-45:** FR-56 says its actions "are the same actions as in FR-45", but FR-45's list has no "take or end extra shifts".
+- **Event sender:** the event schema makes `sender` optional, while FR-13 and FR-54 say that the sender of the highlight event "also puts a copy in the phone". Say whether an event with no sender gets no copy.
+- **Glossary drift:**
+  - "Active month" means both a scheduled slot (FR-46, "4 by default") and a month with a highlight event (glossary).
+  - The card warning is a regular event under the glossary's Event entry, but the Highlight event entry lists it apart from story events.
+  - For goal 3, FR-9 says "no net debt at 20", while rule 13 says available money of at least NOK 0. Pick one wording.
+- **Assumptions Index:** §9 points to A-1 to A-28 in the addendum, and their "Where" entries resolve. The index is dated 2026-11-05. Two assumptions have been logged since: the planning policy, which is now a requirement in FR-9, and Markus paying his own moped insurance in UJ-6. Both appear in the text but not in the index.
+- **Required sections:** all present for these stakes: vision, users, journeys, glossary, scope, FRs, NFRs, metrics with counter-metrics, open questions, and assumptions.
