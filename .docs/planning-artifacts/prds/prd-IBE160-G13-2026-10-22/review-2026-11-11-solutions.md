@@ -2,10 +2,17 @@
 title: LifeMode PRD, proposed fixes for the review of 2026-11-11
 date: 2026-11-11
 applies-to: review-2026-11-11.md (A1-A27, E1-E35, S1-S15, P1-P36)
-status: proposal
+status: applied
 ---
 
 # Proposed fixes for the 2026-11-11 review
+
+> **Applied on 2026-11-11** with the recommended choice for D1-D12, at sarahnaess's request. The team reviews them in PR #59. Three figures changed while applying, after script checks (PRD addendum, "Review fixes"):
+> - **J1:** savings before the month are NOK 23,500, not 24,400, so the "three quarters" message fires in November. Example 25 now includes the moped insurance, which Markus pays himself.
+> - **J2:** UJ-4 says Markus paid for the licence "at 18, cutting back on paid activities". The proposal said month 39, which didn't hold.
+> - **B1:** 26c is 42, 46 and 37. The careful player rises to 85.
+>
+> The text below is the proposal as written.
 
 This file proposes fixes. It doesn't apply any of them, and none is logged as a decision. The team decides the 12 points in the decision table. The rest are recommended as written. The accepted fixes then go in through `bmad-prd` (Update), and the PRD is validated and set final (#55).
 
