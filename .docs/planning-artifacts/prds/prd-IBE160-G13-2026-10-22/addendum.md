@@ -1,7 +1,7 @@
 ---
 title: LifeMode PRD addendum
 created: 2026-11-03
-updated: 2026-11-05
+updated: 2026-11-11
 ---
 
 # Addendum: LifeMode PRD
@@ -23,9 +23,10 @@ These items came out of the PRD review and belong in the next `bmad-architecture
 - **Game flow:** the two-part month and the state check on every request that changes the game (FR-49), and the open-option model (FR-48).
 - **Month plan and phone (2026-11-10):**
   - **State:** the month plan (FR-52, FR-53) and the month's messages (FR-55) belong in the playthrough's state.
-  - **Requests:** placing and removing activities are requests that name their month.
+  - **Requests:** placing and removing activities are requests that name their month. Continuing carries the version of the month plan the device showed, and is refused if the plan has changed since (FR-49).
+  - **Also in state:** the savings-target pin and the bank thresholds already sent for it (FR-55, FR-57). Nothing about reading messages is stored (FR-54).
   - **Applying the plan:** the planned activities are applied in the same request as continuing, before wellbeing.
-  - **Content:** activities and messages are content types beside the event library, with their own schemas and versions (NFR-4).
+  - **Content:** events, activities, and messages make up the content library (FR-17). Each type has its own schema and versions (NFR-4).
   - **Selection:** one selection step decides what arrives each month, the event and the messages, from the state and the seed. Name it as one unit (see "Ready for V2").
 - **Minigames:** they run on the server like the rest of the game, one saved answer at a time (FR-51). A real-time game would need its own decision on how to check results, so it's left for V2.
 - **V2:** events, activities, and messages reach the game through one schema per type and one selection step, which is enough for now. Generated content and its replay under FR-12 aren't designed, and V2 may need rework there. See "Ready for V2: AI as game master".
@@ -65,10 +66,12 @@ He pays NOK 682 in interest in total, against NOK 5,508 at the minimum. W+1 is J
 | Year | Months | Offers |
 |---|---|---|
 | 1 | 1-12 | Month 3 part-time job |
-| 2 | 13-24 | Month 13 moped licence, a moped gift offer at random once the player has a licence, month 18 summer job |
+| 2 | 13-24 | Month 13 moped licence, a gift moped as a drawn offer once the player has a licence, month 18 summer job |
 | 3 | 25-36 | Month 30 summer job |
-| 4 | 37-48 | Month 37 car licence gift draw (family message), month 39 credit card, month 42 summer job, month 44 experience for goal 3 |
+| 4 | 37-48 | Month 37 car licence result (one family message: the gift, or the paid licence opens), month 39 credit card, month 42 summer job, month 44 experience for goal 3 |
 | 5 | 49-60 | Month 49 consumer loan, month 54 full-time job |
+
+**Drawn offers.** The employer's extra shifts and the gift moped aren't tied to a month. Each has flags and a chance per in-game year (configuration, brief addendum parameters), and can be taken only in the month it arrives (FR-54, FR-55).
 
 **Eligibility at draw time** covers `owns_moped`, `has_moped_licence`, `has_job`, and `has_car_licence`. The offers that must be guaranteed are in FR-55.
 
@@ -96,7 +99,7 @@ Flag gating raises overlap and different choices lower it, so the seeded content
 | mechanism | One or more from the fixed list | Names exist |
 | age range | From and to, in years and months, within 15y0m-19y11m | From ≤ to |
 | requires flags, blocks flags | Lists of flag names | Names exist in the flag list |
-| sender | Optional: who brings the event as a message (friend, family, employer, bank), and the message text (FR-54) | Sender is from the fixed list |
+| sender | Optional: who the event comes from (friend, family, employer, bank), and the text of its copy in the phone. The copy isn't a separate message (FR-54) | Sender is from the fixed list |
 | boomerang | None, or a pair ID and a role (opener or follow-up). The opener also has a delay range in months | Both halves exist; 2 ≤ min ≤ max ≤ 12; the follow-up requires a flag that an opener option sets |
 | teaching point | One sentence | Not empty |
 | LK20 code | One or more codes from the fixed list, or "none", because no core aim names tax or BSU | Codes exist |
@@ -132,9 +135,9 @@ The offers in FR-18 used to be milestone events with a `milestone` field. Since 
 | id, version | Unique text ID, and a whole-number version (NFR-4) | ID unique; version rises on any change |
 | availability | Basic (always available) or invitation (only with an invitation message) | Every invitation activity has at least one invitation message |
 | kind | From a fixed list, such as concerts, time with friends, rest, hobby, trips. FR-42 groups by it | Kind exists |
-| mechanism | One from the fixed list, for the disclosure and the cause | Name exists |
+| mechanism | One from the fixed list, usually everyday spending and free time, for the disclosure and the cause | Name exists |
 | age range, requires flags, blocks flags | As for events | As for events |
-| cost | NOK 0 or more, with a card-payable flag | Whole kroner; at least two basic activities cost NOK 0 |
+| cost | NOK 0 or more, with a card-payable flag | Whole kroner; at least two basic activities cost NOK 0, need no flags, and cover ages 15-20 |
 | effects | Stress and social life, each within ±10 | Inside the limits |
 | source | A citation for the price | Every price above NOK 0 traces to a citation (OQ-17) |
 | texts | Name and a short description, in Norwegian | Not empty; no alcohol or tobacco (NFR-8) |
@@ -144,10 +147,10 @@ The offers in FR-18 used to be milestone events with a `milestone` field. Since 
 | Field | Content | Checked |
 |---|---|---|
 | id, version | Unique text ID, and a whole-number version | ID unique; version rises on any change |
-| kind | Info, invitation, offer, or event | Kind exists |
+| kind | Info, invitation, or offer. The phone's copy of the highlight event comes from the event's sender (event schema), not from a message | Kind exists |
 | sender | Friend, family, employer, or bank, with a fictional name | Sender is from the fixed list |
-| links to | Info: nothing. Invitation: an activity. Offer: an open option (FR-48) or extra shifts (FR-47). Event: an event | The target exists and has the same age range or a narrower one |
-| when | Offers: the FR-18 offer month. Others: an age range, required and blocking flags, one-off or repeatable. Bank messages: a state trigger, such as goal progress passing 25, 50, 75, or 100% | Every FR-18 offer has exactly one offer message |
+| links to | Info: nothing. Invitation: an activity. Offer: an open option (FR-48), extra shifts (FR-47), or a one-time gift (FR-29, FR-30) | The target exists. An invitation's activity covers the message's age range, and the message requires at least the activity's flags |
+| when | Offers: the FR-18 offer-message column. The summer job message repeats in months 18, 30, and 42. Drawn offers (extra shifts, gift moped): required and blocking flags and a chance per in-game year. Invitations: an age range and flags, repeatable at most once per in-game year. Info: an age range and flags, one-off or repeatable. Bank messages: progress towards the savings target or goal 1 passing 25, 50, 75, or 100%, once per threshold and target | Every FR-18 row with an offer month has exactly one offer message |
 | text | Norwegian. Any amount is a placeholder the engine fills in (NFR-4) | No typed-in amounts; no alcohol or tobacco (NFR-8) |
 
 ### Ready for V2: AI as game master
@@ -275,7 +278,7 @@ Decided on 2026-11-03.
 
 Interest alone won't pay for a moped, so the UJ-3 moment rests on two things: the surprise that money earned money without the player doing anything, and a pointer to other income. A summer job at 16 pays NOK 16,728 (worked example 1).
 
-**BSU comparison:** "Hvorfor?" can also show what the same money would earn in BSU. This counts as an "if you had chosen differently" line, which is first on the cut list (PRD §4.1), and the moment works without it.
+**BSU comparison:** "Hvorfor?" can also show what the same money would earn in BSU. This counts as an "if you had chosen differently" line, which is on the cut list (PRD §4.4, the in-play lines), and the moment works without it.
 
 ### Tips from the game
 
@@ -331,7 +334,7 @@ Decided on 2026-11-04.
 
 **Markus's life goal.** He chose saving for something big in UJ-1, with a flat as the big thing. A 15-year-old picks what he wants rather than "debt-free", and choosing the flat means the card debt at 18 puts his goal at risk. In the second round he goes for saving for something big or for being debt-free with a buffer, and chases money at the cost of his wellbeing, which gives the hollow win.
 
-**"If you had chosen differently" on the ending screen.** These lines stay for the three choices that mattered most, and only those three can be opened. The lines in "Hvorfor?" during play, including the BSU comparison, are cut first. See "The ending screen" for the line types.
+**"If you had chosen differently" on the ending screen.** These lines stay for the three choices that mattered most, and only those three can be opened. The lines in "Hvorfor?" during play, including the BSU comparison, are on the cut list (PRD §4.4). See "The ending screen" for the line types.
 
 **Comparing playthroughs: later.** For now the ending shows a summary of the playthrough and the tips. Comparing one playthrough with the next is a candidate for a later step.
 
@@ -347,7 +350,7 @@ Decided on 2026-11-05.
 | Account deletion in the game, with the current password and no undo | The game stores email addresses of players as young as 15, and the privacy check (#24) recommends it. Requiring the password stops someone else deleting the account on a shared PC | FR-44 |
 | The player chooses to buy a moped, with occasional gift offers | A random draw between buying and a gift could make saving up pointless, which works against UJ-3 | FR-29 |
 | The car licence gift is random, and a player without it can pay | Gives a large, real money choice at 18 | FR-30 |
-| All family gifts stay | They are no longer on the cut list | PRD §4.1 |
+| All family gifts stay | They are no longer on the cut list | PRD §4.4 |
 | Family loans don't count towards the 3× income crisis trigger (now the debt trigger in FR-32) | A teenager with no income would otherwise go into crisis from any loan | FR-27 |
 | A hollow win shows at least one choice that hurt wellbeing | A kroner ranking alone may not show why wellbeing ended up low | FR-42 |
 
@@ -444,7 +447,7 @@ Decided by the team, as Dahl reported on 2026-11-10 (`.memlog.md`). The change s
 | P7 | The ending summary groups activities by kind | Single activities never rank, but together they show small purchases adding up, the survey's most common regret | — |
 | P8 | One schema per content type and one selection step (V2 AI seam) | Costs nothing now, and V2 AI can propose content without touching the engine | — |
 
-**Refined while applying (OQ-19):** P5 didn't say how long an activity's effect lasts. A script applying rule 12 showed that lasting effects pile up, because nothing pulls social life back towards a baseline. One free activity in every slot (stress −2, social +4) lifted the 17b money chaser from 34 to 65 and a careful player to 95. That would remove the hollow win. Effects therefore count in their own month only (rule 12, example 26). The chaser then ends at 41, 44, and 37 at worst with the weights of goals 1, 2, and 3.
+**Refined while applying (OQ-19):** P5 didn't say how long an activity's effect lasts. A script applying rule 12 showed that lasting effects pile up, because nothing pulls social life back towards a baseline. One free activity in every slot (stress −2, social +4) lifted the 17b money chaser from 34 to 65 and a careful player to 95. That would remove the hollow win. Effects therefore count in their own month only (rule 12, example 26). The chaser then ends at 41, 44, and 37 at worst with the weights of goals 1, 2, and 3 (corrected to 42, 46, and 37 on 2026-11-11, see "Review fixes" below).
 
 **Also decided:** the whole revision goes in, with FR-57 and the grouping at the top of the cut list. Tuning values are starting values under OQ-8. Worked examples 1-23 and the reference runs plan no activities.
 
@@ -452,6 +455,32 @@ Decided by the team, as Dahl reported on 2026-11-10 (`.memlog.md`). The change s
 - **Shift pay:** the concept's "+500 kr per extra activity slot" becomes the engine's figure from FR-47.
 - **Estimated net:** the plan's estimate covers activity costs only, not shifts.
 - **Transfers:** "Overføring til sparing" is shown as a transfer, not a cost (FR-42 counts it as zero).
+
+### Review fixes (2026-11-11)
+
+Decided by sarahnaess on 2026-11-11, who asked to apply the recommended fixes from `review-2026-11-11-solutions.md` (`.memlog.md`). The team reviews them in PR #59. The review is `review-2026-11-11.md`. These decisions settle what the 2026-11-10 revision left open or contradictory:
+
+| # | Decision | Why | Alternative rejected |
+|---|---|---|---|
+| D1 | In UJ-4, Markus paid for the car licence himself at 18, with what he saved from 17 (UJ-6) | It explains why he has no buffer when the card hits its limit, and matches a mother who can't help | Keeping the parents' gift: his savings would then pay the card bill under rule 5, and UJ-4 wouldn't happen |
+| D2 | UJ-6 is in November (month 35), a quiet month | October is active, and UJ-6 is the only journey showing an ordinary month | October with a highlight event added |
+| D3 | The credit card's offer message comes in month 39, and the card opens in month 37 | It matches the UJ-4 trace and keeps month 37 for the car licence | Month 37 |
+| D4 | An offer arrives even when the player doesn't qualify yet, and shows what's missing | Offers stay guaranteed, and the condition is part of the lesson | Waiting until the player qualifies |
+| D5 | Savings-target progress is the current account plus savings | It's the amount the missing amount uses, so the two never disagree | The savings account only |
+| D6 | No read state for messages, and no unread badges | Nothing new to store or replay | A stored read flag |
+| D7 | Invitations repeat, at most once each per in-game year | Supply meets the 0-2 drawn a month without a much larger library | One-off invitations with a minimum of 12 a year |
+| D8 | Stress and social life are shown as the usual value and this month's value | Rule 12 is unchanged, and "Hvorfor?" matches the number it explains | Counting this month's activities in the social-life row, which would let activities change carried stress |
+| D9 | A "careful player with some free time" run is pass/fail, and targets are tuned once prices exist | Goal 1 was only shown reachable without activities | Lowering goal 1 now |
+| D10 | A plan that would set off a trigger asks the player to confirm, and isn't blocked | The player decides, as in UJ-4 | Blocking continuing |
+| D11 | The four game areas come right after §5.4, and the money view has its own section | The vision calls them the game itself | Pointers only |
+| D12 | A "same as last month" action for the month plan | It keeps 12 plans a session from becoming a chore | Leaving it to UX |
+
+**Checked while applying:**
+- **UJ-6 and example 25:** Markus owns a moped, so its insurance (NOK 250) is his own at 17 (FR-23), and example 25 now includes it. For the bank's "three quarters" message to fire in November, progress must pass 75% that month. That gives NOK 500 + NOK 23,500 before the month (73.8%) and NOK 25,920 after it opens (79.8%). The proposal's NOK 24,400 had already passed 75% in October.
+- **UJ-4 timing:** a script ran months 35-40 from that state. With NOK 650 of activities a month he has about NOK 31,100 by month 40, and about NOK 34,300 if he plans no paid activities from December. UJ-4 therefore says he paid for the licence "at 18, cutting back on paid activities", with no month. The proposal's "month 39" didn't hold.
+- **Example 26c:** a script that reproduces 17b (34, 37, 29) and the old 26c (41, 44, 37) gives 42, 46, and 37 at the real limits (stress −10). The careful player rises from 75 to 85 with goal 1's weights. The old "82-85" wasn't reproduced.
+- **Boundary (26d):** with activities at the limits, the 17b run at 26 h on normal spending rises from 41 to 52, and the 25 h run from 68 to 79. The threshold and the activity effects are tuned together (OQ-8).
+- **P4 correction:** FR-46 lost milestones, but follow-ups can still be pushed out. One that can't get a month by month 60 is now dropped and reported.
 
 ## Confirmed assumptions (2026-11-05)
 

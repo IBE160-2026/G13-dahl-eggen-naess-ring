@@ -1,0 +1,506 @@
+[
+  {
+    "id": "A1",
+    "lens": "adversarial",
+    "location": "brief addendum example 26 case c; prd.md FR-33 'The hollow win still holds' (l.835); PRD addendum 'Refined while applying (OQ-19)' (l.447)",
+    "trigger_condition": "'Strongest activity allowed' modelled as (stress -5, social +10), but FR-53/rule 12 allow ±10 on stress; with (-10,+10) the chaser ends at 42/46/37, not 41/44/37",
+    "guard_snippet": "Recompute 26c at configured limits (±10 per activity, ±15 a month); replace figures in FR-33, example 26c and addendum, or drop 'strongest allowed'; state the bound comes from the caps",
+    "potential_consequence": "Unit tests encode the wrong bound; OQ-8 tuning relies on a smaller margin than stated (4 points to 50 on goal 2, not 6)"
+  },
+  {
+    "id": "A2",
+    "lens": "adversarial",
+    "location": "prd.md FR-9 'Reachable'/'Checked with real costs' (l.406-407); brief addendum example 20 (l.161)",
+    "trigger_condition": "Goal 1 shown reachable only with no activities; reference run clears NOK 100,000 by NOK 6,928; ~NOK 110-160/month activity spend erases that; example 25's NOK 650 month from month 19 misses by ~NOK 22,000",
+    "guard_snippet": "Add a 'careful player with modest leisure' reference run (free + cheapest paid basic activity monthly); make goal 1 and 2 results pass/fail; state the activity budget the targets assume; retune if it fails",
+    "potential_consequence": "Engaged careful players miss goal 1; 'goal not reached' becomes normal for players who use the new loop"
+  },
+  {
+    "id": "A3",
+    "lens": "adversarial",
+    "location": "brief addendum rule 12 (l.72), example 17b (l.128); prd.md FR-47 25 h limit (l.649), FR-52 (l.1017-1018), OQ-8 note (l.1280)",
+    "trigger_condition": "Threshold 50, the 25 h cliff and 17b were calibrated without activities; a 26 h player still has 2 slots worth ~10 points/month, lifting 17b's 41 to a win; FR-52 'never zero' holds only while divisor <= 20",
+    "guard_snippet": "Seeded wellbeing check filling slots with best free activities for 17b (25 h, 26 h) and 21c; make 26c a failing check on catalog/cap/divisor/threshold change; constrain divisor",
+    "potential_consequence": "Hollow-win lesson and the 25 h hint silently stop working once real activities are written"
+  },
+  {
+    "id": "A4",
+    "lens": "adversarial",
+    "location": "prd.md FR-45 'Activities' (l.617) vs FR-26 (l.719), FR-23 'Card' (l.684), FR-53 'Applied at continue' (l.1035)",
+    "trigger_condition": "FR-45 pays activities account -> savings -> card; FR-26/FR-23/rule 16 put card-payable purchases on the card first when card use is on; FR-53 says card follows FR-26",
+    "guard_snippet": "FR-45: pay an activity like an event purchase (card first if on and it fits, else account then savings, FR-26); add example 25 variant with card on",
+    "potential_consequence": "Implementations differ on card balance, interest, warnings, cause-link shares and FR-42 rankings"
+  },
+  {
+    "id": "A5",
+    "lens": "adversarial",
+    "location": "prd.md UJ-6 persona (l.133) vs UJ-4 entry state (l.107); PRD addendum UJ-4 trace",
+    "trigger_condition": "UJ-6 has Markus at 17 (month 34) saving for the moped licence; UJ-4 says he has had licence and gift moped since 16",
+    "guard_snippet": "Make UJ-6 a different player, or Markus's second playthrough, and say so",
+    "potential_consequence": "Contradictory canon for the same persona for UX, writers and journey tests"
+  },
+  {
+    "id": "A6",
+    "lens": "adversarial",
+    "location": "prd.md UJ-6 step 1 (l.136) vs brief addendum example 25 (l.211), FR-57 (l.624)",
+    "trigger_condition": "UJ-6 bank message says half reached; example 25 savings NOK 4,600 (4,611 after interest) vs NOK 12,000 licence = 38%",
+    "guard_snippet": "Example 25 savings >= NOK 6,000 and recheck, or UJ-6 message at 25%",
+    "potential_consequence": "Journey and answer key contradict; trigger untestable against the journey"
+  },
+  {
+    "id": "A7",
+    "lens": "adversarial",
+    "location": "prd.md UJ-6 steps 1 and 3 (l.136, 138) vs FR-52 'No days or times' (l.1022), D26, example 26 (l.225)",
+    "trigger_condition": "'A concert on Friday' contradicts no-days model; 'last slot for rest because stress is rising' contradicts example 26 (stress falls 30->25; rest can't change carried stress)",
+    "guard_snippet": "'a concert this month'; reword stress line or set up a state where stress rises",
+    "potential_consequence": "Writers add days to invitations; journey teaches something the engine can't deliver"
+  },
+  {
+    "id": "A8",
+    "lens": "adversarial",
+    "location": "prd.md FR-29 (l.759), FR-38 (l.893), FR-39 (l.906); PRD addendum l.278, l.334; glossary 'Content check' (l.162); NFR-4 'Versions' (l.1147)",
+    "trigger_condition": "Cut list renumbered; insurance share now item 5, in-play lines/BSU comparison item 4, refs still old; glossary 'Content check' omits activities/messages/FR-55; NFR-4 versions only event library",
+    "guard_snippet": "Reference cut items by name or fix to 5 and 4; extend glossary entry; add activity and message versions to NFR-4",
+    "potential_consequence": "Wrong feature cut (e.g. FR-57 instead of BSU comparison)"
+  },
+  {
+    "id": "A9",
+    "lens": "adversarial",
+    "location": "prd.md FR-46 'No repeats' (l.543)",
+    "trigger_condition": "FR-46 says yearly summer job offer can repeat, but it is now an offer message",
+    "guard_snippet": "Remove from FR-46; state in FR-55 and message schema that the summer job offer message repeats (months 18, 30, 42)",
+    "potential_consequence": "Summer job event survives, or message marked one-off and 2nd/3rd offers never arrive"
+  },
+  {
+    "id": "A10",
+    "lens": "adversarial",
+    "location": "prd.md FR-18 table + consequence (l.550-568); FR-17 (l.517); FR-55 (l.1071); PRD addendum 'Offer messages by year' (l.65-71), schema 'when' (l.150); D10, D11, D24",
+    "trigger_condition": "Offer-message set defined three ways: FR-18 months for 5 rows only; FR-17 demands one per row; addendum adds moped licence m13 and credit card m39 (FR-18 opens card at 37 silently); paid car licence and BSU have none, yet D11/D24 fire on 'first offer'",
+    "guard_snippet": "Add 'Offer message' column to FR-18 (month or 'none'); make FR-17, FR-55, schema check and D10/D11/D24 reference it",
+    "potential_consequence": "Content check unimplementable; UX doesn't know when the card arrives; disclosures never fire"
+  },
+  {
+    "id": "A11",
+    "lens": "adversarial",
+    "location": "prd.md FR-54 'Offer' (l.1056), FR-48 (l.582), FR-29 'Gift offers' (l.757), FR-47 (l.647); PRD addendum message schema (l.149-150)",
+    "trigger_condition": "Gift-moped offers fit none of the four message kinds; gift and extra-shift offers have no 'when', no frequency parameter, no acceptance window",
+    "guard_snippet": "Extend Offer to open option / extra shifts / one-time gift; add 'drawn offer' timing (flags + yearly chance); expiry at continue; parameter rows",
+    "potential_consequence": "UJ-4 gift moped and UJ-6 employer shifts can't be authored or scheduled reproducibly"
+  },
+  {
+    "id": "A12",
+    "lens": "adversarial",
+    "location": "prd.md FR-47 (l.647), FR-56 (l.1086-1088), UJ-6 step 4 (l.139)",
+    "trigger_condition": "Running extra shifts vs hours setting undefined: UJ-6 implies setting 10 h cancels +4 h; quitting mid-shifts, base near 40 h, base vs effective hours display all undefined",
+    "guard_snippet": "FR-47: weekly hours = set + running shifts, capped at rule 10; setting hours changes base only; shifts can be ended from job view next month; quitting ends them; FR-56 shows both",
+    "potential_consequence": "UJ-6 step 4 unbuildable; slots and pay differ between implementations"
+  },
+  {
+    "id": "A13",
+    "lens": "adversarial",
+    "location": "prd.md FR-57 'Savings target' (l.624) vs FR-45 (l.604), FR-48 'Can't pay yet' (l.577)",
+    "trigger_condition": "Progress counts savings only; affordability uses account + savings (+card); 40% can be affordable, 100% blocked; no priced option open before month 13",
+    "guard_snippet": "Progress = min(100%, (account + savings) / price), excluding card and BSU; allow pinning a not-yet-open option with unlock month, or state FR-57 starts at month 13",
+    "potential_consequence": "Contradictory numbers in money view; bank '50%' messages disagree with purchasability"
+  },
+  {
+    "id": "A14",
+    "lens": "adversarial",
+    "location": "prd.md FR-55 'Who can get one' (l.1070); PRD addendum schema 'when' (l.150); FR-9 progress (l.409); FR-12 'Reproducible' (l.459)",
+    "trigger_condition": "Bank messages on life goal 25/50/75/100%, but % exists only for goal 1; re-fire on re-pin/dip undefined; pins aren't FR-12 replay inputs but change messages",
+    "guard_snippet": "Define progress per goal or limit to goal 1; each threshold fires once per target per playthrough; add pins to FR-12 replay inputs",
+    "potential_consequence": "Trigger unimplementable; message spam via re-pinning; replay tests diverge"
+  },
+  {
+    "id": "A15",
+    "lens": "adversarial",
+    "location": "prd.md FR-55 'How many'/'Invitations' (l.1072-1073); brief addendum 'Messages a month' (l.57); FR-17 (l.517)",
+    "trigger_condition": "'At most 3' isn't a cap (offers and event bypass, only offers said to); cut messages neither queued nor declared lost; invitation supply (min 6/yr eligible, one-off) vs demand (~12/yr drawn) doesn't close; 'months with none' has no fail threshold",
+    "guard_snippet": "Offers and event message always arrive; invitations then info fill the rest of 3; cut state-triggered message moves to next month; invitations repeatable or >= 12/yr; threshold e.g. <= 2 months/yr without invitation",
+    "potential_consequence": "Invitations run dry mid-year; 'planning ignored' counter-metric trips for content reasons"
+  },
+  {
+    "id": "A16",
+    "lens": "adversarial",
+    "location": "prd.md FR-53 'What an activity has' (l.1030); PRD addendum activity schema 'mechanism' (l.135); glossary 'Mechanism' (l.181)",
+    "trigger_condition": "Every activity needs a mechanism from a fixed list that has nothing for leisure/everyday spending; D25 and D26 untied",
+    "guard_snippet": "Add mechanism 'everyday spending and free time'; decide whether FR-17 before/after-18 rule applies",
+    "potential_consequence": "Content check rejects every activity, or arbitrary mechanisms break 'Hvorfor?' and disclosures"
+  },
+  {
+    "id": "A17",
+    "lens": "adversarial",
+    "location": "brief addendum rule 12 (l.72); prd.md FR-33 (l.836); D26",
+    "trigger_condition": "Rule 12 rows use carried social (excludes activities) while game displays social incl. activities: player sees 30, gets '+5 stress: social below 20'; going out monthly never lifts carried social",
+    "guard_snippet": "Display base and this-month values separately and word 'Hvorfor?' as 'your usual social life'; or evaluate the row on social incl. activities and recheck 26c",
+    "potential_consequence": "Displayed number and 'Hvorfor?' contradict; game teaches something it can't deliver"
+  },
+  {
+    "id": "A18",
+    "lens": "adversarial",
+    "location": "prd.md FR-52 'plans don't carry over' (l.1021), FR-46 'Pace' (l.534), §4.3 (l.265), §7.1 Pace",
+    "trigger_condition": "10-15 min session target dates from 5 choices + 7 summaries; a session now has 4 events, 12 plans from scratch (up to 4 placements each), up to 36 messages; free activities are pure upside, ~200 placements per playthrough",
+    "guard_snippet": "Per-month time budget; one-tap 'same as last month' that re-checks placements; or give free activities a trade-off",
+    "potential_consequence": "Sessions overrun; planning becomes a chore; 70% completion target at risk"
+  },
+  {
+    "id": "A19",
+    "lens": "adversarial",
+    "location": "prd.md FR-49 (l.469), FR-53 'Applied at continue' (l.1035); brief addendum rule 8 (l.68)",
+    "trigger_condition": "Activities charged at continue just before rule 8 check can re-trip the debt trigger the player just cleared; trigger status shown before continue doesn't include the plan",
+    "guard_snippet": "Trigger status before continue includes planned payments; warn when the plan would trip a trigger",
+    "potential_consequence": "A concert causes an unforeseeable crisis, breaking FR-49's promise"
+  },
+  {
+    "id": "A20",
+    "lens": "adversarial",
+    "location": "prd.md FR-53 'Applied at continue' (l.1035); NFR-7 (l.1183)",
+    "trigger_condition": "At continue only payment re-checked, not eligibility; no outcome for flag cleared after placing (moped sold, job quit) or card blocked by a payment plan started this crisis month",
+    "guard_snippet": "At continue, re-check each planned activity for flags and payment in slot order; drop failures with a note; add a test",
+    "potential_consequence": "Inconsistent behaviour; NFR-7 test gap"
+  },
+  {
+    "id": "A21",
+    "lens": "adversarial",
+    "location": "prd.md FR-39 'Activity groups' (l.904), FR-42 'Activities as groups' (l.946); D15",
+    "trigger_condition": "Group line is always 'money kept' at savings interest even when card-paid; never shows wellbeing the group added",
+    "guard_snippet": "Base group line on FR-42 kroner effect (cost + linked interest); add engine-calculated wellbeing contribution; extend D15",
+    "potential_consequence": "Ranking figure and line disagree; ending frames leisure as pure loss, against Vision and NFR-8 tone"
+  },
+  {
+    "id": "A22",
+    "lens": "adversarial",
+    "location": "prd.md NFR-4 example list (l.1145); brief addendum examples 24-26",
+    "trigger_condition": "New player-facing figures have no worked example: FR-57 progress, FR-39 group line, FR-42 grouping/tie rule, card-paid activity interest shares, extra-shift 'kroner left after spending', bank thresholds",
+    "guard_snippet": "Add worked examples 27+ as answer keys",
+    "potential_consequence": "Figures shown to players drift undetected"
+  },
+  {
+    "id": "A23",
+    "lens": "adversarial",
+    "location": "PRD addendum event schema 'sender' (l.99) vs message kind 'event' (l.147-151); prd.md FR-13 (l.476), FR-49 (l.468)",
+    "trigger_condition": "Event-as-message defined twice (event's own sender/text, and an 'event' message linking to it); FR-49 says unread messages never block, yet an event delivered as a message must be answered",
+    "guard_snippet": "Keep one mechanism; highlight event always shown when the month opens, inbox copy is a mirror",
+    "potential_consequence": "Duplicate content, double counting against the cap, players stuck with the event buried in the inbox"
+  },
+  {
+    "id": "A24",
+    "lens": "adversarial",
+    "location": "prd.md FR-54 'nothing about reading is stored' (l.1062) vs FR-16 'how many new messages are waiting' (l.508); NFR-2 (l.1116)",
+    "trigger_condition": "With no read state, 'new' can only mean 'arrived this month'; recap count stays wrong; unread badges impossible across devices",
+    "guard_snippet": "Store a game-neutral read flag excluded from FR-12 replay, or rename to 'arrived this month' and tell UX no unread badges",
+    "potential_consequence": "UX designs badges the architecture says can't exist"
+  },
+  {
+    "id": "A25",
+    "lens": "adversarial",
+    "location": "prd.md UJ-6 resolution (l.142); FR-42 ranking (l.945); NFR-8 (l.1199)",
+    "trigger_condition": "UJ-6 promises the ending shows «Konserter og utesteder», but FR-42 shows only top three by kroner; 'utesteder' implies bars/clubs (18+/20+, alcohol) for a 17-year-old",
+    "guard_snippet": "'can show … if it's among the three that mattered most'; rename kind e.g. «Konserter og arrangementer»",
+    "potential_consequence": "Journey test that can't pass; alcohol-venue implication for minors"
+  },
+  {
+    "id": "A26",
+    "lens": "adversarial",
+    "location": "brief addendum 'MVP Scope Priority — Decision' (l.374-382), 'Event Library — Decision' (l.384-398); frontmatter updated: 2026-11-05 in both addenda",
+    "trigger_condition": "Brief addendum still states event minimum 50, target 60-80, 10/year and old 3-item cut list, contradicting PRD FR-17 (40, 50-60, 8/year, 20 active months) and new cut list; both addenda dates predate revision",
+    "guard_snippet": "Add 'superseded 2026-11-10 by PRD FR-17 / §4.1' notes; bump both updated: dates",
+    "potential_consequence": "Readers starting from the Rule Set use stale numbers"
+  },
+  {
+    "id": "A27",
+    "lens": "adversarial",
+    "location": "prd.md FR-46 'Who can get an event'/'Drawn at random' (l.537-538); FR-17 'Size' (l.516); PRD addendum library-size formula (l.77)",
+    "trigger_condition": "Draw pool doesn't exclude follow-ups (can be drawn early); per-year minimum of 8 counts follow-ups and flag-gated events, so a player without job/moped/car can run out, dropping below rule 7's 20 real choices; overlap formula assumes all N-1 drawable",
+    "guard_snippet": "Follow-ups never drawn at random; count per-year minimum over ungated non-follow-up events, or make 'active month turned quiet' a content-check failure above a threshold",
+    "potential_consequence": "Boomerang timing breaks; some players get < 20 real choices; FR-43 diversity measured on a smaller pool"
+  },
+  {
+    "id": "E1",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-49 L469, FR-53 'Applied at continue' L1035, FR-41 L924; brief addendum rule 1, rule 8",
+    "trigger_condition": "Planned activities applied at continue make a rule 8 trigger true again, incl. months 59-60",
+    "guard_snippet": "on continue: simulate plan; if any trigger flips true (paying from account or savings raises net debt, card spend adds debt), warn and require confirm; show post-plan trigger state in crisis months and months 59-60",
+    "potential_consequence": "Player clears month-60 crisis, plans a concert, continues, and gets the Loss ending"
+  },
+  {
+    "id": "E2",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-9 'progress during play' L409, FR-57 'Life goal' L625; brief addendum rule 13",
+    "trigger_condition": "Goal progress shown before continue excludes planned activity costs in months 49-60",
+    "guard_snippet": "goal progress and lowest-available-money display = state after applying the current plan; flag when the plan takes net savings or month-end buffer below target",
+    "potential_consequence": "Player exactly at buffer or NOK 100,000 target misses goal without warning"
+  },
+  {
+    "id": "E3",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-45 'Activities' L617 vs FR-53 'Applied at continue' L1035, FR-26 L719, FR-23 'Card' L684",
+    "trigger_condition": "Card-payable activity with card on: account first (FR-45) or card first (FR-26/FR-23)?",
+    "guard_snippet": "state one order for activities, e.g. card first if card-payable and it fits whole, else account then savings; no split between card and account",
+    "potential_consequence": "Engines differ on savings drain, card balance, and interest cause links"
+  },
+  {
+    "id": "E4",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-53 'Applied at continue' L1035, NFR-7 activity refusals L1177",
+    "trigger_condition": "Flags change after placement, e.g. moped sold, leaving an ineligible activity planned",
+    "guard_snippet": "at continue, re-check age range, required and blocking flags for each planned activity; drop failing ones with a note, same as unaffordable ones",
+    "potential_consequence": "Activity applied that NFR-7 would refuse to place; flag rules bypassed"
+  },
+  {
+    "id": "E5",
+    "lens": "edge-case-hunter",
+    "location": "PRD addendum Message schema 'links to' check L149; prd.md FR-55 'Who can get one' L1070",
+    "trigger_condition": "Linked activity's age range may be narrower than invitation's; flags never cross-checked",
+    "guard_snippet": "check: target age range covers the message range, and message flags imply target flags; or draw an invitation only when its activity is placeable now",
+    "potential_consequence": "Player gets an invitation whose activity cannot be placed"
+  },
+  {
+    "id": "E6",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-18 table L550-562 and consequence L565, FR-17 L517, FR-55 L1071; PRD addendum offer table L70 (credit card month 39), message schema 'when' L150",
+    "trigger_condition": "FR-18 rows lacking offer months still need offer messages; credit card 37 vs 39",
+    "guard_snippet": "give every FR-18 row an explicit offer month (one value for the credit card), or exempt rows with no offer month from the offer-message requirement",
+    "potential_consequence": "Content check unsatisfiable; credit card message month differs between PRD and addendum"
+  },
+  {
+    "id": "E7",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-55 'Offers always arrive' L1071, FR-48 'Blocked for another reason' L578",
+    "trigger_condition": "Player doesn't qualify in the offer month (e.g. no steady wage) but qualifies later",
+    "guard_snippet": "offer arrives in the first month at or after its offer month in which the player qualifies, or arrives anyway showing what is missing",
+    "potential_consequence": "Credit card or full-time job offer message never arrives for that player"
+  },
+  {
+    "id": "E8",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-55 'How many' L1072",
+    "trigger_condition": "Three or more offers fill the cap; event message and info messages dropped",
+    "guard_snippet": "exempt the event message from the cap like offers; give state-triggered bank messages a kind and priority, and defer them instead of dropping",
+    "potential_consequence": "Active month's highlight event or bank message silently missing from the phone"
+  },
+  {
+    "id": "E9",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-55 'Who can get one' L1070, FR-57 'Savings target' L624; PRD addendum message schema 'when' L150",
+    "trigger_condition": "Goals 2-3 lack a percentage; thresholds crossed together, re-crossed, or target re-pinned",
+    "guard_snippet": "define progress % per goal or limit to goal 1; one message for the highest threshold crossed; one-off per target, reset when re-pinned",
+    "potential_consequence": "Duplicate, missing, or meaningless bank progress messages across implementations"
+  },
+  {
+    "id": "E10",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-57 'Savings target' L624",
+    "trigger_condition": "Pinned option is bought, expires (experience after 56), or has two prices (moped)",
+    "guard_snippet": "auto-unpin with a note when the pinned option is taken or closes; pin a priced variant (new or used moped), not the option family",
+    "potential_consequence": "Progress shown against a closed option or an undefined price"
+  },
+  {
+    "id": "E11",
+    "lens": "edge-case-hunter",
+    "location": "prd.md UJ-6 step 1 L136 vs brief addendum example 25 (savings NOK 4,600) and moped licence NOK 12,000",
+    "trigger_condition": "UJ-6 bank says half reached, but savings 4,611 vs licence 12,000 is 38%",
+    "guard_snippet": "set example 25 savings to at least NOK 6,000, or make UJ-6's message a threshold the state actually crosses (25%)",
+    "potential_consequence": "Journey not reproducible from example 25; 50% message cannot fire"
+  },
+  {
+    "id": "E12",
+    "lens": "edge-case-hunter",
+    "location": "prd.md UJ-6 Entry state/Path L134-140; PRD addendum active months 1, 4, 7, 10 L61; FR-49 L467",
+    "trigger_condition": "Month 34 (October) is active by default, but UJ-6 continues without a real choice",
+    "guard_snippet": "add the month's highlight event to UJ-6 and examples 25-26, state that no event was eligible, or move UJ-6 to a quiet month",
+    "potential_consequence": "FR-49 blocks continue; event effects would change example 26 carry-over values"
+  },
+  {
+    "id": "E13",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-47 'Extra shifts' L647, FR-56 'What the player can do here' L1087, UJ-6 step 4 L139",
+    "trigger_condition": "Quit, base-hours change, job switch, or second offer while extra shifts still run",
+    "guard_snippet": "quitting or switching job cancels remaining extra shifts; hours = base + running extra, capped at rule 10; no new offer while one runs; say whether extra shifts can be cancelled",
+    "potential_consequence": "Wage paid with no job; UJ-6 'going back to 10 h' has no defined action"
+  },
+  {
+    "id": "E14",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-55 L1068-1073, FR-54 'Offer' L1056, FR-48 'What stays open' L575",
+    "trigger_condition": "Employer extra-shift offers have no draw rule, eligibility check, or expiry",
+    "guard_snippet": "FR-55: draw rule (has_job, below limit, month < 60, none running, chance a month); expires at end of its month; NFR-7 refuses an expired one",
+    "potential_consequence": "Offers never drawn, or old offer accepted in month 60 after cutoff"
+  },
+  {
+    "id": "E15",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-54 'Four kinds' L1053-1057, FR-48 L582, FR-29 'Gift offers' L757, FR-30 L764, FR-55 L1071",
+    "trigger_condition": "Moped and car licence gifts aren't open options, but Offer kind targets only those",
+    "guard_snippet": "add a gift target to the Offer kind with accept and decline, a lifetime (this month), and say whether the car gift applies automatically",
+    "potential_consequence": "Gift has no accept path, expiry, or cap priority; content check rejects it"
+  },
+  {
+    "id": "E16",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-54 'New and old' L1061, FR-48 'Dated offers' L580, NFR-7 list L1165",
+    "trigger_condition": "Old summer job or experience offer message used after its date has passed",
+    "guard_snippet": "NFR-7: refuse an option whose date has passed, with its own test; old offer messages show an expired state",
+    "potential_consequence": "Expired offer acceptance has no defined refusal or test"
+  },
+  {
+    "id": "E17",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-49 L468, FR-13 L476, FR-54 'Event' L1057",
+    "trigger_condition": "Active month's highlight event sits only in an unread event message",
+    "guard_snippet": "FR-49: the exception is an active month's event message, which must be answered; surface it when the month opens",
+    "potential_consequence": "Continue blocked though FR-49 says unread messages never block"
+  },
+  {
+    "id": "E18",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-32 'Check when it opens' L801, FR-46 'When events collide' L540; brief addendum rule 8",
+    "trigger_condition": "Crisis skipped at open in a month where it displaced a warning or follow-up",
+    "guard_snippet": "when a crisis is skipped at open, rerun the selection: card warning, then due follow-up, then a drawn event if the month is active",
+    "potential_consequence": "Month left without its event or follow-up pushed needlessly; implementations diverge"
+  },
+  {
+    "id": "E19",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-46 'Boomerang pairs' L539 and 'Pushed out' L541, FR-32 'Nothing is lost' L810, FR-41 L935",
+    "trigger_condition": "Follow-up pushed from month 58 while crises occupy months 59 and 60",
+    "guard_snippet": "define a fallback: follow-up shown after the crisis ends in the same month, or dropped and reported by the content check",
+    "potential_consequence": "Follow-up lost despite the 'no follow-up is lost' guarantee"
+  },
+  {
+    "id": "E20",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-46 'Who can get an event' and 'Boomerang pairs' L537-539; PRD addendum event schema 'boomerang' L100",
+    "trigger_condition": "Opener's flag cleared by a later option before the follow-up's month",
+    "guard_snippet": "state: a due follow-up whose required flag is no longer set is dropped, and the month draws normally",
+    "potential_consequence": "Follow-up shown for undone state, or dropped inconsistently"
+  },
+  {
+    "id": "E21",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-53 'Always available' L1031; PRD addendum activity schema age range/flags and cost check L136-137",
+    "trigger_condition": "Free basic activities carry age ranges and flags; none may be eligible some months",
+    "guard_snippet": "content check: at least two NOK 0 basic activities eligible in every month and flag state; or basic activities carry no age range or flags",
+    "potential_consequence": "Player with NOK 0 cannot plan anything, contrary to FR-53"
+  },
+  {
+    "id": "E22",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-52 'Never zero' L1018; brief addendum parameter 'Activity slots' L54",
+    "trigger_condition": "Slot divisor tuned above 20 under OQ-8; 40 h school month gives 0 slots",
+    "guard_snippet": "slots = max(1, min(max_slots, floor(free_time / divisor))), or a config check that the divisor is at most 20",
+    "potential_consequence": "Zero-slot months contradict FR-52 'never zero' and break planning"
+  },
+  {
+    "id": "E23",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-47 L642, FR-56 L1087-1088, FR-23 spending level L677, FR-57 'Upcoming costs' L626",
+    "trigger_condition": "Month 60 actions effective next month: hours, job, spending level, slot and cost previews",
+    "guard_snippet": "in month 60, hide next-month actions or mark them as having no effect; upcoming costs and slot preview show none",
+    "potential_consequence": "Player acts expecting an effect; previews show a nonexistent month 61"
+  },
+  {
+    "id": "E24",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-47 'Monthly cap' L645; brief addendum rule 10",
+    "trigger_condition": "Summer job accepted in June, then extra shifts or hours fill July's 173 h",
+    "guard_snippet": "warn when an hours change or extra shifts would cut a taken summer job; if July's cut leaves 0 h, cancel it with a note",
+    "potential_consequence": "Accepted summer job silently cut to 0 h, paying nothing"
+  },
+  {
+    "id": "E25",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-47 'Weekly limit' L644, NFR-7 'more working hours' L1166",
+    "trigger_condition": "Hours change made in month 18 (12 h limit) takes effect in month 19 (40 h)",
+    "guard_snippet": "validate an hours change against the rule 10 limit of the month it applies from",
+    "potential_consequence": "Valid July hours refused, or limits applied inconsistently"
+  },
+  {
+    "id": "E26",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-8 L384, FR-49 'names the month' L471, FR-52 L1019",
+    "trigger_condition": "Device B continues with a stale plan after device A changed it this month",
+    "guard_snippet": "continue request carries the plan or state version the device showed; server refuses and reloads if the plan changed since",
+    "potential_consequence": "Activities the player never saw on that device get charged"
+  },
+  {
+    "id": "E27",
+    "lens": "edge-case-hunter",
+    "location": "PRD addendum message schema 'when' check L150; prd.md FR-55 'Who can get one' L1070, FR-18 summer job row L557",
+    "trigger_condition": "One summer job offer message must arrive in months 18, 30 and 42",
+    "guard_snippet": "allow an offer message with several offer months, or one message per FR-18 offer month; offers exempt from the one-off rule",
+    "potential_consequence": "Exactly-one plus one-off rules block the second and third summer job offers"
+  },
+  {
+    "id": "E28",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-39 'Activity groups' L904 vs FR-36 'Activities' L876, FR-42 'Activities as groups' L946",
+    "trigger_condition": "Activity group partly paid on card, with interest linked to its activities",
+    "guard_snippet": "for groups, add linked card interest to the line (debt cost plus money kept), or rank groups by cost only",
+    "potential_consequence": "Group ranked by one figure, explained by a different one"
+  },
+  {
+    "id": "E29",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-42 'Hollow win' L949 and 'Ranking' L945",
+    "trigger_condition": "Lone activity hurts wellbeing most, or two choices tie within one regular month",
+    "guard_snippet": "state whether a single activity can take the hollow-win slot; break ties within a month by server confirmation order",
+    "potential_consequence": "Implementations pick different entries for the ending summary"
+  },
+  {
+    "id": "E30",
+    "lens": "edge-case-hunter",
+    "location": "brief addendum example 26 case c; prd.md FR-33 'The hollow win still holds' L835",
+    "trigger_condition": "Case c uses stress −5, but the allowed strongest activity is stress −10",
+    "guard_snippet": "recompute case c with (−10, +10) per activity; my rough estimate is about 42, 46, 38, still below 50",
+    "potential_consequence": "Answer-key figures don't test the stated worst case; goal-2 margin narrower"
+  },
+  {
+    "id": "E31",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-50 'What's counted' L998, §7.2 planning counter-metric L1260",
+    "trigger_condition": "Activity placed then dropped at continue, or placed then removed",
+    "guard_snippet": "count only applied activities: months with at least one applied activity; invitations whose activity was applied",
+    "potential_consequence": "Planning counter-metric and invitation acceptance inflated"
+  },
+  {
+    "id": "E32",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-29 L759 'cut list, item 2', FR-38 L893 'item 1', FR-39 L906 'item 1'; PRD addendum L278 'first on the cut list', L334 'are cut first'",
+    "trigger_condition": "Cut list renumbered: FR-57 is item 1, in-play lines item 4, insurance share item 5",
+    "guard_snippet": "FR-29 -> item 5; FR-38 and FR-39 -> item 4; addendum L278 and L334 -> fourth on the cut list",
+    "potential_consequence": "Builders cut the wrong feature, or cut in-play lines first",
+    "kind": "deletion",
+    "confidence": "high"
+  },
+  {
+    "id": "E33",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-46 removed 'A milestone is dropped if its option has been taken or its date has passed'; FR-55 'Offers always arrive' L1071",
+    "trigger_condition": "Removed rule dropped a milestone whose option was taken or date had passed",
+    "guard_snippet": "FR-55: skip an offer message whose option is already taken, cannot be taken again under its one-at-a-time rule, or has expired",
+    "potential_consequence": "Consumer loan held since month 37 still gets month-49 offer for a blocked option",
+    "kind": "deletion",
+    "confidence": "high"
+  },
+  {
+    "id": "E34",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-46 'No repeats' L543, FR-48 'What stays open' L575 ('same as in the event')",
+    "trigger_condition": "Offers became messages, but FR-46 and FR-48 still treat them as events",
+    "guard_snippet": "remove the summer job offer from FR-46 repeat exceptions; FR-48: conditions and prices as in the offer message",
+    "potential_consequence": "Orphaned repeat exception; content check may expect a summer job event",
+    "kind": "deletion",
+    "confidence": "medium"
+  },
+  {
+    "id": "E35",
+    "lens": "edge-case-hunter",
+    "location": "prd.md FR-46 'Pushed out' L541; PRD addendum P4 L441",
+    "trigger_condition": "Claim: FR-46 has 'no milestones or push-outs' (memlog, addendum P4)",
+    "guard_snippet": "FR-46 still pushes follow-ups to the next active month, or to months 59-60",
+    "potential_consequence": "Reader skips push-out tests; month 58-60 follow-up loss stays untested",
+    "kind": "claim",
+    "confidence": "low"
+  }
+]

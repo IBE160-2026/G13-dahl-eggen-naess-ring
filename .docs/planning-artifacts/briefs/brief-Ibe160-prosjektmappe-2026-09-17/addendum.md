@@ -1,7 +1,7 @@
 ---
 title: LifeMode Addendum
 related_brief: brief.md
-updated: 2026-11-05
+updated: 2026-11-11
 ---
 
 # Addendum: LifeMode
@@ -51,10 +51,12 @@ Added 2026-10-14 in response to teacher feedback: the engine must "always calcul
 | Moped and car fuel use | [needs figure: litres a month] × NOK 20.64 | To be researched and dated (PRD OQ-3, #43) |
 | Youth everyday spending | [needs figure], to check the spending levels and event-started costs against | To be researched and dated, for example SIFO's reference budget (PRD OQ-3, #43) |
 | Car licence gift chance | 50% | Game design, tuning (PRD OQ-8) |
-| Activity slots | The month's free time (rule 12) ÷ 20, rounded down, at most 4 | Game design, tuning (PRD FR-52, OQ-8) |
+| Activity slots | The month's free time (rule 12) ÷ 20, rounded down, at least 1 and at most 4 | Game design, tuning (PRD FR-52, OQ-8) |
 | Activity effects | Each activity within ±10 on stress and on social life; all activities in a month together at most ±15 on each, counted in that month's wellbeing only | Game design, tuning (PRD FR-53, OQ-8, OQ-19) |
 | Activity prices | [needs figure] per activity, with a source and date | To be researched and dated (PRD OQ-17) |
-| Messages a month | At most 3 new, of which 0-2 invitations | Game design, tuning (PRD FR-55, OQ-8) |
+| Messages a month | At most 3 new, of which 0-2 invitations. Offers and the event copy don't count. An invitation repeats at most once per in-game year | Game design, tuning (PRD FR-55, OQ-8) |
+| Employer extra-shift offers | A drawn offer with a chance per in-game year [tuning value]; default +4 h a week for 3 months | Game design, tuning (PRD FR-47, FR-55, OQ-8) |
+| Gift moped offer | A drawn offer, at most once per playthrough, with a chance per in-game year [tuning value] | Game design, tuning (PRD FR-29, FR-55, OQ-8) |
 
 ### Rules
 
@@ -193,7 +195,7 @@ The paid car licence (NOK 32,500 in month 40) on the reference run gives NOK 86,
 
 **23. Markus in UJ-5.** Markus leaves UJ-4 in month 46 with NOK 122, the moped kept, and costs of NOK 549 a month. To reach goal 1 he works 20 h a week on low spending in months 47-54, then 37.5 h full-time on low: NOK 104,824 at 20, with moped fuel left out. On normal he ends at NOK 62,637, and with 10 h on low at NOK 85,297. Wellbeing in months 47-60 runs from 61 to 70, and social life ends at 32. If months 19-40 average 74, his ending wellbeing is about 70, a real win.
 
-Examples 1-23 plan no activities, so their figures stand as before (PRD FR-9). Examples 24-26 were added on 2026-11-10 with the month plan (PRD FR-52, FR-53). Activity prices and effects in them are placeholder values until PRD OQ-17 gives them a source.
+Examples 1-23 plan no activities, so their figures stand as before (PRD FR-9). Examples 24-26 were added on 2026-11-10 with the month plan (PRD FR-52, FR-53). On 2026-11-11, examples 25 and 26 were updated and examples 27 and 28 added, from the PRD review fixes. Activity prices and effects in them are placeholder values until PRD OQ-17 gives them a source.
 
 **24. Activity slots (rule 12, PRD FR-52).** Slots = free time ÷ 20, rounded down, at most 4.
 
@@ -208,21 +210,26 @@ Examples 1-23 plan no activities, so their figures stand as before (PRD FR-9). E
 | July, 40 h a week (summer job and part-time at the 173 h cap) | 80 | 4 |
 | UJ-6: school month, 10 h + 4 h extra shifts | 72 | 3 |
 
-**25. Paying for activities (rule 1, PRD FR-53, UJ-6).** Month 34 (October), age 17, 14 h a week (10 h plus 4 h of extra shifts), normal spending. Before the month: current account NOK 500, savings NOK 4,600, no debt. Parents pay mobile and transport (under 18). Tax is NOK 0, because the year's wages stay under NOK 99,650. Planned: a concert (NOK 450), an evening with friends (NOK 200), and a rest night (NOK 0).
+**25. Paying for activities (rule 1, PRD FR-53, FR-57, UJ-6).** Month 35 (November), age 17, 14 h a week (10 h plus 4 h of extra shifts), normal spending. Before the month: current account NOK 500, savings NOK 23,500, no debt. Parents pay mobile (under 18). Markus owns a moped, so transport is moped insurance (NOK 250), which is his own at any age (PRD FR-23). Moped fuel has no figure yet and is left out, as in example 22. Tax is NOK 0, because the year's wages stay under NOK 99,650. Planned: a concert (NOK 450), an evening with friends (NOK 200), and a rest night (NOK 0).
 
 | Step | Amount | Current account |
 |---|---|---|
 | Income: 14 × 52 / 12 × 139.40 | +8,457 | 8,957 |
 | Tax | 0 | 8,957 |
-| Spending, normal 75% | −6,343 | 2,614 |
-| Interest on savings: 4,600 × 2.87% / 12 | +11 to savings (4,611) | 2,614 |
-| Continue: concert, then friends, then rest | −650 | 1,964 |
+| Moped insurance | −250 | 8,707 |
+| Spending, normal 75% | −6,343 | 2,364 |
+| Interest on savings: 23,500 × 2.87% / 12 | +56 to savings (23,556) | 2,364 |
+| Continue: concert, then friends, then rest | −650 | 1,714 |
 
-The activities come after spending and aren't part of rule 16. With 10 h a week the wage would be NOK 6,041.
+The activities come after spending and aren't part of rule 16.
 
-*Variant b, an activity dropped:* the same month with no savings. After planning the concert and the evening with friends (NOK 650 of NOK 2,614), the player deposits NOK 2,200 in BSU, which leaves NOK 414. When they continue, the concert (NOK 450) can't be paid from the current account or savings, so it's dropped with a note and has no effect. The evening with friends is paid, which leaves NOK 214.
+- **Extra shifts:** with 10 h a week the wage would be NOK 6,041, spending NOK 4,531, and the current account NOK 1,760 before the activities. The extra shifts therefore leave NOK 604 more this month after spending (PRD FR-47, FR-56).
+- **Savings target:** the car licence (NOK 32,500) is pinned. Progress is the current account plus savings (PRD FR-57): NOK 24,000 before the month (73.8%) and NOK 2,364 + NOK 23,556 = NOK 25,920 when it opens (79.8%). It passes 75% this month, so the bank's "three quarters" message arrives (PRD FR-55). After the activities it's NOK 25,270 (77.8%).
+- **Activity spend:** the money view's activity spend for the year rises by NOK 650 (PRD FR-57).
 
-**26. Activities in wellbeing (rule 12).** The same month, with weights 40/30/30 (goal 1), at the start of the month stress 30 and social life 55. Free time is 100 − 2 × (30 + 14 − 30) = 72. Spending is normal, there's no debt, free time is above 50, and social life is above 20, so none of the rows applies, and stress falls by 5 to 25. Social life stays at 55. Those are the values that carry over to November.
+*Variant b, an activity dropped:* the same month with no savings. After planning the concert and the evening with friends (NOK 650 of NOK 2,364), the player deposits NOK 2,000 in BSU, which leaves NOK 364. When they continue, the concert (NOK 450) can't be paid from the current account or savings, so it's dropped with a note and has no effect. The evening with friends is paid, which leaves NOK 164.
+
+**26. Activities in wellbeing (rule 12).** The same month, November, with weights 40/30/30 (goal 1), at the start of the month stress 30 and social life 55. Free time is 100 − 2 × (30 + 14 − 30) = 72. Spending is normal, there's no debt, free time is above 50, and social life is above 20, so none of the rows applies, and stress falls by 5 to 25. Social life stays at 55. Those are the values that carry over to December.
 
 | Case | Activities (stress, social) | Sum after the cap | This month's stress, social | Wellbeing |
 |---|---|---|---|---|
@@ -230,9 +237,18 @@ The activities come after spending and aren't part of rule 16. With 10 h a week 
 | b | Concert (0, +8), friends (0, +5), gaming with friends (−2, +4) | −2, +15 (17 capped) | 23, 70 | 0.4 × 77 + 0.3 × 72 + 0.3 × 70 = 73.4 → 73 |
 | none | No activities | 0, 0 | 25, 55 | 0.4 × 75 + 0.3 × 72 + 0.3 × 55 = 68.1 → 68 |
 
-In every case November starts from stress 25 and social life 55.
+In every case December starts from stress 25 and social life 55.
 
-*Case c, the hollow win holds:* the money chaser in example 17b fills every free slot every month with the strongest activity allowed (stress −5, social +10). He has 1 slot at 40 h in school, and 3-4 when he works less. His ending wellbeing rises from 34 to 41 (goal 1 weights), from 37 to 44 (goal 2), and from 29 to 37 (goal 3), all below the threshold of 50. The careful player in 17b rises from 75 to 82-85. If activity effects lasted into later months, social life would pile up, because nothing pulls it back down. One free activity a slot (stress −2, social +4) would then lift the money chaser to 65 and remove the hollow win (PRD OQ-19).
+*Case c, the hollow win holds:* the money chaser in example 17b fills every slot every month with activities at the effect limits (stress −10, social +10 each, at most ±15 a month on each). Each activity can be planned only once a month, so the bound comes from the limits, not from one activity repeated. He has 1 slot at 40 h in school, and 3-4 when he works less. His ending wellbeing rises from 34 to 42 (goal 1 weights), from 37 to 46 (goal 2), and from 29 to 37 (goal 3), all below the threshold of 50. The careful player in 17b rises from 75 to 85 with goal 1's weights. If activity effects lasted into later months, social life would pile up, because nothing pulls it back down. One free activity a slot (stress −2, social +4) would then lift the money chaser to 65 and remove the hollow win (PRD OQ-19).
+
+*Case d, the boundary moves:* in 17b's boundary runs on normal spending, with activities at the same limits in every slot, the 26 h run rises from 41 to 52, a real win, and the 25 h run from 68 to 79. A 26 h school month gives 2 slots, enough to reach the monthly cap. The threshold and the activity effects are therefore tuned together, and the content check reports these runs with the catalogue's best free activities (PRD FR-33, OQ-8).
+
+**27. A card-paid activity (PRD FR-45, FR-26, FR-36).** Month 41, age 18, card use on, limit NOK 10,000, with the bill set to the whole balance.
+- **a, it fits:** the card balance is NOK 0. A concert (NOK 450, card-payable) goes on the card when the player continues. Next month's debt step pays the NOK 450 bill in full, with no interest.
+- **b, it doesn't fit:** the card balance is NOK 9,800, so the concert doesn't fit whole under the limit. It's paid from the current account, then savings, and is never split between the card and the accounts.
+- **c, interest:** the card holds NOK 10,000, of which NOK 450 is the concert, and the bill is set to the minimum. Interest is 10,000 × 22.6% / 12 = 188. The concert's share is 188 × 450 / 10,000 = 8.46, so NOK 8 links to the concert, and the other choices on the card share the remaining NOK 180 (PRD FR-36).
+
+**28. An activity group on the ending screen (PRD FR-39, FR-42).** Five concerts at NOK 450, paid from the current account in months 35, 39, 43, 47 and 51, with no card. Each payment is grown with savings interest under rule 2, from the month after it was paid to month 60: NOK 475, 471, 467, 463 and 459. The group's line is «Hadde du droppet konsertene, ville du hatt 2 335 kr mer da du fylte 20.» The group ranks in FR-42 by its summed kroner effect, −NOK 2,250, and the entry counts as made in month 35. The same method gives FR-39's pengegave example: NOK 15,000 from month 1 grows to NOK 17,270. The line also names the group's summed wellbeing effect, which depends on the activities' effects. Those are placeholders until PRD OQ-17, so no figure is fixed for it here.
 
 Examples 7-21 were added on 2026-11-05 from the PRD review and the final check, and examples 22-23 from the independent review the same day. Examples 17, 20, 21, 22 and 23 were recalculated after the independent review with a script applying rules 1, 2, 3, 10, 12 and 16 month by month, with two accounts and purchases at the choice step. The review found that the earlier figures in 17b, 20 and 21d came from a script that broke the monthly cap in rule 10 and the interest order in rule 1. An independent recalculation from the rule text the same day found further errors in 17, 20, 21, 22 and the 40 h pay, and these figures have been corrected to match it.
 
@@ -261,7 +277,7 @@ D7-D25 were added on 2026-11-05 from the PRD review. A disclosure is seen once p
 | D8 | Moped: resale value (FR-29) | The player first owns a moped | «Forenklet: Mopeden taper 15 % av kjøpsprisen hvert år du eier den. I virkeligheten avhenger prisen av modell, stand og hvor mye den er kjørt. Prisene i spillet bygger på annonser på FINN høsten 2026.» |
 | D9 | Fixed costs: moped fuel and insurance (FR-23) | The first moped running cost | «Forenklet: Drivstoff og forsikring koster et fast beløp hver måned i spillet. I virkeligheten bruker du mer drivstoff jo mer du kjører, og prisen på forsikring avhenger blant annet av alderen din, hvor du bor og hvilken moped du har.» |
 | D10 | Licences (FR-28, FR-30) | The first licence offer | «Forenklet: I spillet betaler du for lappen og må klare et lite kjørespill. I virkeligheten må du gjennom kurs og bestå prøver, og det tar tid. Prisen er et anslag, og trafikkskolene tar ulike priser.» |
-| D11 | Credit card: limit and fees (FR-26) | The first card offer | «Forenklet: Kortet ditt har én fast kredittgrense i spillet, og du betaler ingen gebyrer, verken for å gå over grensen eller for å betale for sent. I virkeligheten setter banken grensen ut fra inntekten og gjelden din, den kan endres senere, og det koster ofte gebyr.» |
+| D11 | Credit card: limit and fees (FR-26) | When the card opens (month 37) | «Forenklet: Kortet ditt har én fast kredittgrense i spillet, og du betaler ingen gebyrer, verken for å gå over grensen eller for å betale for sent. I virkeligheten setter banken grensen ut fra inntekten og gjelden din, den kan endres senere, og det koster ofte gebyr.» |
 | D12 | Wages and hours (FR-20, FR-47, rule 10) | The first job offer | «Forenklet: Du velger hvor mange timer du jobber i uka, og spillet gjør det om til lønn for hele måneden, med 52 uker delt på 12 måneder. Skolen regnes som 30 timer i uka. Spillet følger arbeidstidsreglene for alderen din, men holder ikke oversikt over enkeltdager eller om du jobber kveld eller natt.» |
 | D13 | Full-time job, no studies (FR-20) | The full-time job offer | «Forenklet: I spillet kan du ikke begynne å studere etter videregående, så det finnes ikke studielån. I virkeligheten er studielån fra Lånekassen rentefritt så lenge du studerer på heltid, og det er noe helt annet enn kredittkortgjeld.» |
 | D14 | Feature: breaks and recap (FR-16) | The first recap | «Forenklet: Tiden i spillet går bare når du spiller. Mens du er borte, kommer det ingen renter, regninger eller hendelser, uansett hvor lenge du er borte.» |
@@ -274,7 +290,7 @@ D7-D25 were added on 2026-11-05 from the PRD review. A disclosure is seen once p
 | D21 | Consumer loan (FR-25) | The first loan offer | «Forenklet: I spillet koster det ingenting å betale ned lånet før tiden, og banken ser bare på lønna di de siste tre månedene.» |
 | D22 | BSU withdrawal (FR-22) | The first BSU deposit | «Forenklet: I spillet kan du bare ta ut hele BSU-en, og da avsluttes den. Du betaler også tilbake skattefradraget du har fått. I virkeligheten skal BSU brukes til bolig, og bruker du pengene til noe annet, mister du fradraget.» |
 | D23 | Fixed costs before 18 (FR-23) | The first month summary | «I spillet betaler foreldrene mobilen og bussen din til du fyller 18. Da overtar du regningene. Lommepenger er ikke med i denne versjonen.» |
-| D24 | BSU: opening age (FR-18, FR-22) | The first BSU offer | «Forenklet: I spillet kan du opprette BSU selv fra du er 15. I virkeligheten må en foresatt som regel være med, og Skatteetaten fraråder BSU før du er 17 hvis du ikke har skattepliktig arbeidsinntekt.» |
+| D24 | BSU: opening age (FR-18, FR-22) | The first time the player opens BSU in the money view | «Forenklet: I spillet kan du opprette BSU selv fra du er 15. I virkeligheten må en foresatt som regel være med, og Skatteetaten fraråder BSU før du er 17 hvis du ikke har skattepliktig arbeidsinntekt.» |
 | D25 | Spending level (FR-23, rule 16) | The first wage | «Forenklet: I spillet velger du et forbruksnivå, og en fast del av lønna di går til forbruk hver måned. I virkeligheten går pengene til mange små kjøp, og det er lett å miste oversikten.» |
 | D26 | Month plan and activities (FR-52, FR-53) | The first month plan | «Forenklet: En måned har noen få ledige plasser for fritid. Jo mer du jobber, jo færre blir de. Spillet følger ikke dager eller klokkeslett, og en aktivitet gjør bare den måneden bedre. Vil du ha et godt sosialt liv, må du fortsette å gjøre ting.» |
 
@@ -373,6 +389,8 @@ Details (recorded 2026-11-03, issue #26):
 
 ## MVP Scope Priority — Decision
 
+*Superseded on 2026-11-10 by PRD §4.4 Cut order, which applies. Kept as history.*
+
 **Decided by the team (recorded 2026-11-03, issue #27): content is cut before the core.** If time runs short before December, cut in this order:
 
 1. "If you had chosen differently" lines during play, including the BSU comparison
@@ -382,6 +400,8 @@ Details (recorded 2026-11-03, issue #26):
 The engine, wellbeing, the endings, cause links, "Hvorfor?", the card warning, the moped and login stay. The AI layer is already outside the MVP.
 
 ## Event Library — Decision
+
+*Superseded on 2026-11-10 by PRD FR-17: a minimum of 40 events, a target of 50-60, and 8 per in-game year, with 20 active months. Kept as history.*
 
 **Decided by the team (recorded 2026-11-03, issue #19): a target of 60-80 events, plus about 10 crises. The minimum was 30, and on 2026-11-05 Dahl proposed raising it to 50, twice the 25 regular active months, because 30 events would make two playthroughs share at least 20 of their 25 events (PRD FR-17, FR-43).**
 
