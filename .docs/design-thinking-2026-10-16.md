@@ -232,15 +232,52 @@ Three concepts were chosen to prototype (2026-11-11). Together they cover the PR
 
 ### Prototype Approach
 
-{{prototype_approach}}
+**Hand sketches first, mobile first, then digital in the UX step.**
+
+1. **Round 1: hand sketches at phone width.** Paper prototyping, with storyboarding to tie the screens into a sequence. Sara draws rough sketches by hand and scans them. Phone screens come first, because the PRD is mobile-first down to 320 CSS pixels (NFR-1) and the players play in short bursts on the phone.
+2. **Review of the hand sketches.** Each sketch is checked against the PRD (the FR anchors above, NFR-1 and NFR-2) and against the insights. Findings are written down as notes for the digital round.
+3. **Round 2: digital, in the UX step (`bmad-ux`).** The hand sketches are imported into the UX step, which has its own tools for wireframes, colour themes, design directions and HTML mock-ups of key screens. The visual style and behaviour are written down in DESIGN.md and EXPERIENCE.md, which win if a sketch and the spines disagree. The visual style must be explicitly less childish than Koll på cashen (playtest notes). Design tools come in here, not before. Doing the digital round in the UX step means navigation, components and layout are decided once.
+
+**Rules for the hand sketches**
+- **Phone frames,** portrait, roughly 9:19, one screen per frame. Several frames can share a sheet; the concept 2 sketches have three per sheet. Rough is fine: boxes, arrows and handwritten labels.
+- **Real text and figures** from the PRD's journeys and worked examples, not placeholder text. Game texts are in Norwegian (NFR-8).
+- **Mark what can be tapped,** for example with a thick outline or a small hand.
+- **No dragging:** the month plan works by tapping (NFR-2, WCAG 2.2, criterion 2.5.7).
+- **Not colour alone:** a money change has a sign and a word, such as «+604 kr» (NFR-2).
+- **Name the files by concept and screen numbers,** for example `k2-01-03.pdf` for screens 1–3 of concept 2. Scans as PDF or photos as JPG or PNG both work.
 
 ### Prototype Description
 
-{{prototype_description}}
+The screens to sketch for each concept. Each concept follows one scene from the PRD's journeys, so the screens form a storyboard.
+
+**Concept 1, «Ringer i vannet»: Markus spends his pengegave (UJ-1), and later sees his savings grow (UJ-3).**
+- **K1-01 The choice:** the pengegave event with two or three options.
+- **K1-02 The ripple:** right after the choice: money, wellbeing, room and «Låst opp / Stengt» change together.
+- **K1-03 The echo:** some months later, the bank's message that his savings have grown, with an echo badge «Fra: …».
+- **K1-04 "Hvorfor?":** the answer: the choice behind it, saving and interest in one or two sentences, and the real figure (NOK 3,000 earns NOK 84 in a year).
+
+**Concept 2, «Måneden på én skjerm»: Markus fits a concert into a November with extra shifts (UJ-6).**
+- **K2-01 The month plan:** a school month with 14 h of work a week, so 3 slots. School and work are blocks.
+- **K2-02 The phone:** Emma's concert invitation with «Legg i planen».
+- **K2-03 Placing an activity:** a card with price and effects, and a card that can't be afforded, showing «Mangler … kr».
+- **K2-04 The job view:** the hours control with a preview, "ending the extra shifts gives 4 slots from December, and NOK 604 less a month".
+
+**Concept 3, «Pengene som i en bankapp»: Markus saves towards the car licence (UJ-6).**
+- **K3-01 The money view:** accounts and the savings target with a picture, a percentage, and when it opens.
+- **K3-02 «Neste måned»:** next month's known costs as a list of bills.
+- **K3-03 «Småtteri»:** what activities have cost this year, by kind.
+- **K3-04 The bank message:** «Du har passert tre firedeler av sparemålet ditt».
+
+Twelve screens in all. Start with the first screen of each concept if there isn't time for all of them.
 
 ### Key Features to Test
 
-{{features_to_test}}
+What the sketches should answer. The questions mirror the PRD's playtest targets (PRD §7.1), so the prototype prepares for the playtest instead of replacing it.
+
+- **Concept 1:** Can a person who hasn't seen the game explain, from K1-03 and K1-04, *why* the savings grew? Do they notice the echo badge, and do they find "Hvorfor?" without help?
+- **Concept 2:** Can they explain why more working hours gave fewer slots? Do they understand that the plan is for the month, not for given days? Is placing an activity faster than reading about it?
+- **Concept 3:** Do they understand what the percentage on the savings target means? Does «Småtteri» make them think "that adds up"? Are «Neste måned» and the card balance read correctly?
+- **For all three:** Does it look like a game for their age or like schoolwork? Is everything readable and tappable at phone width?
 
 ---
 
