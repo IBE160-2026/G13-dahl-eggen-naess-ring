@@ -85,17 +85,42 @@ The young person aged 15–20, close to their first real money decisions. *Says*
 
 ## 🎨 DEFINE: Frame the Problem
 
+This step frames the problem as the final PRD answers it. The PRD is the basis; the framing here explains why its features exist and does not add requirements.
+
 ### Point of View Statement
 
-{{pov_statement}}
+> **A young person aged 15–20 in Norway, close to their first real money decisions, needs to see what today's choices lead to months and years later, and why, because they already know what is in their account but rarely think ahead, and the costs that hurt them most add up quietly from small purchases and commitments.**
+
+Two narrower points of view support it:
+
+- **At 18:** a young person about to get their first credit card needs to try credit before it costs them real money, because almost none of them have used it and fewer than half understand it well.
+- **In everyday life:** a young person with school, a part-time job and friends needs to see that time is as limited as money, because their regrets are about what they got for the money, not about the amount.
 
 ### How Might We Questions
 
-{{hmw_questions}}
+| How might we… | Where the PRD answers it |
+|---|---|
+| 1. …make the link between an earlier choice and a later outcome visible when it happens? | Cause links, echo badges, "Hvorfor?" and "If you had chosen differently" (FR-36 to FR-39) |
+| 2. …make small purchases visible as they add up, without lecturing? | Spending levels and everyday costs (FR-23); activity spend in the money view (FR-57) |
+| 3. …let players try credit and BSU safely before they meet them in real life? | Saving and BSU (FR-22); the credit card from 18 (FR-26); UJ-4 |
+| 4. …make time feel as limited as money? | Month plan and activity slots (FR-52, FR-53); UJ-6 |
+| 5. …make good money management mean more than the biggest balance? | Wellbeing (FR-33) and the four endings, including the hollow win (FR-41) |
+| 6. …include family as a real part of the money world without making it a free rescue? | Help from family, not always on offer and often partial (FR-27) |
+| 7. …make it feel grown-up and like a game, in a few minutes on a phone? | One in-game year a session (FR-15); tone and content (NFR-8); pace targets (PRD §7.1) |
+| 8. …explain money in plain language without slowing play? | Tips (FR-19), "Hvorfor?" (FR-38) and disclosed simplifications (FR-40) |
 
 ### Key Insights
 
-{{problem_insights}}
+1. **The problem is foresight, not knowledge.** They know their balance (88%) and can answer a quiz question on credit (72%), but only 38% think months ahead. The game has to train the link between choice and consequence, not teach facts. This is why the PRD makes the player learn from what their own actions lead to, not from questions and answers (PRD §1).
+2. **The gap is widest where the stakes are highest.** At 18, credit opens for the first time, and credit and BSU are the least understood terms. That makes 18 the turning point in a playthrough (UJ-4).
+3. **Money, time and wellbeing are one problem.** The regrets are about value and satisfaction, and a part-time job costs free time. A player who wins only on money gets a hollow win.
+4. **Family is part of the real environment.** Family is the main source of money, knowledge and help, so leaving it out would make the game less true to life. Making it a free rescue would teach the wrong lesson.
+5. **Respect and pace decide whether they play at all.** They want to feel grown-up, they play in short bursts, and the closest competitor felt slow and childish. If it feels like schoolwork, it fails, however correct the content is.
+
+**Assumptions to watch.** The PRD tests these in the playtest (PRD §7.1, §7.2):
+- That understanding consequences in a game carries over to real choices. Measured as explaining an earlier choice's effect (70% or more) and the money quiz before and after.
+- That results from testers aged 18–20 say something about 15–17-year-olds. The PRD notes this as a validity limit.
+- That wellbeing makes sense without making the game complicated. Measured as explaining the wellbeing score and the ending (60% or more).
 
 ---
 
