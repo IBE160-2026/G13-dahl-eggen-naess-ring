@@ -354,17 +354,47 @@ So far from the design review of the concept 2 sketches against the PRD (2026-11
 
 ## 🚀 Next Steps
 
+> **Provisional.** This plan builds on the design review of the sketches against the PRD, not on user tests. It is revised after the playtest (PRD §7.1).
+
 ### Refinements Needed
 
-{{refinements}}
+For the digital round in the UX step, from the round 1 notes above:
+
+- **Figures from the worked examples** (examples 25 and 26), not invented ones.
+- **Job view:** both extra-shift options side by side, with slots and kroner, plus hourly rate, expected pay and the hours limit (FR-56).
+- **Month plan:** called «Månedsoversikt», with no days or times; activity cards with price and effect; a card the player can't afford shows «Mangler … kr».
+- **Phone:** «Legg i planen» on invitations, and a place to read earlier messages (FR-54).
+- **Result and road-ahead screens:** wellbeing before and after the month's activities, worded so "down" for stress reads as good; this year's spend instead of a five-year total; no stated moral. Decide whether "Veien videre" is merged into the job view and money view, since it isn't in the PRD.
+
+**Next cycle:** the prototype is ready to refine digitally. The problem framing holds and needs no new empathy work before the playtest. A test with 15–17-year-olds is a later cycle (PRD §7.1, validity limit).
 
 ### Action Items
 
-{{action_items}}
+In order:
+
+1. **Commit and merge this session's work.** This document and the concept 2 sketches, from the branch `ux/sara-design-thinking` to `main`, through a pull request. Then close issue #49. *Sara.*
+2. **Run the UX step (`bmad-ux`), including the digital round.** Import the concept 2 sketches, and make wireframes and key-screen mock-ups with the refinements above. Write DESIGN.md and EXPERIENCE.md from the PRD, building on this document's insights, ideas 1–28, the concept 2 notes, and the playtest notes on a less childish style than Koll på cashen. Design tools come in here, not before. *Team.*
+3. **Concept 1, if there is time.** Sketch K1-03 (the echo badge) and K1-04 ("Hvorfor?"), or design them directly in the UX step. *Team.*
+4. **After the playtest:** fill in *User Feedback* and *Key Learnings* from the playtest results, and note what changes. *Team.*
 
 ### Success Metrics
 
-{{success_metrics}}
+**For the game:** the PRD's playtest targets (PRD §7.1). The ones this session's concepts aim at most directly:
+
+| Metric | Target |
+|---|---|
+| Can explain how an earlier decision affected a later outcome | 70% or more |
+| Can explain why more work hours gave them fewer activity slots | 60% or more |
+| Can say what the wellbeing score shows, and why their ending came out as it did | 60% or more |
+| "It felt more like a game than schoolwork" (1–5) | Median 4 or higher |
+| "The money parts were easy to follow" (1–5) | Median 4 or higher |
+| One session, one in-game year | 10–15 minutes on a phone |
+
+The counter-metrics in PRD §7.2 apply as well, especially planning being ignored.
+
+**For this design work:**
+- The UX documents build on this session, and the digital prototype includes the round 1 refinements.
+- *User Feedback* and *Key Learnings* are filled in from the playtest before the delivery.
 
 ---
 
