@@ -312,17 +312,43 @@ What the sketches should answer. The questions mirror the PRD's playtest targets
 
 ## ✅ TEST: Validate with Users
 
+**Decision (2026-11-12):** the concept 2 sketches are not tested with users. Users meet the design in the PRD's playtest, which tests the playable game rather than paper screens. Until then, this step records the plan and what the design review found.
+
 ### Testing Plan
 
-{{testing_plan}}
+Testing follows the playtest in PRD §7.1. The PRD is the basis, so this plan adds no requirements; it shows which of the PRD's measures answer this session's questions.
+
+- **Who:** 10–20 playtesters aged 18–20, before the December delivery (PRD §7.1). Results say little about 15–17-year-olds, which the PRD notes as a validity limit.
+- **What they do:** play the game in the playtest environment over several sittings, with no reminders from the team during their first 7 days (PRD §7.1, NFR-11).
+- **How it is captured:** playtest records (FR-50), the money quiz before and after, and the playtest survey, all with a random tester code instead of a name or email address.
+
+| Question from this session | PRD measure (§7.1, §7.2) |
+|---|---|
+| Can they explain why more working hours gave fewer slots? (concept 2) | "Can explain why more work hours gave them fewer activity slots": 60% or more |
+| Do they use the month plan, or tap past it? (concept 2) | Counter-metric: planning ignored, with fewer than a third of invitations applied, or fewer than a third of months whose plan differs from the month before (FR-50) |
+| Does planning slow the game down? (concept 2) | Planning time from the records; sessions past 15 minutes as a counter-metric |
+| Can they link a later outcome to an earlier choice? (concept 1, postponed) | "Can explain how an earlier decision affected a later outcome": 70% or more |
+| Does wellbeing make sense? | "Can say what the wellbeing score shows, and why their ending came out as it did": 60% or more |
+| Game or schoolwork? | "It felt more like a game than schoolwork": median 4 or higher |
+| Are the money parts easy to follow? | "The money parts were easy to follow": median 4 or higher |
+
+The prototype questions under *Key Features to Test* can also serve as observation notes for the team during the playtest sittings.
 
 ### User Feedback
 
-{{user_feedback}}
+Not collected yet. The sketches have not been shown to users (decision above). This section is filled in after the playtest, from the records and the playtest survey.
 
 ### Key Learnings
 
-{{key_learnings}}
+So far from the design review of the concept 2 sketches against the PRD (2026-11-11), not from users:
+
+1. **A month plan pulls towards weeks and clock times.** The first sketch had a "week overview" and messages with times of day. The PRD's plan has no days or times (D26), so the design has to keep the month as one unit.
+2. **The extra-shift trade-off is easy to get wrong.** Even the sketch mixed up which option gives 4 slots in December. The job view has to show both options side by side, each with its slots and kroner.
+3. **The future is tempting to show, but unknown.** A five-year total fits the ending screen; during play, only this year's spend is known.
+4. **Stating the lesson feels like school.** «Tid er like begrenset som penger» is the point of UJ-6, but the PRD has the player learn from consequences, so the figures should carry it.
+5. **A price alone isn't enough.** An activity card needs its effect on stress and social life too, or the player can't weigh time against money.
+
+**Assumptions still open** (from the Define step): that understanding in the game carries over to real choices, that results from 18–20-year-olds say something about 15–17-year-olds, and that wellbeing makes sense without making the game complicated. The playtest tests the first and the third; the second needs a later test with younger players.
 
 ---
 
