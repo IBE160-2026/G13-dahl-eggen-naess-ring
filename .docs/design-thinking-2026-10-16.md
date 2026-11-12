@@ -270,6 +270,29 @@ The screens to sketch for each concept. Each concept follows one scene from the 
 
 Twelve screens in all. Start with the first screen of each concept if there isn't time for all of them.
 
+#### Round 1 result: concept 2 sketched (2026-11-11)
+
+Sara sketched concept 2 by hand as six phone screens, following UJ-6 (`design/mobile-sketches/k2-01-03.pdf`, `k2-04-06.pdf`). The sketches are low-fi first drafts and are not revised. The notes below are carried into the digital round instead.
+
+| # | Screen | Covers |
+|---|---|---|
+| 1 | Home: November opens, wage, savings target, two new messages (Emma, the bank) | UJ-6 step 1; K2-02 |
+| 2 | Month plan: 3 of 4 slots, school and work as blocks, activity list with tick boxes | UJ-6 step 2; K2-01 |
+| 3 | Chosen activities: concert, evening with friends, rest night, total NOK 650 | UJ-6 step 3; K2-03 |
+| 4 | Job view: 14 h a week (10 + 4), keep or end the extra shifts, with slots and NOK 604 | UJ-6 step 4; K2-04 |
+| 5 | November result: activities −NOK 650, wellbeing parts, "concert and friends lifted social life" | UJ-6 step 5 |
+| 6 | The road ahead: December, January, savings target, a key insight | UJ-6 resolution |
+
+**What works.** The six screens follow UJ-6 step by step. A bottom bar with Hjem, Plan, Jobb and Økonomi is easy to read on a phone. The month plan works by tapping, not dragging (NFR-2). Money changes have signs. Screen 5 shows the point of UJ-6: the activities lifted social life.
+
+**For the digital round**
+- **Figures:** use the worked examples (brief addendum, examples 25 and 26): wage NOK 8,457; car licence NOK 32,500 at 79.8% when November opens; concert NOK 450, evening with friends NOK 200.
+- **Screen 4:** keeping the extra shifts gives 3 slots in December, and 4 from January. Ending them gives 4 from December and NOK 604 less a month. Show the kroner on both options, plus the hourly rate, expected pay and the hours limit (FR-56).
+- **Screen 6:** a five-year total belongs on the ending screen (FR-42). During play, show this year's activity spend by kind (FR-57). Let the figures carry the lesson rather than stating it (PRD §1). The screen is not in the PRD, and its content overlaps the job view and money view.
+- **No days or times within the month** (FR-52, D26): "Månedsoversikt", not "Ukesoversikt", and no clock times on messages.
+- **Activity cards** show their effect on stress and social life as well as the price (FR-53), for example concert +8 social life, rest night −5 stress (example 26a). Write "Stress ned" or "−5", not a bare minus.
+- **Not yet sketched:** «Legg i planen» on an invitation, a card the player can't afford («Mangler … kr»), and a place to read earlier messages (FR-54).
+
 ### Key Features to Test
 
 What the sketches should answer. The questions mirror the PRD's playtest targets (PRD §7.1), so the prototype prepares for the playtest instead of replacing it.
