@@ -126,17 +126,105 @@ Two narrower points of view support it:
 
 ## 💡 IDEATE: Generate Solutions
 
+The solution is set by the final PRD. This step does not decide *what* the game contains. It explores *how* the PRD's areas can be clear, engaging and easy to use, and gives the UX work a starting point. For each area there are two questions: how will the player understand it, and what makes them want to use it?
+
 ### Selected Methods
 
-{{ideation_methods}}
+- **Brainstorming from the How Might We questions:** quantity first, judgment deferred. Each HMW from the Define step was used as a prompt.
+- **Analogous inspiration:** apps and games this age group already knows. Life sims with need bars, farming games with seasons, bank apps with spending categories, chat apps, short-session learning apps, and year-in-review summaries. What they already understand needs no teaching.
+- **SCAMPER on the PRD's features:** what can be combined (the phone and the month plan), simplified (fewer taps), or reversed (show the consequence first, then the number).
+- **Provotypes:** deliberately extreme versions, to find the limits. They are not meant to be built.
+
+Ideas are tagged by what they mainly help with: **[C]** clear, the player understands it; **[E]** engaging, the player wants to use it; **[U]** easy to use. Every idea stays within the PRD; the anchor shows where.
 
 ### Generated Ideas
 
-{{generated_ideas}}
+#### Month plan (FR-52, FR-53)
+
+*Understand:* time is as limited as money. *Motivate:* the month is the player's own to plan, with real trade-offs.
+
+1. **The month as one bar, not a calendar.** School and work fill it as fixed blocks, and the free slots are the rest. When the player raises their hours, a work block visibly takes a slot. No days or times (D26). [C] — FR-52
+2. **Activity cards you can read at a glance.** Price, plus small up or down icons for stress and social life, in a size that works on a phone. [C][U] — FR-53
+3. **"Mangler 230 kr" on the card,** instead of a card that is greyed out without explanation. The player sees exactly what is missing. [C] — FR-53
+4. **"Samme som forrige måned" as a prominent button,** so a quiet month takes a few seconds. [U] — FR-52
+5. **The plan's running total** at the bottom, as in a shopping basket. [C] — FR-52 (engine figure)
+
+#### Phone (FR-54, FR-55)
+
+*Understand:* the world comes to the player through people they know. *Motivate:* it feels like their own life, not a task list.
+
+6. **A phone that looks like a familiar chat app,** with a recognisable sender for each kind: a friend, mum, the boss, the bank. Unbranded. [C][E] — FR-54
+7. **"Legg i planen" directly on an invitation,** so the player doesn't have to find the activity again in the month plan. [U] — FR-54 (an invitation is accepted by placing its activity)
+8. **An offer shows its consequence before the player takes it:** "+604 kr i måneden, 3 aktivitetsplasser i stedet for 4". [C] — FR-47, FR-56
+9. **Expired offers say «Utløpt»** and stay readable, so the player learns that opportunities have a deadline. [C] — FR-54
+10. **A calm inbox:** at most three new messages a month, marked new, and no red badges piling up across months. [U][E] — FR-54, FR-55
+
+#### Job view (FR-56, FR-47)
+
+*Understand:* more hours give more money and less free time. *Motivate:* the player feels in control of their own trade-off.
+
+11. **Hours control with a live preview** before confirming: "12 t/uke → 3 aktivitetsplasser · ca. X kr etter skatt". Which control is used is open (OQ-9). [C][U] — FR-56
+12. **A pay slip the player already recognises:** gross, tax and net, with frikort explained when it applies. A real-life skill. [C] — FR-20, FR-21
+
+#### Money view (FR-57, FR-45)
+
+*Understand:* where the money goes and what is coming. *Motivate:* a goal they chose themselves, getting closer.
+
+13. **The savings target as a picture with a progress bar:** the moped, "73 %", and "åpner om 7 måneder". [E][C] — FR-57
+14. **«Småtteri» by kind,** as in a bank app's spending categories: what concerts and evenings out have cost this year. This is insight 2 made visible. [C] — FR-57 (activity spend)
+15. **"Neste måned" as a list of bills,** like an invoice overview in a bank app, which also covers the survey's wish to learn about paying bills. [C] — FR-57 (upcoming costs)
+16. **Bank words with a tap-to-explain,** which leads to "Om tallene". [C] — FR-40
+
+#### Choices and consequences (FR-35 to FR-39)
+
+*Understand:* every change has a cause the player can find. *Motivate:* curiosity about what an earlier choice led to.
+
+17. **The ripple after a choice:** money, wellbeing, room and future opportunities change together in one short moment, so the link is seen, not explained. [C][E] — UJ-1 step 4, FR-34, FR-35
+18. **The echo badge names its origin:** "Fra: Byturen, måned 38". [C] — FR-37
+19. **"Hvorfor?" in the same place on every number that changed,** with an answer in one or two sentences and the choice as a link. [C][U] — FR-38
+20. **«Låst opp» and «Stengt» chips** after a choice: "Mopedlappen kan tas fra 16". [C][E] — FR-35
+
+#### Wellbeing (FR-33)
+
+*Understand:* money alone isn't winning. *Motivate:* the player cares about the person, not just the balance.
+
+21. **Three small meters (stress, free time, social life) with the threshold as a line,** and this month's activities shown as a lighter extension of the usual value. [C] — FR-33 (usual and this month)
+22. **Show or hide a choice's wellbeing effect before the pick:** two variants to test, since this is open (OQ-9). [C] — OQ-9
+
+#### Room (FR-34)
+
+*Understand:* choices change what the player owns. *Motivate:* a visible life that grows.
+
+23. **The room as the home screen,** where the newest belonging is gently highlighted, with a short text for screen readers. [E][C] — FR-34, NFR-2
+
+#### Ending and replay (FR-41 to FR-43)
+
+*Understand:* which choices mattered most. *Motivate:* wanting to try a different life.
+
+24. **Five years as a short series of cards,** in the style of a year-in-review summary: the ending, the three choices that mattered most, and the hollow win explained if that's how it went. [E][C] — FR-41, FR-42
+25. **A "hva om" card on each top choice,** leading straight to "Spill igjen". [E] — FR-39, FR-43
+
+#### First minutes and sessions (FR-9 to FR-16, FR-19)
+
+*Understand:* how the game works, without a tutorial. *Motivate:* reaching the first real choice fast and wanting to come back.
+
+26. **No tutorial screen:** the first choice comes within about two minutes, and tips appear where they are needed. [U][E] — UJ-1, FR-19, §7.1
+27. **The teaser at the end of a session as a cliffhanger card:** "Neste år kan du ta mopedlappen". [E] — FR-15, UJ-1
+28. **The recap on return as three lines:** where you are, what changed, what's next. [C][U] — FR-16
+
+#### Provotypes (not for building)
+
+- **P1. No numbers at all,** only feelings and the room. *Learning:* numbers must be there (NFR-4), but showing the consequence first and the number second may read better.
+- **P2. Everything as numbers,** like a spreadsheet. *Learning:* this is close to what made Koll på cashen feel heavy. Show the numbers that matter only where they are needed.
+- **P3. The bank as a sarcastic narrator.** *Learning:* senders can have a voice, but the tone must respect the player (NFR-8).
 
 ### Top Concepts
 
-{{top_concepts}}
+Three concepts were chosen to prototype (2026-11-11). Together they cover the PRD's main success signal and the two newest, least tested areas.
+
+1. **«Ringer i vannet»: the consequence moment** (ideas 17–20). After a choice, money, wellbeing, room and future opportunities change together. Later, an echo badge names the choice an effect came from, and "Hvorfor?" explains it. *Why:* this is the core of the PRD's main target, that 70% or more can explain how an earlier choice affected a later outcome (PRD §7.1). It answers insight 1, that the problem is foresight. PRD: FR-34 to FR-38.
+2. **«Måneden på én skjerm»: month plan, invitations and work hours together** (ideas 1–3, 7, 8, 11). The month is one bar of school, work and free slots. Invitations go straight into the plan, and changing hours shows what it costs in slots before the player confirms it. *Why:* this is the newest part of the PRD and the hardest to understand, and the counter-metrics check whether planning is ignored (PRD §7.2). It answers insight 3, that money, time and wellbeing are one problem. PRD: FR-47, FR-52 to FR-54, FR-56.
+3. **«Pengene som i en bankapp»: the money view** (ideas 13–15). The savings target is a picture with a progress bar, next month's costs are a list of bills, and «småtteri» shows activity spend by kind. *Why:* it makes small purchases that add up visible (insight 2) and builds on an app they already use, since 98% have a bank account and card. PRD: FR-45, FR-57.
 
 ---
 
