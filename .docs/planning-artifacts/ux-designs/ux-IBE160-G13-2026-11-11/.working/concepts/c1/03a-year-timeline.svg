@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+  <title>LifeMode – året som tidslinje (Story-feed)</title>
+  <defs>
+    <style>
+      .d{font-family:'Archivo Black','Arial Black',sans-serif}
+      .u{font-family:'Schibsted Grotesk',system-ui,sans-serif}
+    </style>
+    <symbol id="i-echo" viewBox="0 0 24 24"><path d="M4 11V9a3 3 0 0 1 3-3h11M15 3l3 3-3 3M20 13v2a3 3 0 0 1-3 3H6M9 21l-3-3 3-3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="16" r="1.7" fill="currentColor"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3h6l-1 6 4 4H6l4-4zM12 13v8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3l10 18H2z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 10v5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="18" r="1.3" fill="currentColor"/></symbol>
+  </defs>
+  <rect width="390" height="844" fill="#0D0E13"/>
+  <text x="28" y="31" class="u" font-size="15" font-weight="700" fill="#F5F3EE">14:32</text>
+  <g fill="#F5F3EE"><rect x="318" y="21" width="3" height="10" rx="1"/><rect x="323" y="18" width="3" height="13" rx="1"/><rect x="328" y="15" width="3" height="16" rx="1"/><rect x="339" y="17" width="24" height="13" rx="4" fill="none" stroke="#F5F3EE" stroke-width="1.5"/><rect x="341.5" y="19.5" width="16" height="8" rx="2"/></g>
+
+  <circle cx="38" cy="78" r="22" fill="#181A22"/>
+  <use href="#i-back" x="27" y="67" width="22" height="22" color="#F5F3EE"/>
+  <text x="72" y="80" class="d" font-size="24" fill="#F5F3EE" letter-spacing="-0.4">Året ditt</text>
+  <text x="72" y="98" class="u" font-size="13" font-weight="600" fill="#B4B6C4">15 år · måned 10 av 60</text>
+
+  <!--BIGTICKS:9:128-->
+
+  <g class="u" font-size="11.5" font-weight="700" fill="#B4B6C4">
+    <rect x="16" y="170" width="16" height="10" rx="3" fill="#F5F3EE"/><text x="38" y="179">Hendelse · 4 i året</text>
+    <rect x="152" y="173" width="16" height="4" rx="2" fill="#8C8FA0"/><text x="174" y="179">Stille måned</text>
+    <rect x="262" y="171" width="16" height="8" rx="3" fill="#C8FF2E"/><text x="284" y="179">Nå · oktober</text>
+  </g>
+
+  <rect x="20" y="237.5" width="354" height="1" fill="#1F2130"/>
+  <rect x="27" y="206.0" width="16" height="22" rx="4" fill="#F5F3EE" stroke="#F5F3EE" stroke-width="2"/>
+  <text x="58" y="215" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Jan</text>
+  <text x="58" y="229" class="u" font-size="10.5" font-weight="700" fill="#F5F3EE">hendelse</text>
+  <text x="118" y="222" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Pengegave: 18 400 kr</text>
+  <text x="366" y="222" class="u" font-size="12.5" font-weight="700" fill="#B4B6C4" text-anchor="end">sparte 3 000</text>
+  <rect x="20" y="279.5" width="354" height="1" fill="#1F2130"/>
+  <circle cx="35" cy="259.0" r="5" fill="#8C8FA0" stroke="#8C8FA0" stroke-width="2"/>
+  <text x="58" y="257" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Feb</text>
+  <text x="58" y="271" class="u" font-size="10.5" font-weight="700" fill="#8C8FA0">stille</text>
+  <text x="118" y="264" class="u" font-size="14" font-weight="600" fill="#B4B6C4">Kino med gjengen</text>
+  <text x="366" y="264" class="u" font-size="12.5" font-weight="700" fill="#B4B6C4" text-anchor="end">−140 kr</text>
+  <rect x="20" y="321.5" width="354" height="1" fill="#1F2130"/>
+  <circle cx="35" cy="301.0" r="5" fill="#8C8FA0" stroke="#8C8FA0" stroke-width="2"/>
+  <text x="58" y="299" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Mar</text>
+  <text x="58" y="313" class="u" font-size="10.5" font-weight="700" fill="#8C8FA0">stille</text>
+  <text x="118" y="306" class="u" font-size="14" font-weight="600" fill="#B4B6C4">Jobbtilbud fra butikken</text>
+  <text x="366" y="306" class="u" font-size="12.5" font-weight="700" fill="#B4B6C4" text-anchor="end">tok jobben</text>
+  <rect x="20" y="363.5" width="354" height="1" fill="#1F2130"/>
+  <rect x="27" y="332.0" width="16" height="22" rx="4" fill="#F5F3EE" stroke="#F5F3EE" stroke-width="2"/>
+  <text x="58" y="341" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Apr</text>
+  <text x="58" y="355" class="u" font-size="10.5" font-weight="700" fill="#F5F3EE">hendelse</text>
+  <text x="118" y="348" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Klassetur til Bergen</text>
+  <text x="366" y="348" class="u" font-size="12.5" font-weight="700" fill="#B4B6C4" text-anchor="end">−1 200 kr</text>
+  <rect x="20" y="405.5" width="354" height="1" fill="#1F2130"/>
+  <circle cx="35" cy="385.0" r="5" fill="#8C8FA0" stroke="#8C8FA0" stroke-width="2"/>
+  <text x="58" y="383" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Mai</text>
+  <text x="58" y="397" class="u" font-size="10.5" font-weight="700" fill="#8C8FA0">stille</text>
+  <text x="118" y="390" class="u" font-size="14" font-weight="600" fill="#B4B6C4">Lønn hver måned</text>
+  <text x="366" y="390" class="u" font-size="12.5" font-weight="700" fill="#C8FF2E" text-anchor="end">+5 907 kr</text>
+  <rect x="20" y="447.5" width="354" height="1" fill="#1F2130"/>
+  <circle cx="35" cy="427.0" r="5" fill="#8C8FA0" stroke="#8C8FA0" stroke-width="2"/>
+  <text x="58" y="425" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Jun</text>
+  <text x="58" y="439" class="u" font-size="10.5" font-weight="700" fill="#8C8FA0">stille</text>
+  <text x="118" y="432" class="u" font-size="14" font-weight="600" fill="#B4B6C4">Satte av til sparing</text>
+  <text x="366" y="432" class="u" font-size="12.5" font-weight="700" fill="#C8FF2E" text-anchor="end">+1 000 kr spart</text>
+  <rect x="20" y="489.5" width="354" height="1" fill="#1F2130"/>
+  <circle cx="35" cy="469.0" r="5" fill="#8C8FA0" stroke="#8C8FA0" stroke-width="2"/>
+  <text x="58" y="467" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Jul</text>
+  <text x="58" y="481" class="u" font-size="10.5" font-weight="700" fill="#8C8FA0">stille</text>
+  <text x="118" y="474" class="u" font-size="14" font-weight="600" fill="#B4B6C4">Konsert med Emma</text>
+  <text x="366" y="474" class="u" font-size="12.5" font-weight="700" fill="#B4B6C4" text-anchor="end">−450 kr</text>
+  <rect x="20" y="531.5" width="354" height="1" fill="#1F2130"/>
+  <rect x="27" y="500.0" width="16" height="22" rx="4" fill="#F5F3EE" stroke="#F5F3EE" stroke-width="2"/>
+  <text x="58" y="509" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Aug</text>
+  <text x="58" y="523" class="u" font-size="10.5" font-weight="700" fill="#F5F3EE">hendelse</text>
+  <text x="118" y="516" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Forsikring? Sa nei</text>
+  <rect x="276" y="500" width="92" height="22" rx="11" fill="#FF4F8B"/><use href="#i-echo" x="283" y="504" width="14" height="14" color="#0D0E13"/><text x="301" y="515.5" class="u" font-size="11.5" font-weight="800" fill="#0D0E13">kan gi ekko</text>
+  <rect x="20" y="573.5" width="354" height="1" fill="#1F2130"/>
+  <circle cx="35" cy="553.0" r="5" fill="#8C8FA0" stroke="#8C8FA0" stroke-width="2"/>
+  <text x="58" y="551" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Sep</text>
+  <text x="58" y="565" class="u" font-size="10.5" font-weight="700" fill="#8C8FA0">stille</text>
+  <text x="118" y="558" class="u" font-size="14" font-weight="600" fill="#B4B6C4">Tilbud: ekstravakter</text>
+  <text x="366" y="558" class="u" font-size="12.5" font-weight="700" fill="#B4B6C4" text-anchor="end">sa ja</text>
+  <rect x="12" y="575" width="366" height="40" rx="14" fill="#C8FF2E" fill-opacity="0.10" stroke="#C8FF2E" stroke-width="1.5"/>
+  <circle cx="35" cy="595.0" r="9" fill="none" stroke="#C8FF2E" stroke-width="3"/><circle cx="35" cy="595.0" r="3.5" fill="#C8FF2E"/>
+  <text x="58" y="593" class="u" font-size="14" font-weight="800" fill="#C8FF2E">Okt</text>
+  <text x="58" y="607" class="u" font-size="10.5" font-weight="700" fill="#C8FF2E">nå</text>
+  <text x="118" y="600" class="u" font-size="14" font-weight="800" fill="#F5F3EE">3 aktivitetsplasser</text>
+  <rect x="318" y="584" width="48" height="22" rx="11" fill="#C8FF2E"/><text x="342" y="599.5" class="u" font-size="12" font-weight="800" fill="#0D0E13" text-anchor="middle">NÅ</text>
+  <rect x="20" y="657.5" width="354" height="1" fill="#1F2130"/>
+  <rect x="27" y="626.0" width="16" height="22" rx="4" fill="none" stroke="#8C8FA0" stroke-width="2"/>
+  <text x="58" y="635" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Nov</text>
+  <text x="58" y="649" class="u" font-size="10.5" font-weight="700" fill="#F5F3EE">hendelse</text>
+  <text x="118" y="642" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Hendelse venter</text>
+  <text x="366" y="642" class="u" font-size="12.5" font-weight="700" fill="#B4B6C4" text-anchor="end">ukjent</text>
+  <circle cx="35" cy="679.0" r="5" fill="none" stroke="#8C8FA0" stroke-width="2"/>
+  <text x="58" y="677" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Des</text>
+  <text x="58" y="691" class="u" font-size="10.5" font-weight="700" fill="#8C8FA0">stille</text>
+  <text x="118" y="684" class="u" font-size="14" font-weight="600" fill="#B4B6C4">Årsslutt og teaser</text>
+
+  <!-- next unlock, like an upcoming story -->
+  <rect x="16" y="712" width="358" height="76" rx="20" fill="#181A22" stroke="#C8FF2E" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <circle cx="46" cy="750" r="18" fill="#0D0E13"/>
+  <use href="#i-lock" x="35" y="739" width="22" height="22" color="#C8FF2E"/>
+  <text x="74" y="737" class="u" font-size="11.5" font-weight="700" fill="#B4B6C4">Måned 13 · du fyller 16</text>
+  <text x="74" y="757" class="u" font-size="15" font-weight="800" fill="#F5F3EE">Mopedlappen åpner</text>
+  <text x="74" y="775" class="u" font-size="12" font-weight="600" fill="#B4B6C4">ca. 11 500 kr · du har 4 140 kr</text>
+  <rect x="262" y="728" width="100" height="44" rx="22" fill="#C8FF2E"/>
+  <use href="#i-pin" x="272" y="741" width="18" height="18" color="#0D0E13"/>
+  <text x="324" y="755" class="u" font-size="13" font-weight="800" fill="#0D0E13" text-anchor="middle">Fest mål</text>
+
+  <use href="#i-warn" x="16" y="801" width="16" height="16" color="#FFB020"/>
+  <text class="u" font-size="12" font-weight="600" fill="#B4B6C4">
+    <tspan x="40" y="813">Går brukskontoen under 0 kr, blir neste måned en</tspan>
+    <tspan x="40" y="830">krisemåned. Kortvarsel finnes først fra 18 år.</tspan>
+  </text>
+</svg>

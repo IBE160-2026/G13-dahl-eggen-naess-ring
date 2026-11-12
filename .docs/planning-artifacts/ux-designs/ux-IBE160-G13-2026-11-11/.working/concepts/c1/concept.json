@@ -1,0 +1,4 @@
+{"id":"c1","name":"Månedsfeed","tagline":"Livet ditt fra 15 til 20 – én story om gangen.",
+ "fonts":["Archivo Black","Schibsted Grotesk"],
+ "palette":[{"name":"Natt (bakgrunn)","hex":"#0D0E13"},{"name":"Flate","hex":"#181A22"},{"name":"Flate 2","hex":"#22252F"},{"name":"Tekst","hex":"#F5F3EE"},{"name":"Tekst dempet","hex":"#B4B6C4"},{"name":"Volt (handling, inn, nå)","hex":"#C8FF2E"},{"name":"Puls (ekko, reaksjon)","hex":"#FF4F8B"},{"name":"Varsel","hex":"#FFB020"}],
+ "files":["01-landing.svg","02-lifemode-hub.svg","03a-year-timeline.svg","03b-month-plan.svg","04a-highlight-event.svg","04b-event-result.svg","05a-phone-inbox.svg","05b-phone-message.svg","06-money-view.svg","07-all-pages.svg"]}

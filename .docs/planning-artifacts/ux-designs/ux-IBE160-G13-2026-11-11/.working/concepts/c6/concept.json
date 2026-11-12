@@ -1,0 +1,15 @@
+{"id":"c6","name":"Rommet","tagline":"Rommet ditt er spillet: trykk på telefonen, kalenderen, sparegrisen eller forkleet – og se rommet vokse med valgene dine.",
+ "fonts":["Fraunces","Atkinson Hyperlegible"],
+ "palette":[
+  {"name":"Blekk","hex":"#2A221D"},
+  {"name":"Papir","hex":"#FBF6EC"},
+  {"name":"Havre (vegg)","hex":"#EADCC5"},
+  {"name":"Furu (primær)","hex":"#2F5547"},
+  {"name":"Panel-grønn","hex":"#4E7565"},
+  {"name":"Bjørk (gulv)","hex":"#D4AE80"},
+  {"name":"Rust","hex":"#B0532F"},
+  {"name":"Rust tekst (minus)","hex":"#9A3F1F"},
+  {"name":"Oker (lampelys, nytt)","hex":"#E2A53C"},
+  {"name":"Skumring","hex":"#34506B"},
+  {"name":"Natt","hex":"#1E2833"}],
+ "files":["01-landing.svg","02-lifemode-hub.svg","03a-year-timeline.svg","03b-month-plan.svg","04a-highlight-event.svg","04b-event-result.svg","05-phone-messages.svg","06-money-view.svg","07-all-pages.svg"]}

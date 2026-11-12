@@ -1,0 +1,14 @@
+{"id":"c8","name":"Linjekart","tagline":"Fem år. Seksti stopp. Du velger sporet.",
+ "fonts":["Schibsted Grotesk","JetBrains Mono"],
+ "palette":[
+  {"name":"Papir","hex":"#FFFFFF"},
+  {"name":"Blekk","hex":"#111111"},
+  {"name":"Tavle","hex":"#121212"},
+  {"name":"Tavle-rav","hex":"#FFB81C"},
+  {"name":"Hovedlinja","hex":"#1F4FD8"},
+  {"name":"Sparelinja","hex":"#007A52"},
+  {"name":"Mopedlinja","hex":"#F2A900"},
+  {"name":"Kortlinja","hex":"#D1006B"},
+  {"name":"Krise","hex":"#C21F12"},
+  {"name":"Stille grå","hex":"#595959"}],
+ "files":["01-landing.svg","02-lifemode-hub.svg","03a-year-timeline.svg","03b-month-plan.svg","04a-highlight-event.svg","04b-event-result.svg","05-phone-messages.svg","06-money-view.svg","07-all-pages.svg"]}

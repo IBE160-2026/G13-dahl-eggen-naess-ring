@@ -1,0 +1,14 @@
+{"id":"c7","name":"Kortstokk","tagline":"Spill kortene. Lev med dem.",
+ "fonts":["Archivo Black","Archivo Narrow"],
+ "palette":[
+  {"name":"Bord (table)","hex":"#0E1116"},
+  {"name":"Bord hevet","hex":"#171C25"},
+  {"name":"Kortpapp (card stock)","hex":"#F4ECDA"},
+  {"name":"Blekk (ink)","hex":"#14110D"},
+  {"name":"Eiendel / gull","hex":"#FFC229"},
+  {"name":"Invitasjon / mynte","hex":"#2EE6A8"},
+  {"name":"Tilbud / kobolt","hex":"#6E95FF"},
+  {"name":"Hendelse / signal","hex":"#FF5A36"},
+  {"name":"Vanlig / grafitt","hex":"#3B4352"},
+  {"name":"Krise","hex":"#FF3D7F"}],
+ "files":["01-landing.svg","02-lifemode-hub.svg","03a-year-timeline.svg","03b-month-plan.svg","04a-highlight-event.svg","04b-event-result.svg","05-phone-messages.svg","06-money-view.svg","07-all-pages.svg"]}

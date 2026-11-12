@@ -1,0 +1,4 @@
+{"id":"c5","name":"Riso-zine","tagline":"Et liv i 60 utgaver – hver måned er et nytt oppslag i din egen zine.",
+ "fonts":["Big Shoulders Display","Courier Prime","Permanent Marker"],
+ "palette":[{"name":"Papir","hex":"#F2EFE8"},{"name":"Blekk","hex":"#1D1B20"},{"name":"Fluor-rosa","hex":"#FF4FA3"},{"name":"Riso-blå","hex":"#2257C7"},{"name":"Dyp rosa (tekst)","hex":"#B3125F"},{"name":"Tape","hex":"#E3DAC3"}],
+ "files":["01-landing.svg","02-lifemode-hub.svg","03a-year-timeline.svg","03b-month-plan.svg","04a-highlight-event.svg","04b-event-result.svg","05-phone-messages.svg","06-money-view.svg","07-all-pages.svg"]}

@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+  <title>LifeMode – månedsplan (Story-feed)</title>
+  <defs>
+    <style>
+      .d{font-family:'Archivo Black','Arial Black',sans-serif}
+      .u{font-family:'Schibsted Grotesk',system-ui,sans-serif}
+    </style>
+    <symbol id="i-echo" viewBox="0 0 24 24"><path d="M4 11V9a3 3 0 0 1 3-3h11M15 3l3 3-3 3M20 13v2a3 3 0 0 1-3 3H6M9 21l-3-3 3-3" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-q" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.2 9.3a2.9 2.9 0 0 1 5.6.9c0 2-2.8 2.3-2.8 4.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17.6" r="1.3" fill="currentColor"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="16" r="1.7" fill="currentColor"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3h6l-1 6 4 4H6l4-4zM12 13v8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14l-4-4M20 16H6l4 4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-house" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 9.5V20h14V9.5M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9l9-5 9 5M5 10v8M10 10v8M14 10v8M19 10v8M3 20h18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-room" viewBox="0 0 24 24"><path d="M3 20V8l9-5 9 5v12M3 20h18M7 20v-6h6v6M15 11h3v3h-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M2.5 10h19" stroke="currentColor" stroke-width="2.2"/></symbol>
+
+    <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#22252F"/><rect width="3" height="8" fill="#2E3140"/></pattern>
+    <pattern id="hatchL" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#3A4A12"/><rect width="3" height="8" fill="#4F6418"/></pattern>
+  </defs>
+  <rect width="390" height="844" fill="#0D0E13"/>
+  <text x="28" y="31" class="u" font-size="15" font-weight="700" fill="#F5F3EE">14:32</text>
+  <g fill="#F5F3EE"><rect x="318" y="21" width="3" height="10" rx="1"/><rect x="323" y="18" width="3" height="13" rx="1"/><rect x="328" y="15" width="3" height="16" rx="1"/><rect x="339" y="17" width="24" height="13" rx="4" fill="none" stroke="#F5F3EE" stroke-width="1.5"/><rect x="341.5" y="19.5" width="16" height="8" rx="2"/></g>
+  <g><rect x="16.00" y="48.0" width="27.08" height="8" rx="4" fill="#F5F3EE"/><rect x="46.08" y="50.0" width="27.08" height="4" rx="2" fill="#F5F3EE"/><rect x="76.17" y="50.0" width="27.08" height="4" rx="2" fill="#F5F3EE"/><rect x="106.25" y="48.0" width="27.08" height="8" rx="4" fill="#F5F3EE"/><rect x="136.33" y="50.0" width="27.08" height="4" rx="2" fill="#F5F3EE"/><rect x="166.42" y="50.0" width="27.08" height="4" rx="2" fill="#F5F3EE"/><rect x="196.50" y="50.0" width="27.08" height="4" rx="2" fill="#F5F3EE"/><rect x="226.58" y="48.0" width="27.08" height="8" rx="4" fill="#F5F3EE"/><rect x="256.67" y="50.0" width="27.08" height="4" rx="2" fill="#F5F3EE"/><rect x="286.75" y="50.0" width="27.08" height="4" rx="2" fill="#353847"/><rect x="286.75" y="50.0" width="14.90" height="4" rx="2" fill="#C8FF2E"/><rect x="316.83" y="48.0" width="27.08" height="8" rx="4" fill="#353847"/><rect x="346.92" y="50.0" width="27.08" height="4" rx="2" fill="#353847"/></g>
+  <circle cx="38" cy="88" r="22" fill="#181A22"/><use href="#i-back" x="27" y="77" width="22" height="22" color="#F5F3EE"/>
+  <text x="72" y="90" class="d" font-size="24" font-weight="400" fill="#F5F3EE">Oktoberplanen</text>
+  <text x="72" y="109" class="u" font-size="13" font-weight="600" fill="#B4B6C4">15 år · måned 10 av 60</text>
+  <text x="16" y="146" class="u" font-size="13" font-weight="700" fill="#B4B6C4">Tiden din i oktober</text>
+  <rect x="16" y="156" width="150" height="40" rx="10" fill="url(#hatch)"/>
+  <rect x="170" y="156" width="70" height="40" rx="10" fill="url(#hatchL)"/>
+  <rect x="244" y="156" width="40" height="40" rx="10" fill="#FF4F8B"/>
+  <rect x="288" y="156" width="40" height="40" rx="10" fill="#F5F3EE"/>
+  <rect x="332" y="156" width="42" height="40" rx="10" fill="none" stroke="#B4B6C4" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <text x="28" y="181" class="u" font-size="12.5" font-weight="800" fill="#F5F3EE">Skole · fast</text>
+  <text x="180" y="181" class="u" font-size="12.5" font-weight="800" fill="#F5F3EE">Jobb 12 t</text>
+  <text x="16" y="216" class="u" font-size="12.5" font-weight="600" fill="#B4B6C4">Skole og jobb er låst. Fritiden blir til</text>
+  <text x="16" y="233" class="u" font-size="12.5" font-weight="800" fill="#F5F3EE">3 plasser denne måneden – vanligvis 4.</text>
+  <rect x="16" y="244" width="358" height="30" rx="15" fill="#FF4F8B"/>
+  <use href="#i-echo" x="27" y="251" width="16" height="16" color="#0D0E13"/>
+  <text x="50" y="264" class="u" font-size="12.5" font-weight="800" fill="#0D0E13">Ekko: ekstravaktene fra september tar én plass</text>
+  <rect x="16" y="288" width="112" height="158" rx="20" fill="#FF4F8B"/>
+  <text x="30" y="310" class="u" font-size="11" font-weight="800" fill="#0D0E13">Plass 1</text>
+  <circle cx="108" cy="306" r="11" fill="#0D0E13" fill-opacity="0.18"/><use href="#i-x" x="101" y="299" width="14" height="14" color="#0D0E13"/>
+  <circle cx="44" cy="338" r="14" fill="#C8FF2E"/><text x="44" y="343" class="u" font-size="13" font-weight="800" fill="#0D0E13" text-anchor="middle">E</text>
+  <text x="30" y="374" class="u" font-size="15" font-weight="800" fill="#0D0E13">Konsert</text>
+  <text x="30" y="391" class="u" font-size="15" font-weight="800" fill="#0D0E13">med Emma</text>
+  <text x="30" y="409" class="u" font-size="13" font-weight="800" fill="#0D0E13">−450 kr</text>
+  <text x="30" y="425" class="u" font-size="11" font-weight="700" fill="#0D0E13">Sosialt +8</text><text x="30" y="439" class="u" font-size="11" font-weight="700" fill="#0D0E13">Stress −2</text>
+
+  <rect x="139" y="288" width="112" height="158" rx="20" fill="#F5F3EE"/>
+  <text x="153" y="310" class="u" font-size="11" font-weight="800" fill="#0D0E13">Plass 2</text>
+  <circle cx="231" cy="306" r="11" fill="#0D0E13" fill-opacity="0.12"/><use href="#i-x" x="224" y="299" width="14" height="14" color="#0D0E13"/>
+  <circle cx="167" cy="338" r="14" fill="#0D0E13"/><text x="167" y="343" class="u" font-size="13" font-weight="800" fill="#F5F3EE" text-anchor="middle">G</text>
+  <text x="153" y="374" class="u" font-size="15" font-weight="800" fill="#0D0E13">Kveld med</text>
+  <text x="153" y="391" class="u" font-size="15" font-weight="800" fill="#0D0E13">gjengen</text>
+  <text x="153" y="412" class="u" font-size="13" font-weight="800" fill="#0D0E13">Gratis · 0 kr</text>
+  <text x="153" y="429" class="u" font-size="10.5" font-weight="700" fill="#0D0E13">Sosialt +5</text>
+
+  <rect x="262" y="288" width="112" height="158" rx="20" fill="none" stroke="#B4B6C4" stroke-width="1.8" stroke-dasharray="6 5"/>
+  <text x="276" y="310" class="u" font-size="11" font-weight="800" fill="#B4B6C4">Plass 3</text>
+  <circle cx="318" cy="350" r="22" fill="#22252F"/><use href="#i-plus" x="306" y="338" width="24" height="24" color="#C8FF2E"/>
+  <text x="318" y="398" class="u" font-size="14" font-weight="800" fill="#F5F3EE" text-anchor="middle">Ledig</text>
+  <text x="318" y="416" class="u" font-size="11.5" font-weight="600" fill="#B4B6C4" text-anchor="middle">velg under</text>
+  <rect x="16" y="458" width="214" height="44" rx="22" fill="none" stroke="#F5F3EE" stroke-width="1.5"/>
+  <use href="#i-swap" x="30" y="470" width="20" height="20" color="#F5F3EE"/>
+  <text x="56" y="485" class="u" font-size="13" font-weight="800" fill="#F5F3EE">Samme som i september</text>
+  <text x="374" y="470" class="u" font-size="13" font-weight="800" fill="#F5F3EE" text-anchor="end">Planlagt: −450 kr</text>
+  <text x="374" y="488" class="u" font-size="11.5" font-weight="600" fill="#B4B6C4" text-anchor="end">trekkes når du fortsetter</text>
+  <text x="16" y="526" class="u" font-size="13" font-weight="700" fill="#B4B6C4">Trykk for å legge i ledig plass</text>
+  <rect x="16" y="538" width="358" height="56" rx="16" fill="#181A22"/>
+  <text x="32" y="562" class="u" font-size="15" font-weight="800" fill="#F5F3EE">Hvilekveld</text>
+  <text x="32" y="581" class="u" font-size="12" font-weight="600" fill="#B4B6C4"><tspan fill="#F5F3EE" font-weight="800">Gratis</tspan>  ·  Stress −6</text>
+  <circle cx="348" cy="566" r="20" fill="#C8FF2E"/><use href="#i-plus" x="337" y="555" width="22" height="22" color="#0D0E13"/>
+  <rect x="16" y="600" width="358" height="56" rx="16" fill="#181A22"/>
+  <text x="32" y="624" class="u" font-size="15" font-weight="800" fill="#F5F3EE">Gaming hjemme</text>
+  <text x="32" y="643" class="u" font-size="12" font-weight="600" fill="#B4B6C4"><tspan fill="#F5F3EE" font-weight="800">Gratis</tspan>  ·  Stress −3 · Sosialt +1</text>
+  <circle cx="348" cy="628" r="20" fill="#C8FF2E"/><use href="#i-plus" x="337" y="617" width="22" height="22" color="#0D0E13"/>
+  <rect x="16" y="662" width="358" height="56" rx="16" fill="#181A22"/>
+  <text x="32" y="686" class="u" font-size="15" font-weight="800" fill="#F5F3EE">Kino med Jonas</text>
+  <text x="32" y="705" class="u" font-size="12" font-weight="600" fill="#B4B6C4"><tspan fill="#F5F3EE" font-weight="800">−140 kr</tspan>  ·  Sosialt +4 · invitasjon</text>
+  <circle cx="348" cy="690" r="20" fill="#C8FF2E"/><use href="#i-plus" x="337" y="679" width="22" height="22" color="#0D0E13"/>
+  <rect x="16" y="724" width="358" height="56" rx="16" fill="none" stroke="#2E3140" stroke-width="1.5"/>
+  <text x="32" y="748" class="u" font-size="15" font-weight="800" fill="#8C8FA0">Skitur med klassen</text>
+  <text x="32" y="767" class="u" font-size="12" font-weight="600" fill="#8C8FA0">−4 300 kr  ·  Sosialt +9 · Stress −3</text>
+  <rect x="250" y="740" width="114" height="24" rx="12" fill="#22252F" stroke="#FFB020" stroke-width="1.2"/>
+  <use href="#i-lock" x="259" y="745" width="14" height="14" color="#FFB020"/>
+  <text x="277" y="756.5" class="u" font-size="11.5" font-weight="800" fill="#FFB020">Mangler 610 kr</text>
+  <rect x="16" y="790" width="358" height="48" rx="24" fill="#C8FF2E"/>
+  <text x="195" y="819" class="u" font-size="16" font-weight="800" fill="#0D0E13" text-anchor="middle">Ferdig – tilbake til oktober</text>
+</svg>

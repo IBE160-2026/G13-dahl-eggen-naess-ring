@@ -1,0 +1,4 @@
+{"id":"c4","name":"Mobilen (Ly)","tagline":"Fem år av livet ditt – på én oppdiktet mobil.",
+ "fonts":["Bricolage Grotesque","Schibsted Grotesk"],
+ "palette":[{"name":"Blåtime","hex":"#17214A"},{"name":"Snø","hex":"#F4EFE6"},{"name":"Blekk","hex":"#141A2E"},{"name":"Multe","hex":"#F08A3C"},{"name":"Rogn","hex":"#C4553B"},{"name":"Fjord","hex":"#2B686E"},{"name":"Brunost","hex":"#C98A35"},{"name":"Bjørk","hex":"#8BAA62"},{"name":"Gull (Minner)","hex":"#E7B84E"},{"name":"Mose (pluss)","hex":"#356534"},{"name":"Rips (minus)","hex":"#AE2439"}],
+ "files":["01-landing.svg","02-lifemode-hub.svg","03a-year-timeline.svg","03b-month-plan.svg","04a-highlight-event.svg","04b-event-result.svg","05-phone-messages.svg","06-money-view.svg","07-all-pages.svg"]}

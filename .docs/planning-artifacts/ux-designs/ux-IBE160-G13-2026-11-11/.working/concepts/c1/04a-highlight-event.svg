@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+  <title>LifeMode – hendelse i april (Story-feed)</title>
+  <defs>
+    <style>
+      .d{font-family:'Archivo Black','Arial Black',sans-serif}
+      .u{font-family:'Schibsted Grotesk',system-ui,sans-serif}
+    </style>
+    <symbol id="i-echo" viewBox="0 0 24 24"><path d="M4 11V9a3 3 0 0 1 3-3h11M15 3l3 3-3 3M20 13v2a3 3 0 0 1-3 3H6M9 21l-3-3 3-3" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-q" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.2 9.3a2.9 2.9 0 0 1 5.6.9c0 2-2.8 2.3-2.8 4.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17.6" r="1.3" fill="currentColor"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="16" r="1.7" fill="currentColor"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3h6l-1 6 4 4H6l4-4zM12 13v8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14l-4-4M20 16H6l4 4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-house" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 9.5V20h14V9.5M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9l9-5 9 5M5 10v8M10 10v8M14 10v8M19 10v8M3 20h18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-room" viewBox="0 0 24 24"><path d="M3 20V8l9-5 9 5v12M3 20h18M7 20v-6h6v6M15 11h3v3h-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M2.5 10h19" stroke="currentColor" stroke-width="2.2"/></symbol>
+
+  </defs>
+  <rect width="390" height="844" fill="#0D0E13"/>
+  <path d="M0 0H390V460Q390 484 366 484H24Q0 484 0 460Z" fill="#FF4F8B"/>
+  <text x="28" y="31" class="u" font-size="15" font-weight="700" fill="#0D0E13">14:32</text>
+  <g fill="#0D0E13"><rect x="318" y="21" width="3" height="10" rx="1"/><rect x="323" y="18" width="3" height="13" rx="1"/><rect x="328" y="15" width="3" height="16" rx="1"/><rect x="339" y="17" width="24" height="13" rx="4" fill="none" stroke="#0D0E13" stroke-width="1.5"/><rect x="341.5" y="19.5" width="16" height="8" rx="2"/></g>
+  <g><rect x="16.00" y="48.0" width="27.08" height="8" rx="4" fill="#0D0E13"/><rect x="46.08" y="50.0" width="27.08" height="4" rx="2" fill="#0D0E13"/><rect x="76.17" y="50.0" width="27.08" height="4" rx="2" fill="#0D0E13"/><rect x="106.25" y="48.0" width="27.08" height="8" rx="4" fill="#B8396A"/><rect x="106.25" y="48.0" width="10.83" height="8" rx="4" fill="#F5F3EE"/><rect x="136.33" y="50.0" width="27.08" height="4" rx="2" fill="#B8396A"/><rect x="166.42" y="50.0" width="27.08" height="4" rx="2" fill="#B8396A"/><rect x="196.50" y="50.0" width="27.08" height="4" rx="2" fill="#B8396A"/><rect x="226.58" y="48.0" width="27.08" height="8" rx="4" fill="#B8396A"/><rect x="256.67" y="50.0" width="27.08" height="4" rx="2" fill="#B8396A"/><rect x="286.75" y="50.0" width="27.08" height="4" rx="2" fill="#B8396A"/><rect x="316.83" y="48.0" width="27.08" height="8" rx="4" fill="#B8396A"/><rect x="346.92" y="50.0" width="27.08" height="4" rx="2" fill="#B8396A"/></g>
+  <circle cx="38" cy="86" r="20" fill="#0D0E13"/><text x="38" y="91.5" class="u" font-size="15" font-weight="800" fill="#FF4F8B" text-anchor="middle">M</text>
+  <text x="68" y="82" class="u" font-size="15" font-weight="800" fill="#0D0E13">Mamma</text>
+  <text x="68" y="99" class="u" font-size="12.5" font-weight="700" fill="#0D0E13">familie · hendelse i april</text>
+  <circle cx="352" cy="86" r="22" fill="#0D0E13" fill-opacity="0.14"/><use href="#i-x" x="341" y="75" width="22" height="22" color="#0D0E13"/>
+  <text x="22" y="162" class="d" font-size="44" font-weight="400" fill="#0D0E13" letter-spacing="-1.2">Skjermen</text>
+  <text x="22" y="210" class="d" font-size="44" font-weight="400" fill="#0D0E13" letter-spacing="-1.2">er knust.</text>
+  <text class="u" font-size="15" font-weight="600" fill="#0D0E13">
+    <tspan x="22" y="250">Mobilen gled ut av lomma</tspan>
+    <tspan x="22" y="271">i gangen. Den virker, men</tspan>
+    <tspan x="22" y="292">sprekken går over halve</tspan>
+    <tspan x="22" y="313">skjermen.</tspan>
+  </text>
+  <g transform="translate(6 6) rotate(12 306 300)">
+    <rect x="258" y="226" width="96" height="168" rx="18" fill="#0D0E13"/>
+    <rect x="265" y="236" width="82" height="148" rx="12" fill="#2A2D3A"/>
+    <path d="M300 236l-8 40 18 14-22 36 14 22-10 36M292 276l-27 12M310 290l37-6M288 326l-23 -4M302 348l45 10" fill="none" stroke="#F5F3EE" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <rect x="292" y="229" width="28" height="4" rx="2" fill="#2A2D3A"/>
+  </g>
+  <rect x="22" y="338" width="230" height="32" rx="16" fill="#0D0E13"/>
+  <use href="#i-echo" x="33" y="346" width="16" height="16" color="#FF4F8B"/>
+  <text x="56" y="359" class="u" font-size="13" font-weight="800" fill="#FF4F8B">Ekko fra august</text>
+  <text x="22" y="398" class="u" font-size="13.5" font-weight="700" fill="#0D0E13">I august sa du nei takk til</text>
+  <text x="22" y="416" class="u" font-size="13.5" font-weight="700" fill="#0D0E13">mobilforsikring til 49 kr i måneden.</text>
+  <use href="#i-bulb" x="22" y="436" width="16" height="16" color="#0D0E13"/>
+  <text x="44" y="449" class="u" font-size="12" font-weight="700" fill="#0D0E13">Tips: reparasjon er ofte billigere enn nytt.</text>
+  <text x="22" y="510" class="u" font-size="11.5" font-weight="700" fill="#B4B6C4">Brukskonto</text>
+  <text x="22" y="529" class="u" font-size="14" font-weight="800" fill="#F5F3EE">2 180 kr</text>
+  <text x="111" y="510" class="u" font-size="11.5" font-weight="700" fill="#B4B6C4">Sparekonto</text>
+  <text x="111" y="529" class="u" font-size="14" font-weight="800" fill="#F5F3EE">6 100 kr</text>
+  <text x="200" y="510" class="u" font-size="11.5" font-weight="700" fill="#B4B6C4">Gjeld</text>
+  <text x="200" y="529" class="u" font-size="14" font-weight="800" fill="#F5F3EE">0 kr</text>
+  <text x="289" y="510" class="u" font-size="11.5" font-weight="700" fill="#B4B6C4">Faste</text>
+  <text x="289" y="529" class="u" font-size="14" font-weight="800" fill="#F5F3EE">499 kr/mnd</text>
+  <text x="22" y="568" class="u" font-size="16" font-weight="800" fill="#F5F3EE">Hva gjør du?</text>
+  <text x="368" y="568" class="u" font-size="12" font-weight="700" fill="#8C8FA0" text-anchor="end">ett valg</text>
+  <rect x="16" y="582" width="358" height="70" rx="20" fill="none" stroke="#2E3140" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="32" y="612" class="u" font-size="16" font-weight="800" fill="#8C8FA0">Kjøp ny toppmodell</text>
+  <text x="32" y="634" class="u" font-size="12.5" font-weight="600" fill="#8C8FA0">Stress −4 · Sosialt +3</text>
+  <text x="358" y="613" class="d" font-size="17" font-weight="400" fill="#8C8FA0" text-anchor="end">−8 990 kr</text>
+  <use href="#i-lock" x="262" y="623" width="13" height="13" color="#FFB020"/><text x="358" y="634" class="u" font-size="11.5" font-weight="800" fill="#FFB020" text-anchor="end">Mangler 710 kr</text>
+  <rect x="16" y="660" width="358" height="70" rx="20" fill="#181A22" stroke="#3A3E50" stroke-width="1"/>
+  <text x="32" y="690" class="u" font-size="16" font-weight="800" fill="#F5F3EE">Bytt skjerm hos reparatør</text>
+  <text x="32" y="712" class="u" font-size="12.5" font-weight="600" fill="#B4B6C4">Stress −2 · Sosialt ±0</text>
+  <text x="358" y="691" class="d" font-size="17" font-weight="400" fill="#F5F3EE" text-anchor="end">−1 490 kr</text>
+  <text x="358" y="712" class="u" font-size="11.5" font-weight="600" fill="#8C8FA0" text-anchor="end">betaler du nå</text>
+  <rect x="16" y="738" width="358" height="70" rx="20" fill="#181A22" stroke="#3A3E50" stroke-width="1"/>
+  <text x="32" y="768" class="u" font-size="16" font-weight="800" fill="#F5F3EE">Lev med sprekken en stund</text>
+  <text x="32" y="790" class="u" font-size="12.5" font-weight="600" fill="#B4B6C4">Stress +3 · Sosialt −1</text>
+  <text x="358" y="769" class="d" font-size="17" font-weight="400" fill="#C8FF2E" text-anchor="end">Gratis</text>
+  <text x="358" y="790" class="u" font-size="11.5" font-weight="600" fill="#8C8FA0" text-anchor="end">0 kr</text>
+  <text x="195" y="832" class="u" font-size="12" font-weight="600" fill="#8C8FA0" text-anchor="middle">Trykk på et valg. Du ser hva det gjør før neste måned.</text>
+</svg>

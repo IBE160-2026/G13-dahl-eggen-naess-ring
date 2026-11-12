@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+<title>LifeMode – Linjekart – Hendelse (overgang)</title>
+<style>
+.g{font-family:'Schibsted Grotesk','Helvetica Neue',Helvetica,Arial,sans-serif}
+.m{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace}
+.b{font-weight:700}.sb{font-weight:600}.xb{font-weight:800}
+.mut{fill:#595959}.w{fill:#fff}.amb{fill:#FFB81C}.lt{fill:#D6D6D6}.k{fill:#111}
+.cob{fill:#1F4FD8}.grn{fill:#006644}.mag{fill:#B0005A}.red{fill:#C21F12}
+</style>
+<defs>
+<g id="echo" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M-5 3.5 H2.5 A3.25 3.25 0 0 0 2.5 -3 H-3"/><path d="M-0.5 -5.5 L-3 -3 L-0.5 -0.5"/></g>
+<path id="chev" d="M0 -5 L5 0 L0 5" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="back" d="M5 -7 L-2 0 L5 7" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><rect width="2.4" height="6" fill="#C21F12"/></pattern>
+</defs>
+<rect width="390" height="844" fill="#fff"/>
+<text x="28" y="31" class="g sb k" font-size="15">09:41</text>
+<g fill="#111"><rect x="300" y="22" width="3" height="9" rx="1"/><rect x="305" y="19" width="3" height="12" rx="1"/><rect x="310" y="16" width="3" height="15" rx="1"/><rect x="315" y="13" width="3" height="18" rx="1" opacity=".3"/></g>
+<rect x="334" y="15" width="25" height="13" rx="3" fill="none" stroke="#111" stroke-width="1.5"/><rect x="336.5" y="17.5" width="16" height="8" rx="1.5" fill="#111"/><rect x="360.5" y="19" width="2" height="5" rx="1" fill="#111"/>
+<text x="20" y="82" class="g xb k" font-size="26" letter-spacing="-0.7">April</text>
+<circle cx="112" cy="73" r="8" fill="#fff" stroke="#111" stroke-width="3.2"/>
+<text x="126" y="78" class="g b k" font-size="14">Hendelse</text>
+<text x="370" y="70" class="m b k" font-size="11.5" text-anchor="end">MÅNED 16</text>
+<text x="370" y="85" class="m mut" font-size="11" text-anchor="end">16 ÅR</text>
+<rect x="20" y="102" width="350" height="42" rx="4" fill="#121212"/><text x="32" y="118" class="m lt" font-size="9">BRUKS</text><text x="32" y="135" class="m b amb" font-size="13">3 140 kr</text><text x="118" y="118" class="m lt" font-size="9">SPARE</text><text x="118" y="135" class="m b amb" font-size="13">5 212 kr</text><text x="204" y="118" class="m lt" font-size="9">GJELD</text><text x="204" y="135" class="m b amb" font-size="13">0 kr</text><text x="290" y="118" class="m lt" font-size="9">FASTE/MND</text><text x="290" y="135" class="m b amb" font-size="13">683 kr</text><rect x="20" y="164" width="36" height="36" rx="4" fill="#1F4FD8"/>
+<circle cx="38" cy="176" r="5.5" fill="#fff"/><path d="M28.5 196 Q38 182 47.5 196 Z" fill="#fff"/>
+<text x="66" y="179" class="g b k" font-size="15">Emma</text>
+<text x="66" y="196" class="g mut" font-size="12">Venn · kopi ligger i Telefon</text>
+<text x="20" y="238" class="g xb k" font-size="23" letter-spacing="-0.5">Hyttetur i påsken?</text>
+<text class="g k" font-size="15"><tspan x="20" y="264">«Vi har leid en hytte på fjellet fra skjær-</tspan><tspan x="20" y="285">torsdag til søndag. 1 200 kr per person for</tspan><tspan x="20" y="306">leie, mat og buss. Blir du med?»</tspan></text>
+<line x1="44" y1="322" x2="44" y2="342" stroke="#1F4FD8" stroke-width="7"/>
+<path d="M44 350 L60 366 V416 H76" fill="none" stroke="#1F4FD8" stroke-width="6" stroke-linejoin="round"/>
+<path d="M44 350 V514 H76" fill="none" stroke="#007A52" stroke-width="6" stroke-linejoin="round"/>
+<path d="M44 350 L28 366 V612 H76" fill="none" stroke="#111" stroke-width="6" stroke-linejoin="round"/>
+<rect x="20" y="340" width="48" height="16" rx="8" fill="#fff" stroke="#111" stroke-width="3.5"/>
+<text x="84" y="352" class="g b k" font-size="16">Velg spor</text>
+<text x="166" y="352" class="g mut" font-size="12">– valget følger deg videre</text>
+<rect x="77" y="373" width="292" height="86" rx="4" fill="#fff" stroke="#111" stroke-width="2"/><text x="94" y="400" class="g b k" font-size="16">Bli med hele helga</text><text x="94" y="424" class="m b k" font-size="13">−1 200 kr</text><text x="173.10000000000002" y="424" class="g mut" font-size="12">brukt fra brukskonto</text><text x="94" y="445" class="g k" font-size="12.5">Sosialt +10 · Stress −3</text><use href="#chev" x="350" y="416"/><circle cx="76" cy="416" r="7" fill="#fff" stroke="#111" stroke-width="3"/><rect x="77" y="471" width="292" height="86" rx="4" fill="#fff" stroke="#111" stroke-width="2"/><text x="94" y="498" class="g b k" font-size="16">Bli med lørdag, ta bussen hjem</text><text x="94" y="522" class="m b k" font-size="13">−450 kr</text><text x="157.3" y="522" class="g mut" font-size="12">brukt fra brukskonto</text><text x="94" y="543" class="g k" font-size="12.5">Sosialt +5 · Stress 0</text><use href="#chev" x="350" y="514"/><circle cx="76" cy="514" r="7" fill="#fff" stroke="#111" stroke-width="3"/><rect x="77" y="569" width="292" height="86" rx="4" fill="#fff" stroke="#111" stroke-width="2"/><text x="94" y="596" class="g b k" font-size="16">Stå over og ta en ekstravakt</text><text x="94" y="620" class="m b k" font-size="13">+590 kr</text><text x="157.3" y="620" class="g mut" font-size="12">lønn neste måned · gratis valg</text><text x="94" y="641" class="g k" font-size="12.5">Sosialt −6 · Stress +3</text><use href="#chev" x="350" y="612"/><circle cx="76" cy="612" r="7" fill="#fff" stroke="#111" stroke-width="3"/><line x1="20" y1="680" x2="370" y2="680" stroke="#DADADA"/>
+<text x="20" y="704" class="g b k" font-size="12.5">Tips</text>
+<text x="52" y="704" class="g k" font-size="12.5">Sjekk hva som er igjen etter faste utgifter</text>
+<text x="52" y="722" class="g k" font-size="12.5">før du sier ja. Du kan ignorere tipset.</text>
+<text x="20" y="772" class="g mut" font-size="12">Tallene regnes av spillet. Ingen av sporene er «feil».</text>
+<rect x="128" y="826" width="134" height="5" rx="2.5" fill="#111"/>
+</svg>
