@@ -293,13 +293,19 @@ Sara sketched concept 2 by hand as six phone screens, following UJ-6 (`design/mo
 - **Activity cards** show their effect on stress and social life as well as the price (FR-53), for example concert +8 social life, rest night −5 stress (example 26a). Write "Stress ned" or "−5", not a bare minus.
 - **Not yet sketched:** «Legg i planen» on an invitation, a card the player can't afford («Mangler … kr»), and a place to read earlier messages (FR-54).
 
+#### Concepts 1 and 3: decisions (2026-11-12)
+
+- **Concept 1, «Ringer i vannet»: postponed.** It may be sketched later. It is still the concept closest to the PRD's main target (PRD §7.1), so the echo badge and "Hvorfor?" (K1-03, K1-04) are the screens to sketch first if the team returns to it. Until then, they are designed directly in the UX step.
+- **Concept 3, «Pengene som i en bankapp»: dropped.** The money view's savings target, upcoming costs and activity spend (FR-57) are on the PRD's cut list (§4.4), and the view builds on bank apps the players already use, so it carries the lowest risk of being misunderstood. Its ideas (13–15) stay in this document for the UX step.
+- **Why stop at concept 2:** concept 2 is the newest and least tested part of the PRD, and its sketches give the design work a documented starting point. The time is better spent on the UX step, which sets the visual style, components and accessibility of the app.
+
 ### Key Features to Test
 
-What the sketches should answer. The questions mirror the PRD's playtest targets (PRD §7.1), so the prototype prepares for the playtest instead of replacing it.
+What the sketches should answer. The questions mirror the PRD's playtest targets (PRD §7.1), so the prototype prepares for the playtest instead of replacing it. Only concept 2 was sketched; the questions for concepts 1 and 3 are kept for the UX step.
 
-- **Concept 1:** Can a person who hasn't seen the game explain, from K1-03 and K1-04, *why* the savings grew? Do they notice the echo badge, and do they find "Hvorfor?" without help?
+- **Concept 1 (postponed):** Can a person who hasn't seen the game explain, from K1-03 and K1-04, *why* the savings grew? Do they notice the echo badge, and do they find "Hvorfor?" without help?
 - **Concept 2:** Can they explain why more working hours gave fewer slots? Do they understand that the plan is for the month, not for given days? Is placing an activity faster than reading about it?
-- **Concept 3:** Do they understand what the percentage on the savings target means? Does «Småtteri» make them think "that adds up"? Are «Neste måned» and the card balance read correctly?
+- **Concept 3 (dropped):** Do they understand what the percentage on the savings target means? Does «Småtteri» make them think "that adds up"? Are «Neste måned» and the card balance read correctly?
 - **For all three:** Does it look like a game for their age or like schoolwork? Is everything readable and tappable at phone width?
 
 ---
