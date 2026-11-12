@@ -14,6 +14,8 @@ This addendum holds the detail downstream work needs and the reasons behind deci
 
 These items came out of the PRD review and belong in the next `bmad-architecture` run. They aren't in `architecture_technical_design.md` yet. Supabase facts in this addendum come from general knowledge and need verifying.
 
+*Superseded 2026-11-12: the team follows the reference setup in `architecture/technology.md` (own login in the Python backend, mock fallback for external services, hosted on Railway with Supabase Postgres). Notes below about the Supabase login service, its limits, and its mail inbox no longer apply; the architecture run decides the replacements. NFR-5 now allows a low cost during the playtest.*
+
 - **Authentication:** where email normalization and the sign-up limit live; which limits the login service gives out of the box and which need the backend; how a revoked login reaches the backend; token lifetimes; the chosen email relay and its quota.
 - **Connectivity:** a state version per playthrough, a request ID for retries, browser visibility and online events, and the error format and codes.
 - **Engine state:** storage for draws and the seed, content versions, the per-cause parts of each balance, and the card and account settings.
@@ -188,7 +190,7 @@ The team wants AI to act as the game engine where possible in V2, and not in the
 
 ### Privacy measures in the MVP
 
-**Player information covers:** what is stored (email, password as a hash, game data); what for (login, recovery, saving the game); how long; how to delete it; which services handle the data (the login service and any email relay); that there's no marketing, no other sharing, and no AI; who to contact; and who the game is for (15-20).
+**Player information covers:** what is stored (email, password as a hash, game data); what for (login, recovery, saving the game); how long; how to delete it; which services handle the data (the database host and any email relay); that there's no marketing, no other sharing, and no AI; who to contact; and who the game is for (15-20).
 
 **Deleting inactive accounts:** 12 months covers a whole school year and a summer, far longer than a five-session playthrough needs. No warning email is sent, so the address is used only for login and recovery.
 
@@ -267,7 +269,7 @@ What this changes for the build:
 | Login without "stay logged in" | Until the browser closes, or 30 minutes with no activity | Shared school PCs |
 | Login with "stay logged in" | Until logout, or 30 days without play | The box is unticked by default, which suits shared school PCs. The cost is that a phone player logs in again more often, which could lower the return rate. Check this in the playtest |
 
-**Reset email routes (OQ-4, #30).** Password reset has to send email within the hard constraint of zero ongoing cost, and it has to work in the examiner's Docker run without the team's cloud account or keys.
+**Reset email routes (OQ-4, #30).** *Superseded in part 2026-11-12: login is the backend's own, the cost limit is now NFR-5's low cost, and a missing email key falls back to a local stand-in (NFR-6).* Password reset has to send email within the hard constraint of zero ongoing cost, and it has to work in the examiner's Docker run without the team's cloud account or keys.
 - **Examiner's local run:** reset emails go to a local mail inbox that comes with the local login stack, and the README gives its address. The Supabase CLI includes one (Inbucket, or Mailpit in newer versions; verify).
 - **Hosted playtest:** a free-tier email relay whose quota covers 10-20 testers plus the limits above. Supabase's default sender is reported to deliver only to the project team's own addresses, a few an hour (verify).
 - **Fallback if no free relay works:** a tester who asks in person gets a one-time reset link that the team creates with the login service's admin tools. This works for 10-20 testers the team knows, but not for go-live.

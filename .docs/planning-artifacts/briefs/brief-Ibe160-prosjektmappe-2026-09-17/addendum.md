@@ -1,7 +1,7 @@
 ---
 title: LifeMode Addendum
 related_brief: brief.md
-updated: 2026-11-11
+updated: 2026-11-12
 ---
 
 # Addendum: LifeMode
@@ -14,50 +14,54 @@ Added 2026-10-14 in response to teacher feedback: the engine must "always calcul
 
 ### Parameters
 
-| Parameter | Value | Source |
-|---|---|---|
-| Savings account interest | 2.87% per year | SSB table 11018, households, non-fixed deposits, Aug 2026 |
-| BSU interest | 5.61% per year | SSB table 11018, households, Aug 2026 |
-| BSU deduction | 10% of the year's deposits, max deposit NOK 27,500 per year (max deduction NOK 2,750), max NOK 300,000 in total; the deduction can never exceed the year's tax and is not carried forward | Skatteetaten, satser BSU 2026 and BSU guidance (see research `domain-norwegian-youth-finance-rules-2026-10-27`) |
-| Consumer loan interest | 15% per year (fixed) | [ASSUMPTION] No official 2026 average found; market offers range about 9-22% nominal (Smarte Penger, DNB, bytt.no). 15% sits mid-range. |
-| Credit card interest (when interest is paid) | 22.6% per year | SSB table 12844, households, 2026 Q2 |
-| Hourly wage, under 16 / under 18 / 18+ | NOK 136.41 / 139.40 / 195.04 | Virke/HK Landsoverenskomsten minimum rates from 1 April 2026 (18+ = wage step 1) |
-| Working-hour limits | Under 15 or in compulsory schooling (grunnskole): max 2 h per school day and 12 h per school week; 7 h per day and 35 h per week on days and weeks without school. Ages 15-18 after compulsory schooling: max 8 h per day and 40 h per week. 18+: ordinary working hours, 9 h per day and 40 h per week | Arbeidsmiljøloven §§ 10-4 and 11-2 (see research `domain-norwegian-youth-finance-rules-2026-10-27`) |
-| Tax-free card (frikort) limit | NOK 100,000 per calendar year; employers withhold 50% above it, but that is withholding, not final tax | Skatteetaten, frikort and forskuddsutskrivingen 2026 |
-| Tax 2026 | Trygdeavgift lower limit NOK 99,650; rate 7.6% (5.1% under 17), never more than 25% of income above the lower limit. Minstefradrag 46%, max NOK 95,700. Personfradrag NOK 114,540. Tax on ordinary income 22%. Trinnskatt step 1: 1.7% from NOK 226,100 | Skatteetaten, satser 2026 (see research `domain-norwegian-youth-finance-rules-2026-10-27`) |
-| Rent, 1-room flat (hybel) | NOK 8,770 per month (whole country) | SSB table 09895, 2025 (Bergen 7,510, Oslo 10,090) |
-| Youth public transport, 30 days | NOK 238 | Ruter, from August 2026 (state-subsidised until April 2027) |
-| Mobile subscription | NOK 299 per month | [ASSUMPTION] typical youth plan, not sourced |
-| Example unexpected expense | NOK 2,500 (broken phone screen) | [ASSUMPTION] not sourced |
-| Moped licence, total | NOK 12,000 (range 8,000-15,000) | TeoriPortalen, 2026-05-01, and Testen.no, 2026-07-24; commercial estimates (see research `prices-moped-and-licences-2026-11-05`) |
-| Car licence (class B), total | NOK 32,500 (midpoint of 25,000-40,000) | Testen.no, 2026-07-24, commercial estimate |
-| New moped | NOK 29,000 | Dealer ads on FINN for 2026 models, seen 2026-11-05 |
-| Used moped, about 7-8 years old | NOK 13,750 | [ASSUMPTION] Midpoint of two private ads on FINN, seen 2026-11-05; not market data |
-| Moped insurance | NOK 3,000 per year | [ASSUMPTION] Not verified at a primary source (#29) |
-| Petrol 95 | NOK 20.64 per litre | SSB table 09654, average January-September 2026 |
-| Policy rate (background only) | 4.5% | Norges Bank API, 13 Oct 2026 |
-| Goal target: save for something big | NOK 100,000 net savings | Game design, tuning (PRD OQ-8) |
-| Goal target: debt-free buffer | Available money of at least NOK 30,000 at the end of each of months 49-60, and no debt at 20 | Game design, tuning (PRD OQ-8); about 3 months of hybel rent |
-| Big experience price | [needs figure], about NOK 50,000-75,000 so that the careless runs can't pay in time and the reference run can (example 21) | To be researched and dated (PRD OQ-3, #43) |
-| Spending level | Low 60%, normal 75% (default), high 95% of the wage after tax; social life −2 a month on low, +2 on high | Game design, tuning (PRD OQ-8) |
-| First card limit | NOK 5,000-10,000, default NOK 10,000 | Game design, PRD FR-26 |
-| Crisis debt floor | NOK 5,000 | Game design; the bottom of the first-card limit range |
-| Crisis cooldown | 2 months | Game design, tuning |
-| Payment plan term | 12 months | Game design, tuning |
-| Wellbeing start values | Stress 20, social life 60 | Game design, tuning (PRD OQ-8) |
-| Wellbeing weights, calm/free time/social | Save for something big 40/30/30; debt-free with a buffer 50/25/25; big experience 30/30/40 | Game design, tuning (PRD OQ-8) |
-| Wellbeing threshold | 50 | Game design, tuning (PRD OQ-8) |
-| Moped depreciation and floor | 15% of the start value a year; floor 20% of the start value | [ASSUMPTION] Tuning values; research found no Norwegian resale figures (PRD OQ-8) |
-| Moped and car fuel use | [needs figure: litres a month] × NOK 20.64 | To be researched and dated (PRD OQ-3, #43) |
-| Youth everyday spending | [needs figure], to check the spending levels and event-started costs against | To be researched and dated, for example SIFO's reference budget (PRD OQ-3, #43) |
-| Car licence gift chance | 50% | Game design, tuning (PRD OQ-8) |
-| Activity slots | The month's free time (rule 12) ÷ 20, rounded down, at least 1 and at most 4 | Game design, tuning (PRD FR-52, OQ-8) |
-| Activity effects | Each activity within ±10 on stress and on social life; all activities in a month together at most ±15 on each, counted in that month's wellbeing only | Game design, tuning (PRD FR-53, OQ-8) |
-| Activity prices | [needs figure] per activity, with a source and date | To be researched and dated (PRD OQ-17) |
-| Messages a month | At most 3 new, of which 0-2 invitations. Offers and the event copy don't count. An invitation repeats at most once per in-game year | Game design, tuning (PRD FR-55, OQ-8) |
-| Employer extra-shift offers | A drawn offer with a chance per in-game year [tuning value]; default +4 h a week for 3 months | Game design, tuning (PRD FR-47, FR-55, OQ-8) |
-| Gift moped offer | A drawn offer, at most once per playthrough, with a chance per in-game year [tuning value] | Game design, tuning (PRD FR-29, FR-55, OQ-8) |
-| Savings interest message | Once per playthrough, the first month the savings interest earned so far passes NOK 50 | Game design, tuning (PRD FR-55, UJ-3) |
+Status: **Sourced** has a source and date; **Assumption** is a reasoned estimate that still needs a source; **Tuning** is a game-design value set by playtesting (PRD OQ-8); **Partly sourced** mixes sourced values and estimates; **Missing** has no figure yet. Deadlines follow the tentative dates in PRD §4.4 and OQ-13 (updated 2026-11-12).
+
+| Parameter | Value | Source | Status | Owner | Deadline |
+|---|---|---|---|---|---|
+| Savings account interest | 2.87% per year | SSB table 11018, households, non-fixed deposits, Aug 2026 | Sourced | — | — |
+| BSU interest | 5.61% per year | SSB table 11018, households, Aug 2026 | Sourced | — | — |
+| BSU deduction | 10% of the year's deposits, max deposit NOK 27,500 per year (max deduction NOK 2,750), max NOK 300,000 in total; the deduction can never exceed the year's tax and is not carried forward | Skatteetaten, satser BSU 2026 and BSU guidance (see research `domain-norwegian-youth-finance-rules-2026-10-27`) | Sourced | — | — |
+| Consumer loan interest | 15% per year (fixed) | Finanstilsynet/Gjeldsregisteret, average nominal rate 14.8% (Q3 2023, latest official figure); 2026 market range about 10-22% nominal (research `prices-oq3-oq17-2026-11-12`, seen 2026-11-12) | Sourced | — | — |
+| Credit card interest (when interest is paid) | 22.6% per year | SSB table 12844, households, 2026 Q2 | Sourced | — | — |
+| Hourly wage, under 16 / under 18 / 18+ | NOK 136.41 / 139.40 / 195.04 | Virke/HK Landsoverenskomsten minimum rates from 1 April 2026 (18+ = wage step 1) | Sourced | — | — |
+| Working-hour limits | Under 15 or in compulsory schooling (grunnskole): max 2 h per school day and 12 h per school week; 7 h per day and 35 h per week on days and weeks without school. Ages 15-18 after compulsory schooling: max 8 h per day and 40 h per week. 18+: ordinary working hours, 9 h per day and 40 h per week | Arbeidsmiljøloven §§ 10-4 and 11-2 (see research `domain-norwegian-youth-finance-rules-2026-10-27`) | Sourced | — | — |
+| Tax-free card (frikort) limit | NOK 100,000 per calendar year; employers withhold 50% above it, but that is withholding, not final tax | Skatteetaten, frikort and forskuddsutskrivingen 2026 | Sourced | — | — |
+| Tax 2026 | Trygdeavgift lower limit NOK 99,650; rate 7.6% (5.1% under 17), never more than 25% of income above the lower limit. Minstefradrag 46%, max NOK 95,700. Personfradrag NOK 114,540. Tax on ordinary income 22%. Trinnskatt step 1: 1.7% from NOK 226,100 | Skatteetaten, satser 2026 (see research `domain-norwegian-youth-finance-rules-2026-10-27`) | Sourced | — | — |
+| Rent, 1-room flat (hybel) | NOK 8,770 per month (whole country) | SSB table 09895, 2025 (Bergen 7,510, Oslo 10,090) | Sourced | — | — |
+| Youth public transport, 30 days | NOK 238 | Ruter, from August 2026 (state-subsidised until April 2027) | Sourced | — | — |
+| Mobile subscription | NOK 299 per month | Youth plans NOK 229-449 a month; PlussMobil 25GB Ung NOK 299 (tek.no, talkmore.no, Nov 2026; research `prices-oq3-oq17-2026-11-12`) | Sourced | — | — |
+| Example unexpected expense | NOK 2,500 (broken phone screen) | Independent repair of a recent iPhone NOK 1,800-2,390; Apple authorised repair of older models NOK 1,990-2,990 (Apple Norway, expert-zoom; research `prices-oq3-oq17-2026-11-12`, seen 2026-11-12) | Sourced | — | — |
+| Moped licence, total | NOK 12,000 (range 8,000-15,000) | TeoriPortalen, 2026-05-01, and Testen.no, 2026-07-24; commercial estimates (see research `prices-moped-and-licences-2026-11-05`) | Sourced | — | — |
+| Car licence (class B), total | NOK 32,500 (midpoint of 25,000-40,000) | Testen.no, 2026-07-24, commercial estimate | Sourced | — | — |
+| Class B licence age | 18; practice driving from 16 after the basic traffic course | Statens vegvesen, seen 2026-11-12. From 26 Nov 2028, 17 with accompanied driving (not in force) | Sourced | — | — |
+| New moped | NOK 29,000 | Dealer ads on FINN for 2026 models, seen 2026-11-05 | Sourced | — | — |
+| Used moped, about 7-8 years old | NOK 11,645, including the NOK 645 transfer fee | Median of 31 FINN scooter ads, models 2018-2019, middle half NOK 8,145-17,645; transfer fee from Skatteetaten (research `prices-oq3-oq17-2026-11-12`, seen 2026-11-12) | Sourced | — | — |
+| Moped insurance | NOK 3,000 per year | [ASSUMPTION] Within the published ranges for riders under 25 (delkasko about NOK 2,500-3,500; insurio.no, Førerkortet.no 2026-05-09); insurers publish no fixed price, so a real quote is still needed (#29, research `prices-oq3-oq17-2026-11-12`) | Assumption | Team | Feature freeze (about 19-20 Nov) |
+| Moped service | NOK 2,900 a year, plus random repairs of NOK 500-3,000 | MC Service AS, 2026/27 season; repairs [ASSUMPTION] (research `prices-oq3-oq17-2026-11-12`). Not charged by rule 14 yet; whether to charge it is a tuning decision (OQ-8) | Assumption | Team | Feature freeze (about 19-20 Nov) |
+| Petrol 95 | NOK 20.64 per litre | SSB table 09654, average January-September 2026 | Sourced | — | — |
+| Policy rate (background only) | 4.5% | Norges Bank API, 13 Oct 2026 | Sourced | — | — |
+| Goal target: save for something big | NOK 100,000 net savings | Game design, tuning (PRD OQ-8) | Tuning | Team | Playtest start (1 Dec) |
+| Goal target: debt-free buffer | Available money of at least NOK 30,000 at the end of each of months 49-60, and no debt at 20 | Game design, tuning (PRD OQ-8); about 3 months of hybel rent | Tuning | Team | Playtest start (1 Dec) |
+| Big experience price | NOK 60,000: eight weeks of Interrail through Europe | Interrail youth 2-month pass DKK 4,712, hostels about €35 a night, €40 a day otherwise; three other 8-week trips cost NOK 51,000-63,000, so the label can change without changing the price (research `prices-oq3-oq17-2026-11-12`, 2026-11-12) | Sourced | — | — |
+| Spending level | Low 60%, normal 75% (default), high 95% of the wage after tax; social life −2 a month on low, +2 on high | Game design, tuning (PRD OQ-8) | Tuning | Team | Playtest start (1 Dec) |
+| First card limit | NOK 5,000-10,000, default NOK 10,000 | Game design, PRD FR-26 | Tuning | Team | Playtest start (1 Dec) |
+| Crisis debt floor | NOK 5,000 | Game design; the bottom of the first-card limit range | Tuning | Team | Playtest start (1 Dec) |
+| Crisis cooldown | 2 months | Game design, tuning | Tuning | Team | Playtest start (1 Dec) |
+| Payment plan term | 12 months | Game design, tuning | Tuning | Team | Playtest start (1 Dec) |
+| Wellbeing start values | Stress 20, social life 60 | Game design, tuning (PRD OQ-8) | Tuning | Team | Playtest start (1 Dec) |
+| Wellbeing weights, calm/free time/social | Save for something big 40/30/30; debt-free with a buffer 50/25/25; big experience 30/30/40 | Game design, tuning (PRD OQ-8) | Tuning | Team | Playtest start (1 Dec) |
+| Wellbeing threshold | 50 | Game design, tuning (PRD OQ-8) | Tuning | Team | Playtest start (1 Dec) |
+| Moped depreciation and floor | 15% of the start value a year; floor 20% of the start value | [ASSUMPTION] Tuning values; research found no Norwegian resale figures (PRD OQ-8) | Tuning | Team | Playtest start (1 Dec) |
+| Moped and car fuel use | Moped 3.0 l/100 km × 300 km a month in April-October = 9 l (NOK 186); car 6.0 l/100 km × 800 km a month = 48 l (NOK 991) | Fuel use: Spritmonitor owner logs, Statens vegvesen (2026-08-17). Distances: [ASSUMPTION] from TØI 2138/2026 and SSB tables 12577/12575 (2026-04-08) (research `prices-oq3-oq17-2026-11-12`) | Assumption | Team | Feature freeze (about 19-20 Nov) |
+| Youth everyday spending | About NOK 7,800-8,300 a month for ages 15-19 (food, clothes, personal care, leisure and media incl. mobile, transport) | SIFO referansebudsjett 2026 (SIFO-rapport 9-2026, published 2026-05-18, February 2026 prices; research `prices-oq3-oq17-2026-11-12`). Used to check the spending levels, not charged as is | Sourced | — | — |
+| Car licence gift chance | 50% | Game design, tuning (PRD OQ-8) | Tuning | Team | Playtest start (1 Dec) |
+| Activity slots | The month's free time (rule 12) ÷ 20, rounded down, at least 1 and at most 4 | Game design, tuning (PRD FR-52, OQ-8) | Tuning | Team | Playtest start (1 Dec) |
+| Activity effects | Each activity within ±10 on stress and on social life; all activities in a month together at most ±15 on each, counted in that month's wellbeing only | Game design, tuning (PRD FR-53, OQ-8) | Tuning | Team | Playtest start (1 Dec) |
+| Activity prices | NOK 0-3,600 per activity; starting catalogue of 6 basic and 16 invitation activities | Catalogue with a price, source and date per activity in research `prices-oq3-oq17-2026-11-12`, `activities-spending.md` (seen 2026-11-12). Six prices are estimates marked est. (OQ-17) | Partly sourced | Team | Feature freeze (about 19-20 Nov) |
+| Messages a month | At most 3 new, of which 0-2 invitations. Offers and the event copy don't count. An invitation repeats at most once per in-game year | Game design, tuning (PRD FR-55, OQ-8) | Tuning | Team | Playtest start (1 Dec) |
+| Employer extra-shift offers | A drawn offer with a chance per in-game year [tuning value]; default +4 h a week for 3 months | Game design, tuning (PRD FR-47, FR-55, OQ-8) | Tuning | Team | Playtest start (1 Dec) |
+| Gift moped offer | A drawn offer, at most once per playthrough, with a chance per in-game year [tuning value] | Game design, tuning (PRD FR-29, FR-55, OQ-8) | Tuning | Team | Playtest start (1 Dec) |
+| Savings interest message | Once per playthrough, the first month the savings interest earned so far passes NOK 50 | Game design, tuning (PRD FR-55, UJ-3) | Tuning | Team | Playtest start (1 Dec) |
 
 ### Rules
 
@@ -74,7 +78,7 @@ Added 2026-10-14 in response to teacher feedback: the engine must "always calcul
 11. **Calendar.** The player is born in January. Game month 1 is January of the year the player turns 15, and month 60 is December of the year they turn 19. The game ends on the 20th birthday, after month 60. Game year k (months 12k − 11 to 12k) is one calendar year: the player is 14 + k all year, and it is the income year for rules 3 and 9. The school year runs from August to June, and July is the summer month. The player is in grunnskole in months 1-18 (10th grade from month 8), in upper secondary school in months 20-54, and out of school from month 55. Trygdeavgift is 5.1% in game years 1-2, the years before the calendar year the player turns 17.
 12. **Wellbeing.** Stress, free time and social life are whole numbers from 0 to 100. Stress starts at 20 and social life at 60. Each month, free time = 100 − 2 × (school hours + weekly work hours − 30), within 0-100 and rounded under rule 2. School counts as 30 hours a week in school months (rule 11), and weekly work hours are the month's hours ÷ (52 / 12). Each event choice changes stress and social life by its own effect, at most 20 points either way. Last in the month, after the choice, these apply in this order. In a month with spending (rule 16), social life falls by 2 on the low level. On high it rises by 2, unless interest was charged on debt that month. If interest was charged on any debt, stress rises by 5. If free time is below 50, stress rises by 5, and social life falls by 5. If social life is then below 20, stress rises by 5. A postponed family-loan instalment raises stress by 5. Each of these rises stops at 50, and stress already above 50 stays where it is. In a crisis month, stress rises by 10, with no such stop. If none of these apply and stress is above 20, it falls by 5, but not below 20. An event's own effect doesn't count as one of these. Each part is then kept within 0-100. Activities applied this month (PRD FR-53) add their own effects on stress and social life after that, each within ±10, and together at most 15 points either way on each part. Each part stays within 0-100. These effects count only in this month's wellbeing. The stress and social life that carry over to the next month, and the rows above, don't include them, and activities never change free time. Wellbeing = w1 × (100 − stress) + w2 × free time + w3 × social life, using this month's parts including activity effects, rounded to a whole number (0.5 rounds up), with weights set by the life goal that add up to 100%. Ending wellbeing is the average wellbeing in months 19-60, rounded the same way.
 13. **Life goals at 20.** The goal is checked once, after month 60 has been processed, including its choice. Debt is the card balance plus what's left of consumer loans, payment plans and family loans. Family loans count as debt here, although they don't count towards the 3× trigger in rule 8. Net savings = current account + savings account + BSU − debt. Available money = current account + savings account − debt. Belongings such as a moped don't count. Save for something big: net savings ≥ the target. Be debt-free with a buffer: debt is NOK 0 at 20, and available money ≥ the buffer target at the end of each of months 49-60. Afford a big experience: the experience was bought by the end of month 56, and available money ≥ NOK 0 at 20. The experience can only be paid for from the current and savings accounts. A goal measure equal to its target counts as reached.
-14. **Moped.** The player owns at most one moped and needs the moped licence to own one. The start value is the price paid (new NOK 29,000, used NOK 13,750), or NOK 13,750 for a gift moped. Resale value = start value × (1 − 15% × months owned / 12), rounded to whole kroner, never below 20% of the start value. Months owned = the sale month − the month the player got the moped. In a month when the player owns a moped at the fixed-cost step, transport is moped insurance (NOK 250) and moped fuel, and the public transport ticket isn't charged. A moped got in month m is first charged in month m + 1, and a moped sold in month m is last charged in month m. If the engine draws that the parents pay part of the insurance, the player's NOK 250 falls by that share. The draw is made once, when the player gets the moped.
+14. **Moped.** The player owns at most one moped and needs the moped licence to own one. The start value is the price paid (new NOK 29,000, used NOK 11,645), or NOK 11,645 for a gift moped. Resale value = start value × (1 − 15% × months owned / 12), rounded to whole kroner, never below 20% of the start value. Months owned = the sale month − the month the player got the moped. In a month when the player owns a moped at the fixed-cost step, transport is moped insurance (NOK 250) and moped fuel, and the public transport ticket isn't charged. A moped got in month m is first charged in month m + 1, and a moped sold in month m is last charged in month m. If the engine draws that the parents pay part of the insurance, the player's NOK 250 falls by that share. The draw is made once, when the player gets the moped.
 15. **Payment plan.** In a crisis month, the player can turn the card balance into a payment plan: an annuity loan under rule 4 at the card's interest rate, over 12 months. The card is blocked until the plan is paid, so card use is off and spending comes from the current account. Plan instalments are charged like consumer-loan instalments, and the plan can be paid off early with no fee. Only one plan can run at a time. The term is configuration.
 16. **Spending level.** The player sets a spending level: low 60%, normal 75% or high 95%. The default is normal. Each month, after fixed and everyday costs have been charged, that share of the wage income after tax is spent, rounded under rule 2, so costs come on top of spending. Spending is never more than the current account holds at that point. It never draws on savings or takes the account below NOK 0. With no wage, nothing is spent. With card use on, card-payable costs go on the card first, and then spending goes on it as far as it fits under the limit. The rest comes from the current account, up to what it holds, and that isn't a declined purchase. A change applies from the next month. The shares are configuration.
 
@@ -153,11 +157,11 @@ For example, W+1: 0.4 × 70 + 0.3 × 76 + 0.3 × 55 = 67.3, which rounds to 67. 
 
 | Moped | Start value | Months owned | Resale value |
 |---|---|---|---|
-| Used, bought month 16, sold month 40 | 13,750 | 24 | 13,750 × 0.70 = NOK 9,625 |
+| Used, bought month 16, sold month 40 | 11,645 | 24 | 11,645 × 0.70 = 8,151.5, so NOK 8,152 |
 | New, owned 24 months | 29,000 | 24 | 29,000 × 0.70 = NOK 20,300 |
-| Gift, got month 13, sold month 40 | 13,750 | 27 | 13,750 × 0.6625 = 9,109.375, so NOK 9,109 |
-| Used, owned 7 months | 13,750 | 7 | 13,750 × 0.9125 = 12,546.875, so NOK 12,547 |
-| Floor check, rate tuned to 25%, 48 months | 13,750 | 48 | 0, so the floor of NOK 2,750 applies |
+| Gift, got month 13, sold month 40 | 11,645 | 27 | 11,645 × 0.6625 = 7,714.8125, so NOK 7,715 |
+| Used, owned 7 months | 11,645 | 7 | 11,645 × 0.9125 = 10,626.0625, so NOK 10,626 |
+| Floor check, rate tuned to 25%, 48 months | 11,645 | 48 | 0, so the floor of NOK 2,329 applies |
 
 For the used moped, bought in month 16 and sold in month 40: insurance is charged in months 17-40, so 24 × NOK 250 = NOK 6,000. The player pays the public transport ticket in months 41-60, never together with the moped's costs. Before 18, the parents pay the ticket.
 
@@ -182,6 +186,8 @@ For goal 2, runs c and f reach the NOK 30,000 buffer, with a lowest available mo
 
 Switching level around big pay doesn't beat normal on money: low in months 19, 31, 43 and 55-60 and high otherwise gives NOK 109,705 and ending wellbeing 83, against NOK 120,393 and 75. Alternating month by month depends on where the big pay falls: low in odd months, which include the summer pay months and month 55, gives NOK 120,373 and 74, and high in odd months gives NOK 98,333 and 75, which misses goal 1. Moving to low from month 55 after a careful start gives NOK 145,280 and 74.
 
+*Not yet recalculated: this example still uses the earlier used-moped price of NOK 13,750. The price changed to NOK 11,645 on 2026-11-12, so the figures here are to be recalculated (PRD OQ-3, #48).*
+
 **22. Moped against the goal (rules 13, 14 and 16).** The reference run with the moped licence from month 20 (NOK 12,000) and a moped from month 32, each bought at the first choice step the player can pay for it, and sold in month 60. With the yearly expenses, the licence moves to month 21. Insurance is charged from the month after buying, and moped fuel has no figure yet, so it's left out.
 
 | # | Run | Net savings at 20 | With NOK 2,500 a year | Goal 1 (NOK 100,000) |
@@ -193,6 +199,8 @@ Switching level around big pay doesn't beat normal on money: low in months 19, 3
 | e | New moped, 10 h, normal, low from month 49, bought as in d | NOK 127,729 | NOK 117,050 | Reached |
 
 The paid car licence (NOK 32,500 in month 40) on the reference run gives NOK 86,299, so it has to be made up elsewhere too.
+
+*Not yet recalculated: this example still uses the earlier used-moped price of NOK 13,750. The price changed to NOK 11,645 on 2026-11-12, so the figures here are to be recalculated (PRD OQ-3, #48).*
 
 **23. Markus in UJ-5.** Markus leaves UJ-4 in month 46 with NOK 122, the moped kept, and costs of NOK 549 a month. To reach goal 1 he works 20 h a week on low spending in months 47-54, then 37.5 h full-time on low: NOK 104,824 at 20, with moped fuel left out. On normal he ends at NOK 62,637, and with 10 h on low at NOK 85,297. Wellbeing in months 47-60 runs from 61 to 70, and social life ends at 32. If months 19-40 average 74, his ending wellbeing is about 70, a real win.
 
