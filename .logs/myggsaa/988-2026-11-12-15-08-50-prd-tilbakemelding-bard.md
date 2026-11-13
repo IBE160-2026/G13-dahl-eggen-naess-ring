@@ -57,10 +57,11 @@ Få oversikt over BMAD-status og hva som mangler fra Bårds PRD-tilbakemelding, 
   - levering tidligst ca. 17.–19. des.
 - **Rule Set v1:** fristene i parametertabellen i brief-addendumet er flyttet tilsvarende.
 - **A-26:** antakelsen om at F5 flyttes til V2 står nå også i §9 i PRD-en, i en kort tabell. Memloggen er oppdatert.
+- **OQ-6:** lukket for skoleprosjektet. Playtesten følger tiltakene i NFR-3 og trenger ingen godkjenning. Behandlingsansvar, behandlingsgrunnlag og regler for spillere på 15–17 år tas ved videre utvikling. Raden er fjernet fra §8, avsnittet i NFR-3 er skrevet om, og §4.3 har fått en ny rad om personvernvurderingen. Beslutningen er kommentert i #24, som står åpen som påminnelse.
 - **Issues:** #66 er ferdig, men ble ikke lukket fordi kontoen mangler rettigheter (`CloseIssue`). Teamet må lukke den.
 - **Commit:** PRD-endringene er ikke committet.
 
 ### Åpne punkter
 - Avklar eksakt leveringsdato og sjekk de foreløpige datoene mot den (#73)
-- Resten av tilbakemeldingen står i issuene #67, #68, #70 og #48 og i statusdokumentet. OQ-6 (#24) er fortsatt åpen.
+- Resten av tilbakemeldingen står i issuene #67, #68, #70 og #48 og i statusdokumentet.
 - Lukk #66, som er ferdig. Kontoen mangler rettigheter til å lukke issues (#66)
