@@ -56,9 +56,11 @@ Få oversikt over BMAD-status og hva som mangler fra Bårds PRD-tilbakemelding, 
   - playtest fra 8. des.
   - levering tidligst ca. 17.–19. des.
 - **Rule Set v1:** fristene i parametertabellen i brief-addendumet er flyttet tilsvarende.
-- **Issues:** #66 er lukket.
+- **A-26:** antakelsen om at F5 flyttes til V2 står nå også i §9 i PRD-en, i en kort tabell. Memloggen er oppdatert.
+- **Issues:** #66 er ferdig, men ble ikke lukket fordi kontoen mangler rettigheter (`CloseIssue`). Teamet må lukke den.
 - **Commit:** PRD-endringene er ikke committet.
 
 ### Åpne punkter
 - Avklar eksakt leveringsdato og sjekk de foreløpige datoene mot den (#73)
-- Resten av tilbakemeldingen står i issuene #67, #68, #70 og #48 og i statusdokumentet. A-26 i PRD-en og OQ-6 (#24) er fortsatt åpne.
+- Resten av tilbakemeldingen står i issuene #67, #68, #70 og #48 og i statusdokumentet. OQ-6 (#24) er fortsatt åpen.
+- Lukk #66, som er ferdig. Kontoen mangler rettigheter til å lukke issues (#66)
