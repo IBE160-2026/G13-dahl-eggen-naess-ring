@@ -33,3 +33,32 @@ Commit `47b463a` på `docs/prd-tilbakemelding` er pushet.
 - Aktivitetskatalogen må godkjennes, og seks anslåtte priser trenger kilde (#57).
 - Vurderingsskjemaet for de skriftlige forklaringene må skrives før playtesten (#69).
 - Teamet bør svare selv på refleksjonsspørsmålene i Bårds tilbakemelding (#70).
+
+## 2026-11-13 kl. 11:45 — Myggsaa
+
+### Oppgave
+Få oversikt over BMAD-status og hva som mangler fra Bårds PRD-tilbakemelding, samle det i et dokument, og deretter løse punkt 4.1: nivåene kjerne, utvidelse og kan kuttes, med kuttdatoer.
+
+### Plan
+- `bmad-help` for status, og deretter en sammenligning av `tilbakemelding-prd.md` med PRD-ens memlog og `prd.md`.
+- Statusdokumentet ble lagt i Claude Docs: [Status: Bårds PRD-tilbakemelding](https://claude.ai/artifact/NCGbwrzV5vgqgnJBW82VgB).
+- Forslaget til nivåinndeling ble laget med avhengighetene mellom FR-ene sjekket. FR-27 er kjerne fordi krisemåneden alltid tilbyr «ask family».
+- Beslutninger er logget i `prds/prd-IBE160-G13-2026-10-22/.memlog.md`, de to siste oppføringene.
+
+### Resultat
+- **Nivåer:** FR-oversikten i §5 i `prd.md` har fått en Tier-kolonne for alle 57 FR-er. Der en FR er kjerne men deler av den kan kuttes, står det hvilken del. §4.4 har fått et avsnitt som forklarer nivåene.
+- **Kjerne:** FR-52 til FR-56 (månedsplan, telefon, jobbvisning) ligger i Kjerne, hele. Bårds forslag om å legge dem i Utvidelse er avvist, og «These always stay» står uendret.
+- **Utvidelse:** FR-4, FR-10, FR-16, FR-19, FR-25, FR-35, FR-37 og FR-40.
+- **Kan kuttes:** FR-30, FR-51 og FR-57, pluss delene som står på kuttlisten.
+- **Datoer:** hele planen er flyttet én uke. De foreløpige datoene står i en tabell i §4.4, og OQ-13 og datolinjen i §7.1 er oppdatert:
+  - utvidelser fryses ca. 26.–27. nov.
+  - kjernen er spillbar ca. 1.–3. des., ellers utgår Kan kuttes
+  - playtest fra 8. des.
+  - levering tidligst ca. 17.–19. des.
+- **Rule Set v1:** fristene i parametertabellen i brief-addendumet er flyttet tilsvarende.
+- **Issues:** #66 er lukket.
+- **Commit:** PRD-endringene er ikke committet.
+
+### Åpne punkter
+- Avklar eksakt leveringsdato og sjekk de foreløpige datoene mot den (#73)
+- Resten av tilbakemeldingen står i issuene #67, #68, #70 og #48 og i statusdokumentet. A-26 i PRD-en og OQ-6 (#24) er fortsatt åpne.
