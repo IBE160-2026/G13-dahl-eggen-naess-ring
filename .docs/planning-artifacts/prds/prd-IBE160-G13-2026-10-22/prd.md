@@ -277,6 +277,7 @@ Version one of LifeMode won't:
 | Item | Status |
 |---|---|
 | AI as the game master: choosing and writing events and messages, including invitations, within the MVP's schemas, and AI checks | V2, after the base works. The engine still decides every amount (addendum "Ready for V2") |
+| Moped insurance offers that vary between insurers, chosen and written by the AI | V2, with the AI as game master. The engine sets each price within sourced ranges (OQ-3). In the MVP, moped insurance is a flat NOK 3,000 a year (#29) |
 | Pocket money, and earning it, for example through minigames | V2. The MVP has none, so a player with no job has no income |
 | Job development: reliability leading to more offers, raises beyond the age steps, being let go, and several jobs to choose between | V2. In the MVP a job has a wage, a weekly limit, and extra-shift offers |
 | Friends as lasting relationships, such as invitations stopping after the player turns down many | V2. In the MVP, friends' names are flavour only |
