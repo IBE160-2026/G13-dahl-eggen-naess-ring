@@ -198,7 +198,7 @@ The team wants AI to act as the game engine where possible in V2, and not in the
 
 **No age statement.** "I am 15 or older" stores and proves nothing. The brief addendum advises against consent as the legal basis, so the consent age doesn't apply, and the statement would turn away 14-year-olds in 10th grade or teach them to tick it falsely. Revisit if #24 chooses consent.
 
-**To settle before the first playtest (OQ-6, #24):** who the controller is (group or university), the legal basis, and the full privacy text.
+**Privacy review (was OQ-6, #24):** closed for the school project on 2026-11-13. Who the controller is, the legal basis, and the full privacy text are settled only if the game is developed further (PRD §4.3).
 
 **Playtest data.** Game metrics are counted per account in the playtest environment. NFR-3 sets the export and the code key. No email addresses leave the system, and one team member keeps the key if game data is linked to survey answers. Until the key is deleted the results are pseudonymous, and after that anonymous.
 
