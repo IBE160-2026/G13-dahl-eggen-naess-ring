@@ -1512,7 +1512,7 @@ The Blocks column names the work each question holds up. Gaps in the numbering a
 
 | # | Question | Owner | Blocks |
 |---|---|---|---|
-| OQ-3 | A real moped insurance quote for a 16-year-old from an insurer's calculator (#29), how far the moped and the car are driven each month, and whether moped service is charged (#43). Sources for the other figures: Rule Set v1 parameters, `research/prices-oq3-oq17-2026-11-12/` | Team | Writing those events and final tuning |
+| OQ-3 | How far the moped and the car are driven each month, and whether moped service is charged (#43). Moped insurance is settled: a flat NOK 3,000 a year in V1, and varying offers from different insurers in V2 (§4.3). Sources for the other figures: Rule Set v1 parameters, `research/prices-oq3-oq17-2026-11-12/` | Team | Writing those events and final tuning |
 | OQ-4 | How password reset email works at low cost (NFR-5) in the playtest environment and at go-live. The examiner's local run is settled by NFR-6 (#30) | Architecture, first build sprint | FR-3 acceptance and the first playtest |
 | OQ-8 | Tuning values (list below the table) | Team, when tuning | Event balancing |
 | OQ-9 | What the avatar contains, and which control the player uses to set weekly hours (the mechanism is in FR-47) | UX | Nothing |
