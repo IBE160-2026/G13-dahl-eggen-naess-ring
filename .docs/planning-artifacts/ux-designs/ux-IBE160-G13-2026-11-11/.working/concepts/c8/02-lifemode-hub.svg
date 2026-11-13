@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+<title>LifeMode – Linjekart – Neste stasjon (hub)</title>
+<style>
+.g{font-family:'Schibsted Grotesk','Helvetica Neue',Helvetica,Arial,sans-serif}
+.m{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace}
+.b{font-weight:700}.sb{font-weight:600}.xb{font-weight:800}
+.mut{fill:#595959}.w{fill:#fff}.amb{fill:#FFB81C}.lt{fill:#D6D6D6}
+</style>
+<defs>
+<g id="echo" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M-5 3.5 H2.5 A3.25 3.25 0 0 0 2.5 -3 H-3"/><path d="M-0.5 -5.5 L-3 -3 L-0.5 -0.5"/></g>
+<path id="chev" d="M0 -5 L5 0 L0 5" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</defs>
+<rect width="390" height="844" fill="#fff"/>
+<!-- status bar -->
+<text x="28" y="31" class="g sb" font-size="15">09:41</text>
+<g fill="#111"><rect x="300" y="22" width="3" height="9" rx="1"/><rect x="305" y="19" width="3" height="12" rx="1"/><rect x="310" y="16" width="3" height="15" rx="1"/><rect x="315" y="13" width="3" height="18" rx="1" opacity=".3"/></g>
+<rect x="334" y="15" width="25" height="13" rx="3" fill="none" stroke="#111" stroke-width="1.5"/><rect x="336.5" y="17.5" width="16" height="8" rx="1.5" fill="#111"/><rect x="360.5" y="19" width="2" height="5" rx="1" fill="#111"/>
+
+<!-- header -->
+<text x="20" y="80" class="g xb" font-size="24" letter-spacing="-0.6">16 år · Mars</text>
+<text x="370" y="70" class="m b" font-size="12" text-anchor="end">MÅNED 15</text>
+<text x="370" y="85" class="m mut" font-size="11" text-anchor="end">AV 60</text>
+<!-- mini life line -->
+<path d="M233.6 108 L241.6 100 L370 100" fill="none" stroke="#D1006B" stroke-width="3" stroke-dasharray="4 3"/>
+<path d="M91 108 L99 116 L370 116" fill="none" stroke="#F2A900" stroke-width="3"/>
+<line x1="20" y1="108" x2="370" y2="108" stroke="#D9D9D9" stroke-width="5"/>
+<line x1="20" y1="108" x2="103" y2="108" stroke="#1F4FD8" stroke-width="5"/>
+<g fill="#111"><rect x="19.5" y="102" width="1.5" height="12"/><rect x="90.5" y="102" width="1.5" height="12"/><rect x="161.5" y="102" width="1.5" height="12"/><rect x="232.5" y="102" width="1.5" height="12"/><rect x="303.5" y="102" width="1.5" height="12"/><rect x="368.5" y="102" width="1.5" height="12"/></g>
+<circle cx="103" cy="108" r="6" fill="#fff" stroke="#111" stroke-width="3"/>
+<g class="m mut" font-size="10"><text x="20" y="133">15</text><text x="91" y="133">16</text><text x="162" y="133">17</text><text x="233" y="133">18</text><text x="304" y="133">19</text><text x="370" y="133" text-anchor="end">20</text></g>
+<text x="244" y="95" class="g sb" font-size="9.5" fill="#B0005A">Kortlinja åpner ved 18</text>
+
+<!-- departure board -->
+<rect x="20" y="146" width="350" height="190" rx="6" fill="#121212"/>
+<text x="36" y="186" class="m b amb" font-size="28" letter-spacing="1">MARS</text>
+<rect x="244" y="168" width="8" height="8" fill="#FFB81C"/>
+<text x="258" y="176" class="m b amb" font-size="11">STILLE MÅNED</text>
+<text x="258" y="191" class="m lt" font-size="10.5">ingen hendelse</text>
+<line x1="36" y1="206" x2="354" y2="206" stroke="#3A3A3A" stroke-width="1"/>
+<g class="m" font-size="12">
+<text x="36" y="230" class="lt">BRUKSKONTO</text><text x="244" y="230" class="amb b" text-anchor="end">3 140 kr</text><text x="354" y="230" class="w" text-anchor="end">+612 netto</text>
+<text x="36" y="256" class="lt">SPAREKONTO</text><text x="244" y="256" class="amb b" text-anchor="end">5 212 kr</text><text x="340" y="256" class="w" text-anchor="end">+19 rente</text>
+<text x="36" y="282" class="lt">TRIVSEL</text><text x="244" y="282" class="amb b" text-anchor="end">64/100</text><text x="354" y="282" class="w" text-anchor="end">over 50</text>
+</g>
+<use href="#echo" x="348" y="252" stroke="#7EE2B0"/>
+<line x1="36" y1="296" x2="354" y2="296" stroke="#3A3A3A" stroke-width="1"/>
+<g class="m lt" font-size="10.5"><text x="36" y="318">STRESS 38</text><text x="146" y="318">FRITID 72</text><text x="256" y="318">SOSIALT 61</text></g>
+<g><rect x="36" y="324" width="90" height="3" fill="#3A3A3A"/><rect x="36" y="324" width="34" height="3" fill="#FFB81C"/>
+<rect x="146" y="324" width="90" height="3" fill="#3A3A3A"/><rect x="146" y="324" width="65" height="3" fill="#FFB81C"/>
+<rect x="256" y="324" width="98" height="3" fill="#3A3A3A"/><rect x="256" y="324" width="60" height="3" fill="#FFB81C"/></g>
+
+<!-- room elevation -->
+<g>
+<rect x="20" y="350" width="350" height="122" fill="#F3F3F1"/>
+<line x1="20" y1="462" x2="370" y2="462" stroke="#111" stroke-width="2"/>
+<!-- window -->
+<rect x="36" y="366" width="56" height="46" fill="#fff" stroke="#111" stroke-width="2"/><line x1="64" y1="366" x2="64" y2="412" stroke="#111" stroke-width="2"/><line x1="36" y1="389" x2="92" y2="389" stroke="#111" stroke-width="2"/>
+<!-- line-map poster -->
+<rect x="108" y="364" width="50" height="38" fill="#fff" stroke="#111" stroke-width="2"/>
+<path d="M114 384 H152" stroke="#1F4FD8" stroke-width="3"/><path d="M122 384 L128 392 H152" stroke="#F2A900" stroke-width="3" fill="none"/><path d="M136 384 L142 376 H152" stroke="#D1006B" stroke-width="3" fill="none"/>
+<!-- bed -->
+<rect x="30" y="432" width="104" height="30" fill="#111"/><rect x="30" y="420" width="8" height="42" fill="#111"/><rect x="42" y="424" width="28" height="9" rx="2" fill="#fff" stroke="#111" stroke-width="2"/>
+<!-- pictogram figure -->
+<circle cx="176" cy="394" r="8" fill="#111"/>
+<path d="M176 408 L176 434" stroke="#111" stroke-width="11" stroke-linecap="round"/>
+<path d="M176 410 L190 424 L204 420" stroke="#111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M173 436 L168 460 M179 436 L186 460" stroke="#111" stroke-width="7" stroke-linecap="round"/>
+<!-- desk + laptop + jar -->
+<rect x="196" y="424" width="96" height="5" fill="#111"/><rect x="200" y="429" width="4" height="33" fill="#111"/><rect x="284" y="429" width="4" height="33" fill="#111"/>
+<path d="M214 424 L220 404 L246 404 L240 424 Z" fill="#111"/>
+<rect x="260" y="404" width="20" height="20" rx="3" fill="#fff" stroke="#111" stroke-width="2"/><rect x="262" y="413" width="16" height="9" fill="#007A52"/><rect x="266" y="400" width="8" height="4" fill="#111"/>
+<!-- moped placeholder -->
+<rect x="304" y="420" width="56" height="42" fill="none" stroke="#111" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="332" y="438" class="m" font-size="9" text-anchor="middle">LEDIG</text>
+<text x="332" y="450" class="m" font-size="9" text-anchor="middle">PLASS</text>
+</g>
+<text x="20" y="490" class="g mut" font-size="11.5">Rommet: seng, pult, sparekrukke, plakat. Ledig plass: moped.</text>
+
+<!-- transfers -->
+<line x1="20" y1="504" x2="370" y2="504" stroke="#111" stroke-width="1.5"/>
+<!-- telefon -->
+<rect x="20" y="514" width="32" height="32" rx="4" fill="#111"/>
+<rect x="31" y="520" width="10" height="20" rx="2" fill="none" stroke="#fff" stroke-width="2"/><line x1="34" y1="536" x2="38" y2="536" stroke="#fff" stroke-width="1.5"/>
+<text x="64" y="528" class="g b" font-size="16">Telefon</text>
+<text x="64" y="545" class="g mut" font-size="12">Emma og banken har skrevet</text>
+<rect x="290" y="519" width="50" height="22" rx="11" fill="#1F4FD8"/><text x="315" y="534" class="g b w" font-size="12" text-anchor="middle">2 nye</text>
+<use href="#chev" x="358" y="530"/>
+<line x1="20" y1="554" x2="370" y2="554" stroke="#DADADA"/>
+<!-- maanedsplan -->
+<rect x="20" y="564" width="32" height="32" rx="4" fill="#111"/>
+<g fill="#fff"><rect x="27" y="571" width="8" height="8"/><rect x="37" y="571" width="8" height="8"/><rect x="27" y="581" width="8" height="8"/><rect x="37" y="581" width="8" height="8" fill="none" stroke="#fff" stroke-width="1.5"/></g>
+<text x="64" y="578" class="g b" font-size="16">Månedsplan</text>
+<text x="64" y="595" class="g mut" font-size="12">4 plasser ledige · 1 invitasjon</text>
+<text x="340" y="584" class="m b" font-size="13" text-anchor="end">0/4</text>
+<use href="#chev" x="358" y="580"/>
+<line x1="20" y1="604" x2="370" y2="604" stroke="#DADADA"/>
+<!-- jobb -->
+<rect x="20" y="614" width="32" height="32" rx="4" fill="#111"/>
+<rect x="27" y="625" width="18" height="14" rx="2" fill="none" stroke="#fff" stroke-width="2"/><path d="M32 625 V621 H40 V625" fill="none" stroke="#fff" stroke-width="2"/>
+<text x="64" y="628" class="g b" font-size="16">Jobb</text>
+<text x="64" y="645" class="g mut" font-size="12">Butikk · 10 t/uke · ekstravakter tilbudt</text>
+<text x="340" y="634" class="m b" font-size="13" text-anchor="end">10 t</text>
+<use href="#chev" x="358" y="630"/>
+<line x1="20" y1="654" x2="370" y2="654" stroke="#DADADA"/>
+<!-- penger -->
+<rect x="20" y="664" width="32" height="32" rx="4" fill="#111"/>
+<rect x="26" y="673" width="20" height="14" rx="1.5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="36" cy="680" r="3" fill="#fff"/>
+<text x="64" y="678" class="g b" font-size="16">Penger</text>
+<text x="64" y="695" class="g mut" font-size="12">Sparemål: Mopedlappen</text>
+<text x="340" y="684" class="m b" font-size="13" text-anchor="end">72 %</text>
+<use href="#chev" x="358" y="680"/>
+<line x1="20" y1="704" x2="370" y2="704" stroke="#111" stroke-width="1.5"/>
+
+<!-- continue -->
+<text x="20" y="728" class="g mut" font-size="12">Stille måned. Ingenting må gjøres – ett trykk holder.</text>
+<rect x="20" y="740" width="350" height="58" rx="4" fill="#111"/>
+<text x="40" y="766" class="g b w" font-size="17">Fortsett til april</text>
+<text x="40" y="785" class="m" font-size="10.5" fill="#BDBDBD">NESTE: MÅNED 16 · HENDELSE</text>
+<path d="M330 769 L348 769 M341 762 L348 769 L341 776" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="128" y="826" width="134" height="5" rx="2.5" fill="#111"/>
+</svg>

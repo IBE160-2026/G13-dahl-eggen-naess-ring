@@ -1,0 +1,13 @@
+{"id":"c2","name":"Brettspill","tagline":"Fem år. 60 ruter. Hvert trekk teller.",
+ "fonts":["Bricolage Grotesque","Barlow Semi Condensed"],
+ "palette":[
+  {"name":"Bordfilt","hex":"#1D4542"},
+  {"name":"Brett-safran","hex":"#F0B43C"},
+  {"name":"Kortpapp","hex":"#FBF3E2"},
+  {"name":"Hendelse-korall","hex":"#E2553F"},
+  {"name":"Trekk-rød (CTA)","hex":"#C23E28"},
+  {"name":"Fritid-blå","hex":"#3C7DC4"},
+  {"name":"Sosialt-grønn","hex":"#3F9A5B"},
+  {"name":"Messing-mynt","hex":"#E2A62A"},
+  {"name":"Blekk","hex":"#1B2326"}],
+ "files":["01-landing.svg","02-lifemode-hub.svg","03a-year-timeline.svg","03b-month-plan.svg","04a-highlight-event.svg","04b-event-result.svg","05-phone-messages.svg","06-money-view.svg","07-all-pages.svg"]}

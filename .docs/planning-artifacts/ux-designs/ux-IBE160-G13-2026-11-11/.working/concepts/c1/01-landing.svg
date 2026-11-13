@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+  <title>LifeMode – landing (Story-feed)</title>
+  <defs>
+    <style>
+      .d{font-family:'Archivo Black','Arial Black',sans-serif}
+      .u{font-family:'Schibsted Grotesk',system-ui,sans-serif}
+    </style>
+    <symbol id="i-echo" viewBox="0 0 24 24"><path d="M4 11V9a3 3 0 0 1 3-3h11M15 3l3 3-3 3M20 13v2a3 3 0 0 1-3 3H6M9 21l-3-3 3-3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7c-2-4-6-4-6-1.5S9 7 12 7c3 0 6 0 6-1.5S14 3 12 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C8FF2E" stop-opacity="0"/>
+      <stop offset="0.55" stop-color="#C8FF2E" stop-opacity="0.07"/><stop offset="1" stop-color="#C8FF2E" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <rect width="390" height="844" fill="#0D0E13"/>
+  <rect x="0" y="120" width="390" height="360" fill="url(#glow)"/>
+
+  <!-- status bar -->
+  <text x="28" y="31" class="u" font-size="15" font-weight="700" fill="#F5F3EE">14:32</text>
+  <g fill="#F5F3EE"><rect x="318" y="21" width="3" height="10" rx="1"/><rect x="323" y="18" width="3" height="13" rx="1"/><rect x="328" y="15" width="3" height="16" rx="1"/><rect x="339" y="17" width="24" height="13" rx="4" fill="none" stroke="#F5F3EE" stroke-width="1.5"/><rect x="341.5" y="19.5" width="16" height="8" rx="2"/></g>
+
+  <!-- life ticks: 15 → 20, five years like five stories -->
+  <g>
+    <rect x="16" y="52" width="68" height="5" rx="2.5" fill="#353847"/>
+    <rect x="16" y="52" width="30" height="5" rx="2.5" fill="#C8FF2E"/>
+    <rect x="90" y="52" width="68" height="5" rx="2.5" fill="#353847"/>
+    <rect x="164" y="52" width="68" height="5" rx="2.5" fill="#353847"/>
+    <rect x="238" y="52" width="68" height="5" rx="2.5" fill="#353847"/>
+    <rect x="312" y="52" width="62" height="5" rx="2.5" fill="#353847"/>
+    <g class="u" font-size="11" font-weight="700" fill="#8C8FA0">
+      <text x="16" y="74">15</text><text x="90" y="74">16</text><text x="164" y="74">17</text><text x="238" y="74">18</text><text x="312" y="74">19</text><text x="374" y="74" text-anchor="end">20</text>
+    </g>
+  </g>
+  <text x="16" y="106" class="d" font-size="22" fill="#F5F3EE" letter-spacing="-0.3">LifeMode</text>
+  <rect x="248" y="88" width="126" height="26" rx="13" fill="none" stroke="#353847" stroke-width="1.5"/>
+  <text x="311" y="105.5" class="u" font-size="12" font-weight="700" fill="#B4B6C4" text-anchor="middle">fem år · dine valg</text>
+
+  <!-- story stack, back card: pink, age 18 -->
+  <g transform="rotate(-9 140 220)" filter="url(#sh)">
+    <rect x="22" y="136" width="240" height="176" rx="24" fill="#FF4F8B"/>
+    <circle cx="48" cy="164" r="13" fill="#0D0E13"/>
+    <text x="48" y="168.5" class="u" font-size="11" font-weight="800" fill="#FF4F8B" text-anchor="middle">18</text>
+    <text x="68" y="169" class="u" font-size="12" font-weight="800" fill="#0D0E13">Banken</text>
+    <text x="34" y="212" class="d" font-size="21" fill="#0D0E13">22,6 %</text>
+    <text x="34" y="230" class="u" font-size="12" font-weight="800" fill="#0D0E13">kortrente</text>
+  </g>
+
+  <!-- middle card: echo -->
+  <g transform="rotate(5 240 240)" filter="url(#sh)">
+    <rect x="122" y="150" width="248" height="190" rx="24" fill="#22252F" stroke="#3A3E50" stroke-width="1"/>
+    <use href="#i-echo" x="140" y="166" width="20" height="20" color="#FF4F8B"/>
+    <text x="167" y="181" class="u" font-size="13" font-weight="800" fill="#FF4F8B">Ekko</text>
+    <text x="140" y="206" class="u" font-size="14" font-weight="700" fill="#F5F3EE">Du for 8 måneder siden:</text>
+  </g>
+
+  <!-- front card: the pengegave choice -->
+  <g transform="rotate(-3 190 330)" filter="url(#sh)">
+    <rect x="52" y="222" width="282" height="214" rx="26" fill="#C8FF2E"/>
+    <g fill="#0D0E13" opacity="0.85">
+      <rect x="70" y="236" width="76" height="4" rx="2"/>
+      <rect x="152" y="236" width="76" height="4" rx="2" opacity="0.3"/>
+      <rect x="234" y="236" width="82" height="4" rx="2" opacity="0.3"/>
+    </g>
+    <circle cx="86" cy="266" r="15" fill="#0D0E13"/>
+    <use href="#i-gift" x="77" y="257" width="18" height="18" color="#C8FF2E"/>
+    <text x="110" y="262" class="u" font-size="13" font-weight="800" fill="#0D0E13">Pengegave</text>
+    <text x="110" y="277" class="u" font-size="12" font-weight="600" fill="#2B3300">måned 1 · 15 år</text>
+    <text x="70" y="330" class="d" font-size="44" fill="#0D0E13" letter-spacing="-1">18 400 kr</text>
+    <text x="70" y="356" class="u" font-size="15" font-weight="700" fill="#1B2100">Hva gjør du med den?</text>
+    <rect x="70" y="372" width="118" height="44" rx="22" fill="#0D0E13"/>
+    <text x="129" y="399" class="u" font-size="14" font-weight="800" fill="#C8FF2E" text-anchor="middle">Spar en del</text>
+    <rect x="196" y="372" width="120" height="44" rx="22" fill="none" stroke="#0D0E13" stroke-width="2"/>
+    <text x="256" y="399" class="u" font-size="14" font-weight="800" fill="#0D0E13" text-anchor="middle">Bruk alt nå</text>
+  </g>
+
+  <!-- reaction burst -->
+  <g transform="translate(330 250) rotate(12)">
+    <path d="M48.0,0.0 L37.0,8.5 L43.2,20.8 L29.7,23.7 L29.9,37.5 L16.5,34.2 L10.7,46.8 L0.0,38.0 L-10.7,46.8 L-16.5,34.2 L-29.9,37.5 L-29.7,23.7 L-43.2,20.8 L-37.0,8.5 L-48.0,0.0 L-37.0,-8.5 L-43.2,-20.8 L-29.7,-23.7 L-29.9,-37.5 L-16.5,-34.2 L-10.7,-46.8 L-0.0,-38.0 L10.7,-46.8 L16.5,-34.2 L29.9,-37.5 L29.7,-23.7 L43.2,-20.8 L37.0,-8.5 Z" fill="#FF4F8B"/>
+    <text x="0" y="-2" class="d" font-size="17" fill="#0D0E13" text-anchor="middle">+84 kr</text>
+    <text x="0" y="14" class="u" font-size="11" font-weight="800" fill="#0D0E13" text-anchor="middle">i rente/år</text>
+  </g>
+
+  <!-- pitch -->
+  <text x="16" y="526" class="d" font-size="46" fill="#F5F3EE" letter-spacing="-1.2">Tabbene er</text>
+  <text x="16" y="576" class="d" font-size="46" fill="#C8FF2E" letter-spacing="-1.2">gratis her.</text>
+  <text class="u" font-size="16" font-weight="500" fill="#B4B6C4">
+    <tspan x="16" y="610">Lev fra 15 til 20 år på mobilen. Hvert valg</tspan>
+    <tspan x="16" y="632">følger deg videre – og spillet viser hvorfor.</tspan>
+  </text>
+  <g class="u" font-size="12" font-weight="700" fill="#F5F3EE">
+    <rect x="16" y="648" width="112" height="26" rx="13" fill="#181A22"/>
+    <text x="72" y="665.5" text-anchor="middle">10 min per år</text>
+    <rect x="134" y="648" width="120" height="26" rx="13" fill="#181A22"/>
+    <text x="194" y="665.5" text-anchor="middle">Ekte 2026-tall</text>
+    <rect x="260" y="648" width="86" height="26" rx="13" fill="#181A22"/>
+    <text x="303" y="665.5" text-anchor="middle">Ingen quiz</text>
+  </g>
+
+  <!-- actions -->
+  <rect x="16" y="690" width="358" height="56" rx="28" fill="#C8FF2E"/>
+  <text x="195" y="724" class="u" font-size="17" font-weight="800" fill="#0D0E13" text-anchor="middle">Opprett bruker</text>
+  <rect x="16" y="756" width="358" height="52" rx="26" fill="none" stroke="#F5F3EE" stroke-width="1.6"/>
+  <text x="195" y="788" class="u" font-size="16" font-weight="700" fill="#F5F3EE" text-anchor="middle">Logg inn</text>
+  <text x="195" y="832" class="u" font-size="14" font-weight="600" fill="#B4B6C4" text-anchor="middle" text-decoration="underline">Glemt passord?</text>
+</svg>

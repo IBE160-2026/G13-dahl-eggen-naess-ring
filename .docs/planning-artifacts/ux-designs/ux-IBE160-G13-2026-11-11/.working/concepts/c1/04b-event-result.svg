@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+  <title>LifeMode – resultat med ekko og Hvorfor? (Story-feed)</title>
+  <defs>
+    <style>
+      .d{font-family:'Archivo Black','Arial Black',sans-serif}
+      .u{font-family:'Schibsted Grotesk',system-ui,sans-serif}
+    </style>
+    <symbol id="i-echo" viewBox="0 0 24 24"><path d="M4 11V9a3 3 0 0 1 3-3h11M15 3l3 3-3 3M20 13v2a3 3 0 0 1-3 3H6M9 21l-3-3 3-3" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-q" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.2 9.3a2.9 2.9 0 0 1 5.6.9c0 2-2.8 2.3-2.8 4.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17.6" r="1.3" fill="currentColor"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="16" r="1.7" fill="currentColor"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3h6l-1 6 4 4H6l4-4zM12 13v8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14l-4-4M20 16H6l4 4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-house" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 9.5V20h14V9.5M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9l9-5 9 5M5 10v8M10 10v8M14 10v8M19 10v8M3 20h18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-room" viewBox="0 0 24 24"><path d="M3 20V8l9-5 9 5v12M3 20h18M7 20v-6h6v6M15 11h3v3h-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M2.5 10h19" stroke="currentColor" stroke-width="2.2"/></symbol>
+
+  </defs>
+  <rect width="390" height="844" fill="#0D0E13"/>
+  <text x="28" y="31" class="u" font-size="15" font-weight="700" fill="#F5F3EE">14:32</text>
+  <g fill="#F5F3EE"><rect x="318" y="21" width="3" height="10" rx="1"/><rect x="323" y="18" width="3" height="13" rx="1"/><rect x="328" y="15" width="3" height="16" rx="1"/><rect x="339" y="17" width="24" height="13" rx="4" fill="none" stroke="#F5F3EE" stroke-width="1.5"/><rect x="341.5" y="19.5" width="16" height="8" rx="2"/></g>
+  <g><rect x="16.00" y="48.0" width="27.08" height="8" rx="4" fill="#F5F3EE"/><rect x="46.08" y="50.0" width="27.08" height="4" rx="2" fill="#F5F3EE"/><rect x="76.17" y="50.0" width="27.08" height="4" rx="2" fill="#F5F3EE"/><rect x="106.25" y="48.0" width="27.08" height="8" rx="4" fill="#353847"/><rect x="106.25" y="48.0" width="23.02" height="8" rx="4" fill="#C8FF2E"/><rect x="136.33" y="50.0" width="27.08" height="4" rx="2" fill="#353847"/><rect x="166.42" y="50.0" width="27.08" height="4" rx="2" fill="#353847"/><rect x="196.50" y="50.0" width="27.08" height="4" rx="2" fill="#353847"/><rect x="226.58" y="48.0" width="27.08" height="8" rx="4" fill="#353847"/><rect x="256.67" y="50.0" width="27.08" height="4" rx="2" fill="#353847"/><rect x="286.75" y="50.0" width="27.08" height="4" rx="2" fill="#353847"/><rect x="316.83" y="48.0" width="27.08" height="8" rx="4" fill="#353847"/><rect x="346.92" y="50.0" width="27.08" height="4" rx="2" fill="#353847"/></g>
+  <text x="16" y="94" class="d" font-size="26" font-weight="400" fill="#F5F3EE" letter-spacing="-0.6">Du byttet skjermen.</text>
+  <text x="16" y="114" class="u" font-size="13" font-weight="600" fill="#B4B6C4">April · resultat av valget ditt</text>
+  <g transform="translate(110 204) rotate(-8)"><path d="M69.7,7.0 L52.0,14.6 L63.1,30.4 L43.8,31.5 L48.9,50.1 L30.4,44.6 L28.8,63.8 L13.3,52.3 L5.2,69.8 L-5.4,53.7 L-19.0,67.4 L-23.4,48.6 L-40.9,56.8 L-38.7,37.7 L-57.8,39.4 L-49.2,22.2 L-67.8,17.3 L-53.9,4.0 L-69.7,-7.0 L-52.0,-14.6 L-63.1,-30.4 L-43.8,-31.5 L-48.9,-50.1 L-30.4,-44.6 L-28.8,-63.8 L-13.3,-52.3 L-5.2,-69.8 L5.4,-53.7 L19.0,-67.4 L23.4,-48.6 L40.9,-56.8 L38.7,-37.7 L57.8,-39.4 L49.2,-22.2 L67.8,-17.3 L53.9,-4.0 Z" fill="#C8FF2E" transform="scale(1.15)"/>
+    <text x="0" y="2" class="d" font-size="19" font-weight="400" fill="#0D0E13" text-anchor="middle">−1 490 kr</text>
+    <text x="0" y="21" class="u" font-size="12" font-weight="800" fill="#0D0E13" text-anchor="middle">betalt nå</text></g>
+  <g transform="translate(262 168) rotate(10)"><path d="M48.0,0.0 L37.0,8.5 L43.2,20.8 L29.7,23.7 L29.9,37.5 L16.5,34.2 L10.7,46.8 L0.0,38.0 L-10.7,46.8 L-16.5,34.2 L-29.9,37.5 L-29.7,23.7 L-43.2,20.8 L-37.0,8.5 L-48.0,0.0 L-37.0,-8.5 L-43.2,-20.8 L-29.7,-23.7 L-29.9,-37.5 L-16.5,-34.2 L-10.7,-46.8 L-0.0,-38.0 L10.7,-46.8 L16.5,-34.2 L29.9,-37.5 L29.7,-23.7 L43.2,-20.8 L37.0,-8.5 Z" fill="#FF4F8B"/>
+    <text x="0" y="0" class="u" font-size="14" font-weight="800" fill="#0D0E13" text-anchor="middle">Stress −2</text>
+    <text x="0" y="15" class="u" font-size="11" font-weight="800" fill="#0D0E13" text-anchor="middle">roligere</text></g>
+  <rect x="226" y="226" width="120" height="40" rx="20" fill="#22252F" stroke="#3A3E50"/>
+  <text x="286" y="251" class="u" font-size="14" font-weight="800" fill="#F5F3EE" text-anchor="middle">Sosialt ±0</text>
+  <path d="M206 132l10-14M218 146l16-6M196 268l-8 14M330 216l14 6" stroke="#C8FF2E" stroke-width="3" stroke-linecap="round"/>
+  <rect x="16" y="290" width="358" height="34" rx="17" fill="#181A22"/>
+  <use href="#i-room" x="28" y="298" width="18" height="18" color="#C8FF2E"/>
+  <text x="54" y="312" class="u" font-size="12.5" font-weight="700" fill="#F5F3EE">Rommet: mobilen på nattbordet er hel igjen</text>
+
+  <rect x="16" y="336" width="358" height="152" rx="22" fill="#181A22"/>
+  <use href="#i-echo" x="32" y="352" width="20" height="20" color="#FF4F8B"/>
+  <text x="58" y="367" class="u" font-size="14" font-weight="800" fill="#FF4F8B">Ekko</text>
+  <text x="100" y="367" class="u" font-size="14" font-weight="800" fill="#F5F3EE">Du for 8 måneder siden:</text>
+  <rect x="32" y="382" width="326" height="58" rx="14" fill="#0D0E13" stroke="#3A3E50"/>
+  <text x="46" y="403" class="u" font-size="11.5" font-weight="700" fill="#8C8FA0">August · 15 år · ditt valg</text>
+  <text x="46" y="426" class="u" font-size="15" font-weight="800" fill="#F5F3EE">Nei takk til mobilforsikring</text>
+  <text x="346" y="426" class="u" font-size="12" font-weight="700" fill="#B4B6C4" text-anchor="end">49 kr/mnd</text>
+  <text x="32" y="463" class="u" font-size="13" font-weight="600" fill="#B4B6C4">Uten forsikring betalte du hele regningen.</text>
+  <text x="32" y="480" class="u" font-size="13" font-weight="600" fill="#B4B6C4">Med den hadde du betalt 500 kr.</text>
+
+  <rect x="16" y="500" width="62" height="24" rx="12" fill="#C8FF2E"/><text x="47" y="516.5" class="u" font-size="12" font-weight="800" fill="#0D0E13" text-anchor="middle">Åpnet</text>
+  <text x="88" y="517" class="u" font-size="13" font-weight="600" fill="#F5F3EE">Mobilforsikring kan tegnes igjen fra mai</text>
+  <rect x="16" y="532" width="62" height="24" rx="12" fill="none" stroke="#8C8FA0"/><text x="47" y="548.5" class="u" font-size="12" font-weight="800" fill="#B4B6C4" text-anchor="middle">Lukket</text>
+  <text x="88" y="549" class="u" font-size="13" font-weight="600" fill="#B4B6C4">Toppmodellen – ikke denne måneden</text>
+
+  <path d="M0 600Q0 576 24 576H366Q390 576 390 600V844H0Z" fill="#F5F3EE"/>
+  <rect x="175" y="586" width="40" height="4" rx="2" fill="#B9B6AE"/>
+  <use href="#i-q" x="20" y="606" width="22" height="22" color="#0D0E13"/>
+  <text x="50" y="624" class="d" font-size="16" font-weight="400" fill="#0D0E13">Hvorfor kostet det 1 490 kr?</text>
+  <rect x="20" y="642" width="117" height="14" rx="4" fill="#0D0E13"/>
+  <rect x="139" y="642" width="231" height="14" rx="4" fill="#FF4F8B"/>
+  <rect x="20" y="672" width="12" height="12" rx="3" fill="#0D0E13"/>
+  <text x="42" y="683" class="u" font-size="13.5" font-weight="700" fill="#0D0E13">Egenandel du ville betalt uansett</text>
+  <text x="370" y="683" class="u" font-size="13.5" font-weight="800" fill="#0D0E13" text-anchor="end">500 kr</text>
+  <rect x="20" y="698" width="12" height="12" rx="3" fill="#FF4F8B" stroke="#0D0E13" stroke-width="1.2"/>
+  <text x="42" y="709" class="u" font-size="13.5" font-weight="700" fill="#0D0E13">Ekko: ingen forsikring (august)</text>
+  <text x="370" y="709" class="u" font-size="13.5" font-weight="800" fill="#0D0E13" text-anchor="end">990 kr</text>
+  <rect x="20" y="722" width="350" height="1" fill="#CFCBC2"/>
+  <text x="20" y="744" class="u" font-size="12.5" font-weight="600" fill="#3A3C48">Forsikring i 8 måneder hadde kostet 392 kr.</text>
+  <text x="20" y="762" class="u" font-size="12.5" font-weight="800" fill="#0D0E13">Denne gangen ble det 598 kr dyrere å droppe den.</text>
+  <rect x="16" y="778" width="358" height="52" rx="26" fill="#0D0E13"/>
+  <text x="181" y="810" class="u" font-size="16" font-weight="800" fill="#C8FF2E" text-anchor="middle">Skjønner – fortsett</text>
+  <use href="#i-arrow" x="270" y="793" width="22" height="22" color="#C8FF2E"/>
+</svg>

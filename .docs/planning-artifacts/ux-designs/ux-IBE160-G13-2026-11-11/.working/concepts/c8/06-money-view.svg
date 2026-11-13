@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+<title>LifeMode – Linjekart – Penger</title>
+<style>
+.g{font-family:'Schibsted Grotesk','Helvetica Neue',Helvetica,Arial,sans-serif}
+.m{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace}
+.b{font-weight:700}.sb{font-weight:600}.xb{font-weight:800}
+.mut{fill:#595959}.w{fill:#fff}.amb{fill:#FFB81C}.lt{fill:#D6D6D6}.k{fill:#111}
+.cob{fill:#1F4FD8}.grn{fill:#006644}.mag{fill:#B0005A}.red{fill:#C21F12}
+</style>
+<defs>
+<g id="echo" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M-5 3.5 H2.5 A3.25 3.25 0 0 0 2.5 -3 H-3"/><path d="M-0.5 -5.5 L-3 -3 L-0.5 -0.5"/></g>
+<path id="chev" d="M0 -5 L5 0 L0 5" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="back" d="M5 -7 L-2 0 L5 7" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><rect width="2.4" height="6" fill="#C21F12"/></pattern>
+<pattern id="hatchk" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#fff"/><rect width="3" height="7" fill="#111"/></pattern>
+</defs>
+<rect width="390" height="844" fill="#fff"/>
+<text x="28" y="31" class="g sb k" font-size="15">09:41</text>
+<g fill="#111"><rect x="300" y="22" width="3" height="9" rx="1"/><rect x="305" y="19" width="3" height="12" rx="1"/><rect x="310" y="16" width="3" height="15" rx="1"/><rect x="315" y="13" width="3" height="18" rx="1" opacity=".3"/></g>
+<rect x="334" y="15" width="25" height="13" rx="3" fill="none" stroke="#111" stroke-width="1.5"/><rect x="336.5" y="17.5" width="16" height="8" rx="1.5" fill="#111"/><rect x="360.5" y="19" width="2" height="5" rx="1" fill="#111"/>
+<use href="#back" x="24" y="72"/>
+<text x="44" y="82" class="g xb k" font-size="26" letter-spacing="-0.7">Penger</text>
+<text x="370" y="70" class="m b k" font-size="11.5" text-anchor="end">MARS</text>
+<text x="370" y="85" class="m mut" font-size="11" text-anchor="end">MÅNED 15</text>
+<!-- savings target as a line -->
+<path d="M24 109 h9 v9 l-4.5 -3 l-4.5 3 z" fill="#111"/>
+<text x="40" y="118" class="g b k" font-size="16">Mopedlappen</text>
+<text x="160" y="118" class="g mut" font-size="12">festet sparemål</text>
+<text x="370" y="119" class="m b k" font-size="18" text-anchor="end">72 %</text>
+<line x1="20" y1="142" x2="362" y2="142" stroke="#D9D9D9" stroke-width="7"/>
+<line x1="20" y1="142" x2="266" y2="142" stroke="#1F4FD8" stroke-width="7"/>
+<g fill="#111"><rect x="104" y="148" width="1.5" height="6"/><rect x="190" y="148" width="1.5" height="6"/><rect x="275" y="148" width="1.5" height="6"/></g>
+<circle cx="266" cy="142" r="7" fill="#fff" stroke="#111" stroke-width="3"/>
+<rect x="356" y="130" width="14" height="24" rx="7" fill="#fff" stroke="#111" stroke-width="3"/>
+<text x="20" y="172" class="m b k" font-size="12">8 352 av 11 600 kr</text>
+<text x="370" y="172" class="g b red" font-size="12.5" text-anchor="end">mangler 3 248 kr</text>
+<text x="20" y="189" class="g mut" font-size="11">Brukskonto + sparekonto teller. BSU og kort teller ikke.</text>
+<line x1="20" y1="202" x2="370" y2="202" stroke="#111" stroke-width="1.5"/>
+<rect x="20" y="213" width="6" height="22" fill="#1F4FD8"/><text x="36" y="224" class="g b k" font-size="14.5">Brukskonto</text><text x="370" y="229" class="m b k" font-size="14" text-anchor="end">3 140 kr</text><line x1="20" y1="246" x2="370" y2="246" stroke="#DADADA"/><rect x="20" y="257" width="6" height="22" fill="#007A52"/><text x="36" y="268" class="g b k" font-size="14.5">Sparekonto</text><text x="36" y="283" class="g mut" font-size="11">+19 kr rente i mars</text><text x="370" y="273" class="m b k" font-size="14" text-anchor="end">5 212 kr</text><use href="#echo" x="152.39999999999998" y="279" stroke="#006644"/><line x1="20" y1="290" x2="370" y2="290" stroke="#DADADA"/><rect x="20" y="301" width="6" height="22" fill="#F2A900"/><text x="36" y="312" class="g b k" font-size="14.5">BSU</text><text x="36" y="327" class="g mut" font-size="11">fradrag beregnes i desember</text><text x="370" y="317" class="m b k" font-size="14" text-anchor="end">2 000 kr</text><line x1="20" y1="334" x2="370" y2="334" stroke="#DADADA"/><rect x="20.75" y="345.75" width="4.5" height="20.5" fill="none" stroke="#D1006B" stroke-width="1.5"/><text x="36" y="356" class="g b mut" font-size="14.5">Kredittkort</text><text x="36" y="371" class="g mut" font-size="11">måned 37 · 22,6 % rente, grense 10 000 kr</text><text x="370" y="361" class="m b mut" font-size="11.5" text-anchor="end">Åpner ved 18</text><line x1="20" y1="378" x2="370" y2="378" stroke="#DADADA"/><rect x="21" y="389" width="170" height="44" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
+<path d="M36 406 H54 M49 401 L54 406 L49 411 M54 416 H36 M41 411 L36 416 L41 421" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="64" y="416" class="g b k" font-size="14">Flytt penger</text>
+<rect x="199" y="389" width="170" height="44" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
+<path d="M214 418 H232 M223 400 V414 M217 408 L223 414 L229 408" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="242" y="416" class="g b k" font-size="14">BSU-innskudd</text>
+<text x="20" y="463" class="g b k" font-size="13.5">Forbruk</text>
+<rect x="100" y="443" width="270" height="44" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
+<rect x="190" y="443" width="90" height="44" fill="#111"/>
+<line x1="190" y1="443" x2="190" y2="487" stroke="#111" stroke-width="2"/><line x1="280" y1="443" x2="280" y2="487" stroke="#111" stroke-width="2"/>
+<text x="145" y="470" class="g b k" font-size="14" text-anchor="middle">Lav</text>
+<text x="235" y="470" class="g b w" font-size="14" text-anchor="middle">Normal</text>
+<text x="325" y="470" class="g b k" font-size="14" text-anchor="middle">Høy</text>
+<text x="20" y="478" class="g mut" font-size="10.5">gjelder fra april</text>
+<text x="20" y="516" class="g b mut" font-size="13.5">Kortbruk</text>
+<text x="90" y="516" class="g mut" font-size="12">Av · tilgjengelig fra 18 år</text>
+<rect x="322" y="499" width="48" height="26" rx="13" fill="#fff" stroke="#9A9A9A" stroke-width="1.5" stroke-dasharray="3 2"/>
+<circle cx="335" cy="512" r="8" fill="#9A9A9A"/>
+<line x1="20" y1="538" x2="370" y2="538" stroke="#111" stroke-width="1.5"/>
+<!-- upcoming -->
+<text x="20" y="562" class="g b k" font-size="14.5">Kjente kostnader i april</text>
+<text x="370" y="562" class="m b k" font-size="13" text-anchor="end">−2 534 kr</text>
+<g class="g k" font-size="12"><text x="20" y="582">Mobil</text><text x="130" y="582">Busskort</text><text x="250" y="582">Forbruk, normal</text></g>
+<g class="m mut" font-size="11.5"><text x="20" y="598">−299 kr</text><text x="130" y="598">−435 kr</text><text x="250" y="598">−1 800 kr</text></g>
+<line x1="20" y1="612" x2="370" y2="612" stroke="#DADADA"/>
+<!-- activity spend -->
+<text x="20" y="636" class="g b k" font-size="14.5">Aktiviteter i år</text>
+<text x="370" y="636" class="m b k" font-size="13" text-anchor="end">1 070 kr</text>
+<rect x="20" y="646" width="147" height="14" fill="#1F4FD8"/>
+<rect x="169" y="646" width="110" height="14" fill="#111"/>
+<rect x="281" y="646" width="89" height="14" fill="url(#hatchk)"/>
+<g class="g k" font-size="11.5"><text x="20" y="678">Venner 450 kr</text><text x="169" y="678">Mat ute 340 kr</text><text x="281" y="678">Kino 280 kr</text></g>
+<line x1="20" y1="692" x2="370" y2="692" stroke="#DADADA"/>
+<!-- open options -->
+<text x="20" y="716" class="g b k" font-size="14.5">Åpne valg</text>
+<text x="20" y="742" class="g b k" font-size="14">Mopedlappen · 11 600 kr</text>
+<text x="20" y="759" class="g mut" font-size="11.5">Åpnet ved 16 år. Står åpen til du tar den.</text>
+<rect x="268" y="724" width="102" height="44" rx="4" fill="url(#hatch)" opacity=".15"/>
+<rect x="268.75" y="724.75" width="100.5" height="42.5" rx="4" fill="none" stroke="#C21F12" stroke-width="1.5"/>
+<text x="319" y="742" class="g b red" font-size="11.5" text-anchor="middle">Mangler</text>
+<text x="319" y="758" class="m b red" font-size="11.5" text-anchor="middle">3 248 kr</text>
+<text x="20" y="790" class="g k" font-size="13">Kjøp moped</text>
+<text x="104" y="790" class="g mut" font-size="11.5">krever mopedlappen</text>
+<rect x="128" y="826" width="134" height="5" rx="2.5" fill="#111"/>
+</svg>

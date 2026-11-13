@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+<title>LifeMode – Linjekart – Månedsplan (plattform)</title>
+<style>
+.g{font-family:'Schibsted Grotesk','Helvetica Neue',Helvetica,Arial,sans-serif}
+.m{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace}
+.b{font-weight:700}.sb{font-weight:600}.xb{font-weight:800}
+.mut{fill:#595959}.w{fill:#fff}.amb{fill:#FFB81C}.lt{fill:#D6D6D6}.k{fill:#111}
+.cob{fill:#1F4FD8}.grn{fill:#006644}.mag{fill:#B0005A}.red{fill:#C21F12}
+</style>
+<defs>
+<g id="echo" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M-5 3.5 H2.5 A3.25 3.25 0 0 0 2.5 -3 H-3"/><path d="M-0.5 -5.5 L-3 -3 L-0.5 -0.5"/></g>
+<path id="chev" d="M0 -5 L5 0 L0 5" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="back" d="M5 -7 L-2 0 L5 7" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><rect width="2.4" height="6" fill="#C21F12"/></pattern>
+<pattern id="hatchk" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#fff"/><rect width="3" height="7" fill="#111"/></pattern>
+</defs>
+<rect width="390" height="844" fill="#fff"/>
+<text x="28" y="31" class="g sb k" font-size="15">09:41</text>
+<g fill="#111"><rect x="300" y="22" width="3" height="9" rx="1"/><rect x="305" y="19" width="3" height="12" rx="1"/><rect x="310" y="16" width="3" height="15" rx="1"/><rect x="315" y="13" width="3" height="18" rx="1" opacity=".3"/></g>
+<rect x="334" y="15" width="25" height="13" rx="3" fill="none" stroke="#111" stroke-width="1.5"/><rect x="336.5" y="17.5" width="16" height="8" rx="1.5" fill="#111"/><rect x="360.5" y="19" width="2" height="5" rx="1" fill="#111"/>
+<use href="#back" x="24" y="72"/>
+<text x="44" y="82" class="g xb k" font-size="26" letter-spacing="-0.7">Månedsplan</text>
+<text x="370" y="70" class="m b k" font-size="11.5" text-anchor="end">NOVEMBER</text>
+<text x="370" y="85" class="m mut" font-size="11" text-anchor="end">MÅNED 35 · 17 ÅR</text>
+<text x="20" y="116" class="g k" font-size="14"><tspan class="b">3 plasser</tspan> denne måneden – ekstravaktene tar én.</text>
+<!-- ticket -->
+<path d="M20 132 H370 V336 A8 8 0 0 0 370 352 V404 H20 V352 A8 8 0 0 0 20 336 Z" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="34" y1="344" x2="356" y2="344" stroke="#111" stroke-width="1.2" stroke-dasharray="3 3"/>
+<rect x="36" y="146" width="318" height="30" fill="#E9E9E9"/>
+<text x="48" y="166" class="g b k" font-size="13">Skole · Vg2</text>
+<text x="342" y="165" class="m mut" font-size="10" text-anchor="end">FAST</text>
+<rect x="36" y="182" width="318" height="30" fill="#111"/>
+<text x="48" y="202" class="g b w" font-size="13">Jobb · 14 t/uke</text>
+<text x="342" y="201" class="m lt" font-size="10" text-anchor="end">10 T + 4 T EKSTRAVAKTER</text>
+<rect x="36" y="222" width="75" height="92" rx="6" fill="#1F4FD8"/>
+<text x="44" y="238" class="m w" font-size="10">PLASS 1</text>
+<text x="44" y="258" class="g b w" font-size="13">Konsert</text>
+<text x="44" y="273" class="g w" font-size="12">med Emma</text>
+<text x="44" y="292" class="m b w" font-size="12">450 kr</text>
+<text x="44" y="307" class="g w" font-size="9.5">Sos +8  Str −2</text><rect x="117" y="222" width="75" height="92" rx="6" fill="#1F4FD8"/>
+<text x="125" y="238" class="m w" font-size="10">PLASS 2</text>
+<text x="125" y="258" class="g b w" font-size="13">Kveld</text>
+<text x="125" y="273" class="g w" font-size="12">med venner</text>
+<text x="125" y="292" class="m b w" font-size="12">150 kr</text>
+<text x="125" y="307" class="g w" font-size="9.5">Sos +5  Str −1</text><rect x="199" y="223" width="73" height="90" rx="6" fill="#fff" stroke="#111" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="206" y="238" class="m k" font-size="10">PLASS 3</text>
+<path d="M235.5 258 V280 M224.5 269 H246.5" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+<text x="235.5" y="302" class="g b k" font-size="12" text-anchor="middle">Ledig</text><rect x="279" y="222" width="75" height="92" rx="6" fill="url(#hatchk)"/>
+<rect x="285" y="248" width="63" height="54" fill="#fff"/>
+<text x="287" y="238" class="m k" font-size="10" stroke="#fff" stroke-width="3" paint-order="stroke">PLASS 4</text>
+<text x="316.5" y="264" class="g b k" font-size="11" text-anchor="middle">Tatt av</text>
+<text x="316.5" y="278" class="g b k" font-size="11" text-anchor="middle">ekstra-</text>
+<text x="316.5" y="292" class="g b k" font-size="11" text-anchor="middle">vakter</text><text x="36" y="332" class="g mut" font-size="11">Plass 4 kommer tilbake i januar, når ekstravaktene slutter.</text>
+<text x="36" y="368" class="m mut" font-size="10">PLANLAGT</text>
+<text x="36" y="389" class="m b k" font-size="17">−600 kr</text>
+<text x="354" y="368" class="m mut" font-size="10" text-anchor="end">BRUKSKONTO ETTER PLANEN</text>
+<text x="354" y="389" class="m b k" font-size="17" text-anchor="end">3 912 kr</text>
+<!-- same as last month -->
+<rect x="21" y="417" width="348" height="44" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
+<use href="#echo" x="42" y="439" stroke="#111"/>
+<text x="58" y="444" class="g b k" font-size="14">Samme som forrige måned</text>
+<text x="354" y="443" class="m mut" font-size="10.5" text-anchor="end">2 AKTIVITETER</text>
+<text x="20" y="496" class="g b k" font-size="17">Velg til plass 3</text>
+<line x1="20" y1="508" x2="370" y2="508" stroke="#111" stroke-width="1.5"/>
+<text x="20" y="532" class="g b k" font-size="15">Hvilekveld</text><text x="20" y="550" class="g mut" font-size="11.5">Gratis · Stress −4</text><text x="272" y="532" class="m b k" font-size="12.5" text-anchor="end">0 kr</text><rect x="284" y="515" width="86" height="40" rx="4" fill="#111"/><path d="M296 535 H306 M301 530 V540" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><text x="312" y="539.5" class="g b w" font-size="13">Legg til</text><line x1="20" y1="562" x2="370" y2="562" stroke="#DADADA"/><text x="20" y="586" class="g b k" font-size="15">Gaming hjemme</text><text x="20" y="604" class="g mut" font-size="11.5">Gratis · Stress −2 · Sosialt +1</text><text x="272" y="586" class="m b k" font-size="12.5" text-anchor="end">0 kr</text><rect x="284" y="569" width="86" height="40" rx="4" fill="#111"/><path d="M296 589 H306 M301 584 V594" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><text x="312" y="593.5" class="g b w" font-size="13">Legg til</text><line x1="20" y1="616" x2="370" y2="616" stroke="#DADADA"/><text x="20" y="640" class="g b k" font-size="15">Kino med Jonas</text><text x="20" y="658" class="g mut" font-size="11.5">Invitasjon · Sosialt +4 · Stress −1</text><text x="272" y="640" class="m b k" font-size="12.5" text-anchor="end">140 kr</text><rect x="284" y="623" width="86" height="40" rx="4" fill="#111"/><path d="M296 643 H306 M301 638 V648" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><text x="312" y="647.5" class="g b w" font-size="13">Legg til</text><line x1="20" y1="670" x2="370" y2="670" stroke="#DADADA"/><text x="20" y="694" class="g b mut" font-size="15">Helgetur til Bergen</text><text x="20" y="712" class="g mut" font-size="11.5">Sosialt +10 · Stress −3</text><text x="272" y="694" class="m b mut" font-size="12.5" text-anchor="end">4 200 kr</text><rect x="284" y="677" width="86" height="40" rx="4" fill="url(#hatch)" opacity=".18"/><rect x="284.75" y="677.75" width="84.5" height="38.5" rx="4" fill="none" stroke="#C21F12" stroke-width="1.5"/><text x="327" y="694" class="g b red" font-size="11" text-anchor="middle">Mangler</text><text x="327" y="709" class="m b red" font-size="11" text-anchor="middle">288 kr</text><line x1="20" y1="724" x2="370" y2="724" stroke="#DADADA"/><rect x="20" y="740" width="350" height="56" rx="4" fill="#111"/>
+<text x="40" y="773" class="g b w" font-size="16">Ferdig – tilbake til november</text>
+<path d="M330 768 L348 768 M341 761 L348 768 L341 775" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="128" y="826" width="134" height="5" rx="2.5" fill="#111"/>
+</svg>

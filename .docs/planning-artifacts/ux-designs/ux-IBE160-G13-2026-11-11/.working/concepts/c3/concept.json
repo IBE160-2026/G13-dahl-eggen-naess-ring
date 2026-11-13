@@ -1,0 +1,4 @@
+{"id":"c3","name":"Pixel-RPG","tagline":"Livet ditt som 16-bit rollespill: hvert valg gir poeng, og spillet viser alltid hvorfor.",
+ "fonts":["Silkscreen","DotGothic16"],
+ "palette":[{"name":"Natt-blekk","hex":"#0d1321"},{"name":"Menyvindu","hex":"#16213e"},{"name":"Vindu hevet","hex":"#1f2f57"},{"name":"Ben-hvit kant","hex":"#f3ead3"},{"name":"Kroner-gull","hex":"#f7c548"},{"name":"Heal-grønn","hex":"#6ee07a"},{"name":"Skade-korall","hex":"#ff7a6b"},{"name":"Fritid-himmel","hex":"#5cc8f2"},{"name":"Sosialt-rosa","hex":"#ff9ec4"},{"name":"Tekst dempet","hex":"#b4c2e0"}],
+ "files":["01-landing.svg","02-lifemode-hub.svg","03a-year-timeline.svg","03b-month-plan.svg","04a-highlight-event.svg","04b-event-result.svg","05-phone-messages.svg","06-money-view.svg","07-all-pages.svg"]}
