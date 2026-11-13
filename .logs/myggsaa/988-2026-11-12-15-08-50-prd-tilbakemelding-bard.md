@@ -66,7 +66,7 @@ Få oversikt over BMAD-status og hva som mangler fra Bårds PRD-tilbakemelding, 
     - FR-9 og OQ-3 i PRD-en er oppdatert. Skriptet ligger bare i scratchpad og er ikke lagt i repoet.
 - **Arkitektur (#68):** tas senere og trengs ikke for PRD-en.
 - **Issues:** #66 og #70 er lukket. gh var logget inn som kontoen Myggsa, som mangler rettigheter. Etter bytte til Myggsaa gikk det.
-- **Commit:** PRD-endringene er ikke committet.
+- **Commit og PR:** PRD-endringene er committet (967ed04), og grenen er pushet. PR #74 mot `main` er opprettet (refererer til #67).
 
 ### Åpne punkter
 - Avklar eksakt leveringsdato og sjekk de foreløpige datoene mot den (#73)
