@@ -1,7 +1,7 @@
 ---
 title: LifeMode PRD addendum
 created: 2026-11-03
-updated: 2026-11-11
+updated: 2026-11-13
 ---
 
 # Addendum: LifeMode PRD
@@ -12,14 +12,12 @@ This addendum holds the detail downstream work needs and the reasons behind deci
 
 ### For the architecture
 
-These items came out of the PRD review and belong in the next `bmad-architecture` run. They aren't in `architecture_technical_design.md` yet. Supabase facts in this addendum come from general knowledge and need verifying.
+These items came out of the PRD review and belong in the next `bmad-architecture` run. The team follows the reference setup in `architecture/technology.md` (decided 2026-11-12): login built in the Python backend with bcrypt and its own JWT, Compose locally with Caddy and its own Postgres, Alembic migrations, a local stand-in for every external service whose key is missing (NFR-6), and Railway with Supabase Postgres for the hosted playtest. NFR-5 allows a low cost during the playtest.
 
-*Superseded 2026-11-12: the team follows the reference setup in `architecture/technology.md` (own login in the Python backend, mock fallback for external services, hosted on Railway with Supabase Postgres). Notes below about the Supabase login service, its limits, and its mail inbox no longer apply; the architecture run decides the replacements. NFR-5 now allows a low cost during the playtest.*
-
-- **Authentication:** where email normalization and the sign-up limit live; which limits the login service gives out of the box and which need the backend; how a revoked login reaches the backend; token lifetimes; the chosen email relay and its quota.
+- **Authentication:** the backend builds every limit itself: email normalization, the sign-up and login limits per network and per address, the failed-login pause, and the reset-email caps (the limits table under "Login with email: decisions, limits, and reset routes"). Name the token lifetimes, how a password change or **Log out on all devices** revokes other sessions (FR-4, FR-5), and the chosen email relay and its quota.
 - **Connectivity:** a state version per playthrough, a request ID for retries, browser visibility and online events, and the error format and codes.
 - **Engine state:** storage for draws and the seed, content versions, the per-cause parts of each balance, and the card and account settings.
-- **Hosting:** `architecture_technical_design.md` says no hosting provider is needed, which still holds for public production hosting, but NFR-11 requires a playtest environment. Name its provider, tier, and limits. The hosted Supabase free tier may pause idle projects (verify).
+- **Hosting:** the playtest runs on Railway with Supabase Postgres (OQ-14). Confirm an EU/EEA region, a usable screen within 10 seconds after sleep (NFR-10), and the expected cost (NFR-5), and name the fallback if one of these fails. Nothing may keep costing money after the playtest.
 - **Responsiveness:** a server budget of at most 300 ms to process and save one month, for 9 out of 10 requests, with the backend and database in the same region. A browser test with network throttling plays a scripted first session, and a Lighthouse mobile run checks the first screen before each playtest.
 - **Mobile-first:** add NFR-1's supported browsers and test devices as the test matrix.
 - **Game flow:** the two-part month and the state check on every request that changes the game (FR-49), and the open-option model (FR-48).
@@ -42,10 +40,11 @@ From the concept sketches:
 - **Estimated net:** the month plan's estimate covers activity costs only, not shifts (FR-52).
 - **Transfers:** «Overføring til sparing» is shown as a transfer, not a cost. FR-42 counts it as zero.
 - **Labels:** the PRD says "month plan", because rule 11 and D17 already use "calendar". What the screen is called, such as «Kalender», is UX's choice.
+- **Event options (2026-11-13):** an option shows no wellbeing effect before the pick; the result after the pick shows it, with "Hvorfor?" (FR-13). The 8 design concepts from 2026-11-12 drew wellbeing figures on the options, so this changes the event screen in whichever concept is chosen.
 
 ### UJ-4 month by month
 
-Reflects M13, the spending level with costs on top, and the 3.5% minimum, all decided on 2026-11-05. Markus keeps the moped (M13). This replaces the sale in the story that SE (sarahnaess) confirmed on 2026-11-04. With a NOK 10,000 limit, a sale for about NOK 9,300 and five months of extra shifts can't both be true: the sale alone would nearly clear the debt. This trace shows that the engine can reproduce UJ-4 under rules 1, 2, and 5. It's a set test state, not a scheduled playthrough: the city trip in month 40 is a drawn event, so a test sets it directly. Markus plans no activities in this trace.
+Reflects M13, the spending level with costs on top, and the 3.5% minimum, all decided on 2026-11-05. Markus keeps the moped (M13). This replaces the sale in the story that SE (sarahnaess) confirmed on 2026-11-04. With a NOK 10,000 limit, a sale for about NOK 7,900 and five months of extra shifts can't both be true: the sale would cover most of the debt. This trace shows that the engine can reproduce UJ-4 under rules 1, 2, and 5. It's a set test state, not a scheduled playthrough: the city trip in month 40 is a drawn event, so a test sets it directly. Markus plans no activities in this trace.
 
 Entry state at month W, month 41 (May): age 18. His earlier bills were paid in full, including lunches and fuel. In month W−1, after that month's bill was paid, he put a NOK 10,000 city trip for everyone on the card at the event step. Card bill at the debt step: NOK 10,000. That's his limit, so the card takes no more purchases and his spending comes from the current account. Payment setting: the whole balance. NOK 1,000 in the current account and no savings. Wage 10 h a week, NOK 8,452. Mobile NOK 299 and moped insurance NOK 250. Spending level: high. Moped fuel is left out of the costs until #43 gives it a source. Tax is NOK 0 while his wages so far this year stay under NOK 99,650.
 
@@ -62,7 +61,7 @@ In month W:
 - Interest starts, so the card warning shows: NOK 188 this month, and 51 months and NOK 5,508 in total interest if he pays only the minimum.
 - He talks to his mother, and the family draw gives no money.
 - He turns the card off, asks for one extra 2-hour shift a week, and moves spending down to normal.
-- He checks what the moped would sell for: about NOK 9,300 (rule 14, a gift moped owned about 26 months), less than he owes, and he'd pay for the bus without it. He keeps it.
+- He checks what the moped would sell for: about NOK 7,900 (NOK 7,860 under rule 14, a gift moped owned about 26 months), less than he owes, and he'd pay for the bus without it. He keeps it.
 
 He pays NOK 682 in interest in total, against NOK 5,508 at the minimum. W+1 is June, so the summer job is on offer, and he says no because he already has the extra hours. Taking it would pay NOK 33,547 in July, and the card would be paid in full that month, with NOK 363 in interest. The trace shows the slower path, and a player can choose either. No crisis trigger fires. Worked example 17a in the brief addendum covers his wellbeing, and example 23 covers what he has to do after this to reach his goal.
 
@@ -264,15 +263,15 @@ What this changes for the build:
 | Password length | At least 8 characters, at least 64 allowed | A 12-15-character minimum would slow sign-up for a 15-year-old |
 | Failed logins per address | 10 in 15 minutes, then a 15-minute pause | Stops guessing, and the message stays neutral |
 | Login attempts per network | 300 an hour | A class of 30 at three attempts each isn't blocked |
-| Reset emails | 1 per address a minute and 5 a day; total per day at most 80% of the free quota | One script can't use up the quota and block recovery [needs figure: the chosen service's quota, OQ-3, #43] |
+| Reset emails | 1 per address a minute and 5 a day; total per day at most 80% of the relay's daily quota | One script can't use up the quota and block recovery [needs figure: the chosen relay's quota, OQ-4, #30] |
 | Reset link | 60 minutes, and a new link cancels older ones | |
 | Login without "stay logged in" | Until the browser closes, or 30 minutes with no activity | Shared school PCs |
 | Login with "stay logged in" | Until logout, or 30 days without play | The box is unticked by default, which suits shared school PCs. The cost is that a phone player logs in again more often, which could lower the return rate. Check this in the playtest |
 
-**Reset email routes (OQ-4, #30).** *Superseded in part 2026-11-12: login is the backend's own, the cost limit is now NFR-5's low cost, and a missing email key falls back to a local stand-in (NFR-6).* Password reset has to send email within the hard constraint of zero ongoing cost, and it has to work in the examiner's Docker run without the team's cloud account or keys.
-- **Examiner's local run:** reset emails go to a local mail inbox that comes with the local login stack, and the README gives its address. The Supabase CLI includes one (Inbucket, or Mailpit in newer versions; verify).
-- **Hosted playtest:** a free-tier email relay whose quota covers 10-20 testers plus the limits above. Supabase's default sender is reported to deliver only to the project team's own addresses, a few an hour (verify).
-- **Fallback if no free relay works:** a tester who asks in person gets a one-time reset link that the team creates with the login service's admin tools. This works for 10-20 testers the team knows, but not for go-live.
+**Reset email routes (OQ-4, #30).** Password reset has to send email at NFR-5's low cost, and it has to work in the examiner's Docker run without the team's cloud account or keys (NFR-6).
+- **Examiner's local run:** with no email key, the backend's local stand-in puts reset emails in a local inbox or in the log, and the README says where (NFR-6). If no local inbox is available, the README points to the automated reset test.
+- **Hosted playtest:** an email relay whose quota covers 10-20 testers plus the limits above. The architecture names the relay and its cost.
+- **Fallback if the relay fails:** a tester who asks in person gets a one-time reset link that the team creates from the backend. This works for 10-20 testers the team knows, but not for go-live.
 
 ### Interest after a long break: left out of the MVP
 
