@@ -59,11 +59,9 @@ Få oversikt over BMAD-status og hva som mangler fra Bårds PRD-tilbakemelding, 
 - **A-26:** antakelsen om at F5 flyttes til V2 står nå også i §9 i PRD-en, i en kort tabell. Memloggen er oppdatert.
 - **OQ-6:** lukket for skoleprosjektet. Playtesten følger tiltakene i NFR-3 og trenger ingen godkjenning. Behandlingsansvar, behandlingsgrunnlag og regler for spillere på 15–17 år tas ved videre utvikling. Raden er fjernet fra §8, avsnittet i NFR-3 er skrevet om, og §4.3 har fått en ny rad om personvernvurderingen. Beslutningen er kommentert i #24, som står åpen som påminnelse.
 - **Refleksjonsspørsmål:** utkast til svar i `prds/prd-IBE160-G13-2026-10-22/refleksjon-prd-tilbakemelding.md`, bygget på memloggen og reviewen fra 11. nov. Teamet bekreftet svarene: 42, 46 og 37 ble regnet av Claudes skript og regnet på nytt i regneark av sarahnaess. Vektene og terskelen er Claudes forslag ut fra research, godtatt av teamet. Svarene er ferdige.
-- **Issues:** #66 er ferdig, men ble ikke lukket fordi kontoen mangler rettigheter (`CloseIssue`). Teamet må lukke den.
+- **Issues:** #66 og #70 er lukket. gh var logget inn som kontoen Myggsa, som mangler rettigheter. Etter bytte til Myggsaa gikk det.
 - **Commit:** PRD-endringene er ikke committet.
 
 ### Åpne punkter
 - Avklar eksakt leveringsdato og sjekk de foreløpige datoene mot den (#73)
-- Resten av tilbakemeldingen står i issuene #67, #68, #70 og #48 og i statusdokumentet.
-- Lukk #70, siden refleksjonssvarene er ferdige. Kontoen mangler rettigheter til å lukke issues (#70)
-- Lukk #66, som er ferdig. Kontoen mangler rettigheter til å lukke issues (#66)
+- Resten av tilbakemeldingen står i issuene #67, #68 og #48 og i statusdokumentet.
