@@ -44,18 +44,19 @@ From the concept sketches:
 
 ### UJ-4 month by month
 
-Reflects M13, the spending level with costs on top, and the 3.5% minimum, all decided on 2026-11-05. Markus keeps the moped (M13). This replaces the sale in the story that SE (sarahnaess) confirmed on 2026-11-04. With a NOK 10,000 limit, a sale for about NOK 7,900 and five months of extra shifts can't both be true: the sale would cover most of the debt. This trace shows that the engine can reproduce UJ-4 under rules 1, 2, and 5. It's a set test state, not a scheduled playthrough: the city trip in month 40 is a drawn event, so a test sets it directly. Markus plans no activities in this trace.
+Reflects M13, the spending level with costs on top, and the 3.5% minimum, all decided on 2026-11-05. Markus keeps the moped (M13). This replaces the sale in the story that SE (sarahnaess) confirmed on 2026-11-04. With a NOK 10,000 limit, a sale for about NOK 7,900 and six months of extra shifts can't both be true: the sale would cover most of the debt. This trace shows that the engine can reproduce UJ-4 under rules 1, 2, and 5. It's a set test state, not a scheduled playthrough: the city trip in month 40 is a drawn event, so a test sets it directly. Markus plans no activities in this trace.
 
-Entry state at month W, month 41 (May): age 18. His earlier bills were paid in full, including lunches and fuel. In month W−1, after that month's bill was paid, he put a NOK 10,000 city trip for everyone on the card at the event step. Card bill at the debt step: NOK 10,000. That's his limit, so the card takes no more purchases and his spending comes from the current account. Payment setting: the whole balance. NOK 1,000 in the current account and no savings. Wage 10 h a week, NOK 8,452. Mobile NOK 299 and moped insurance NOK 250. Spending level: high. Moped fuel is left out of the costs until #43 gives it a source. Tax is NOK 0 while his wages so far this year stay under NOK 99,650.
+Entry state at month W, month 41 (May): age 18. His earlier bills were paid in full, including lunches and fuel. In month W−1, after that month's bill was paid, he put a NOK 10,000 city trip for everyone on the card at the event step. Card bill at the debt step: NOK 10,000. That's his limit, so the card takes no more purchases and his spending comes from the current account. Payment setting: the whole balance. NOK 1,000 in the current account and no savings. Wage 10 h a week, NOK 8,452. Mobile NOK 299, moped insurance NOK 250, and moped fuel NOK 186 in April-October (rule 14), so NOK 735 in months W to W+5 (May-October) and NOK 549 from W+6. Spending level: high. Tax is NOK 0 while his wages so far this year stay under NOK 99,650, which they pass in W+6. Months 37-40 paid 10 h a week.
 
 | Month | Wage | Costs | Spending | Free for the card | Bill | Interest | Paid | Card after | What happens |
 |---|---|---|---|---|---|---|---|---|---|
-| W | 8,452 | 549 | 8,029 (high) | 874 | 10,000 | 188 | 874 | 9,314 | Card warning shows, and Markus acts (see below) |
-| W+1 | 10,142 | 549 | 7,607 (normal) | 1,986 | 9,314 | 175 | 1,986 | 7,503 | 12 h a week, well within rule 10 |
-| W+2 | 10,142 | 549 | 7,607 | 1,986 | 7,503 | 141 | 1,986 | 5,658 | |
-| W+3 | 10,142 | 549 | 7,607 | 1,986 | 5,658 | 107 | 1,986 | 3,779 | |
-| W+4 | 10,142 | 549 | 7,607 | 1,986 | 3,779 | 71 | 1,986 | 1,864 | |
-| W+5 | 10,142 | 549 | 7,607 | 1,986 | 1,864 | 0 | 1,864 | 0 | Paid in full, no interest: back on track, with NOK 122 left |
+| W | 8,452 | 735 | 8,029 (high) | 688 | 10,000 | 188 | 688 | 9,500 | Card warning shows, and Markus acts (see below) |
+| W+1 | 10,142 | 735 | 7,607 (normal) | 1,800 | 9,500 | 179 | 1,800 | 7,879 | 12 h a week, well within rule 10 |
+| W+2 | 10,142 | 735 | 7,607 | 1,800 | 7,879 | 148 | 1,800 | 6,227 | |
+| W+3 | 10,142 | 735 | 7,607 | 1,800 | 6,227 | 117 | 1,800 | 4,544 | |
+| W+4 | 10,142 | 735 | 7,607 | 1,800 | 4,544 | 86 | 1,800 | 2,830 | |
+| W+5 | 10,142 | 735 | 7,607 | 1,800 | 2,830 | 53 | 1,800 | 1,083 | He sets 20 h a week and low spending from next month |
+| W+6 | 16,903 | 549 | 8,608 (low) | 5,190 | 1,083 | 0 | 1,083 | 0 | Tax NOK 2,556 this month. Paid in full, no interest: back on track, with NOK 4,107 left |
 
 In month W:
 - Interest starts, so the card warning shows: NOK 188 this month, and 51 months and NOK 5,508 in total interest if he pays only the minimum.
@@ -63,7 +64,7 @@ In month W:
 - He turns the card off, asks for one extra 2-hour shift a week, and moves spending down to normal.
 - He checks what the moped would sell for: about NOK 7,900 (NOK 7,860 under rule 14, a gift moped owned about 26 months), less than he owes, and he'd pay for the bus without it. He keeps it.
 
-He pays NOK 682 in interest in total, against NOK 5,508 at the minimum. W+1 is June, so the summer job is on offer, and he says no because he already has the extra hours. Taking it would pay NOK 33,547 in July, and the card would be paid in full that month, with NOK 363 in interest. The trace shows the slower path, and a player can choose either. No crisis trigger fires. Worked example 17a in the brief addendum covers his wellbeing, and example 23 covers what he has to do after this to reach his goal.
+He pays NOK 771 in interest in total, against NOK 5,508 at the minimum. Without moped fuel he would have been back on track in W+5, with NOK 682 in interest. W+1 is June, so the summer job is on offer, and he says no because he already has the extra hours. Taking it would pay NOK 33,547 in July. That leaves NOK 375 on the card, paid in full in August, with NOK 515 in interest in total. The trace shows the slower path, and a player can choose either. No crisis trigger fires. Worked example 17a in the brief addendum covers his wellbeing, and example 23 covers what he has to do after this to reach his goal.
 
 ### Event scheduling and library size
 
@@ -410,7 +411,7 @@ Proposed by Dahl on 2026-11-05 and accepted by the team, as Dahl reported the sa
 | The experience offer moves to months 44 and 56, and a pushed-out summer job stays open until its July pay month | Two required events landed in June for goal-3 players, and a summer job offer pushed out of June could arrive after the July it pays in | Moves the months in G4 | FR-9, FR-46, FR-48 |
 | Playtest records that survive deletion, only in the playtest environment (FR-50) | FR-43 deletes the playthroughs the metrics count | Exception in NFR-3 | FR-50 |
 | Four more cut steps, and dates set by the team (OQ-13) | The old cut list removed no feature with real build cost, and the lecturer asked for "en minimal versjon som sikkert kan bli ferdig" | Adds to the cut list | PRD §4.4, OQ-13 |
-| OQ-6 blocks the first playtest, and OQ-11 is widened and blocks epics | Real email addresses first arrive with the playtest, and the project has no go-live. If the course requires AI in the app, architecture and epics change | Narrows "privacy questions don't block" (2026-11-03), which still holds for the MVP and the PRD | PRD §8 |
+| *Superseded 2026-11-13: OQ-6 is closed for the school project, and OQ-11 blocks nothing (PRD §8).* OQ-6 blocks the first playtest, and OQ-11 is widened and blocks epics | Real email addresses first arrive with the playtest, and the project has no go-live. If the course requires AI in the app, architecture and epics change | Narrows "privacy questions don't block" (2026-11-03), which still holds for the MVP and the PRD | PRD §8 |
 
 ### Decisions from the independent review
 
@@ -492,30 +493,30 @@ Added on 2026-11-11 from saegg1205's branch `docs/prd-sara-endringer`. The revis
 > 5. Neste måned begynner. Sparepengene, trivselen og kalenderbeslutningene videreføres. Tidligere valg kan påvirke fremtidige muligheter.
 
 **How UJ-6 differs from the example:**
-- **Persona and figures:** Markus, his hours, the car licence target, month 35, and all amounts are the PRD's own, taken from worked examples 24-26 (D1, D2).
+- **Persona and figures:** Markus, his hours, the car licence target, month 35, and all amounts are the PRD's own, taken from worked examples 24-26 (R1, R2).
 - **Shifts:** in the example the player places shifts in the calendar and cuts them to get less pay this month. In the PRD, shifts are never placed in a slot, and hours change from the next month (P3, rule 10). Markus therefore sees in the job view what ending the extra shifts would give from December, and keeps them.
 - **What carries over:** savings and the month's wellbeing score carry over. An activity's effect on stress and social life counts in its own month only (rule 12, decided 2026-11-11). The player plans one month at a time, and planning the next month is V2 (P2, §4.3).
 
-**Not taken from that branch:** it solved the same contradiction as D1 and D2 (Markus saving for the moped licence at 17 although he has had a moped since 16) by moving the concert journey to month 15, with examples 24-26 recalculated for that month, and by renumbering the journeys by age. This PRD keeps the car licence in month 35, which feeds UJ-4 (D1), and keeps the journey IDs stable while ordering them by age (§2.3), so that reviews, issues, and logs keep matching. Its other changes were already here: OQ-19 decided, ending extra shifts, and the wording of UJ-6 step 3.
+**Not taken from that branch:** it solved the same contradiction as R1 and R2 (Markus saving for the moped licence at 17 although he has had a moped since 16) by moving the concert journey to month 15, with examples 24-26 recalculated for that month, and by renumbering the journeys by age. This PRD keeps the car licence in month 35, which feeds UJ-4 (D1), and keeps the journey IDs stable while ordering them by age (§2.3), so that reviews, issues, and logs keep matching. Its other changes were already here: OQ-19 decided, ending extra shifts, and the wording of UJ-6 step 3.
 
 ### Review fixes (2026-11-11)
 
-Decided by sarahnaess, who asked on 2026-11-11 to apply the recommended fixes from `review-2026-11-11-solutions.md` (`.memlog.md`). The team reviews them in PR #59. The review is `review-2026-11-11.md`. These decisions settle what the 2026-11-10 revision left open or contradictory:
+Decided by sarahnaess, who asked on 2026-11-11 to apply the recommended fixes from `review-2026-11-11-solutions.md` (`.memlog.md`). The team reviews them in PR #59. The review is `review-2026-11-11.md`. These decisions settle what the 2026-11-10 revision left open or contradictory: These decisions are numbered R1-R12 (renamed from D1-D12 on 2026-11-13, so they don't clash with the disclosures D1-D26).
 
 | # | Decision | Why | Alternative rejected |
 |---|---|---|---|
-| D1 | In UJ-4, Markus paid for the car licence himself at 18, with what he saved from 17 (UJ-6) | It explains why he has no buffer when the card hits its limit, and matches a mother who can't help | Keeping the parents' gift: his savings would then pay the card bill under rule 5, and UJ-4 wouldn't happen |
-| D2 | UJ-6 is in November (month 35), a quiet month | October is active, and UJ-6 is the only journey showing an ordinary month | October with a highlight event added |
-| D3 | The credit card's offer message comes in month 39, and the card opens in month 37 | It matches the UJ-4 trace and keeps month 37 for the car licence | Month 37 |
-| D4 | An offer arrives even when the player doesn't qualify yet, and shows what's missing | Offers stay guaranteed, and the condition is part of the lesson | Waiting until the player qualifies |
-| D5 | Savings-target progress is the current account plus savings | The missing amount uses the same total, so the two never disagree | The savings account only |
-| D6 | No read state for messages, and no unread badges | Nothing new to store or replay | A stored read flag |
-| D7 | Invitations repeat, at most once each per in-game year | Supply meets the 0-2 invitations drawn a month without a much larger library | One-off invitations with a minimum of 12 a year |
-| D8 | Stress and social life are shown as the usual value and this month's value | Rule 12 is unchanged, and "Hvorfor?" matches the number it explains | Counting this month's activities in the social-life row, which would let activities change carried stress |
-| D9 | A "careful player with some free time" run is pass/fail, and targets are tuned once prices exist | Goal 1 was only shown reachable without activities | Lowering goal 1 now |
-| D10 | A plan that would set off a trigger asks the player to confirm, and isn't blocked | The player decides, as in UJ-4 | Blocking continuing |
-| D11 | The four game areas come right after §5.4, and the money view has its own section | The vision calls them the game itself | Pointers only |
-| D12 | A "same as last month" action for the month plan | It keeps 12 plans a session from becoming a chore | Leaving it to UX |
+| R1 | In UJ-4, Markus paid for the car licence himself at 18, with what he saved from 17 (UJ-6) | It explains why he has no buffer when the card hits its limit, and matches a mother who can't help | Keeping the parents' gift: his savings would then pay the card bill under rule 5, and UJ-4 wouldn't happen |
+| R2 | UJ-6 is in November (month 35), a quiet month | October is active, and UJ-6 is the only journey showing an ordinary month | October with a highlight event added |
+| R3 | The credit card's offer message comes in month 39, and the card opens in month 37 | It matches the UJ-4 trace and keeps month 37 for the car licence | Month 37 |
+| R4 | An offer arrives even when the player doesn't qualify yet, and shows what's missing | Offers stay guaranteed, and the condition is part of the lesson | Waiting until the player qualifies |
+| R5 | Savings-target progress is the current account plus savings | The missing amount uses the same total, so the two never disagree | The savings account only |
+| R6 | No read state for messages, and no unread badges | Nothing new to store or replay | A stored read flag |
+| R7 | Invitations repeat, at most once each per in-game year | Supply meets the 0-2 invitations drawn a month without a much larger library | One-off invitations with a minimum of 12 a year |
+| R8 | Stress and social life are shown as the usual value and this month's value | Rule 12 is unchanged, and "Hvorfor?" matches the number it explains | Counting this month's activities in the social-life row, which would let activities change carried stress |
+| R9 | A "careful player with some free time" run is pass/fail, and targets are tuned once prices exist | Goal 1 was only shown reachable without activities | Lowering goal 1 now |
+| R10 | A plan that would set off a trigger asks the player to confirm, and isn't blocked | The player decides, as in UJ-4 | Blocking continuing |
+| R11 | The four game areas come right after §5.4, and the money view has its own section | The vision calls them the game itself | Pointers only |
+| R12 | A "same as last month" action for the month plan | It keeps 12 plans a session from becoming a chore | Leaving it to UX |
 
 **Checked while applying:**
 - **UJ-6 and example 25:** Markus owns a moped, so its insurance (NOK 250) is his own at 17 (FR-23), and example 25 now includes it. For the bank's "three quarters" message to fire in November, progress must pass 75% that month. Example 25 therefore has NOK 500 + NOK 23,500 before the month (73.8%) and NOK 25,920 after it opens (79.8%). The proposal's NOK 24,400 had already passed 75% in October.
@@ -569,4 +570,4 @@ Decided by sarahnaess on 2026-11-11 during Finalize, from the rubric review (`re
 | A-27 | The new rules get worked examples and unit tests | NFR-4 |
 | A-28 | Deleting an account requires the current password and can't be undone | FR-44 |
 | A-29 | The first reference run and worked examples 1-23 plan no activities | FR-9 |
-| A-30 | In UJ-6, Markus pays his own moped insurance at 17, and moped fuel is left out until it has a source | UJ-6, brief example 25 |
+| A-30 | In UJ-6, Markus pays his own moped insurance at 17. Moped fuel is charged only in April-October (rule 14, from 2026-11-13), so UJ-6's November has none | UJ-6, brief example 25 |
