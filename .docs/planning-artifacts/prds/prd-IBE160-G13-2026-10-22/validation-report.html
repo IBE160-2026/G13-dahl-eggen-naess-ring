@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PRD Validation: LifeMode PRD</title>
+<style>
+  :root {
+    --bg: #fafaf9;
+    --surface: #ffffff;
+    --border: #e7e5e4;
+    --text: #1c1917;
+    --muted: #78716c;
+
+    --verdict-strong: #16a34a;
+    --verdict-adequate: #65a30d;
+    --verdict-thin: #d97706;
+    --verdict-broken: #dc2626;
+
+    --sev-low: #64748b;
+    --sev-medium: #ca8a04;
+    --sev-high: #ea580c;
+    --sev-critical: #dc2626;
+
+    --grade-exc: #16a34a;
+    --grade-good: #65a30d;
+    --grade-fair: #d97706;
+    --grade-poor: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  header.report-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .title h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .title .subtitle { color: var(--muted); font-size: 13px; margin-top: 4px; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .grade {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: white;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .grade-excellent { background: var(--grade-exc); }
+  .grade-good { background: var(--grade-good); }
+  .grade-fair { background: var(--grade-fair); }
+  .grade-poor { background: var(--grade-poor); }
+
+  .synthesis {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--muted);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    font-size: 15.5px;
+  }
+  .synthesis p { margin: 0 0 10px; }
+  .synthesis p:last-child { margin-bottom: 0; }
+
+  .dimension-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .dim-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .dim-card .dim-name { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .dim-card .dim-verdict { font-size: 14px; font-weight: 600; }
+
+  section.dimension, section.reviewer-section { margin-bottom: 14px; }
+  section.dimension details, section.reviewer-section details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  section summary {
+    padding: 14px 20px;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  section summary::-webkit-details-marker { display: none; }
+  section summary::before {
+    content: "▸";
+    display: inline-block;
+    color: var(--muted);
+    transition: transform 0.15s ease;
+  }
+  section details[open] summary::before { transform: rotate(90deg); }
+  section summary h2 {
+    display: inline;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    flex: 1;
+  }
+  .verdict-pill {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: white;
+  }
+  .verdict-strong { background: var(--verdict-strong); }
+  .verdict-adequate { background: var(--verdict-adequate); }
+  .verdict-thin { background: var(--verdict-thin); }
+  .verdict-broken { background: var(--verdict-broken); }
+
+  .dim-body { padding: 4px 20px 18px; }
+  .dim-judgment { color: var(--text); font-size: 14.5px; }
+  .dim-judgment p { margin: 0 0 10px; }
+
+  .findings-list { padding: 0 20px 4px; }
+  article.finding {
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+  }
+  article.finding:first-child { border-top: none; }
+  article.finding header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .badge {
+    font-size: 10.5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+  }
+  .badge-sev-low { background: rgba(100, 116, 139, 0.12); color: var(--sev-low); }
+  .badge-sev-medium { background: rgba(202, 138, 4, 0.14); color: var(--sev-medium); }
+  .badge-sev-high { background: rgba(234, 88, 12, 0.14); color: var(--sev-high); }
+  .badge-sev-critical { background: rgba(220, 38, 38, 0.14); color: var(--sev-critical); }
+  .badge-id { background: rgba(28, 25, 23, 0.08); color: var(--text); }
+  .finding-title { margin: 0; font-size: 15px; font-weight: 500; flex: 1; min-width: 200px; }
+  .finding-location { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; color: var(--muted); }
+  .finding-note, .finding-fix { margin-top: 6px; font-size: 14px; }
+  .finding-fix strong { color: var(--muted); font-weight: 500; }
+
+  .reviewer-source {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  .mechanical {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 24px;
+    font-size: 14px;
+  }
+  .mechanical h3 { margin: 0 0 10px; font-size: 14px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .mechanical ul { margin: 0; padding-left: 20px; }
+  .mechanical li { margin-bottom: 4px; color: var(--text); }
+
+  footer.report-footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  footer .meta { display: flex; gap: 24px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <header class="report-header">
+      <div class="title">
+        <h1>LifeMode PRD — Validation Report</h1>
+        <div class="subtitle">.docs/planning-artifacts/prds/prd-IBE160-G13-2026-10-22/prd.md (+ addendum.md, Rule Set v1)</div>
+      </div>
+      <div class="grade grade-fair">Fair</div>
+    </header>
+
+    <div class="synthesis">
+      <p>This is a strong, unusually testable PRD. One protagonist carries six journeys, nearly every FR has numbered consequences tied to the worked-example answer key, and the glossary and IDs are clean enough for UX and architecture to extract from directly. The risk is in delivering it, not in defining it. The tier-and-date scheme added on 2026-11-13 (§4.4) contradicts itself, and as written it leaves the Extension tier unbuilt in the expected case. Meanwhile 46 of 57 FRs stay Core, and nothing says what happens if the core isn't playable before the 8 Dec playtest. A few stale figures, and architecture notes in the addendum that are only half superseded, should be cleaned up before the architecture run extracts them.</p>
+      <p>The three extra reviewers sharpen that picture rather than overturn it.</p>
+      <p><strong>Engine arithmetic is sound.</strong> The independent figure check reproduced all 28 worked examples in Rule Set v1 with no mismatches, about 210 values in all. That includes examples 19–23, which so far only Claude's script had checked. It also found two real defects. FR-29 and the UJ-4 trace still use the old moped price. And a consumer loan in month 56 lets careless runs reach goal 3, despite "Borrowing never helps".</p>
+      <p><strong>Bård's feedback is largely handled.</strong> The feedback-coverage review found 21 of 36 points applied and verified, 7 partly applied, and only one not addressed: OQ-11 hasn't been taken to the lecturer. Every change the memlog claims is present in the documents.</p>
+      <p><strong>The adversarial review is the harshest.</strong> It finds that §3.1 states rules 5 and 8 as "or" where they mean "the larger of". Built as written, that puts UJ-4's Markus into crisis at once. It also finds that the ending summary can't show the spending level and working hours, which are the two levers that decide the ending; that UJ-4 works only because it leaves out fuel that Markus's own story says he pays; and that the card minimum of NOK 5,508 depends on a rounding rule that is never written down.</p>
+      <p><strong>Where reviewers agree.</strong> Several reviewers reached the same conclusions independently: the §4.4 cut rules contradict each other (3 of 4 reviewers); FR-29 and the UJ-4 trace have stale moped values (3); moped fuel has a figure that the examples say doesn't exist (all 4); the §0 status block is stale (3); and Core FRs point at Extension or Can-be-cut features with no fallback (3).</p>
+    </div>
+
+    <div class="dimension-summary">
+      <div class="dim-card"><div class="dim-name">Decision-readiness</div><div class="dim-verdict" style="color: var(--verdict-adequate)">adequate</div></div>
+      <div class="dim-card"><div class="dim-name">Substance over theater</div><div class="dim-verdict" style="color: var(--verdict-strong)">strong</div></div>
+      <div class="dim-card"><div class="dim-name">Strategic coherence</div><div class="dim-verdict" style="color: var(--verdict-strong)">strong</div></div>
+      <div class="dim-card"><div class="dim-name">Done-ness clarity</div><div class="dim-verdict" style="color: var(--verdict-strong)">strong</div></div>
+      <div class="dim-card"><div class="dim-name">Scope honesty</div><div class="dim-verdict" style="color: var(--verdict-adequate)">adequate</div></div>
+      <div class="dim-card"><div class="dim-name">Downstream usability</div><div class="dim-verdict" style="color: var(--verdict-strong)">strong</div></div>
+      <div class="dim-card"><div class="dim-name">Shape fit</div><div class="dim-verdict" style="color: var(--verdict-strong)">strong</div></div>
+    </div>
+
+    <!-- Decision-readiness -->
+    <section class="dimension">
+      <details>
+        <summary><h2>Decision-readiness</h2><span class="verdict-pill verdict-adequate">adequate</span></summary>
+        <div class="dim-body"><div class="dim-judgment">
+          <p>Most decisions are stated as decisions, and the trade-offs are honest. The addendum's decision tables have "Why" and "Alternative rejected" columns and name what was given up. The §8 table is genuinely open: every question has an owner and a Blocks column, and none blocks UX.</p>
+          <p>The weak points are in the newest material. The cut rules added to §4.4 on 2026-11-13 contradict each other. The status block at the top of §0 describes the document's history rather than its current state. One game-design question that matters for the thesis is filed as a UX detail.</p>
+        </div></div>
+        <div class="findings-list">
+          <article class="finding">
+            <header><span class="badge badge-sev-high">high</span><h3 class="finding-title">The §4.4 cut rules contradict each other, and on plan the Extension tier is never built</h3><span class="finding-location">§4.4 "When to cut", checkpoint table, "Tiers"</span></header>
+            <div class="finding-note">The "When to cut" paragraph applies the first six cut items at the first checkpoint. The table drops only unstarted Extension FRs there, and drops the whole Can-be-cut tier at the second checkpoint. Extensions freeze about 26–27 Nov, but they're built only "once the core is playable", which is about 1–3 Dec. So all eight Extension FRs (avatar, recap, tips, consumer loans, visible opportunities, echo badges, disclosures, change password) drop in the planned case. Sprint planning will read these three rules three different ways.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Keep one rule set, written as a decision table: checkpoint → the condition tested → the exact consequence. Either move the Extension freeze after core-playable, or say plainly that Extension is expected to drop. Delete or adopt the "first six items" example, and say whether the 1–11 order still matters.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">The status block reads as a changelog, and parts of it are stale</h3><span class="finding-location">§0 "Status", frontmatter</span></header>
+            <div class="finding-note">"Final for UX and architecture" sits next to <code>status: draft</code>. "Tiers, dates and hosting wait for the team" is out of date. "Final on 2026-11-11" is followed by "first final on 2026-11-09", and the frontmatter says <code>updated: 2026-11-12</code>.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Write three lines: the current status, what is still open downstream (OQ-4, OQ-13, OQ-14), and a pointer to <code>.memlog.md</code> for the history. Align the frontmatter.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">Whether players see an option's wellbeing effect before choosing is a game-design decision filed as UX</h3><span class="finding-location">OQ-9; FR-13; FR-33; FR-53</span></header>
+            <div class="finding-note">FR-13 says "Every option states its wellbeing effect", yet OQ-9 asks whether the effect is shown before the pick, with owner UX and "Blocks: Nothing". Showing it up front pushes events towards the quiz that FR-13 and NFR-8 rule out. Hiding it makes discovery the mechanism of the thesis.</div>
+            <div class="finding-fix"><strong>Fix:</strong> The team decides this before UX designs the event screen, and FR-13 records it (shown: yes, no, or direction only). Align FR-53 with the decision.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-low">low</span><h3 class="finding-title">OQ-11 has no deadline and is marked "Blocks: Nothing"</h3><span class="finding-location">§8 OQ-11</span></header>
+            <div class="finding-note">The lecturer's difficulty rating leaned partly on in-app AI. Delivery is about five weeks away, and nothing says when the lecturer will be asked.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Set a date to ask the lecturer, before sprint planning. Name the smallest AI scope to fall back on if the answer is "AI required".</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- Substance over theater -->
+    <section class="dimension">
+      <details>
+        <summary><h2>Substance over theater</h2><span class="verdict-pill verdict-strong">strong</span></summary>
+        <div class="dim-body"><div class="dim-judgment">
+          <p>There's very little furniture. Markus is the only persona, and every journey forces specific requirements. The survey findings become decisions: 38% thinking ahead becomes SM-1, and "BSU and credit understood least" becomes NFR-8. The NFRs have bounds specific to this product, and the Vision couldn't be swapped into another PRD.</p>
+        </div></div>
+        <div class="findings-list">
+          <article class="finding">
+            <header><span class="badge badge-sev-low">low</span><h3 class="finding-title">The comparison with Koll på cashen has no measure</h3><span class="finding-location">§1; §7.1</span></header>
+            <div class="finding-note">"More rewarding and smoother to play than Koll på cashen" isn't measured by any SM. SM-7 compares the game with schoolwork, not with the competitor.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add a survey item for testers who have played Koll på cashen, or recast the sentence as a design aim the PRD doesn't claim to validate.</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- Strategic coherence -->
+    <section class="dimension">
+      <details>
+        <summary><h2>Strategic coherence</h2><span class="verdict-pill verdict-strong">strong</span></summary>
+        <div class="dim-body"><div class="dim-judgment">
+          <p>The thesis is stated, and the features follow from it: players make expensive mistakes cheaply, the game always shows why, and time is as limited as money. SM-1, SM-3 and SM-4 measure understanding through written explanations scored against a rubric, not through self-report. Five counter-metrics guard the obvious failure modes. The weak joints are where cuts meet the journeys, and in two metrics.</p>
+        </div></div>
+        <div class="findings-list">
+          <article class="finding">
+            <header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">Cut items 1 and 8 remove the motivation behind UJ-6 and UJ-4</h3><span class="finding-location">§4.4 items 1, 8; UJ-6; UJ-4; SM-4, SM-7, SM-9</span></header>
+            <div class="finding-note">UJ-6's pinned savings target, its bank message and the gift edge case all use FR-57, the first thing cut. UJ-4's setup and the borrowed car depend on FR-30, cut item 8. If either cut happens, the journeys the playtest is checked against describe a game that wasn't built.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add one "if cut" line per affected journey. Without FR-57, UJ-6's bank message tracks goal-1 progress. Without FR-30, UJ-4's savings went on the moped licence. Alternatively, take the savings-target pin out of item 1.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">SM-6 can't separate a voluntary return from finishing the assigned playthrough</h3><span class="finding-location">§7.1 SM-5, SM-6</span></header>
+            <div class="finding-note">A full game takes about an hour, so most testers who finish will need a second sitting anyway. SM-6 is the only behavioural signal for the teaser-and-return loop.</div>
+            <div class="finding-fix"><strong>Fix:</strong> State what testers are told. Count as a return only a sitting after the instructed part, or a replay after an ending.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">The "careful player with some free time" check hasn't been run, and its margin is thin</h3><span class="finding-location">FR-9b; example 20; OQ-17</span></header>
+            <div class="finding-note">The rubric walker estimated about NOK 500 above goal 1 with expenses. The figure check then ran it: one NOK 100 café visit a month gives NOK 100,488, only NOK 488 above. If a careful player with free time misses goal 1, the game treats free time as wasted money, against NFR-8.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Record the run as a worked example. Replace "expected to need tuning" with the result and any tuning decision under OQ-8, before 26–27 Nov.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-low">low</span><h3 class="finding-title">SM-2's target "Higher after" has no bound</h3><span class="finding-location">§7.1 SM-2; CM-2, CM-3</span></header>
+            <div class="finding-note">With 10–20 testers on a 5-question quiz, any rise passes.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Set a minimum mean rise, or a share of testers who improve. Report the distribution.</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- Done-ness clarity -->
+    <section class="dimension">
+      <details>
+        <summary><h2>Done-ness clarity</h2><span class="verdict-pill verdict-strong">strong</span></summary>
+        <div class="dim-body"><div class="dim-judgment">
+          <p>This is where story creation will lean hardest, and it holds up. Nearly every FR has "Consequences (testable)" with figures tied to the answer key. Content rules have pass/fail gates, and NFR-7 lists 22 refusal cases, each with its own test. One test figure is stale, and a few phrases will make a story writer stop and ask.</p>
+        </div></div>
+        <div class="findings-list">
+          <article class="finding">
+            <header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">FR-29's resale test contradicts worked example 19</h3><span class="finding-location">FR-29 "Resale value"</span></header>
+            <div class="finding-note">NOK 9,625 is the old 13,750 × 0.70. With the new price, 11,645 × 0.70 = NOK 8,152. The figure check rates this high (H1).</div>
+            <div class="finding-fix"><strong>Fix:</strong> Change it to "fetches NOK 8,152 (worked example 19)". Search both files for other figures derived from NOK 13,750.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-low">low</span><h3 class="finding-title">The 2-minute target has two start points</h3><span class="finding-location">FR-11; FR-1; SM-10; FR-50</span></header>
+            <div class="finding-note">FR-11 counts "from opening the game", while SM-10 and FR-50 count "from creating the user".</div>
+            <div class="finding-fix"><strong>Fix:</strong> Pick one start point: either the load of the create-user screen, or user creation.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-low">low</span><h3 class="finding-title">Three phrases a story writer will have to ask about</h3><span class="finding-location">FR-9c; FR-40; §4.4 item 3</span></header>
+            <div class="finding-note">These are: "lowest available money so far" for goal 2, which counts only months 49–60; whether a disclosure is shown or only available; and "info messages, down to their minimum", where FR-17 sets no minimum.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Write "lowest available money at a month-end from month 49"; "shown once without being asked for, then kept behind the info icon"; and either set an info-message minimum or say there is none.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-low">low</span><h3 class="finding-title">Some NFR wording is adjectives, not bounds</h3><span class="finding-location">NFR-1; NFR-10</span></header>
+            <div class="finding-note">"Readable on a small screen" has no bound. "Mid-range phone on a throttled 4G connection" names no device class or throttle profile.</div>
+            <div class="finding-fix"><strong>Fix:</strong> For example, "body text at least 16 CSS px, usable at 200% zoom", and the DevTools "Slow 4G" profile on a named reference phone.</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- Scope honesty -->
+    <section class="dimension">
+      <details>
+        <summary><h2>Scope honesty</h2><span class="verdict-pill verdict-adequate">adequate</span></summary>
+        <div class="dim-body"><div class="dim-judgment">
+          <p>Omissions are explicit and well organized. §4.2 and §4.3 list what never goes in or comes later, each with a reason. The ordered cut list states a fallback per cut, and every FR has a tier. All assumptions are confirmed and indexed. The gap is size: the tiers relabel the build rather than shrink it, and two significant pieces of work have no tier at all.</p>
+        </div></div>
+        <div class="findings-list">
+          <article class="finding">
+            <header><span class="badge badge-sev-high">high</span><h3 class="finding-title">Core is nearly the whole product, and nothing says what happens if it isn't playable before the playtest</h3><span class="finding-location">§4.4 "Tiers"; FR overview; §7.1 "Dates"</span></header>
+            <div class="finding-note">Core holds 46 of 57 FRs. If "Core playable, about 1–3 Dec" is missed, the only response is dropping three FRs, 5–7 days before the 8 Dec playtest. The build had no code on 2026-11-05. The PRD doesn't say what the playtest does if a full life from 15 to 20 can't be played, and SM-5 and SM-11 depend on full playthroughs.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add a "playable spine" checkpoint about a week earlier. Write down a playtest fallback, for example testers playing from NFR-6-style seeded states, with SM-5 and SM-11 reported as not measured. Mark which Core FRs could ship in a reduced form.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">Extension FRs have no fallback text, so Core FRs refer to features that may not exist</h3><span class="finding-location">FR-25, FR-16, FR-19, FR-40, FR-37</span></header>
+            <div class="finding-note">Some examples: FR-18's consumer-loan row, FR-55's month-49 offer and the NFR-7 loan refusals assume FR-25 exists. FR-28's recap teaser assumes FR-16. A-23 calls the disclosed simplifications (FR-40) "a requirement".</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add an "If left out:" line to each Extension FR. Given A-23 and NFR-8, reconsider FR-40, and FR-19's card-offer tip, for Core.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">The content check is a major build item with no FR, tier or owner</h3><span class="finding-location">Glossary; FR-9b, FR-17, FR-33, FR-43, FR-46b, FR-48, FR-52, FR-55; NFR-9</span></header>
+            <div class="finding-note">It's a seeded playthrough simulator with run policies, schema validation for three content types, and about a dozen gates and reports spread over eight FRs, all run in CI.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Give it its own FR (for example FR-58) listing every gate with the FR it comes from, a tier (gates Core, reports Extension) and an owner.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-low">low</span><h3 class="finding-title">The PRD says the playtest "needs no approval" but gives no basis</h3><span class="finding-location">NFR-3 "Scope of the privacy work"; §4.3</span></header>
+            <div class="finding-note">The playtest still processes real email addresses, and links records to quiz answers through a code key, which is pseudonymous personal data.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Say who confirmed this and when. If nobody has, make it a team-owned OQ that blocks the playtest.</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- Downstream usability -->
+    <section class="dimension">
+      <details>
+        <summary><h2>Downstream usability</h2><span class="verdict-pill verdict-strong">strong</span></summary>
+        <div class="dim-body"><div class="dim-judgment">
+          <p>The PRD is built for extraction. It has a 63-term glossary used consistently, unique and resolving IDs, an FR overview with section, journeys and tier, one-line rule summaries in §3.1, FR-9, FR-32 and FR-46 split into story-sized parts, and a named protagonist in every journey. The cost is length (about 27,000 words), which the overview offsets. Two things will mislead the next workflows.</p>
+        </div></div>
+        <div class="findings-list">
+          <article class="finding">
+            <header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">The architecture handoff in the addendum is only half superseded</h3><span class="finding-location">addendum "For the architecture", "Reset email routes"</span></header>
+            <div class="finding-note">A "Superseded 2026-11-12" banner sits over bullets that still ask about Supabase login limits, cite "no hosting provider is needed", and frame reset "within the hard constraint of zero ongoing cost". The architecture run will pick up the bullets, not the banner.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Rewrite the bullets for the reference setup: own Python login (bcrypt and JWT), Railway with Supabase Postgres, NFR-6 local stand-ins, NFR-5 low cost. Delete the superseded text; git keeps it.</div>
+          </article>
+          <article class="finding">
+            <header><span class="badge badge-sev-low">low</span><h3 class="finding-title">§3.1 misstates the rule 8 debt trigger</h3><span class="finding-location">§3.1 row 8</span></header>
+            <div class="finding-note">"Debt above 3× wage or NOK 5,000" reads as whichever is lower. Rule 8 means the larger of the two, with debt netted against the current account and savings. The adversarial review found that row 5 has the same problem (AG-07).</div>
+            <div class="finding-fix"><strong>Fix:</strong> "Net debt above the larger of 3× the 3-month average wage and NOK 5,000."</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- Shape fit -->
+    <section class="dimension">
+      <details>
+        <summary><h2>Shape fit</h2><span class="verdict-pill verdict-strong">strong</span></summary>
+        <div class="dim-body"><div class="dim-judgment">
+          <p>The shape is right for a graded consumer game at the top of the UX → architecture → stories chain. The structure is led by journeys with one protagonist, and the rigor fits a deterministic engine an examiner will test. Now that the team builds its own login, the detail in FR-1 to FR-5 and FR-44 is justified. Decision history lives in the addendum, so the PRD stays declarative. No findings.</p>
+        </div></div>
+      </details>
+    </section>
+
+    <!-- Adversarial -->
+    <section class="reviewer-section">
+      <details>
+        <summary><h2>Adversarial review (28 findings, unranked)</h2><span class="reviewer-source">review-adversarial-general.md</span></summary>
+        <div class="dim-body"><div class="dim-judgment">
+          <p>This PRD is meticulous about arithmetic and edge cases. That is exactly why its gaps are dangerous: readers will trust it. The Core tier is nearly the whole product, and its own sequencing makes the Extension tier impossible to start. The §3.1 summaries misstate two rules in a way that would put UJ-4's Markus into crisis on day one. The flagship UJ-4 trace works only because it leaves out costs its own story says Markus pays. The ending summary, the payoff of "the game always shows why", can't show the two settings that the worked examples prove decide the outcome. A downstream team building from this document will either guess or stall.</p>
+        </div></div>
+        <div class="findings-list">
+          <article class="finding"><header><span class="badge badge-id">AG-01</span><h3 class="finding-title">The Extension tier can never start under the PRD's own sequencing</h3><span class="finding-location">§4.4 Tiers, dates table</span></header>
+            <div class="finding-note">The freeze (26–27 Nov) comes before core-playable (1–3 Dec). The avatar, the recap (all of UJ-2), tips, consumer loans, echo badges and disclosures all drop silently at the freeze.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Decide FR by FR: promote to Core, or move to Can be cut with a fallback. Or move the freeze after Core.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-02</span><h3 class="finding-title">Core isn't a minimal version, and the schedule isn't achievable for a student team</h3><span class="finding-location">§4.4; NFR-1–11; FR-17; content check</span></header>
+            <div class="finding-note">About 18–20 days to core-playable, with UX, architecture and epics not yet written. The NFRs have no tiers. At least 40 events and all ending texts must be written in reviewed Norwegian. No checkpoint covers content authoring.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Define a "Core-0" walking skeleton for about 24 Nov. Tier the NFRs. Schedule content authoring and the harness with owners and weekly counts.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-03</span><h3 class="finding-title">Core FRs depend on non-Core FRs, with no "if not built" behaviour</h3><span class="finding-location">FR-28→16, FR-42→19, FR-18/45/48/55/NFR-7→25, FR-12/49/55→57, FR-53→37</span></header>
+            <div class="finding-note">If FR-25 is dropped, FR-55 still obliges the engine to send a month-49 consumer-loan offer for a product that doesn't exist.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add an "If not built" block to every Extension and Can-be-cut FR, listing the Core consequences that change.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-04</span><h3 class="finding-title">The rule for when to cut contradicts the checkpoint table, and nothing covers a Core miss</h3><span class="finding-location">§4.4</span></header>
+            <div class="finding-note">Nothing stops Can-be-cut work, such as the driving game, from being built before Core. Dropping a tier that's already half-built saves no time.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Use one table. Add "No Can-be-cut work starts before Core is playable", plus a Core-miss rule.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-05</span><h3 class="finding-title">The cut order protects login hardening ahead of the game itself</h3><span class="finding-location">§4.4 item 11</span></header>
+            <div class="finding-note">Per-network limits, email caps and log-out-everywhere are cut last, for a closed playtest of 10–20 invited testers.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Move item 11 to position 1 or 2, or to a before-go-live list.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-06</span><h3 class="finding-title">NFR-3 promises a deletion that the cut list removes</h3><span class="finding-location">NFR-3; §4.4 item 11; FR-5</span></header>
+            <div class="finding-note">If item 11 is cut, the privacy text tells players their data is deleted after 12 months when it isn't.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Make the NFR-3 text conditional on the job, or keep the job. Do the same for FR-5's "Log out on all devices".</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-07</span><h3 class="finding-title">The §3.1 one-line summaries misstate rules 5 and 8</h3><span class="finding-location">§3.1 rows 5, 8</span></header>
+            <div class="finding-note">"3.5% or NOK 300" and "3× wage or NOK 5,000" read as OR; the rules say "the larger of". Built as written, every card balance above NOK 5,000 triggers a crisis, and Markus in UJ-4 is in crisis immediately.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Rewrite both rows with "the larger of" and the full netting (positive current account and savings subtracted, family loans excluded).</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-08</span><h3 class="finding-title">The card minimum has no rounding rule, and the answer key depends on one</h3><span class="finding-location">Rule 5; UJ-4; FR-26; FR-31; example 12</span></header>
+            <div class="finding-note">NOK 10,000 at the minimum gives NOK 5,508 with half-up, 5,512 with floor and 5,503 with ceiling.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add to rule 5: "The minimum is rounded under rule 2 (0.5 rounds up)." Add a worked example with a fractional minimum.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-09</span><h3 class="finding-title">UJ-4 works only by leaving out costs its own story says Markus pays</h3><span class="finding-location">UJ-4; addendum trace; examples 17a, 23</span></header>
+            <div class="finding-note">With moped fuel, payoff takes W+6 and NOK 771 of interest, not W+5 and 682. Adding car fuel too, month W becomes a missed minimum and payoff takes about 15 months.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Recompute with every cost the story names, or rewrite the story. Mark the trace as provisional until #43 closes.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-10</span><h3 class="finding-title">The extra hours in UJ-4 use three different mechanisms, and the card warning has no specified options</h3><span class="finding-location">UJ-4 step 4; trace; 17a; FR-47; FR-55; FR-31</span></header>
+            <div class="finding-note">The three are "raises hours from 10 to 12", "one extra 2-hour shift" and "asks for 2 h more (social −5)". Extra shifts at the defaults can't produce +2 h for five months.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Pick one mechanism and recompute 17a. Specify the card warning's source, options and effects in FR-31.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-11</span><h3 class="finding-title">No FR guarantees "The game always shows why"</h3><span class="finding-location">§1; FR-38; FR-13; FR-14; FR-54</span></header>
+            <div class="finding-note">FR-38 never lists which changes or screens carry "Hvorfor?". Quiet months, 8 of every 12, have no "why" requirement. UJ-3 presses "Hvorfor?" on a bank message, which FR-54 doesn't provide for.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add a coverage table to FR-38 listing every effect type that carries "Hvorfor?", and test that each has an explanation.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-12</span><h3 class="finding-title">The ending summary can't show the levers that decide the ending</h3><span class="finding-location">FR-36; FR-42; glossary; UJ-5; examples 17b, 21</span></header>
+            <div class="finding-note">Spending level and weekly hours drive the outcome, but they're system causes and aren't ranked. A careless player is shown a concert as the reason, not 50 months on high spending. The glossary contradicts FR-36.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Make level and hour changes choices with linked effects, or add a fixed "Your settings" block to the ending. Fix the glossary.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-13</span><h3 class="finding-title">FR-39 has no comparison for the choices most likely to make the top three, and the goal-3 purchase gets an "avoid this cost" tip</h3><span class="finding-location">FR-39; FR-42; FR-48; message schema</span></header>
+            <div class="finding-note">The biggest money effects come from open options (car licence, moped, experience), which have no comparison and no ending-text field. Goal-3 winners are told they should have avoided their goal.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Define FR-39's comparison for open options as "not taking it". Give goal purchases their own text. Add an ending-text field.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-14</span><h3 class="finding-title">FR-47 and FR-55 contradict each other on the summer-job offer</h3><span class="finding-location">FR-47 Monthly cap; FR-55; addendum D4</span></header>
+            <div class="finding-note">At 40 h a week in June, FR-47 says no summer job is offered, while FR-55 says the offer always arrives.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add an exception to FR-55, or reword FR-47.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-15</span><h3 class="finding-title">FR-13 states a requirement that OQ-9 calls undecided, and the OQ says it blocks nothing</h3><span class="finding-location">FR-13; FR-33; OQ-9</span></header>
+            <div class="finding-note">UX and development may build opposite versions.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Decide now, and mark OQ-9 as blocking the event UI.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-16</span><h3 class="finding-title">Open questions that can sink the delivery are marked "Blocks: Nothing"</h3><span class="finding-location">OQ-11; OQ-12; A-26</span></header>
+            <div class="finding-note">OQ-11 is whether an app with no AI meets the course requirement. OQ-12 is whether typing the email twice conflicts with WCAG 3.3.7, which NFR-2 requires.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Give OQ-11 a deadline and a pre-scoped contingency. Make OQ-12 block FR-1's acceptance.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-17</span><h3 class="finding-title">The reference run in FR-9b isn't the run in worked example 20, and a cross-reference is mislabelled</h3><span class="finding-location">FR-9b; FR-33</span></header>
+            <div class="finding-note">FR-9b says 10 h a week on normal spending from the start. Example 20 has no job until month 19, plus summer jobs and savings sweeps. FR-33 calls 21c "careless", but it's the frugal run.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Write "exactly the run in worked example 20", and correct the 21c label.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-18</span><h3 class="finding-title">The content check is an unnamed Core deliverable, and the PRD expects it to fail CI</h3><span class="finding-location">FR-9b; FR-17; FR-33; NFR-9; addendum</span></header>
+            <div class="finding-note">Either CI is red on every PR for weeks and gets switched off, or the simulator is never built.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Make it an epic. In CI, separate the hard gates from balance reports, and let balance checks warn until a tuning freeze.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-19</span><h3 class="finding-title">The worked examples are the answer key, but their tuning values are finalized on playtest day</h3><span class="finding-location">NFR-4; parameter table</span></header>
+            <div class="finding-note">The key has already been wrong more than once, and nothing says who regenerates it.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Freeze a separate test configuration. Name who triages engine-versus-key disagreements, and require an independent second computation before the key changes.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-20</span><h3 class="finding-title">The pace target conflicts with four game areas visited every month</h3><span class="finding-location">FR-46a; SM-11; CM-4; CM-5</span></header>
+            <div class="finding-note">The budget is roughly 60–75 seconds a month. CM-4 and CM-5 pull in opposite directions, with no rule for which wins.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Set a time budget per month, and agree in advance what to do if CM-4 or CM-5 fires.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-21</span><h3 class="finding-title">Several metrics can't fail, or can't be measured as defined</h3><span class="finding-location">SM-2, SM-6, SM-10, SM-12</span></header>
+            <div class="finding-note">SM-2 has no minimum gain. "Voluntarily" in SM-6 is unmeasurable. SM-10 excludes the step it is meant to protect. SM-12 can't fail.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Set a minimum gain for SM-2, redefine SM-6 as a sitting on a later calendar day, measure SM-10 from first screen load, and define or remove SM-12.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-22</span><h3 class="finding-title">The playtest validates nothing about the primary persona</h3><span class="finding-location">§7.1 validity limit; NFR-3; NFR-8</span></header>
+            <div class="finding-note">All testers are 18–20, while the persona is 15–17. "Plain language a 15-year-old understands" has no test.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Mark SM rows as valid for ages 18–20 only. Add a check of the Norwegian text for 15–17-year-olds before 8 Dec, with an owner.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-23</span><h3 class="finding-title">Under the PRD's own rules, a tester code can't be attached to an account</h3><span class="finding-location">FR-50; §4.2; NFR-3</span></header>
+            <div class="finding-note">The player can't type anything but an email address, and the email-to-code key is supposed to be kept apart from the results.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Pre-load email-to-code in the playtest environment, or use a signed invitation link. Define how a deleted and re-created account is counted.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-24</span><h3 class="finding-title">Seeded test users clash with cause links and replay</h3><span class="finding-location">NFR-6; FR-51; FR-36/F10; FR-12; FR-42</span></header>
+            <div class="finding-note">A state injected at month 59 has no choice history, so the ending summary is empty, and these users are the examiner's practical route to the ending.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Produce seeded users from scripted playthroughs, or define a "seeded" system cause with explicit exemptions.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-25</span><h3 class="finding-title">The pengegave event, the one event every playthrough has, is unspecified, and the schema can't express it</h3><span class="finding-location">FR-11; FR-46a; FR-39; option schema</span></header>
+            <div class="finding-note">The schema has no effect for moving money to savings or BSU, and no effect sized as a share of the drawn amount.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Specify its options in FR-11, and add those effect types to the schema.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-26</span><h3 class="finding-title">The failed-login pause hands classmates a way to lock a player out</h3><span class="finding-location">FR-2; FR-1</span></header>
+            <div class="finding-note">Ten bad attempts every 15 minutes locks someone out, and sign-up reveals which addresses exist.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Pause per address and network pair, or document the risk as accepted.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-27</span><h3 class="finding-title">Status and precedence are unreadable, and a binding decision lives only in the addendum</h3><span class="finding-location">§0; addendum</span></header>
+            <div class="finding-note">The document is "draft", "final" and "being revised" at once. Active months 1, 4, 7 and 10 are stated only in the addendum.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Use one status line, move the active months into FR-46a, and delete superseded addendum text.</div></article>
+          <article class="finding"><header><span class="badge badge-id">AG-28</span><h3 class="finding-title">Parts of the monthly loop still have to be guessed</h3><span class="finding-location">FR-12; FR-23; FR-30; FR-55; FR-49; rule 1</span></header>
+            <div class="finding-note">The gaps: when an option-started cost is first charged, where bank messages fall under the 3-message cap, the BSU step missing from FR-12, and drawn versus triggered messages.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add the four rules listed in the adversarial review.</div></article>
+        </div>
+      </details>
+    </section>
+
+    <!-- Figure check -->
+    <section class="reviewer-section">
+      <details>
+        <summary><h2>Independent figure check (0 critical · 2 high · 5 medium · 7 low)</h2><span class="reviewer-source">review-figures.md</span></summary>
+        <div class="dim-body"><div class="dim-judgment">
+          <p>The engine figures hold up. Every published figure in worked examples 1–28 reproduces exactly from the rule text, about 210 values, including the examples recalculated on 2026-11-12/13 (19, 20, 22, 23). Four reproductions depend on rounding or setup choices the rule text doesn't state. The real problems sit around the examples: two stale moped values, a goal-3 loan loophole, and an undecided fuel cost. Scripts: <code>scratchpad/figcheck/run_all.py</code> (session scratchpad, temporary).</p>
+        </div></div>
+        <div class="findings-list">
+          <article class="finding"><header><span class="badge badge-sev-high">high</span><h3 class="finding-title">H1. FR-29 quotes the old used-moped resale value</h3><span class="finding-location">prd.md FR-29</span></header>
+            <div class="finding-note">NOK 9,625 = 13,750 × 0.70. Example 19 now gives 11,645 × 0.70 = NOK 8,152.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Replace it with NOK 8,152.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-high">high</span><h3 class="finding-title">H2. A consumer loan lets careless runs reach goal 3, despite "Borrowing never helps"</h3><span class="finding-location">Rule 13; FR-9a; FR-9b; NFR-7; example 21 note</span></header>
+            <div class="finding-note">The loan cap reaches NOK 71,000 by month 56. Runs 21a–a5 and 21d borrow, buy the NOK 60,000 experience, and end at NOK 8,175–25,588: a real win. The rule 8 trigger doesn't fire.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Decide what "on credit" means in rule 13 (refuse while a loan is outstanding, net-of-debt check, or loans from months 44–56 count as credit). Add a goal-3 row to example 18, and qualify the FR-9b and example 21 claims.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M1. The UJ-4 trace still uses the old moped sale value</h3><span class="finding-location">addendum "UJ-4 month by month" (two places)</span></header>
+            <div class="finding-note">"About NOK 9,300" should be about 7,860. The story still holds (7,860 &lt; 9,314 owed).</div>
+            <div class="finding-fix"><strong>Fix:</strong> "About NOK 7,900", and soften "would nearly clear the debt".</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M2. Moped fuel now has a figure, but the rules and examples say it has none</h3><span class="finding-location">Parameter table; rule 14; D9; examples 22, 23, 25; UJ-4 trace; OQ-3</span></header>
+            <div class="finding-note">Charging NOK 186 in April–October flips 22a from reached (100,949) to missed (97,880), and UJ-4 payoff moves one month later.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Either (a) fuel is NOK 0 in V1, stated in the row and rule 14, or (b) it is charged, the season goes into rule 14 and D9, and examples 22, 23 and 25, the trace and 17a are recomputed.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M3. Rounding 0.5 up needs exact arithmetic, and floats get example 19 wrong</h3><span class="finding-location">Rule 2; rule 14; NFR-4</span></header>
+            <div class="finding-note">11645 × 0.70 = 8151.4999… in double precision, which gives 8,151.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Require <code>Decimal</code>, or øre with rates in basis points. Keep example 19 as a regression test.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M4. Example 22's purchase wording contradicts its own months</h3><span class="finding-location">Rule Set example 22</span></header>
+            <div class="finding-note">The literal reading gives a licence in month 19 and a moped in month 25, and 22a misses goal 1.</div>
+            <div class="finding-fix"><strong>Fix:</strong> "From month 20 / from month 32, at the first choice step from then on at which the player can pay."</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M5. Rounding and tax-base rules that the published figures need aren't written down</h3><span class="finding-location">Rule 3; rule 10; FR-47</span></header>
+            <div class="finding-note">These are: separate rounding of part-time and summer pay, the year's tax rounded once, and trinnskatt on the gross wage. Without them, results are off by 1–3 kr, or by NOK 251 in year-5 tax.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Write all three into rules 3 and 10.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L1. Several example setups are only implied</h3><span class="finding-location">Examples 17b, 23</span></header>
+            <div class="finding-note">The figures reproduce only with example 20's setup, and with 10 h a week in months 37–40 for example 23.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add one setup sentence to each.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L2. Rule 12: "If none of these apply" is ambiguous</h3><span class="finding-location">Rule 12</span></header>
+            <div class="finding-note">Example 17a W+6 works only if "these" means the stress rows.</div>
+            <div class="finding-fix"><strong>Fix:</strong> "If none of the stress rises above apply…"</div></article>
+          <article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L3. The consumer-loan source line cites a range the research doesn't give</h3><span class="finding-location">Parameter "Consumer loan interest"; D5</span></header>
+            <div class="finding-note">The parameter row says 10–22% nominal, while D5 says 9–22%. The research gives effective rates. The 15% value itself is well sourced.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Quote the rates the research gives, and align D5 with the parameter row.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L4. "Six estimated prices" in the activity catalogue is actually nine</h3><span class="finding-location">Parameter "Activity prices"; OQ-17</span></header>
+            <div class="finding-note">Nine prices are marked [ASSUMPTION]. The NOK 450 concert in examples 25–28 matches no catalogue price.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Write "nine" and list them in OQ-17. Declare NOK 450 a test placeholder, or align examples 25–28.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L5. Some status labels claim more than the research supports</h3><span class="finding-location">Experience; used moped; moped insurance</span></header>
+            <div class="finding-note">The experience price is medium-confidence and should be Partly sourced. The moped transfer fee is inferred. No source publishes NOK 3,500 insurance.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Correct the labels and cite the figures as published.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L6. FR-32 leaves out netting against the current account</h3><span class="finding-location">FR-32; §3.1 rule 8</span></header>
+            <div class="finding-note">Example 9(f) depends on subtracting a positive current account.</div>
+            <div class="finding-fix"><strong>Fix:</strong> "After subtracting savings and a positive current account."</div></article>
+          <article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L7. Records of where the figures came from are out of date</h3><span class="finding-location">Rule Set provenance; frontmatter dates</span></header>
+            <div class="finding-note">The provenance paragraph doesn't mention the 2026-11-13 recalculation or this check.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add one sentence, and update the dates.</div></article>
+        </div>
+      </details>
+    </section>
+
+    <!-- Feedback coverage -->
+    <section class="reviewer-section">
+      <details>
+        <summary><h2>Feedback coverage (0 critical · 1 high · 8 medium · 5 low)</h2><span class="reviewer-source">review-feedback-coverage.md</span></summary>
+        <div class="dim-body"><div class="dim-judgment">
+          <p>Mostly handled, but not ready to set final yet. Of 36 actionable points in Bård's feedback: 21 are applied and verified, 7 partly applied, 5 declined with a logged reason, 2 deferred with an owner, and 1 not addressed (OQ-11 to the lecturer). Every "Feedback 4.x" change the memlog claims is present in the documents. Most problems are in the 2026-11-13 additions. Bård's central concern, that the scope is larger than the cut plan can absorb, has been acknowledged and scheduled but not reduced. The PRD grew from about 24,800 to about 27,100 words.</p>
+        </div></div>
+        <div class="findings-list">
+          <article class="finding"><header><span class="badge badge-sev-high">high</span><h3 class="finding-title">F1. The §4.4 cut rules contradict each other</h3><span class="finding-location">§4.4 (feedback 4.1-e/f/g)</span></header>
+            <div class="finding-note">This is the same defect as the rubric's high finding. "About 1–3 Dec" is also a range, so the cut isn't triggered "without new discussion".</div>
+            <div class="finding-fix"><strong>Fix:</strong> Point "When to cut" at the table, state the Extension order outright, and give each checkpoint one date and a named person who confirms it.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">F2. The status line is stale and contradicts itself</h3><span class="finding-location">Frontmatter; §0; Rule Set and memlog frontmatter</span></header>
+            <div class="finding-note">None of the <code>updated</code> dates were changed for the 2026-11-13 edits.</div>
+            <div class="finding-fix"><strong>Fix:</strong> One current status sentence plus a short trailing history. Update the dates.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">F3. Hosting is still an open question in the PRD</h3><span class="finding-location">OQ-14; OQ-4; NFR-6; FR-3; #47</span></header>
+            <div class="finding-note">The reference setup was decided on 2026-11-12, but OQ-14 still reads as undecided. EU/EEA storage and the 10 s wake-up are unverified.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Reword OQ-14 as decided, with only the EU region and wake-up left open, citing #68. Narrow OQ-4. Retitle #47. Make NFR-6's "If that fails" precise.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">F4. Building login in-house raised its cost, and the tier marks are incomplete</h3><span class="finding-location">§4.4 item 11; FR-1, FR-3, FR-5; NFR-3</span></header>
+            <div class="finding-note">The team now builds the rate limits, reset tokens and session revocation that a managed service used to provide. The logged reason for keeping login in V1 supports Bård's suggestion more than it answers it.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Mark the cut parts in the overview. Log why login stays Core. Consider a reset link the team issues by hand as the Core minimum for FR-3 in the playtest.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">F5. The tiers conflict with the journeys, a confirmed assumption and the metrics</h3><span class="finding-location">UJ-2, UJ-4, UJ-6; FR-16, 30, 40, 51, 57; SM-2, 6, 9; A-23</span></header>
+            <div class="finding-note">The epics will be built from the tier column, so these conflicts bring back the ambiguity about what has to be done first.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Move FR-40 (and possibly FR-16) to Core, or amend A-23. Add an "if cut" line per journey. Make sure each SM row validates at least one Core FR.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">F6. FR-29 and the UJ-4 trace still use the old used-moped price</h3><span class="finding-location">FR-29; addendum UJ-4 trace</span></header>
+            <div class="finding-note">The memlog reports the recalculation as finished, but it covered examples 19–23 and missed the places that cite them.</div>
+            <div class="finding-fix"><strong>Fix:</strong> NOK 8,152 in FR-29 and about NOK 7,900 in the trace. Search for other values derived from 13,750.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">F7. Fuel now has a figure, but the rules and examples say it has none</h3><span class="finding-location">Rule Set fuel row, rule 14, examples 22/23/25; A-30; OQ-8</span></header>
+            <div class="finding-note">OQ-8 also calls car fuel a tuning value, while the table calls it an Assumption.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add "Not charged yet (NOK 0 until OQ-3)" to the fuel row, as on the moped service row, or charge it and recompute. Align OQ-8.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">F8. The new figures haven't been checked independently by a person</h3><span class="finding-location">Memlog 162, 168; reflection; #67</span></header>
+            <div class="finding-note">The reflection names a team member's spreadsheet recheck as the control. This review's figure check reproduced everything, but it is still an AI check.</div>
+            <div class="finding-fix"><strong>Fix:</strong> A team member rechecks examples 19, 20 and 22 in a spreadsheet and logs it before the PRD is set final.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">F9. OQ-6 is closed without naming who is responsible for the playtest data</h3><span class="finding-location">NFR-3; §4.3; addendum line 414</span></header>
+            <div class="finding-note">NFR-3 says email addresses and game data are personal data, but nobody is named as responsible, and no basis is cited.</div>
+            <div class="finding-fix"><strong>Fix:</strong> One sentence in NFR-3 on who holds the data and what basis testers are told. Record who confirmed that no approval is needed. Mark line 414 as superseded.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">F10. OQ-11 hasn't been taken to the lecturer</h3><span class="finding-location">OQ-11; A-26; #39</span></header>
+            <div class="finding-note">Bård advised asking directly. #39 has been open since 2026-11-05.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Ask before the architecture run and record the answer, or log a decision not to ask.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">F11. D1–D26 and F1–F10 are still only outside the PRD</h3><span class="finding-location">Glossary; §7.3</span></header>
+            <div class="finding-note">§3.1 fixed the "rule N" problem, but not this one.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add a 10-row F-criteria table to §7.3.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">F12. Parameter table: no accountable owner, and the deadline doesn't match the reflection</h3><span class="finding-location">Rule Set parameter table; OQ-8</span></header>
+            <div class="finding-note">The owner is always "Team". "Feature freeze" isn't a PRD term. The reflection says tuning values are revisited after the playtest; the table says nothing about that.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Name a person per group of rows, use the §4.4 checkpoint names, and add "revisit after playtest".</div></article>
+          <article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">F13. Tracking hygiene</h3><span class="finding-location">#46, #47, #72, #73; OQ-13, OQ-14 rows</span></header>
+            <div class="finding-note">#72 and #73 are duplicates. #46 still says the playtest needs 7 days. #47 asks for a "free" host.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Close #73 and #46, retitle #47, cite #72 and #68 in the OQ rows, and repoint the quota placeholder to OQ-4 and #30.</div></article>
+          <article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">F14. The 3-day return window doesn't fit a 3-day test period</h3><span class="finding-location">NFR-11; §7.1; §4.4</span></header>
+            <div class="finding-note">A tester who starts on day 2 can't complete the window.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Have every tester start on day 1, or lengthen the test period to about 5 days.</div></article>
+        </div>
+      </details>
+    </section>
+
+    <div class="mechanical">
+      <h3>Mechanical notes</h3>
+      <ul>
+        <li>ID continuity is clean: FR-1–57, NFR-1–11, SM-1–12 and CM-1–5 are contiguous, and every FR, NFR, UJ, OQ and worked-example reference resolves.</li>
+        <li>The tier column misses partial cuts: FR-1 and FR-3 (item 11), FR-5's "Log out on all devices" (item 11), FR-38's BSU comparison (item 4), and FR-23's car borrowing and car fuel (item 8). NFR-3's 12-month deletion job is also on item 11.</li>
+        <li>The addendum's 2026-11-11 decisions D1–D12 collide with disclosures D1–D26 ("D10" and "D11" each mean two things). Rename the decisions, for example to R1–R12.</li>
+        <li>Stale figures: FR-29 (NOK 9,625), the UJ-4 trace (about NOK 9,300), and A-30's "left out until it has a source" for fuel.</li>
+        <li>The frontmatter <code>updated</code> dates of prd.md, addendum.md and .memlog.md are behind their content.</li>
+        <li>§4.4 still says "checkpoints the team sets under OQ-13". The addendum row "OQ-6 blocks the first playtest, and OQ-11 … blocks epics" isn't marked superseded.</li>
+        <li>"Feature freeze" (parameter table) doesn't match "Extensions frozen" (§4.4). The tier names and "cut list" aren't in the glossary.</li>
+        <li>FR-1 says sign-up "asks only for an email address and a password", but FR-5 adds the "stay logged in" box at sign-up.</li>
+        <li>The Assumptions Index roundtrip is OK. Encoding is clean UTF-8, with no mojibake.</li>
+      </ul>
+    </div>
+
+    <footer class="report-footer">
+      <div class="meta">
+        <span>Rubric: .claude/skills/bmad-prd/assets/prd-validation-checklist.md</span>
+        <span>Generated: 2026-11-13T12:36</span>
+        <span>Reviewers: review-rubric.md · review-adversarial-general.md · review-figures.md · review-feedback-coverage.md</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

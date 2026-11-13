@@ -2,7 +2,7 @@
 title: LifeMode PRD
 status: draft
 created: 2026-10-22
-updated: 2026-11-12
+updated: 2026-11-13
 ---
 
 # PRD: LifeMode
@@ -11,7 +11,7 @@ updated: 2026-11-12
 
 This PRD sets out what the first version of LifeMode (version one, also called the MVP) must do and why. The team, the downstream BMAD work (UX, architecture, epics and stories), and the examiner (sensor) all work from it. It builds on the product brief, `briefs/brief-Ibe160-prosjektmappe-2026-09-17/brief.md`. The brief's addendum holds the financial rule set (Rule Set v1), its parameters, and the worked examples. This PRD refers to those rules by number ("rule 5"). §3.1 sums up each rule in one sentence, and an FR restates one only where it needs the detail. Terms are defined in §3 Glossary. For the product, read §1, §2.3, §4, and §7. For building and testing, §5 and §6 are the reference.
 
-**Status:** final for UX and architecture; the content figures are provisional. Values without a source, and tuning values, are marked with a status, owner, and deadline in Rule Set v1's parameter table. Being revised on 2026-11-12 after the PRD feedback (`tilbakemelding-prd.md`); the tiers and dates in §4.4 and the hosting questions wait for the team. Final on 2026-11-11, and UX and architecture can start. Open questions that block work are marked in §8. No AI in this version. It was first final on 2026-11-09. On 2026-11-10 it was revised to add four game areas: the month plan, the job view, the phone, and the money view (`revision-proposal-2026-11-10-game-loop.md`). On 2026-11-11 the fixes from the review of that revision were applied (`review-2026-11-11-solutions.md`).
+**Status:** draft, being revised after the PRD feedback (`tilbakemelding-prd.md`) and the validation of 2026-11-13 (`validation-report.md`). When it is set final, it is final for UX and architecture, and the content figures stay provisional: values without a source, and tuning values, carry a status, owner, and deadline in Rule Set v1's parameter table. Before that, the team decides the moped fuel cost (#29) and what the playtest does if the core isn't playable in time (#76). Open questions that block work are marked in §8. No AI in this version. The history is in `.memlog.md`.
 
 This PRD's own `addendum.md` holds detail that belongs downstream, along with the reasons behind several decisions. Every decision and change is logged in `.docs/planning-artifacts/prds/prd-IBE160-G13-2026-10-22/.memlog.md`, where a later entry replaces an earlier one. `#N` means a GitHub issue in the project's repo.
 
@@ -164,7 +164,7 @@ The journeys follow Markus's life in order, so UJ-6, at 17, comes before UJ-4, a
 | Card warning | The warning shown when interest starts on a card bill that wasn't paid in full (FR-31) |
 | Cause link | The record of which choices or rules caused an effect, with each one's share |
 | Choice | Anything the player decides: an option in an event or crisis month, a money action, an open option (taken from its offer message, the money view, or the job view, FR-48), or an applied activity (FR-53). Any choice can be a cause (FR-36). A real choice is an option picked in an active or crisis month, and those are what FR-46 counts |
-| Content check | The automated check of the content library (events, activities, and messages): the schemas, the counts per in-game year, and seeded test playthroughs (FR-17, FR-43, FR-46, FR-55) |
+| Content check | The automated check of the content library (events, activities, and messages): the schemas, the counts per in-game year, and seeded test playthroughs (FR-58) |
 | Cooldown | The two months after a crisis month, when no new one starts (FR-32, rule 8) |
 | Crisis month | A month the engine starts when a rule 8 trigger is met. It has up to three linked choices |
 | D1-D26 | The disclosed simplification texts in the brief's addendum (FR-40) |
@@ -228,10 +228,10 @@ The FRs refer to the financial rules by number. Each line below sums up one rule
 | 2 Whole kroner | All amounts are whole NOK, and monthly interest is balance × annual rate / 12, rounded with 0.5 up |
 | 3 Tax | Tax is worked out on the calendar year's wage income at 2026 rates, and each month deducts the increase in the year's tax |
 | 4 Consumer loan | An annuity loan with equal monthly payments; a family loan at 0% is split into equal instalments |
-| 5 Credit card | The monthly bill pays the whole balance, the minimum (3.5% or NOK 300) or a fixed amount; anything less than the whole balance is charged interest on the whole balance, and less than the minimum leaves an overdue amount |
+| 5 Credit card | The monthly bill pays the whole balance, the minimum (the larger of 3.5% of the balance and NOK 300, rounded under rule 2) or a fixed amount; anything less than the whole balance is charged interest on the whole balance, and less than the minimum leaves an overdue amount |
 | 6 Credit only from 18 | Bank loans and cards are possible from 18, family loans from 15, and no consumer loan can be taken in months 59-60 |
 | 7 Quiet months | A month without a highlight event still runs rules 1-5, and a playthrough has about 20-30 real choices |
-| 8 Crisis months | The current account below 0, two missed minimums in a row, or debt above 3× wage or NOK 5,000 starts a crisis month with up to 3 linked choices and a 2-month cooldown; a trigger true at the end of both month 59 and month 60 is the loss ending |
+| 8 Crisis months | The current account below 0, two missed minimums in a row, or net debt (card, consumer loans and payment plans, minus a positive current account and savings, not counting family loans) above the larger of 3× the 3-month average wage and NOK 5,000 starts a crisis month with up to 3 linked choices and a 2-month cooldown; a trigger true at the end of both month 59 and month 60 is the loss ending |
 | 9 BSU deduction | Once a year, 10% of the year's BSU deposits (at most NOK 27,500 in deposits), never more than the year's tax |
 | 10 Working hours | At most 12 h a week in grunnskole (months 1-18) and 40 h a week from month 19, with a monthly cap of 173 h that summer jobs share |
 | 11 Calendar | Month 1 is January of the year the player turns 15, month 60 is December of the year they turn 19, and school stages follow fixed months |
@@ -312,9 +312,9 @@ If time runs short, content is cut before the core, in this order. Other section
 
 These always stay: the engine, wellbeing, the spending level, the endings, cause links, "Hvorfor?", the card warning, the moped, login, the month plan with the basic activities, the phone with offers and invitations, and the job view.
 
-**Tiers.** Every FR has a tier in the FR overview (§5). **Core** is what a playthrough from 15 to 20 needs, and what the playtest needs to measure the thesis: the engine, the month loop, events, money, the moped, the card warning and crisis months, wellbeing, cause links, "Hvorfor?", the endings, the month plan, the phone, the job view, a minimal login, and playtest records. **Extension** is built once the core is playable from start to end: the avatar, the recap on return, tips, consumer loans, visible future opportunities, echo badges, disclosed simplifications, and changing the password. **Can be cut** is the cut list above. Where an FR is core but part of it is on the cut list, the overview says which part.
+**Tiers.** Every FR has a tier in the FR overview (§5). **Core** is what a playthrough from 15 to 20 needs, and what the playtest needs to measure the thesis: the engine, the month loop, events, money, the moped, the card warning and crisis months, wellbeing, cause links, "Hvorfor?", the endings, the month plan, the phone, the job view, a minimal login, and playtest records. **Extension** is the avatar, the recap on return, tips, consumer loans, visible future opportunities, echo badges, disclosed simplifications, and changing the password. **Can be cut** is the cut list above. Where an FR is core but part of it is on the cut list, the overview says which part. The team aims to build every FR, Extension and Can be cut included (team decision 2026-11-13), so Extension work can run alongside the core. The tiers decide what gives way first when time runs short, not what gets built.
 
-**When to cut:** cuts are applied in groups at checkpoints the team sets under OQ-13, not one at a time. For example, if the month loop isn't playable from start to end at the first checkpoint, the first six items apply at once.
+**When to cut:** cuts follow the checkpoint table below and are applied in groups, not one at a time. Extension FRs not started by the freeze are left out. If the core isn't playable from 15 to 20 by its checkpoint, the whole Can be cut tier is dropped. If the team has to cut before a checkpoint, it cuts in the order of the list above.
 
 **Tentative dates (OQ-13, set 2026-11-13):**
 
@@ -352,6 +352,7 @@ The dates are worked forward from the playtest start, because the exact delivery
 | FR-15 | End a session after one in-game year | 5.4 | UJ-1 | Core |
 | FR-16 | Recap on return | 5.4 | UJ-2 | Extension |
 | FR-17 | Content library | 5.4 | UJ-1 to UJ-6 | Core; invitation activities and info messages can be cut to their minimum |
+| FR-58 | Content check | 5.4 | — | Core |
 | FR-46 | Event scheduling | 5.4 | UJ-1 to UJ-6 | Core; events can be cut to the minimum of 40 |
 | FR-18 | Unlock options by age | 5.4 | UJ-1, UJ-4 | Core |
 | FR-48 | Options that stay open | 5.4 | UJ-2, UJ-3, UJ-4 | Core |
@@ -428,7 +429,7 @@ A player who has forgotten their password can reset it by email from the login s
 
 **Consequences (testable):**
 - The reset link can be used once and expires after 60 minutes (configuration). Asking for a new link makes earlier links stop working. A used or expired link says so and offers a new one.
-- Reset emails are limited per address (default 1 a minute and 5 a day) and in total per day, below the email service's free quota. The screen shows the same message whether an email was sent, held back by a limit, or the address has no user.
+- Reset emails are limited per address (default 1 a minute and 5 a day) and in total per day, below the email relay's daily quota (OQ-4). The screen shows the same message whether an email was sent, held back by a limit, or the address has no user.
 - After a reset, every device that was logged in is logged out.
 - The player's game is unchanged after a reset.
 - Reset works in the local run (NFR-6) and in the playtest environment (NFR-11).
@@ -443,6 +444,8 @@ A logged-in player can change their password from inside the game.
 - The old password stops working immediately.
 - Every other device is logged out. The device where the password was changed stays logged in.
 - The player's game is unchanged.
+
+**If left out (Extension, §4.4):** a player who wants a new password uses forgotten password (FR-3). Nothing else changes.
 
 #### FR-5: Log out and staying logged in
 
@@ -517,7 +520,7 @@ The player chooses one of three life goals: (1) save for something big, (2) be d
 - **Save for something big:** net savings of at least NOK 100,000.
 - **Be debt-free with a buffer:** available money of at least NOK 30,000 at the end of each of months 49-60, and no debt at all at 20, family loans and payment plans included. BSU doesn't count as a buffer. So this goal rewards keeping a buffer over time, not reaching a total at the end.
 - **Afford a big experience:** the player bought the experience by the end of month 56 and has available money of at least NOK 0 at 20 (rule 13). Having the money without buying it doesn't count.
-- **The experience offer:** a message offers it in month 44 (FR-55), and it stays open in the money view until the end of month 56 (FR-48). It can't be paid for on credit. Its price is NOK 60,000, eight weeks of Interrail through Europe (Rule Set v1 parameters), so this is a different, nearer goal.
+- **The experience offer:** a message offers it in month 44 (FR-55), and it stays open in the money view until the end of month 56 (FR-48). It can't be paid for on credit: buying it needs available money (current account + savings − debt) of at least the price at that moment, so a loan payout can't pay for it (rule 13, worked example 18 j2). Its price is NOK 60,000, eight weeks of Interrail through Europe (Rule Set v1 parameters), so this is a different, nearer goal.
 - Borrowing never helps. A consumer loan can't be taken in months 59-60, and a loan taken earlier can't turn "goal not reached" into a reached goal (worked example 18).
 - The goal can't be changed during a playthrough, only when starting again.
 
@@ -540,6 +543,8 @@ The player creates an avatar for their life in the game. Realizes UJ-1.
 **Consequences (testable):**
 - The player picks from a small set of preset looks. Nothing is typed in, so the avatar has no free-text name.
 - The avatar is shown with the player's money and wellbeing, and on the ending screen (FR-42). How it looks is UX (OQ-9).
+
+**If left out (Extension, §4.4):** the start goes straight from the life goal to the pengegave (FR-11), and no avatar is shown with the money, the wellbeing, or the ending. The room (FR-34) stays the player's picture of their life. UJ-1 step 3 drops.
 
 #### FR-11: Get a pengegave and make the first choice
 
@@ -603,7 +608,7 @@ A month has two parts. When it opens, the engine runs rule 1 up to interest on s
 In a month with a highlight event, the player sees the situation together with their balance, savings, debt, and fixed costs, and picks one of a few options. If the event has a sender, a copy also goes in the phone (FR-54). Afterwards the game shows what changed in kroner and wellbeing, and why. Realizes UJ-1 and UJ-3.
 
 **Consequences (testable):**
-- Every option states its wellbeing effect (FR-33).
+- Every option has a stored wellbeing effect (FR-33), which isn't shown before the pick (team decision 2026-11-13, OQ-9). After the pick, the result shows the change in wellbeing, and "Hvorfor?" explains it (FR-38).
 - Options read as actions the player takes, never as quiz answers with one right option (NFR-8). The content check can't test this, so the team checks it when it approves each event.
 - An option the player can't pay for follows FR-45.
 - Tapping an option twice applies it only once.
@@ -635,6 +640,8 @@ A player who comes back sees a short recap of where they are, with a teaser for 
 - The recap says how many messages arrived this month. Activities already planned stay planned.
 - After the ending, FR-43 applies instead.
 
+**If left out (Extension, §4.4):** a returning player lands where they left off, with the game exactly as it was. The session-end teaser (FR-15) stays, and FR-28's licence-cost teaser goes there instead. UJ-2's recap step and its climax drop, and SM-6 then measures returns without a recap.
+
 #### FR-17: Content library
 
 The game is driven by a library of pre-written events, activities, and messages. Realizes UJ-1 to UJ-6.
@@ -651,6 +658,24 @@ The game is driven by a library of pre-written events, activities, and messages.
 
 **Notes:**
 - Candidate event topics from the survey are small purchases that add up, such as snacks and takeaway; clothes; trend buys; collectibles and in-game purchases; subscriptions with a binding period; and budgeting and paying bills. From the market research, the costs of russ at 18-19, with no alcohol content. Family appears as an actor in events.
+
+#### FR-58: Content check
+
+An automated check validates the content library and plays seeded test playthroughs, so that a change to content or configuration can't silently break the rules the other FRs set. It runs in CI on every pull request (NFR-9). This FR collects what the other FRs already require of it; the source FR holds each rule.
+
+**Consequences (testable):**
+- **Hard gates (the check fails):**
+  - events, activities, and messages break their schema (FR-17)
+  - the library is below its minimums: event count, events per in-game year, activities, offer messages, and invitations per in-game year (FR-17)
+  - fewer than 8 boomerang pairs, fewer than 3 follow-ups per seeded playthrough on average, or a mechanism without events before and after 18 where its rules allow it (FR-17)
+  - an open option differs between its offer message, the money view, and the job view (FR-48)
+  - more than one active month per seeded playthrough with no eligible event (FR-46b)
+  - more than 2 months a year in seeded runs with no eligible invitation (FR-55)
+  - random-choice pairs share more than two-thirds of their regular events, or a same-seed pair with different choices differs in no follow-up (FR-43)
+  - the hollow-win runs reach 50 or above (FR-33)
+  - the second reference run misses goal 1 or goal 2 (FR-9b)
+- **Reports (the check doesn't fail):** the share of events before 18 with two free options, from a run at NOK 0 (FR-17); LK20 coverage (FR-17); drawn events left per in-game year (FR-46b); dropped follow-ups (FR-46c); ending wellbeing at 1-4 slots (FR-52); invitations per in-game year (FR-55); the 17b boundary runs and run 21c (FR-33).
+- **Run policies:** seeded runs follow the careless and careful policies in FR-9b, with unexpected expenses from the run's seed.
 
 #### FR-46: Event scheduling
 
@@ -725,6 +750,8 @@ Some events and offer messages carry a short, general, pre-written tip, which th
 - A tip is about the situation in the game and is never personal advice.
 - Ignoring a tip has no effect in the game.
 - **Offers that need explaining:** the credit card and consumer loan offer messages always carry a tip and a teaching point, with any cost in kroner from the engine (NFR-4, NFR-8).
+
+**If left out (Extension, §4.4):** events and offer messages carry no tips. The credit card and consumer loan offer messages still state their cost in kroner from the engine (NFR-4). The ending texts in FR-42 belong to FR-42 and stay. SM-2 then rests on "Hvorfor?" (FR-38) alone.
 
 ### 5.5 Month plan and activities
 
@@ -940,6 +967,8 @@ From age 18, the player can take a consumer loan, repaid in equal monthly instal
 - The term is 12, 24, 36, 48, or 60 months. A loan may run past age 20, and what's left counts as debt in the ending.
 - The player can have one consumer loan at a time, and can pay off what's left at any time with no fee.
 
+**If left out (Extension, §4.4):** there is no consumer loan. The FR-18 consumer-loan row and its month-49 offer message (FR-55) drop, and so do the loan in FR-48's open options, paying off a consumer loan in FR-45, its tip in FR-19, and the loan refusals in NFR-7. Rule 4 stays, because payment plans (rule 15) and family loans (FR-27) use it, and F1 stays an engine test of rule 4.
+
 #### FR-26: Credit card
 
 From age 18, a player with a steady wage can get a credit card, under rule 5. Realizes UJ-4.
@@ -991,7 +1020,7 @@ From age 16, the player can own a moped. They choose whether to buy one, and now
 **Consequences (testable):**
 - **One moped, with a licence:** the player can own one moped at a time, and only with the moped licence.
 - **Gift offers:** a gift offer comes only to a player who has the moped licence and owns no moped, at most once per playthrough. A gift moped is a used moped. The offer is a drawn offer that can be accepted or declined in the month it arrives (FR-55), and its chance per in-game year is configuration.
-- **Resale value:** it starts at the price paid, or at the used price for a gift. It drops by 15% of that each year, a little each month, but never below 20% (rule 14). A used moped sold after two years fetches NOK 9,625 (worked example 19). Tracking actual use comes later.
+- **Resale value:** it starts at the price paid, or at the used price for a gift. It drops by 15% of that each year, a little each month, but never below 20% (rule 14). A used moped sold after two years fetches NOK 8,152 (worked example 19). Tracking actual use comes later.
 - **Costs only while owned:** insurance and fuel are charged only in months the player owns the moped (FR-23). Moped repairs follow FR-24, and moped events are drawn only while they own one. Whether the parents pay part of the insurance is drawn once, when the player gets the moped, and stored (cut list: the parents' share of the moped insurance).
 - **Selling:** the player can sell the moped in any month at its current resale value. Public transport comes back from the next month, and the moped disappears from the room.
 
@@ -1028,7 +1057,7 @@ Each time a card bill isn't paid in full, and the month before had a bill paid i
 The engine checks rule 8 at the end of every month. When a trigger is true and no cooldown is running, the next month is a crisis month. The triggers are:
 - the current account is below NOK 0
 - the card minimum has been missed two months in a row
-- debt, not counting family loans and after subtracting savings, is above 3× the average monthly wage over the last three months, or above NOK 5,000 if that's higher
+- debt, not counting family loans and after subtracting savings and a positive current account, is above 3× the average monthly wage over the last three months, or above NOK 5,000 if that's higher
 
 A crisis month has up to three linked choices with realistic actions, such as selling something, taking extra shifts, taking a job, lowering the spending level, withdrawing BSU, asking for a payment plan, asking family, or ignoring it. The engine calculates the effect of each one. Realizes UJ-4.
 
@@ -1075,7 +1104,7 @@ Activities (FR-53) change stress and social life in the month they happen. The c
 
 **Consequences (testable):**
 - Each part and the score stay between 0 and 100.
-- Every event choice states its effect on stress and social life, which may be 0. Free time changes only with hours.
+- Every event choice has a stored effect on stress and social life, which may be 0, and it isn't shown before the pick (FR-13). Free time changes only with hours.
 - **The hollow win still holds:** a money chaser who fills every slot with activities at the effect limits, within the monthly cap, still ends below the threshold, at 42, 46, and 37 with the weights of goals 1, 2, and 3 (worked example 26c). The content check fails if a change to the catalogue, the limits, the slot divisor, or the threshold lifts any of them to 50 or above.
 - **The boundary moves with activities:** with activities at the limits in every slot, the 26 h run on normal spending in worked example 17b rises from 41 to 52, a real win (worked example 26d). With the catalogue's best free activities, the content check reports the 17b boundary runs at 25 h and 26 h and careless run 21c, so the threshold and the activity effects are tuned together (OQ-8).
 - **Usual and this month:** the game shows stress and social life both as the usual value, which carries over and which rule 12's rows use, and as this month's value with activities, so the player sees what the month's activities added. "Hvorfor?" explains the social-life row as «Det vanlige sosiale livet ditt er under 20».
@@ -1101,6 +1130,8 @@ After a choice, the game shows what the choice opened or closed. Realizes UJ-1.
 
 **Consequences (testable):**
 - What is shown comes from the event's flags, with a short text for each in the event (see the event schema in the addendum).
+
+**If left out (Extension, §4.4):** the game doesn't show what a choice opened or closed. Flags still decide follow-ups, unlocks, and the room (FR-46, FR-18, FR-34), and the event schema keeps the texts so they can be added later.
 
 ### 5.13 Explaining consequences
 
@@ -1128,6 +1159,8 @@ When an effect comes from an earlier choice, an echo badge marks the effect and 
 - An echo badge is shown only for effects that carry a cause link to an earlier choice.
 - An echo badge has a text that names the earlier choice, so a screen reader reads it out.
 
+**If left out (Extension, §4.4):** no badge marks an effect from an earlier choice. Cause links (FR-36) are still stored, and "Hvorfor?" (FR-38) still names the earlier choice. A boomerang follow-up arrives without a badge.
+
 #### FR-38: "Hvorfor?"
 
 The player can press "Hvorfor?" on a change to see why it happened. The explanation links the change to the choice behind it. Realizes UJ-3.
@@ -1145,7 +1178,7 @@ The engine calculates what another choice would have led to. It does so only whe
 - **The comparison:** the line compares the chosen option with the option in the same event whose direct kroner effect differs most from it. Ties go to the option listed first.
 - **Debt cost:** if the choice put money on a card or a loan, the line shows the interest linked to it (FR-36). For example: «Byturen på kortet sto for 406 kr av rentene dine.»
 - **Money kept:** otherwise, if the two options' direct effects differ, the line shows the difference grown with savings interest (rule 2) from the month after the choice to the 20th birthday. Spending NOK 15,000 of the pengegave in month 1 instead of saving it gives «Hadde du valgt å spare alt, ville du hatt 17 270 kr mer da du fylte 20.»
-- **No figure to show:** if neither applies, the line is a pre-written text, plus the difference in the two options' stated wellbeing effect where there is one. The game never shows a figure the engine didn't calculate.
+- **No figure to show:** if neither applies, the line is a pre-written text, plus the difference in the two options' stored wellbeing effect where there is one. The game never shows a figure the engine didn't calculate.
 - **Activity groups:** for a group of activities on the ending screen (FR-42), the line is "money kept", as for a single choice. It shows the group's cost, each part grown with savings interest from the month after it was paid to the 20th birthday, as if the player had done none of them, plus any card interest linked to the group (FR-36). The group still ranks by its kroner effect in FR-42, the plain sum. The line also names the group's summed wellbeing effect (FR-42), so free time isn't shown as pure loss (NFR-8). D15 covers groups (worked example 28).
 - **No re-runs:** a line never re-runs later months or events, so no earlier game states need to be stored.
 - **Where:** the lines for the choices on the ending screen stay in the MVP. The lines during play are optional (cut list: the in-play lines).
@@ -1156,6 +1189,8 @@ Where the game simplifies reality, it says so (D1-D26 in the brief's addendum). 
 
 **Consequences (testable):**
 - **Once per account:** a disclosure the player has seen isn't shown again on another device or in a later playthrough. It stays behind its info icon and on "Om tallene".
+
+**If left out (Extension, §4.4):** no disclosure is shown during play, and FR-43 has no seen-disclosures record to keep. This conflicts with A-23, which makes the disclosures a requirement, and with SM-2, which validates against FR-40, so the team aims to build it (§4.4).
 
 ### 5.14 Ending and replay
 
@@ -1301,6 +1336,7 @@ The backend engine decides every financial result and all critical game state, a
 - They follow Rule Set v1, use real Norwegian 2026 values, and are held fixed for the whole playthrough (D6).
 - Every figure is stored as configuration with its source and date, never hard-coded.
 - The worked examples are the test answer key. New rules get worked examples and unit tests in the same way (brief addendum, examples 7-28).
+- **Exact arithmetic:** money and rates are calculated with exact decimals or whole øre, never binary floating point, so that rule 2's "0.5 rounds up" lands the same way every time. Example: 11,645 × 0.70 = 8,151.5 rounds to NOK 8,152 (worked example 19), but a float gives 8,151.4999… and NOK 8,151.
 
 **Versions:** each playthrough keeps the configuration and content-library version (events, activities, and messages) it started with until it ends. A changed figure or event applies only to playthroughs started afterwards, and cause links keep pointing to the event version the player saw. A correction to player-facing text that changes no figure, option, or flag can apply to running playthroughs.
 
@@ -1310,7 +1346,7 @@ The examiner's local run costs nothing. The hosted playtest environment (NFR-11)
 
 ### NFR-6: Runs from the README
 
-An examiner can run the full application on a clean machine with Docker, following only the README, in about 15-20 minutes. The full stack starts with one command and needs only Docker. It must work without the team's cloud account or keys: every external service, such as the database host and email, falls back to a local stand-in when its key is missing, so the app runs locally with no secrets. Password reset works locally. Reset emails land in a local inbox or in the log, and the README says where to find them (#30). If that fails, an automated test verifies password reset. The repo has a `.env.example`.
+An examiner can run the full application on a clean machine with Docker, following only the README, in about 15-20 minutes. The full stack starts with one command and needs only Docker. It must work without the team's cloud account or keys: every external service, such as the database host and email, falls back to a local stand-in when its key is missing, so the app runs locally with no secrets. Password reset works locally. Reset emails land in a local inbox or in the log, and the README says where to find them (#30). If no local inbox is available, the README points to an automated test that verifies password reset instead. The repo has a `.env.example`.
 
 The README also provides test users seeded at useful states: just before 18 with a steady wage, in debt with a crisis due, and in month 59 close to each ending. A full game takes about an hour, so this is how the examiner reaches the card, crisis, and ending flows. The README covers what criterion 6 in the examiner's guide asks for.
 
@@ -1328,7 +1364,7 @@ The server decides every result. The device sends only the player's inputs, neve
 - selling or using something the player doesn't have, such as a moped they don't own (FR-29)
 - a second moped, or a moped without a licence (FR-29)
 - the paid car licence before the draw or after a gift (FR-30)
-- the experience paid for on credit (FR-9)
+- the experience bought when available money after debt is below its price, for example with a loan payout (FR-9, rule 13)
 - an amount that isn't in whole kroner, is zero or below, or is outside the option's allowed range
 - a minigame answer with no started attempt, for a situation that isn't the current one, or a second answer to the same situation (FR-51)
 - a second minigame attempt in the same month (FR-51)
@@ -1445,13 +1481,13 @@ The Blocks column names the work each question holds up. Gaps in the numbering a
 | # | Question | Owner | Blocks |
 |---|---|---|---|
 | OQ-3 | Most figures got a source on 2026-11-12 (Rule Set v1 parameters, `research/prices-oq3-oq17-2026-11-12/`). Still open: a real moped insurance quote for a 16-year-old from an insurer's calculator (#29), the moped and car distances a month, and whether moped service is charged (#43) | Team | Writing those events and final tuning |
-| OQ-4 | How password reset email works at low cost (NFR-5) in the examiner's local run, in the playtest environment, and at go-live (#30) | Architecture, first build sprint | FR-3 acceptance and the first playtest |
+| OQ-4 | How password reset email works at low cost (NFR-5) in the playtest environment and at go-live. The examiner's local run is settled by NFR-6 (#30) | Architecture, first build sprint | FR-3 acceptance and the first playtest |
 | OQ-8 | Tuning values: goal targets, spending levels and their social effect, wellbeing weights, start values, monthly changes and threshold (a player on low spending at exactly 25 h a week lands on it, worked example 17b), the idle check interval, the first card limit, how often family helps (the survey suggests about half of those in need), the parents' insurance share, how fast the moped loses value, how often the car licence gift comes, what car fuel costs, active months and their positions, unexpected expenses per year, boomerang delays, and which belongings get room layers. For the month plan and the phone: the slot divisor (20) and maximum (4), the activity effect range (±10) and monthly cap (±15), messages a month (3), invitations a month (0-2), extra-shift offers a year and the gift moped's chance (FR-55), and the planning policy of seeded runs (FR-9). The threshold and the activity effects are tuned together, because activities move the 25-26 h boundary (worked example 26d). What a slot is worth: a target such as "the fourth slot in a school month is worth at least N wellbeing points", with ±5 per activity and a ±20 cap as values to try. A candidate, not decided: whether a month with a social activity skips the low-spending −2 row | Team, when tuning | Event balancing |
-| OQ-9 | What the avatar contains, which control the player uses to set weekly hours (the mechanism is in FR-47), and whether an option's wellbeing effect is shown before the pick | UX | Nothing |
+| OQ-9 | What the avatar contains, and which control the player uses to set weekly hours (the mechanism is in FR-47). Whether an option's wellbeing effect shows before the pick was decided 2026-11-13: it doesn't (FR-13) | UX | Nothing |
 | OQ-11 | Whether a delivery with no AI in the app meets the course requirements, including moving F5 to V2. So far it's checked only against part 1 of the examiner's guide, and the lecturer's difficulty rating leaned partly on in-app AI (#39). The team has decided to keep the AI driver in V2 and to update this PRD if that changes | Team | Nothing |
 | OQ-12 | Whether typing the email address twice (FR-1) falls under an exception in WCAG 2.2 criterion 3.3.7, Redundant Entry | UX | Nothing |
 | OQ-13 | The exact delivery date, and a check of the tentative dates in §4.4 (extensions frozen about 26-27 Nov, core playable about 1-3 Dec, playtest from 8 Dec) against it | Team | Sprint planning |
-| OQ-14 | Whether the chosen host meets NFR-5, NFR-10, and NFR-11 together: low cost during the test period, EU/EEA storage, availability for the whole test period (at least 3 days), and a usable screen within 10 seconds after sleep. Which of these gives way first, and what the fallback is | Architecture | First playtest |
+| OQ-14 | Host decided 2026-11-12: the reference setup in `architecture/technology.md` (Railway with Supabase Postgres, own login in the backend). Still open: confirm an EU/EEA region for the data (NFR-11) and a usable screen within 10 seconds after sleep (NFR-10), name the expected cost (NFR-5), and name the fallback if one of these fails (#68) | Architecture | First playtest |
 | OQ-15 | The approved proposal isn't in the repo. The examiner's guide requires anything left out or changed from it to be described and justified, so the proposal needs adding to the repo, and the "Changes from the proposal" table in the addendum needs finishing | Team | Delivery |
 | OQ-16 | The driving game: whether a retry has a fee and how large, how many situations a route has, and how many the player must get right. Its look is UX | Team, UX | Building it |
 | OQ-17 | The activity catalogue: a starting catalogue of 6 basic and 16 invitation activities, with kinds and dated prices, is in `research/prices-oq3-oq17-2026-11-12/activities-spending.md`. Still open: the team approves it, finds sources for the six estimated prices, and sets each activity's effects (OQ-8). Also whether "school work" belongs in it as stress relief before exam months, or is left out, since the MVP has no school results | Team | Writing activities |
