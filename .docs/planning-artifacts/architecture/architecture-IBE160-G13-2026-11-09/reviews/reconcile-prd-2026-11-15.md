@@ -97,3 +97,39 @@ Account and login limits, session lifetimes and revocation (FR-1 to FR-5, FR-44,
 ## Not re-run
 
 The reviewer gate's three lenses (rubric, adversarial, currency) were not run again after these fixes.
+
+## Follow-up pass (2026-11-15, after the spine was set final)
+
+Asked for by Dahl after PR #94 was opened. It used different angles from the pass above: all of Rule Set v1 (rules 1-16, parameters, worked examples 1-28, D1-D26) against the engine rules in the spine; every rule in the spine read back against the PRD; and whether the PRD edits above left a contradiction elsewhere. `SOLUTION-DESIGN.md` was checked against both.
+
+**Count:** 1 medium and 3 low in the spine, 3 low in the PRD, and 2 notes on Rule Set v1 outside the architecture. All applied on 2026-11-15 with Dahl's go-ahead.
+
+### Spine (applied)
+
+| # | Source | What didn't match | Fix |
+| --- | --- | --- | --- |
+| F1 (medium) | Rule 10: the monthly cap is rounded down, hours cut to fit aren't rounded, each job's pay is rounded on its own. Rule 3: the year's tax is rounded once on the sum. FR-25: the loan cap is rounded down to NOK 1,000. FR-52: slots are rounded down. Addendum: cause shares use largest remainder | AD-6 said a `Decimal` becomes `int` "only through the one rule 2 rounding function". That contradicts AD-9 (largest remainder) and the rounded-down cases, and says nothing about where to round | AD-6: rule 2 rounding at the points Rule Set v1 names; the other roundings listed; hours are `Decimal` |
+| F2 | FR-1 and FR-5: the "stay logged in" choice is made at sign-up too, and the player goes straight on to the life goal | AD-10 named login and reset as creating a session, not sign-up | AD-10: sign-up and login each create a session with the player's choice |
+| F3 | FR-49: completed once the ending is calculated. FR-43: an ended life can't be resumed; a finished one is shown again | `status` had one named value (`ended`) | AD-5: `active`, `completed`, `ended` |
+| F4 | FR-5 "hasn't played for 30 days"; NFR-3 "12 months without play" | The spine counts any authenticated request | Accounts convention: "play" means any authenticated request |
+
+### PRD (applied)
+
+| # | Where | What didn't match | New wording |
+| --- | --- | --- | --- |
+| P1 | NFR-5 "a low cost during the playtest period"; NFR-11 "during the test period only" | AD-14: the environment costs money from the sprint-1 spike to the end of the analysis, about two billing months, not only the test days | "while the environment exists, from the sprint-1 spike to the end of the analysis (about two months)" |
+| P2 | FR-26 and NFR-7: a card purchase that doesn't fit "is paid from the current account" | FR-45's table and worked example 27b: current account, then savings | "from the current account, then savings (FR-45)" |
+| P3 | Addendum "For the architecture": still reads as a to-do list ("Confirm an EU/EEA region…") | The spine has answered every item | One line at the top: picked up by the architecture spine, final 2026-11-15 |
+
+### Rule Set v1, outside the architecture (applied)
+
+- **Rule 10** says that when the cap leaves 0 h, "no summer job is offered". FR-47 and FR-55 say the message still arrives and shows that the cap is full (decision R4). Rule 10 now says the same.
+- **Parameters, moped insurance:** the row still says a real quote is needed (#29). PRD OQ-3 says insurance is settled at a flat NOK 3,000 a year, and #29 is closed. The row now says so, with no owner or deadline.
+
+### Risk, not a mismatch
+
+NFR-6 has seeded users made "with stored choices", and AD-14 has CI assert each target state. Until the library is frozen, a new event changes which events are drawn, so stored choices stop fitting. The seed-script story should expect to regenerate them, or write them late.
+
+### Checked and matching in this pass
+
+Month order and the December BSU step (rules 1, 9). Tax by game year (rules 3, 11). Card bill, overdue amounts and the payment plan (rules 5, 15) against the corrected FR-45 table. Crisis triggers, the recheck on opening and the month 59-60 rule (rule 8). Wellbeing as whole numbers with month-only activity effects (rule 12). Goal checks (rule 13). Moped value and costs (rule 14). Spending (rule 16). The parameter table as `content/config/vN/` with source and date. D1-D26 as texts in the library, seen once per account. `SOLUTION-DESIGN.md` states nothing the spine or the PRD doesn't.
