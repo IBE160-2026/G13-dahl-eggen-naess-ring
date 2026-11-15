@@ -1003,7 +1003,7 @@ From age 18, a player with a steady wage can get a credit card, under rule 5. Re
 - A missed minimum leaves an overdue amount, and later payments cover that first (rule 5).
 - An extra payment lowers the balance at once. It doesn't undo interest already charged that month.
 - A NOK 3,200 balance, with only the minimum paid each month, is paid off after 13 months, NOK 3,606 in total (worked example 4, F3).
-- While card use is on, purchases and card-payable monthly costs, such as fuel, go on the card as long as they fit under the limit. An event purchase that doesn't fit is paid from the current account as a whole, and the game says the card was declined. Spending follows FR-23.
+- While card use is on, purchases and card-payable monthly costs, such as fuel, go on the card as long as they fit under the limit. An event purchase that doesn't fit is paid as a whole from the current account, then savings (FR-45), and the game says the card was declined. Spending follows FR-23.
 - The player can turn card use off at any time.
 - Interest can take the balance above the limit. The card then takes no purchases until the balance is below the limit again.
 - The game shows, in kroner, this month's interest and the total cost of paying only the minimum, for the player's own balance.
@@ -1364,7 +1364,7 @@ The backend engine decides every financial result and all critical game state, a
 
 ### NFR-5: Low cost
 
-The examiner's local run costs nothing. The hosted playtest environment (NFR-11) may have a low cost during the playtest period, which the team covers. The architecture names the expected cost. Nothing keeps costing money after the playtest.
+The examiner's local run costs nothing. The hosted playtest environment (NFR-11) may have a low cost while it exists, from the sprint-1 hosting spike to the end of the analysis (about two months), which the team covers. The architecture names the expected cost. Nothing keeps costing money once the analysis is done.
 
 ### NFR-6: Runs from the README
 
@@ -1409,7 +1409,7 @@ Five cases aren't refusals, and each has its own test:
 - a BSU deposit above what's left of the year's cap is cut to fit (FR-22)
 - a summer job offer above the monthly cap is cut to fit (FR-47)
 - a summer job cut to 0 h by a later hours change is cancelled with a note (FR-47)
-- a card purchase that doesn't fit under the limit is paid from the current account (FR-26)
+- a card purchase that doesn't fit under the limit is paid from the current account, then savings (FR-26, FR-45)
 - a planned activity the player can no longer pay for, or is no longer eligible for, when they continue is dropped with a note (FR-53)
 
 **Consequences (testable):**
@@ -1449,7 +1449,7 @@ These are starting values, like the targets in 7.1. When the connection is lost,
 ### NFR-11: Playtest environment
 
 The playtests run on one hosted environment that testers open on their own phones.
-- It runs the same version as the README's local setup, at a low cost during the test period only (NFR-5).
+- It runs the same version as the README's local setup, at a low cost only while the environment exists (NFR-5).
 - It stays available for the whole test period, which lasts at least 3 days. The team can extend it later.
 - Player data is stored in the EU/EEA. The host's own platform logs, including its HTTP logs with client IP addresses, may be kept outside it: Railway keeps them in the US for 90 days. The player information says so, and the game's own logs hold no email or IP address (NFR-3).
 - An automated check logs in with a test user every day of the test period and alerts the team if it fails.

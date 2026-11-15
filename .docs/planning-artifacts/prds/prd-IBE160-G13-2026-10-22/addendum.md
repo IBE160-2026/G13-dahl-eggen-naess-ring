@@ -14,7 +14,9 @@ The first two sections list what the architecture and UX work need to pick up. T
 
 ### For the architecture
 
-These items came out of the PRD review and belong in the next `bmad-architecture` run. The team follows the reference setup in `architecture/technology.md` (decided 2026-11-12): login built in the Python backend with bcrypt and its own JWT tokens, Docker Compose locally with Caddy and its own Postgres, Alembic migrations, a local stand-in for every external service whose key is missing (NFR-6), and Railway with Supabase Postgres for the hosted playtest. NFR-5 allows a low cost during the playtest.
+**Picked up:** the architecture spine (`architecture/architecture-IBE160-G13-2026-11-09/ARCHITECTURE-SPINE.md`, final 2026-11-15) answers every item below. The list is kept as the record of what was handed over.
+
+These items came out of the PRD review and were handed to the `bmad-architecture` run. The team follows the reference setup in `architecture/technology.md` (decided 2026-11-12): login built in the Python backend with bcrypt and its own JWT tokens, Docker Compose locally with Caddy and its own Postgres, Alembic migrations, a local stand-in for every external service whose key is missing (NFR-6), and Railway with Supabase Postgres for the hosted playtest. NFR-5 allows a low cost during the playtest.
 
 - **Authentication:** the backend enforces every limit itself: email normalization, the sign-up and login limits per network and per address, the failed-login pause, and the reset-email caps (the limits table under "Login with email: decisions, limits, and reset routes"). Name the token lifetimes, how a password change or **Log out on all devices** revokes other sessions (FR-4, FR-5), and the chosen email relay and its quota.
 - **Connectivity:** a state version per playthrough, a request ID for retries, browser visibility and online events, and the error format and codes.
