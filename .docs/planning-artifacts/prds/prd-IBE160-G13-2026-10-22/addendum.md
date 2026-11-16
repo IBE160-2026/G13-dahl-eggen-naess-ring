@@ -1,7 +1,7 @@
 ---
 title: LifeMode PRD addendum
 created: 2026-11-03
-updated: 2026-11-13
+updated: 2026-11-15
 ---
 
 # Addendum: LifeMode PRD
@@ -14,13 +14,15 @@ The first two sections list what the architecture and UX work need to pick up. T
 
 ### For the architecture
 
-These items came out of the PRD review and belong in the next `bmad-architecture` run. The team follows the reference setup in `architecture/technology.md` (decided 2026-11-12): login built in the Python backend with bcrypt and its own JWT tokens, Docker Compose locally with Caddy and its own Postgres, Alembic migrations, a local stand-in for every external service whose key is missing (NFR-6), and Railway with Supabase Postgres for the hosted playtest. NFR-5 allows a low cost during the playtest.
+**Picked up:** the architecture spine (`architecture/architecture-IBE160-G13-2026-11-09/ARCHITECTURE-SPINE.md`, final 2026-11-15) answers every item below. The list is kept as the record of what was handed over.
+
+These items came out of the PRD review and were handed to the `bmad-architecture` run. The team follows the reference setup in `architecture/technology.md` (decided 2026-11-12): login built in the Python backend with bcrypt and its own JWT tokens, Docker Compose locally with Caddy and its own Postgres, Alembic migrations, a local stand-in for every external service whose key is missing (NFR-6), and Railway with Supabase Postgres for the hosted playtest. NFR-5 allows a low cost during the playtest.
 
 - **Authentication:** the backend enforces every limit itself: email normalization, the sign-up and login limits per network and per address, the failed-login pause, and the reset-email caps (the limits table under "Login with email: decisions, limits, and reset routes"). Name the token lifetimes, how a password change or **Log out on all devices** revokes other sessions (FR-4, FR-5), and the chosen email relay and its quota.
 - **Connectivity:** a state version per playthrough, a request ID for retries, browser visibility and online events, and the error format and codes.
 - **Engine state:** storage for draws and the seed, content versions, the per-cause parts of each balance, and the card and account settings. The month plan (FR-52, FR-53), the month's messages (FR-55), the savings-target pin, and the bank thresholds already sent for it (FR-55, FR-57) also belong in the playthrough's state. Nothing about reading messages is stored (FR-54).
 - **Hosting:** the playtest runs on Railway with Supabase Postgres (OQ-14). Confirm an EU/EEA region, a usable screen within 10 seconds after sleep (NFR-10), and the expected cost (NFR-5), and name the fallback if one of these fails. Nothing may keep costing money after the playtest.
-- **Responsiveness:** a server budget of at most 300 ms to process and save one month, for 9 out of 10 requests, with the backend and database in the same region. A browser test with network throttling plays a scripted first session, and a Lighthouse mobile run checks the first screen before each playtest.
+- **Responsiveness:** a server budget of at most 300 ms to process and save one month, for 9 out of 10 requests, with the backend and database in the same or a neighbouring EU region. The playtest uses Amsterdam and Frankfurt (architecture AD-14). A browser test with network throttling plays a scripted first session, and a Lighthouse mobile run checks the first screen before each playtest.
 - **Mobile-first:** add NFR-1's supported browsers and test devices as the test matrix.
 - **Game flow:** the two-part month and the state check on every request that changes the game (FR-49), and the open-option model (FR-48). Placing and removing activities are requests that name their month. The request to continue carries the version of the month plan the device showed, and is refused if the plan has changed since (FR-49). The planned activities are applied in the same request as continuing, before wellbeing is calculated.
 - **Content and selection:** events, activities, and messages make up the content library (FR-17). Each type has its own schema and versions (NFR-4). One selection step uses the state and the seed to decide what arrives each month: the event and the messages. Name it as one unit (see "Ready for V2").
@@ -100,7 +102,7 @@ Flag gating raises overlap and different choices lower it, so the seeded content
 
 | Field | Content | Checked |
 |---|---|---|
-| id, version | Unique text ID, and a whole-number version (NFR-4) | ID unique; version rises on any change |
+| id, version | Unique text ID, and a whole-number version (NFR-4) | ID unique; version rises on any change to a non-text field. A text-only correction keeps it (NFR-4) |
 | type, trigger | Regular or crisis. A crisis event also names its rule 8 trigger | Every trigger is covered at each age where it can occur |
 | mechanism | One or more from the fixed list | Names exist |
 | age range | From and to, in years and months, within 15y0m-19y11m | From ≤ to |
@@ -138,7 +140,7 @@ The offers in FR-18 are offer messages (below), so events have no `milestone` fi
 
 | Field | Content | Checked |
 |---|---|---|
-| id, version | Unique text ID, and a whole-number version (NFR-4) | ID unique; version rises on any change |
+| id, version | Unique text ID, and a whole-number version (NFR-4) | ID unique; version rises on any change to a non-text field. A text-only correction keeps it (NFR-4) |
 | availability | Basic (always available) or invitation (only with an invitation message) | Every invitation activity has at least one invitation message |
 | kind | From a fixed list, such as concerts, time with friends, rest, hobby, trips. FR-42 groups by it | Kind exists |
 | mechanism | One from the fixed list, usually "everyday spending and free time", for the disclosure and the cause | Name exists |
@@ -152,7 +154,7 @@ The offers in FR-18 are offer messages (below), so events have no `milestone` fi
 
 | Field | Content | Checked |
 |---|---|---|
-| id, version | Unique text ID, and a whole-number version | ID unique; version rises on any change |
+| id, version | Unique text ID, and a whole-number version | ID unique; version rises on any change to a non-text field. A text-only correction keeps it (NFR-4) |
 | kind | Info, invitation, or offer. The phone's copy of the highlight event comes from the event's sender field (event schema), not from a message | Kind exists |
 | sender | Friend, family, employer, or bank, with a fictional name | Sender is from the fixed list |
 | links to | Info: nothing. Invitation: an activity. Offer: an open option (FR-48), extra shifts (FR-47), or a one-time gift (FR-29, FR-30) | The target exists. An invitation's activity covers the message's age range, and the message requires at least the activity's flags |
@@ -282,17 +284,17 @@ What this changes for the build:
 |---|---|---|
 | Sign-up attempts per network | 60 an hour | A class of 30 with one retry each fits |
 | Password length | At least 8 characters; the maximum allowed is at least 64 | A 12-15-character minimum would slow sign-up for a 15-year-old |
-| Failed logins per address | 10 in 15 minutes, then a 15-minute pause | Stops guessing, and the message stays neutral |
+| Failed logins per address and network | 10 in 15 minutes, then a 15-minute pause for that address from that network | Stops guessing, and the message stays neutral. Counting per address and network means a classmate can't lock a player out (AG-26, 2026-11-13) |
 | Login attempts per network | 300 an hour | A class of 30 at three attempts each isn't blocked |
-| Reset emails | 1 per address a minute and 5 a day; total per day at most 80% of the relay's daily quota | One script can't use up the quota and block recovery [needs figure: the chosen relay's quota, OQ-4, #30] |
+| Reset emails | 1 per address a minute and 5 a day; total per day at most 80% of the relay's daily quota | One script can't use up the quota and block recovery. Applies once a relay is switched on (go-live, OQ-4); with Resend Free (100 a day) the total is 80 a day |
 | Reset link | 60 minutes, and a new link cancels older ones | |
 | Login without "stay logged in" | Until the browser closes, or 30 minutes with no activity | Shared school PCs |
 | Login with "stay logged in" | Until logout, or 30 days without play | The box is unticked by default, which suits shared school PCs. The cost is that a phone player logs in again more often, which could lower the return rate. Check this in the playtest |
 
 **Reset email routes (OQ-4, #30).** Password reset has to send email at NFR-5's low cost, and it has to work in the examiner's Docker run without the team's cloud account or keys (NFR-6).
 - **Examiner's local run:** with no email key, the backend's local stand-in puts reset emails in a local inbox or in the log, and the README says where (NFR-6). If no local inbox is available, the README points to the automated reset test.
-- **Hosted playtest:** an email relay whose quota covers 10-20 testers plus the limits above. The architecture names the relay and its cost.
-- **Fallback if the relay fails:** a tester who asks in person gets a one-time reset link that the team creates from the backend. This works for 10-20 testers the team knows, but not for go-live.
+- **Hosted playtest (decided 2026-11-13):** no email is sent. A tester who asks the team gets a one-time reset link that the team creates with a command on the backend and sends the same way as the invitation. The command prints the link and writes no email address to the log (NFR-3). This works for the 10-20 testers the team knows, but not for go-live.
+- **Go-live:** the email module already has a Resend variant, switched on by setting its key. Resend sends only to the account owner until a domain is verified, so go-live needs a domain (OQ-4).
 
 ### Interest after a long break: left out of the MVP
 

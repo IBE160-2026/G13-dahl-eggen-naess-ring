@@ -2,7 +2,7 @@
 title: LifeMode PRD
 status: final
 created: 2026-10-22
-updated: 2026-11-13
+updated: 2026-11-15
 ---
 
 # PRD: LifeMode
@@ -430,7 +430,7 @@ A registered player can log in with their email address and password on any devi
 
 **Consequences (testable):**
 - A failed login doesn't reveal whether the email address or the password was wrong.
-- After repeated failed logins for one address (default 10 in 15 minutes), logins for that address pause for a while (default 15 minutes). The message still doesn't reveal whether the address has a user. A school class logging in on one network isn't blocked.
+- After repeated failed logins for one address from one network (default 10 in 15 minutes), logins for that address from that network pause for a while (default 15 minutes). Logins for the address from other networks aren't paused, and a reset link (FR-3) always lets the player in, so a classmate can't lock a player out. The message still doesn't reveal whether the address has a user. A school class logging in on one network isn't blocked.
 - A player can reach only their own game.
 
 #### FR-3: Forgotten password
@@ -439,10 +439,10 @@ A player who has forgotten their password can reset it by email from the login s
 
 **Consequences (testable):**
 - The reset link can be used once and expires after 60 minutes (configuration). Asking for a new link makes earlier links stop working. A used or expired link says so and offers a new one.
-- Reset emails are limited per address (default 1 a minute and 5 a day) and in total per day, below the email relay's daily quota (OQ-4). The screen shows the same message whether an email was sent, held back by a limit, or the address has no user.
+- Reset emails are limited per address (default 1 a minute and 5 a day) and, once an email relay is switched on, in total per day below the relay's daily quota (OQ-4). The screen shows the same message whether an email was sent, held back by a limit, or the address has no user.
 - After a reset, every device that was logged in is logged out.
 - The player's game is unchanged after a reset.
-- Reset works in the local run (NFR-6) and in the playtest environment (NFR-11).
+- Reset works in the local run (NFR-6) and in the playtest environment (NFR-11). In the playtest, no email is sent: the team hands out the reset link (NFR-11).
 
 #### FR-4: Change password
 
@@ -590,9 +590,10 @@ flowchart LR
 
 #### FR-12: Process each month in a fixed, repeatable way
 
-The engine processes every month in the order set by rule 1: income, then tax, fixed costs, everyday costs and spending, any unexpected expense, loan instalments, the card bill and interest on debt, interest on savings, then the month's event and the player's choices, ending with the planned activities (FR-53), and last wellbeing. The rule 8 check runs at the end of the month. All amounts are in whole kroner (rule 2). Realizes UJ-3.
+The engine processes every month in the order set by rule 1: income, then tax, fixed costs, everyday costs and spending, any unexpected expense, loan instalments, the card bill and interest on debt, interest on savings, then the month's event and the player's choices, ending with the planned activities (FR-53), then wellbeing, and in December the BSU deduction (rule 9). The rule 8 check runs at the end of the month. All amounts are in whole kroner (rule 2). Realizes UJ-3.
 
 **Consequences (testable):**
+- **Costs started by a choice:** an everyday cost started in month M by an event option, an open option, or car borrowing (FR-30) is first charged in month M+1's fixed-cost step, and last charged in the month it's stopped, the same way as the moped in rule 14.
 - The same starting state, random draws, choices, and minigame answers always give the same result.
 - The worked examples pass as unit tests, and they cover F1-F3, F7, and F8.
 - **Calendar (rule 11):** month 1 is January, at the 15th birthday. Each session runs from January to December and is one tax year. Upper secondary school ends after month 54.
@@ -687,6 +688,7 @@ An automated check validates the content library and plays seeded test playthrou
   - the second reference run misses goal 1 or goal 2 (FR-9b)
 - **Reports (the check doesn't fail):** the share of events before 18 with two free options, from a run at NOK 0 (FR-17); LK20 coverage (FR-17); drawn events left per in-game year (FR-46b); dropped follow-ups (FR-46c); ending wellbeing at 1-4 slots (FR-52); invitations per in-game year (FR-55); the boundary runs in worked example 17b and careless run 21c in worked example 21 (FR-33).
 - **Run policies:** seeded runs follow the careless and careful policies in FR-9b, with unexpected expenses from the run's seed.
+- **Until tuning is frozen:** while the library is being written and the tuning values are open (deadline in Rule Set v1's parameter table), only the schema gate and the open-option gate (FR-48) fail the check. The other hard gates report as warnings until tuning is frozen before the playtest, and fail from then on. This keeps CI green while content grows.
 
 #### FR-46: Event scheduling
 
@@ -830,12 +832,12 @@ The phone is an inbox of pre-written messages from friends, family, the employer
 The engine decides which messages arrive each month, in the same selection step that chooses the month's event (FR-46). Realizes UJ-1 and UJ-6.
 
 **Consequences (testable):**
-- **Drawn and stored:** messages are drawn when the month opens, from the playthrough's seed, and stored (FR-12). Reloading or switching device shows the same messages.
+- **Drawn and triggered:** invitations, info messages, and drawn offers are drawn from the playthrough's seed. Bank messages and the other offers are triggered by the state, not drawn. Both kinds are decided when the month opens and stored (FR-12). Reloading or switching device shows the same messages.
 - **Who can get one:** a message needs the player's age to be in its age range, all its required flags set, and none of its blocking flags set. An invitation is drawn only if its activity is eligible this month (age range and flags). Payment isn't part of the check, so a player with little money still gets paid invitations. A one-off message can't have appeared before in the playthrough.
-- **Bank messages:** they're triggered when progress towards the savings target (FR-57) or towards goal 1, the only goal with a percentage (FR-9), passes 25, 50, 75, or 100%. Each threshold is sent once per target in a playthrough. If several are passed in one month, only the highest is sent, and pinning the same option again doesn't resend thresholds already sent. One more bank message reports savings interest: the first month the interest earned so far passes NOK 50 (configuration), once per playthrough, with the engine's figure (UJ-3).
+- **Bank messages:** they're triggered when progress towards the savings target (FR-57) or towards goal 1, the only goal with a percentage (FR-9), passes 25, 50, 75, or 100%. Progress is measured when the month opens, after rule 1's steps up to interest on savings. Each threshold is sent once per target in a playthrough. If several are passed in one month, only the highest is sent, and pinning the same option again doesn't resend thresholds already sent. One more bank message reports savings interest: the first month the interest earned so far passes NOK 50 (configuration), once per playthrough, with the engine's figure (UJ-3).
 - **Offers always arrive:** each offer in the FR-18 table arrives as a message in its offer month, and so does the car licence result (FR-30). A player who doesn't qualify yet still gets it, and it shows what's missing (FR-48). An offer message isn't sent if its option has already been taken, can't be taken again under its one-at-a-time rule, or has closed. Nothing can push an offer out.
 - **Drawn offers:** the employer's extra shifts (FR-47) and the gift moped (FR-29) are drawn offers. Each has required and blocking flags and a chance per in-game year (configuration), and can be taken only in the month it arrives (FR-54). Extra shifts are offered only under FR-47's conditions.
-- **How many:** at most 3 new messages a month (configuration). Offers and the event copy always arrive and don't count towards the limit. Invitations, then info messages, fill the rest. A bank message that doesn't fit arrives the next month instead.
+- **How many:** at most 3 new messages a month (configuration). Offers and the event copy always arrive and don't count towards the limit. Bank messages, then invitations, then info messages, fill the rest. A bank message that doesn't fit arrives the next month instead.
 - **Invitations:** 0-2 a month are drawn from the eligible ones (configuration). Invitations are repeatable, at most once each per in-game year. The content check reports invitations per in-game year, and fails if seeded runs have more than 2 months a year with no eligible invitation.
 
 ### 5.7 Job view
@@ -895,7 +897,18 @@ The player has a current account, a savings account, and, if they open one, a BS
   - sell the moped (FR-29)
 
   Taking an open option (FR-48) works the same way. These actions don't use up the month's real choice.
-- **Activities:** an activity (FR-53) is paid like an event option (FR-26). With card use on, a card-payable activity that fits whole under the limit goes on the card. Otherwise it's paid from the current account, then savings. It's never split between the card and the accounts, and it's paid when the player continues, not when it's planned (worked example 27).
+- **Payment order:** this is the one place for how each kind of payment is paid. The engine pays every amount through one step that follows it. Other FRs point here.
+
+  | Payment | Order |
+  |---|---|
+  | Event option, open option, activity | Card, if card use is on, the item is card-payable, and the whole amount fits under the limit; otherwise current account, then savings. Never split between card and accounts, and an event purchase that doesn't fit says the card was declined (FR-26) |
+  | Card-payable monthly costs and spending | Card first while card use is on, as far as it fits under the limit (FR-23). What doesn't fit of a cost is charged as in the next row. What doesn't fit of spending comes from the current account only, up to what it holds: spending never draws on savings or takes the account below NOK 0 (rule 16) |
+  | Tax, fixed and everyday costs, consumer-loan and payment-plan instalments, unexpected expenses | Current account, then savings as far as they reach; always charged, even if the current account goes below NOK 0 |
+  | Card bill, family-loan instalments | Current account, then savings as far as they reach, never taking the current account below NOK 0 (rule 5, FR-26, FR-27). Worked example 7 pays NOK 4,000 of a NOK 6,000 bill this way |
+  | Extra card payment, and early payoff of a consumer loan, a family loan, or a payment plan (money actions) | Current account, then savings. An amount above what they hold is refused (NFR-7) |
+
+  BSU never pays for anything.
+- **Activities:** an activity (FR-53) is paid like an event option, under the payment order above. With card use on, a card-payable activity that fits whole under the limit goes on the card. Otherwise it's paid from the current account, then savings. It's never split between the card and the accounts, and it's paid when the player continues, not when it's planned (worked example 27).
 
 #### FR-20: Wages
 
@@ -990,7 +1003,7 @@ From age 18, a player with a steady wage can get a credit card, under rule 5. Re
 - A missed minimum leaves an overdue amount, and later payments cover that first (rule 5).
 - An extra payment lowers the balance at once. It doesn't undo interest already charged that month.
 - A NOK 3,200 balance, with only the minimum paid each month, is paid off after 13 months, NOK 3,606 in total (worked example 4, F3).
-- While card use is on, purchases and card-payable monthly costs, such as fuel, go on the card as long as they fit under the limit. An event purchase that doesn't fit is paid from the current account as a whole, and the game says the card was declined. Spending follows FR-23.
+- While card use is on, purchases and card-payable monthly costs, such as fuel, go on the card as long as they fit under the limit. An event purchase that doesn't fit is paid as a whole from the current account, then savings (FR-45), and the game says the card was declined. Spending follows FR-23.
 - The player can turn card use off at any time.
 - Interest can take the balance above the limit. The card then takes no purchases until the balance is below the limit again.
 - The game shows, in kroner, this month's interest and the total cost of paying only the minimum, for the player's own balance.
@@ -1003,7 +1016,7 @@ In some events and crisis months, family can give or lend money. Talking to fami
 - Help isn't always on offer, and it often covers only part of the amount. Whether family can help, and how much, is drawn once per event or crisis month and stored. Asking again in the same event or crisis month shows the same answer, moves no money, and doesn't use up a crisis step (FR-32b).
 - A family loan carries 0% interest and is repaid in monthly instalments set by the event.
 - Each instalment is the loan divided by the number of months, rounded to whole kroner, and the final instalment makes the total exact. NOK 5,000 over 6 months is NOK 833 five times and NOK 835 (worked example 8).
-- If the player can't pay an instalment, it moves to the end of the loan, and stress rises, but no higher than 50 (rule 12). A family loan never takes the current account below NOK 0. What's left at 20 counts as debt.
+- If the current account and savings can't cover an instalment (FR-45), it moves to the end of the loan, and stress rises, but no higher than 50 (rule 12). A family loan never takes the current account below NOK 0. What's left at 20 counts as debt.
 - A player has at most one family loan at a time, from age 15. While it's being paid back, family can still give advice or a gift, but doesn't lend more.
 - A family loan doesn't count towards the debt trigger (FR-32). Otherwise a teenager with no income would go into crisis from any loan.
 
@@ -1248,7 +1261,7 @@ The player can start a new life from age 15. Realizes UJ-5.
 - **Different choices, different story:** two playthroughs with different choices give different stories.
 - **How it's checked:** in the content check, pairs of playthroughs with random choices share, on average, no more than two-thirds of their regular events. A second check uses pairs with the same seed and different choices, so the difference comes from the choices alone, and each pair must differ in at least one follow-up.
 - **One life at a time:** an account has at most one playthrough in progress.
-- **Starting over before 20:** the player can end the current life from the menu and start a new one, after confirming. The ended life can't be resumed and is deleted.
+- **Starting over before 20:** the player can end the current life from the menu and start a new one, after confirming. The ended life can't be resumed, and it's deleted when the new life starts or the account is deleted.
 - **After the ending:** a finished playthrough is kept, read-only, until the player starts a new life or deletes the account. Then it's deleted.
 - **Coming back after the ending:** a player whose life has ended sees the ending summary again, with **Play again**, instead of a recap.
 
@@ -1285,7 +1298,8 @@ In the playtest environment only, the game keeps a small record for each account
 - **What's counted:** time to the first choice, session lengths, the days the tester played, the highest month reached in each playthrough, completed playthroughs with their ending, goal, and net savings at 20, playing again after an ending, and starting over before 20. For the month plan and the phone, the record also counts the months with at least one applied activity, the months whose applied activities differ from the month before, the time from the first change to the month plan to continuing, and how many of the invitations received had their activity applied. No choices or other game content are kept.
 - **How time is measured:** on the server. Time to the first choice runs from creating the user to the first confirmed real choice, so the time before that isn't included. Session length adds up the time between confirmed actions in one in-game year, and a gap above 10 minutes (configuration) doesn't count.
 - The records survive when a playthrough is deleted (FR-43).
-- **Deleting an account:** when a tester deletes their account (FR-44), the record goes with it, and only a count of testers who left is kept, with no link to anyone. A tester who creates a user again with the same email address keeps the same tester code.
+- **Deleting an account:** when a tester deletes their account (FR-44), the record goes with it, and only a count of testers who left is kept, with no link to anyone. A tester who creates a user again with the same email address keeps the same tester code, and counts as the same tester.
+- **Linking the code:** the team loads the list of email addresses and tester codes into the playtest environment with a command, in its own table apart from the records. The code is looked up from the user's email address when the records are exported, so it's stored in one place only. The tester never types the code. The list is deleted with the records after the analysis (NFR-3).
 - **Switched off elsewhere:** the setting is off by default and on only in the playtest environment. It's off in the examiner's local run, and a test covers both states.
 - **Test users:** accounts used for checks (NFR-11) are marked and left out of the records and the export.
 - **Tester code:** records are exported with the tester code, not the email address (NFR-3).
@@ -1329,7 +1343,7 @@ The email address and the password are the only real personal data the player ty
 - Before creating a user, the player sees short information in plain Norwegian: what is stored, what for, how long, how to delete it, and which services handle the data (the database host and any email relay). The full text can also be opened from inside the game.
 - An account and its game data are deleted after 12 months without play (configuration). The player information says so, and no email is sent about it. If the deletion job is cut (cut list: login hardening), the player information doesn't promise it, and the job goes on the "before go-live" list.
 - The game uses no analytics, advertising, or tracking cookies or scripts, and loads nothing from third parties.
-- Only the current playthrough, or the last finished one, is kept (FR-43). In the playtest environment, the records in FR-50 are the one exception, and the playtesters' information describes them.
+- Only the current playthrough, or the last finished or ended one, is kept (FR-43). In the playtest environment, the records in FR-50 are the one exception, and the playtesters' information describes them.
 
 **Playtests:** only 18-20-year-olds take part, and they see the player information before they start. The team gives each tester a random tester code with the invitation, for the quiz, the survey, and the playtest records (FR-50). Game data and the records are exported with the code instead of the email address, and the list that links each email address to its code is stored separately from the results. That list, the records, and the playtest accounts are deleted when the analysis is done, no later than the December delivery.
 
@@ -1343,23 +1357,24 @@ The backend engine decides every financial result and all critical game state, a
 - They follow Rule Set v1, use real Norwegian 2026 values, and are held fixed for the whole playthrough (D6).
 - Every figure is stored as configuration with its source and date, never hard-coded.
 - The worked examples are the test answer key. New rules get worked examples and unit tests in the same way (brief addendum, worked examples 7-28).
+- **Frozen test figures:** the worked examples run against their own frozen copy of the figures, so tuning the game's figures doesn't change the tests. When the engine and the answer key disagree, Dahl decides which is wrong. The key changes only after a second, independent calculation.
 - **Exact arithmetic:** money and rates are calculated with exact decimals or whole øre, never binary floating point, so that rule 2's "0.5 rounds up" lands the same way every time. Example: 11,645 × 0.70 = 8,151.5 rounds to NOK 8,152 (worked example 19), but a float gives 8,151.4999… and NOK 8,151.
 
 **Versions:** each playthrough keeps the configuration and content-library version (events, activities, and messages) it started with until it ends. A changed figure or event applies only to playthroughs started afterwards, and cause links keep pointing to the event version the player saw. A correction to player-facing text that changes no figure, option, or flag can apply to running playthroughs.
 
 ### NFR-5: Low cost
 
-The examiner's local run costs nothing. The hosted playtest environment (NFR-11), including the email for password reset (#30), may have a low cost during the playtest period, which the team covers. The architecture names the expected cost. Nothing keeps costing money after the playtest.
+The examiner's local run costs nothing. The hosted playtest environment (NFR-11) may have a low cost while it exists, from the sprint-1 hosting spike to the end of the analysis (about two months), which the team covers. The architecture names the expected cost. Nothing keeps costing money once the analysis is done.
 
 ### NFR-6: Runs from the README
 
 An examiner can run the full application on a clean machine with Docker, following only the README, in about 15-20 minutes. The full stack starts with one command and needs only Docker. It must work without the team's cloud account or keys: every external service, such as the database host and email, falls back to a local stand-in when its key is missing, so the app runs locally with no secrets. Password reset works locally. Reset emails land in a local inbox or in the log, and the README says where to find them (#30). If no local inbox is available, the README points to an automated test that verifies password reset instead. The repo has a `.env.example`.
 
-The README also provides test users seeded at useful states: just before 18 with a steady wage, in debt with a crisis due, and in month 59 close to each ending. A full game takes about an hour, so this is how the examiner reaches the card, crisis, and ending flows. The README covers what criterion 6 in the examiner's guide asks for.
+The README also provides test users seeded at useful states: just before 18 with a steady wage, in debt with a crisis due, and in month 59 close to each ending. Each is made by a script that plays the game from month 1 with stored choices, never by writing a state directly, so cause links, the ending summary, and replay (FR-12) work for them too. A full game takes about an hour, so this is how the examiner reaches the card, crisis, and ending flows. The README covers what criterion 6 in the examiner's guide asks for.
 
 ### NFR-7: Robust against wrong input
 
-The server decides every result. The device sends only the player's inputs, never a result: the option, money action, or activity they picked, plus changes to the month plan, a savings-target pin, a disclosure they've seen, ending a life early, an amount where one is asked for, or an answer in a minigame. The server ignores anything else. The server refuses:
+The server decides every result. The device sends only the player's inputs, never a result: the life goal and the avatar at the start, the option, money action, or activity they picked, plus changes to the month plan, a savings-target pin, a disclosure they've seen, ending a life early or starting a new one, an amount where one is asked for, or an answer in a minigame. The server ignores anything else. The server refuses:
 - **Turn and month:**
   - a choice or money action for an event or month that isn't the current one (FR-49)
   - moving to the next month before the real choice is made, with a crisis unfinished, or with a minigame unfinished (FR-49)
@@ -1394,7 +1409,7 @@ Five cases aren't refusals, and each has its own test:
 - a BSU deposit above what's left of the year's cap is cut to fit (FR-22)
 - a summer job offer above the monthly cap is cut to fit (FR-47)
 - a summer job cut to 0 h by a later hours change is cancelled with a note (FR-47)
-- a card purchase that doesn't fit under the limit is paid from the current account (FR-26)
+- a card purchase that doesn't fit under the limit is paid from the current account, then savings (FR-26, FR-45)
 - a planned activity the player can no longer pay for, or is no longer eligible for, when they continue is dropped with a note (FR-53)
 
 **Consequences (testable):**
@@ -1434,11 +1449,11 @@ These are starting values, like the targets in 7.1. When the connection is lost,
 ### NFR-11: Playtest environment
 
 The playtests run on one hosted environment that testers open on their own phones.
-- It runs the same version as the README's local setup, at a low cost during the test period only (NFR-5).
+- It runs the same version as the README's local setup, at a low cost only while the environment exists (NFR-5).
 - It stays available for the whole test period, which lasts at least 3 days. The team can extend it later.
-- Player data is stored in the EU/EEA.
+- Player data is stored in the EU/EEA. The host's own platform logs, including its HTTP logs with client IP addresses, may be kept outside it: Railway keeps them in the US for 90 days. The player information says so, and the game's own logs hold no email or IP address (NFR-3).
 - An automated check logs in with a test user every day of the test period and alerts the team if it fails.
-- Password reset works there (FR-3, OQ-4).
+- Password reset works there (FR-3, OQ-4), without email. A tester who has forgotten their password asks the team, which creates a one-time reset link with a command on the backend and sends it to the tester the same way as the invitation. The email relay is built in, but stays switched off in the playtest, so reset emails are not sent there.
 - The architecture names the provider and tier, and the limits that matter for the test: pausing or sleeping when idle, storage, number of users, and email quota.
 
 ## 7. Success Metrics
@@ -1513,13 +1528,13 @@ The Blocks column names the work each question holds up. Gaps in the numbering a
 | # | Question | Owner | Blocks |
 |---|---|---|---|
 | OQ-3 | How far the moped and the car are driven each month, and whether moped service is charged (#43). Moped insurance is settled: a flat NOK 3,000 a year in V1, and varying offers from different insurers in V2 (§4.3). Sources for the other figures: Rule Set v1 parameters, `research/prices-oq3-oq17-2026-11-12/` | Team | Writing those events and final tuning |
-| OQ-4 | How password reset email works at low cost (NFR-5) in the playtest environment and at go-live. The examiner's local run is settled by NFR-6 (#30) | Architecture, first build sprint | FR-3 acceptance and the first playtest |
+| OQ-4 | How password reset email works at low cost at go-live: the relay (Resend is built in), a verified domain, and its quota. The playtest is settled by NFR-11 (team-made reset links, no email, 2026-11-13), and the examiner's local run by NFR-6 (#30) | Team, before go-live | Go-live only |
 | OQ-8 | Tuning values (list below the table) | Team, when tuning | Event balancing |
 | OQ-9 | What the avatar contains, and which control the player uses to set weekly hours (the mechanism is in FR-47) | UX | Nothing |
 | OQ-11 | Whether a delivery with no AI in the app meets the course requirements, including moving F5 to V2. So far it's checked only against part 1 of the examiner's guide, and the lecturer's difficulty rating leaned partly on in-app AI (#39). The team has decided to keep the AI game master in V2 and to update this PRD if that changes | Team | Nothing |
 | OQ-12 | Whether typing the email address twice (FR-1) falls under an exception in WCAG 2.2 criterion 3.3.7, Redundant Entry | UX | Nothing |
 | OQ-13 | The exact delivery date, and a check of the tentative dates in §4.4 against it | Team | Sprint planning |
-| OQ-14 | Confirm an EU/EEA region for the data (NFR-11) and a usable screen within 10 seconds after sleep (NFR-10) on the chosen host, name the expected cost (NFR-5), and name the fallback if one of these fails (#68). Host: the reference setup in `architecture/technology.md` (Railway with Supabase Postgres, own login in the backend) | Architecture | First playtest |
+| OQ-14 | Verify in the sprint-1 hosting spike what the architecture decided (AD-14, #68): Railway in EU West (Amsterdam) with Supabase Postgres in Frankfurt, sleeping switched off so there's no cold start (NFR-10), the 300 ms server budget between the two regions, and a cost of about USD 5-8 a month (NFR-5). The fallback is Railway Postgres, used only if Supabase pauses or fails | Backend, sprint 1 | First playtest |
 | OQ-15 | The approved proposal isn't in the repo. The examiner's guide requires anything left out or changed from it to be described and justified, so the proposal needs adding to the repo, and the "Changes from the proposal" table in the addendum needs finishing | Team | Delivery |
 | OQ-16 | The driving game: whether a retry has a fee and how large, how many situations a route has, and how many the player must get right. Its look is UX | Team, UX | Building it |
 | OQ-17 | The activity catalogue: the team approves the starting catalogue (6 basic and 16 invitation activities, with kinds and dated prices, in `research/prices-oq3-oq17-2026-11-12/activities-spending.md`), finds sources for the nine prices marked [ASSUMPTION] (café, small concert, laser tag, birthday gift, pizza evening, restaurant, cabin weekend, local LAN, shopping trip), and sets each activity's effects (OQ-8). Also whether "school work" belongs in it as stress relief before exam months, or is left out, since the MVP has no school results | Team | Writing activities |
