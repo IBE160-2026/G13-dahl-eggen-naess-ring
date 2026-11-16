@@ -38,9 +38,9 @@ A life sim where time is as limited as money. Each month the player plans their 
 - Login with email and password, no username, and no real age collected. Saved on the server, so play picks up on any device.
 - The server decides every result. The frontend never calculates or formats an amount; the backend sends finished Norwegian game text with figures filled in.
 - All game text is in Norwegian bokmål. Messages are pre-written from fictional senders, and the player can't write messages.
-- Never in version one: real money or bank connections, personal financial advice, AI anywhere, free text beyond the email address, real-time lockouts, classroom tools, alcohol or tobacco content.
+- Never in version one: real money or bank connections, personal financial advice, AI anywhere, free text beyond the email address and the nickname, real-time lockouts, classroom tools, alcohol or tobacco content.
 - Not a PWA, no offline mode, no push notifications.
-- **Open:** the team wants a player-chosen nickname (decisions.md, 2026-11-16). That conflicts with "no free text beyond the email address" (PRD §4.2, NFR-3) and FR-10 (the avatar has no free-text name), so the PRD must be changed before the nickname is built.
+- **Nickname:** the player picks a nickname at sign-up, and game text addresses them by it. It is the only free text beyond the email address and counts as personal data (PRD FR-1, FR-54, NFR-3; added in PR #100, 2026-11-16).
 - **Open:** how the avatar looks (OQ-9).
 
 ## Brand Commitments
