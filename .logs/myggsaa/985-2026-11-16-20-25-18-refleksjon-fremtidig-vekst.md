@@ -23,3 +23,19 @@ Brukeren ba først om BMad-status (`bmad`), og deretter om et refleksjonsnotat o
 ### Åpne punkter
 - Bestem hva som skjer med løpende liv når motorens regler endres (#102).
 - Teamet må lese og bekrefte notatet før det brukes i refleksjonsrapporten (#103).
+
+## 2026-11-16 kl. 20:40 — Myggsaa
+
+### Oppgave
+Brukeren ba om at notatet slettes: forespørselen var sendt i feil terminal.
+
+### Plan
+- Slette notatet, lukke issuet som bare gjaldt notatet, og oppdatere loggen.
+
+### Resultat
+- Slettet `refleksjon-fremtidig-vekst.md` i arkitekturmappen. Fila var aldri committet, så den finnes ikke i git-historikken.
+- Lukket #103 som ikke aktuell.
+- #102 står åpent: hullet det beskriver (motorens regler låses ikke per liv) gjelder spinen uavhengig av notatet.
+
+### Åpne punkter
+- Bestem hva som skjer med løpende liv når motorens regler endres (#102).
