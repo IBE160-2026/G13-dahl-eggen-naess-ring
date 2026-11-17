@@ -1,0 +1,194 @@
+<title>LifeMode runde 2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: a quiet contact sheet. One range strip up top, then one row per direction (phone | desktop + tablet), ordered fresh → muted. */
+:root{
+  --bg:#f3f4f6; --surface:#ffffff; --fg:#14171c; --fg-2:#4a515c; --line:#d9dce2;
+  --accent:#1f4fd6; --chip:#e7ebf5; --warn:#8a4b00; --warn-bg:#fff3e0;
+  --font:"Schibsted Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#111317; --surface:#1a1d23; --fg:#eef0f4; --fg-2:#a9b0bc; --line:#2c313a;
+  --accent:#8fb0ff; --chip:#232a3a; --warn:#ffcf8a; --warn-bg:#2b2112; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#111317; --surface:#1a1d23; --fg:#eef0f4; --fg-2:#a9b0bc; --line:#2c313a;
+  --accent:#8fb0ff; --chip:#232a3a; --warn:#ffcf8a; --warn-bg:#2b2112; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.15}
+p{margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+header{display:flex;flex-direction:column;gap:12px;max-width:68ch}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-2)}
+h1{font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-.02em}
+.lede{color:var(--fg-2);font-size:17px}
+
+/* Range strip */
+.range{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:14px}
+.range-ends{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--fg-2)}
+.range-ends b{color:var(--fg)}
+.track{position:relative;height:4px;border-radius:2px;background:linear-gradient(90deg,#2645ff,#7d8796)}
+.stops{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stop{display:flex;flex-direction:column;gap:2px;font-size:14px;text-decoration:none;color:var(--fg);padding:8px 10px;border-radius:8px;border:1px solid var(--line)}
+.stop:hover{border-color:var(--accent)}
+.stop b{font-size:16px}
+.stop span{color:var(--fg-2)}
+
+/* Direction rows */
+.dir{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:28px;scroll-margin-top:16px}
+.dir-head{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px}
+.dir-head h2{font-size:30px;font-weight:800;letter-spacing:-.02em}
+.tagline{font-size:18px;color:var(--fg-2)}
+.pos{font-size:13px;font-weight:700;background:var(--chip);border-radius:999px;padding:3px 10px}
+figure{margin:0;display:flex;flex-direction:column;gap:6px}
+figcaption{font-size:13px;color:var(--fg-2)}
+.shot{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:var(--bg)}
+.phone .shot{max-width:320px}
+.right{display:flex;flex-direction:column;gap:18px;min-width:0}
+.big-row{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:14px;align-items:start}
+dl{margin:0;display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 16px;font-size:15px}
+dt{font-weight:700}
+dd{margin:0;color:var(--fg-2)}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:8px;font-weight:700;text-decoration:none;border:1px solid var(--accent)}
+.btn.primary{background:var(--accent);color:var(--surface)}
+.btn.ghost{color:var(--accent)}
+
+/* Notes */
+.notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:10px}
+.note.warn{background:var(--warn-bg);border-color:transparent}
+.note.warn h2{color:var(--warn)}
+.note h2{font-size:20px;font-weight:800}
+.note ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;color:var(--fg-2)}
+.note li b{color:var(--fg)}
+footer{font-size:14px;color:var(--fg-2)}
+
+@media (max-width:860px){
+  .dir{grid-template-columns:minmax(0,1fr)}
+  .phone{align-items:center}
+  .big-row{grid-template-columns:minmax(0,1fr)}
+  .notes{grid-template-columns:minmax(0,1fr)}
+  .stops{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">LifeMode · UX runde 2 · 16. november 2026</p>
+    <h1>Fire retninger for Rommet</h1>
+    <p class="lede">Alle fire bygger på Rommet (konsept 6): rommet ditt er hjem-skjermen, og tingene i rommet åpner telefonen, planen, pengene og jobben. Telefonen og banken er hentet fra Månedsfeed, tidslinjen viser månedene med navn og alderen din, og du har et kallenavn. Det som skiller dem, er det visuelle uttrykket, fra friskt til dempet.</p>
+  </header>
+
+  <section class="range" aria-labelledby="range-h">
+    <h2 id="range-h" class="eyebrow" style="font-size:13px">Hvor de ligger på skalaen</h2>
+    <div class="range-ends"><span><b>Friskt</b> · nærmest Månedsfeed</span><span><b>Dempet</b> · nærmest Ly og Rommet</span></div>
+    <div class="track" aria-hidden="true"></div>
+    <nav class="stops" aria-label="Hopp til en retning">
+      <a class="stop" href="#ringer"><b>Ringer</b><span>Friskest</span></a>
+      <a class="stop" href="#blits"><b>Blits</b><span>Midt, mot friskt</span></a>
+      <a class="stop" href="#varsel"><b>Varsel</b><span>Midt, mot dempet</span></a>
+      <a class="stop" href="#stue"><b>Stue</b><span>Mest dempet</span></a>
+    </nav>
+  </section>
+
+  <article class="dir" id="ringer" aria-labelledby="ringer-h">
+    <div class="dir-head"><h2 id="ringer-h">Ringer</h2><p class="tagline">Alt som er nytt i rommet ditt, får en ring.</p><span class="pos">Friskest</span></div>
+    <figure class="phone"><img class="shot" src="r2-b/shot-mobile.png" width="390" height="844" alt="Ringer på mobil: rommet med ringer rundt mobilen, planen og pengene, kort med stille måned, brukskonto og trivsel, og en blå knapp Fortsett til desember." loading="lazy"><figcaption>Mobil, 390 px</figcaption></figure>
+    <div class="right">
+      <div class="big-row">
+        <figure><img class="shot" src="r2-b/shot-desktop.png" width="1440" height="900" alt="Ringer på desktop: meny til venstre, rommet i midten og meldingene i et panel til høyre, som en meldingsapp." loading="lazy"><figcaption>Desktop, 1440 px</figcaption></figure>
+        <figure><img class="shot" src="r2-b/shot-tablet.png" width="820" height="1180" alt="Ringer på nettbrett." loading="lazy"><figcaption>Nettbrett, 820 px</figcaption></figure>
+      </div>
+      <dl>
+        <dt>Verden</dt><dd>Meldings-, story- og bankappene de åpner 50 ganger om dagen. Hvite flater, én koboltblå farge, Figtree og ekte mørk modus.</dd>
+        <dt>Signaturgrep</dt><dd>Story-ringer på tingene i rommet. Når noe er nytt (meldinger, saldo, en hendelse), får tingen en ring. Den blir grå når du har sett det. På desktop åpnes systemet i et panel til høyre, så du ser ringen forsvinne.</dd>
+        <dt>Risiko</dt><dd>Den mest kjente retningen. Rommet må bære spillfølelsen, ellers ligner det bare en app.</dd>
+      </dl>
+      <div class="actions"><a class="btn primary" href="r2-b/index.html#hjem">Åpne prototypen</a><a class="btn ghost" href="r2-b/index.html#landing">Start fra forsiden</a></div>
+    </div>
+  </article>
+
+  <article class="dir" id="blits" aria-labelledby="blits-h">
+    <div class="dir-head"><h2 id="blits-h">Blits</h2><p class="tagline">Rommet ditt, fotografert hver måned.</p><span class="pos">Midt, mot friskt</span></div>
+    <figure class="phone"><img class="shot" src="r2-a/shot-mobile.png" width="390" height="844" alt="Blits på mobil: en fotoautomatstripe med små bilder av rommet for hver måned øverst, rommet i en hvit polaroidramme med påskriften November 16 år, og en gul knapp Fortsett til desember." loading="lazy"><figcaption>Mobil, 390 px</figcaption></figure>
+    <div class="right">
+      <div class="big-row">
+        <figure><img class="shot" src="r2-a/shot-desktop.png" width="1440" height="900" alt="Blits på desktop: fotostripa over hele bredden, det store rombildet og paneler for status, penger, telefon, plan og trivsel." loading="lazy"><figcaption>Desktop, 1440 px</figcaption></figure>
+        <figure><img class="shot" src="r2-a/shot-tablet.png" width="820" height="1180" alt="Blits på nettbrett." loading="lazy"><figcaption>Nettbrett, 820 px</figcaption></figure>
+      </div>
+      <dl>
+        <dt>Verden</dt><dd>Polaroider og fotoautomatstriper på veggen. Kjølig grå bakgrunn, hvite fotorammer, én blitsgul farge og Archivo, med tusjskrift bare på bildetekster.</dd>
+        <dt>Signaturgrep</dt><dd>Tidslinjen er en fotostripe. Månedene som har vært, viser et lite bilde av hvordan rommet så ut da, og månedene som kommer, er blank film. «Fortsett» tar et blitsbilde. Ekkomerket er et lite oppslått bilde («Fra januar: pengegaven»).</dd>
+        <dt>Risiko</dt><dd>Foto-metaforen kan bli søt eller rotete på små skjermer. Stripa må holde seg lesbar på 320 px.</dd>
+      </dl>
+      <div class="actions"><a class="btn primary" href="r2-a/index.html#hjem">Åpne prototypen</a><a class="btn ghost" href="r2-a/index.html#landing">Start fra forsiden</a></div>
+    </div>
+  </article>
+
+  <article class="dir" id="varsel" aria-labelledby="varsel-h">
+    <div class="dir-head"><h2 id="varsel-h">Varsel</h2><p class="tagline">Livet ditt som et værvarsel: du ser hva som har skjedd, aldri hva som kommer.</p><span class="pos">Midt, mot dempet</span></div>
+    <figure class="phone"><img class="shot" src="r2-c/shot-mobile.png" width="390" height="844" alt="Varsel på mobil: tidslinje som et meteogram med en trivselslinje over månedene som har vært, rommet med sludd i vinduet, og en liste over lønn, rente og stress med verdier." loading="lazy"><figcaption>Mobil, 390 px</figcaption></figure>
+    <div class="right">
+      <div class="big-row">
+        <figure><img class="shot" src="r2-c/shot-desktop.png" width="1440" height="900" alt="Varsel på desktop: fjordblå meny, rommet som et stort nå-panel, og datapaneler for mobil, penger og neste måned." loading="lazy"><figcaption>Desktop, 1440 px</figcaption></figure>
+        <figure><img class="shot" src="r2-c/shot-tablet.png" width="820" height="1180" alt="Varsel på nettbrett." loading="lazy"><figcaption>Nettbrett, 820 px</figcaption></figure>
+      </div>
+      <dl>
+        <dt>Verden</dt><dd>Værappen og meteogrammet alle i Norge sjekker. Kjølige fjord- og himmelblåfarger, skifer og hvitt, Geist med tabelltall.</dd>
+        <dt>Signaturgrep</dt><dd>Tidslinjen er en meteogramstripe. Månedene som har vært, har en tynn trivselslinje, og månedene som kommer, er tomme, fordi spillet aldri varsler hendelser. Vinduet i rommet følger årstiden. «Neste måned» i banken er et varsel over kjente regninger.</dd>
+        <dt>Risiko</dt><dd>Kan oppleves som en nytteapp mer enn et spill. Rommet, lyset fra årstiden og månedsåpningen må bære spillfølelsen.</dd>
+      </dl>
+      <div class="actions"><a class="btn primary" href="r2-c/index.html#hjem">Åpne prototypen</a><a class="btn ghost" href="r2-c/index.html#landing">Start fra forsiden</a></div>
+    </div>
+  </article>
+
+  <article class="dir" id="stue" aria-labelledby="stue-h">
+    <div class="dir-head"><h2 id="stue-h">Stue</h2><p class="tagline">Rommet ditt som en interiørkatalog. Hver ting har en lapp.</p><span class="pos">Mest dempet</span></div>
+    <figure class="phone"><img class="shot" src="r2-d/shot-mobile.png" width="390" height="844" alt="Stue på mobil: en rolig skinne med månedene, rommet i dempede farger med lapper på tingene (Telefon 2 nye, Plan 3 ledige, Penger 2 364 kr, Jobb 14 t, Moped 10 917 kr), og en liste Nytt siden oktober." loading="lazy"><figcaption>Mobil, 390 px</figcaption></figure>
+    <div class="right">
+      <div class="big-row">
+        <figure><img class="shot" src="r2-d/shot-desktop.png" width="1440" height="900" alt="Stue på desktop: et stort rombilde som hovedflate og et sidepanel med november, penger og trivsel, som et katalogoppslag." loading="lazy"><figcaption>Desktop, 1440 px</figcaption></figure>
+        <figure><img class="shot" src="r2-d/shot-tablet.png" width="820" height="1180" alt="Stue på nettbrett." loading="lazy"><figcaption>Nettbrett, 820 px</figcaption></figure>
+      </div>
+      <dl>
+        <dt>Verden</dt><dd>Nordiske interiørkataloger og bilder der du trykker på en ting for å se lappen. Tåke- og steingrått, mose, bjørk og blekkblått, én matt koboltfarge, og Albert Sans i bare fire størrelser.</dd>
+        <dt>Signaturgrep</dt><dd>Lapper på tingene i rommet, som i et interiørbilde der du kan trykke. En fylt prikk betyr nytt og blir stående til du har sett det. Nye ting, som mopeden utenfor vinduet, kommer inn i rommet med egen lapp.</dd>
+        <dt>Risiko</dt><dd>Dempet kan bli kjedelig for en 15-åring. Romillustrasjonen og øyeblikkene der noe endrer seg, må gi gleden.</dd>
+      </dl>
+      <div class="actions"><a class="btn primary" href="r2-d/index.html#hjem">Åpne prototypen</a><a class="btn ghost" href="r2-d/index.html#landing">Start fra forsiden</a></div>
+    </div>
+  </article>
+
+  <section class="notes" aria-label="Felles og åpne punkter">
+    <div class="note">
+      <h2>Felles for alle fire</h2>
+      <ul>
+        <li><b>12 skjermer i hver prototype:</b> forside, opprett bruker med kallenavn, livsmål og avatar, rommet, året, månedsplan, hendelse, resultat med ekkomerke og «Hvorfor?», telefon, åpnet melding, penger og jobb. Knappen «Skjermer» hopper mellom dem.</li>
+        <li><b>Tidslinje uten «måned X av 60»:</b> de 12 månedene med navn, alder og år. Trykk på den for å se året i detalj, med en aldersskinne fra 15 til 20 år og uten fremtidige hendelser.</li>
+        <li><b>Endringer blir markert til du har sett dem:</b> etter «Fortsett» står nye tall og meldinger markert til du har åpnet dem.</li>
+        <li><b>Laget for desktop og nettbrett:</b> flere paneler side om side, ikke en strukket mobilkolonne. Testet fra 320 til 1440 px uten sidelengs rulling.</li>
+        <li><b>Tall fra UJ-6</b> (november med ekstravakter, Emmas konsert, sparemålet Lappen på 79,8 %). Tall agentene har funnet på selv, står i hver retnings concept.md.</li>
+      </ul>
+    </div>
+    <div class="note warn">
+      <h2>Må avklares</h2>
+      <ul>
+        <li><b>Kallenavn mot PRD-en:</b> PRD-en tillater ingen fritekst utover e-postadressen (§4.2, NFR-3), og avataren har ikke navn (FR-10). Kallenavnet krever en PRD-endring før det bygges.</li>
+        <li><b>«Mangler … kr» skjer ikke med UJ-6-tallene:</b> sparekontoen betaler resten (FR-45), så kortet som ikke har råd, er bare med for å vise tilstanden.</li>
+        <li><b>Alder:</b> prototypene viser 16 år. I UJ-6 er spilleren 17, men timelønna er den samme.</li>
+        <li><b>«År 2 av 5»</b> står i Blits og Stue. Det er ikke en månedsteller, men si fra om dere ikke vil ha det heller.</li>
+        <li><b>Fonter</b> lastes fra Google Fonts i prototypene. I produksjon må de ligge på egen server (NFR-3).</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>Bakgrunn: decisions.md, Rommet (c6), Månedsfeed (c1), Riso-zine (c5), Pixel-RPG (c3), design thinking og K2-skissene. Laget med Impeccable og bmad-ux. Prototypene er skisser for å velge retning, ikke ferdig design.</footer>
+</div>

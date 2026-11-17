@@ -1,0 +1,1525 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LifeMode · Blits</title>
+<meta name="description" content="LifeMode, retning Blits: rommet ditt fotografert hver måned.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  /* ground and paper */
+  --wall:#E3E8EE;        /* cool grey wall the photos are pinned to */
+  --wall-2:#D3DBE3;
+  --paper:#FFFFFF;       /* photo frames and panes */
+  --paper-2:#F2F5F8;
+  --line:#D4DBE3;
+  --line-2:#7D8B9B;      /* UI boundaries, ≥3:1 on white */
+  /* ink */
+  --ink:#111923;
+  --ink-2:#3A4655;
+  --ink-3:#556273;
+  --marker:#1A2A47;      /* felt-tip on the photo chin */
+  /* chrome */
+  --slate:#16212D;
+  --slate-2:#223140;
+  --on-slate:#EEF2F6;
+  --on-slate-2:#A9B6C4;
+  /* the one accent: the flash */
+  --flash:#FFD21F;
+  --flash-2:#E9B900;
+  --flash-soft:#FFF3BD;
+  /* photo colour (inside frames, data) */
+  --teal:#006A74;
+  --cyan:#1FB5C3;
+  --cyan-2:#8EDCE3;
+  --cyan-soft:#DCF3F5;
+  --data:#0E97A5;        /* bars and rails, ≥3:1 on track */
+  /* state */
+  --plus:#0A6B4C;
+  --minus:#B0223A;
+  --minus-soft:#FBE6EA;
+  --pin:#E0336E;
+
+  --f-ui:"Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mark:"Permanent Marker", "Archivo", cursive;
+
+  --fs-11:.6875rem; --fs-12:.75rem; --fs-13:.8125rem; --fs-14:.875rem; --fs-16:1rem;
+  --fs-18:1.125rem; --fs-22:1.375rem; --fs-28:1.75rem; --fs-36:2.25rem; --fs-48:3rem; --fs-64:4rem;
+
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:48px; --sp-8:64px;
+
+  --r-photo:3px; --r-ui:10px; --r-pane:14px; --r-pill:999px;
+
+  --sh-photo:0 1px 2px rgba(17,25,35,.10), 0 12px 26px -10px rgba(17,25,35,.30);
+  --sh-pane:0 1px 2px rgba(17,25,35,.06), 0 6px 16px -8px rgba(17,25,35,.18);
+  --sh-lift:0 2px 4px rgba(17,25,35,.10), 0 14px 28px -10px rgba(17,25,35,.32);
+
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --nav-h:64px;
+}
+
+/* ============ BASE ============ */
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scrollbar-color:#B7C2CE var(--wall)}
+body{margin:0;background:var(--wall);color:var(--ink);font-family:var(--f-ui);font-size:var(--fs-16);line-height:1.5;font-stretch:100%;-webkit-font-smoothing:antialiased;overflow-x:hidden;caret-color:var(--teal)}
+::selection{background:var(--flash);color:var(--ink)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#B7C2CE;border-radius:10px;border:2px solid var(--wall)}
+::-webkit-scrollbar-track{background:var(--wall)}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{text-wrap:balance;line-height:1.15;letter-spacing:-.01em}
+a{color:inherit;text-underline-offset:3px;text-decoration-thickness:1.5px}
+button{font:inherit;color:inherit}
+img,svg{display:block}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:6px}
+.num{font-variant-numeric:tabular-nums lining-nums}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic-s{width:16px;height:16px}
+
+/* ============ SHELL ============ */
+.app{min-height:100dvh}
+.nav{position:fixed;z-index:30;left:0;right:0;bottom:0;height:calc(var(--nav-h) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:var(--slate);display:flex;justify-content:space-around;align-items:stretch}
+.nav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--on-slate-2);text-decoration:none;font-size:var(--fs-12);font-weight:600;letter-spacing:.01em;position:relative;min-width:0}
+.nav a .ic{width:22px;height:22px}
+.nav a[aria-current="page"]{color:var(--on-slate)}
+.nav a[aria-current="page"]::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--flash)}
+.nav a:hover{color:var(--on-slate)}
+.nav a:focus-visible{outline-color:var(--flash);outline-offset:-4px}
+.nav .badge{position:absolute;top:8px;left:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--flash);color:var(--ink);font-size:12px;font-weight:800;display:grid;place-items:center}
+.nav .nav-brand{display:none}
+main{padding-bottom:calc(var(--nav-h) + 24px + env(safe-area-inset-bottom))}
+body.no-nav .nav{display:none}
+body.no-nav main{padding-bottom:0}
+
+.screen{display:none;max-width:1360px;margin:0 auto;padding:var(--sp-4)}
+.screen.on{display:block}
+
+@media (min-width:768px){
+  .app{display:grid;grid-template-columns:92px minmax(0,1fr)}
+  body.no-nav .app{grid-template-columns:minmax(0,1fr)}
+  .nav{position:sticky;top:0;height:100dvh;flex-direction:column;justify-content:flex-start;gap:4px;padding:16px 8px}
+  .nav a{flex:none;height:68px;border-radius:12px}
+  .nav a[aria-current="page"]{background:var(--slate-2)}
+  .nav a[aria-current="page"]::before{top:16px;bottom:16px;left:0;right:auto;width:3px;height:auto;border-radius:0 3px 3px 0}
+  .nav .badge{top:10px}
+  .nav .nav-brand{display:grid;place-items:center;height:56px;margin-bottom:12px;color:var(--on-slate)}
+  main{padding-bottom:40px}
+  .screen{padding:var(--sp-5) var(--sp-5) var(--sp-6)}
+}
+@media (min-width:1180px){
+  .screen{padding:var(--sp-5) var(--sp-6) var(--sp-6)}
+}
+
+/* ============ TIMELINE STRIP (photo-booth) ============ */
+.strip{display:block;text-decoration:none;color:var(--ink);margin-bottom:var(--sp-4)}
+.strip-meta{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.strip-age{font-size:var(--fs-22);font-weight:850;font-stretch:112%;letter-spacing:-.02em;line-height:1}
+.strip-month{font-weight:700;font-size:var(--fs-14)}
+.strip-year{font-size:var(--fs-13);color:var(--ink-2)}
+.strip-open{margin-left:auto;font-size:var(--fs-13);font-weight:700;display:inline-flex;align-items:center;gap:2px;color:var(--ink-2)}
+.strip:hover .strip-open{color:var(--ink);text-decoration:underline}
+.strip-film{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px;background:var(--paper);padding:5px 5px 2px;border-radius:2px;box-shadow:var(--sh-pane)}
+.sf{display:flex;flex-direction:column;align-items:stretch;min-width:0}
+.sf-img{display:block;aspect-ratio:1/1;border-radius:1px;overflow:hidden;background:#EDF1F4}
+.sf-img svg{width:100%;height:100%}
+.sf.future .sf-img{background:repeating-linear-gradient(135deg,#EEF2F5 0 4px,#E5EAEF 4px 5px)}
+.sf.now .sf-img{outline:2.5px solid var(--ink);outline-offset:-1px;position:relative}
+.sf-lbl{display:block;text-align:center;font-size:var(--fs-11);font-stretch:75%;font-weight:600;color:var(--ink-3);line-height:1;padding:4px 0 3px;white-space:nowrap;overflow:hidden}
+.sf.past .sf-lbl{color:var(--ink-2)}
+.sf.now .sf-lbl{background:var(--flash);color:var(--ink);font-weight:800;border-radius:0 0 2px 2px}
+.strip:focus-visible{outline-offset:4px}
+@media (min-width:1024px){
+  .strip{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:var(--sp-5)}
+  .strip-meta{flex-direction:column;align-items:flex-start;gap:2px;margin:0;min-width:120px}
+  .strip-age{font-size:var(--fs-36)}
+  .strip-open{margin:4px 0 0}
+  .strip-film{gap:5px;padding:7px 7px 3px}
+  .sf-lbl{font-size:var(--fs-12);padding:5px 0 4px}
+}
+
+/* ============ PHOTO FRAME (instant photo) ============ */
+.polaroid{margin:0;background:var(--paper);padding:10px 10px 0;border-radius:var(--r-photo);box-shadow:var(--sh-photo);position:relative}
+.polaroid .photo{position:relative;aspect-ratio:4/3;overflow:hidden;background:#20303E;border-radius:1px}
+.polaroid .photo > svg{position:absolute;inset:0;width:100%;height:100%}
+.polaroid figcaption{font-family:var(--f-mark);font-weight:400;font-size:var(--fs-22);color:var(--marker);padding:10px 6px 14px;line-height:1.1;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.polaroid figcaption small{font-family:var(--f-ui);font-size:var(--fs-13);font-weight:600;color:var(--ink-3);text-align:right}
+.flash-veil{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+
+/* room hotspots: permanent labels */
+.spot{position:absolute;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:4px 10px 4px 8px;background:var(--paper);color:var(--ink);border:1px solid rgba(17,25,35,.18);border-radius:8px;font-size:var(--fs-13);font-weight:700;text-decoration:none;box-shadow:0 2px 6px -1px rgba(10,30,45,.35);white-space:nowrap;cursor:pointer}
+.spot .ic{width:16px;height:16px}
+.spot:hover{background:var(--flash-soft)}
+.spot .count{min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--flash);font-size:var(--fs-12);font-weight:800;display:grid;place-items:center;margin-left:2px}
+.sp-plan{left:50%;top:12%}
+.sp-jobb{left:auto;right:2%;top:33%;transform:translate(0,-50%)}
+.sp-tel{left:28%;top:68%}
+.sp-pen{left:71%;top:52%}
+@media (max-width:420px){.spot{font-size:var(--fs-12);padding:3px 8px 3px 6px;gap:4px}.polaroid figcaption small{display:none}}
+@media (min-width:768px){.sp-plan{left:57%;top:19%}.sp-jobb{right:auto;left:87%;top:40%;transform:translate(-50%,-50%)}.sp-tel{left:30%;top:66%}.sp-pen{left:68%;top:47%}}
+.spot-note{position:absolute;transform:translate(-50%,-50%);background:rgba(17,25,35,.82);color:#fff;border-radius:6px;font-size:var(--fs-12);font-weight:600;padding:3px 8px;white-space:nowrap;pointer-events:none}
+
+/* ============ PANES & COMMON ============ */
+.pane{background:var(--paper);border-radius:var(--r-pane);box-shadow:var(--sh-pane);padding:var(--sp-4)}
+.pane-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:var(--sp-3)}
+.pane-head h2{font-size:var(--fs-16);font-weight:800;letter-spacing:0}
+.pane-head a{font-size:var(--fs-13);font-weight:700}
+.lbl{font-size:var(--fs-13);font-weight:600;color:var(--ink-2)}
+.big{font-size:var(--fs-48);font-weight:850;font-stretch:115%;letter-spacing:-.035em;line-height:.95;font-variant-numeric:tabular-nums lining-nums}
+.big small{font-size:.42em;font-weight:700;letter-spacing:-.01em;color:var(--ink-2);margin-left:2px}
+.plus{color:var(--plus);font-weight:700}
+.minus{color:var(--minus);font-weight:700}
+.muted{color:var(--ink-2)}
+.fine{font-size:var(--fs-13);color:var(--ink-2)}
+.row{display:flex;align-items:center;gap:var(--sp-3)}
+.between{justify-content:space-between}
+.stack>*+*{margin-top:var(--sp-4)}
+.divider{height:1px;background:var(--line);margin:var(--sp-3) 0;border:0}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:var(--r-ui);border:1.5px solid transparent;font-weight:750;font-size:var(--fs-16);text-decoration:none;cursor:pointer;transition:background-color .15s,transform .1s,box-shadow .15s;line-height:1.15;text-align:center}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--flash);border-color:var(--flash-2);color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.06),0 8px 18px -10px rgba(150,110,0,.8)}
+.btn-primary:hover{background:#FFDB4A}
+.btn-ghost{background:var(--paper);border-color:var(--line-2);color:var(--ink)}
+.btn-ghost:hover{background:var(--paper-2);border-color:var(--ink-3)}
+.btn-dark{background:var(--slate);color:var(--on-slate)}
+.btn-dark:hover{background:var(--slate-2)}
+.btn-big{min-height:56px;font-size:var(--fs-18);width:100%;justify-content:space-between;padding:0 20px}
+.btn[disabled],.btn[aria-disabled="true"]{background:var(--paper-2);border-color:var(--line);color:var(--ink-3);box-shadow:none;cursor:not-allowed}
+.link{background:none;border:0;padding:0;font-weight:700;text-decoration:underline;cursor:pointer;min-height:24px}
+
+.tag{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:var(--r-pill);font-size:var(--fs-12);font-weight:700;white-space:nowrap;border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2)}
+.tag-inv{background:var(--cyan-soft);border-color:#9AD7DD;color:#004F57}
+.tag-new{background:var(--flash);border-color:var(--flash-2);color:var(--ink)}
+.tag-exp{background:var(--paper-2);color:var(--ink-3);border-style:dashed}
+.tag-ev{background:var(--slate);border-color:var(--slate);color:var(--on-slate)}
+
+/* held change: stays marked until seen */
+.held-mark{display:none;align-items:center;gap:4px;height:20px;padding:0 7px;border-radius:var(--r-pill);background:var(--flash);color:var(--ink);font-size:12px;font-weight:800;letter-spacing:.01em;vertical-align:middle}
+.held-mark::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ink)}
+.held.is-new .held-mark{display:inline-flex}
+.held.is-new .held-hl{background:linear-gradient(transparent 58%, var(--flash-soft) 58%);}
+
+.bar{height:8px;border-radius:4px;background:var(--paper-2);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line)}
+.bar > i{display:block;height:100%;background:var(--data);border-radius:4px}
+
+/* screen header */
+.scr-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--sp-3);margin:var(--sp-2) 0 var(--sp-5)}
+.scr-head h1{font-size:var(--fs-36);font-weight:850;font-stretch:112%;letter-spacing:-.03em}
+.scr-head .sub{color:var(--ink-2);font-size:var(--fs-14);margin-top:4px}
+.back{display:inline-flex;align-items:center;gap:4px;min-height:32px;font-size:var(--fs-14);font-weight:700;text-decoration:none;color:var(--ink-2);margin-bottom:4px}
+.back:hover{color:var(--ink);text-decoration:underline}
+
+/* ============ HUB ============ */
+.hub{display:grid;gap:var(--sp-4);grid-template-columns:minmax(0,1fr);grid-template-areas:"photo" "status" "money" "well"}
+.hub-photo{grid-area:photo}
+.hub-status{grid-area:status}
+.hub-money{grid-area:money}
+.hub-well{grid-area:well}
+.hub-phone{grid-area:phone;display:none}
+.hub-plan{grid-area:plan;display:none}
+.room-state{margin-top:var(--sp-3);font-size:var(--fs-14);color:var(--ink-2);display:flex;gap:8px;align-items:flex-start}
+.room-state .ic{margin-top:2px;width:18px;height:18px;color:var(--teal)}
+.status-title{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.status-title h2{font-size:var(--fs-22);font-weight:850;font-stretch:108%}
+.changes{list-style:none;padding:0;margin:var(--sp-3) 0 0;display:grid;gap:6px}
+.changes li{display:flex;align-items:center;gap:8px;font-size:var(--fs-14)}
+.changes li .held-mark{flex:none}
+.changes li.seen{color:var(--ink-3)}
+.changes li.seen .held-mark{display:none}
+.hub-status .btn-big{margin-top:var(--sp-4)}
+.in-card-cta{display:none}
+.fortsett-bar{position:sticky;bottom:calc(var(--nav-h) + 10px + env(safe-area-inset-bottom));z-index:20;margin-top:var(--sp-4)}
+.fortsett-bar .btn-big{box-shadow:0 10px 24px -8px rgba(17,25,35,.45)}
+.money-line{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:var(--fs-14);margin-top:8px}
+.target{margin-top:var(--sp-4)}
+.target .row{font-size:var(--fs-14);margin-bottom:6px}
+.parts{list-style:none;margin:var(--sp-4) 0 0;padding:0;display:grid;gap:10px}
+.parts li{display:grid;grid-template-columns:72px 44px minmax(0,1fr);align-items:center;gap:8px;font-size:var(--fs-14)}
+.parts b{font-weight:800;font-variant-numeric:tabular-nums}
+.parts .why{grid-column:1/-1;font-size:var(--fs-13);color:var(--ink-2);margin-top:-6px}
+.parts .bar > i.stress{background:#5F7F95}
+.well-top{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.thread-mini{list-style:none;margin:0;padding:0}
+.thread-mini li+li{border-top:1px solid var(--line)}
+
+@media (max-width:767px){
+  .hub-money .big,.hub-well .big{font-size:var(--fs-36)}
+}
+@media (min-width:768px){
+  .hub{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"photo photo" "status money" "well phone" "plan phone";gap:var(--sp-5)}
+  .hub-phone,.hub-plan{display:block}
+  .in-card-cta{display:flex}
+  .fortsett-bar{display:none}
+  .polaroid .photo.wide{aspect-ratio:3/2}
+}
+@media (min-width:1024px){
+  .hub{grid-template-columns:minmax(0,1.55fr) minmax(320px,1fr);grid-template-areas:"photo status" "photo well" "plan money" "phone phone";align-items:start}
+  .hub-photo{align-self:stretch}
+}
+@media (min-width:1380px){
+  .hub{grid-template-columns:minmax(0,1.7fr) minmax(280px,1fr) minmax(280px,1fr);grid-template-areas:"photo status money" "photo status phone" "plan well phone"}
+  .polaroid .photo.wide{aspect-ratio:4/3}
+}
+
+/* ============ YEAR VIEW ============ */
+.year-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-4) var(--sp-3);list-style:none;padding:0;margin:0}
+.yframe{background:var(--paper);padding:6px 6px 0;border-radius:var(--r-photo);box-shadow:var(--sh-pane);height:100%;display:flex;flex-direction:column}
+.yframe .yimg{aspect-ratio:4/3;background:#EDF1F4;overflow:hidden;border-radius:1px}
+.yframe .yimg svg{width:100%;height:100%}
+.yframe .ycap{font-family:var(--f-mark);font-size:var(--fs-18);color:var(--marker);padding:6px 4px 0;line-height:1.1;display:flex;flex-wrap:wrap;gap:4px 6px;justify-content:space-between;align-items:center}
+.yframe .ytext{font-size:var(--fs-13);padding:4px 4px 10px;color:var(--ink-2);line-height:1.35}
+.yframe .ytext b{color:var(--ink);font-weight:750}
+.yframe.future .yimg{background:repeating-linear-gradient(135deg,#F1F4F7 0 6px,#E8EDF1 6px 7px)}
+.yframe.future{box-shadow:none;background:transparent;border:1.5px dashed var(--line-2)}
+.yframe.future .ycap{color:var(--ink-3)}
+.yframe.now{outline:3px solid var(--ink);outline-offset:2px}
+.yframe.now .ycap .tag{font-family:var(--f-ui)}
+.year-layout{display:grid;gap:var(--sp-5)}
+.agerail{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:var(--sp-3)}
+.age-seg{display:flex;flex-direction:column;gap:6px}
+.age-cells{display:grid;grid-template-columns:repeat(12,1fr);gap:1.5px;background:var(--paper);padding:3px;border-radius:2px;box-shadow:inset 0 0 0 1px var(--line)}
+.age-cells i{display:block;height:18px;background:#E6EBF0;border-radius:1px}
+.age-cells i.lived{background:var(--data)}
+.age-cells i.now{background:var(--flash);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.age-seg span{font-size:var(--fs-13);font-weight:700}
+.age-seg.cur span{font-weight:850}
+.age-seg.cur span::after{content:"nå";display:block;font-weight:600;font-size:var(--fs-12);color:var(--ink-2)}
+.unlocks{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.unlocks li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;font-size:var(--fs-14)}
+.unlocks .ic{width:22px;height:22px;color:var(--teal);margin-top:1px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:var(--fs-13);color:var(--ink-2);margin:var(--sp-3) 0 var(--sp-4)}
+@media (min-width:600px){.year-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:1024px){
+  .year-layout{grid-template-columns:minmax(0,1fr) 340px;align-items:start}
+  .year-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media (min-width:1300px){.year-grid{grid-template-columns:repeat(6,minmax(0,1fr))}.yframe .ycap{font-size:var(--fs-16)}}
+
+/* ============ MONTH PLAN ============ */
+.plan-layout{display:grid;gap:var(--sp-4);grid-template-columns:minmax(0,1fr);grid-template-areas:"slots" "cards" "sum"}
+.plan-slots{grid-area:slots}.plan-cards{grid-area:cards}.plan-sumpane{grid-area:sum}
+.fixed-blocks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:var(--sp-3)}
+.fixed{border-radius:8px;padding:10px 12px;font-size:var(--fs-14);background:repeating-linear-gradient(135deg,#E9EEF2 0 7px,#DFE6EC 7px 9px);border:1px solid var(--line)}
+.fixed b{display:block;font-size:var(--fs-14)}
+.fixed span{font-size:var(--fs-13);color:var(--ink-2)}
+.slots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.slot{min-height:84px;border-radius:10px;border:2px dashed var(--line-2);background:var(--paper);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:10px 12px;text-align:left;cursor:pointer;gap:2px}
+.slot .s-n{font-size:var(--fs-12);font-weight:700;color:var(--ink-3)}
+.slot .s-t{font-weight:800;font-size:var(--fs-14);line-height:1.2}
+.slot .s-p{font-size:var(--fs-13)}
+.slot.filled{border-style:solid;border-color:var(--ink);background:var(--paper);box-shadow:var(--sh-pane)}
+.slot.filled:hover{background:var(--minus-soft)}
+.slot.locked{cursor:default;border-style:solid;border-color:var(--line);background:repeating-linear-gradient(135deg,#E9EEF2 0 7px,#DFE6EC 7px 9px)}
+.plan-sum{margin-top:var(--sp-4);display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3) var(--sp-4)}
+.plan-sum .k{font-size:var(--fs-13);color:var(--ink-2);font-weight:600}
+.plan-sum .v{font-size:var(--fs-28);font-weight:850;font-stretch:112%;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.cards{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;list-style:none;margin:0;padding:0}
+.card{width:100%;text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;cursor:pointer;box-shadow:var(--sh-pane);min-height:72px}
+.card:hover{border-color:var(--ink-3)}
+.card[aria-pressed="true"]{border-color:var(--ink);background:var(--flash-soft)}
+.card .c-t{font-weight:800;font-size:var(--fs-16)}
+.card .c-p{font-weight:850;font-size:var(--fs-18);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.card .c-e{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px 12px;font-size:var(--fs-13);color:var(--ink-2)}
+.card .c-e b{color:var(--ink);font-weight:750}
+.card .c-x{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.card .c-state{font-size:var(--fs-12);font-weight:800;color:var(--ink)}
+.card[aria-disabled="true"]{cursor:not-allowed;background:var(--paper-2);box-shadow:none;border-style:dashed}
+.card[aria-disabled="true"] .c-t,.card[aria-disabled="true"] .c-p{color:var(--ink-2)}
+.short{color:var(--minus);font-weight:800;font-size:var(--fs-13)}
+@media (min-width:768px){.slots{grid-template-columns:repeat(4,minmax(0,1fr))}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1024px){
+  .plan-layout{grid-template-columns:minmax(360px,.9fr) minmax(0,1.1fr);grid-template-areas:"slots cards" "sum cards";align-items:start;gap:var(--sp-5)}
+  .plan-cards{align-self:start}
+  .slots{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* ============ EVENT & RESULT ============ */
+.ev-layout{display:grid;gap:var(--sp-5)}
+.sender{display:flex;gap:12px;align-items:flex-start}
+.avatar{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;font-size:var(--fs-16);color:var(--ink)}
+.bubble{background:var(--paper);border-radius:4px 16px 16px 16px;padding:12px 14px;box-shadow:var(--sh-pane);max-width:42ch}
+.bubble .who{font-size:var(--fs-13);font-weight:800;margin-bottom:2px}
+.options{display:grid;gap:10px;margin-top:var(--sp-4)}
+.opt{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;min-height:60px;padding:12px 16px;border-radius:12px;background:var(--paper);border:1.5px solid var(--line-2);text-align:left;cursor:pointer;box-shadow:var(--sh-pane)}
+.opt:hover{border-color:var(--ink);background:var(--flash-soft)}
+.opt b{font-size:var(--fs-16);font-weight:800;display:block}
+.opt span{font-size:var(--fs-13);color:var(--ink-2)}
+.opt .o-kr{font-weight:850;font-size:var(--fs-18);font-variant-numeric:tabular-nums;white-space:nowrap}
+.deltas{display:flex;flex-wrap:wrap;gap:10px;margin-top:var(--sp-4)}
+.delta{display:flex;align-items:baseline;gap:8px;padding:10px 14px;border-radius:12px;background:var(--paper);box-shadow:var(--sh-pane)}
+.delta .d-v{font-size:var(--fs-28);font-weight:850;font-stretch:112%;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.delta .d-w{font-size:var(--fs-14);font-weight:700;color:var(--ink-2)}
+@media (max-width:767px){.delta .d-v{font-size:var(--fs-22)}}
+.echo{display:grid;grid-template-columns:92px minmax(0,1fr);gap:16px;align-items:center;padding:var(--sp-4);background:var(--paper);border-radius:var(--r-pane);box-shadow:var(--sh-pane);margin-top:var(--sp-4)}
+.pinned{position:relative;background:var(--paper);padding:5px 5px 0;box-shadow:var(--sh-lift);transform:rotate(-4deg);border-radius:2px;border:1px solid #E4E9EE}
+.pinned svg{width:100%;height:auto;aspect-ratio:4/3}
+.pinned .pcap{font-family:var(--f-mark);font-size:var(--fs-13);color:var(--marker);padding:3px 2px 5px;line-height:1.05;text-align:center}
+.pinned::before{content:"";position:absolute;top:-7px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FF8DB4,var(--pin) 55%,#9E1A47);box-shadow:1px 3px 3px rgba(0,0,0,.3);z-index:2}
+.echo h2{font-size:var(--fs-16);font-weight:850}
+.echo p{font-size:var(--fs-14);color:var(--ink-2);margin-top:4px}
+.why-btn{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:0 16px;margin-top:var(--sp-4);background:var(--slate);color:var(--on-slate);border:0;border-radius:12px;font-weight:800;font-size:var(--fs-16);cursor:pointer;text-align:left}
+.why-btn .ic{transition:transform .25s var(--ease-out)}
+.why-btn[aria-expanded="true"]{border-radius:12px 12px 0 0}
+.why-btn[aria-expanded="true"] .ic{transform:rotate(180deg)}
+.why-btn:focus-visible{outline-color:var(--flash)}
+.why-body{background:var(--paper);border-radius:0 0 12px 12px;padding:14px 16px;box-shadow:var(--sh-pane);font-size:var(--fs-14)}
+.why-body table{width:100%;border-collapse:collapse;margin:8px 0;font-variant-numeric:tabular-nums}
+.why-body td{padding:6px 0;border-bottom:1px solid var(--line)}
+.why-body td:last-child{text-align:right;font-weight:750;white-space:nowrap}
+.oc{list-style:none;margin:var(--sp-4) 0 0;padding:0;display:grid;gap:10px}
+.oc li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;font-size:var(--fs-14)}
+.oc .ic{color:var(--ink-2)}
+@media (min-width:1024px){
+  .ev-layout{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:start;gap:var(--sp-6)}
+}
+
+/* ============ PHONE ============ */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;margin:0 -2px var(--sp-3);scrollbar-width:none}
+.chip{flex:none;min-height:36px;padding:0 14px;border-radius:var(--r-pill);border:1.5px solid var(--line-2);background:var(--paper);font-weight:700;font-size:var(--fs-14);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--slate);border-color:var(--slate);color:var(--on-slate)}
+.threads{list-style:none;margin:0;padding:0;background:var(--paper);border-radius:var(--r-pane);box-shadow:var(--sh-pane);overflow:hidden}
+.threads li+li{border-top:1px solid var(--line)}
+.thread{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;text-decoration:none;color:inherit;min-height:68px}
+.thread:hover{background:var(--paper-2)}
+.thread .t-n{font-weight:700;font-size:var(--fs-16);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thread .t-p{display:block;font-size:var(--fs-14);color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.thread.unread .t-n{font-weight:850}
+.thread.unread .t-p{color:var(--ink);font-weight:600}
+.thread .dot{width:10px;height:10px;border-radius:50%;background:var(--flash);box-shadow:0 0 0 1.5px var(--ink)}
+.thread.expired{opacity:1}
+.thread.expired .t-n,.thread.expired .t-p{color:var(--ink-3)}
+.thread .t-r{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.sec-h{font-size:var(--fs-13);font-weight:800;color:var(--ink-2);margin:var(--sp-4) 0 var(--sp-2);display:flex;align-items:center;gap:8px}
+.phone-layout{display:grid;gap:var(--sp-5)}
+.reader{display:none}
+.no-text{margin-top:var(--sp-4);font-size:var(--fs-13);color:var(--ink-2);display:flex;gap:8px;align-items:center}
+@media (min-width:1024px){
+  .phone-layout{grid-template-columns:minmax(340px,.85fr) minmax(0,1.15fr);align-items:start}
+  .reader{display:block}
+}
+.msg-head{display:flex;gap:12px;align-items:center}
+.msg-head b{font-size:var(--fs-18);font-weight:850;display:block}
+.msg-day{text-align:center;margin:var(--sp-4) 0 var(--sp-3)}
+.msg-day span{display:inline-block;font-size:var(--fs-12);font-weight:700;color:var(--ink-2);background:var(--wall-2);border-radius:var(--r-pill);padding:3px 10px}
+.msgs{display:grid;gap:6px;justify-items:start}
+.m-b{background:var(--paper);border-radius:4px 18px 18px 18px;padding:10px 14px;max-width:34ch;box-shadow:0 1px 2px rgba(17,25,35,.08)}
+.inv{margin-top:var(--sp-4);background:var(--paper);border-radius:var(--r-pane);box-shadow:var(--sh-lift);padding:var(--sp-4);border-top:5px solid var(--cyan)}
+.inv h2{font-size:var(--fs-22);font-weight:850;font-stretch:108%;margin:6px 0 10px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:0;font-size:var(--fs-14);margin:0}
+.kv dt,.kv dd{padding:8px 0;border-top:1px solid var(--line);margin:0}
+.kv dt{color:var(--ink-2)}
+.kv dd{text-align:right;font-weight:750;font-variant-numeric:tabular-nums}
+.inv .expires{display:flex;align-items:center;gap:6px;font-size:var(--fs-13);font-weight:700;margin-top:10px}
+.inv-actions{display:grid;gap:10px;margin-top:var(--sp-4)}
+.mini-slots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:8px}
+.mini-slots span{min-height:44px;border-radius:8px;border:1.5px dashed var(--line-2);display:grid;place-items:center;font-size:var(--fs-12);font-weight:700;color:var(--ink-3);text-align:center;padding:2px 4px;line-height:1.15;background:var(--paper)}
+.mini-slots span.f{border-style:solid;border-color:var(--ink);color:var(--ink)}
+.mini-slots span.x{border-style:solid;border-color:var(--line);background:repeating-linear-gradient(135deg,#E9EEF2 0 6px,#DFE6EC 6px 8px)}
+
+/* ============ MONEY ============ */
+.money-layout{display:grid;gap:var(--sp-4)}
+.total-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--sp-3)}
+.accounts{list-style:none;margin:0;padding:0;background:var(--paper);border-radius:var(--r-pane);box-shadow:var(--sh-pane);overflow:hidden}
+.accounts li+li{border-top:1px solid var(--line)}
+.acct{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 16px}
+.acct .a-ic{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:var(--cyan-soft);color:var(--teal)}
+.acct .a-n{font-weight:750}
+.acct .a-s{font-size:var(--fs-13);color:var(--ink-2)}
+.acct .a-v{font-size:var(--fs-22);font-weight:850;font-stretch:108%;letter-spacing:-.02em;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.acct.locked .a-ic{background:var(--paper-2);color:var(--ink-3)}
+.acct.locked .a-n{color:var(--ink-2)}
+.acct.locked .a-v{font-size:var(--fs-14);font-weight:700;color:var(--ink-2)}
+.actions2{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.actions2 .btn{padding:0 12px;white-space:nowrap}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--paper-2);border-radius:12px;padding:4px;gap:4px;box-shadow:inset 0 0 0 1px var(--line)}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.seg span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:52px;border-radius:9px;font-weight:750;font-size:var(--fs-14);line-height:1.2}
+.seg span small{font-weight:600;font-size:var(--fs-12);color:var(--ink-2)}
+.seg input:checked + span{background:var(--paper);box-shadow:var(--sh-pane);outline:2px solid var(--ink)}
+.seg input:focus-visible + span{outline:3px solid var(--ink);outline-offset:2px}
+.bills{list-style:none;padding:0;margin:0;font-size:var(--fs-14)}
+.bills li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line)}
+.bills li:first-child{border-top:0}
+.bills li b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.bills li.sum{font-weight:850;border-top:1.5px solid var(--ink)}
+.kinds{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.kinds li{font-size:var(--fs-14)}
+.kinds .row{margin-bottom:5px}
+.tx{list-style:none;padding:0;margin:0}
+.tx li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:var(--fs-14)}
+.tx li:first-child{border-top:0}
+.tx li b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.panel-x{margin-top:var(--sp-3);padding:var(--sp-3);border-radius:12px;background:var(--paper-2);box-shadow:inset 0 0 0 1px var(--line)}
+.amts{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+@media (min-width:768px){
+  .money-layout{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-5);align-items:start}
+  .money-layout .span2{grid-column:1/-1}
+}
+@media (min-width:1180px){
+  .money-layout{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);align-items:start}
+  .money-layout .span2{grid-column:auto}
+  .money-layout .tall{grid-row:span 2}
+}
+
+/* ============ JOB ============ */
+.job-layout{display:grid;gap:var(--sp-4)}
+.stepper{display:grid;grid-template-columns:52px minmax(0,1fr) 52px;align-items:center;gap:8px;margin-top:8px}
+.stepper button{height:52px;border-radius:12px;border:1.5px solid var(--line-2);background:var(--paper);font-size:24px;font-weight:700;cursor:pointer;display:grid;place-items:center}
+.stepper button:hover{background:var(--paper-2)}
+.stepper button[disabled]{color:var(--line-2);cursor:not-allowed}
+.stepper output{text-align:center;font-size:var(--fs-36);font-weight:850;font-stretch:112%;font-variant-numeric:tabular-nums;line-height:1}
+.stepper output small{display:block;font-size:var(--fs-13);font-weight:600;color:var(--ink-2);margin-top:2px}
+.switch-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);margin-top:var(--sp-4)}
+.switch{position:relative;width:56px;height:32px;flex:none;border-radius:16px;border:0;background:var(--line-2);cursor:pointer;padding:0}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s var(--ease-out)}
+.switch[aria-checked="true"]{background:var(--slate)}
+.switch[aria-checked="true"]::after{transform:translateX(24px)}
+.hours-sum{display:flex;align-items:baseline;gap:8px;font-size:var(--fs-14);margin-top:8px}
+.hours-sum b{font-size:var(--fs-22);font-weight:850;font-variant-numeric:tabular-nums}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-4) var(--sp-3)}
+.facts .v{font-size:var(--fs-28);font-weight:850;font-stretch:112%;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.05}
+.preview{background:var(--slate);color:var(--on-slate);border-radius:var(--r-pane);padding:var(--sp-4)}
+.preview h2{font-size:var(--fs-16);font-weight:850}
+.preview p{margin-top:6px;color:var(--on-slate);font-size:var(--fs-14)}
+.preview .pv{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:var(--sp-3)}
+.preview .pv div{background:var(--slate-2);border-radius:10px;padding:10px 12px}
+.preview .pv b{display:block;font-size:var(--fs-22);font-weight:850;font-variant-numeric:tabular-nums}
+.preview .pv span{font-size:var(--fs-13);color:var(--on-slate-2)}
+@media (min-width:1024px){.job-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--sp-5);align-items:start}}
+
+/* ============ ONBOARDING / LANDING ============ */
+.land{max-width:1240px;margin:0 auto;padding:var(--sp-4) var(--sp-4) var(--sp-7)}
+.land-top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px}
+.wordmark{display:inline-flex;align-items:center;gap:8px;font-weight:900;font-stretch:118%;font-size:var(--fs-22);letter-spacing:-.03em;text-decoration:none}
+.land-hero{display:grid;gap:var(--sp-6);padding-top:var(--sp-5)}
+.land h1{font-size:clamp(2.6rem,10.5vw,5.6rem);font-weight:900;font-stretch:118%;letter-spacing:-.04em;line-height:.92}
+.land h1 .hl{background:linear-gradient(transparent 62%,var(--flash) 62%,var(--flash) 92%,transparent 92%);padding:0 .04em}
+.land .lede{font-size:var(--fs-18);color:var(--ink-2);max-width:40ch;margin-top:var(--sp-4)}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:var(--sp-5);align-items:center}
+.cta .btn{min-height:52px}
+.cta .forgot{font-size:var(--fs-14);font-weight:700;margin-left:4px;min-height:44px;display:inline-flex;align-items:center}
+.wall{position:relative;min-height:350px}
+.wall .polaroid{position:absolute;width:52%;padding:6px 6px 0}
+.wall .polaroid figcaption{font-size:var(--fs-14);padding:6px 3px 9px;white-space:nowrap}
+.wall .p1{left:0;top:14px;transform:rotate(-5deg);z-index:1}
+.wall .p2{right:0;top:0;transform:rotate(4deg);z-index:2}
+.wall .p3{left:25%;top:168px;transform:rotate(-1.5deg);z-index:3;width:50%}
+@media (min-width:768px){
+  .wall .polaroid{width:56%;padding:8px 8px 0}
+  .wall .polaroid figcaption{font-size:var(--fs-18);padding:8px 4px 12px}
+  .wall .p1{left:0;top:30px;transform:rotate(-6deg)}
+  .wall .p2{right:0;left:auto;top:0;transform:rotate(3deg);width:58%}
+  .wall{min-height:600px}
+  .wall .p3{left:44%;top:340px;width:46%;transform:rotate(-2deg)}
+}
+.wall .develop{background:linear-gradient(160deg,#4D6B7E,#7FA3B3 55%,#B8D0DA)}
+.wall .develop span{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-weight:800;font-size:var(--fs-14);letter-spacing:.02em}
+.proof{margin-top:var(--sp-7);display:grid;gap:var(--sp-4)}
+.proof .pane h2{font-size:var(--fs-18);font-weight:850}
+.proof .pane p{font-size:var(--fs-14);color:var(--ink-2);margin-top:6px}
+.proof .pane .fig{font-size:var(--fs-36);font-weight:900;font-stretch:115%;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1;margin-bottom:6px}
+@media (min-width:768px){
+  .land{padding:var(--sp-5) var(--sp-6) var(--sp-8)}
+  .land-hero{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;padding-top:var(--sp-7)}
+  .proof{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+.form-wrap{max-width:1100px;margin:0 auto;padding:var(--sp-4) var(--sp-4) var(--sp-7)}
+.form-grid{display:grid;gap:var(--sp-6);margin-top:var(--sp-4)}
+.form-wrap h1{font-size:var(--fs-36);font-weight:900;font-stretch:115%;letter-spacing:-.035em}
+.field{display:grid;gap:6px;margin-top:var(--sp-4)}
+.field label{font-weight:750;font-size:var(--fs-14)}
+.field input[type=email],.field input[type=password],.field input[type=text]{min-height:48px;border-radius:10px;border:1.5px solid var(--line-2);background:var(--paper);padding:0 14px;font:inherit;font-size:var(--fs-16);color:var(--ink)}
+.field input:hover{border-color:var(--ink-3)}
+.field input:focus-visible{outline:3px solid var(--ink);outline-offset:1px;border-color:var(--ink)}
+.field input[aria-invalid="true"]{border-color:var(--minus);background:#FFF8F9}
+.field input::placeholder{color:#6A7686}
+.help{font-size:var(--fs-13);color:var(--ink-2)}
+.err{font-size:var(--fs-13);color:var(--minus);font-weight:700;display:flex;gap:6px;align-items:center}
+.check{display:flex;gap:10px;align-items:center;margin-top:var(--sp-4);font-size:var(--fs-14);font-weight:600;min-height:44px}
+.check input{width:22px;height:22px;accent-color:var(--slate);margin:0}
+.nick-preview{background:var(--paper);border-radius:var(--r-pane);box-shadow:var(--sh-pane);padding:var(--sp-4)}
+.goals{display:grid;gap:10px;margin-top:var(--sp-3)}
+.goal{position:relative}
+.goal input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer;z-index:1}
+.goal .g{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:14px 16px;border-radius:12px;background:var(--paper);border:1.5px solid var(--line);box-shadow:var(--sh-pane)}
+.goal .g .ic{width:28px;height:28px;color:var(--teal);margin-top:2px}
+.goal .g b{display:block;font-size:var(--fs-16);font-weight:850}
+.goal .g span{font-size:var(--fs-14);color:var(--ink-2)}
+.goal input:checked + .g{border-color:var(--ink);background:var(--flash-soft);outline:1.5px solid var(--ink)}
+.goal input:focus-visible + .g{outline:3px solid var(--ink);outline-offset:2px}
+.looks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:var(--sp-3)}
+.look{position:relative}
+.look input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer;z-index:1}
+.look .lf{display:block;background:var(--paper);padding:5px 5px 0;border-radius:2px;box-shadow:var(--sh-pane);transition:transform .2s var(--ease-out)}
+.look .lf svg{width:100%;height:auto;aspect-ratio:1/1}
+.look .lf .lc{display:block;font-family:var(--f-mark);font-size:var(--fs-14);color:var(--marker);text-align:center;padding:4px 0 6px}
+.look input:checked + .lf{outline:3px solid var(--ink);outline-offset:2px;transform:rotate(-2deg)}
+.look input:focus-visible + .lf{outline:3px solid var(--teal);outline-offset:3px}
+@media (min-width:768px){
+  .form-wrap{padding:var(--sp-6) var(--sp-6) var(--sp-8)}
+  .form-grid{grid-template-columns:minmax(0,1fr) minmax(0,.8fr);align-items:start}
+  .looks{grid-template-columns:repeat(6,minmax(0,1fr))}
+}
+
+/* ============ PROTOTYPE INDEX (not product UI) ============ */
+.proto-btn{position:fixed;z-index:60;top:40%;right:0;writing-mode:vertical-rl;border-right:0!important;border-radius:6px 0 0 6px!important;font:600 11px/1 ui-monospace,Menlo,monospace;background:#2A2A2A;color:#fff;border:1.5px dashed #FF6FB0;border-radius:6px;padding:7px 9px;cursor:pointer;opacity:.85}
+.proto-btn:hover{opacity:1}
+.proto-panel{position:fixed;z-index:61;top:12px;right:36px;width:min(300px,calc(100vw - 20px));max-height:calc(100dvh - 60px);overflow:auto;background:#2A2A2A;color:#fff;border:1.5px dashed #FF6FB0;border-radius:8px;padding:12px;font:13px/1.4 ui-monospace,Menlo,monospace}
+.proto-panel a{display:block;color:#fff;padding:6px 4px;border-radius:4px;text-decoration:none}
+.proto-panel a:hover{background:#444}
+.proto-panel p{color:#bbb;font-size:11px;margin:8px 0 4px}
+.proto-panel label{display:flex;gap:8px;align-items:center;padding:6px 4px;cursor:pointer}
+.proto-toast{position:fixed;z-index:62;left:50%;bottom:90px;transform:translateX(-50%);background:#2A2A2A;color:#fff;border:1.5px dashed #FF6FB0;border-radius:8px;padding:8px 12px;font:12px/1.4 ui-monospace,Menlo,monospace;max-width:calc(100vw - 32px)}
+.toast{position:fixed;z-index:50;left:50%;bottom:calc(var(--nav-h) + 20px);transform:translateX(-50%);background:var(--slate);color:var(--on-slate);border-radius:12px;padding:12px 16px;font-weight:700;font-size:var(--fs-14);box-shadow:var(--sh-lift);max-width:calc(100vw - 32px);display:flex;gap:8px;align-items:center}
+@media (min-width:768px){.toast{bottom:28px}}
+
+/* ============ MOTION: the shot ============ */
+@keyframes veil{0%{opacity:.95}100%{opacity:0}}
+@keyframes develop{0%{filter:saturate(.15) brightness(1.45) contrast(.75)}100%{filter:none}}
+.shooting .flash-veil{animation:veil .7s var(--ease-out) forwards}
+.shooting .photo > svg{animation:develop 1.6s var(--ease-out) forwards}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body class="no-nav">
+
+<!-- ============ SVG SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+  <linearGradient id="gWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9F2F5"/><stop offset="1" stop-color="#CADCE3"/></linearGradient>
+  <linearGradient id="gSideL" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9FB9C4"/><stop offset="1" stop-color="#C2D6DE"/></linearGradient>
+  <linearGradient id="gSideR" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#9FB9C4"/><stop offset="1" stop-color="#C2D6DE"/></linearGradient>
+  <linearGradient id="gFloor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B3C6CE"/><stop offset="1" stop-color="#D3E0E5"/></linearGradient>
+  <linearGradient id="gNight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0F2236"/><stop offset="1" stop-color="#2B4F70"/></linearGradient>
+  <radialGradient id="gHot" cx=".5" cy=".42" r=".55"><stop offset="0" stop-color="#fff" stop-opacity=".62"/><stop offset=".6" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <radialGradient id="gVig" cx=".5" cy=".46" r=".72"><stop offset=".55" stop-color="#062436" stop-opacity="0"/><stop offset="1" stop-color="#062436" stop-opacity=".55"/></radialGradient>
+  <radialGradient id="gGlow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFF6B0" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE45C" stop-opacity=".45"/><stop offset="1" stop-color="#FFE45C" stop-opacity="0"/></radialGradient>
+  <radialGradient id="gLamp" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFE890" stop-opacity=".55"/><stop offset="1" stop-color="#FFE890" stop-opacity="0"/></radialGradient>
+  <linearGradient id="gDuvet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16909C"/><stop offset="1" stop-color="#0B6874"/></linearGradient>
+  <linearGradient id="gEv" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1A9AA6"/><stop offset="1" stop-color="#0A5E69"/></linearGradient>
+
+  <!-- THE ROOM -->
+  <symbol id="room" viewBox="0 0 480 360">
+    <polygon points="0,0 480,0 384,28 96,28" fill="#B9CCD5"/>
+    <rect x="96" y="28" width="288" height="196" fill="url(#gWall)"/>
+    <polygon points="0,0 96,28 96,224 0,292" fill="url(#gSideL)"/>
+    <polygon points="480,0 384,28 384,224 480,292" fill="url(#gSideR)"/>
+    <polygon points="0,292 96,224 384,224 480,292 480,360 0,360" fill="url(#gFloor)"/>
+    <g stroke="#93AAB4" stroke-width="1.2" opacity=".55">
+      <line x1="128" y1="224" x2="-6" y2="360"/><line x1="176" y1="224" x2="100" y2="360"/><line x1="208" y1="224" x2="170" y2="360"/>
+      <line x1="240" y1="224" x2="240" y2="360"/><line x1="272" y1="224" x2="310" y2="360"/><line x1="304" y1="224" x2="380" y2="360"/><line x1="352" y1="224" x2="486" y2="360"/>
+    </g>
+    <rect x="96" y="216" width="288" height="8" fill="#F4F8FA"/>
+    <!-- poster on left wall -->
+    <polygon points="26,60 30,52 78,66 78,138 26,132" fill="#0B3A4A" opacity=".18"/>
+    <polygon points="20,52 74,62 74,132 20,126" fill="#FFD21F"/>
+    <circle cx="46" cy="84" r="14" fill="#1FB5C3"/>
+    <polygon points="24,124 40,100 54,114 64,104 72,130" fill="#16212D"/>
+    <!-- window -->
+    <rect x="130" y="57" width="96" height="92" fill="#0B3A4A" opacity=".16"/>
+    <rect x="124" y="52" width="96" height="92" fill="#fff"/>
+    <rect x="130" y="58" width="84" height="80" fill="url(#gNight)"/>
+    <circle cx="198" cy="84" r="26" fill="url(#gLamp)"/>
+    <line x1="198" y1="138" x2="198" y2="86" stroke="#0A1826" stroke-width="2"/>
+    <rect x="192" y="82" width="12" height="5" rx="2" fill="#FFE890"/>
+    <g stroke="#9CC3D8" stroke-width="1" opacity=".45"><line x1="140" y1="64" x2="136" y2="76"/><line x1="158" y1="70" x2="154" y2="82"/><line x1="176" y1="62" x2="172" y2="74"/><line x1="150" y1="92" x2="146" y2="104"/><line x1="208" y1="100" x2="204" y2="112"/></g>
+    <rect x="130" y="128" width="84" height="10" fill="#1D3A55"/>
+    <g style="opacity:var(--moped,1)">
+      <circle cx="146" cy="130" r="5.5" fill="#06121D"/><circle cx="146" cy="130" r="2.2" fill="#8EDCE3"/>
+      <circle cx="172" cy="130" r="5.5" fill="#06121D"/><circle cx="172" cy="130" r="2.2" fill="#8EDCE3"/>
+      <path d="M142 126 q2 -10 12 -10 h8 l6 10 z" fill="#1FB5C3"/>
+      <rect x="150" y="113" width="12" height="4" rx="2" fill="#06121D"/>
+      <path d="M166 116 l4 -8 h4" stroke="#06121D" stroke-width="2" fill="none"/>
+      <circle cx="175" cy="108" r="2" fill="#FFE890"/>
+    </g>
+    <rect x="171" y="58" width="2.5" height="80" fill="#fff"/>
+    <rect x="130" y="96" width="84" height="2.5" fill="#fff"/>
+    <rect x="118" y="144" width="108" height="6" rx="1" fill="#fff"/>
+    <rect x="118" y="150" width="108" height="3" fill="#0B3A4A" opacity=".18"/>
+    <!-- wall planner -->
+    <rect x="252" y="63" width="64" height="76" fill="#0B3A4A" opacity=".18"/>
+    <rect x="246" y="58" width="64" height="76" fill="#fff"/>
+    <rect x="246" y="58" width="64" height="14" fill="#16212D"/>
+    <text x="278" y="68.5" text-anchor="middle" font-family="Archivo, sans-serif" font-size="8.5" font-weight="800" fill="#fff" letter-spacing=".5">NOV</text>
+    <rect x="270" y="53" width="16" height="7" rx="1.5" fill="#FFD21F"/>
+    <g fill="#E3ECF0">
+      <rect x="250" y="76" width="12" height="11"/><rect x="264" y="76" width="12" height="11"/><rect x="278" y="76" width="12" height="11"/><rect x="292" y="76" width="14" height="11"/>
+      <rect x="250" y="89" width="12" height="11"/><rect x="264" y="89" width="12" height="11"/><rect x="278" y="89" width="12" height="11"/><rect x="292" y="89" width="14" height="11"/>
+      <rect x="250" y="102" width="12" height="11"/><rect x="264" y="102" width="12" height="11"/><rect x="278" y="102" width="12" height="11"/><rect x="292" y="102" width="14" height="11"/>
+      <rect x="250" y="115" width="12" height="11"/><rect x="264" y="115" width="12" height="11"/><rect x="278" y="115" width="12" height="11"/><rect x="292" y="115" width="14" height="11"/>
+    </g>
+    <rect x="264" y="89" width="12" height="11" fill="#1FB5C3"/><rect x="292" y="102" width="14" height="11" fill="#1FB5C3"/><rect x="250" y="115" width="12" height="11" fill="#FFD21F"/>
+    <!-- pinned photos on back wall -->
+    <g transform="rotate(-7 336 76)"><rect x="328" y="66" width="24" height="28" fill="#0B3A4A" opacity=".18" transform="translate(3 3)"/><rect x="326" y="64" width="24" height="28" fill="#fff"/><rect x="328" y="66" width="20" height="18" fill="#1FB5C3"/><circle cx="334" cy="74" r="3" fill="#FFD21F"/></g>
+    <g transform="rotate(6 362 82)"><rect x="352" y="70" width="24" height="28" fill="#0B3A4A" opacity=".18" transform="translate(3 3)"/><rect x="350" y="68" width="24" height="28" fill="#fff"/><rect x="352" y="70" width="20" height="18" fill="#F07EA6"/><rect x="352" y="82" width="20" height="6" fill="#16212D"/></g>
+    <g transform="rotate(2 346 116)"><rect x="338" y="105" width="22" height="26" fill="#0B3A4A" opacity=".18" transform="translate(3 3)"/><rect x="336" y="103" width="22" height="26" fill="#fff"/><rect x="338" y="105" width="18" height="16" fill="#FFD21F"/><rect x="338" y="114" width="18" height="7" fill="#1FB5C3"/></g>
+    <!-- work apron on right wall -->
+    <circle cx="432" cy="74" r="3" fill="#16212D"/>
+    <path d="M432 74 L420 92 M432 74 L446 90" stroke="#16212D" stroke-width="1.6" fill="none"/>
+    <path d="M422 94 L452 88 L458 170 L418 178 Z" fill="#0B3A4A" opacity=".2" transform="translate(6 4)"/>
+    <path d="M418 92 L448 86 L454 168 L414 176 Z" fill="#224E78"/>
+    <path d="M414 120 L452 113" stroke="#183B5C" stroke-width="2"/>
+    <rect x="424" y="98" width="16" height="9" rx="1.5" fill="#fff" transform="rotate(-9 432 102)"/>
+    <rect x="426" y="101" width="11" height="2" fill="#16212D" transform="rotate(-9 432 102)"/>
+    <!-- bed -->
+    <rect x="104" y="168" width="128" height="32" rx="4" fill="#223140"/>
+    <polygon points="73,271 269,271 269,295 73,295" fill="#0B3A4A" opacity=".22"/>
+    <polygon points="100,196 236,196 262,266 66,266" fill="#F5F9FB"/>
+    <rect x="116" y="190" width="60" height="18" rx="8" fill="#FFFFFF" stroke="#D2E0E6"/>
+    <polygon points="96,214 240,214 262,266 66,266" fill="url(#gDuvet)"/>
+    <g stroke="#3CC0CB" stroke-width="3" opacity=".7"><line x1="88" y1="228" x2="246" y2="228"/><line x1="80" y1="242" x2="252" y2="242"/><line x1="72" y1="256" x2="258" y2="256"/></g>
+    <polygon points="66,266 262,266 262,290 66,290" fill="#16212D"/>
+    <rect x="70" y="290" width="6" height="8" fill="#0D151E"/><rect x="252" y="290" width="6" height="8" fill="#0D151E"/>
+    <!-- phone on bed -->
+    <circle cx="190" cy="236" r="30" fill="url(#gGlow)" style="opacity:var(--glow,1)"/>
+    <g transform="translate(190 236) rotate(-20)">
+      <rect x="-7" y="-13" width="18" height="30" rx="3.5" fill="#0B3A4A" opacity=".35"/>
+      <rect x="-10" y="-16" width="20" height="32" rx="3.5" fill="#0E1620"/>
+      <rect x="-8" y="-13.5" width="16" height="26" rx="2" fill="#FFF8D6"/>
+      <rect x="-6" y="-10" width="12" height="3" rx="1" fill="#16212D" opacity=".7"/>
+      <rect x="-6" y="-5" width="9" height="3" rx="1" fill="#16212D" opacity=".45"/>
+      <g style="opacity:var(--crack,0)" stroke="#16212D" stroke-width=".9" fill="none"><path d="M-8 -6 L-1 0 L-4 7 L3 12"/><path d="M-1 0 L7 -4"/></g>
+    </g>
+    <!-- rug -->
+    <polygon points="196,302 340,302 372,350 168,350" fill="#0B3A4A" opacity=".12" transform="translate(5 3)"/>
+    <polygon points="196,302 340,302 372,350 168,350" fill="#A7E1E6"/>
+    <g stroke="#5FC7D0" stroke-width="3"><line x1="190" y1="312" x2="347" y2="312"/><line x1="183" y1="324" x2="355" y2="324"/><line x1="176" y1="336" x2="363" y2="336"/></g>
+    <!-- desk -->
+    <polygon points="292,192 298,192 298,252 292,252" fill="#0B3A4A" opacity=".18" transform="translate(6 2)"/>
+    <rect x="350" y="190" width="36" height="44" fill="#0B3A4A" opacity=".18" transform="translate(6 4)"/>
+    <polygon points="292,176 384,176 394,184 286,184" fill="#FAFCFD"/>
+    <rect x="286" y="184" width="108" height="7" fill="#DCE6EA"/>
+    <rect x="291" y="191" width="5" height="58" fill="#223140"/>
+    <rect x="350" y="191" width="38" height="44" fill="#E8EFF2"/><rect x="350" y="211" width="38" height="1.5" fill="#B9C9D0"/><rect x="364" y="199" width="10" height="2.5" rx="1" fill="#223140"/><rect x="364" y="220" width="10" height="2.5" rx="1" fill="#223140"/>
+    <rect x="383" y="235" width="5" height="16" fill="#223140"/>
+    <!-- money jar -->
+    <rect x="296" y="158" width="21" height="19" rx="4" fill="#0B3A4A" opacity=".2" transform="translate(4 2)"/>
+    <rect x="294" y="156" width="21" height="20" rx="4.5" fill="#D3F1F4" stroke="#7FC4CC" stroke-width="1.2"/>
+    <ellipse cx="301" cy="171" rx="5" ry="2.2" fill="#E9B900"/><ellipse cx="308" cy="172" rx="5" ry="2.2" fill="#FFD21F"/><ellipse cx="304" cy="168" rx="5" ry="2.2" fill="#FFD21F"/>
+    <rect x="296" y="152" width="17" height="5" rx="1.5" fill="#16212D"/>
+    <rect x="297" y="160" width="3" height="10" rx="1.5" fill="#fff" opacity=".8"/>
+    <!-- laptop -->
+    <polygon points="310,150 346,150 348,176 308,176" fill="#0B3A4A" opacity=".2" transform="translate(5 2)"/>
+    <polygon points="310,148 346,148 348,176 308,176" fill="#223140"/>
+    <polygon points="313,151 343,151 345,173 311,173" fill="#1FB5C3"/>
+    <g fill="#E9FBFD" opacity=".85"><rect x="316" y="155" width="16" height="2.5"/><rect x="316" y="160" width="22" height="2"/><rect x="316" y="164" width="12" height="2"/></g>
+    <polygon points="304,176 352,176 356,180 300,180" fill="#8C9BAA"/>
+    <!-- lamp -->
+    <ellipse cx="376" cy="176" rx="8" ry="2.5" fill="#223140"/>
+    <path d="M376 176 L370 150 L378 140" stroke="#223140" stroke-width="2.2" fill="none"/>
+    <polygon points="364,130 386,134 388,147 360,142" fill="#FFD21F"/>
+    <polygon points="361,142 388,147 396,178 352,176" fill="#FFF3B8" opacity=".35"/>
+    <!-- chair + hoodie -->
+    <polygon points="318,224 362,224 366,233 314,233" fill="#0B3A4A" opacity=".2" transform="translate(6 3)"/>
+    <rect x="320" y="192" width="38" height="32" rx="5" fill="#223140"/>
+    <path d="M318 194 q20 -6 42 0 l2 18 q-6 6 -12 2 l-4 -10 l-16 0 l-4 12 q-6 3 -10 -2 z" fill="#E0336E"/>
+    <path d="M330 198 q10 6 18 0" stroke="#B5245A" stroke-width="2" fill="none"/>
+    <polygon points="318,224 362,224 366,233 314,233" fill="#16212D"/>
+    <rect x="318" y="233" width="4" height="22" fill="#16212D"/><rect x="358" y="233" width="4" height="22" fill="#16212D"/>
+    <!-- backpack -->
+    <rect x="276" y="272" width="26" height="30" rx="7" fill="#0B3A4A" opacity=".2" transform="translate(5 3)"/>
+    <rect x="276" y="272" width="26" height="30" rx="7" fill="#223140"/>
+    <rect x="280" y="286" width="18" height="10" rx="3" fill="#1FB5C3"/>
+    <!-- clutter (stress) -->
+    <g style="opacity:var(--mess,0)">
+      <path d="M120 318 q14 -10 30 -2 q8 6 -4 10 q-16 4 -26 -8z" fill="#5E7486"/>
+      <path d="M380 300 q10 -6 22 0 l-4 10 q-10 2 -18 -10z" fill="#F07EA6"/>
+      <rect x="226" y="276" width="18" height="6" rx="2" fill="#FFD21F" transform="rotate(14 235 279)"/>
+    </g>
+    <!-- flash + falloff -->
+    <ellipse cx="240" cy="150" rx="240" ry="190" fill="url(#gHot)"/>
+    <rect width="480" height="360" fill="url(#gVig)"/>
+  </symbol>
+
+  <!-- event close-up: cracked phone on the duvet -->
+  <symbol id="evscene" viewBox="0 0 480 360">
+    <rect width="480" height="360" fill="url(#gEv)"/>
+    <g stroke="#3CC0CB" stroke-width="10" opacity=".55"><line x1="-20" y1="70" x2="500" y2="40"/><line x1="-20" y1="170" x2="500" y2="140"/><line x1="-20" y1="270" x2="500" y2="240"/></g>
+    <path d="M0 0 h170 q-20 60 -90 70 q-50 6 -80 -10z" fill="#F5F9FB"/>
+    <g transform="translate(250 190) rotate(-14)">
+      <rect x="-50" y="-92" width="112" height="196" rx="18" fill="#04222B" opacity=".42" transform="translate(16 12)"/>
+      <rect x="-56" y="-98" width="112" height="196" rx="18" fill="#0E1620"/>
+      <rect x="-48" y="-88" width="96" height="176" rx="10" fill="#2A3B4C"/>
+      <rect x="-48" y="-88" width="96" height="176" rx="10" fill="#FFF8D6" opacity=".22"/>
+      <g stroke="#E9F6FA" stroke-width="2" fill="none" stroke-linecap="round" opacity=".9">
+        <path d="M-30 -60 L-6 -20 L-22 18 L4 50 L-4 86"/><path d="M-6 -20 L30 -36 L46 -70"/><path d="M-22 18 L-46 30"/><path d="M4 50 L40 40"/><path d="M-6 -20 L10 4"/>
+      </g>
+      <circle cx="-6" cy="-20" r="5" fill="#E9F6FA" opacity=".9"/>
+    </g>
+    <ellipse cx="200" cy="140" rx="260" ry="200" fill="url(#gHot)"/>
+    <rect width="480" height="360" fill="url(#gVig)"/>
+  </symbol>
+
+  <!-- icons -->
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 4l9 6.5"/><path d="M5 9.5V20h14V9.5"/><path d="M9.5 20v-5h5v5"/></symbol>
+  <symbol id="i-plan" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h3v3H8z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></symbol>
+  <symbol id="i-job" viewBox="0 0 24 24"><path d="M8 3.5h8l1 4H7z"/><path d="M5 7.5h14l-1.2 13H6.2z"/><path d="M9.5 12h5"/></symbol>
+  <symbol id="i-money" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19"/><path d="M6 15h4"/></symbol>
+  <symbol id="i-jar" viewBox="0 0 24 24"><path d="M7 4h10v3H7z"/><path d="M6.5 7h11a1 1 0 0 1 1 1v11a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2V8a1 1 0 0 1 1-1z"/><path d="M9 15.5h6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-open" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.7"/></symbol>
+  <symbol id="i-room" viewBox="0 0 24 24"><path d="M3 20h18M5 20V9l7-4 7 4v11"/><path d="M9 20v-5h6v5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14l-3-3M20 16H6l3 3"/></symbol>
+  <symbol id="i-house" viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v9H4z"/><path d="M10 20v-5h4v5"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 9.5h18M7 15h3"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="14" r="4"/><path d="M11 11l8-8M16 6l2 2M14 8l2 2"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24"><path d="M4 16v-3l2-5h12l2 5v3"/><path d="M3 16h18v2H3z"/><circle cx="7.5" cy="16" r="1.5"/><circle cx="16.5" cy="16" r="1.5"/></symbol>
+  <symbol id="i-pig" viewBox="0 0 24 24"><path d="M5 11a7 6 0 0 1 13-2l2-1v4l-1 .5A7 6 0 0 1 14 18v2h-3v-1.5H9V20H6v-3a6 6 0 0 1-1-6z"/><circle cx="15" cy="11" r=".6"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.5 2.5 14.5 0 17M12 3.5c-2.5 2.5-2.5 14.5 0 17"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="i-mark" viewBox="0 0 24 24"><rect x="4" y="2.5" width="16" height="19" rx="1.5"/><rect x="6.5" y="5" width="11" height="10" rx=".5"/></symbol>
+</defs>
+</svg>
+
+<div class="app">
+  <nav class="nav" aria-label="Hovedmeny">
+    <a class="nav-brand" href="#hjem" aria-label="LifeMode, til rommet"><svg class="ic" style="width:28px;height:28px" aria-hidden="true"><use href="#i-mark"/></svg></a>
+    <a href="#hjem" data-nav="hjem"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg>Hjem</a>
+    <a href="#plan" data-nav="plan"><svg class="ic" aria-hidden="true"><use href="#i-plan"/></svg>Plan</a>
+    <a href="#telefon" data-nav="telefon"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Telefon<span class="badge" data-unread aria-label="2 uleste">2</span></a>
+    <a href="#jobb" data-nav="jobb"><svg class="ic" aria-hidden="true"><use href="#i-job"/></svg>Jobb</a>
+    <a href="#penger" data-nav="penger"><svg class="ic" aria-hidden="true"><use href="#i-money"/></svg>Penger</a>
+  </nav>
+
+<main id="main">
+
+<!-- ============ LANDING ============ -->
+<section class="screen" id="s-landing" data-route="landing" data-title="LifeMode">
+ <div class="land">
+  <div class="land-top">
+    <a class="wordmark" href="#landing"><svg class="ic" style="width:26px;height:26px" aria-hidden="true"><use href="#i-mark"/></svg>LifeMode</a>
+    <a class="btn btn-ghost" href="#hjem" style="min-height:40px">Logg inn</a>
+  </div>
+  <div class="land-hero">
+    <div>
+      <h1>Fem år. Ett rom. <span class="hl">Dine valg.</span></h1>
+      <p class="lede">Lev fra du er 15 til du fyller 20. Lønna, regningene og BSU-renta er ekte norske tall fra 2026. Gjør de dyre tabbene her, før de koster deg ekte penger.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#opprett">Opprett bruker <svg class="ic" aria-hidden="true"><use href="#i-next"/></svg></a>
+        <a class="btn btn-ghost" href="#hjem">Logg inn</a>
+        <a class="forgot" href="#landing" data-forgot>Glemt passord?</a>
+      </div>
+      <p class="fine" style="margin-top:14px">Gratis. Bare e-post og passord. Ett år tar 10–15 minutter.</p>
+    </div>
+    <div class="wall" role="img" aria-label="Tre bilder av rommet ditt: som 15-åring med pengegaven, som 16-åring med mopeden utenfor vinduet, og et bilde fra 19 år som ikke er fremkalt ennå.">
+      <figure class="polaroid p1" aria-hidden="true"><div class="photo"><svg style="--moped:0;--glow:.4"><use href="#room"/></svg></div><figcaption>15 år · pengegaven</figcaption></figure>
+      <figure class="polaroid p2" aria-hidden="true"><div class="photo"><svg><use href="#room"/></svg></div><figcaption>16 år · mopeden</figcaption></figure>
+      <figure class="polaroid p3" aria-hidden="true"><div class="photo develop"><span>Ikke fremkalt</span></div><figcaption>19 år · ?</figcaption></figure>
+    </div>
+  </div>
+  <div class="proof">
+    <div class="pane"><p class="fig num">+56 kr</p><h2>Alt har et «Hvorfor?»</h2><p>Renta på sparekontoen i november: 23 500 kr × 2,87 % ÷ 12. Spillet viser regnestykket, hver gang.</p></div>
+    <div class="pane"><p class="fig num">3 av 4</p><h2>Tid er like knapt som penger</h2><p>Tar du ekstravakter, får du færre kvelder med venner. Du velger hva måneden skal inneholde.</p></div>
+    <div class="pane"><p class="fig num">0 kr</p><h2>Ingen ekte penger</h2><p>Ingen bankkobling, ingen reklame, ingen quiz. Du lærer av det som skjer med deg.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- ============ OPPRETT ============ -->
+<section class="screen" id="s-opprett" data-route="opprett" data-title="Opprett bruker · LifeMode">
+ <div class="form-wrap">
+  <a class="back" href="#landing"><svg class="ic ic-s" aria-hidden="true"><use href="#i-back"/></svg>Tilbake</a>
+  <h1>Opprett bruker</h1>
+  <div class="form-grid">
+   <form id="f-opprett" novalidate>
+    <div class="field"><label for="e1">E-post</label><input id="e1" type="email" autocomplete="email" placeholder="navn@eksempel.no" required></div>
+    <div class="field"><label for="e2">Skriv e-posten en gang til</label><input id="e2" type="email" autocomplete="email" required aria-describedby="e2-err"><p class="err" id="e2-err" hidden>E-postene er ikke like. Sjekk skrivefeil.</p></div>
+    <div class="field"><label for="pw">Passord</label><input id="pw" type="password" autocomplete="new-password" minlength="8" required aria-describedby="pw-help"><p class="help" id="pw-help">Minst 8 tegn.</p></div>
+    <div class="field"><label for="nick">Kallenavn</label><input id="nick" type="text" autocomplete="nickname" maxlength="16" value="Mak" aria-describedby="nick-help"><p class="help" id="nick-help">Bare for deg. Ingen andre ser det, og det trenger ikke være det ekte navnet ditt. Folk i spillet bruker det når de skriver til deg.</p></div>
+    <label class="check"><input type="checkbox" checked> Forbli innlogget på denne enheten</label>
+    <p class="fine" style="margin-top:8px">Før du starter: <a href="#opprett" data-info>les spillerinformasjonen</a> (to minutter). Den sier hva vi lagrer, og at spillet ikke gir økonomiske råd.</p>
+    <button class="btn btn-primary btn-big" type="submit" style="margin-top:var(--sp-5)">Opprett bruker <svg class="ic" aria-hidden="true"><use href="#i-next"/></svg></button>
+    <p class="fine" style="margin-top:12px">Har du bruker? <a href="#hjem">Logg inn</a></p>
+   </form>
+   <aside class="nick-preview" aria-label="Slik ser kallenavnet ut i spillet">
+     <p class="lbl">Slik ser det ut i spillet</p>
+     <div class="msg-day"><span>November</span></div>
+     <div class="msgs">
+       <div class="m-b">Hei <b data-nick>Mak</b>! Konsert lørdag?</div>
+       <div class="m-b">Billetten er 450 kr. Jonas blir med.</div>
+     </div>
+     <p class="fine" style="margin-top:14px">Emma, venn</p>
+   </aside>
+  </div>
+ </div>
+</section>
+
+<!-- ============ START: goal + avatar ============ -->
+<section class="screen" id="s-start" data-route="start" data-title="Velg mål · LifeMode">
+ <div class="form-wrap">
+  <a class="back" href="#opprett"><svg class="ic ic-s" aria-hidden="true"><use href="#i-back"/></svg>Tilbake</a>
+  <h1>Hva vil du ha klart når du fyller 20?</h1>
+  <p class="muted" style="margin-top:8px;max-width:60ch">Målet sjekkes én gang, på 20-årsdagen. Trivselen teller også: blir du rik og utslitt, er det en hul seier.</p>
+  <fieldset style="border:0;padding:0;margin:var(--sp-4) 0 0">
+   <legend class="sr">Livsmål</legend>
+   <div class="goals">
+    <label class="goal"><input type="radio" name="goal" checked><span class="g"><svg class="ic" aria-hidden="true"><use href="#i-jar"/></svg><span><b>Spar til noe stort</b><span>Minst 100 000 kr spart når du fyller 20.</span></span></span></label>
+    <label class="goal"><input type="radio" name="goal"><span class="g"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><span><b>Gjeldfri med buffer</b><span>Minst 30 000 kr tilgjengelig hver måned det siste året, og null gjeld når du fyller 20.</span></span></span></label>
+    <label class="goal"><input type="radio" name="goal"><span class="g"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg><span><b>En stor opplevelse</b><span>Åtte uker Interrail i Europa (60 000 kr), kjøpt før du er 20, uten å gå i minus.</span></span></span></label>
+   </div>
+  </fieldset>
+  <fieldset style="border:0;padding:0;margin:var(--sp-6) 0 0">
+   <legend style="font-size:var(--fs-22);font-weight:850;padding:0">Velg hvordan du ser ut</legend>
+   <div class="looks" id="looks"></div>
+  </fieldset>
+  <div style="margin-top:var(--sp-6);max-width:420px"><a class="btn btn-primary btn-big" href="#hjem">Start som 15-åring <svg class="ic" aria-hidden="true"><use href="#i-next"/></svg></a></div>
+ </div>
+</section>
+
+<!-- ============ HJEM ============ -->
+<section class="screen" id="s-hjem" data-route="hjem" data-title="Rommet · LifeMode">
+  <div class="strip-slot"></div>
+  <h1 class="sr">Rommet ditt, november</h1>
+  <div class="hub">
+    <div class="hub-photo">
+      <figure class="polaroid" id="roomshot">
+        <div class="photo wide">
+          <svg role="img" aria-label="Bilde av rommet i november: ryddig rom, mobilen lyser på senga, planleggeren på veggen, sparekrukka på pulten, jobbforkleet på kroken og mopeden ute under gatelyset." preserveAspectRatio="xMidYMid slice"><use href="#room"/></svg>
+          <a class="spot sp-plan" href="#plan"><svg class="ic" aria-hidden="true"><use href="#i-plan"/></svg>Planlegger</a>
+          <a class="spot sp-jobb" href="#jobb"><svg class="ic" aria-hidden="true"><use href="#i-job"/></svg>Jobb</a>
+          <a class="spot sp-tel held" data-held="telefon" href="#telefon" aria-label="Telefon, 2 nye meldinger"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Telefon<span class="count">2</span></a>
+          <a class="spot sp-pen held" data-held="saldo" href="#penger"><svg class="ic" aria-hidden="true"><use href="#i-jar"/></svg>Penger</a>
+          <span class="flash-veil"></span>
+        </div>
+        <figcaption><span id="cap-month">November · 16 år</span><small>Tatt 1. november</small></figcaption>
+      </figure>
+      <p class="room-state"><svg class="ic" aria-hidden="true"><use href="#i-room"/></svg><span>Rommet er ryddig, fordi stresset er lavt. Mopeden står ute. Mobilen lyser: 2 nye meldinger.</span></p>
+    </div>
+
+    <div class="pane hub-status" id="hub-status">
+      <div data-quiet>
+        <div class="status-title"><h2>Stille måned</h2><span class="tag">Ingen hendelse</span></div>
+        <p class="muted" style="margin-top:6px">Lønna med ekstravaktene kom inn. Du har 3 ledige kvelder å fylle i månedsplanen.</p>
+      </div>
+      <div data-event hidden>
+        <div class="status-title"><h2>Noe har skjedd</h2><span class="tag tag-ev">Hendelse</span></div>
+        <p class="muted" style="margin-top:6px">Mamma har sett noe på mobilen din. Du må velge før måneden kan fortsette.</p>
+      </div>
+      <ul class="changes" aria-label="Endret siden oktober">
+        <li class="held" data-held="saldo"><span class="held-mark">Ny</span>Lønn <span class="plus num">+8 457 kr inn</span></li>
+        <li class="held" data-held="stress"><span class="held-mark">Ny</span>Stress ned 5, til 25</li>
+        <li class="held" data-held="telefon"><span class="held-mark">Ny</span>2 nye meldinger: Emma og banken</li>
+      </ul>
+      <button class="link fine" type="button" data-seen-all style="margin-top:10px">Merk alt som sett</button>
+      <div class="in-card-cta"><a class="btn btn-primary btn-big" href="#hjem" data-continue><span data-cta-text>Fortsett til desember</span><svg class="ic" aria-hidden="true"><use href="#i-next"/></svg></a></div>
+      <p class="fine" style="margin-top:10px" data-quiet><a href="#plan">Planlegg kveldene først</a>, eller fortsett. Tomme plasser blir hvile.</p>
+    </div>
+
+    <div class="pane hub-well">
+      <div class="pane-head"><h2>Trivsel</h2><span class="fine">Over 50 er bra</span></div>
+      <div class="well-top"><span class="big num held" data-held="stress"><span class="held-hl">68</span><small>/100</small></span><span class="fine" style="padding-bottom:4px">uten aktiviteter</span></div>
+      <ul class="parts">
+        <li class="held" data-held="stress"><span>Stress</span><b>25</b><span class="bar" role="presentation"><i class="stress" style="width:25%"></i></span><span class="why">Lavt er bra. Ned 5 siden oktober. <span class="held-mark">Ny</span></span></li>
+        <li><span>Fritid</span><b>72</b><span class="bar" role="presentation"><i style="width:72%"></i></span><span class="why">Ekstravaktene tar fire timer i uka.</span></li>
+        <li><span>Sosialt</span><b>55</b><span class="bar" role="presentation"><i style="width:55%"></i></span><span class="why">Uendret. Venner og konserter løfter det.</span></li>
+      </ul>
+    </div>
+
+    <div class="pane hub-money">
+      <div class="pane-head"><h2>Penger</h2><a href="#penger">Til banken</a></div>
+      <p class="lbl">Brukskonto</p>
+      <p class="big num held" data-held="saldo"><span class="held-hl">2 364</span><small>kr</small> <span class="held-mark">Ny</span></p>
+      <div class="money-line"><span class="plus num">+8 457 kr inn</span><span class="minus num">−6 343 kr forbruk</span><span class="minus num">−250 kr forsikring</span></div>
+      <div class="target">
+        <div class="row between"><span><b>Sparemål: Lappen</b></span><span class="num"><b>79,8 %</b></span></div>
+        <div class="bar" role="img" aria-label="Lappen: 79,8 prosent spart"><i style="width:79.8%"></i></div>
+        <p class="fine num" style="margin-top:6px">25 920 av 32 500 kr · mangler 6 580 kr</p>
+      </div>
+    </div>
+
+    <div class="pane hub-plan">
+      <div class="pane-head"><h2>Månedsplan</h2><a href="#plan">Planlegg</a></div>
+      <div class="mini-slots" data-hub-slots style="margin-top:0"></div>
+      <p class="fine num" style="margin-top:10px" data-hub-plan-sum>Ingen aktiviteter ennå. Trivsel uten: 68.</p>
+    </div>
+    <div class="pane hub-phone">
+      <div class="pane-head"><h2>Telefon</h2><a href="#telefon">Alle meldinger</a></div>
+      <ul class="thread-mini" data-threads-mini></ul>
+    </div>
+  </div>
+  <div class="fortsett-bar"><a class="btn btn-primary btn-big" href="#hjem" data-continue><span data-cta-text>Fortsett til desember</span><svg class="ic" aria-hidden="true"><use href="#i-next"/></svg></a></div>
+</section>
+
+<!-- ============ ÅR ============ -->
+<section class="screen" id="s-aar" data-route="aar" data-title="Året · LifeMode">
+  <div class="strip-slot"></div>
+  <header class="scr-head">
+    <div><a class="back" href="#hjem"><svg class="ic ic-s" aria-hidden="true"><use href="#i-back"/></svg>Rommet</a><h1>Året du er 16</h1><p class="sub">Januar til desember. Ett bilde per måned.</p></div>
+  </header>
+  <div class="year-layout">
+    <div>
+      <div class="legend"><span><span class="tag tag-ev">Hendelse</span> du tok et valg</span><span><span class="tag">Stille</span> vanlig måned</span><span>Stiplet ramme: ikke tatt ennå</span></div>
+      <ol class="year-grid" id="year-grid"></ol>
+    </div>
+    <aside class="stack">
+      <div class="pane">
+        <div class="pane-head"><h2>Livet fra 15 til 20</h2></div>
+        <p class="fine">Snart to år levd, drøyt tre igjen.</p>
+        <div class="agerail" id="agerail" role="img" aria-label="Aldersskinne: 15 år er levd, 16 år er nesten levd, du er i november. 17, 18 og 19 år ligger foran."></div>
+        <p class="fine" style="margin-top:10px;display:flex;justify-content:space-between"><span>15</span><span>20-årsdagen: slutten</span></p>
+      </div>
+      <div class="pane">
+        <div class="pane-head"><h2>Låses opp etter hvert</h2></div>
+        <ul class="unlocks">
+          <li><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><span><b>Januar, 17 år:</b> ekstravaktene er ferdige. Du får tilbake den fjerde kvelden i månedsplanen.</span></li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-car"/></svg><span><b>18 år:</b> førerkort klasse B. Sparemålet Lappen åpner.</span></li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-card"/></svg><span><b>18 år:</b> kredittkort, med grense opptil 10 000 kr.</span></li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-job"/></svg><span><b>18 år:</b> høyere timelønn, 195,04 kr.</span></li>
+        </ul>
+        <p class="fine" style="margin-top:12px">Hva som skjer i månedene foran deg, får du vite når de kommer.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ PLAN ============ -->
+<section class="screen" id="s-plan" data-route="plan" data-title="Månedsplan · LifeMode">
+  <div class="strip-slot"></div>
+  <header class="scr-head">
+    <div><a class="back" href="#hjem"><svg class="ic ic-s" aria-hidden="true"><use href="#i-back"/></svg>Rommet</a><h1>Månedsplan</h1><p class="sub">November · trykk på en aktivitet for å legge den i en ledig kveld</p></div>
+    <button class="btn btn-ghost" type="button" id="same-as-last">Samme som forrige måned</button>
+  </header>
+  <div class="plan-layout">
+    <div class="pane plan-slots">
+        <div class="pane-head"><h2>Fast hver uke</h2></div>
+        <div class="fixed-blocks">
+          <div class="fixed"><b>Skole</b><span>Vg1, hverdager</span></div>
+          <div class="fixed"><b>Jobb, 14 t</b><span>10 t + 4 t ekstra</span></div>
+        </div>
+        <div class="pane-head" style="margin-top:var(--sp-4)"><h2>Kveldene dine</h2><span class="fine" id="slot-count">3 ledige · 1 går til jobb</span></div>
+        <div class="slots" id="slots"></div>
+        <p class="fine" style="margin-top:10px">Den fjerde kvelden går til ekstravaktene ut desember. <a href="#jobb">Se jobben</a></p>
+    </div>
+    <div class="plan-cards">
+      <h2 class="sr">Aktiviteter</h2>
+      <ul class="cards" id="cards"></ul>
+    </div>
+    <div class="pane plan-sumpane">
+        <div class="plan-sum" style="margin-top:0" aria-live="polite">
+          <div><p class="k">Planlagt</p><p class="v" id="sum-cost">0 kr</p></div>
+          <div><p class="k">Igjen på brukskonto</p><p class="v" id="sum-left">2 364 kr</p></div>
+          <div style="grid-column:1/-1"><p class="k">Trivsel i november med denne planen</p><p class="v"><span id="sum-well">68</span><span style="font-size:var(--fs-16);font-weight:700;color:var(--ink-2)">/100</span> <span class="fine" id="sum-well-d" style="font-weight:600">uten aktiviteter</span></p></div>
+        </div>
+        <p class="fine" style="margin-top:8px">Pengene trekkes først når du fortsetter.</p>
+    </div>
+  </div>
+  <p class="sr" aria-live="polite" id="plan-live"></p>
+</section>
+
+<!-- ============ HENDELSE ============ -->
+<section class="screen" id="s-hendelse" data-route="hendelse" data-title="Hendelse · LifeMode">
+  <div class="strip-slot"></div>
+  <div class="ev-layout">
+    <figure class="polaroid">
+      <div class="photo"><svg role="img" aria-label="Nærbilde: mobilen ligger på dyna med sprukket skjerm."><use href="#evscene"/></svg></div>
+      <figcaption>November · sprekk!<small>Hendelse</small></figcaption>
+    </figure>
+    <div>
+      <h1 style="font-size:var(--fs-36);font-weight:850;font-stretch:112%;letter-spacing:-.03em">Skjermen sprakk</h1>
+      <p class="muted" style="margin-top:6px">Mobilen gled ut av lomma på bussen. Den virker, men sprekken går tvers over.</p>
+      <div class="sender" style="margin-top:var(--sp-4)">
+        <span class="avatar" style="background:#F9C9DA" aria-hidden="true">M</span>
+        <div class="bubble"><p class="who">Mamma</p><p>Mak, jeg så skjermen din. Et verksted bytter den for 2 500 kr. Hva vil du gjøre?</p></div>
+      </div>
+      <div class="options" role="group" aria-label="Valg">
+        <button class="opt" type="button" data-choice="a"><span><b>Få skjermen reparert</b><span>Betal verkstedet selv</span></span><span class="o-kr num minus">−2 500 kr</span></button>
+        <button class="opt" type="button" data-choice="b"><span><b>Spør om å dele regningen</b><span>Mamma tar halvparten</span></span><span class="o-kr num minus">−1 250 kr</span></button>
+        <button class="opt" type="button" data-choice="c"><span><b>Lev med sprekken</b><span>Den virker jo</span></span><span class="o-kr num">0 kr · gratis</span></button>
+      </div>
+      <p class="fine" style="margin-top:12px">Hva valget gjør med trivselen, ser du etterpå.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESULTAT ============ -->
+<section class="screen" id="s-resultat" data-route="resultat" data-title="Resultat · LifeMode">
+  <div class="strip-slot"></div>
+  <div class="ev-layout">
+    <div>
+      <figure class="polaroid">
+        <div class="photo"><svg role="img" id="res-room" aria-label="Rommet etterpå: mobilen ligger hel på senga." preserveAspectRatio="xMidYMid slice"><use href="#room"/></svg>
+          <span class="spot-note" style="left:38%;top:70%" id="res-note">Mobilen er hel igjen</span></div>
+        <figcaption><span>November · etterpå</span><small>Endret i rommet</small></figcaption>
+      </figure>
+    </div>
+    <div>
+      <h1 style="font-size:var(--fs-36);font-weight:850;font-stretch:112%;letter-spacing:-.03em" id="res-title">Du fikk skjermen reparert</h1>
+      <div class="deltas" id="res-deltas"></div>
+      <div class="echo held" data-held="ekko" id="res-echo">
+        <div class="pinned" aria-hidden="true"><svg viewBox="0 0 40 30" id="echo-thumb"></svg><p class="pcap">Januar · 15</p></div>
+        <div><h2 class="echo-h">Fra januar: pengegaven <span class="held-mark">Ny</span></h2><p id="echo-text">Brukskontoen hadde 2 364 kr. De siste 136 kr ble tatt fra sparekontoen, den du startet med pengegaven som 15-åring.</p></div>
+      </div>
+      <button class="why-btn" type="button" aria-expanded="false" aria-controls="why-body" id="why-btn">Hvorfor gikk sparemålet ned? <svg class="ic" aria-hidden="true"><use href="#i-down"/></svg></button>
+      <div class="why-body" id="why-body" hidden></div>
+      <ul class="oc" id="res-oc"></ul>
+      <a class="btn btn-primary btn-big" href="#hjem" style="margin-top:var(--sp-5)" data-done-event>Tilbake til rommet <svg class="ic" aria-hidden="true"><use href="#i-next"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TELEFON ============ -->
+<section class="screen" id="s-telefon" data-route="telefon" data-title="Meldinger · LifeMode">
+  <div class="strip-slot"></div>
+  <header class="scr-head"><div><a class="back" href="#hjem"><svg class="ic ic-s" aria-hidden="true"><use href="#i-back"/></svg>Rommet</a><h1>Meldinger</h1><p class="sub">November · 2 nye</p></div></header>
+  <div class="phone-layout">
+    <div>
+      <div class="chips" role="group" aria-label="Filtrer avsender">
+        <button class="chip" type="button" aria-pressed="true" data-f="alle">Alle</button>
+        <button class="chip" type="button" aria-pressed="false" data-f="venner">Venner</button>
+        <button class="chip" type="button" aria-pressed="false" data-f="familie">Familie</button>
+        <button class="chip" type="button" aria-pressed="false" data-f="jobb">Jobb</button>
+        <button class="chip" type="button" aria-pressed="false" data-f="bank">Bank</button>
+      </div>
+      <div id="thread-list"></div>
+      <p class="no-text"><svg class="ic ic-s" aria-hidden="true"><use href="#i-chat"/></svg>Du svarer ikke med tekst. Du svarer med det du gjør.</p>
+    </div>
+    <div class="reader pane" data-reader></div>
+  </div>
+</section>
+
+<!-- ============ MELDING ============ -->
+<section class="screen" id="s-melding" data-route="melding" data-title="Emma · LifeMode">
+  <div class="strip-slot"></div>
+  <div class="phone-layout">
+    <div data-message></div>
+    <aside class="reader">
+      <div class="pane">
+        <div class="pane-head"><h2>Andre meldinger</h2><a href="#telefon">Alle</a></div>
+        <ul class="thread-mini" data-threads-mini></ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ PENGER ============ -->
+<section class="screen" id="s-penger" data-route="penger" data-title="Penger · LifeMode">
+  <div class="strip-slot"></div>
+  <header class="scr-head"><div><a class="back" href="#hjem"><svg class="ic ic-s" aria-hidden="true"><use href="#i-back"/></svg>Rommet</a><h1>Penger</h1><p class="sub">November · lønna kom 1. november</p></div></header>
+  <div class="money-layout">
+    <div class="tall stack">
+      <div class="pane">
+        <div class="total-row">
+          <div><p class="lbl">Brukskonto + sparekonto</p><p class="big num" style="font-size:var(--fs-64)" id="m-total">25 920<small>kr</small></p></div>
+          <span class="tag tag-new held is-new" data-held="saldo" style="height:28px"><span class="num">+1 920 kr</span>&nbsp;siden oktober</span>
+        </div>
+      </div>
+      <ul class="accounts">
+        <li class="acct held" data-held="saldo"><span class="a-ic"><svg class="ic" aria-hidden="true"><use href="#i-card"/></svg></span><span><span class="a-n">Brukskonto</span><br><span class="a-s"><span class="plus num">Lønn +8 457 kr inn</span> <span class="held-mark">Ny</span></span></span><span class="a-v num" id="m-bruk">2 364 kr</span></li>
+        <li class="acct"><span class="a-ic"><svg class="ic" aria-hidden="true"><use href="#i-jar"/></svg></span><span><span class="a-n">Sparekonto</span><br><span class="a-s"><span class="plus num">Rente +56 kr inn</span> · 2,87 %</span></span><span class="a-v num" id="m-spar">23 556 kr</span></li>
+        <li class="acct"><span class="a-ic"><svg class="ic" aria-hidden="true"><use href="#i-house"/></svg></span><span><span class="a-n">BSU</span><br><span class="a-s">Ikke opprettet · 5,61 % rente</span></span><span class="a-v num" id="m-bsu">0 kr</span></li>
+        <li class="acct locked"><span class="a-ic"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg></span><span><span class="a-n">Kredittkort</span><br><span class="a-s">Låst til du fyller 18</span></span><span class="a-v">Fra 18 år</span></li>
+      </ul>
+      <div class="pane">
+        <div class="pane-head"><h2>Gjør noe med pengene</h2></div>
+        <div class="actions2">
+          <button class="btn btn-ghost" type="button" data-act="flytt" aria-expanded="false"><svg class="ic" aria-hidden="true"><use href="#i-swap"/></svg>Flytt penger</button>
+          <button class="btn btn-ghost" type="button" data-act="bsu" aria-expanded="false"><svg class="ic" aria-hidden="true"><use href="#i-house"/></svg>BSU-innskudd</button>
+        </div>
+        <div class="panel-x" id="act-panel" hidden></div>
+        <p class="lbl" style="margin-top:var(--sp-4)">Forbruksnivå</p>
+        <div class="seg" role="radiogroup" aria-label="Forbruksnivå">
+          <label><input type="radio" name="spend" value="lav"><span>Lav<small>60 %</small></span></label>
+          <label><input type="radio" name="spend" value="normal" checked><span>Normal<small>75 %</small></span></label>
+          <label><input type="radio" name="spend" value="hoy"><span>Høy<small>95 %</small></span></label>
+        </div>
+        <p class="fine num" id="spend-text" style="margin-top:8px">Normal: ca. 6 343 kr i måneden går til mat, klær og sånt.</p>
+      </div>
+    </div>
+    <div class="pane">
+      <div class="pane-head"><h2>Sparemål: Lappen</h2><span class="num" style="font-size:var(--fs-22);font-weight:850">79,8 %</span></div>
+      <div class="bar" style="height:12px" role="img" aria-label="79,8 prosent spart"><i style="width:79.8%"></i></div>
+      <p class="fine num" style="margin-top:8px">25 920 av 32 500 kr · mangler <b style="color:var(--ink)">6 580 kr</b></p>
+      <p class="fine" style="margin-top:6px">Førerkort klasse B. Åpner når du fyller 18. Brukskonto og sparekonto teller, BSU teller ikke.</p>
+    </div>
+    <div class="pane">
+      <div class="pane-head"><h2>Neste måned</h2><span class="fine">Desember</span></div>
+      <ul class="bills">
+        <li><span>Lønn, 14 t i uka</span><b class="plus num">+8 457 kr inn</b></li>
+        <li><span>Forbruk, normal</span><b class="minus num">−6 343 kr</b></li>
+        <li><span>Mopedforsikring</span><b class="minus num">−250 kr</b></li>
+        <li><span>Mobil</span><b class="muted">Foreldrene betaler</b></li>
+        <li class="sum"><span>Igjen, før aktiviteter</span><b class="num">+1 864 kr</b></li>
+      </ul>
+    </div>
+    <div class="pane">
+      <div class="pane-head"><h2>Småtteri i år</h2><span class="num" style="font-weight:850">1 290 kr</span></div>
+      <ul class="kinds">
+        <li><div class="row between"><span>Venner og kvelder ute</span><b class="num">600 kr</b></div><div class="bar"><i style="width:100%"></i></div></li>
+        <li><div class="row between"><span>Konserter og arrangementer</span><b class="num">450 kr</b></div><div class="bar"><i style="width:75%"></i></div></li>
+        <li><div class="row between"><span>Kino og mat ute</span><b class="num">240 kr</b></div><div class="bar"><i style="width:40%"></i></div></li>
+      </ul>
+      <p class="fine" style="margin-top:10px" id="smatt-plan">Planlagt i november: 0 kr.</p>
+    </div>
+    <div class="pane">
+      <div class="pane-head"><h2>Bevegelser i november</h2></div>
+      <ul class="tx">
+        <li><span>Lønn, Nærbutikken</span><b class="plus num">+8 457 kr inn</b></li>
+        <li><span>Forbruk, normal</span><b class="minus num">−6 343 kr</b></li>
+        <li><span>Mopedforsikring</span><b class="minus num">−250 kr</b></li>
+        <li><span>Rente, sparekonto</span><b class="plus num">+56 kr inn</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JOBB ============ -->
+<section class="screen" id="s-jobb" data-route="jobb" data-title="Jobb · LifeMode">
+  <div class="strip-slot"></div>
+  <header class="scr-head"><div><a class="back" href="#hjem"><svg class="ic ic-s" aria-hidden="true"><use href="#i-back"/></svg>Rommet</a><h1>Jobb</h1><p class="sub">Nærbutikken · butikkmedarbeider</p></div></header>
+  <div class="job-layout">
+    <div class="pane">
+      <div class="pane-head"><h2>Timer i uka</h2><span class="fine">Grense: 40 t i uka, 8 t per dag</span></div>
+      <p class="lbl">Fast avtale</p>
+      <div class="stepper">
+        <button type="button" id="h-minus" aria-label="Én time mindre i uka">−</button>
+        <output id="h-base" aria-live="polite">10<small>timer i uka</small></output>
+        <button type="button" id="h-plus" aria-label="Én time mer i uka">+</button>
+      </div>
+      <div class="switch-row">
+        <div><b>Ekstravakter, +4 t</b><p class="fine">Oktober til desember. Du sa ja i september.</p></div>
+        <button class="switch" type="button" role="switch" aria-checked="true" id="extra" aria-label="Ekstravakter, 4 timer i uka"></button>
+      </div>
+      <p class="hours-sum">Til sammen <b id="h-total">14 t</b> i uka</p>
+      <hr class="divider" style="margin:var(--sp-4) 0">
+      <h2 style="font-size:var(--fs-16);font-weight:800">Slik regnes lønna</h2>
+      <p class="num" style="margin-top:6px;font-size:var(--fs-14)"><span id="j-formula">14 t × 52 uker ÷ 12 måneder × 139,40 kr</span> = <b id="j-pay2">8 457 kr</b></p>
+      <p class="fine" style="margin-top:6px">Ingen skatt så lenge du tjener under 100 000 kr i året (frikort). Med 4 timer ekstra blir fritiden 72 av 100, og det gir 3 kvelder i planen.</p>
+    </div>
+    <div class="stack">
+      <div class="pane">
+        <div class="facts">
+          <div><p class="lbl">Timelønn</p><p class="v num">139,40 kr</p><p class="fine">Under 18 år</p></div>
+          <div><p class="lbl">Forventet lønn</p><p class="v num" id="j-pay">8 457 kr</p><p class="fine">i måneden, ingen skatt med frikort</p></div>
+          <div><p class="lbl">Fritid</p><p class="v num" id="j-free">72</p><p class="fine">av 100</p></div>
+          <div><p class="lbl">Kvelder i planen</p><p class="v num" id="j-slots">3 av 4</p><p class="fine">denne måneden</p></div>
+        </div>
+      </div>
+      <div class="preview" id="j-preview"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- prototype-only screen index -->
+<button class="proto-btn" type="button" id="proto-btn" aria-expanded="false" aria-controls="proto-panel">Prototype · Skjermer</button>
+<div class="proto-panel" id="proto-panel" hidden>
+  <p>Prototype, ikke del av produktet</p>
+  <a href="#landing">#landing · Forside</a><a href="#opprett">#opprett · Opprett bruker</a><a href="#start">#start · Mål og utseende</a>
+  <a href="#hjem">#hjem · Rommet</a><a href="#aar">#aar · Året</a><a href="#plan">#plan · Månedsplan</a>
+  <a href="#hendelse">#hendelse · Hendelse</a><a href="#resultat">#resultat · Resultat</a>
+  <a href="#telefon">#telefon · Meldinger</a><a href="#melding">#melding · Emma</a>
+  <a href="#penger">#penger · Penger</a><a href="#jobb">#jobb · Jobb</a>
+  <p>Tilstand</p>
+  <label><input type="checkbox" id="proto-event"> Rommet: hendelse venter</label>
+  <label><input type="checkbox" id="proto-mess"> Rommet: høyt stress (rot)</label>
+  <a href="#hjem" id="proto-rearm">Vis «Ny»-merkene igjen</a>
+</div>
+<div id="toast-root"></div>
+
+<script>
+(function(){
+"use strict";
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const NICK=()=>($('#nick')&&$('#nick').value.trim())||'Mak';
+const kr=n=>Math.round(n).toLocaleString('nb-NO').replace(/ | /g,' ')+' kr';
+const krN=n=>Math.round(n).toLocaleString('nb-NO').replace(/ | /g,' ');
+const sgn=n=>n>0?'+':n<0?'−':'';
+const M=['jan','feb','mar','apr','mai','jun','jul','aug','sep','okt','nov','des'];
+const MF=['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'];
+const CUR=10;
+const S={held:new Set(['saldo','stress','telefon','ekko']),plan:[null,null,null],event:false,choice:'a',base:10,extra:true,bruk:2364,spar:23556,bsu:0,read:new Set()};
+
+/* ---------- mini photos ---------- */
+function sky(i){ if(i>=5&&i<=7) return ['#8FD3EE','#7CC48E']; if(i===4||i===8) return ['#9FC9DE','#86B89A']; if(i<=1||i===11) return ['#A9BFD0','#F4F8FA']; if(i===10||i===9) return ['#1F3A56','#2C4A64']; return ['#9DB4C6','#B9C7CF']; }
+function mini(i,o={}){
+  const [s,g]=sky(i); const moped=o.moped!==undefined?o.moped:(i>=3); const env=o.env;
+  return `<svg viewBox="0 0 40 30" aria-hidden="true" preserveAspectRatio="xMidYMid slice"><rect width="40" height="30" fill="#C2D5DD"/><rect x="8" y="3" width="24" height="17" fill="#E2EDF1"/><polygon points="0,26 8,20 32,20 40,26 40,30 0,30" fill="#BACBD2"/><rect x="10.5" y="5" width="9" height="8" fill="${s}"/><rect x="10.5" y="11" width="9" height="2" fill="${g}"/>${moped?'<rect x="12" y="10" width="4" height="1.6" rx=".8" fill="#1FB5C3"/>':''}<rect x="22" y="5" width="6" height="7" fill="#fff"/><rect x="22" y="5" width="6" height="1.6" fill="#16212D"/><rect x="9" y="16" width="12" height="2.2" fill="#223140"/><polygon points="9,18 21,18 23,23 7,23" fill="#12808C"/><rect x="24" y="15" width="8" height="1.3" fill="#F6FAFB"/><rect x="29" y="12" width="2.4" height="2" fill="#FFD21F"/>${env?'<rect x="12" y="18.6" width="5" height="3.4" fill="#FFD21F" transform="rotate(-10 14 20)"/>':''}${o.env===undefined?(OBJ[i]||''):''}<rect width="40" height="30" fill="url(#gVig)" opacity=".7"/></svg>`;
+}
+
+const OBJ={
+ 0:'<circle cx="26" cy="9" r="1.6" fill="#E0336E"/><rect x="24" y="10" width="4" height="1" fill="#E0336E"/>',
+ 1:'<rect x="13" y="18.4" width="5.5" height="3.6" rx=".6" fill="#FFD21F" transform="rotate(-8 15 20)"/><rect x="14" y="19.4" width="2" height="1.6" fill="#16212D" transform="rotate(-8 15 20)"/>',
+ 4:'<rect x="12.5" y="18.6" width="5" height="3.4" fill="#fff" transform="rotate(-10 14 20)"/><path d="M12.5 18.8 l2.5 1.8 l2.5 -1.8" stroke="#1FB5C3" stroke-width=".6" fill="none" transform="rotate(-10 14 20)"/>',
+ 6:'<circle cx="18" cy="7" r="1.7" fill="#FFD21F"/>',
+ 7:'<rect x="24" y="23" width="5" height="4" fill="#E0336E"/><rect x="26.2" y="23" width=".8" height="4" fill="#FFD21F"/><rect x="24" y="24.6" width="5" height=".8" fill="#FFD21F"/>',
+ 8:'<rect x="34" y="7" width="3.6" height="7" fill="#224E78"/>',
+ 9:'<rect x="26" y="24" width="6" height="3" rx=".8" fill="#E0336E"/><rect x="28" y="23" width="2" height="1.2" fill="#16212D"/>',
+ 10:'<circle cx="16" cy="19.5" r="3.2" fill="#FFE45C" opacity=".75"/><rect x="15" y="18.5" width="2" height="2.6" rx=".4" fill="#16212D"/><rect x="34" y="7" width="3.6" height="7" fill="#224E78"/>'
+};
+/* ---------- strip ---------- */
+function strip(){
+  return `<a class="strip" href="#aar" aria-label="Tidslinje: ${MF[CUR]}, 16 år, år 2 av 5. Åpne årsoversikten.">
+  <span class="strip-meta"><span class="strip-age">16 år</span><span class="strip-month">${MF[CUR][0].toUpperCase()+MF[CUR].slice(1)}</span><span class="strip-year">År 2 av 5</span><span class="strip-open">Se året<svg class="ic ic-s" aria-hidden="true"><use href="#i-chev"/></svg></span></span>
+  <span class="strip-film" aria-hidden="true">${M.map((m,i)=>`<span class="sf ${i<CUR?'past':i===CUR?'now':'future'}"><span class="sf-img">${i<=CUR?mini(i):''}</span><span class="sf-lbl">${m}</span></span>`).join('')}</span></a>`;
+}
+$$('.strip-slot').forEach(el=>el.innerHTML=strip());
+
+/* ---------- year ---------- */
+const YEAR=[
+ {k:'Stille',t:'Du fylte 16. Mopedlappen ble mulig.'},
+ {k:'Hendelse',t:'<b>Mopedlappen.</b> Du tok den, 12 000 kr.'},
+ {k:'Stille',t:'Lønn og forbruk som vanlig.'},
+ {k:'Stille',t:'<b>Du kjøpte brukt moped,</b> 11 645 kr. Den står ute nå.'},
+ {k:'Hendelse',t:'<b>Tilbud om sommerjobb.</b> Du sa ja.'},
+ {k:'Stille',t:'Skoleåret ferdig.'},
+ {k:'Stille',t:'Sommerjobb: <b>+16 728 kr inn.</b>'},
+ {k:'Hendelse',t:'<b>Bursdag til Emma.</b> Du ble med på felles gave.'},
+ {k:'Stille',t:'Vg1 startet. <b>Ekstravakter?</b> Du sa ja.'},
+ {k:'Hendelse',t:'<b>Mopeden ville ikke starte.</b> Du fikk den fikset.'},
+];
+$('#year-grid').innerHTML=M.map((m,i)=>{
+  if(i<CUR){const y=YEAR[i];return `<li><div class="yframe"><div class="yimg">${mini(i)}</div><div class="ycap"><span>${MF[i]}</span><span class="tag ${y.k==='Hendelse'?'tag-ev':''}" style="font-family:var(--f-ui)">${y.k}</span></div><p class="ytext">${y.t}</p></div></li>`;}
+  if(i===CUR) return `<li aria-current="date"><a href="#hjem" style="text-decoration:none;display:block;height:100%"><div class="yframe now"><div class="yimg">${mini(i)}</div><div class="ycap"><span>${MF[i]}</span><span class="tag tag-new">Nå</span></div><p class="ytext"><b>Stille måned.</b> 3 kvelder å planlegge, 2 nye meldinger.</p></div></a></li>`;
+  return `<li><div class="yframe future"><div class="yimg"></div><div class="ycap"><span>${MF[i]}</span></div><p class="ytext">Ikke tatt ennå.</p></div></li>`;
+}).join('');
+$('#agerail').innerHTML=[15,16,17,18,19].map(a=>`<div class="age-seg ${a===16?'cur':''}"><div class="age-cells">${Array.from({length:12},(_,i)=>`<i class="${a<16||(a===16&&i<CUR)?'lived':a===16&&i===CUR?'now':''}"></i>`).join('')}</div><span>${a} år</span></div>`).join('');
+
+/* ---------- avatars ---------- */
+const LOOKS=[['#F2C9A8','#2A1D16','#1FB5C3','short'],['#C68A62','#15100C','#E0336E','curl'],['#F5D7BE','#C98B3B','#223140','long'],['#8D5A3B','#0F0B09','#FFD21F','buzz'],['#EBC1A0','#6B3F22','#7CC48E','bun'],['#D9A27C','#2E2A2A','#8EDCE3','cap']];
+$('#looks').innerHTML=LOOKS.map((l,i)=>{const [sk,h,c,st]=l;const hair={short:`<path d="M30 44 q0 -20 20 -20 q20 0 20 20 q-6 -10 -20 -10 q-14 0 -20 10z" fill="${h}"/>`,curl:`<g fill="${h}"><circle cx="34" cy="38" r="9"/><circle cx="46" cy="30" r="10"/><circle cx="60" cy="32" r="9"/><circle cx="67" cy="42" r="7"/></g>`,long:`<path d="M28 46 q0 -24 22 -24 q22 0 22 24 v26 h-8 v-28 q-6 -8 -14 -8 q-8 0 -14 8 v28 h-8z" fill="${h}"/>`,buzz:`<path d="M31 42 q0 -17 19 -17 q19 0 19 17 q-8 -6 -19 -6 q-11 0 -19 6z" fill="${h}"/>`,bun:`<circle cx="50" cy="20" r="8" fill="${h}"/><path d="M30 44 q0 -20 20 -20 q20 0 20 20 q-8 -12 -20 -12 q-12 0 -20 12z" fill="${h}"/>`,cap:`<path d="M29 40 q2 -18 21 -18 q19 0 21 18z" fill="#16212D"/><rect x="50" y="37" width="28" height="5" rx="2.5" fill="#16212D"/>`}[st];
+return `<label class="look"><input type="radio" name="look" ${i===0?'checked':''} aria-label="Utseende ${i+1}"><span class="lf"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="#DCEBF0"/><ellipse cx="50" cy="56" rx="60" ry="50" fill="#fff" opacity=".5"/><path d="M18 100 q4 -26 32 -26 q28 0 32 26z" fill="${c}"/><rect x="44" y="62" width="12" height="14" fill="${sk}"/><ellipse cx="50" cy="48" rx="18" ry="20" fill="${sk}"/><circle cx="43.5" cy="49" r="1.8" fill="#16212D"/><circle cx="56.5" cy="49" r="1.8" fill="#16212D"/><path d="M45 58 q5 3 10 0" stroke="#16212D" stroke-width="1.6" fill="none" stroke-linecap="round"/>${hair}<rect width="100" height="100" fill="url(#gVig)" opacity=".45"/></svg><span class="lc">${['Look 1','Look 2','Look 3','Look 4','Look 5','Look 6'][i]}</span></span></label>`;}).join('');
+
+/* ---------- threads ---------- */
+const TH=[
+ {id:'emma',n:'Emma',g:'venner',av:'E',c:'#BFEAEE',p:()=>`heiii ${NICK()}! blir du med på konsert?? 450 kr`,tag:['Invitasjon','tag-inv'],un:true,href:'#melding'},
+ {id:'bank',n:'Banken',g:'bank',av:'B',c:'#D3DBE3',p:()=>`Hei ${NICK()}! Du har passert tre fjerdedeler av sparemålet Lappen: 79,8 %.`,tag:['Info',''],un:true},
+ {id:'line',n:'Line, Nærbutikken',g:'jobb',av:'L',c:'#FFE68A',p:()=>'Takk for at du tar ekstravaktene ut desember!',tag:['Tilbud tatt',''],old:true},
+ {id:'mamma',n:'Mamma',g:'familie',av:'M',c:'#F9C9DA',p:()=>'Vi betaler mobilen din til du er 18. Resten styrer du selv.',old:true},
+ {id:'jonas',n:'Jonas',g:'venner',av:'J',c:'#E3E8EE',p:()=>'Gamingkveld hos meg? Gjaldt bare oktober.',tag:['Utløpt','tag-exp'],old:true,exp:true},
+ {id:'line2',n:'Line, Nærbutikken',g:'jobb',av:'L',c:'#E3E8EE',p:()=>'Sommervakter i juli? Tilbudet gjaldt bare i mai.',tag:['Utløpt','tag-exp'],old:true,exp:true},
+];
+function threadRow(t){const un=t.un&&!S.read.has(t.id);return `<li><a class="thread ${un?'unread':''} ${t.exp?'expired':''}" href="${t.href||'#telefon'}" data-tid="${t.id}"><span class="avatar" style="background:${t.c}" aria-hidden="true">${t.av}</span><span style="min-width:0"><span class="t-n">${t.n}${un?'<span class="sr">, ulest</span>':''}</span><span class="t-p">${t.p()}</span></span><span class="t-r">${t.tag?`<span class="tag ${t.tag[1]}">${t.tag[0]}</span>`:''}${un?'<span class="dot" aria-hidden="true"></span>':''}</span></a></li>`;}
+function renderThreads(f='alle'){
+  const list=TH.filter(t=>f==='alle'||t.g===f); const nw=list.filter(t=>!t.old), od=list.filter(t=>t.old);
+  $('#thread-list').innerHTML=(nw.length?`<h2 class="sec-h">Nytt i november <span class="tag tag-new">${nw.length} nye</span></h2><ul class="threads">${nw.map(threadRow).join('')}</ul>`:'')+(od.length?`<h2 class="sec-h">Tidligere</h2><ul class="threads">${od.map(threadRow).join('')}</ul>`:'')+(list.length?'':'<p class="pane fine">Ingen meldinger fra denne gruppen ennå.</p>');
+  $$('[data-threads-mini]').forEach(el=>el.innerHTML=TH.slice(0,4).map(threadRow).join(''));
+  const unread=TH.filter(t=>t.un&&!S.read.has(t.id)).length;
+  $$('[data-unread]').forEach(b=>{b.textContent=unread;b.hidden=!unread;b.setAttribute('aria-label',unread+' uleste')});
+}
+$$('.chip').forEach(c=>c.addEventListener('click',()=>{$$('.chip').forEach(x=>x.setAttribute('aria-pressed',x===c));renderThreads(c.dataset.f)}));
+
+/* ---------- message ---------- */
+function message(compact){
+  const inPlan=S.plan.includes('konsert'); const free=S.plan.filter(x=>!x).length;
+  return `${compact?'':'<a class="back" href="#telefon"><svg class="ic ic-s" aria-hidden="true"><use href="#i-back"/></svg>Meldinger</a>'}
+  <div class="msg-head" style="margin-top:6px"><span class="avatar" style="background:#BFEAEE" aria-hidden="true">E</span><div><${compact?'h2':'h1'} style="font-size:var(--fs-22);font-weight:850">Emma</${compact?'h2':'h1'}><span class="fine">Venn · invitasjon i november</span></div></div>
+  <div class="msg-day"><span>November</span></div>
+  <div class="msgs"><div class="m-b">heiii ${NICK()}! blir du med på konsert??</div><div class="m-b">billetten er 450 kr, vi drar rett etter skolen. jonas blir også med</div></div>
+  <div class="inv"><span class="tag tag-inv">Invitasjon</span><h2 class="inv-h">Konsert med Emma</h2>
+   <dl class="kv"><dt>Pris</dt><dd class="minus num">−450 kr</dd><dt>Trivsel i november</dt><dd>Sosialt +8 mer</dd><dt>Bruker</dt><dd>1 av 3 ledige kvelder</dd></dl>
+   <p class="expires"><svg class="ic ic-s" aria-hidden="true"><use href="#i-clock"/></svg>Gjelder bare i november, går ut etterpå</p>
+   <p class="fine" style="margin-top:6px">Ingen penger trekkes før du fortsetter.</p>
+   <div class="inv-actions">
+     ${inPlan?`<a class="btn btn-dark btn-big" href="#plan"><span style="display:flex;gap:8px;align-items:center"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Lagt i månedsplanen</span><span class="fine" style="color:var(--on-slate-2)">Se planen</span></a>`
+     :`<button class="btn btn-primary btn-big" type="button" data-add-konsert ${free?'':'aria-disabled="true"'}><span>Legg i månedsplanen</span><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button>`}
+     ${inPlan?'':'<a class="btn btn-ghost" href="#telefon">Ikke nå</a>'}
+   </div>
+   ${!inPlan&&!free?'<p class="err" style="margin-top:8px">Alle kveldene er fulle. Ta bort noe i månedsplanen først.</p>':''}
+  </div>
+  <p class="lbl" style="margin-top:var(--sp-4)">Slik blir novemberplanen</p>
+  <div class="mini-slots">${S.plan.map(a=>a?`<span class="f">${ACT[a].short}</span>`:'<span>ledig</span>').join('')}<span class="x">Ekstra&shy;vakter</span></div>`;
+}
+function renderMessages(){
+  $('[data-message]').innerHTML=message(false);
+  $('[data-reader]').innerHTML=message(true);
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-add-konsert]'); if(!b) return;
+  if(b.getAttribute('aria-disabled')==='true') return;
+  place('konsert'); renderMessages(); toast('Konserten ligger i novemberplanen. −450 kr når du fortsetter.');
+});
+
+/* ---------- plan ---------- */
+const ACT={
+ konsert:{t:'Konsert med Emma',short:'Konsert',p:450,s:0,so:8,inv:'Invitasjon fra Emma · bare november'},
+ venner:{t:'Kveld med venner',short:'Venner',p:200,s:0,so:5},
+ hvile:{t:'Hviledag hjemme',short:'Hvile',p:0,s:-5,so:0},
+ gaming:{t:'Gaming med venner',short:'Gaming',p:0,s:-2,so:4},
+ hytte:{t:'Hyttetur med klassen',short:'Hyttetur',p:3600,s:-4,so:10},
+};
+function eff(a){const o=[];if(a.so)o.push(`<span>Sosialt <b>${sgn(a.so)}${Math.abs(a.so)}</b> ${a.so>0?'mer':'mindre'}</span>`);if(a.s)o.push(`<span>Stress <b>${sgn(a.s)}${Math.abs(a.s)}</b> ${a.s<0?'lavere':'høyere'}</span>`);return o.join('');}
+function cost(){return S.plan.reduce((t,a)=>t+(a?ACT[a].p:0),0)}
+function wellbeing(){let s=0,so=0;S.plan.forEach(a=>{if(a){s+=ACT[a].s;so+=ACT[a].so}});s=Math.max(-15,Math.min(15,s));so=Math.max(-15,Math.min(15,so));const st=25+s,soc=55+so;return Math.round(.4*(100-st)+.3*72+.3*soc);}
+function renderPlan(){
+  const left=S.bruk-cost();
+  $('#slots').innerHTML=S.plan.map((a,i)=>a?`<button class="slot filled" type="button" data-slot="${i}" aria-label="Kveld ${i+1}: ${ACT[a].t}. Trykk for å ta bort."><span class="s-n">Kveld ${i+1}</span><span class="s-t">${ACT[a].t}</span><span class="s-p num ${ACT[a].p?'minus':''}">${ACT[a].p?'−'+kr(ACT[a].p):'0 kr'}</span></button>`:`<button class="slot" type="button" data-slot="${i}" aria-label="Kveld ${i+1}: ledig"><span class="s-n">Kveld ${i+1}</span><span class="s-t" style="color:var(--ink-3)">Ledig</span><span class="s-p fine">Velg en aktivitet</span></button>`).join('')+`<div class="slot locked" aria-label="Kveld 4: tatt av ekstravakter"><span class="s-n">Kveld 4</span><span class="s-t">Ekstravakter</span><span class="s-p fine">ut desember</span></div>`;
+  const free=S.plan.filter(x=>!x).length;
+  $('#slot-count').textContent=`${free} ledige · 1 går til jobb`;
+  $('#cards').innerHTML=Object.entries(ACT).map(([k,a])=>{
+    const on=S.plan.includes(k); const short=a.p>left+(on?a.p:0)&&!on; const miss=a.p-left;
+    return `<li><button class="card" type="button" data-act-k="${k}" ${short?'aria-disabled="true"':`aria-pressed="${on}"`}>
+      <span class="c-t">${a.t}</span><span class="c-p num">${a.p?'−'+kr(a.p):'0 kr'}</span>
+      <span class="c-e">${eff(a)}</span>
+      <span class="c-x">${a.inv?`<span class="tag tag-inv">${a.inv}</span>`:''}${short?`<span class="short">Mangler ${kr(miss)}</span>`:''}${on?'<span class="c-state">I planen · trykk for å ta bort</span>':''}</span></button></li>`;}).join('');
+  $('#sum-cost').textContent=cost()?'−'+kr(cost()):'0 kr';
+  $('#sum-left').textContent=kr(left);
+  const w=wellbeing(); $('#sum-well').textContent=w; $('#sum-well-d').textContent=w===68?'uten aktiviteter':`${sgn(w-68)}${Math.abs(w-68)} mot ingen aktiviteter`;
+  const hs=$('[data-hub-slots]'); if(hs){hs.innerHTML=S.plan.map(a=>a?`<span class="f">${ACT[a].short}</span>`:'<span>ledig</span>').join('')+'<span class="x">Ekstra&shy;vakter</span>'; $('[data-hub-plan-sum]').textContent=cost()||S.plan.some(Boolean)?`Planlagt ${kr(cost())}. Trivsel med planen: ${w}.`:'Ingen aktiviteter ennå. Trivsel uten: 68.';}
+  $('#smatt-plan').textContent=`Planlagt i november: ${kr(cost())}, trekkes når du fortsetter.`;
+}
+function place(k){
+  const live=$('#plan-live');
+  if(S.plan.includes(k)){S.plan[S.plan.indexOf(k)]=null;live.textContent=ACT[k].t+' er tatt ut av planen.';}
+  else{const i=S.plan.indexOf(null);if(i<0){live.textContent='Alle tre kveldene er fulle. Trykk på en kveld for å tømme den.';toast('Alle kveldene er fulle. Trykk på en kveld for å tømme den.');return;}S.plan[i]=k;live.textContent=ACT[k].t+' lagt i kveld '+(i+1)+'.';}
+  renderPlan();
+}
+$('#cards').addEventListener('click',e=>{const b=e.target.closest('[data-act-k]');if(!b)return;if(b.getAttribute('aria-disabled')==='true'){toast(`Du har ikke nok på brukskontoen til ${ACT[b.dataset.actK].t.toLowerCase()}.`);return;}place(b.dataset.actK);renderMessages();});
+$('#slots').addEventListener('click',e=>{const b=e.target.closest('[data-slot]');if(!b)return;const i=+b.dataset.slot;if(S.plan[i]){const k=S.plan[i];S.plan[i]=null;$('#plan-live').textContent=ACT[k].t+' er tatt ut.';renderPlan();renderMessages();}else{$('#cards button:not([aria-disabled="true"])')?.focus();}});
+$('#same-as-last').addEventListener('click',()=>{S.plan=['venner','hvile',null];renderPlan();renderMessages();$('#plan-live').textContent='Samme som oktober: kveld med venner og hviledag.';toast('Samme som oktober: kveld med venner og hviledag. Konserten var ikke med da.');});
+
+/* ---------- event / result ---------- */
+const RES={
+ a:{title:'Du fikk skjermen reparert',d:[['−2 500 kr','brukt','minus'],['Stress −2','lettere','']],echo:true,goal:'25 920 → 23 420 kr av 32 500 kr (72,1 %)',
+    why:`<p>Reparasjonen kostet 2 500 kr. Brukskontoen hadde 2 364 kr, så de siste 136 kr ble tatt fra sparekontoen.</p><table><tr><td>Brukskonto før</td><td>2 364 kr</td></tr><tr><td>Sparekonto før</td><td>23 556 kr</td></tr><tr><td>Reparasjon</td><td class="minus">−2 500 kr</td></tr><tr><td>Sparemålet etterpå</td><td>23 420 kr · 72,1 %</td></tr></table><p class="fine">Sparemålet teller brukskonto og sparekonto. BSU teller ikke.</p>`,
+    oc:[['i-open','<b>Åpnet:</b> mobilen virker. Emma venter fortsatt på svar om konserten.'],['i-lock','<b>Stengt:</b> tre fjerdedeler av sparemålet. Du er under 75 % igjen.']],note:'Mobilen er hel igjen',crack:0},
+ b:{title:'Dere delte regningen',d:[['−1 250 kr','brukt','minus'],['Stress −1','lettere','']],echo:false,goal:'25 920 → 24 670 kr av 32 500 kr (75,9 %)',
+    why:`<p>Mamma betalte halvparten. Din del, 1 250 kr, ble trukket fra brukskontoen.</p><table><tr><td>Brukskonto før</td><td>2 364 kr</td></tr><tr><td>Din del</td><td class="minus">−1 250 kr</td></tr><tr><td>Brukskonto etterpå</td><td>1 114 kr</td></tr></table>`,
+    oc:[['i-open','<b>Åpnet:</b> mobilen virker. Emma venter på svar.'],['i-check','<b>Beholdt:</b> du er fortsatt over tre fjerdedeler av sparemålet.']],note:'Mobilen er hel igjen',crack:0},
+ c:{title:'Du lever med sprekken',d:[['0 kr','ingen kostnad',''],['Stress +3','mer stress','']],echo:false,goal:'uendret: 25 920 kr av 32 500 kr (79,8 %)',
+    why:`<p>Du betalte ingenting, så pengene står urørt. Sprekken irriterer deg hver dag, og det gir litt mer stress denne måneden.</p>`,
+    oc:[['i-check','<b>Beholdt:</b> 79,8 % av sparemålet.'],['i-lock','<b>Risiko:</b> sprekken kan bli verre. Da blir det dyrere å fikse.']],note:'Sprekken er der fortsatt',crack:1},
+};
+$$('[data-choice]').forEach(b=>b.addEventListener('click',()=>{S.choice=b.dataset.choice;location.hash='#resultat';}));
+function renderResult(){
+  const r=RES[S.choice];
+  $('#res-title').textContent=r.title;
+  $('#res-deltas').innerHTML=r.d.map(([v,w,c])=>`<div class="delta"><span class="d-v ${c}">${v}</span><span class="d-w">${w}</span></div>`).join('')+`<div class="delta" style="flex-basis:100%"><span class="d-w" style="color:var(--ink)"><b>Lappen:</b> <span class="num">${r.goal}</span></span></div>`;
+  $('#res-echo').hidden=!r.echo;
+  $('#why-body').innerHTML=r.why;
+  $('#why-btn').firstChild.textContent=S.choice==='c'?'Hvorfor gikk stresset opp? ':'Hvorfor gikk sparemålet ned? ';
+  $('#res-oc').innerHTML=r.oc.map(([i,t])=>`<li><svg class="ic" aria-hidden="true"><use href="#${i}"/></svg><span>${t}</span></li>`).join('');
+  $('#res-note').textContent=r.note;
+  $('#res-room').style.setProperty('--crack',r.crack);
+  $('#res-room').setAttribute('aria-label','Rommet etterpå: '+r.note.toLowerCase()+'.');
+}
+$('#echo-thumb').outerHTML=mini(0,{moped:false,env:true}).replace('<svg ','<svg id="echo-thumb" ');
+$('#why-btn').addEventListener('click',function(){const o=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!o);$('#why-body').hidden=o;});
+$('[data-done-event]').addEventListener('click',()=>{S.event=false;$('#proto-event').checked=false;applyEvent();});
+
+/* ---------- money ---------- */
+const PAY=8457;
+$$('input[name=spend]').forEach(r=>r.addEventListener('change',()=>{const v=r.value;const t={lav:['Lav',.6,'Sosialt −2 i måneden, fordi du sier nei oftere.'],normal:['Normal',.75,'går til mat, klær og sånt.'],hoy:['Høy',.95,'Sosialt +2 i måneden, men lite blir igjen.']}[v];$('#spend-text').textContent=`${t[0]}: ca. ${kr(PAY*t[1])} i måneden. ${t[2]}`;}));
+function renderMoney(){$('#m-bruk').textContent=kr(S.bruk);$('#m-spar').textContent=kr(S.spar);$('#m-bsu').textContent=kr(S.bsu);}
+let actMode=null;
+$$('[data-act]').forEach(b=>b.addEventListener('click',()=>{
+  const m=b.dataset.act; const p=$('#act-panel');
+  if(actMode===m){p.hidden=true;actMode=null;b.setAttribute('aria-expanded','false');return;}
+  actMode=m; $$('[data-act]').forEach(x=>x.setAttribute('aria-expanded',x===b));
+  p.hidden=false;
+  p.innerHTML=m==='flytt'?`<p class="lbl">Fra brukskonto til sparekonto</p><div class="amts">${[500,1000,2000].map(a=>`<button class="chip" type="button" data-amt="${a}" aria-pressed="false">${kr(a)}</button>`).join('')}</div><button class="btn btn-dark" type="button" data-do="flytt">Flytt</button>`
+   :`<p class="lbl">Opprett BSU og sett inn fra brukskonto</p><p class="fine">5,61 % rente. 10 % av det du setter inn i år kommer tilbake som skattefradrag når du betaler skatt.</p><div class="amts">${[500,1000,2000].map(a=>`<button class="chip" type="button" data-amt="${a}" aria-pressed="false">${kr(a)}</button>`).join('')}</div><button class="btn btn-dark" type="button" data-do="bsu">Sett inn</button>`;
+}));
+$('#act-panel').addEventListener('click',e=>{
+  const c=e.target.closest('[data-amt]'); if(c){$$('[data-amt]').forEach(x=>x.setAttribute('aria-pressed',x===c));return;}
+  const d=e.target.closest('[data-do]'); if(!d) return;
+  const sel=$('[data-amt][aria-pressed="true"]'); if(!sel){toast('Velg et beløp først.');return;}
+  const a=+sel.dataset.amt; if(a>S.bruk){toast(`Du har bare ${kr(S.bruk)} på brukskontoen.`);return;}
+  S.bruk-=a; if(d.dataset.do==='flytt'){S.spar+=a;toast(`Flyttet ${kr(a)} til sparekonto.`);}else{S.bsu+=a;toast(`Satt inn ${kr(a)} på BSU.`);}
+  renderMoney(); renderPlan(); $('#act-panel').hidden=true; actMode=null; $$('[data-act]').forEach(x=>x.setAttribute('aria-expanded','false'));
+});
+
+/* ---------- job ---------- */
+const pay=h=>h*52/12*139.40;
+function renderJob(){
+  const h=S.base+(S.extra?4:0); const free=100-2*h; const slots=Math.max(1,Math.min(4,Math.floor(free/20)));
+  $('#h-base').innerHTML=`${S.base}<small>timer i uka</small>`;
+  $('#h-total').textContent=h+' t';
+  $('#h-minus').disabled=S.base<=0; $('#h-plus').disabled=h>=40;
+  $('#j-pay').textContent=kr(pay(h)); $('#j-pay2').textContent=kr(pay(h)); $('#j-formula').textContent=`${h} t × 52 uker ÷ 12 måneder × 139,40 kr`; $('#j-free').textContent=free; $('#j-slots').textContent=`${slots} av 4`;
+  $('#extra').setAttribute('aria-checked',S.extra);
+  const p=$('#j-preview');
+  if(S.extra){const h2=S.base; const f2=100-2*h2; const s2=Math.max(1,Math.min(4,Math.floor(f2/20))); const diff=Math.round((pay(h)-pay(h2))*.25);
+    p.innerHTML=`<h2>Hvis du slutter med ekstravaktene</h2><p>Fra desember får du ${s2} kvelder i planen i stedet for ${slots}, og ${kr(diff)} mindre i måneden etter forbruk.</p><div class="pv"><div><b class="num">${s2} av 4</b><span>kvelder fra desember</span></div><div><b class="num">−${kr(diff)}</b><span>i måneden etter forbruk</span></div></div><p style="color:var(--on-slate-2)">Ekstravaktene slutter uansett etter desember.</p>`;}
+  else{const diff=Math.round((pay(h+4)-pay(h))*.25);p.innerHTML=`<h2>Ekstravaktene er av</h2><p>Fra desember: ${slots} kvelder i planen. Du får ${kr(diff)} mindre i måneden etter forbruk enn med ekstravakter.</p><p style="color:var(--on-slate-2)">Endringen gjelder når du fortsetter.</p>`;}
+}
+$('#h-minus').addEventListener('click',()=>{S.base=Math.max(0,S.base-1);renderJob();});
+$('#h-plus').addEventListener('click',()=>{if(S.base+(S.extra?4:0)<40)S.base++;renderJob();});
+$('#extra').addEventListener('click',()=>{S.extra=!S.extra;renderJob();});
+
+/* ---------- held change ---------- */
+function renderHeld(){
+  $$('[data-held]').forEach(el=>{const on=S.held.has(el.dataset.held);el.classList.toggle('is-new',on);if(el.tagName==='LI'&&el.closest('.changes'))el.classList.toggle('seen',!on);});
+}
+function seen(k){if(S.held.delete(k))renderHeld();}
+$('[data-seen-all]').addEventListener('click',()=>{['saldo','stress','telefon'].forEach(k=>S.held.delete(k));renderHeld();});
+$('.hub-well').addEventListener('click',()=>seen('stress'));
+
+/* ---------- event toggle ---------- */
+function applyEvent(){
+  $$('[data-quiet]').forEach(e=>e.hidden=S.event); $$('[data-event]').forEach(e=>e.hidden=!S.event);
+  $$('[data-continue]').forEach(a=>{a.setAttribute('href',S.event?'#hendelse':'#hjem');});
+  $$('[data-cta-text]').forEach(t=>t.textContent=S.event?'Se hva som har skjedd':'Fortsett til desember');
+}
+$('#proto-event').addEventListener('change',e=>{S.event=e.target.checked;applyEvent();});
+$('#proto-mess').addEventListener('change',e=>{const svg=$('#roomshot svg');svg.style.setProperty('--mess',e.target.checked?1:0);$('.room-state span').textContent=e.target.checked?'Det flyter med klær og ting på gulvet, fordi stresset er høyt. Mopeden står ute. Mobilen lyser: 2 nye meldinger.':'Rommet er ryddig, fordi stresset er lavt. Mopeden står ute. Mobilen lyser: 2 nye meldinger.';});
+$('#proto-rearm').addEventListener('click',()=>{S.held=new Set(['saldo','stress','telefon','ekko']);S.read.clear();renderHeld();renderThreads();});
+
+/* ---------- continue: the shot ---------- */
+document.addEventListener('click',e=>{
+  const a=e.target.closest('[data-continue]'); if(!a||S.event) return;
+  e.preventDefault();
+  const fig=$('#roomshot'); fig.classList.remove('shooting'); void fig.offsetWidth; fig.classList.add('shooting');
+  window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  S.held=new Set(['saldo','stress','telefon','ekko']); S.read.clear(); renderHeld(); renderThreads();
+  protoToast('Prototype: november åpnes på nytt for å vise blitsen og «Ny»-merkene. Desember er ikke laget.');
+});
+
+/* ---------- toasts ---------- */
+let tt; function toast(msg){const r=$('#toast-root');r.innerHTML=`<div class="toast" role="status">${msg}</div>`;clearTimeout(tt);tt=setTimeout(()=>r.innerHTML='',3600);}
+function protoToast(msg){const r=$('#toast-root');r.innerHTML=`<div class="proto-toast" role="status">${msg}</div>`;clearTimeout(tt);tt=setTimeout(()=>r.innerHTML='',4200);}
+
+/* ---------- prototype panel ---------- */
+const pb=$('#proto-btn'),pp=$('#proto-panel');
+pb.addEventListener('click',()=>{const o=pp.hidden;pp.hidden=!o;pb.setAttribute('aria-expanded',o);});
+pp.addEventListener('click',e=>{if(e.target.closest('a')){pp.hidden=true;pb.setAttribute('aria-expanded','false');}});
+
+/* ---------- forms ---------- */
+$('#nick').addEventListener('input',()=>{$$('[data-nick]').forEach(n=>n.textContent=NICK());renderThreads();renderMessages();});
+$('#f-opprett').addEventListener('submit',e=>{e.preventDefault();const ok=$('#e1').value&&$('#e1').value===$('#e2').value;$('#e2').setAttribute('aria-invalid',!ok);$('#e2-err').hidden=ok;const pw=$('#pw').value.length;const pwOk=pw>=8;$('#pw').setAttribute('aria-invalid',!pwOk);$('#pw-help').textContent=pwOk?'Minst 8 tegn.':`Minst 8 tegn. Du har ${pw}.`;$('#pw-help').className=pwOk?'help':'err';if(ok&&pwOk)location.hash='#start';else (ok?$('#pw'):$('#e2')).focus();});
+$('[data-forgot]').addEventListener('click',e=>{e.preventDefault();toast('Vi sender en lenke til e-posten din så du kan lage nytt passord.');});
+$('[data-info]').addEventListener('click',e=>{e.preventDefault();toast('Spillerinformasjonen åpnes her: hva vi lagrer, og hvorfor.');});
+
+/* ---------- router ---------- */
+const NAVMAP={hjem:'hjem',aar:'hjem',hendelse:'hjem',resultat:'hjem',plan:'plan',telefon:'telefon',melding:'telefon',jobb:'jobb',penger:'penger'};
+const NONAV=['landing','opprett','start'];
+function route(){
+  let r=(location.hash||'#landing').slice(1); if(!$(`[data-route="${r}"]`)) r='landing';
+  $$('.screen').forEach(s=>s.classList.toggle('on',s.dataset.route===r));
+  document.body.classList.toggle('no-nav',NONAV.includes(r));
+  $$('.nav [data-nav]').forEach(a=>a.toggleAttribute('aria-current',false));
+  const n=NAVMAP[r]; if(n) $(`.nav [data-nav="${n}"]`).setAttribute('aria-current','page');
+  const s=$(`[data-route="${r}"]`); document.title=s.dataset.title;
+  if(r==='penger') setTimeout(()=>seen('saldo'),1200);
+  if(r==='telefon') seen('telefon');
+  if(r==='melding'){seen('telefon');S.read.add('emma');renderThreads();}
+  if(r==='resultat'){renderResult();setTimeout(()=>seen('ekko'),1500);}
+  window.scrollTo(0,0);
+  const h=s.querySelector('h1'); if(h&&document.activeElement&&document.activeElement!==document.body){h.setAttribute('tabindex','-1');h.focus({preventScroll:true});}
+}
+window.addEventListener('hashchange',route);
+
+if(/[?&]clean\b/.test(location.search)){pb.hidden=true;}
+renderThreads(); renderMessages(); renderPlan(); renderMoney(); renderJob(); renderHeld(); applyEvent(); route();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "id": "r2-d",
+  "name": "Stue",
+  "tagline": "Rommet ditt som en interiørkatalog. Hver ting har en lapp.",
+  "position": "Muted end: cool fog and stone greys, moss, birch and ink-blue with one matte cobalt accent. Calmer than Månedsfeed, more modern than Ly/Rommet.",
+  "fonts": ["Albert Sans"],
+  "palette": [
+    {"name": "Fog (ground)", "hex": "#E6E9E7"},
+    {"name": "Paper (surfaces, tags)", "hex": "#F7F8F6"},
+    {"name": "Stone", "hex": "#B7BEB9"},
+    {"name": "Ink (text)", "hex": "#1C2630"},
+    {"name": "Ink 2 (secondary text)", "hex": "#47525C"},
+    {"name": "Ink-blue", "hex": "#3D5874"},
+    {"name": "Moss (money in)", "hex": "#3D6650"},
+    {"name": "Sage", "hex": "#A7B7A4"},
+    {"name": "Birch", "hex": "#D6CCB9"},
+    {"name": "Cobalt (action, new, now)", "hex": "#2F4FB5"},
+    {"name": "Cobalt soft (held change)", "hex": "#E3E8F7"},
+    {"name": "Lingon (missing money only)", "hex": "#9C3245"}
+  ],
+  "routes": ["#landing", "#opprett", "#start", "#hjem", "#aar", "#plan", "#hendelse", "#resultat", "#telefon", "#melding", "#penger", "#jobb"]
+}
