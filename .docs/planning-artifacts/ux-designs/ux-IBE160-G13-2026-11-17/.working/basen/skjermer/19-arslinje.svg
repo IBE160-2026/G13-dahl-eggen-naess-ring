@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844" role="img" aria-labelledby="t d">
+  <title id="t">Basen: Turen din: År 1 til 5</title>
+  <desc id="d">Hele fjellet med fem leirer, én per år. Ved hver leir står årets tolv måneder: År 1 er fullført, i År 2 er januar til april spilt, og april er markert. Toppen er livsmålet.</desc>
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Lilita+One&amp;family=Onest:wght@500;600;700;800&amp;display=block');</style>
+    <filter id="sh" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0B1020" flood-opacity=".35"/></filter>
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8"/></filter>
+    <linearGradient id="g449" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E77C8"/><stop offset="1" stop-color="#F3B18E"/></linearGradient><linearGradient id="g450" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g451" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g452" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g453" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g454" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g455" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g456" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g457" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g458" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g459" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g460" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g461" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g462" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g463" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g464" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g465" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFC83D"/></linearGradient><linearGradient id="g466" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E6EAF6"/></linearGradient>
+  </defs>
+  <rect width="390" height="844" fill="#1B2340"/>
+<rect width="390" height="844" fill="url(#g449)"/>
+<text x="26" y="31" font-family="'Onest', sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="start" >9:41</text><rect x="330" y="20" width="24" height="12" rx="3.5" fill="none" stroke="#FFFFFF" stroke-width="1.4"/><rect x="332.5" y="22.5" width="17" height="7" rx="1.5" fill="#FFFFFF"/>
+<text x="20" y="84" font-family="'Lilita One', sans-serif" font-size="30" font-weight="400" fill="#FFFFFF" text-anchor="start" stroke="#0B1020" stroke-width="4.8" paint-order="stroke" stroke-linejoin="round">Turen din</text>
+<text x="20" y="110" font-family="'Onest', sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="start" >Én leir per år. Toppen er livsmålet.</text>
+<path d="M-20 820 L195 150 L410 820 Z" fill="#8E86C6"/><path d="M195 150 L410 820 H300 Z" fill="#5F5A9C" opacity=".6"/><path d="M195 150 L232 236 L212 226 L198 244 L180 224 L162 238 Z" fill="#FFFFFF"/>
+<path d="M195 150 V112" stroke="#2A2F50" stroke-width="3"/><path d="M195 112 L229 120 L195 130 Z" fill="#1C8441"/>
+<rect x="24" y="690" width="342" height="62" rx="16" fill="#1B2340" opacity=".88" stroke="#3A4778" stroke-width="2"/>
+<text x="42" y="714" font-family="'Lilita One', sans-serif" font-size="17" font-weight="400" fill="#FFFFFF" text-anchor="start" >År 1</text><text x="42" y="736" font-family="'Onest', sans-serif" font-size="12.5" font-weight="700" fill="#C9D2F2" text-anchor="start" >15 år</text>
+<circle cx="122" cy="720" r="7" fill="url(#g450)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="142" cy="720" r="7" fill="url(#g451)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="162" cy="720" r="7" fill="url(#g452)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="182" cy="720" r="7" fill="url(#g453)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="202" cy="720" r="7" fill="url(#g454)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="222" cy="720" r="7" fill="url(#g455)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="242" cy="720" r="7" fill="url(#g456)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="262" cy="720" r="7" fill="url(#g457)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="282" cy="720" r="7" fill="url(#g458)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="302" cy="720" r="7" fill="url(#g459)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="322" cy="720" r="7" fill="url(#g460)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="342" cy="720" r="7" fill="url(#g461)" stroke="#FFC83D" stroke-width="1.6"/>
+<rect x="24" y="574" width="342" height="62" rx="16" fill="#1B2340" opacity=".88" stroke="#FFC83D" stroke-width="3"/>
+<text x="42" y="598" font-family="'Lilita One', sans-serif" font-size="17" font-weight="400" fill="#FFFFFF" text-anchor="start" >År 2</text><text x="42" y="620" font-family="'Onest', sans-serif" font-size="12.5" font-weight="700" fill="#C9D2F2" text-anchor="start" >16 år</text>
+<circle cx="122" cy="604" r="7" fill="url(#g462)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="142" cy="604" r="7" fill="url(#g463)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="162" cy="604" r="7" fill="url(#g464)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="182" cy="604" r="7" fill="url(#g465)" stroke="#FFC83D" stroke-width="1.6"/>
+<circle cx="182" cy="604" r="10" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+<circle cx="202" cy="604" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="222" cy="604" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="242" cy="604" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="262" cy="604" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="282" cy="604" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="302" cy="604" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="322" cy="604" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="342" cy="604" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<text x="340" y="630" font-family="'Onest', sans-serif" font-size="12" font-weight="800" fill="#FFC83D" text-anchor="end" >du er her</text>
+<rect x="24" y="458" width="342" height="62" rx="16" fill="#1B2340" opacity=".88" stroke="#3A4778" stroke-width="2"/>
+<text x="42" y="482" font-family="'Lilita One', sans-serif" font-size="17" font-weight="400" fill="#FFFFFF" text-anchor="start" >År 3</text><text x="42" y="504" font-family="'Onest', sans-serif" font-size="12.5" font-weight="700" fill="#C9D2F2" text-anchor="start" >17 år</text>
+<circle cx="122" cy="488" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="142" cy="488" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="162" cy="488" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="182" cy="488" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="202" cy="488" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="222" cy="488" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="242" cy="488" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="262" cy="488" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="282" cy="488" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="302" cy="488" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="322" cy="488" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="342" cy="488" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<rect x="24" y="342" width="342" height="62" rx="16" fill="#1B2340" opacity=".88" stroke="#3A4778" stroke-width="2"/>
+<text x="42" y="366" font-family="'Lilita One', sans-serif" font-size="17" font-weight="400" fill="#FFFFFF" text-anchor="start" >År 4</text><text x="42" y="388" font-family="'Onest', sans-serif" font-size="12.5" font-weight="700" fill="#C9D2F2" text-anchor="start" >18 år</text>
+<circle cx="122" cy="372" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="142" cy="372" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="162" cy="372" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="182" cy="372" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="202" cy="372" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="222" cy="372" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="242" cy="372" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="262" cy="372" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="282" cy="372" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="302" cy="372" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="322" cy="372" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="342" cy="372" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<g transform="translate(338 360) scale(0.8)"><rect x="0" y="9" width="18" height="15" rx="3" fill="#FFC83D"/><path d="M4 9 V6 a5 5 0 0 1 10 0 V9" fill="none" stroke="#FFC83D" stroke-width="2.6"/></g>
+<rect x="24" y="226" width="342" height="62" rx="16" fill="#1B2340" opacity=".88" stroke="#3A4778" stroke-width="2"/>
+<text x="42" y="250" font-family="'Lilita One', sans-serif" font-size="17" font-weight="400" fill="#FFFFFF" text-anchor="start" >År 5</text><text x="42" y="272" font-family="'Onest', sans-serif" font-size="12.5" font-weight="700" fill="#C9D2F2" text-anchor="start" >19 år</text>
+<circle cx="122" cy="256" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="142" cy="256" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="162" cy="256" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="182" cy="256" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="202" cy="256" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="222" cy="256" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="242" cy="256" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="262" cy="256" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="282" cy="256" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="302" cy="256" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="322" cy="256" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<circle cx="342" cy="256" r="7" fill="none" stroke="#8592C4" stroke-width="1.6"/>
+<rect x="95" y="779" width="200" height="50" rx="18" fill="#A9B2D6"/><rect x="95" y="774" width="200" height="50" rx="18" fill="url(#g466)"/><text x="195.0" y="804.95" font-family="'Lilita One', sans-serif" font-size="17" font-weight="400" fill="#151A2E" text-anchor="middle" >Tilbake</text><rect x="140" y="831" width="110" height="5" rx="2.5" fill="#FFFFFF" opacity=".85"/>
+</svg>
