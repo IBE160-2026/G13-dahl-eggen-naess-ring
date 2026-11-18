@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>Veien: Mobil: samtalen med Emma, invitasjonen legges i planen</title>
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&amp;display=block');</style>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24107A"/><stop offset=".55" stop-color="#6A22E0"/><stop offset="1" stop-color="#FF6FA8"/></linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A1690"/><stop offset="1" stop-color="#1C0858"/></linearGradient>
+    <linearGradient id="road" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5CF2E4"/><stop offset="1" stop-color="#B8FFF7"/></linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12053A" stop-opacity="0"/><stop offset=".45" stop-color="#12053A" stop-opacity=".85"/><stop offset="1" stop-color="#12053A"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="170%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0B0426" flood-opacity=".5"/></filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5"/></filter>
+  </defs>
+  <rect width="390" height="844" fill="#FFFFFF"/>
+<rect width="390" height="844" fill="#FFFFFF"/>
+<text x="30" y="30" font-family="Rubik, sans-serif" font-size="15" font-weight="600" fill="#111" text-anchor="start" >9:41</text><g fill="#111"><rect x="331" y="19" width="23" height="11" rx="3" fill="none" stroke="#111" stroke-width="1.4"/><rect x="333.5" y="21.5" width="16" height="6" rx="1.2"/></g>
+<rect x="0" y="44" width="390" height="96" fill="#F7F7F9"/><path d="M0 140H390" stroke="#E5E5EA"/>
+<text x="20" y="78" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="30" font-weight="400" fill="#0066CC" text-anchor="start">‹</text>
+<circle cx="195" cy="80" r="24" fill="#FF9BC2"/><text x="195" y="88" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="20" font-weight="700" fill="#170A40" text-anchor="middle">E</text><text x="195" y="126" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="500" fill="#111" text-anchor="middle">Emma ›</text>
+<text x="195" y="172" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="12" font-weight="500" fill="#6C6C70" text-anchor="middle">Oktober</text>
+<rect x="16" y="184" width="250" height="40" rx="20" fill="#E9E9EB"/><text x="32" y="209" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15.5" font-weight="400" fill="#111" text-anchor="start">Gjengen leier hytte i høstferien!</text>
+<path d="M290 236 h84 v40 h-84 a20 20 0 0 1 0 -40z" fill="#0066CC" opacity="0"/>
+<text x="195" y="262" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="12" font-weight="500" fill="#6C6C70" text-anchor="middle">I dag</text>
+<rect x="16" y="274" width="276" height="62" rx="20" fill="#E9E9EB"/><text x="32" y="299" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15.5" font-weight="400" fill="#111" text-anchor="start">Konsert på fredag, blir du med?</text><text x="32" y="321" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15.5" font-weight="400" fill="#111" text-anchor="start">Billetten er 400 kr</text>
+<g filter="url(#sh)"><rect x="16" y="350" width="300" height="150" rx="22" fill="#170A40"/></g>
+<rect x="16" y="350" width="300" height="6" rx="3" fill="#B4E86E"/>
+<g transform="translate(46 392)" fill="none" stroke="#B4E86E" stroke-width="2.6" stroke-linecap="round"><path d="M-6 8V-10l14-4v18"/><circle cx="-10" cy="8" r="4.5"/><circle cx="4" cy="4" r="4.5"/></g>
+<text x="74" y="388" font-family="Rubik, sans-serif" font-size="16" font-weight="900" fill="#fff" text-anchor="start" >Invitasjon: Konsert</text><text x="74" y="408" font-family="Rubik, sans-serif" font-size="12.5" font-weight="500" fill="#C9BEF2" text-anchor="start" >1 kveld · 400 kr · bare i november</text>
+<rect x="30" y="433" width="272" height="50" rx="18" fill="#7FAE45"/><rect x="30" y="428" width="272" height="50" rx="18" fill="#B4E86E"/><rect x="46" y="436" width="76" height="4" rx="2" fill="#fff" opacity=".5"/><text x="156.0" y="460.0" font-family="Rubik, sans-serif" font-size="17" font-weight="900" fill="#170A40" text-anchor="middle" letter-spacing=".8">LEGG I PLANEN</text><path d="M258 453.0h18m-7-7 7 7-7 7" fill="none" stroke="#170A40" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="195" y="528" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="11.5" font-weight="500" fill="#6C6C70" text-anchor="middle">Levert</text>
+<rect x="0" y="752" width="390" height="92" fill="#F7F7F9"/><path d="M0 752H390" stroke="#E5E5EA"/>
+<rect x="16" y="766" width="358" height="38" rx="19" fill="#fff" stroke="#D1D1D6"/><text x="34" y="791" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="400" fill="#6C6C70" text-anchor="start">Du kan ikke svare i spillet</text>
+<rect x="140" y="828" width="110" height="4" rx="2" fill="#111"/>
+</svg>

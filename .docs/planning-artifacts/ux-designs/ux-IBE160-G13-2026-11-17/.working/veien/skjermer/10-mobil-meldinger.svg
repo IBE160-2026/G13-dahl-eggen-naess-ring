@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>Veien: Mobil: ser ut som en ekte meldingsapp</title>
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&amp;display=block');</style>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24107A"/><stop offset=".55" stop-color="#6A22E0"/><stop offset="1" stop-color="#FF6FA8"/></linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A1690"/><stop offset="1" stop-color="#1C0858"/></linearGradient>
+    <linearGradient id="road" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5CF2E4"/><stop offset="1" stop-color="#B8FFF7"/></linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12053A" stop-opacity="0"/><stop offset=".45" stop-color="#12053A" stop-opacity=".85"/><stop offset="1" stop-color="#12053A"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="170%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0B0426" flood-opacity=".5"/></filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5"/></filter>
+  </defs>
+  <rect width="390" height="844" fill="#FFFFFF"/>
+<rect width="390" height="844" fill="#FFFFFF"/>
+<text x="30" y="30" font-family="Rubik, sans-serif" font-size="15" font-weight="600" fill="#111" text-anchor="start" >9:41</text><g fill="#111"><rect x="331" y="19" width="23" height="11" rx="3" fill="none" stroke="#111" stroke-width="1.4"/><rect x="333.5" y="21.5" width="16" height="6" rx="1.2"/></g>
+<text x="20" y="74" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="17" font-weight="400" fill="#0066CC" text-anchor="start">‹ Spill</text><text x="366" y="74" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="17" font-weight="400" fill="#0066CC" text-anchor="end">Rediger</text>
+<text x="20" y="124" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="34" font-weight="700" fill="#111" text-anchor="start">Meldinger</text>
+<rect x="16" y="140" width="358" height="38" rx="11" fill="#EFEFF4"/><text x="44" y="165" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="16" font-weight="400" fill="#6C6C70" text-anchor="start">Søk</text>
+<circle cx="32" cy="159" r="6" fill="none" stroke="#6C6C70" stroke-width="2"/>
+<circle cx="12" cy="228" r="5.5" fill="#0066CC"/>
+<circle cx="52" cy="228" r="26" fill="#FF9BC2"/><text x="52" y="236" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="22" font-weight="700" fill="#170A40" text-anchor="middle">E</text>
+<text x="92" y="220" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="17" font-weight="700" fill="#111" text-anchor="start">Emma</text><text x="366" y="220" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="400" fill="#6C6C70" text-anchor="end">nå</text>
+<text x="92" y="242" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="400" fill="#6C6C70" text-anchor="start">Konsert på fredag, blir du med?</text>
+<path d="M92 274H390" stroke="#E5E5EA"/>
+<circle cx="12" cy="312" r="5.5" fill="#0066CC"/>
+<circle cx="52" cy="312" r="26" fill="#2FE3D2"/><text x="52" y="320" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="22" font-weight="700" fill="#170A40" text-anchor="middle">B</text>
+<text x="92" y="304" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="17" font-weight="700" fill="#111" text-anchor="start">Banken</text><text x="366" y="304" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="400" fill="#6C6C70" text-anchor="end">nå</text>
+<text x="92" y="326" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="400" fill="#6C6C70" text-anchor="start">Du har passert 3/4 av sparemålet ditt.</text>
+<path d="M92 358H390" stroke="#E5E5EA"/>
+<circle cx="52" cy="396" r="26" fill="#FFC24A"/><text x="52" y="404" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="22" font-weight="700" fill="#170A40" text-anchor="middle">S</text>
+<text x="92" y="388" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="17" font-weight="700" fill="#111" text-anchor="start">Butikken – Sjefen</text><text x="366" y="388" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="400" fill="#6C6C70" text-anchor="end">sep.</text>
+<text x="92" y="410" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="400" fill="#6C6C70" text-anchor="start">Kan du ta ekstravakter ut desember?</text>
+<path d="M92 442H390" stroke="#E5E5EA"/>
+<circle cx="52" cy="480" r="26" fill="#B4E86E"/><text x="52" y="488" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="22" font-weight="700" fill="#170A40" text-anchor="middle">M</text>
+<text x="92" y="472" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="17" font-weight="700" fill="#111" text-anchor="start">Mamma</text><text x="366" y="472" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="400" fill="#6C6C70" text-anchor="end">aug.</text>
+<text x="92" y="494" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="400" fill="#6C6C70" text-anchor="start">Forsikringen på mopeden går i januar.</text>
+<path d="M92 526H390" stroke="#E5E5EA"/>
+<circle cx="52" cy="564" r="26" fill="#7A4BD6"/><text x="52" y="572" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="22" font-weight="700" fill="#170A40" text-anchor="middle">J</text>
+<text x="92" y="556" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="17" font-weight="700" fill="#111" text-anchor="start">Jonas</text><text x="366" y="556" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="400" fill="#6C6C70" text-anchor="end">jul.</text>
+<text x="92" y="578" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="400" fill="#6C6C70" text-anchor="start">Gaming i kveld?</text>
+<path d="M92 610H390" stroke="#E5E5EA"/>
+<rect x="0" y="780" width="390" height="64" fill="#F7F7F9"/><path d="M0 780H390" stroke="#E5E5EA"/>
+<text x="195" y="806" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="12.5" font-weight="400" fill="#6C6C70" text-anchor="middle">Meldinger fra denne måneden er merket med blå prikk.</text>
+<rect x="140" y="828" width="110" height="4" rx="2" fill="#111"/>
+</svg>

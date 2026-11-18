@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>Veien: Glemt passord: samme svar uansett</title>
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&amp;display=block');</style>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24107A"/><stop offset=".55" stop-color="#6A22E0"/><stop offset="1" stop-color="#FF6FA8"/></linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A1690"/><stop offset="1" stop-color="#1C0858"/></linearGradient>
+    <linearGradient id="road" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5CF2E4"/><stop offset="1" stop-color="#B8FFF7"/></linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12053A" stop-opacity="0"/><stop offset=".45" stop-color="#12053A" stop-opacity=".85"/><stop offset="1" stop-color="#12053A"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="170%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0B0426" flood-opacity=".5"/></filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5"/></filter>
+  </defs>
+  <rect width="390" height="844" fill="#12053A"/>
+<rect width="390" height="240" fill="url(#sky)"/><circle cx="30" cy="50" r="1.8" fill="#fff" opacity=".8"/><circle cx="140" cy="40" r="1.8" fill="#fff" opacity=".8"/><circle cx="250" cy="34" r="1.8" fill="#fff" opacity=".8"/><circle cx="320" cy="70" r="1.8" fill="#fff" opacity=".8"/><circle cx="200" cy="90" r="1.8" fill="#fff" opacity=".8"/><circle cx="80" cy="100" r="1.8" fill="#fff" opacity=".8"/><circle cx="310" cy="212" r="40" fill="#FFD36E" opacity=".35" filter="url(#glow)"/><circle cx="310" cy="214" r="30" fill="#FFD36E"/><path d="M0 210 C80 182 150 206 220 190 S330 180 390 200 V280 H0Z" fill="#9A55FF"/><path d="M0 228 C90 210 200 232 390 216 V280 H0Z" fill="#6A25D9"/>
+<text x="24" y="30" font-family="Rubik, sans-serif" font-size="15" font-weight="600" fill="#fff" text-anchor="start" >9:41</text><g fill="#fff"><rect x="331" y="19" width="23" height="11" rx="3" fill="none" stroke="#fff" stroke-width="1.4"/><rect x="333.5" y="21.5" width="16" height="6" rx="1.2"/></g>
+<g filter="url(#sh)"><circle cx="40" cy="64" r="20" fill="#12053A" opacity=".6"/></g><path d="M44 56l-8 8 8 8" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><text x="72" y="72" font-family="Rubik, sans-serif" font-size="26" font-weight="900" fill="#fff" text-anchor="start" >Glemt passord</text>
+<path d="M0 246 Q0 220 26 220 H364 Q390 220 390 246 V844 H0Z" fill="#170A40"/>
+<text x="24" y="270" font-family="Rubik, sans-serif" font-size="14.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >Skriv e-posten din, så sender vi en lenke.</text>
+<text x="24" y="300" font-family="Rubik, sans-serif" font-size="13" font-weight="600" fill="#C9BEF2" text-anchor="start" >E-post</text><rect x="24" y="308" width="342" height="52" rx="14" fill="#24125E" stroke="#7E68D8" stroke-width="2"/><text x="40" y="340" font-family="Rubik, sans-serif" font-size="16" font-weight="500" fill="#fff" text-anchor="start" >markus@eksempel.no</text>
+<rect x="24" y="392" width="342" height="116" rx="18" fill="#24125E" stroke="#B4E86E" stroke-width="1.5"/>
+<circle cx="52" cy="424" r="14" fill="#B4E86E"/><path d="M45 424l5 5 9-10" fill="none" stroke="#170A40" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="78" y="429" font-family="Rubik, sans-serif" font-size="16" font-weight="800" fill="#fff" text-anchor="start" >Sjekk e-posten din</text>
+<text x="42" y="462" font-family="Rubik, sans-serif" font-size="13" font-weight="400" fill="#C9BEF2" text-anchor="start" >Hvis adressen har en bruker, får du en lenke.</text>
+<text x="42" y="484" font-family="Rubik, sans-serif" font-size="13" font-weight="400" fill="#C9BEF2" text-anchor="start" >Lenken virker én gang, i 60 minutter.</text>
+<rect x="24" y="545" width="342" height="56" rx="18" fill="#7FAE45"/><rect x="24" y="540" width="342" height="56" rx="18" fill="#B4E86E"/><rect x="40" y="548" width="96" height="4" rx="2" fill="#fff" opacity=".5"/><text x="195.0" y="575.0" font-family="Rubik, sans-serif" font-size="17" font-weight="900" fill="#170A40" text-anchor="middle" letter-spacing=".8">SEND NY LENKE</text>
+<text x="195" y="634" font-family="Rubik, sans-serif" font-size="14.5" font-weight="700" fill="#E9E2FF" text-anchor="middle" text-decoration="underline">Tilbake til innlogging</text>
+<rect x="140" y="828" width="110" height="4" rx="2" fill="#fff" opacity=".5"/>
+</svg>
