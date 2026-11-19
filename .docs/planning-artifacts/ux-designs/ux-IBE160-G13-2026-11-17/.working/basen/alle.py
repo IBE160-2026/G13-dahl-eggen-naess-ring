@@ -400,7 +400,7 @@ def s22():
 def s23():
     o = [camp(11, 16, 2, "24 650 kr", "68", 38, mood="glad", stations=False, tags=False), hud(16, 2, 12, "24 650 kr", "68"), dim_all(.45)]
     o.append(panel(14, 236, 362, 460, "Leir 3 nådd!", C["green"]))
-    o.append(T(195, 292, "År 2 er ferdig. Tolv måneder på snora.", 14, SUB, 700, "middle"))
+    o.append(T(195, 292, "År 2 er ferdig. Hele årsbanen er fylt.", 14, SUB, 700, "middle"))
     o.append(result_row(312, i_coin, "Spart i år", "+6 200 kr"))
     o.append(result_row(384, i_heart, "Trivsel", "68", "opp fra 61"))
     o.append(result_row(456, i_house, "Egen leilighet", "38 %", "opp fra 22 %"))
