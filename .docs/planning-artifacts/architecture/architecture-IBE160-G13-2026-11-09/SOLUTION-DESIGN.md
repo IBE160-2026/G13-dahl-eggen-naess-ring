@@ -21,26 +21,27 @@ The binding version is [`ARCHITECTURE-SPINE.md`](ARCHITECTURE-SPINE.md), which s
 - **A game is one row.** The whole state of a life is one JSON document, plus a log of every action taken (AD-5).
 - **Content is files, not database rows.** Events, activities, messages and figures are YAML files in the repo, in versioned folders that are frozen before the playtest (AD-7).
 - **Login is our own.** Email and password, with sessions the server can end at once (AD-10).
-- **One way in.** Caddy, a small web server, sits in front of the backend and the frontend, locally and on the playtest host, so both run on one address (AD-12).
+- **One address for the browser.** In the playtest, the frontend runs on Vercel and passes every `/api` call on to Caddy, a small web server in front of the backend, so the browser sees one address and the login cookie needs no cross-site rules. Locally, Caddy serves both (AD-12).
 - **The playtest costs about USD 5-8 a month** on Railway and Supabase, and nothing afterwards (AD-14).
 
 ## 2. The system at a glance
 
 ```mermaid
 flowchart LR
-    B[Browser] --> C[Caddy]
-    C -->|/api/*| BE[Python backend]
-    C -->|everything else| FE[Frontend]
+    B[Browser] --> F[Frontend: Vercel in the playtest]
+    F -->|/api/*, passed on| C[Caddy]
+    C --> BE[Python backend]
     BE --> E[Engine: pure rules]
     BE --> Y[(Content: YAML files)]
     BE --> DB[(Postgres)]
 ```
 
-The same picture holds in both environments. Only what sits behind each box changes:
+Locally there is no Vercel: Caddy serves the frontend and the API on one address. Otherwise the picture is the same, and only what sits behind each box changes:
 
 | | Examiner and developers | Playtest |
 | --- | --- | --- |
 | Started with | `docker compose up` | A deploy from the `playtest` branch |
+| Frontend | A container behind Caddy | Vercel Hobby (free), functions in Frankfurt |
 | Caddy, backend | Containers on the machine | Railway, EU West (Amsterdam) |
 | Postgres | A container, version 17 | Supabase Free, Frankfurt |
 | Email | Written to the backend log | Switched off; the team hands out reset links |
@@ -109,7 +110,7 @@ erDiagram
 
 | Table | Holds | Notes |
 | --- | --- | --- |
-| `users` | Email address, password hash | The only real personal data the player types in (NFR-3) |
+| `users` | Email address, password hash, nickname | The only real personal data the player types in (NFR-3). The nickname never goes into logs, playtest records or the export |
 | `sessions` | One row per logged-in device | Deleting a row logs that device out |
 | `playthroughs` | The current life: a few indexed columns and the whole state as JSON | One per account (FR-43) |
 | `action_log` | Every action and its result | Never changed. Used for retries and replay tests |
@@ -152,6 +153,7 @@ Login is built in the backend, as the team's reference setup prescribes. Supabas
 
 | | Choice | Why |
 | --- | --- | --- |
+| Frontend | Vercel Hobby, functions in Frankfurt, `/api` passed on to Caddy | The frontend team's choice; free, and the browser still sees one address |
 | Backend and Caddy | Railway Hobby, EU West (Amsterdam), sleeping off | No cold start, so the 10-second rule in NFR-10 is met |
 | Database | Supabase Free Postgres, Frankfurt | The course requires Supabase; it has no Amsterdam region |
 | Email | Resend (an email service), built in but switched off | The playtest needs no email; go-live needs a verified domain (OQ-4) |
@@ -171,19 +173,19 @@ These are the facts the frontend builds against. The exact request and response 
 
 | Topic | What the frontend can rely on |
 | --- | --- |
-| Address | Everything is on one origin. The frontend calls only `/api/*`. No CORS, no tokens to store: the session is a cookie the browser sends by itself |
+| Address | Everything is on one origin. The frontend calls only `/api/*` on its own domain, and `vercel.json` passes those calls on to Caddy with the origin secret and with caching off (AD-12). No CORS, no tokens to store: the session is a cookie the browser sends by itself |
 | Reading the game | `GET /api/game` returns the player view |
 | Changing the game | `POST /api/game/actions` for every game action, including starting, ending early and playing again |
 | Each action carries | A new `request_id` (UUID), the `playthrough_id`, the `month`, and the action. Send the same `request_id` again when retrying |
 | Knowing if the view is stale | `playthrough_id` + `state_version` identify a state. Fetch again on open, reload, tab return, reconnect, and after 5 minutes idle (FR-8) |
 | Month plan | The view carries `plan_version`. Send it back when continuing; a mismatch means another device changed the plan |
-| Text | The backend sends finished Norwegian game text with the figures filled in. The frontend never calculates or formats an amount. The frontend owns button and label text, offline and saving notices, and the player information page |
+| Text | The backend sends finished Norwegian game text with the figures and the player's nickname filled in. The view also carries the nickname on its own, for the settings. The frontend never calculates or formats an amount. The frontend owns button and label text, offline and saving notices, and the player information page |
 | Errors | One shape: `{code, message, state}`. `code` is stable, `message` is Norwegian and can be shown, `state` is the current view when a game action is refused |
 | Recap (FR-16) | Each response has `server_time` and the recap threshold. Compare with the view's last action time, never with the device clock |
 | "Continue anyway" (FR-49) | The confirmation is shown by the frontend; the server doesn't ask for it |
 | Hidden on purpose | Wellbeing effects of event options before the pick, minigame answers, future events |
 | No background polling | Call the API only when the player acts or under the fetch rules above. Otherwise the 30-minute idle logout never happens on a shared PC |
-| To agree together | The path of the reset-password page, and how the frontend is served (static files in Caddy, or its own server) |
+| Agreed 2026-11-22 | The frontend is Next.js on Vercel. The reset link is `/nytt-passord#token=…`: the page reads the token from the fragment, removes it from the address bar, and posts it with the new password. The player information page is a static frontend page that names Vercel, Railway and Supabase |
 
 Still the frontend team's own decisions: framework, screens, accessibility checks in CI, self-hosted fonts, and the device test matrix (NFR-1, NFR-2).
 

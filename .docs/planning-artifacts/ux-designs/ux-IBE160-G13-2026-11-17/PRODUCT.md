@@ -10,7 +10,7 @@ web
 
 ## Stack
 
-Not decided here. The frontend team picks the framework (architecture spine, AD-12/AD-13). The backend renders all game text as finished Norwegian strings with engine figures; the frontend owns only UI chrome text and the player information page. Self-hosted fonts, nothing loaded from third parties (NFR-3).
+Next.js on Vercel, the frontend team's choice (2026-11-22); Vercel passes `/api/*` on to the backend, so the browser sees one origin (architecture spine, AD-12/AD-13). The backend renders all game text as finished Norwegian strings with engine figures; the frontend owns only UI chrome text and the player information page. Self-hosted fonts, nothing loaded from third parties (NFR-3).
 
 ## Users
 

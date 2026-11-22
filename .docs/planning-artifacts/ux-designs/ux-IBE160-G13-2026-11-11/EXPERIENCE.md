@@ -154,7 +154,7 @@ Behavioral. Contrast is measured in `DESIGN.md` → Colors.
 - Nothing by colour alone: amounts have a sign and a word, timeline states differ by shape, outcome icons differ by glyph, locked has a lock icon and text.
 - On route change, focus moves to the screen's heading. Status changes (an activity placed or removed, an offer answered, the spending changed) are announced through a polite live region.
 - Badges include screen-reader text ("Mobil, 2 nye").
-- Login works with password managers and paste. Email is typed twice in the prototype; whether that meets WCAG 3.3.7 is open (#50).
+- Login works with password managers and paste. Email is typed once and shown back for checking before the user is created (FR-1, WCAG 3.3.7, #50). The prototype still shows two fields and needs that change.
 - At 320 px the hub keeps the timeline, the scene stickers, this month and the CTA. Timeline labels drop to 11 px, and the scene shrinks; the stickers don't.
 
 ## Responsive & Platform
@@ -183,7 +183,7 @@ The protagonist is Markus, from the PRD. In the prototype his nickname is "Mak".
 ### Flow 1 — First session (Markus, 15, on the bus, slightly irritated) · UJ-1
 
 1. 01: he taps «Lag bruker».
-2. 02: email twice, password, and «Hva skal vi kalle deg?» → «Mak». Emma's preview bubble updates as he types.
+2. 02: email once (shown back for checking), password, and «Hva skal vi kalle deg?» → «Mak». Emma's preview bubble updates as he types.
 3. 05–06: picks «Spare til noe stort» and a hoodie colour; the mirror figure changes colour.
 4. 07: gets a pengegave and makes his first choice.
 5. **Climax:** 13 shows the money with a sign and a word, wellbeing revealed, and the mirror reflecting his mood, because of his own choice.

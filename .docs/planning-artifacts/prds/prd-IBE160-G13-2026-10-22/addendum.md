@@ -214,7 +214,7 @@ The examiner's guide requires anything left out or changed from the approved pro
 
 | Change | Why |
 |---|---|
-| AI-generated events moved to V2, so the MVP has no AI. F5 moves with them | Team decision, logged on 2026-11-03. The lecturer's feedback of 2026-10-06 advised building the engine and the event library first, so the game works with no AI, and rated in-app AI among the hardest parts. Whether this meets the course requirements is OQ-11 |
+| AI-generated events moved to V2, so the MVP has no AI. F5 moves with them | Team decision, logged on 2026-11-03. The lecturer's feedback of 2026-10-06 advised building the engine and the event library first, so the game works with no AI, and rated in-app AI among the hardest parts. Whether this meets the course requirements was OQ-11, settled by the team 2026-11-22: AI comes in a later version (#39) |
 | *To check:* login with an email address and a password, with no username | Password recovery needs an address, and a username would be a second identifier to protect (NFR-3) |
 | *To check:* the car licence is in the MVP | Added from UJ-4 on 2026-11-04, so Markus has a reason to borrow the parents' car in the card story (FR-30) |
 | *To check:* minigames for the licences | Decided on 2026-11-05, so the player sometimes uses skill, not only choices (FR-51) |
@@ -597,7 +597,7 @@ Decided by sarahnaess on 2026-11-16, from the team's decisions in UX round 2 (`u
 | A-23 | The disclosed simplifications are a requirement | FR-40 |
 | A-24 | GitHub Actions runs the tests on every pull request | NFR-9 |
 | A-25 | Completion and the quiz are measured across sittings | §7.1 |
-| A-26 | F5 moves to V2, with the AI. Checked against part 1 of the examiner's guide only (OQ-11, #39) | §7.3 |
+| A-26 | F5 moves to V2, with the AI. Settled by the team 2026-11-22 (#39) | §7.3 |
 | A-27 | The new rules get worked examples and unit tests | NFR-4 |
 | A-28 | Deleting an account requires the current password and can't be undone | FR-44 |
 | A-29 | The first reference run and worked examples 1-23 plan no activities | FR-9 |

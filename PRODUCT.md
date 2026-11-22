@@ -2,7 +2,7 @@
 
 <!-- impeccable:product-schema 1 -->
 
-Source: written from the PRD (`.docs/planning-artifacts/prds/prd-IBE160-G13-2026-10-22/prd.md`, final 2026-11-13) and the architecture (`.docs/planning-artifacts/architecture/architecture-IBE160-G13-2026-11-09/`) on 2026-11-16. The user approved this source; the team should review it. The PRD wins on any conflict.
+Source: written from the PRD (`.docs/planning-artifacts/prds/prd-IBE160-G13-2026-10-22/prd.md`, final, updated 2026-11-22) and the architecture (`.docs/planning-artifacts/architecture/architecture-IBE160-G13-2026-11-09/`) on 2026-11-16, and checked against both on 2026-11-22 (#97). The PRD wins on any conflict.
 
 ## Platform
 
@@ -10,7 +10,7 @@ web
 
 ## Stack
 
-Frontend: TypeScript (a course requirement). The framework is the frontend team's decision and is still open. The backend is Python and serves the game through `/api/*` on the same origin, behind Caddy. Fonts must be self-hosted: the game loads nothing from third parties (NFR-3).
+Frontend: TypeScript (a course requirement) with Next.js, hosted on Vercel (the frontend team's choice, 2026-11-22). The backend is Python behind Caddy on Railway. The browser sees one origin: Vercel passes `/api/*` on to the backend (architecture AD-12). Fonts must be self-hosted: the game loads nothing from third parties (NFR-3).
 
 ## Users
 
@@ -35,7 +35,7 @@ A life sim where time is as limited as money. Each month the player plans their 
 
 ## Capabilities and Constraints
 
-- Login with email and password, no username, and no real age collected. Saved on the server, so play picks up on any device.
+- Login with email and password, no username, and no real age collected. The email address is typed once and shown back for checking (FR-1, WCAG 3.3.7). Saved on the server, so play picks up on any device.
 - The server decides every result. The frontend never calculates or formats an amount; the backend sends finished Norwegian game text with figures filled in.
 - All game text is in Norwegian bokmål. Messages are pre-written from fictional senders, and the player can't write messages.
 - Never in version one: real money or bank connections, personal financial advice, AI anywhere, free text beyond the email address and the nickname, real-time lockouts, classroom tools, alcohol or tobacco content.
