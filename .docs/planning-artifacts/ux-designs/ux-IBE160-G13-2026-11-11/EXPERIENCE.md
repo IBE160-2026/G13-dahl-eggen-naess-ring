@@ -10,12 +10,12 @@ sources:
   - .docs/planning-artifacts/ux-designs/ux-IBE160-G13-2026-11-17/EXPERIENCE.md
 design: DESIGN.md
 mockups:
-  - .working/round3/index.html
+  - mockups/index.html
 ---
 
 # LifeMode — Experience Spine
 
-> **Draft, 2026-11-22.** This describes how round 3 works (`.working/round3/index.html`, Ringer's layout in Speilet's style), built from the team's revisions in `../decisions.md`. It builds on saegg1205's shared spine (`ux-IBE160-G13-2026-11-17/EXPERIENCE.md`): the same 28 surfaces, states and journeys, with round 3's decisions on top. The group chose round 3 as the direction on 2026-11-22 (#95), took its job and shift rules into the PRD (#105), and decided that stress costs nothing extra during play (#106). The spine stays a draft until it is finalized. The PRD wins on product rules. This spine wins over the mockup.
+> **Draft, 2026-11-22.** This describes how round 3 works (`mockups/index.html`, Ringer's layout in Speilet's style), built from the team's revisions in `../decisions.md`. It builds on saegg1205's shared spine (`ux-IBE160-G13-2026-11-17/EXPERIENCE.md`): the same 28 surfaces, states and journeys, with round 3's decisions on top. The group chose round 3 as the direction on 2026-11-22 (#95), took its job and shift rules into the PRD (#105), and decided that stress costs nothing extra during play (#106). The spine stays a draft until it is finalized. The PRD wins on product rules. This spine wins over the mockup.
 >
 > Tags: `[ASSUMPTION]` is a choice made without a team decision. `[NOTE FOR UX]` marks something the PRD asks for that isn't drawn yet.
 
@@ -36,41 +36,43 @@ mockups:
 - Mobile: a tab bar with **Hjem · Plan · Mobil · Jobb · Penger**.
 - Tablet and desktop: the same five items in a rail on the left.
 - Desktop: a phone pane on the right that always shows Meldinger unless the player opened Melding, Penger or Jobb there.
-- Hjem is home. Året, Hendelse and Resultat are reached from Hjem and count as Hjem in the navigation.
+- Hjem is home. Året, Hendelse, Resultat, the card warning, crisis and year end are reached from Hjem and count as Hjem in the navigation. Log in, sign-up, the gift, the recap and the ending have no tabs or rail.
 - Sheets (interest, add an activity below 1100 px, menu) stack one level deep and never on top of each other.
 
 | # | Surface | Route (round 3) | Reached from | Purpose (PRD) | Mocked |
 |---|---|---|---|---|---|
 | 01 | First screen | `#landing` | App open, logged out | Lag bruker / Logg inn (UJ-1) | yes |
 | 02 | Create user | `#opprett` | 01 | Email once (shown back for checking), password, **nickname** with a live preview, stay logged in (FR-1, NFR-3) | yes |
-| 03 | Log in | — | 01 | Email, password, stay logged in, forgot password (FR-2) | spine-only |
-| 04 | Forgot password | — | 03 | The same answer whether or not the email exists (FR-3) | spine-only |
+| 03 | Log in | `#logginn` | 01 | Email, password, stay logged in (unticked), forgot password (FR-2, FR-5) | yes |
+| 04 | Forgot password | `#glemt` | 03 | The same answer whether or not the email exists (FR-3) | yes |
 | 05 | Life goal | `#start` | 02 | One of three goals (FR-9) | yes |
 | 06 | Avatar | `#start` | 05 | Six preset looks; the choice recolours the mirror figure (FR-10) | yes |
-| 07 | Pengegave and first choice | — | 06 | Random gift, first real choice (FR-11) | spine-only |
-| 08 | Month hub | `#hjem` | Every month | Timeline, mirror with entries, this month's money, accounts, wellbeing, next month | yes |
-| 09 | Message notification | — | Over 08 | A new message slides in like an SMS | spine-only |
+| 07 | Pengegave and first choice | `#gave` | 06 | Random gift, first real choice (FR-11) | yes |
+| 08 | Month hub and room | `#hjem` | Every month | Timeline, mirror with room layers and entries, this month's money, accounts, wellbeing, next month (FR-14, FR-34, FR-49) | yes |
+| 09 | Message notification | toast on 08 | Over 08, below 1100 px | A new message slides in like an SMS | yes |
 | 10 | Phone: messages | `#telefon` | Tab, sticker "2 nye", pane | Read-only inbox (FR-54) | yes |
 | 11 | Phone: conversation | `#melding` | 10 | One thread; an invitation can go in the plan (FR-55) | yes |
-| 12 | Event | `#hendelse` | Active months | Dimmed mirror, options as actions with kroner | yes |
+| 12 | Event | `#hendelse` | Active months | Dimmed mirror, options as actions with kroner (FR-13) | yes |
 | 13 | Result | `#resultat` | 12 | Chips, "Tidligere valg", "Hvorfor?", what changed | yes |
 | 14 | "Hvorfor?" | inline on 13 | 13, money | Cause behind a change (FR-36, FR-38) | yes (inline) |
 | 15 | Month plan | `#plan` | Tab, sticker "ledige kvelder" | Free evenings by tapping: activities and one-off shifts (FR-47, FR-52, FR-53) | yes |
 | 16 | Job | `#jobb` | Tab, sticker "Jobb 14 t", pane | Job, wage, hours, offers, ask for more or fewer hours, one-off shifts, end extra shifts, quit (FR-47, FR-56) | yes |
-| 17 | Money (bank) | `#penger` | Tab, accounts tile, pane | Accounts, interest, BSU, card, goal, spending, transactions | yes |
+| 17 | Money (bank) | `#penger` | Tab, accounts tile, pane | Accounts, interest, BSU, card, savings target and life goal, what comes next, buy and sell, spending, transactions (FR-9c, FR-22, FR-23, FR-26, FR-29, FR-45, FR-48, FR-57) | yes |
 | 18 | Wellbeing | tile on 08 | 08 | Score with a status, three parts with a status, their consequences (FR-33) | yes (tile) |
 | 19 | Year | `#aar` | The timeline, "Året ›" | Life bar, money per month, what unlocks | yes |
-| 20 | Card warning | — | Age 18+ | Card debt in kroner, no scolding (5.11) | spine-only |
-| 21 | Crisis month | — | Unpaid bills | Up to three steps, always a way out (FR-32) | spine-only |
-| 22 | Driving minigame | — | Licence purchase | Turn-based, no timing (FR-51) | spine-only |
-| 23 | Year end | — | December | Summary and teaser (FR-14) | spine-only |
-| 24 | Welcome back | — | Login after a break | Quick recap (UJ-2) | spine-only |
-| 25 | Ending | — | 20th birthday | Four endings, three choices that mattered (FR-41, FR-42) | spine-only |
-| 26 | Menu | — | Rail or avatar | Account, nickname, information, privacy, new life, log out, delete user (FR-43, FR-44) | spine-only |
-| 27 | About the numbers | — | 26 | Disclosed simplifications (FR-40) | spine-only |
-| 28 | Offline | — | Any | Readable, options locked (FR-8) | spine-only |
+| 20 | Card warning | `#kort` | Age 18+, first month with card interest | Card debt in kroner, no scolding (FR-31) | yes |
+| 21 | Crisis month | `#krise` | A trigger at month end | Up to three choices, always a way out (FR-32) | yes |
+| 22 | Driving minigame | — | Licence purchase | Turn-based, no timing (FR-51). Waits for #51 | spine-only |
+| 23 | Year end | `#aarsslutt` | December | Summary and teaser (FR-15) | yes |
+| 24 | Welcome back | `#velkommen` | Login, or an hour away | Quick recap (FR-16, UJ-2) | yes |
+| 25 | Ending | `#slutt`, `#slutt-hul`, `#slutt-ikke`, `#slutt-tap` | 20th birthday | Four endings, three choices that mattered (FR-41, FR-42, FR-43) | yes |
+| 26 | Menu | `#meny` | Rail avatar, menu button on the scene | Nickname, password, information, new life, log out, delete user (FR-4, FR-5, FR-43, FR-44) | yes |
+| 27 | About the numbers | `#tallene` | 26 | Disclosed simplifications (FR-40) | yes |
+| 28 | Offline | `#offline` (state) | Any | Readable, options locked (FR-8) | yes |
 
-→ Composition reference: `.working/round3/index.html` (open `#hjem`, `#plan`, `#aar`, `#penger`, `#jobb`). The spine wins on conflict.
+→ Composition reference: `mockups/index.html` (open `#hjem`, `#plan`, `#aar`, `#penger`, `#jobb`). `mockups/oversikt.html` shows every surface and its states on one page. The spine wins on conflict.
+
+**Room.** The PRD's room (FR-34) is the mirror scene. There is no separate room screen.
 
 ## Voice and Tone
 
@@ -101,10 +103,24 @@ Behavioral. Visual specs are in `DESIGN.md` → Components.
 |---|---|
 | Timeline | Shown at the top of 08, 12, 13 and 15. It is one link to Året. Past, current and coming months differ by fill and outline, not only colour. Its accessible name reads "November 2027, du er 16 år. Åpne året." |
 | Mirror scene | `role="img"` with a text alternative that matches the scene state. Stickers on it are real links, each with count or state as text ("2 nye", "2 ledige kvelder", "Jobb 14 t"). The marker shows the nickname on the hub and the outcome on the result. |
+| Room layers | One layer per belonging, set from flags, so the mirror looks the same after a reload and on every device. Three in version one: moped (none / owned), licence (none / moped / car) and phone (whole / cracked / used); the team may add up to three (FR-34, configuration). A layer changes in the same view as the choice that changed it: the result, or the hub when something is sold in the bank. The scene's text alternative names every belonging («Mopeden står utenfor vinduet, og hjelmen ligger på esken.»), and the change is announced and listed in the outcome list. |
 | Next month (CTA) | One primary action per screen. A quiet month can be finished in one tap from 08 (principle 5). |
+| Savings target | One option with a price, pinned in the bank (FR-57): progress from current account plus savings, the price, when it opens, and what's missing. «Bytt sparemål» opens a sheet; pinning moves no money. The life goal's progress is shown below it (FR-9c). Cleared with a note when the option is taken or given. |
+| What comes next | Two closed rows in the bank: next month's known costs, and activity spend this year by kind (FR-57). In month 60 the first is empty. |
+| Open options | In the bank, «Kan kjøpes eller selges» (FR-48): each open option with its price, «Mangler … kr» when short, the reason when blocked, or a lock with the age. Selling shows today's value and asks once in a sheet with what it changes (FR-29). |
+| Credit card | From 18, in the bank (FR-26): balance, limit, how the bill is paid (whole, minimum or fixed), card use on/off, this month's interest in kroner and the cost of paying only the minimum. A consumer loan shows its monthly payment and total before it's taken (FR-25). `[NOTE FOR UX]` the 18+ bank isn't drawn; it reuses the account rows, radio cards and facts card. |
+| Card warning | An event (FR-31): the facts first (debt, interest this month, time and cost at the minimum, and whether the player couldn't pay or chose to pay less), then the options that are possible. Shown before the next interest charge. |
+| Crisis | Up to three linked choices (FR-32). Each step shows «Valg n av inntil 3», what is owed, and only options that are possible, each saying when it lands. Asking family and doing nothing are always offered, except that the family can't be asked twice in one crisis. It ends when no trigger is true, after the third step, or when the player ignores it. |
+| Recap | After login or an hour away (FR-16): where they are, the current account, new messages this month, how much is planned, and a teaser with a price against what they have. One button continues. |
+| Year end | The year's money, what changed, the average wellbeing, and a teaser for the next unlock (FR-15). Two buttons: continue, or «Ferdig for nå». Nothing locks the player out. |
+| Ending | The outcome as a heading, one sentence, three facts (goal, average wellbeing with a status, debt), and up to three choices ranked by size in kroner (FR-42). Each opens to the «hvis du hadde valgt annerledes» line and a tip (FR-39). A hollow win includes the choice that hurt wellbeing most. One button: «Spill på nytt». After the ending, login lands here (FR-43). |
+| Notification | Below 1100 px, a toast on Hjem when the month opens with a new message. It opens the conversation, closes with ×, and goes away by itself; the message stays in the inbox. A polite status message. On desktop the pane shows the inbox instead. |
+| Menu | Nickname and password in sheets. Log out on all devices, start a new life and delete user ask for confirmation; delete asks for the password (FR-44). |
+| Player information | On sign-up before the user is created, and in the menu (NFR-3): what is stored, why, how long, how to delete it, and which services handle it. The same text in both. |
 | Money chip | Read-only, except an interest chip, which is a button that opens the interest sheet. |
 | Interest (i) | Every interest amount (hub chip, savings account, transaction) opens the same sheet: what interest is, balance × rate = this month, and the BSU rate. The text comes from the engine. |
-| Wellbeing tile | Shows the score, three parts, and at least one consequence the player can act on (evenings from free time; the average so far against the threshold once month 19 is calculated, FR-33). The score and each part also show how it is going, in a word with a status colour (good, warn, bad). The word is always there. The bands follow the wellbeing threshold in the PRD (50 by default, configuration): under it is bad, from it to 9 above is ok, 10 above and up is good. Stress is mirrored (100 − stress). The server sends the band with the figure. |
+| Same as last month | «Samme som i oktober» in the plan places last month's activities on free evenings, each checked as a normal placement (FR-52). Hidden when there is nothing to place. |
+| Wellbeing tile | Shows the score, three parts, and at least one consequence the player can act on (evenings from free time; the average so far against the threshold once month 19 is calculated, FR-33). The score and each part also show how it is going, in a word with a status colour (good, warn, bad). The word is always there. The bands follow the wellbeing threshold in the PRD (50 by default, configuration): under it is bad, from it to 9 above is ok, 10 above and up is good. Stress is mirrored (100 − stress). The server sends the band with the figure. Stress and Sosialt show the month's value including the plan, with «Vanligvis n» under the bar when the two differ (FR-33). |
 | Slot row | Empty, below 1100 px → "+ Legg til" opens the add list for that evening. Empty, from 1100 px → no button; the row says «Velg i lista →» as plain text, since the list is already beside it. Filled → a × removes it, free, while the month is open (FR-53). School and work are one locked line. An empty evening has no effect (FR-52). |
 | Add list | Fritid / Jobb tabs. Fritid lists activities with cost and effect. Jobb lists this month's one-off shifts with name, hours and pay, and needs a job (FR-47). A shift takes one evening, has no wellbeing effect of its own, and has no day or date (FR-52). A placed item shows a check. When there are no free evenings, the add buttons are disabled. From 1100 px: the right column, always visible, and a + places the item on the first free evening. Below 1100 px: a sheet titled with the evening, and a + places the item on that evening. The plan's total covers activity costs only, never wages (FR-52). |
 | Past choice note | Shown when an earlier choice explains something now. One sentence naming the month and the choice. Replaces "Ekko" (FR-37 cause links). |
@@ -115,16 +131,23 @@ Behavioral. Visual specs are in `DESIGN.md` → Components.
 | Spending choice | Three radio cards with kroner and examples. The current level is marked "Dette bruker du nå". A change shows "Gjelder fra desember" (FR-23). |
 | Year chart | Each month is a button. The selection updates a three-figure detail (`role="status"`). The table view lists the same data. Coming months are inert. |
 | Locked post-it | Shows what it is and when it opens; never tappable as an option before it unlocks (FR-18). |
-| Phone message | Read-only. An invitation has one action, "Legg i planen", plus "Nei takk". Reading the message clears its unread dot and badge. |
+| Phone message | Read-only. An offer can carry a short tip (FR-19), as one sentence under the offer. An invitation has one action, "Legg i planen", plus "Nei takk". Grouped as «Nye i <måned>» and «Tidligere», so this month's messages stay marked as new all month (FR-54). The dot and the badge clear when a message is opened, in the open page only: nothing about reading is stored, and a reload shows them again (#112). |
 | Sheet | Native `<dialog>`: focus moves in and returns, Esc closes, a scrim click closes. One level deep. |
 
 ## State Patterns
 
 | State | Surface | Treatment |
 |---|---|---|
-| Saving | Any choice | Options locked and a short saving state. No result until the server confirms (FR-6). |
-| Still trying | Any choice > 5 s | «Prøver fortsatt …», retries on reconnect, never applies a choice twice. `[NOTE FOR UX]` not drawn |
-| Offline | Any | The screen stays readable, options and next month are locked, and the text says why (FR-8). Announced. `[NOTE FOR UX]` not drawn |
+| Saving | Any choice | Every option locks, the chosen one reads «Lagrer …», and it is announced. No result until the server confirms (FR-6). |
+| Still trying | Any choice > 5 s | «Prøver fortsatt …», retries on reconnect, never applies a choice twice. It replaces «Lagrer …» in the same place. |
+| Updated on another device | Any | The screen reloads with «Spillet ble oppdatert på en annen enhet.» (FR-8) |
+| Server waking | First load | A loading message within 1 s, usable within 10 s (NFR-10). |
+| Login failed | 03 | «Feil e-post eller passord.» for either, focus on the email. After repeated failures: «Prøv igjen om en stund, eller lag nytt passord.» (FR-2) |
+| Reset link used or expired | 04 | Says so and offers a new one (FR-3). |
+| Confirm before continuing | 08 | If the plan would set off a crisis trigger, continuing asks first (FR-49). |
+| Minigame unfinished | 08, 22 | The player can't continue to the next month; the CTA names the game (FR-49, FR-51). |
+| After the ending | 25 | The ending is read-only until a new life starts (FR-43). |
+| Offline | Any | The screen stays readable, options and next month are locked, and a bar says «Ingen nett. Valgene venter til du er på nett igjen.» (FR-8). Announced. |
 | Quiet month | 08 | The heading is "Denne måneden", the chips show wage, spending and interest. No event text. |
 | Unread | 08, tabs, 10 | A coral dot on the sticker, a count badge on the Mobil tab/rail, bold rows in the inbox. "1 ny" / "2 nye". |
 | Something new in an area | Tabs/rail | A bare coral dot on Plan (free evenings left) and Jobb (an unanswered offer). Screen-reader text: ", noe nytt". |
@@ -132,6 +155,7 @@ Behavioral. Visual specs are in `DESIGN.md` → Components.
 | Offer open | 16 | The two ask buttons are disabled, with «Svar på tilbudet først.» |
 | Hours request sent | 16 | The two buttons give way to «Du har spurt om flere timer. Line svarer i desember.» |
 | Email check | 02 | After a valid form: «Sjekk at e-posten er riktig», the address, «Lag bruker» / «Endre e-post». Going back keeps what was typed. |
+| Password too short | 02 | «Passordet må ha minst 8 tegn.», shown with the other errors at once; focus on the first. |
 | Email invalid | 02 | A red border, «Skriv en hel e-postadresse, som navn@eksempel.no.», focus on the field, `aria-invalid`. |
 | No free evening | 15, 11 | Add buttons disabled; the invitation says «Alle de frie kveldene er brukt.» Remove an activity first. |
 | Can't afford | 12, 15 | Activities are paid from the current account, then savings (FR-45), so "Mangler … kr" appears only when both are short. It shows the missing amount and stays unselectable (FR-53). |
@@ -172,7 +196,7 @@ Behavioral. Contrast is measured in `DESIGN.md` → Colors.
 | 768–1099 | A rail plus one column. The scene is capped at 480 px tall, with the mirror centred on a wide wall. The CTA is sticky at the end. The plan is one column, and "Legg til" opens a sheet. |
 | ≥ 1100 | Rail, centre and the phone pane in a device frame (real-app look: an app bar, a cobalt back link, flat rows). The mirror stands centred on a wide wall with the stickers to the right. The plan shows two columns with the add list always visible, and empty evenings have no button. Area routes open in the pane while the centre shows Hjem. |
 
-There is no dark mode in this draft (`[ASSUMPTION]`: it needs a night scene).
+Version one has light mode only. Dark mode would need a night scene.
 
 ## Inspiration & Anti-patterns
 
@@ -192,13 +216,22 @@ The protagonist is Markus, from the PRD. In the prototype his nickname is "Mak".
 1. 01: he taps «Lag bruker».
 2. 02: email once (shown back for checking), password, and «Hva skal vi kalle deg?» → «Mak». Emma's preview bubble updates as he types.
 3. 05–06: picks «Spare til noe stort» and a hoodie colour; the mirror figure changes colour.
-4. 07: gets a pengegave and makes his first choice.
+4. 07: gets 18 500 kr and chooses «Sett alt på sparekontoen». It reads «Lagrer …» until the server confirms.
 5. **Climax:** 13 shows the money with a sign and a word, wellbeing revealed, and the mirror reflecting his mood, because of his own choice.
 6. 08: months pass. Line at Butikken messages him (09–11), and he takes the job she offers (16).
 
 Edge: the bus arrives mid-choice → the confirmed choice is kept (FR-6).
 
-### Flow 2 — November with extra shifts (Markus, 17, evening) · UJ-6
+### Flow 2 — Back on a school PC (Markus, 15, four days later, bored in class) · UJ-2
+
+1. 03: he logs in with email and password and leaves «Forbli innlogget» unticked.
+2. 24: «Hei igjen, Mak. Alt er som da du gikk.» The recap shows the month, the current account, new messages and the plan.
+3. **Climax:** the teaser names the licence and its price next to what he has. He sees how far it is.
+4. 08: he continues in the same month.
+
+Edge: he forgot the password → 04, same answer whether or not the email exists. He logs in on his phone later → the progress is there (FR-8). He forgets to log out → «Logg ut på alle enheter» (26).
+
+### Flow 3 — November with extra shifts (Markus, 17, evening) · UJ-6
 
 1. 08: November opens. The timeline marks November, «Denne måneden» shows +8 457 kr lønn, −6 593 kr brukt, +56 kr rente. The sticker says «2 nye».
 2. 10–11: Emma invites him to a concert. He taps «Legg i planen», and it lands on Kveld 2.
@@ -207,21 +240,25 @@ Edge: the bus arrives mid-choice → the confirmed choice is kept (FR-6).
 5. **Climax:** he sees time and money traded in one sentence, and chooses.
 6. 08: «Fortsett til desember».
 
-### Flow 3 — Interest grew (Markus, mid-game) · UJ-3
+Edge: he can't afford the concert → it shows the missing amount and can't be placed. He does nothing → the invitation runs out at the end of the month.
+
+### Flow 4 — Interest grew (Markus, mid-game) · UJ-3
 
 1. 10: Banken: «Tre fjerdedeler! Du har 79,8 % av Lappen.»
 2. 17: he taps «+56 kr rente (i)» on the savings account.
 3. **Climax:** the sheet shows 23 500 kr × 2,87 % = 56 kr this month, and «Jo mer du har der, og jo lenger, jo mer får du.»
 4. 19: on Året, the blue interest strip shows it month by month.
 
-### Flow 4 — The phone breaks (Markus, 16, November event)
+Edge: he has nothing in savings → the hub shows no interest chip, and no bank message comes.
 
-1. 08: «Fortsett» → 12: the mirror dims, and «Mobilen gikk i bakken» is written on the glass.
+### Flow 5 — The phone breaks (Markus, 16, November event)
+
+1. 08: «Fortsett» → 12: the mirror dims, the phone in his hand is cracked, and «Mobilen gikk i bakken» is written on the glass.
 2. He picks «Reparer skjermen −2 500 kr».
 3. **Climax:** 13: «Tidligere valg: I januar i fjor satte du pengegaven på sparekontoen. Den dekket de 136 kr du manglet.»
 4. «Hvorfor?» splits the 2 500 kr into 2 364 kr from the current account and 136 kr from savings. The outcome list shows «Mobilen er hel igjen.» and «Sparemålet Lappen: 79,8 % → 72,1 %».
 
-### Flow 5 — Asking for more hours (Markus, 18, paying down a card) · UJ-4
+### Flow 6 — Asking for more hours (Markus, 18, paying down a card) · UJ-4
 
 1. 20: card warning in kroner, no scolding.
 2. 17: he moves from «Mye» down to «Vanlig» under «Hvor mye bruker du i måneden?». It shows that the change applies from next month.
@@ -230,18 +267,26 @@ Edge: the bus arrives mid-choice → the confirmed choice is kept (FR-6).
 5. 08: the wellbeing tile moves as his free time drops.
 6. **Climax:** six months later the card is paid. He had fewer evenings with friends, and the wellbeing tile showed why.
 
-Edge: missing the minimum twice starts a crisis month (21).
+Edge: missing the minimum twice starts a crisis month (21). «Spør mamma om hjelp» covers 500 of 700 kr, and the next choice is a payment plan or selling the moped, which then leaves the mirror.
 
-### Flow 6 — Turning 20 (Markus) · UJ-5
+### Flow 7 — Turning 20 (Markus) · UJ-5
 
-1. 25: a summary of his life, the three choices that mattered, and «if you had chosen differently» lines (FR-39).
+1. 25: «Du klarte målet.» The mirror shows his room as it ended up, with the three facts and the three choices that mattered. He opens «Du brukte 15 000 kr av pengegaven»: «Hadde du valgt å spare alt, ville du hatt 17 270 kr mer da du fylte 20.» (FR-39)
 2. **Climax:** he understands which choices shaped the ending.
-3. 26: he starts a new life with a new goal and pengegave (FR-43).
+3. «Spill på nytt» → 05: a new goal and a new pengegave (FR-43).
+
+Edge: hollow win (goal reached, average under 50), goal not reached (never framed as failure) and loss (a trigger still true after month 60) each have their own heading and sentence.
+
+## Coverage
+
+- **Not UX surfaces:** FR-12, FR-17, FR-20, FR-21, FR-24, FR-46, FR-50 and FR-58 are engine, content or test rules. They reach the player through the surfaces above.
+- **Spine-only:** 22 Driving minigame. It follows the event layout: one traffic situation, two to four answers, no timing, and the result on 13. It waits for #51.
+- **FR-28 and FR-30 (licences):** bought as open options in the bank; the gift arrives as a message. Both change the licence layer.
+- **FR-35 (what a choice opened or closed):** an extension in the PRD. Not drawn, after the team dropped «Åpnet/Stengt». The outcome list shows what changed.
+- **FR-27 (family help):** appears as an option in events and crises, never as advice on its own.
 
 ## Open Questions
 
-- **Usual and this month `[NOTE FOR UX]`:** FR-33 shows stress and social life both as the usual value and with this month's activities. The tile shows one value.
-- **Same as last month `[NOTE FOR UX]`:** FR-52 has one action that places last month's activities again. It isn't drawn.
-- **Unread marks:** FR-54 stores nothing about reading, and marks messages new only in the month they arrive. Proposal, waiting for the group: the dot and the badge clear when a message is opened, kept only in the open page and never stored, and they all clear when the month changes. A «Ny» tag stays on the month's messages. The mockup clears Emma's message this way. It has no «Ny» tag, and the bank's message doesn't clear.
-- **Where the mockup is behind this spine:** the player information (NFR-3) isn't on the sign-up screen, and the password isn't checked for 8 characters.
+- **Unread marks (#112):** built as proposed; the group can still choose otherwise.
+- **Player information:** the wording follows the architecture (AD-14). The frontend team owns the final text, and the 12-month deletion is named only if that job is built (NFR-3).
 - **Unverified:** whether the stickers on the mirror read well at 320 px; test with players.

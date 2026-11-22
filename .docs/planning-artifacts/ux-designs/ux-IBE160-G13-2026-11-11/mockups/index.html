@@ -51,7 +51,7 @@ p{max-width:62ch}
 /* scene colours: change one variable to restyle the illustration */
 :root{--sc-hoodie:#2B4CC4;--sc-hoodie-shade:#243A96;--sc-hoodie-line:#1E2B71;--sc-skin:#E6B796;--sc-skin-shade:#C49B83;--sc-hair:#3A2A20;--sc-hair-hi:#6B5C52;--sc-pants:#E4D6BC;--sc-pants-shade:#C7B9A6;--sc-wall:#C7D5C0;--sc-wall-lit:#DCE6D2;--sc-wall-mirror:#A9BBA3;--sc-frame:#1C1C20;--sc-sky:#DCEBF2}
 /* ---------- shell ---------- */
-.app{display:grid;grid-template-columns:1fr;min-height:100dvh}
+.app{display:grid;grid-template-columns:minmax(0,1fr);min-height:100dvh}
 .rail{display:none}
 .main{padding:var(--s4) var(--s4) 168px;max-width:720px;width:100%;margin:0 auto}
 .pane{display:none}
@@ -146,6 +146,7 @@ button.chip:hover{background:var(--cobalt-soft)}
 .scene{position:relative;border-radius:var(--r-xl);overflow:hidden;background:var(--sc-wall);aspect-ratio:362/470;max-height:480px;width:100%;box-shadow:var(--shadow-card)}
 .scene-in{position:relative;height:100%;aspect-ratio:362/470;margin:0 auto;max-width:100%}
 .scene-in>.art{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scene.dim{background:#6F756B}
 .scene.dim .art{filter:brightness(.55) saturate(.8)}
 .marker{position:absolute;font-family:var(--marker);font-weight:700;font-size:22px;line-height:1;color:var(--ink)}
 .scene.dim .marker{color:#fff}
@@ -156,6 +157,57 @@ button.chip:hover{background:var(--cobalt-soft)}
 .hub-top{display:grid;gap:var(--s5)}
 @media (min-width:768px){.scene.room{--sc-beam:var(--sc-wall)}}
 @media (min-width:1100px){.scene.room{aspect-ratio:auto;height:430px;max-height:none}.scene.room .scene-stk{right:24px;bottom:auto;top:50%;transform:translateY(-50%)}}
+
+.scene-menu{position:absolute;left:10px;bottom:12px;width:44px;height:44px;border-radius:999px;background:var(--white);border:1.5px solid var(--muted);box-shadow:var(--shadow-stick);display:grid;place-items:center}
+@media (min-width:768px){.scene-menu{display:none}}
+a.rail-me{text-decoration:none;border-radius:var(--r-md)}
+a.rail-me:hover,a.rail-me[aria-current]{background:var(--hair-2)}
+
+/* ---------- states: offline, saving, notification ---------- */
+.net{display:flex;align-items:center;gap:var(--s2);background:var(--ink);color:var(--paper);border-radius:var(--r-lg);padding:var(--s3) var(--s4);font-weight:700;margin-bottom:var(--s3)}
+.btn[aria-disabled="true"]{background:var(--hair-2);border-color:var(--muted);color:var(--muted);cursor:not-allowed;transform:none;box-shadow:none}
+.ev-opt[disabled]{opacity:.5;cursor:not-allowed;transform:none;background:var(--white)}
+.ev-opt.saving{opacity:1}
+.toast{position:fixed;z-index:40;top:12px;left:var(--s4);right:var(--s4);max-width:480px;margin:0 auto;display:flex;align-items:center;gap:var(--s3);background:var(--white);border-radius:var(--r-xl);padding:var(--s3) var(--s4);box-shadow:0 8px 24px rgba(26,28,42,.22);animation:drop .45s var(--ease) both}
+.toast a{flex:1;min-width:0;display:flex;gap:var(--s3);align-items:center;text-decoration:none}
+.toast p{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.toast b{display:block;font-size:14px}
+.toast .x{background:none;border:0;margin-right:-8px}
+@keyframes drop{from{transform:translateY(-24px);opacity:.3}to{transform:none;opacity:1}}
+@media (min-width:1100px){.toast{display:none}}
+
+/* ---------- story screens: gift, warning, crisis, year end, recap, ending ---------- */
+.story{max-width:640px;margin:0 auto}
+.lead{font-size:17px}
+.steps{display:flex;align-items:center;gap:var(--s2);font-size:14px;font-weight:700;color:var(--muted);margin-top:var(--s3)}
+.steps i{width:28px;height:8px;border-radius:999px;background:var(--paper);box-shadow:inset 0 0 0 1.5px var(--muted)}
+.steps i.on{background:var(--ink);box-shadow:none}
+.ev-opt span small{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-top:2px}
+.facts{margin-top:var(--s4)}
+.facts .pill{font-size:14px}
+.choice-d{background:var(--white);border-radius:var(--r-lg);box-shadow:var(--shadow-card)}
+.choice-d summary{display:flex;align-items:center;gap:var(--s3);padding:var(--s4);cursor:pointer;list-style:none;font-weight:800;min-height:56px}
+.choice-d summary::-webkit-details-marker{display:none}
+.choice-d summary .i{transition:transform .25s var(--ease)}
+.choice-d[open] summary .i{transform:rotate(90deg)}
+.choice-d summary .amt{margin-left:auto;white-space:nowrap}
+.choice-d>div{padding:0 var(--s4) var(--s4);display:grid;gap:var(--s2)}
+.menu{list-style:none;display:grid;gap:var(--s2)}
+.menu a,.menu button{width:100%;display:flex;align-items:center;gap:var(--s3);min-height:56px;padding:0 var(--s4);background:var(--white);border-radius:var(--r-lg);box-shadow:var(--shadow-card);font-weight:700;text-decoration:none;text-align:left}
+.menu a:hover,.menu button:hover{box-shadow:var(--shadow-card),0 0 0 2px var(--ink)}
+.menu .i:last-child{margin-left:auto}
+.menu .val{margin-left:auto;color:var(--muted);font-weight:600}
+.danger{color:var(--press)}
+.us{grid-column:1/-1;font-size:12px;font-weight:600;color:var(--muted)}
+.grp{font-size:14px;margin:var(--s4) 0 var(--s2)}
+.grp:first-child{margin-top:0}
+.more summary{display:flex;align-items:center;gap:var(--s3);min-height:44px;cursor:pointer;font-weight:800;list-style:none}
+.more summary::-webkit-details-marker{display:none}
+.more summary .amt{margin-left:auto}
+.more+.more{border-top:1px solid var(--hair-2)}
+.more summary .i{transition:transform .25s var(--ease)}
+.more[open] summary .i{transform:rotate(90deg)}
+.info-box{background:var(--paper);border-radius:var(--r-lg);padding:var(--s4);font-size:14px;display:grid;gap:var(--s2)}
 
 /* ---------- hub ---------- */
 .month-sum{display:grid;gap:var(--s3)}
@@ -176,7 +228,7 @@ button.chip:hover{background:var(--cobalt-soft)}
 .sdot.good{background:var(--good)} .sdot.warn{background:var(--warn);box-shadow:inset 0 0 0 1px rgba(26,28,42,.35)} .sdot.bad{background:var(--bad)}
 .st-w{font-weight:600;color:var(--muted)}
 .tile .big{display:flex;align-items:baseline;gap:var(--s2);flex-wrap:wrap}
-.pill{align-self:center;display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:800;letter-spacing:0;padding:3px 10px 3px 8px;border-radius:999px;color:var(--ink)}
+.pill{align-self:center;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:800;letter-spacing:0;padding:3px 10px 3px 8px;border-radius:999px;color:var(--ink)}
 .pill.good{background:var(--good-soft)} .pill.warn{background:var(--warn-soft)} .pill.bad{background:var(--bad-soft)}
 .wb-foot{margin-top:var(--s3);padding-top:var(--s3);border-top:1px solid var(--hair-2);font-size:13px;font-weight:600;color:var(--muted)}
 .wb-foot b{color:var(--ink)}
@@ -313,13 +365,16 @@ button.chip:hover{background:var(--cobalt-soft)}
 .col .base{width:100%;background:var(--ink)}
 .col .dn{align-self:start;width:min(14px,70%);background:var(--out);border-radius:0 0 4px 4px}
 .col .m{font-size:11.5px;font-weight:700;color:var(--muted);margin-top:4px}
+.col .m i{font-style:normal}
+@media (max-width:359px){.col .m i{display:none}}
 .col.now .m{color:var(--ink);font-weight:800}
 .col.fut .up,.col.fut .dn{background:transparent}
 .col.fut .m{opacity:.7}
 .rate-strip{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;align-items:end;height:40px;margin-top:var(--s2)}
 .rate-strip i{justify-self:center;width:min(10px,60%);background:var(--rate);border-radius:3px 3px 0 0}
 .rate-lbl{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--muted);margin-top:var(--s3)}
-.detail{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s2);margin-top:var(--s3)}
+.detail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2);margin-top:var(--s3)}
+@media (max-width:359px){.detail{grid-template-columns:1fr}}
 .detail div{background:var(--paper);border-radius:var(--r-md);padding:var(--s2) var(--s3)}
 .detail span{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--muted)}
 .detail b{font-size:17px;font-weight:800;display:block;margin-top:2px}
@@ -410,16 +465,20 @@ dialog.sheet[open]{animation:up .35s var(--ease)}
 <clipPath id="sc-selfie-glass"><polygon points="63,159 281,159 291,763 53,763"/></clipPath>
 <rect width="390" height="844" fill="var(--sc-wall)"/>
 <polygon points="0,150 150,108 150,520 0,600" fill="var(--sc-beam,var(--sc-wall-lit))"/><rect x="0" y="742" width="390" height="10" fill="#EEF0E8"/><rect x="0" y="752" width="390" height="92" fill="#C99A6B"/><path d="M-40 752 L-70 844" stroke="#A8805D" stroke-width="1.5"/><path d="M24 752 L-6 844" stroke="#A8805D" stroke-width="1.5"/><path d="M88 752 L58 844" stroke="#A8805D" stroke-width="1.5"/><path d="M152 752 L122 844" stroke="#A8805D" stroke-width="1.5"/><path d="M216 752 L186 844" stroke="#A8805D" stroke-width="1.5"/><path d="M280 752 L250 844" stroke="#A8805D" stroke-width="1.5"/><path d="M344 752 L314 844" stroke="#A8805D" stroke-width="1.5"/><path d="M408 752 L378 844" stroke="#A8805D" stroke-width="1.5"/><polygon points="0,790 120,770 160,844 0,844" fill="#D6B08B" opacity=".6"/>
-<polygon points="38,778 316,778 304,768 46,768" fill="#896850" opacity=".5"/><polygon points="54,150 290,150 300,772 44,772" fill="var(--sc-frame)"/><g id="sc-selfie-speilbilde" clip-path="url(#sc-selfie-glass)"><rect x="0" y="0" width="390" height="844" fill="var(--sc-wall-mirror)"/><rect x="96" y="196" width="56" height="96" fill="var(--sc-sky)"/><path d="M124 196 V292 M96 244 H152" stroke="#EEF0E8" stroke-width="5"/><rect x="92" y="192" width="64" height="104" fill="none" stroke="#EEF0E8" stroke-width="6"/><polygon points="96,330 156,322 176,560 116,575" fill="#BAC6B1"/><rect x="232" y="352" width="44" height="60" fill="#F2EEE4"/><circle cx="254" cy="374" r="12" fill="#FF6F59"/><rect x="240" y="394" width="28" height="4" fill="#1A1C2A"/><rect x="0" y="612" width="390" height="240" fill="#AD8459"/><rect x="0" y="606" width="390" height="8" fill="#D4D4D0"/><polygon points="116,575 176,560 196,700 126,720" fill="#BC9873"/><path d="M232 560 H300 V640 H232 Z" fill="#E9E4F2"/><path d="M232 560 C250 552 280 552 300 560 V574 H232 Z" fill="#CFC6E0"/><rect x="226" y="640" width="80" height="12" fill="#B3AEBD"/><rect x="62" y="560" width="64" height="52" fill="#C4935F"/><rect x="116" y="560" width="10" height="52" fill="#A47A53"/><rect x="89.0" y="560" width="10" height="12" fill="#DFBF9E"/><path d="M62 572 H126" stroke="#8F6A4C" stroke-width="1.5"/><rect x="68" y="514" width="52" height="46" fill="#C4935F"/><rect x="110" y="514" width="10" height="46" fill="#A47A53"/><rect x="89.0" y="514" width="10" height="12" fill="#DFBF9E"/><path d="M68 526 H120" stroke="#8F6A4C" stroke-width="1.5"/><g id="sc-selfie-figur" transform="translate(206 332.0) scale(0.4100)"><ellipse cx="6" cy="1000" rx="150" ry="16" fill="#7E5F47" opacity=".5"/><g transform="scale(1.0 1)"><path d="M-86 470 L-4 470 L-12 968 L-92 968 C-98 800 -100 640 -86 470 Z" fill="var(--sc-pants)"/><path d="M4 470 L88 470 C100 640 100 800 94 968 L14 968 Z" fill="var(--sc-pants)"/><path d="M40 470 L88 470 C100 640 100 800 94 968 L56 968 C62 800 58 620 40 470 Z" fill="var(--sc-pants-shade)"/><path d="M-4 480 L-10 700" stroke="var(--sc-pants-shade)" stroke-width="4"/><path d="M-60 900 C-40 910 -26 908 -14 900" stroke="var(--sc-pants-shade)" stroke-width="4" fill="none"/><path d="M-98 954 C-104 972 -102 990 -90 996 L-2 996 C6 990 6 970 -4 954 Z" fill="#FAFAF7"/><rect x="-102" y="986" width="108" height="12" rx="5" fill="#CCCACC"/><path d="M10 954 C4 972 6 990 18 996 L104 996 C112 990 112 970 102 954 Z" fill="#FAFAF7"/><rect x="6" y="986" width="106" height="12" rx="5" fill="#CCCACC"/><path d="M-90 168 C-66 148 -28 144 0 148 C28 144 66 148 90 168 C106 210 110 320 104 440 C104 466 100 482 92 494 L-92 494 C-100 482 -104 466 -104 440 C-110 320 -106 210 -90 168 Z" fill="var(--sc-hoodie)"/><path d="M30 150 C60 150 80 156 90 168 C106 210 110 320 104 440 C104 466 100 482 92 494 L44 494 C64 420 62 260 30 150 Z" fill="var(--sc-hoodie-shade)"/><rect x="-94" y="470" width="190" height="26" rx="6" fill="var(--sc-hoodie-shade)"/><path d="M-52 372 L52 372 L60 452 L-60 452 Z" fill="var(--sc-hoodie-shade)" opacity=".55"/><path d="M-44 150 C-40 196 40 196 44 150 C30 134 -30 134 -44 150 Z" fill="var(--sc-hoodie-shade)"/></g><g transform="translate(0 140) scale(1.2) translate(0 -140)"></g><g transform="translate(0 140) scale(1.2) translate(0 -140)"><rect x="-17" y="118" width="34" height="44" fill="var(--sc-skin-shade)"/><ellipse cx="2" cy="76" rx="46" ry="60" fill="var(--sc-skin)"/><path d="M24 24 C48 40 52 90 40 118 C30 130 18 136 4 136 C30 110 36 60 24 24 Z" fill="var(--sc-skin-shade)"/><ellipse cx="47" cy="84" rx="8" ry="13" fill="var(--sc-skin-shade)"/><path d="M-48 70 C-56 18 -26 -12 6 -10 C42 -8 60 22 52 72 C48 52 42 40 32 34 C16 44 -12 32 -28 42 C-38 48 -44 58 -48 70 Z" fill="var(--sc-hair)"/><path d="M-30 4 C-14 -6 12 -8 28 0 C12 2 -6 6 -22 16 Z" fill="var(--sc-hair-hi)"/><ellipse cx="26" cy="72" rx="4" ry="5" fill="#1A1C2A"/><path d="M18 58 C24 54 32 55 38 59" stroke="var(--sc-hair)" stroke-width="4" fill="none" stroke-linecap="round"/></g><path d="M-90 170 C-112 210 -124 270 -122 320 C-120 344 -108 356 -88 352 C-60 300 -36 200 -24 126 L-60 112 C-70 160 -86 220 -96 270 C-96 240 -92 200 -78 180 Z" fill="var(--sc-hoodie)" stroke="var(--sc-hoodie-line)" stroke-width="3.5" stroke-linejoin="round"/><path d="M-122 320 C-120 344 -108 356 -88 352 C-84 344 -80 336 -78 328 C-96 330 -112 326 -122 320 Z" fill="var(--sc-hoodie-shade)"/><g transform="translate(0 140) scale(1.2) translate(0 -140)"><g transform="rotate(-6 -30 76)"><rect x="-62" y="18" width="60" height="112" rx="12" fill="#FF6F59"/><rect x="-56" y="24" width="28" height="31" rx="8" fill="#B85147"/><circle cx="-48" cy="32" r="5" fill="#1A1C2A"/><circle cx="-36" cy="32" r="5" fill="#1A1C2A"/><circle cx="-48" cy="46" r="5" fill="#1A1C2A"/><circle cx="-36" cy="46" r="2.4" fill="#FFF6D6"/><rect x="-70" y="78" width="30" height="13" rx="6.5" fill="var(--sc-skin)"/><path d="M-48 80 v9" stroke="var(--sc-skin-shade)" stroke-width="2"/><rect x="-70" y="93" width="30" height="13" rx="6.5" fill="var(--sc-skin)"/><path d="M-48 95 v9" stroke="var(--sc-skin-shade)" stroke-width="2"/><rect x="-70" y="108" width="30" height="13" rx="6.5" fill="var(--sc-skin)"/><path d="M-48 110 v9" stroke="var(--sc-skin-shade)" stroke-width="2"/><path d="M-66 120 C-70 134 -64 148 -50 150 C-36 150 -28 140 -30 128 Z" fill="var(--sc-skin)"/></g></g><path d="M86 168 C110 200 122 260 120 320 C118 360 98 400 64 430 L44 410 C70 380 86 352 88 320 C90 280 84 230 76 200 Z" fill="var(--sc-hoodie-shade)"/><path d="M64 430 L44 410 C38 418 36 428 42 436 Z" fill="var(--sc-hoodie-line)"/></g><polygon points="63,159 134,159 63,563 53,603" fill="#FFFFFF" opacity=".10"/><polygon points="164,159 184,159 93,643 83,653" fill="#FFFFFF" opacity=".08"/></g><polygon points="63,159 281,159 291,763 53,763" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity=".5"/>
+<polygon points="38,778 316,778 304,768 46,768" fill="#896850" opacity=".5"/><polygon points="54,150 290,150 300,772 44,772" fill="var(--sc-frame)"/><g id="sc-selfie-speilbilde" clip-path="url(#sc-selfie-glass)"><rect x="0" y="0" width="390" height="844" fill="var(--sc-wall-mirror)"/><rect x="96" y="196" width="56" height="96" fill="var(--sc-sky)"/><g id="sc-selfie-lag-moped" style="display:var(--lag-moped,none)"><g transform="translate(99 262)"><circle cx="9" cy="25" r="6.5" fill="#1A1C2A"/><circle cx="9" cy="25" r="2.6" fill="#D4D4D0"/><circle cx="42" cy="25" r="6.5" fill="#1A1C2A"/><circle cx="42" cy="25" r="2.6" fill="#D4D4D0"/><path d="M4 19 C4 11 13 9 20 12 L22 20 H31 L35 8 L40 8 L44 22 L38 22 L36 26 H17 C15 20 10 18 4 19 Z" fill="var(--sc-moped,#7154A8)"/><path d="M5 11 C9 8 18 8 21 11 L20 13 H6 Z" fill="#1A1C2A"/><path d="M35 9 L33 3 L38 2" fill="none" stroke="#1A1C2A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g></g><path d="M124 196 V292 M96 244 H152" stroke="#EEF0E8" stroke-width="5"/><rect x="92" y="192" width="64" height="104" fill="none" stroke="#EEF0E8" stroke-width="6"/><polygon points="96,330 156,322 176,560 116,575" fill="#BAC6B1"/><rect x="232" y="352" width="44" height="60" fill="#F2EEE4"/><circle cx="254" cy="374" r="12" fill="#FF6F59"/><rect x="240" y="394" width="28" height="4" fill="#1A1C2A"/><rect x="0" y="612" width="390" height="240" fill="#AD8459"/><rect x="0" y="606" width="390" height="8" fill="#D4D4D0"/><polygon points="116,575 176,560 196,700 126,720" fill="#BC9873"/><path d="M232 560 H300 V640 H232 Z" fill="#E9E4F2"/><path d="M232 560 C250 552 280 552 300 560 V574 H232 Z" fill="#CFC6E0"/><rect x="226" y="640" width="80" height="12" fill="#B3AEBD"/><rect x="62" y="560" width="64" height="52" fill="#C4935F"/><rect x="116" y="560" width="10" height="52" fill="#A47A53"/><rect x="89.0" y="560" width="10" height="12" fill="#DFBF9E"/><path d="M62 572 H126" stroke="#8F6A4C" stroke-width="1.5"/><rect x="68" y="514" width="52" height="46" fill="#C4935F"/><rect x="110" y="514" width="10" height="46" fill="#A47A53"/><rect x="89.0" y="514" width="10" height="12" fill="#DFBF9E"/><path d="M68 526 H120" stroke="#8F6A4C" stroke-width="1.5"/><g id="sc-selfie-lag-hjelm" style="display:var(--lag-moped,none)"><path d="M72 514 C68 488 84 474 100 478 C114 481 120 496 117 514 Z" fill="var(--sc-moped,#7154A8)"/><path d="M98 490 C108 488 116 492 118 500 L117 506 L99 506 C95 500 95 494 98 490 Z" fill="#25292E"/><path d="M74 504 C80 506 88 507 96 506" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".5"/></g><g id="sc-selfie-figur" transform="translate(206 332.0) scale(0.4100)"><ellipse cx="6" cy="1000" rx="150" ry="16" fill="#7E5F47" opacity=".5"/><g transform="scale(1.0 1)"><path d="M-86 470 L-4 470 L-12 968 L-92 968 C-98 800 -100 640 -86 470 Z" fill="var(--sc-pants)"/><path d="M4 470 L88 470 C100 640 100 800 94 968 L14 968 Z" fill="var(--sc-pants)"/><path d="M40 470 L88 470 C100 640 100 800 94 968 L56 968 C62 800 58 620 40 470 Z" fill="var(--sc-pants-shade)"/><path d="M-4 480 L-10 700" stroke="var(--sc-pants-shade)" stroke-width="4"/><path d="M-60 900 C-40 910 -26 908 -14 900" stroke="var(--sc-pants-shade)" stroke-width="4" fill="none"/><path d="M-98 954 C-104 972 -102 990 -90 996 L-2 996 C6 990 6 970 -4 954 Z" fill="#FAFAF7"/><rect x="-102" y="986" width="108" height="12" rx="5" fill="#CCCACC"/><path d="M10 954 C4 972 6 990 18 996 L104 996 C112 990 112 970 102 954 Z" fill="#FAFAF7"/><rect x="6" y="986" width="106" height="12" rx="5" fill="#CCCACC"/><path d="M-90 168 C-66 148 -28 144 0 148 C28 144 66 148 90 168 C106 210 110 320 104 440 C104 466 100 482 92 494 L-92 494 C-100 482 -104 466 -104 440 C-110 320 -106 210 -90 168 Z" fill="var(--sc-hoodie)"/><path d="M30 150 C60 150 80 156 90 168 C106 210 110 320 104 440 C104 466 100 482 92 494 L44 494 C64 420 62 260 30 150 Z" fill="var(--sc-hoodie-shade)"/><rect x="-94" y="470" width="190" height="26" rx="6" fill="var(--sc-hoodie-shade)"/><path d="M-52 372 L52 372 L60 452 L-60 452 Z" fill="var(--sc-hoodie-shade)" opacity=".55"/><path d="M-44 150 C-40 196 40 196 44 150 C30 134 -30 134 -44 150 Z" fill="var(--sc-hoodie-shade)"/></g><g transform="translate(0 140) scale(1.2) translate(0 -140)"></g><g transform="translate(0 140) scale(1.2) translate(0 -140)"><rect x="-17" y="118" width="34" height="44" fill="var(--sc-skin-shade)"/><ellipse cx="2" cy="76" rx="46" ry="60" fill="var(--sc-skin)"/><path d="M24 24 C48 40 52 90 40 118 C30 130 18 136 4 136 C30 110 36 60 24 24 Z" fill="var(--sc-skin-shade)"/><ellipse cx="47" cy="84" rx="8" ry="13" fill="var(--sc-skin-shade)"/><path d="M-48 70 C-56 18 -26 -12 6 -10 C42 -8 60 22 52 72 C48 52 42 40 32 34 C16 44 -12 32 -28 42 C-38 48 -44 58 -48 70 Z" fill="var(--sc-hair)"/><path d="M-30 4 C-14 -6 12 -8 28 0 C12 2 -6 6 -22 16 Z" fill="var(--sc-hair-hi)"/><ellipse cx="26" cy="72" rx="4" ry="5" fill="#1A1C2A"/><path d="M18 58 C24 54 32 55 38 59" stroke="var(--sc-hair)" stroke-width="4" fill="none" stroke-linecap="round"/></g><path d="M-90 170 C-112 210 -124 270 -122 320 C-120 344 -108 356 -88 352 C-60 300 -36 200 -24 126 L-60 112 C-70 160 -86 220 -96 270 C-96 240 -92 200 -78 180 Z" fill="var(--sc-hoodie)" stroke="var(--sc-hoodie-line)" stroke-width="3.5" stroke-linejoin="round"/><path d="M-122 320 C-120 344 -108 356 -88 352 C-84 344 -80 336 -78 328 C-96 330 -112 326 -122 320 Z" fill="var(--sc-hoodie-shade)"/><g transform="translate(0 140) scale(1.2) translate(0 -140)"><g transform="rotate(-6 -30 76)"><rect x="-62" y="18" width="60" height="112" rx="12" fill="var(--sc-phone,#FF6F59)"/><g id="sc-selfie-lag-sprekk" style="display:var(--lag-sprekk,none)"><path d="M-6 30 L-22 58 L-14 72 L-34 96 L-28 128 M-22 58 L-44 66 L-58 60 M-14 72 L-3 80 M-34 96 L-52 100" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g><rect x="-56" y="24" width="28" height="31" rx="8" fill="var(--sc-phone-shade,#B85147)"/><circle cx="-48" cy="32" r="5" fill="#1A1C2A"/><circle cx="-36" cy="32" r="5" fill="#1A1C2A"/><circle cx="-48" cy="46" r="5" fill="#1A1C2A"/><circle cx="-36" cy="46" r="2.4" fill="#FFF6D6"/><rect x="-70" y="78" width="30" height="13" rx="6.5" fill="var(--sc-skin)"/><path d="M-48 80 v9" stroke="var(--sc-skin-shade)" stroke-width="2"/><rect x="-70" y="93" width="30" height="13" rx="6.5" fill="var(--sc-skin)"/><path d="M-48 95 v9" stroke="var(--sc-skin-shade)" stroke-width="2"/><rect x="-70" y="108" width="30" height="13" rx="6.5" fill="var(--sc-skin)"/><path d="M-48 110 v9" stroke="var(--sc-skin-shade)" stroke-width="2"/><path d="M-66 120 C-70 134 -64 148 -50 150 C-36 150 -28 140 -30 128 Z" fill="var(--sc-skin)"/></g></g><path d="M86 168 C110 200 122 260 120 320 C118 360 98 400 64 430 L44 410 C70 380 86 352 88 320 C90 280 84 230 76 200 Z" fill="var(--sc-hoodie-shade)"/><path d="M64 430 L44 410 C38 418 36 428 42 436 Z" fill="var(--sc-hoodie-line)"/></g><polygon points="63,159 134,159 63,563 53,603" fill="#FFFFFF" opacity=".10"/><polygon points="164,159 184,159 93,643 83,653" fill="#FFFFFF" opacity=".08"/></g><polygon points="63,159 281,159 291,763 53,763" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity=".5"/><g id="sc-selfie-lag-lapp" style="display:var(--lag-lapp,none)" transform="translate(2 68) rotate(7 284 232)"><rect x="262" y="219" width="42" height="28" rx="3" fill="#F3C9CF" stroke="#1A1C2A" stroke-width="1.2"/><rect x="266" y="226" width="10" height="13" rx="1.5" fill="#8C7F86"/><path d="M280 228 H299 M280 233 H295 M280 238 H298" stroke="#6B4E55" stroke-width="1.8" stroke-linecap="round"/></g>
 <circle cx="167" cy="352" r="14" fill="#FFFFFF" opacity=".4"/><circle cx="167" cy="352" r="5" fill="#FFFFFF"/><path d="M167 352 L181.0 352.0" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity=".85"/><path d="M167 352 L182.6 367.6" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity=".85"/><path d="M167 352 L167.0 366.0" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity=".85"/><path d="M167 352 L151.5 367.6" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity=".85"/><path d="M167 352 L153.0 352.0" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity=".85"/><path d="M167 352 L151.4 336.5" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity=".85"/><path d="M167 352 L167.0 338.0" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity=".85"/><path d="M167 352 L182.5 336.4" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity=".85"/>
 </g>
 <g id="sc-glad">
 <clipPath id="sc-glad-glass"><polygon points="63,159 281,159 291,763 53,763"/></clipPath>
 <rect width="390" height="844" fill="var(--sc-wall)"/>
 <polygon points="0,150 150,108 150,520 0,600" fill="var(--sc-beam,var(--sc-wall-lit))"/><rect x="0" y="742" width="390" height="10" fill="#EEF0E8"/><rect x="0" y="752" width="390" height="92" fill="#C99A6B"/><path d="M-40 752 L-70 844" stroke="#A8805D" stroke-width="1.5"/><path d="M24 752 L-6 844" stroke="#A8805D" stroke-width="1.5"/><path d="M88 752 L58 844" stroke="#A8805D" stroke-width="1.5"/><path d="M152 752 L122 844" stroke="#A8805D" stroke-width="1.5"/><path d="M216 752 L186 844" stroke="#A8805D" stroke-width="1.5"/><path d="M280 752 L250 844" stroke="#A8805D" stroke-width="1.5"/><path d="M344 752 L314 844" stroke="#A8805D" stroke-width="1.5"/><path d="M408 752 L378 844" stroke="#A8805D" stroke-width="1.5"/><polygon points="0,790 120,770 160,844 0,844" fill="#D6B08B" opacity=".6"/>
-<polygon points="38,778 316,778 304,768 46,768" fill="#896850" opacity=".5"/><polygon points="54,150 290,150 300,772 44,772" fill="var(--sc-frame)"/><g id="sc-glad-speilbilde" clip-path="url(#sc-glad-glass)"><rect x="0" y="0" width="390" height="844" fill="var(--sc-wall-mirror)"/><rect x="96" y="196" width="56" height="96" fill="var(--sc-sky)"/><path d="M124 196 V292 M96 244 H152" stroke="#EEF0E8" stroke-width="5"/><rect x="92" y="192" width="64" height="104" fill="none" stroke="#EEF0E8" stroke-width="6"/><polygon points="96,330 156,322 176,560 116,575" fill="#BAC6B1"/><rect x="232" y="352" width="44" height="60" fill="#F2EEE4"/><circle cx="254" cy="374" r="12" fill="#FF6F59"/><rect x="240" y="394" width="28" height="4" fill="#1A1C2A"/><rect x="0" y="612" width="390" height="240" fill="#AD8459"/><rect x="0" y="606" width="390" height="8" fill="#D4D4D0"/><polygon points="116,575 176,560 196,700 126,720" fill="#BC9873"/><path d="M232 560 H300 V640 H232 Z" fill="#E9E4F2"/><path d="M232 560 C250 552 280 552 300 560 V574 H232 Z" fill="#CFC6E0"/><rect x="226" y="640" width="80" height="12" fill="#B3AEBD"/><rect x="62" y="560" width="64" height="52" fill="#C4935F"/><rect x="116" y="560" width="10" height="52" fill="#A47A53"/><rect x="89.0" y="560" width="10" height="12" fill="#DFBF9E"/><path d="M62 572 H126" stroke="#8F6A4C" stroke-width="1.5"/><rect x="68" y="514" width="52" height="46" fill="#C4935F"/><rect x="110" y="514" width="10" height="46" fill="#A47A53"/><rect x="89.0" y="514" width="10" height="12" fill="#DFBF9E"/><path d="M68 526 H120" stroke="#8F6A4C" stroke-width="1.5"/><g id="sc-glad-figur" transform="translate(206 332.0) scale(0.4100)"><ellipse cx="6" cy="1000" rx="150" ry="16" fill="#7E5F47" opacity=".5"/><g transform="scale(1.0 1)"><path d="M-86 470 L-4 470 L-12 968 L-92 968 C-98 800 -100 640 -86 470 Z" fill="var(--sc-pants)"/><path d="M4 470 L88 470 C100 640 100 800 94 968 L14 968 Z" fill="var(--sc-pants)"/><path d="M40 470 L88 470 C100 640 100 800 94 968 L56 968 C62 800 58 620 40 470 Z" fill="var(--sc-pants-shade)"/><path d="M-4 480 L-10 700" stroke="var(--sc-pants-shade)" stroke-width="4"/><path d="M-60 900 C-40 910 -26 908 -14 900" stroke="var(--sc-pants-shade)" stroke-width="4" fill="none"/><path d="M-98 954 C-104 972 -102 990 -90 996 L-2 996 C6 990 6 970 -4 954 Z" fill="#FAFAF7"/><rect x="-102" y="986" width="108" height="12" rx="5" fill="#CCCACC"/><path d="M10 954 C4 972 6 990 18 996 L104 996 C112 990 112 970 102 954 Z" fill="#FAFAF7"/><rect x="6" y="986" width="106" height="12" rx="5" fill="#CCCACC"/><path d="M-90 168 C-66 148 -28 144 0 148 C28 144 66 148 90 168 C106 210 110 320 104 440 C104 466 100 482 92 494 L-92 494 C-100 482 -104 466 -104 440 C-110 320 -106 210 -90 168 Z" fill="var(--sc-hoodie)"/><path d="M30 150 C60 150 80 156 90 168 C106 210 110 320 104 440 C104 466 100 482 92 494 L44 494 C64 420 62 260 30 150 Z" fill="var(--sc-hoodie-shade)"/><rect x="-94" y="470" width="190" height="26" rx="6" fill="var(--sc-hoodie-shade)"/><path d="M-52 372 L52 372 L60 452 L-60 452 Z" fill="var(--sc-hoodie-shade)" opacity=".55"/><path d="M-44 150 C-40 196 40 196 44 150 C30 134 -30 134 -44 150 Z" fill="var(--sc-hoodie-shade)"/></g><g transform="translate(0 140) scale(1.2) translate(0 -140)"></g><g transform="translate(0 140) scale(1.2) translate(0 -140)"><rect x="-17" y="118" width="34" height="44" fill="var(--sc-skin-shade)"/><ellipse cx="2" cy="76" rx="46" ry="60" fill="var(--sc-skin)"/><path d="M24 24 C48 40 52 90 40 118 C30 130 18 136 4 136 C30 110 36 60 24 24 Z" fill="var(--sc-skin-shade)"/><ellipse cx="47" cy="84" rx="8" ry="13" fill="var(--sc-skin-shade)"/><path d="M-48 70 C-56 18 -26 -12 6 -10 C42 -8 60 22 52 72 C48 52 42 40 32 34 C16 44 -12 32 -28 42 C-38 48 -44 58 -48 70 Z" fill="var(--sc-hair)"/><path d="M-30 4 C-14 -6 12 -8 28 0 C12 2 -6 6 -22 16 Z" fill="var(--sc-hair-hi)"/><ellipse cx="-18" cy="72.0" rx="4.5" ry="5.5" fill="#1A1C2A"/><path d="M-28 58 C-22 54 -14 54 -8 58" stroke="var(--sc-hair)" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="22" cy="72.0" rx="4.5" ry="5.5" fill="#1A1C2A"/><path d="M12 58 C18 54 26 54 32 58" stroke="var(--sc-hair)" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M4 76 C2 86 0 92 6 94" stroke="var(--sc-skin-shade)" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M-12 104 C-4 126 18 126 26 104 Z" fill="#1A1C2A"/><path d="M-8 106 C0 112 14 112 22 106 L20 110 C12 114 2 114 -6 110 Z" fill="#FFFFFF"/><ellipse cx="-26" cy="96" rx="9" ry="5" fill="#FF6F59" opacity=".18"/><ellipse cx="32" cy="96" rx="9" ry="5" fill="#FF6F59" opacity=".18"/></g><path d="M-90.0 168 C-112.0 210 -118.0 300 -114.0 400 C-112.0 430 -108.0 450 -104.0 466 L-82.0 462 C-84.0 430 -86.0 400 -86.0 360 C-86.0 300 -84.0 240 -78.0 200 Z" fill="var(--sc-hoodie)" stroke="var(--sc-hoodie-line)" stroke-width="3" stroke-linejoin="round"/><ellipse cx="-94.0" cy="478" rx="15" ry="19" fill="var(--sc-skin)"/><path d="M90.0 168 C112.0 210 118.0 300 114.0 400 C112.0 430 108.0 450 104.0 466 L82.0 462 C84.0 430 86.0 400 86.0 360 C86.0 300 84.0 240 78.0 200 Z" fill="var(--sc-hoodie-shade)" stroke="var(--sc-hoodie-line)" stroke-width="3" stroke-linejoin="round"/><ellipse cx="94.0" cy="478" rx="15" ry="19" fill="var(--sc-skin)"/><rect x="94.0" y="452" width="22" height="40" rx="5" fill="#FF6F59" transform="rotate(8 104.0 470)"/></g><polygon points="63,159 134,159 63,563 53,603" fill="#FFFFFF" opacity=".10"/><polygon points="164,159 184,159 93,643 83,653" fill="#FFFFFF" opacity=".08"/></g><polygon points="63,159 281,159 291,763 53,763" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity=".5"/>
+<polygon points="38,778 316,778 304,768 46,768" fill="#896850" opacity=".5"/><polygon points="54,150 290,150 300,772 44,772" fill="var(--sc-frame)"/><g id="sc-glad-speilbilde" clip-path="url(#sc-glad-glass)"><rect x="0" y="0" width="390" height="844" fill="var(--sc-wall-mirror)"/><rect x="96" y="196" width="56" height="96" fill="var(--sc-sky)"/><g id="sc-glad-lag-moped" style="display:var(--lag-moped,none)"><g transform="translate(99 262)"><circle cx="9" cy="25" r="6.5" fill="#1A1C2A"/><circle cx="9" cy="25" r="2.6" fill="#D4D4D0"/><circle cx="42" cy="25" r="6.5" fill="#1A1C2A"/><circle cx="42" cy="25" r="2.6" fill="#D4D4D0"/><path d="M4 19 C4 11 13 9 20 12 L22 20 H31 L35 8 L40 8 L44 22 L38 22 L36 26 H17 C15 20 10 18 4 19 Z" fill="var(--sc-moped,#7154A8)"/><path d="M5 11 C9 8 18 8 21 11 L20 13 H6 Z" fill="#1A1C2A"/><path d="M35 9 L33 3 L38 2" fill="none" stroke="#1A1C2A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g></g><path d="M124 196 V292 M96 244 H152" stroke="#EEF0E8" stroke-width="5"/><rect x="92" y="192" width="64" height="104" fill="none" stroke="#EEF0E8" stroke-width="6"/><polygon points="96,330 156,322 176,560 116,575" fill="#BAC6B1"/><rect x="232" y="352" width="44" height="60" fill="#F2EEE4"/><circle cx="254" cy="374" r="12" fill="#FF6F59"/><rect x="240" y="394" width="28" height="4" fill="#1A1C2A"/><rect x="0" y="612" width="390" height="240" fill="#AD8459"/><rect x="0" y="606" width="390" height="8" fill="#D4D4D0"/><polygon points="116,575 176,560 196,700 126,720" fill="#BC9873"/><path d="M232 560 H300 V640 H232 Z" fill="#E9E4F2"/><path d="M232 560 C250 552 280 552 300 560 V574 H232 Z" fill="#CFC6E0"/><rect x="226" y="640" width="80" height="12" fill="#B3AEBD"/><rect x="62" y="560" width="64" height="52" fill="#C4935F"/><rect x="116" y="560" width="10" height="52" fill="#A47A53"/><rect x="89.0" y="560" width="10" height="12" fill="#DFBF9E"/><path d="M62 572 H126" stroke="#8F6A4C" stroke-width="1.5"/><rect x="68" y="514" width="52" height="46" fill="#C4935F"/><rect x="110" y="514" width="10" height="46" fill="#A47A53"/><rect x="89.0" y="514" width="10" height="12" fill="#DFBF9E"/><path d="M68 526 H120" stroke="#8F6A4C" stroke-width="1.5"/><g id="sc-glad-lag-hjelm" style="display:var(--lag-moped,none)"><path d="M72 514 C68 488 84 474 100 478 C114 481 120 496 117 514 Z" fill="var(--sc-moped,#7154A8)"/><path d="M98 490 C108 488 116 492 118 500 L117 506 L99 506 C95 500 95 494 98 490 Z" fill="#25292E"/><path d="M74 504 C80 506 88 507 96 506" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".5"/></g><g id="sc-glad-figur" transform="translate(206 332.0) scale(0.4100)"><ellipse cx="6" cy="1000" rx="150" ry="16" fill="#7E5F47" opacity=".5"/><g transform="scale(1.0 1)"><path d="M-86 470 L-4 470 L-12 968 L-92 968 C-98 800 -100 640 -86 470 Z" fill="var(--sc-pants)"/><path d="M4 470 L88 470 C100 640 100 800 94 968 L14 968 Z" fill="var(--sc-pants)"/><path d="M40 470 L88 470 C100 640 100 800 94 968 L56 968 C62 800 58 620 40 470 Z" fill="var(--sc-pants-shade)"/><path d="M-4 480 L-10 700" stroke="var(--sc-pants-shade)" stroke-width="4"/><path d="M-60 900 C-40 910 -26 908 -14 900" stroke="var(--sc-pants-shade)" stroke-width="4" fill="none"/><path d="M-98 954 C-104 972 -102 990 -90 996 L-2 996 C6 990 6 970 -4 954 Z" fill="#FAFAF7"/><rect x="-102" y="986" width="108" height="12" rx="5" fill="#CCCACC"/><path d="M10 954 C4 972 6 990 18 996 L104 996 C112 990 112 970 102 954 Z" fill="#FAFAF7"/><rect x="6" y="986" width="106" height="12" rx="5" fill="#CCCACC"/><path d="M-90 168 C-66 148 -28 144 0 148 C28 144 66 148 90 168 C106 210 110 320 104 440 C104 466 100 482 92 494 L-92 494 C-100 482 -104 466 -104 440 C-110 320 -106 210 -90 168 Z" fill="var(--sc-hoodie)"/><path d="M30 150 C60 150 80 156 90 168 C106 210 110 320 104 440 C104 466 100 482 92 494 L44 494 C64 420 62 260 30 150 Z" fill="var(--sc-hoodie-shade)"/><rect x="-94" y="470" width="190" height="26" rx="6" fill="var(--sc-hoodie-shade)"/><path d="M-52 372 L52 372 L60 452 L-60 452 Z" fill="var(--sc-hoodie-shade)" opacity=".55"/><path d="M-44 150 C-40 196 40 196 44 150 C30 134 -30 134 -44 150 Z" fill="var(--sc-hoodie-shade)"/></g><g transform="translate(0 140) scale(1.2) translate(0 -140)"></g><g transform="translate(0 140) scale(1.2) translate(0 -140)"><rect x="-17" y="118" width="34" height="44" fill="var(--sc-skin-shade)"/><ellipse cx="2" cy="76" rx="46" ry="60" fill="var(--sc-skin)"/><path d="M24 24 C48 40 52 90 40 118 C30 130 18 136 4 136 C30 110 36 60 24 24 Z" fill="var(--sc-skin-shade)"/><ellipse cx="47" cy="84" rx="8" ry="13" fill="var(--sc-skin-shade)"/><path d="M-48 70 C-56 18 -26 -12 6 -10 C42 -8 60 22 52 72 C48 52 42 40 32 34 C16 44 -12 32 -28 42 C-38 48 -44 58 -48 70 Z" fill="var(--sc-hair)"/><path d="M-30 4 C-14 -6 12 -8 28 0 C12 2 -6 6 -22 16 Z" fill="var(--sc-hair-hi)"/><ellipse cx="-18" cy="72.0" rx="4.5" ry="5.5" fill="#1A1C2A"/><path d="M-28 58 C-22 54 -14 54 -8 58" stroke="var(--sc-hair)" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="22" cy="72.0" rx="4.5" ry="5.5" fill="#1A1C2A"/><path d="M12 58 C18 54 26 54 32 58" stroke="var(--sc-hair)" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M4 76 C2 86 0 92 6 94" stroke="var(--sc-skin-shade)" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M-12 104 C-4 126 18 126 26 104 Z" fill="#1A1C2A"/><path d="M-8 106 C0 112 14 112 22 106 L20 110 C12 114 2 114 -6 110 Z" fill="#FFFFFF"/><ellipse cx="-26" cy="96" rx="9" ry="5" fill="#FF6F59" opacity=".18"/><ellipse cx="32" cy="96" rx="9" ry="5" fill="#FF6F59" opacity=".18"/></g><path d="M-90.0 168 C-112.0 210 -118.0 300 -114.0 400 C-112.0 430 -108.0 450 -104.0 466 L-82.0 462 C-84.0 430 -86.0 400 -86.0 360 C-86.0 300 -84.0 240 -78.0 200 Z" fill="var(--sc-hoodie)" stroke="var(--sc-hoodie-line)" stroke-width="3" stroke-linejoin="round"/><ellipse cx="-94.0" cy="478" rx="15" ry="19" fill="var(--sc-skin)"/><path d="M90.0 168 C112.0 210 118.0 300 114.0 400 C112.0 430 108.0 450 104.0 466 L82.0 462 C84.0 430 86.0 400 86.0 360 C86.0 300 84.0 240 78.0 200 Z" fill="var(--sc-hoodie-shade)" stroke="var(--sc-hoodie-line)" stroke-width="3" stroke-linejoin="round"/><ellipse cx="94.0" cy="478" rx="15" ry="19" fill="var(--sc-skin)"/><rect x="94.0" y="452" width="22" height="40" rx="5" fill="var(--sc-phone,#FF6F59)" transform="rotate(8 104.0 470)"/></g><polygon points="63,159 134,159 63,563 53,603" fill="#FFFFFF" opacity=".10"/><polygon points="164,159 184,159 93,643 83,653" fill="#FFFFFF" opacity=".08"/></g><polygon points="63,159 281,159 291,763 53,763" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity=".5"/><g id="sc-glad-lag-lapp" style="display:var(--lag-lapp,none)" transform="translate(2 68) rotate(7 284 232)"><rect x="262" y="219" width="42" height="28" rx="3" fill="#F3C9CF" stroke="#1A1C2A" stroke-width="1.2"/><rect x="266" y="226" width="10" height="13" rx="1.5" fill="#8C7F86"/><path d="M280 228 H299 M280 233 H295 M280 238 H298" stroke="#6B4E55" stroke-width="1.8" stroke-linecap="round"/></g>
 </g>
 </defs>
+  <symbol id="i-about" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.2"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></symbol>
+  <symbol id="i-off" viewBox="0 0 24 24"><path d="M3 3l18 18M8.5 16a5 5 0 0 1 7 0M5 12.5a10 10 0 0 1 4-2.4M19 12.5a10 10 0 0 0-5-2.6M12 20v.1"/></symbol>
+  <symbol id="i-moped" viewBox="0 0 24 24"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l2-9h-3M3 13c2-3 6-3 7-1l1 5M4 9h6"/></symbol>
   <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
   <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></symbol>
@@ -451,13 +510,14 @@ dialog.sheet[open]{animation:up .35s var(--ease)}
   <nav class="rail" aria-label="Hovedmeny">
     <a class="brand" href="#hjem"><svg class="i lg" aria-hidden="true"><use href="#i-logo"/></svg>LifeMode</a>
     <div id="rail-links"></div>
-    <div class="rail-me"><span class="av" aria-hidden="true">M</span><span id="rail-me">Mak · 16 år</span></div>
+    <a class="rail-me" href="#meny" id="rail-menu" aria-label="Meny"><span class="av" aria-hidden="true">M</span><span id="rail-me">Mak · 16 år</span></a>
   </nav>
   <main class="main" id="main" tabindex="-1"></main>
   <aside class="pane" id="pane" aria-label="Mobilen"></aside>
   <nav class="tabbar" id="tabbar" aria-label="Hovedmeny"></nav>
 </div>
 <div class="sr" aria-live="polite" id="live"></div>
+<div id="toast" role="status"></div>
 
 <dialog class="sheet" id="sheet" aria-labelledby="sheet-title"></dialog>
 
@@ -471,11 +531,11 @@ const YEAR=[ // inn, ut, rente
   [16728,1100,39],[6036,4900,53],[6036,4700,54],[8457,6600,55],[8457,6593,56],null];
 const YEAR_NOTE=['Bursdagsgave','Klassetur','Mopedlappen','','Brukt moped','','Sommerjobb','Fast jobb','','Ekstravakter','',''];
 const ACTS={
-  venner:{nm:'Kveld med venner',cost:-200,fx:'Sosialt +5'},
-  konsert:{nm:'Konsert med Emma',cost:-450,fx:'Sosialt +8',from:'Invitasjon fra Emma'},
-  hvile:{nm:'Hvilekveld',cost:0,fx:'Stress −5'},
-  gaming:{nm:'Gaming med gjengen',cost:0,fx:'Sosialt +4 · Stress −2'},
-  trening:{nm:'Trening med laget',cost:0,fx:'Sosialt +2 · Stress −2'}
+  venner:{nm:'Kveld med venner',cost:-200,fx:'Sosialt +5',so:5},
+  konsert:{nm:'Konsert med Emma',cost:-450,fx:'Sosialt +8',so:8,from:'Invitasjon fra Emma'},
+  hvile:{nm:'Hvilekveld',cost:0,fx:'Stress −5',st:-5},
+  gaming:{nm:'Gaming med gjengen',cost:0,fx:'Sosialt +4 · Stress −2',so:4,st:-2},
+  trening:{nm:'Trening med laget',cost:0,fx:'Sosialt +2 · Stress −2',so:2,st:-2}
 };
 const SHIFTS={
   kveld:{nm:'Kveldsvakt',cost:558,fx:'4 timer',job:true},
@@ -483,7 +543,7 @@ const SHIFTS={
 };
 const ALL={...ACTS,...SHIFTS};
 const S={nick:'Mak',slots:['venner',null,null],addTab:'fritid',choice:'repair',spend:'vanlig',
-  offer:null,asked:null,extraEnded:false,sel:NOW,emmaRead:false,goal:0,look:0,pickFor:null};
+  offer:null,asked:null,extraEnded:false,sel:NOW,read:new Set(['line']),moped:true,lapp:true,phone:'ok',off:false,toast:false,kr:{step:0,due:700,end:null,log:[]},goal:0,look:0,pickFor:null};
 
 /* ===== helpers ===== */
 const $=s=>document.querySelector(s);
@@ -492,23 +552,36 @@ const plain=n=>Math.abs(n).toLocaleString('nb-NO').replace(/\s/g,' ')+' kr';
 const ic=(id,c='')=>`<svg class="i ${c}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
 function live(t){const l=$('#live');l.textContent='';setTimeout(()=>l.textContent=t,30)}
 const freeSlots=()=>S.slots.filter(x=>!x).length;
-const unread=()=>S.emmaRead?1:2;
+const unread=()=>['emma','bank'].filter(k=>!S.read.has(k)).length;
+/* room layers (FR-34): the mirror is the room. One layer per belonging, set from flags. */
+const PHONES={ok:['#FF6F59','#B85147','Mobilen er hel'],crack:['#FF6F59','#B85147','Mobilen er sprukket'],used:['#5C6270','#3E434E','Mobilen er en brukt, grå mobil']};
+let R=S;
+function applyRoom(){const r=document.documentElement.style,ph=PHONES[R.phone];
+  r.setProperty('--lag-moped',R.moped?'inline':'none');r.setProperty('--lag-lapp',R.lapp?'inline':'none');
+  r.setProperty('--lag-sprekk',R.phone==='crack'?'inline':'none');r.setProperty('--sc-phone',ph[0]);r.setProperty('--sc-phone-shade',ph[1]);}
+const roomText=()=>[R.moped?'Mopeden står utenfor vinduet, og hjelmen ligger på esken.':'',R.lapp?'Mopedlappen henger på speilet.':'',PHONES[R.phone][2]+'.'].filter(Boolean).join(' ');
+const MOPED_PRICE=10772,GOAL_PRICE=32500;
+const cur=()=>2364+(S.moped?0:MOPED_PRICE), net=()=>cur()+23556;
+const pct=(a,b)=>(Math.min(100,a/b*100)).toLocaleString('nb-NO',{minimumFractionDigits:1,maximumFractionDigits:1}).replace(/,0$/,'')+' %';
+const ART=id=>`<svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#${id}"/></svg>`;
+const scene=(id,label,marker='',o={})=>`<div class="scene room ${o.dim?'dim':''}" role="img" aria-label="${label} ${roomText()}"><div class="scene-in">${ART(id)}${marker?`<div class="marker" style="${o.pos||'left:46%;top:9%'};max-width:27%">${marker}</div>`:''}</div></div>`;
 
 /* ===== shared parts ===== */
-function timeline(){
-  return `<a class="tl" href="#aar" aria-label="${cap(MONTH_FULL[NOW])} 2027, du er 16 år. Åpne året.">
-    <div class="tl-head"><span class="tl-month">${cap(MONTH_FULL[NOW])}</span><span class="tl-meta">16 år · 2027</span>
+function timeline(n=NOW,age=16,yr=2027){
+  return `<a class="tl" href="#aar" aria-label="${cap(MONTH_FULL[n])} ${yr}, du er ${age} år. Åpne året.">
+    <div class="tl-head"><span class="tl-month">${cap(MONTH_FULL[n])}</span><span class="tl-meta">${age} år · ${yr}</span>
     <span class="tl-go">Året ${ic('chev','sm')}</span></div>
-    <ol class="tl-bar" aria-hidden="true">${MONTHS.map((m,i)=>`<li class="${i<NOW?'past':i===NOW?'now':'fut'}"><i></i>${m}</li>`).join('')}</ol></a>`;
+    <ol class="tl-bar" aria-hidden="true">${MONTHS.map((m,i)=>`<li class="${i<n?'past':i===n?'now':'fut'}"><i></i>${m}</li>`).join('')}</ol></a>`;
 }
 const cap=s=>s[0].toUpperCase()+s.slice(1);
 const sceneHubInner=()=>sceneHub();
 function sceneHub(){
-  return `<div class="scene room" role="img" aria-label="Speilet: ${S.nick} tar en speilselfie på rommet sitt.">
+  return `<div class="scene room" role="img" aria-label="Speilet: ${esc(S.nick)} tar en speilselfie på rommet sitt. ${roomText()}">
     <div class="scene-in"><svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#sc-selfie"/></svg>
-    <div class="marker" style="left:7%;top:20%">${esc(S.nick)}<svg width="110" height="90" style="left:30px;top:22px" aria-hidden="true"><path d="M2 8 C40 6 78 30 100 74 M89 70 L100 74 L101 62" stroke="#1A1C2A" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <div class="marker" style="left:50%;top:9%;max-width:26%;overflow-wrap:anywhere">${esc(S.nick)}<svg width="40" height="70" style="left:12px;top:26px" aria-hidden="true"><path d="M18 4 C26 24 24 44 12 62 M8 50 L11 63 L23 57" stroke="#1A1C2A" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <a class="scene-menu" href="#meny" aria-label="Meny">${ic('user')}</a>
     <div class="scene-stk">
-      <a class="stk" href="#telefon" style="--r:-3deg"><span class="ic" style="background:var(--cobalt)">${ic('msg','sm')}${S.emmaRead?'':'<span class="new"></span>'}</span><span>${unread()} ${unread()===1?'ny':'nye'}</span></a>
+      <a class="stk" href="#telefon" style="--r:-3deg"><span class="ic" style="background:var(--cobalt)">${ic('msg','sm')}${unread()?'<span class="new"></span>':''}</span><span>${unread()?`${unread()} ${unread()===1?'ny':'nye'}`:'Meldinger'}</span></a>
       <a class="stk" href="#plan" style="--r:2deg"><span class="ic" style="background:var(--ink)">${ic('cal','sm')}</span><span>${freeSlots()} ledige kvelder</span></a>
       <a class="stk" href="#jobb" style="--r:-2deg"><span class="ic" style="background:var(--in)">${ic('job','sm')}</span><span>Jobb 14 t</span></a>
     </div>
@@ -524,7 +597,7 @@ V.landing=()=>`<div class="hero">
     <div class="wm">${ic('logo','lg')}LifeMode</div>
     <h1 tabindex="-1">Gjør de dyre feilene her.</h1>
     <p class="lead">Lev fra 15 til 20, én måned om gangen. Alt koster tid eller penger, og du ser alltid hvorfor.</p>
-    <div class="btns"><a class="btn pri" href="#opprett">Lag bruker ${ic('arrow')}</a><a class="btn" href="#hjem">Logg inn</a></div>
+    <div class="btns"><a class="btn pri" href="#opprett">Lag bruker ${ic('arrow')}</a><a class="btn" href="#logginn">Logg inn</a></div>
   </div>
   <div class="scene" role="img" aria-label="En ungdom tar speilselfie på rommet sitt.">
     <div class="scene-in"><svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#sc-selfie"/></svg></div>
@@ -541,11 +614,12 @@ V.opprett=()=>`<div class="wm">${ic('logo','lg')}LifeMode</div>
   <form class="form" data-form="opprett" novalidate>
     <h1 tabindex="-1">Lag bruker</h1>
     <div class="field" id="fld-mail"><label for="f-mail">E-post</label><input id="f-mail" type="email" autocomplete="email" required></div>
-    <div class="field"><label for="f-pw">Passord</label><input id="f-pw" type="password" autocomplete="new-password" aria-describedby="h-pw" required><p class="hint" id="h-pw">Minst 8 tegn.</p></div>
+    <div class="field" id="fld-pw"><label for="f-pw">Passord</label><input id="f-pw" type="password" autocomplete="new-password" data-hint="h-pw" aria-describedby="h-pw" required><p class="hint" id="h-pw">Minst 8 tegn.</p></div>
     <div class="field" id="fld-nick"><label for="f-nick">Hva skal vi kalle deg?</label><input id="f-nick" type="text" maxlength="16" value="${esc(S.nick)}" data-hint="h-nick" aria-describedby="h-nick" autocomplete="nickname"><p class="hint" id="h-nick">2–16 tegn. Bare du ser det.</p></div>
-    <label class="check"><input type="checkbox" checked> Forbli innlogget</label>
+    <label class="check"><input type="checkbox"> Forbli innlogget på denne enheten</label>
+    <section class="info-box" aria-labelledby="h-pi"><h2 id="h-pi" style="font-size:15px">Dette lagrer vi</h2>${PI}</section>
     <button class="btn pri block" type="submit">Fortsett</button>
-    <p class="meta"><a href="#landing">Har du bruker? Logg inn</a></p>
+    <p class="meta"><a href="#logginn">Har du bruker? Logg inn</a></p>
   </form>
   <section class="form" id="mailcheck" aria-labelledby="h-mc" hidden>
     <h1 id="h-mc" tabindex="-1">Sjekk at e-posten er riktig</h1>
@@ -574,7 +648,7 @@ V.start=()=>`<div class="wm">${ic('logo','lg')}LifeMode</div>
     </div></fieldset>
     <h2 style="margin:var(--s5) 0 var(--s3)">Hvordan ser du ut?</h2>
     <div class="looks" role="group" aria-label="Utseende">${LOOKS.map((c,i)=>`<button class="look" data-look="${i}" aria-pressed="${S.look===i}" aria-label="Genser ${i+1}"><i style="background:${c}"></i></button>`).join('')}</div>
-    <a class="btn pri" href="#hjem" style="margin-top:var(--s5)">Start som 15-åring ${ic('arrow')}</a>
+    <a class="btn pri" href="#gave" style="margin-top:var(--s5)">Start som 15-åring ${ic('arrow')}</a>
   </div>
   <div class="scene" role="img" aria-label="Speilbildet ditt."><div class="scene-in"><svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#sc-glad"/></svg></div></div>
 </div>`;
@@ -592,9 +666,9 @@ ${sceneHubInner()}
   </div>
 </section>
 <div class="duo" style="margin-top:var(--s4)">
-  <a class="tile" href="#penger"><span class="meta">Brukskonto</span><div class="big">${plain(2364)}</div><span class="meta">Sparekonto <b style="color:var(--ink)">${plain(23556)}</b></span><div class="bars" style="margin-top:var(--s3)"><div class="bar"><span>Sparemål: Lappen</span><b>79,8 %</b><span class="tr"><i style="width:79.8%"></i></span></div></div><p class="wb-foot">Åpne banken ${ic('chev','sm')}</p></a>
+  <a class="tile" href="#penger"><span class="meta">Brukskonto</span><div class="big">${plain(cur())}</div><span class="meta">Sparekonto <b style="color:var(--ink)">${plain(23556)}</b></span><div class="bars" style="margin-top:var(--s3)"><div class="bar"><span>Sparemål: Lappen</span><b>${pct(net(),GOAL_PRICE)}</b><span class="tr"><i style="width:${Math.min(100,net()/GOAL_PRICE*100)}%"></i></span></div></div><p class="wb-foot">Åpne banken ${ic('chev','sm')}</p></a>
   <div class="tile"><span class="meta">Trivsel</span><div class="big">${wbTotal()}</div>
-    <div class="bars">${WB.parts.map(wbBar).join('')}</div>
+    <div class="bars">${WBnow().parts.map(wbBar).join('')}</div>
     <p class="wb-foot">Fritid 72 gir deg <b>3 frie kvelder</b>. Snitt så langt <b>61</b>, du trenger 50.</p>
   </div>
 </div>
@@ -603,14 +677,17 @@ ${sceneHubInner()}
 
 /* trivsel: status from the PRD threshold (50, rule 12): below it is bad, 50-59 ok, 60 and up good. Stress is mirrored (100 - stress). */
 const WB_LIMIT=50,WB_OK=10;
-const WB={total:68,parts:[['Stress',25,true],['Fritid',72],['Sosialt',55]]};
+const USUAL={st:25,so:50},FREE=72;
+function WBnow(){const cap15=x=>Math.max(-15,Math.min(15,x)),sum=k=>cap15(S.slots.filter(Boolean).reduce((a,x)=>a+(ALL[x][k]||0),0));
+  const st=Math.max(0,USUAL.st+sum('st')),so=Math.min(100,USUAL.so+sum('so'));
+  return {total:Math.round(.4*(100-st)+.3*FREE+.3*so),parts:[['Stress',st,true,USUAL.st],['Fritid',FREE],['Sosialt',so,false,USUAL.so]]};}
 function wbSt(v,inv){
   const x=inv?100-v:v, c=x>=WB_LIMIT+WB_OK?'good':x>=WB_LIMIT?'warn':'bad';
   return [c,(inv?{good:'lavt',warn:'middels',bad:'høyt'}:{good:'bra',warn:'ok',bad:'lite'})[c]];
 }
-function wbBar([nm,v,inv]){const [c,w]=wbSt(v,inv);
-  return `<div class="bar"><span>${nm}</span><b><span class="sdot ${c}" aria-hidden="true"></span>${v} <span class="st-w">${w}</span></b><span class="tr"><i class="${c}" style="width:${v}%"></i></span></div>`;}
-function wbTotal(){const [c]=wbSt(WB.total);const w={good:'Det går bra',warn:'Helt ok',bad:'Tungt nå'}[c];
+function wbBar([nm,v,inv,us]){const [c,w]=wbSt(v,inv);
+  return `<div class="bar"><span>${nm}</span><b><span class="sdot ${c}" aria-hidden="true"></span>${v} <span class="st-w">${w}</span></b><span class="tr"><i class="${c}" style="width:${v}%"></i></span>${us!==undefined&&us!==v?`<span class="us">Vanligvis ${us}</span>`:''}</div>`;}
+function wbTotal(){const WB=WBnow(),[c]=wbSt(WB.total);const w={good:'Det går bra',warn:'Helt ok',bad:'Tungt nå'}[c];
   return `${WB.total}<span>/100</span><span class="pill ${c}"><span class="sdot ${c}" aria-hidden="true"></span>${w}</span>`;}
 function slotRow(k,i){
   const a=k&&ALL[k];
@@ -632,6 +709,7 @@ function addList(){
   const hint=S.addTab==='jobb'?`<p class="meta" style="margin-top:var(--s3)">Vaktene kommer fra Butikken. En vakt bruker en av de frie kveldene dine.</p>`:'';
   return `${tabs}<ul class="list" style="margin-top:var(--s3)">${items}</ul>${hint}`;
 }
+const LAST=['gaming','hvile'];
 function planSum(){
   const xs=S.slots.filter(Boolean).map(k=>ALL[k]).filter(a=>!a.job);
   const sum=xs.reduce((s,a)=>s+a.cost,0);
@@ -645,6 +723,7 @@ V.plan=()=>`${timeline()}
       <li class="item locked">${ic('lock','sm')}<p class="sub grow">Skole og jobb tar resten av uka</p></li></ul>
     <div class="note" style="margin-top:var(--s3)"><span class="ic">${ic('past','sm')}</span><p><b>Tidligere valg</b>Du sa ja til ekstravakter i september. Derfor har du 3 frie kvelder i stedet for 4.</p></div>
     ${planSum()}
+    ${LAST.some(k=>!S.slots.includes(k))&&freeSlots()?`<button class="btn block" style="margin-top:var(--s3)" data-same>Samme som i oktober</button>`:''}
     <a class="btn block" href="#hjem" style="margin-top:var(--s4)">Ferdig</a>
   </section>
   <section class="plan-add-desk" aria-labelledby="h-add"><h2 id="h-add" style="margin-bottom:var(--s3)">Legg til aktivitet</h2><div id="addlist">${addList()}</div></section>
@@ -655,12 +734,12 @@ V.aar=()=>{
   const tot=YEAR.slice(0,NOW+1).reduce((a,m)=>[a[0]+m[0],a[1]+m[1],a[2]+m[2]],[0,0,0]);
   const cols=YEAR.map((m,i)=>{
     const cls=i<NOW?'':i===NOW?'now':'fut';
-    if(!m) return `<div class="col fut" aria-hidden="true"><span></span><span class="base"></span><span></span><span class="m">${MONTHS[i]}</span></div>`;
+    if(!m) return `<div class="col fut" aria-hidden="true"><span></span><span class="base"></span><span></span><span class="m">${MONTHS[i][0]}<i>${MONTHS[i].slice(1)}</i></span></div>`;
     return `<button class="col ${cls}" data-mon="${i}" aria-pressed="${S.sel===i}" aria-label="${cap(MONTH_FULL[i])}: inn ${plain(m[0])}, ut ${plain(m[1])}, rente ${plain(m[2])}">
       <span class="up" style="height:${Math.max(m[0]?3:0,m[0]/maxUp*96)}px"></span><span class="base"></span>
-      <span class="dn" style="height:${Math.max(3,m[1]/maxDn*72)}px"></span><span class="m">${MONTHS[i]}</span></button>`;}).join('');
+      <span class="dn" style="height:${Math.max(3,m[1]/maxDn*72)}px"></span><span class="m">${MONTHS[i][0]}<i>${MONTHS[i].slice(1)}</i></span></button>`;}).join('');
   const rate=YEAR.map(m=>m?`<i style="height:${m[2]/100*40}px"></i>`:'<i style="height:0"></i>').join('');
-  const notes=[['Øvelseskjøring','Åpent nå',true,-2],['Lappen (bil)','fra 18 år',false,2],['Kredittkort','fra 18 år',false,-1],['BSU med skattefradrag','når du har inntekt',false,3]];
+  const notes=[['Mopedlappen','Tatt',true,-2],['Lappen (bil)','fra 18 år',false,2],['Kredittkort','fra 18 år',false,-1],['Forbrukslån','fra 18 år',false,3],['Full jobb','fra 19 år',false,-2]];
   return `<div class="head"><a class="back" href="#hjem" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">16 år · 2027</h1><p class="meta">Du er her: november</p></div></div>
   <div class="card"><h2 style="font-size:16px">Hele livet i spillet</h2>
     <div class="life">${[15,16,17,18,19].map(a=>`<div class="${a===16?'cur':''}"><i><b style="width:${a<16?100:a===16?(NOW+1)/12*100:0}%"></b></i>${a} år</div>`).join('')}</div></div>
@@ -688,9 +767,9 @@ V.aar=()=>{
 };
 
 V.hendelse=()=>`${timeline()}
-<div class="scene room dim" role="img" aria-label="Speilet er mørkt. Mobilen har sprekker over halve skjermen.">
+<div class="scene room dim" role="img" aria-label="Speilet er mørkt. Mobilen har sprekker over halve skjermen. ${roomText()}">
   <div class="scene-in"><svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#sc-selfie"/></svg>
-  <div class="marker" style="left:7%;top:12%;font-size:26px;max-width:60%">Mobilen gikk i bakken</div></div>
+  <div class="marker" style="left:46%;top:9%;max-width:27%">Mobilen gikk i bakken</div></div>
 </div>
 <h1 tabindex="-1" style="margin-top:var(--s5)">Hva gjør du?</h1>
 <p style="margin-top:var(--s2)">Den virker, men sprekkene går over halve skjermen.</p>
@@ -711,11 +790,10 @@ const RES={
   used:{h:'Du kjøpte en brukt mobil.',m:'Ny brukt',chips:[['out',kr(-1800),'betalt'],['n','Stress ±0','']],past:null,
     why:'<p><b>Den brukte mobilen kostet 1 800 kr</b>, betalt fra brukskontoen.</p>',after:[['up','Skjermen er hel.'],['down','Sparemålet Lappen: 79,8 % → 74,2 %']]},
   live:{h:'Du lever med sprekkene.',m:'Sprukket',chips:[['n','0 kr',''],['n','Stress +3','mer']],past:null,
-    why:'<p><b>Du betalte ingenting.</b> Men skjermen er vanskelig å lese, og det irriterer deg hver dag.</p>',after:[['same','Sparemålet Lappen står på 79,8 %.'],['down','Skjermen kan bli verre senere.']]}
+    why:'<p><b>Du betalte ingenting.</b> Men skjermen er vanskelig å lese, og det irriterer deg hver dag.</p>',after:[['same','Sparemålet Lappen står på 79,8 %.'],['down','Skjermen kan bli verre senere.']],sc:'sc-selfie'}
 };
-V.resultat=()=>{const r=RES[S.choice];return `${timeline()}
-<div class="scene room" role="img" aria-label="Speilbildet smiler."><div class="scene-in"><svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#sc-glad"/></svg>
-  <div class="marker" style="left:7%;top:14%">${r.m}</div></div></div>
+V.resultat=()=>{const r=RES[S.choice];return `${r.tl?timeline(...r.tl):timeline()}
+${scene(r.sc||'sc-glad',r.sc==='sc-selfie'?'Speilbildet er alvorlig.':'Speilbildet smiler.',r.m)}
 <h1 tabindex="-1" style="margin-top:var(--s5)">${r.h}</h1>
 <div class="chips" role="status" style="margin-top:var(--s3)">${r.chips.map(c=>`<span class="chip reveal"><span class="k ${c[0]}"></span><b>${c[1]}</b> ${c[2]}</span>`).join('')}</div>
 ${r.past?`<div class="note" style="margin-top:var(--s4)"><span class="ic">${ic('past','sm')}</span><p><b>Tidligere valg</b>${r.past}</p></div>`:''}
@@ -724,23 +802,116 @@ ${r.past?`<div class="note" style="margin-top:var(--s4)"><span class="ic">${ic('
 <ul class="oc" aria-label="Hva endret seg">${r.after.map(([k,t])=>`<li><span class="oc-ic ${k}">${ic(k==='up'?'check':k==='down'?'down':'dash','sm')}</span>${t}</li>`).join('')}</ul>
 <div class="cta"><a class="btn pri" href="#hjem">Fortsett ${ic('arrow')}</a></div>`;};
 
+
+/* ---- more results: gift and card warning ---- */
+Object.assign(RES,{
+  g_spar:{tl:[0,15,2026],h:'Du sparte hele pengegaven.',m:'Spart',chips:[['n',plain(18500),'på sparekontoen'],['rate',kr(44),'rente neste måned']],past:null,
+    why:'<p><b>Banken betaler deg for å ha penger på sparekontoen.</b> 18 500 kr × 2,87 % i året blir 44 kr den første måneden.</p>',after:[['up','Sparekontoen: 0 kr → 18 500 kr'],['same','Rommet er som før.']]},
+  g_halv:{tl:[0,15,2026],h:'Du sparte halvparten.',m:'Litt av begge',chips:[['n',plain(9250),'på sparekontoen'],['out',kr(-9250),'brukt']],past:null,
+    why:'<p><b>Halvparten gikk til ting du ville ha nå.</b> Resten får rente hver måned.</p>',after:[['up','Sparekontoen: 0 kr → 9 250 kr'],['up','Sosialt gikk opp.']]},
+  g_bruk:{tl:[0,15,2026],h:'Du kjøpte gaming-PC.',m:'Ny PC',chips:[['out',kr(-15000),'betalt'],['n','Sosialt +4','mer']],past:null,
+    why:'<p><b>PC-en kostet 15 000 kr.</b> 3 500 kr er igjen på brukskontoen.</p>',after:[['up','Du spiller med vennene dine hver uke.'],['down','Brukskontoen: 18 500 kr → 3 500 kr']]},
+  k_av:{tl:[4,18,2029],h:'Du skrudde av kortet.',m:'Kortet er av',chips:[['n','0 kr','ny gjeld']],past:null,why:'<p><b>Nye kjøp går ikke lenger på kortet.</b> Gjelden på 10 000 kr er der fortsatt, og renta går til den er betalt.</p>',after:[['up','Gjelden vokser ikke av nye kjøp.'],['same','Rente hver måned: ca. 188 kr']],sc:'sc-selfie'},
+  k_mamma:{tl:[4,18,2029],h:'Mamma kan ikke låne deg penger nå.',m:'Et råd',chips:[['n','0 kr','']],past:null,why:'<p><b>Mamma vil hjelpe, men har ikke råd.</b> Hun sier at du kan la kortet ligge og spørre sjefen om flere timer.</p>',after:[['same','Gjelden står på 10 000 kr.']],sc:'sc-selfie'},
+  k_timer:{tl:[4,18,2029],h:'Du spurte om flere timer.',m:'Line svarer',chips:[['n','Svar i juni','']],past:null,why:'<p><b>Sjefen svarer neste måned.</b> Sier du ja da, gjelder det fra måneden etter.</p>',after:[['same','Gjelden står på 10 000 kr.']],sc:'sc-selfie'},
+  k_nei:{tl:[4,18,2029],h:'Du gjorde ingenting med kortet.',m:'Som før',chips:[['n','188 kr','rente denne måneden']],past:null,why:'<p><b>Betaler du bare minstebeløpet, tar det 51 måneder.</b> Av de første 350 kronene går 188 kr til rente.</p>',after:[['down','Renta fortsetter.']],sc:'sc-selfie'}
+});
+const opt=(attr,t,amt,sub='')=>`<button class="ev-opt" ${attr}><span>${t}${sub?`<small>${sub}</small>`:''}</span>${amt?`<span class="amt">${amt}</span>`:''}</button>`;
+const PI=`<p>Vi lagrer e&#8209;posten, passordet (som en kode ingen kan lese), kallenavnet og spillet ditt. E&#8209;posten brukes bare til innlogging og nytt passord. Ingen andre ser kallenavnet.</p><p>Spillet ligger hos Supabase i Tyskland. Serverne våre hos Railway lagrer logger med IP&#8209;adresser i USA i 90 dager, og Vercel lagrer logger i 1 time. Vi sporer deg ikke.</p><p>Du kan slette alt i menyen. Ellers slettes det etter 12 måneder uten spilling.</p>`;
+
+V.logginn=()=>`<div class="wm">${ic('logo','lg')}LifeMode</div>
+<form class="form" data-form="logginn" novalidate><h1 tabindex="-1">Logg inn</h1>
+  <div class="field" id="fld-lm"><label for="l-mail">E-post</label><input id="l-mail" type="email" autocomplete="username" required></div>
+  <div class="field"><label for="l-pw">Passord</label><input id="l-pw" type="password" autocomplete="current-password" required></div>
+  <label class="check"><input type="checkbox"> Forbli innlogget på denne enheten</label>
+  <button class="btn pri block" type="submit">Logg inn</button>
+  <p class="meta"><a href="#glemt">Glemt passordet?</a></p><p class="meta"><a href="#opprett">Ny her? Lag bruker</a></p></form>`;
+V.glemt=()=>`<div class="wm">${ic('logo','lg')}LifeMode</div>
+${S.sent?`<div class="form"><h1 tabindex="-1">Sjekk e-posten din</h1><p class="lead">Finnes adressen hos oss, har vi sendt en lenke. Den virker én gang, i 60 minutter.</p><a class="btn block" href="#logginn">Til innlogging</a></div>`:
+`<form class="form" data-form="glemt" novalidate><h1 tabindex="-1">Glemt passordet?</h1><div class="field"><label for="g-mail">E-post</label><input id="g-mail" type="email" autocomplete="email" required></div><button class="btn pri block" type="submit">Send lenke</button><p class="meta"><a href="#logginn">Tilbake til innlogging</a></p></form>`}`;
+
+V.gave=()=>`<div class="story"><div inert>${timeline(0,15,2026)}</div>
+${scene('sc-selfie','Speilet: du er 15 år og har fått pengegave.','15 år')}
+<h1 tabindex="-1" style="margin-top:var(--s5)">Du har fått ${plain(18500)}</h1><p class="lead" style="margin-top:var(--s2)">Hva gjør du med pengegaven?</p>
+<div class="ev-opts">${opt('data-choose="g_spar"','Sett alt på sparekontoen',plain(18500)+' spart')}${opt('data-choose="g_halv"','Spar halvparten, bruk resten',kr(-9250))}${opt('data-choose="g_bruk"','Kjøp gaming-PC',kr(-15000))}</div></div>`;
+
+V.velkommen=()=>`<div class="story"><div class="wm">${ic('logo','lg')}LifeMode</div><h1 tabindex="-1">Hei igjen, ${esc(S.nick)}</h1>
+<p class="lead" style="margin-top:var(--s2)">Alt er som da du gikk.</p>
+<div style="margin-top:var(--s4)">${scene('sc-selfie','Speilet slik du forlot det.')}</div>
+<ul class="kv card facts"><li><span>Du er her</span><b>November 2027, 16 år</b></li><li><span>Brukskonto</span><b>${plain(cur())}</b></li><li><span>Nye meldinger</span><b>${unread()}</b></li><li><span>Planen</span><b>${3-freeSlots()} av 3 kvelder</b></li></ul>
+<div class="row" style="margin:var(--s5) 0;align-items:stretch"><div class="postit" style="--r:-2deg;flex:0 0 150px"><span class="lock">${ic('lock','sm')}</span><h3>Lappen (bil)</h3><p>fra 18 år</p></div>
+<p class="grow" style="align-self:center">Lappen koster <b>${plain(GOAL_PRICE)}</b>. Du har <b>${plain(net())}</b>.</p></div>
+<a class="btn pri block" href="#hjem">Fortsett i november ${ic('arrow')}</a></div>`;
+
+V.kort=()=>`${timeline(4,18,2029)}${scene('sc-selfie','Speilet er mørkt.','Kortet er fullt',{dim:true})}
+<h1 tabindex="-1" style="margin-top:var(--s5)">Du kunne ikke betale hele kortregningen</h1>
+<ul class="kv card facts"><li><span>Kortgjeld</span><b>${plain(10000)}</b></li><li><span>Rente denne måneden</span><b>${plain(188)}</b></li><li><span>Bare minstebeløpet</span><b>51 måneder, ${plain(5508)} i rente</b></li></ul>
+<div class="ev-opts">${opt('data-choose="k_av"','Skru av kortet','','Nye kjøp går fra kontoen')}${opt('data-choose="k_timer"','Spør om flere timer','','Svar neste måned')}${opt('data-choose="k_mamma"','Snakk med mamma')}${opt('data-choose="k_nei"','Ikke gjør noe nå')}</div>`;
+
+V.krise=()=>{const k=S.kr,head=timeline(7,18,2029);
+  if(k.end) return `${head}${scene(k.end==='loest'?'sc-glad':'sc-selfie',k.end==='loest'?'Speilbildet smiler.':'Speilbildet er alvorlig.',k.end==='loest'?'Det gikk':'Ikke løst')}
+<h1 tabindex="-1" style="margin-top:var(--s5)">${k.end==='loest'?'Krisen er over':'Krisen er ikke løst'}</h1>
+<ul class="oc" aria-label="Hva endret seg">${k.log.map(([c,t])=>`<li><span class="oc-ic ${c}">${ic(c==='up'?'check':c==='down'?'down':'dash','sm')}</span>${t}</li>`).join('')}</ul>
+<div class="cta"><a class="btn pri" href="#hjem">Fortsett ${ic('arrow')}</a></div>`;
+  return `${head}${scene('sc-selfie','Speilet er mørkt.',k.step?'Nesten':'Stopp litt',{dim:true})}
+<h1 tabindex="-1" style="margin-top:var(--s5)">${k.step?`Du mangler fortsatt ${plain(k.due)}`:'Kortet er ikke betalt på to måneder'}</h1>
+<div class="steps"><i class="on"></i><i class="${k.step>0?'on':''}"></i><i class="${k.step>1?'on':''}"></i>Valg ${k.step+1} av inntil 3</div>
+<p class="lead" style="margin-top:var(--s3)">${k.step?'Det finnes flere veier.':`Du skylder ${plain(700)} nå. Det finnes alltid en vei ut.`}</p>
+<div class="ev-opts">${S.moped?opt('data-kr="selg"','Selg mopeden',kr(8152),'Pengene kommer nå'):''}${opt('data-kr="avtale"','Be om betalingsavtale','939 kr i mnd','I 12 måneder fra september. Kortet sperres.')}${k.asked?'':opt('data-kr="mamma"','Spør mamma om hjelp','','Hun kan kanskje låne deg noe')}${opt('data-kr="ignorer"','Ikke gjør noe','','Gjelden vokser')}</div>`;};
+
+V.aarsslutt=()=>{const t=YEAR.slice(0,NOW+1).reduce((a,m)=>[a[0]+m[0],a[1]+m[1],a[2]+m[2]],[8457,6593,57]);
+return `${timeline(11,16,2027)}${scene('sc-glad','Speilbildet smiler.','Godt nytt år')}
+<h1 tabindex="-1" style="margin-top:var(--s5)">2027 er over</h1>
+<div class="chips" style="margin-top:var(--s3)"><span class="chip"><span class="k in"></span><b>+${plain(t[0])}</b> inn</span><span class="chip"><span class="k out"></span><b>−${plain(t[1])}</b> ut</span><span class="chip"><span class="k rate"></span><b>+${plain(t[2])}</b> rente</span></div>
+<ul class="oc" aria-label="Hva endret seg i år"><li><span class="oc-ic up">${ic('check','sm')}</span>Du tok mopedlappen.</li>${S.moped?`<li><span class="oc-ic up">${ic('check','sm')}</span>Mopeden står utenfor vinduet.</li>`:''}<li><span class="oc-ic same">${ic('dash','sm')}</span>Trivsel i snitt: 61. Du trenger 50.</li></ul>
+<div class="row" style="margin-top:var(--s5);align-items:stretch"><div class="postit" style="--r:-2deg;flex:0 0 150px"><span class="lock">${ic('lock','sm')}</span><h3>Lappen (bil)</h3><p>fra 18 år</p></div><p class="grow" style="align-self:center">Et valg du tok i år, kan få følger senere.</p></div>
+<div class="ev-opts"><a class="btn pri block" href="#hjem">Fortsett til januar ${ic('arrow')}</a><a class="btn block" href="#landing">Ferdig for nå</a></div>`;};
+
+const END={
+  ekte:{m:'20 år',sc:'sc-glad',h:'Du klarte målet',p:'Du sparte til noe stort og har det bra.',spart:108420,tr:61,gjeld:0},
+  hul:{m:'20 år',sc:'sc-selfie',h:'Du nådde målet, men det kostet',p:'Pengene er der. Vennene og fritiden fikk lite plass.',spart:121300,tr:42,gjeld:0},
+  ikke:{m:'20 år',sc:'sc-glad',h:'Målet ble ikke nådd denne gangen',p:'Du brukte penger på livet underveis, og det er lov. Litt fast sparing hver måned gjør store kjøp enklere senere.',spart:61300,tr:66,gjeld:0},
+  tap:{m:'20 år',sc:'sc-selfie',h:'Økonomien holdt ikke',p:'Du hadde et godt liv, men kortregningene ble ikke betalt.',spart:0,tr:58,gjeld:14200}};
+const CH=[['Konserter og arrangementer',-9450,'Hadde du latt være, ville du hatt 10 210 kr mer da du fylte 20. De ga deg også mer sosialt liv.','Velg ut de få kveldene som betyr mest.'],['Du brukte 15 000 kr av pengegaven',-15000,'Hadde du valgt å spare alt, ville du hatt 17 270 kr mer da du fylte 20.','Sett av en del før du handler.'],['Sommerjobben i 2027',16728,'Uten sommerjobben ville du hatt 18 000 kr mindre.','Noen uker arbeid kan dekke et helt mål.']];
+const BAD=['Du droppet hytteturen i 2028',0,'Du sa nei for å jobbe. Vennene dine dro uten deg.','Noen turer kommer ikke tilbake.'];
+function ending(k){const e=END[k],[c]=wbSt(e.tr),ch=k==='hul'?[CH[2],CH[1],BAD]:[CH[2],CH[1],CH[0]];
+return `<div class="story">${scene(e.sc,e.sc==='sc-glad'?'Speilbildet smiler.':'Speilbildet er alvorlig.',e.m)}
+<h1 tabindex="-1" style="margin-top:var(--s5)">${e.h}</h1><p class="lead" style="margin-top:var(--s2)">${e.p}</p>
+<ul class="kv card facts"><li><span>Spart, av 100 000 kr</span><b>${plain(e.spart)}</b></li><li><span>Trivsel i snitt, du trengte 50</span><b><span class="pill ${c}"><span class="sdot ${c}" aria-hidden="true"></span>${e.tr} ${{good:'bra',warn:'ok',bad:'lavt'}[c]}</span></b></li><li><span>Gjeld</span><b>${plain(e.gjeld)}</b></li></ul>
+<section class="sec" aria-labelledby="h-ch"><h2 id="h-ch">Valgene som betydde mest</h2><div class="stack">${ch.map(x=>`<details class="choice-d"><summary>${ic('chev')}<span>${x[0]}</span><span class="amt">${x[1]?kr(x[1]):'Trivsel −10'}</span></summary><div><p>${x[2]}</p><p class="meta">${x[3]}</p></div></details>`).join('')}</div></section>
+<a class="btn pri block" href="#start" style="margin-top:var(--s6)">Spill på nytt</a></div>`;}
+V.slutt=()=>ending('ekte');V['slutt-hul']=()=>ending('hul');V['slutt-ikke']=()=>ending('ikke');V['slutt-tap']=()=>ending('tap');
+
+V.meny=()=>`<div class="head"><a class="back" href="#hjem" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">Meny</h1></div></div>
+<ul class="menu">
+  <li><button data-sheet="navn" aria-haspopup="dialog">${ic('user')}Kallenavn<span class="val">${esc(S.nick)}</span></button></li>
+  <li><button data-sheet="passord" aria-haspopup="dialog">${ic('lock')}Endre passord${ic('chev','sm')}</button></li>
+  <li><a href="#tallene">${ic('about')}Om tallene${ic('chev','sm')}</a></li>
+  <li><button data-sheet="info" aria-haspopup="dialog">${ic('q')}Dette lagrer vi${ic('chev','sm')}</button></li>
+  <li><button data-sheet="nytt" aria-haspopup="dialog">${ic('past')}Start et nytt liv${ic('chev','sm')}</button></li></ul>
+<ul class="menu" style="margin-top:var(--s5)"><li><a href="#landing">Logg ut</a></li><li><button data-sheet="alle" aria-haspopup="dialog">Logg ut på alle enheter</button></li><li><button class="danger" data-sheet="slett" aria-haspopup="dialog">Slett bruker</button></li></ul>`;
+const TALL=[['Skatt','Skatten regnes ut fra hele årsinntekten din med satsene for 2026. I virkeligheten kan arbeidsgiveren trekke 50 % av lønna til du har skattekort, eller når frikortet er brukt opp.'],['Lønn','Timelønna i spillet er minstesatsen i tariffavtalen for varehandelen (Virke/HK) fra 1. april 2026. Norge har ingen lovbestemt minstelønn, så den ekte lønna di kan bli både høyere og lavere.'],['Alle satser','Alle satser og beløp er 2026-tall. De holdes faste gjennom hele spillet, selv om spillet varer fra du er 15 til du er 20.'],['Tid','Tiden i spillet går bare når du spiller. Mens du er borte, kommer det ingen renter, regninger eller hendelser, uansett hvor lenge du er borte.'],['Trivsel','Trivsel er mye mer enn tre tall. Spillet måler bare stress, fritid og sosialt liv, for å vise at et godt liv handler om mer enn penger.']];
+V.tallene=()=>`<div class="head"><a class="back" href="#meny" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">Om tallene</h1><p class="meta">Her er det spillet forenkler.</p></div></div><div class="stack">${TALL.map(t=>`<details class="choice-d"><summary>${ic('chev')}<span>${t[0]}</span></summary><div><p>${t[1]}</p></div></details>`).join('')}</div>`;
+V.offline=()=>V.hjem();
+
 /* ---- phone apps ---- */
 const INBOX=[
-  {k:'emma',nm:'Emma',c:'#94601A',t:'14:02',p:`Hei ${S.nick}! Konsert lørdag? Billetten er 450 kr.`,tag:['inv','Invitasjon'],href:'#melding'},
-  {k:'bank',nm:'Banken',c:'#2B4CC4',t:'11:30',p:'Tre fjerdedeler! Du har 79,8 % av Lappen.',tag:null,href:'#penger'},
-  {k:'line',nm:'Line · Butikken',c:'#2E7D6B',t:'i går',p:'Du spurte om flere timer. Jeg har et tilbud.',tag:['off','Tilbud'],href:'#jobb',read:true},
-  {k:'mamma',nm:'Mamma',c:'#7154A8',t:'okt.',p:'Vi betaler mobilen din til du fyller 18.',tag:null,read:true},
-  {k:'jonas',nm:'Jonas',c:'#25292E',t:'okt.',p:'Gamingkveld hos meg lørdag?',tag:['','Utløpt'],read:true}];
+  {k:'emma',nm:'Emma',c:'#94601A',t:'14:02',p:`Hei ${S.nick}! Konsert lørdag? Billetten er 450 kr.`,tag:['inv','Invitasjon'],href:'#melding',now:true},
+  {k:'bank',nm:'Banken',c:'#2B4CC4',t:'11:30',p:'Tre fjerdedeler! Du har 79,8 % av Lappen.',tag:null,href:'#penger',now:true},
+  {k:'line',nm:'Line · Butikken',c:'#2E7D6B',t:'i går',p:'Du spurte om flere timer. Jeg har et tilbud.',tag:['off','Tilbud'],href:'#jobb',now:true},
+  {k:'mamma',nm:'Mamma',c:'#7154A8',t:'okt.',p:'Vi betaler mobilen din til du fyller 18.',tag:null},
+  {k:'jonas',nm:'Jonas',c:'#25292E',t:'okt.',p:'Gamingkveld hos meg lørdag?',tag:['','Utløpt']}];
 function appFrame(title,body,back='#hjem'){
   return `<div class="head app-head">${back?`<a class="back" href="${back}" aria-label="Tilbake">${ic('back')}</a>`:''}<div><h1 class="app-title">${title}</h1></div></div><div class="app-body">${body}</div>`;
 }
 function inbox(){
-  return appFrame('Meldinger',`<ul class="list">${INBOX.map(m=>{
-    const un=!m.read&&!(m.k==='emma'&&S.emmaRead);
+  const rows=list=>`<ul class="list">${list.map(m=>{
+    const un=m.now&&!S.read.has(m.k);
     const p=m.k==='emma'?`Hei ${esc(S.nick)}! Konsert lørdag? Billetten er 450 kr.`:m.p;
-    return `<li><a class="item msg ${un?'unread':''}" href="${m.href||'#telefon'}"><span class="av" style="background:${m.c}" aria-hidden="true">${m.nm[0]}</span>
+    return `<li><a class="item msg ${un?'unread':''}" data-msg="${m.k}" href="${m.href||'#telefon'}"><span class="av" style="background:${m.c}" aria-hidden="true">${m.nm[0]}</span>
       <div class="grow"><h3>${m.nm}${m.tag?` <span class="tag ${m.tag[0]}">${m.tag[1]}</span>`:''}</h3><p>${p}</p></div>
-      <div class="msg-side"><time>${m.t}</time>${un?'<span class="u" aria-label="Ulest"></span>':''}</div></a></li>`;}).join('')}</ul>
+      <div class="msg-side"><time>${m.t}</time>${un?'<span class="u" role="img" aria-label="Ikke åpnet"></span>':''}</div></a></li>`;}).join('')}</ul>`;
+  return appFrame('Meldinger',`<div><h2 class="grp">Nye i november</h2>${rows(INBOX.filter(m=>m.now))}<h2 class="grp">Tidligere</h2>${rows(INBOX.filter(m=>!m.now))}</div>
     <p class="foot-note">Du svarer med det du gjør, ikke med tekst.</p>`,false);
 }
 function thread(){
@@ -755,17 +926,27 @@ function thread(){
 const SPEND={lite:['Lite',5074,'Matpakke, sjelden nye klær','Du sparer mer'],vanlig:['Vanlig',6343,'Kantina av og til, klær iblant','Det de fleste velger'],mye:['Mye',8034,'Kantina hver dag, nye klær ofte','Du sparer nesten ingenting']};
 function bank(){
   return appFrame('Banken',`<div class="card">
-      <span class="meta">Brukskonto + sparekonto</span><div class="big-amt">${plain(25920)}</div>
-      <span class="chip"><span class="k in"></span><b>${kr(1920)}</b> i november</span>
+      <span class="meta">Brukskonto + sparekonto</span><div class="big-amt">${plain(net())}</div>
+      <span class="chip"><span class="k in"></span><b>${kr(1920+(S.moped?0:MOPED_PRICE))}</b> i november</span>
       <ul class="acc">
-        <li><span class="ico">${ic('wallet')}</span><div class="grow"><h3>Brukskonto</h3><p class="sub">Til hverdagen</p></div><span class="amt">${plain(2364)}</span></li>
+        <li><span class="ico">${ic('wallet')}</span><div class="grow"><h3>Brukskonto</h3><p class="sub">Til hverdagen</p></div><span class="amt">${plain(cur())}</span></li>
         <li><span class="ico">${ic('piggy')}</span><div class="grow"><h3>Sparekonto</h3><button class="rate-btn" data-sheet="rente" aria-haspopup="dialog">${kr(56)} rente<span class="info">${ic('info')}</span></button></div><span class="amt">${plain(23556)}</span></li>
         <li><span class="ico">${ic('house')}</span><div class="grow"><h3>BSU</h3><p class="sub">Ikke åpnet</p></div><button class="btn sm">Åpne</button></li>
         <li><span class="ico">${ic('card')}</span><div class="grow"><h3 style="color:var(--muted)">Kredittkort</h3><p class="sub">Fra 18 år</p></div>${ic('lock')}</li>
       </ul>
       <div class="actions"><button class="btn sm">${ic('swap','sm')} Flytt penger</button><button class="btn sm">${ic('house','sm')} Til BSU</button></div>
     </div>
-    <section class="card sec-card" aria-labelledby="h-goal"><div class="row"><h2 id="h-goal" class="grow">Sparemål: Lappen</h2><b class="num">79,8 %</b></div><div class="progress"><i style="width:79.8%"></i></div></section>
+    <section class="card sec-card" aria-labelledby="h-goal"><div class="row"><h2 id="h-goal" class="grow">Sparemål: Lappen</h2><b class="num">${pct(net(),GOAL_PRICE)}</b></div><div class="progress"><i style="width:${Math.min(100,net()/GOAL_PRICE*100)}%"></i></div>
+      <p class="meta">${plain(GOAL_PRICE)}, fra 18 år. ${net()<GOAL_PRICE?`Mangler ${plain(GOAL_PRICE-net())}.`:'Du har nok.'}</p>
+      <div class="row" style="margin-top:var(--s3)"><h3 class="grow">Livsmål: Spare til noe stort</h3><b class="num">${pct(net(),100000)}</b></div><div class="progress"><i style="width:${net()/1000}%"></i></div>
+      <button class="btn sm" data-sheet="maal" aria-haspopup="dialog">Bytt sparemål</button></section>
+    <section class="card sec-card" aria-labelledby="h-next"><h2 id="h-next">Fremover</h2>
+      <details class="more"><summary>${ic('chev','sm')}Kommer i desember<span class="amt">${S.moped?kr(-250):'0 kr'}</span></summary><ul class="tx"><li><span class="k out"></span>Mopedforsikring<span class="amt">${S.moped?kr(-250):'0 kr'}</span></li><li>Buss og mobil<span class="amt">Foreldrene betaler til du er 18</span></li></ul></details>
+      <details class="more"><summary>${ic('chev','sm')}Aktiviteter i år<span class="amt">${kr(-3150)}</span></summary><ul class="tx"><li>Konserter og arrangementer<span class="amt">${kr(-1350)}</span></li><li>Kvelder med venner<span class="amt">${kr(-1800)}</span></li></ul></details></section>
+    <section class="card sec-card" aria-labelledby="h-own"><h2 id="h-own">Kan kjøpes eller selges</h2><ul class="acc">
+      <li><span class="ico">${ic('moped')}</span><div class="grow"><h3>Moped, brukt</h3><p class="sub">${S.moped?`Verdt ${plain(MOPED_PRICE)} nå`:'Du har ingen moped'}</p></div>${S.moped?'<button class="btn sm" data-sheet="selg" aria-haspopup="dialog">Selg</button>':`<span class="amt">${plain(11645)}</span>`}</li>
+      <li><span class="ico">${ic('moped')}</span><div class="grow"><h3>Moped, ny</h3><p class="sub">${S.moped?'Du kan bare ha én moped':net()<29000?`Mangler ${plain(29000-net())}`:'Du har råd'}</p></div><span class="amt">${plain(29000)}</span></li>
+      <li><span class="ico">${ic('card')}</span><div class="grow"><h3 style="color:var(--muted)">Lappen (bil)</h3><p class="sub">Fra 18 år</p></div>${ic('lock')}</li></ul></section>
     <section class="card sec-card" aria-labelledby="h-sp"><h2 id="h-sp">Hvor mye bruker du i måneden?</h2>
       <p class="meta">Av lønna di. Aktiviteter kommer i tillegg.</p>
       <div class="choice" role="radiogroup" aria-labelledby="h-sp">${Object.entries(SPEND).map(([k,s])=>`<label class="opt"><input type="radio" name="spend" value="${k}" ${S.spend===k?'checked':''}><div class="grow"><h3><span>${s[0]}</span><span>ca. ${plain(s[1])}</span></h3><p>${s[2]}. ${s[3]}.</p></div></label>`).join('')}</div>
@@ -774,7 +955,7 @@ function bank(){
       <li><span class="k in"></span>Lønn fra Butikken<span class="amt">${kr(8457)}</span></li>
       <li><span class="k rate"></span><button class="rate-btn" data-sheet="rente" aria-haspopup="dialog">Rente, sparekonto<span class="info">${ic('info')}</span></button><span class="amt">${kr(56)}</span></li>
       <li><span class="k out"></span>Hverdagsforbruk<span class="amt">${kr(-6343)}</span></li>
-      <li><span class="k out"></span>Aktiviteter i oktober<span class="amt">${kr(-250)}</span></li></ul></section>`);
+      <li><span class="k out"></span>Mopedforsikring<span class="amt">${kr(-250)}</span></li></ul></section>`);
 }
 /* prototype only: the engine sends these figures (FR-47, rule 12, rule 16; worked examples 24 and 25) */
 const RATE=139.4,SHARE={lite:.6,vanlig:.75,mye:.95};
@@ -808,34 +989,63 @@ function job(){
 }
 const APPS={telefon:inbox,melding:thread,penger:bank,jobb:job};
 const PANE_ROUTES=['telefon','melding','penger','jobb'];
-const ONB=['landing','opprett','start'];
+const ONB=['landing','opprett','start','logginn','glemt','gave','velkommen','slutt','slutt-hul','slutt-ikke','slutt-tap'];
+const HOME=['aar','hendelse','resultat','kort','krise','aarsslutt','offline'],AGE={kort:18,krise:18};
 
 /* ===== router ===== */
 let lastPane='telefon';
-function route(){return (location.hash||'#landing').slice(1)}
+function route(){return (location.hash||'#landing').slice(1).split('~')[0]}
+/* "#route~state" opens a screen in a given state, for oversikt.html */
+function preset(after){const st=location.hash.split('~')[1];if(!st)return;S.toast=true;const r=route();
+  if(!after){if(r==='resultat'){S.choice=st;S.phone=st==='used'?'used':st==='live'?'crack':'ok'}
+    if(r==='krise'){const k=S.kr;if(st==='2'){k.step=1;k.due=200;k.asked=true}if(st==='loest'){S.moped=false;k.end='loest';k.log=[['up','Mopeden er solgt for 8 152 kr.'],['up','Kortregningene er betalt.'],['down','Du tar bussen fra september.']]}if(st==='ikke'){k.end='ikke';k.log=[['down','Gjelden vokser videre.'],['same','Neste krise kan komme tidligst i november.']]}}
+    if(r==='glemt')S.sent=true;if(r==='jobb'){S.offer=true;S.asked='flere'}if(r==='plan'&&st==='full')S.slots=['venner','konsert','hvile'];
+    if(r==='penger'&&st==='solgt'||r==='hjem'&&st==='solgt')S.moped=false;return}
+  if(r==='opprett'){$('#f-mail').value='mak@eksempel.no';$('#f-pw').value='passord1';$('form').requestSubmit()}
+  if(r==='resultat'&&st==='repair'&&$('[data-why]'))$('[data-why]').click();
+  if(['rente','selg','maal','slett','nytt','navn','passord','info'].includes(st))openSheet(st);
+  if(st==='varsel')showToast(true);if(st==='velg'){S.pickFor=1;openSheet('pick')}}
 function render(focus=true){
   const rr=route(), r=(V[rr]||APPS[rr])?rr:'landing';
   const wide=matchMedia('(min-width:1100px)').matches;
   const app=$('#app');app.classList.toggle('onb',ONB.includes(r));
   if(PANE_ROUTES.includes(r)) lastPane=r;
-  if(r==='melding') S.emmaRead=true;
+  if(r==='melding') S.read.add('emma');
+  S.off=r==='offline'||!navigator.onLine;
+  if(r==='hendelse') S.phone='crack';
+  const early=['landing','start','gave'].includes(r)||(r==='resultat'&&S.choice.startsWith('g_'));
+  R=early?{moped:false,lapp:false,phone:'ok'}:S;applyRoom();
   let mainHtml;
   if(PANE_ROUTES.includes(r)) mainHtml=wide?V.hjem():APPS[r]();
   else mainHtml=V[r]();
   $('#main').innerHTML=mainHtml;
   $('#pane').innerHTML=!wide?'':`<div class="device"><div class="screen"><div class="notch"><i></i></div>${APPS[PANE_ROUTES.includes(r)?r:(r==='plan'?'telefon':lastPane)]()}</div></div>`;
   nav(r);
+  if(S.off&&!ONB.includes(r)) goOffline();
+  if(r==='hjem'&&!S.toast&&!wide){S.toast=true;setTimeout(showToast,900)}
+  if(r!=='hjem') $('#toast').innerHTML='';
   if(focus){const h=$('#main h1,#main h2[tabindex]');if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}window.scrollTo(0,0)}
+}
+function goOffline(){
+  $('#main').insertAdjacentHTML('afterbegin',`<div class="net" role="status">${ic('off')}<span>Ingen nett. Valgene venter til du er på nett igjen.</span></div>`);
+  document.querySelectorAll('[data-choose],[data-add],[data-pick],[data-clear],[data-offer],[data-ask],[data-endextra],[data-kr],[data-same],[data-decline]').forEach(b=>b.disabled=true);
+  document.querySelectorAll('.cta a').forEach(a=>{a.removeAttribute('href');a.setAttribute('role','link');a.setAttribute('aria-disabled','true')});
+}
+function showToast(keep){
+  if(route()!=='hjem'||S.read.has('emma')) return;
+  $('#toast').innerHTML=`<div class="toast"><a href="#melding"><span class="av" style="background:#94601A" aria-hidden="true">E</span><span style="min-width:0"><b>Emma</b><p>Hei ${esc(S.nick)}! Konsert lørdag? Billetten er 450 kr.</p></span></a><button class="x" data-toastx aria-label="Lukk varselet">${ic('x')}</button></div>`;
+  if(!keep) setTimeout(()=>$('#toast').innerHTML='',8000);
 }
 function nav(r){
   const items=[['hjem','Hjem','home'],['plan','Plan','cal'],['telefon','Mobil','phone'],['jobb','Jobb','job'],['penger','Penger','wallet']];
-  const cur=r==='melding'?'telefon':['aar','hendelse','resultat'].includes(r)?'hjem':r;
+  const cur=r==='melding'?'telefon':HOME.includes(r)?'hjem':r;
   const badge=k=>k==='telefon'?unread():k==='plan'&&freeSlots()?-1:k==='jobb'&&S.offer===null?-1:0;
   $('#tabbar').innerHTML=items.map(([k,l,i])=>{const b=badge(k);return `<a class="tab" href="#${k}" ${cur===k?'aria-current="page"':''}><span class="tab-ic">${ic(i)}${b>0?`<span class="dot">${b}</span>`:b<0?'<span class="dot bare"></span>':''}</span>${l}${b>0?`<span class="sr">, ${b} nye</span>`:b<0?'<span class="sr">, noe nytt</span>':''}</a>`}).join('');
   $('#rail-links').innerHTML=items.map(([k,l,i])=>{const b=badge(k);return `<a class="rl" href="#${k}" ${cur===k?'aria-current="page"':''}>${ic(i)}${l}${b>0?`<span class="cnt">${b}</span>`:b<0?'<span class="cnt bare" aria-label="noe nytt"></span>':''}</a>`}).join('');
-  $('#rail-me').textContent=`${S.nick} · 16 år`;
+  $('#rail-me').textContent=`${S.nick} · ${AGE[r]||16} år`;$('#rail-menu').setAttribute('aria-label',`Meny, ${S.nick}`);$('#rail-menu .av').textContent=S.nick[0].toUpperCase();r==='meny'?$('#rail-menu').setAttribute('aria-current','page'):$('#rail-menu').removeAttribute('aria-current');
 }
-addEventListener('hashchange',()=>render());
+addEventListener('hashchange',()=>{if(route()!=='glemt')S.sent=false;render()});
+addEventListener('offline',()=>render(false));addEventListener('online',()=>render(false));
 let lastWide=null;addEventListener('resize',()=>{const w=matchMedia('(min-width:1100px)').matches;if(w!==lastWide){lastWide=w;render(false)}});
 
 /* ===== sheets ===== */
@@ -847,6 +1057,17 @@ function openSheet(kind){
     <p class="meta">BSU gir 5,61 % rente, men pengene er låst til bolig.</p>
     <button class="btn block" data-close style="margin-top:var(--s4)">Skjønner</button>`;
   if(kind==='pick') sheet.innerHTML=`<div class="grab"></div><div class="sheet-h"><h2 id="sheet-title">Kveld ${S.pickFor+1}</h2><button class="x" data-close aria-label="Lukk">${ic('x')}</button></div><div id="addlist">${addList()}</div>`;
+  const X=(t,body)=>`<div class="grab"></div><div class="sheet-h"><h2 id="sheet-title">${t}</h2><button class="x" data-close aria-label="Lukk">${ic('x')}</button></div>${body}`;
+  const conf=(t,p,btn,attr,danger)=>X(t,`<p>${p}</p>${danger==='pw'?'<div class="field" style="margin-top:var(--s4)"><label for="c-pw">Passordet ditt</label><input id="c-pw" type="password" autocomplete="current-password"></div>':''}<div class="ask" style="margin-top:var(--s4)"><button class="btn ${danger?'danger':'pri'} block" ${attr}>${btn}</button><button class="btn block" data-close>Avbryt</button></div>`);
+  const pw=(id,l,a)=>`<div class="field" style="margin-bottom:var(--s3)"><label for="${id}">${l}</label><input id="${id}" type="password" autocomplete="${a}"></div>`;
+  if(kind==='selg') sheet.innerHTML=conf('Selge mopeden?',`Du får <b>${plain(MOPED_PRICE)}</b> på brukskontoen og slipper ${plain(250)} i forsikring. Fra desember tar du bussen.`,'Selg mopeden','data-selg');
+  if(kind==='maal') sheet.innerHTML=X('Hva sparer du til?',`<div class="ask">${[['Lappen (bil)',32500],['Moped, ny',29000]].map(m=>`<button class="btn block" data-maal="1">${m[0]}, ${plain(m[1])}</button>`).join('')}</div>`);
+  if(kind==='navn') sheet.innerHTML=X('Kallenavn',`<div class="field"><label for="n-nick">Hva skal vi kalle deg?</label><input id="n-nick" type="text" maxlength="16" value="${esc(S.nick)}"><p class="hint">2–16 tegn. Bare du ser det.</p></div><button class="btn pri block" style="margin-top:var(--s4)" data-navn>Lagre</button>`);
+  if(kind==='passord') sheet.innerHTML=X('Endre passord',pw('p-old','Passordet du har nå','current-password')+pw('p-new','Nytt passord','new-password')+'<p class="meta">Minst 8 tegn. Andre enheter logges ut.</p><button class="btn pri block" style="margin-top:var(--s4)" data-close>Endre passord</button>');
+  if(kind==='info') sheet.innerHTML=X('Dette lagrer vi',`<div class="stack">${PI}</div>`);
+  if(kind==='nytt') sheet.innerHTML=conf('Starte et nytt liv?','Livet du har nå, slettes og kan ikke hentes tilbake.','Start på nytt','data-go="#start"','1');
+  if(kind==='alle') sheet.innerHTML=conf('Logge ut på alle enheter?','Du må logge inn igjen overalt, også her.','Logg ut overalt','data-go="#landing"');
+  if(kind==='slett') sheet.innerHTML=conf('Slette brukeren?','E-posten og hele spillet ditt slettes. Det kan ikke angres.','Slett bruker','data-go="#landing"','pw');
   if(!sheet.open) sheet.showModal();
 }
 sheet.addEventListener('click',e=>{if(e.target===sheet||e.target.closest('[data-close]'))sheet.close()});
@@ -868,11 +1089,26 @@ document.addEventListener('click',e=>{
   else if(d.add){place(d.add)}
   else if(d.clear!==undefined){const a=ALL[S.slots[+d.clear]];S.slots[+d.clear]=null;live(`${a.nm} fjernet.`);render(false)}
   else if(d.tab){S.addTab=d.tab;document.querySelectorAll('#addlist').forEach(n=>n.innerHTML=addList());document.querySelector(`#addlist [data-tab="${d.tab}"]`)?.focus()}
-  else if(d.choose){S.choice=d.choose;location.hash='#resultat'}
+  else if(d.toastx!==undefined){$('#toast').innerHTML=''}
+  else if(d.choose){ // saving: options lock, no result until the server confirms (FR-6)
+    document.querySelectorAll('[data-choose]').forEach(b=>b.disabled=true);t.classList.add('saving');
+    const am=t.querySelector('.amt');if(am)am.textContent='Lagrer …';else t.insertAdjacentHTML('beforeend','<span class="amt">Lagrer …</span>');live('Lagrer valget.');
+    setTimeout(()=>{S.choice=d.choose;if(d.choose==='repair')S.phone='ok';if(d.choose==='used')S.phone='used';location.hash='#resultat'},700)}
+  else if(d.kr){const k=S.kr;
+    if(d.kr==='mamma'){k.asked=true;k.step++;k.due=200;k.log.push(['up','Mamma lånte deg 500 kr uten rente. Du betaler 100 kr i måneden.'])}
+    if(d.kr==='selg'){S.moped=false;k.end='loest';k.log.push(['up','Mopeden er solgt for 8 152 kr.'],['up','Kortregningene er betalt.'],['down','Du tar bussen fra september.'])}
+    if(d.kr==='avtale'){k.end='loest';k.log.push(['up','Gjelden betales ned på 12 måneder.'],['down','939 kr i måneden, og kortet er sperret.'])}
+    if(d.kr==='ignorer'){k.end='ikke';k.log.push(['down','Gjelden vokser videre.'],['same','Neste krise kan komme tidligst i november.'])}
+    render()}
+  else if(d.selg!==undefined){sheet.close();S.moped=false;live(`Mopeden er solgt. ${roomText()}`);render(false)}
+  else if(d.maal){sheet.close();live('Sparemålet er valgt.')}
+  else if(d.navn!==undefined){const v=$('#n-nick').value.trim();if(v.length>=2){S.nick=v;sheet.close();live('Kallenavnet er endret.');render(false)}else{$('#n-nick').setAttribute('aria-invalid','true');$('#n-nick').focus()}}
+  else if(d.go){sheet.close();location.hash=d.go}
   else if(d.why!==undefined){const w=$('#why');w.hidden=!w.hidden;t.setAttribute('aria-expanded',String(!w.hidden))}
   else if(d.mon){S.sel=+d.mon;render(false);document.querySelector(`[data-mon="${d.mon}"]`)?.focus()}
   else if(d.offer){S.offer=d.offer==='1';live(S.offer?'Du sa ja til 2 timer mer fra desember.':'Du sa nei takk.');render(false)}
   else if(d.ask){S.asked=d.ask;live(`Du har spurt om ${d.ask} timer. Line svarer i desember.`);render(false)}
+  else if(d.same!==undefined){LAST.forEach(k=>{const i=S.slots.indexOf(null);if(i>=0&&!S.slots.includes(k))S.slots[i]=k});live('Aktivitetene fra oktober er lagt inn der de får plass.');render(false)}
   else if(d.goplan!==undefined){S.addTab='jobb';location.hash='#plan'}
   else if(d.endextra!==undefined){S.extraEnded=true;live(`Ekstravaktene slutter. Fra desember har du ${evenings(slotsAt(S.offer?12:10))}.`);render(false)}
   else if(d.decline!==undefined){live('Du takket nei.');location.hash='#telefon'}
@@ -880,6 +1116,7 @@ document.addEventListener('click',e=>{
   else if(d.mailedit!==undefined){$('#mailcheck').hidden=true;$('form[data-form=opprett]').hidden=false;$('#f-mail').focus()}
   else if(d.look){S.look=+d.look;applyLook();render(false)}
 });
+document.addEventListener('click',e=>{const m=e.target.closest('[data-msg]');if(m&&!S.read.has(m.dataset.msg)){S.read.add(m.dataset.msg)}},true);
 document.addEventListener('change',e=>{
   if(e.target.name==='spend'){S.spend=e.target.value;render(false);live(`${SPEND[S.spend][0]} forbruk valgt.`)}
   if(e.target.name==='goal'){S.goal=+e.target.value}
@@ -888,17 +1125,20 @@ document.addEventListener('input',e=>{
   if(e.target.id==='f-nick'){const v=e.target.value.trim();document.querySelectorAll('[data-nick]').forEach(n=>n.textContent=v||'…')}
 });
 document.addEventListener('submit',e=>{
-  if(e.target.dataset.form!=='opprett')return;e.preventDefault();
+  const fm=e.target.dataset.form;if(!fm)return;e.preventDefault();
+  if(fm==='glemt'){S.sent=true;render();return}
+  if(fm==='logginn'){const f=$('#fld-lm');if(!$('#l-mail').value.trim()||!$('#l-pw').value){f.querySelector('.errmsg')?.remove();f.classList.add('err');f.insertAdjacentHTML('beforeend','<p class="errmsg" id="e-l">Feil e-post eller passord.</p>');$('#l-mail').setAttribute('aria-describedby','e-l');$('#l-mail').focus();return}location.hash='#velkommen';return}
   const nick=$('#f-nick').value.trim(),mail=$('#f-mail').value.trim();
   const fail=(box,inp,id,msg)=>{const f=$(box),i=$(inp);f.classList.add('err');i.setAttribute('aria-invalid','true');f.insertAdjacentHTML('beforeend',`<p class="errmsg" id="${id}">${msg}</p>`);i.setAttribute('aria-describedby',[i.dataset.hint,id].filter(Boolean).join(' '))};
   document.querySelectorAll('.field.err').forEach(f=>{f.classList.remove('err');f.querySelector('.errmsg')?.remove();const i=f.querySelector('input');i.removeAttribute('aria-invalid');i.dataset.hint?i.setAttribute('aria-describedby',i.dataset.hint):i.removeAttribute('aria-describedby')});
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) fail('#fld-mail','#f-mail','e-mail','Skriv en hel e-postadresse, som navn@eksempel.no.');
+  if($('#f-pw').value.length<8) fail('#fld-pw','#f-pw','e-pw','Passordet må ha minst 8 tegn.');
   if(nick.length<2) fail('#fld-nick','#f-nick','e-nick','Kallenavnet må ha minst 2 tegn.');
   const bad=$('.field.err input');if(bad){bad.focus();return}
   S.nick=nick;$('#mail-back').innerHTML=esc(mail).replace(/[@.]/g,'$&<wbr>');e.target.hidden=true;$('#mailcheck').hidden=false;$('#h-mc').focus();
 });
 lastWide=matchMedia('(min-width:1100px)').matches;
-render(false);
+preset();render(false);preset(true);
 </script>
 </body>
 </html>
