@@ -109,7 +109,7 @@ erDiagram
 
 | Table | Holds | Notes |
 | --- | --- | --- |
-| `users` | Email address, password hash | The only real personal data the player types in (NFR-3) |
+| `users` | Email address, password hash, nickname | The only real personal data the player types in (NFR-3). The nickname never goes into logs, playtest records or the export |
 | `sessions` | One row per logged-in device | Deleting a row logs that device out |
 | `playthroughs` | The current life: a few indexed columns and the whole state as JSON | One per account (FR-43) |
 | `action_log` | Every action and its result | Never changed. Used for retries and replay tests |
@@ -177,7 +177,7 @@ These are the facts the frontend builds against. The exact request and response 
 | Each action carries | A new `request_id` (UUID), the `playthrough_id`, the `month`, and the action. Send the same `request_id` again when retrying |
 | Knowing if the view is stale | `playthrough_id` + `state_version` identify a state. Fetch again on open, reload, tab return, reconnect, and after 5 minutes idle (FR-8) |
 | Month plan | The view carries `plan_version`. Send it back when continuing; a mismatch means another device changed the plan |
-| Text | The backend sends finished Norwegian game text with the figures filled in. The frontend never calculates or formats an amount. The frontend owns button and label text, offline and saving notices, and the player information page |
+| Text | The backend sends finished Norwegian game text with the figures and the player's nickname filled in. The view also carries the nickname on its own, for the settings. The frontend never calculates or formats an amount. The frontend owns button and label text, offline and saving notices, and the player information page |
 | Errors | One shape: `{code, message, state}`. `code` is stable, `message` is Norwegian and can be shown, `state` is the current view when a game action is refused |
 | Recap (FR-16) | Each response has `server_time` and the recap threshold. Compare with the view's last action time, never with the device clock |
 | "Continue anyway" (FR-49) | The confirmation is shown by the frontend; the server doesn't ask for it |
