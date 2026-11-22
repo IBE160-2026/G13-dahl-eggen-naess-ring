@@ -2,7 +2,7 @@
 title: LifeMode PRD
 status: final
 created: 2026-10-22
-updated: 2026-11-16
+updated: 2026-11-22
 ---
 
 # PRD: LifeMode
@@ -419,7 +419,7 @@ A new player can create a user with an email address and a password they choose.
 - **Where the nickname is used:** messages and other game text can address the player by it (FR-54). The server fills it in, the same way it fills in figures, and the text reads correctly with any nickname the rules allow.
 - **Changing the nickname:** the player can change it in the settings. Text shown after that uses the new nickname, and nothing else in the game changes.
 - The password must have at least 8 characters (configuration). There are no other rules for what it contains, and paste and password managers work.
-- The player types the email address twice, and a mismatch is caught before the user is created.
+- The player types the email address once. Before the user is created, the screen shows the address back ("Sjekk at e-posten er riktig") with a way to change it, so a typo is caught without asking for the address twice, as WCAG 2.2 criterion 3.3.7 Redundant Entry requires (NFR-2).
 - The player information (NFR-3) is shown on the create-user screen, before the user is created.
 - An email address that already has a user can't be used to create another one. The game then says the address is in use and points to **Log in** and the forgotten-password link. This is the only place the game shows that an address has a user (see addendum).
 - Email addresses are matched without regard to letter case or spaces before and after. " Markus@Eksempel.no" and "markus@eksempel.no" are the same user, when creating a user, logging in, and resetting a password. Dots and "+tags" stay as typed.
@@ -1457,7 +1457,7 @@ These are starting values, like the targets in 7.1. When the connection is lost,
 The playtests run on one hosted environment that testers open on their own phones.
 - It runs the same version as the README's local setup, at a low cost only while the environment exists (NFR-5).
 - It stays available for the whole test period, which lasts at least 3 days. The team can extend it later.
-- Player data is stored in the EU/EEA. The host's own platform logs, including its HTTP logs with client IP addresses, may be kept outside it: Railway keeps them in the US for 90 days. The player information says so, and the game's own logs hold no email or IP address (NFR-3).
+- Player data is stored in the EU/EEA. The hosts' own platform logs, including HTTP logs with client IP addresses, may be kept outside it: Railway keeps them in the US for 90 days, and Vercel, which serves the frontend and passes API calls on, keeps runtime logs for 1 hour on its free plan. The player information says so, and the game's own logs hold no email or IP address (NFR-3).
 - An automated check logs in with a test user every day of the test period and alerts the team if it fails.
 - Password reset works there (FR-3, OQ-4), without email. A tester who has forgotten their password asks the team, which creates a one-time reset link with a command on the backend and sends it to the tester the same way as the invitation. The email relay is built in, but stays switched off in the playtest, so reset emails are not sent there.
 - The architecture names the provider and tier, and the limits that matter for the test: pausing or sleeping when idle, storage, number of users, and email quota.
@@ -1538,7 +1538,6 @@ The Blocks column names the work each question holds up. Gaps in the numbering a
 | OQ-8 | Tuning values (list below the table) | Team, when tuning | Event balancing |
 | OQ-9 | What the avatar contains, and which control the player uses to set weekly hours (the mechanism is in FR-47) | UX | Nothing |
 | OQ-11 | Whether a delivery with no AI in the app meets the course requirements, including moving F5 to V2. So far it's checked only against part 1 of the examiner's guide, and the lecturer's difficulty rating leaned partly on in-app AI (#39). The team has decided to keep the AI game master in V2 and to update this PRD if that changes | Team | Nothing |
-| OQ-12 | Whether typing the email address twice (FR-1) falls under an exception in WCAG 2.2 criterion 3.3.7, Redundant Entry | UX | Nothing |
 | OQ-13 | The exact delivery date, and a check of the tentative dates in §4.4 against it | Team | Sprint planning |
 | OQ-14 | Verify in the sprint-1 hosting spike what the architecture decided (AD-14, #68): Railway in EU West (Amsterdam) with Supabase Postgres in Frankfurt, sleeping switched off so there's no cold start (NFR-10), the 300 ms server budget between the two regions, and a cost of about USD 5-8 a month (NFR-5). The fallback is Railway Postgres, used only if Supabase pauses or fails | Backend, sprint 1 | First playtest |
 | OQ-15 | The approved proposal isn't in the repo. The examiner's guide requires anything left out or changed from it to be described and justified, so the proposal needs adding to the repo, and the "Changes from the proposal" table in the addendum needs finishing | Team | Delivery |
