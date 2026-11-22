@@ -79,7 +79,7 @@ The journeys follow Markus's life in order, so UJ-6, at 17, comes before UJ-4, a
     2. He chooses his life goal: saving for something big, which for him is a flat of his own. The target is an amount the game sets, one that can be reached by 20, such as a start on the deposit, since a whole flat is out of reach by then.
     3. He chooses his avatar. In the game he is 15 and has just received a pengegave, a random amount between NOK 10,000 and NOK 30,000.
     4. His first real choice is what to do with the pengegave. Right afterwards, his money, wellbeing, and future opportunities change, and his room or belongings change with them.
-    5. His phone gets a message from a shop that needs a part-timer (month 3). He takes the job in the job view and sets his hours. In the quiet months between events, friends' invitations show up, and he decides what to spend his free time on.
+    5. His phone gets a message from a shop that needs a part-timer (month 3). He takes the job in the job view, at the 10 h a week the offer states. In the quiet months between events, friends' invitations show up, and he decides what to spend his free time on.
   - **Climax:** Markus understands that his own choices affect what happens next.
   - **Resolution:** The session ends after one in-game year. Before he leaves, the game shows a short teaser, such as "Next year you can take the moped licence" or "A choice you made earlier may have consequences later…". Progress is saved automatically. He wants to come back to see what happens next, what unlocks at the next age, and what his earlier choices lead to.
   - **Edge case:** Play can stop abruptly, for example when the bus arrives. Nothing he has already chosen and the server has confirmed is lost.
@@ -135,7 +135,7 @@ The journeys follow Markus's life in order, so UJ-6, at 17, comes before UJ-4, a
     1. The game warns him that his card debt has reached its NOK 10,000 limit, more than a month's wage, and that he couldn't pay it all by the deadline, so interest has started. This isn't a crisis month yet, and he decides for himself whether to act.
     2. The game shows the card's interest rate and, in kroner for his own balance, what the interest costs him this month and what the whole debt will cost if he pays only the minimum. At 22.6% a year on NOK 10,000, NOK 188 of his first NOK 350 minimum payment goes to interest. Paying only the minimum takes 51 months and costs NOK 5,508 in interest in total. He panics a little, because the longer he waits, the harder it gets.
     3. He talks to his mother. She wants to help but can't afford to, so she suggests he stops using the card until he has the repayment under control, and works more hours to pay the debt down faster.
-    4. He stops using the card, moves his spending down to normal, and raises his hours from 10 to 12 a week, within the working-hour limits in rule 10. From the next month, the extra hours take up more of his month plan as work blocks, so he has fewer slots, and he starts turning down invitations from friends.
+    4. He stops using the card, moves his spending down to normal, and asks his boss for more hours. The answer comes the next month: 2 more hours a week, within the working-hour limits in rule 10. He says yes, and from the month after, his 12 h a week take up more of his month plan as work, so he has fewer slots, and he starts turning down invitations from friends.
     5. He checks what his moped would sell for. After two years its price has dropped, so selling it wouldn't cover the debt, and he'd have to pay for the bus instead. He keeps it.
   - **Climax:** He realizes he has to work more hours and spend less for the next six months. He has less free time and does fewer social things, and the debt keeps weighing on him.
   - **Resolution:** After six months he is back on track, tired and relieved. Back on track means the card balance is paid in full, so it no longer accrues interest. In the game, his stress goes up from the debt, and his free time and social life go down while he works it off. He has learned to use a credit card carefully, and to spend only what he can afford.
@@ -182,7 +182,7 @@ The journeys follow Markus's life in order, so UJ-6, at 17, comes before UJ-4, a
 | Endings | Real win, hollow win, goal not reached, or loss (FR-41) |
 | Engine | The backend that applies Rule Set v1 and decides every financial result |
 | Event | A pre-written situation with a few options, taken from the content library (FR-17). Crisis events are used only in crisis months, and the rest are regular events. Regular events other than the card warning are also called story events |
-| Extra shifts | Extra weekly hours for a few months, from an employer offer or an event option, on top of the hours setting (FR-47) |
+| Extra shifts | Extra weekly hours for a few months, from an employer offer or an event option, on top of the weekly hours (FR-47) |
 | F1-F10 | The functional test criteria in the brief |
 | Flag | A named yes/no marker in a playthrough, such as `owns_moped` or `has_card`. Options set or clear flags, and the engine sets flags for age unlocks and belongings. Flags decide which events can appear (FR-46), what a choice opened or closed (FR-35), and what the room shows (FR-34). Flag names come from a fixed list |
 | Frikort | A tax card that lets someone earn up to NOK 100,000 a year (2026) with no tax deducted |
@@ -199,6 +199,7 @@ The journeys follow Markus's life in order, so UJ-6, at 17, comes before UJ-4, a
 | Money view | The place where the player sees their accounts, takes money actions (FR-45), takes open options (FR-48), and follows a savings target (FR-57). How it looks is UX |
 | Month plan | The month's activity slots and the activities in them, with school and work shown as fixed blocks (FR-52). It isn't the calendar of rule 11 |
 | Nickname | The name the player picks when creating a user (kallenavn), which the game uses to address them. It needn't be a real name, isn't used to log in, and no one else sees it (FR-1) |
+| One-off shift | A single shift the employer offers for this month (enkeltvakt). The player places it in the month plan like an activity, and it takes one activity slot (FR-47, FR-52) |
 | Net savings | Current account, savings account, and BSU, minus all debt, family loans included. The savings goal uses it (rule 13) |
 | Offer | A message that points to an open option (FR-48), to extra shifts (FR-47), or to a one-time gift (FR-29, FR-30). The options with an offer month in the FR-18 table arrive this way |
 | Payment plan | A card balance turned into a 12-month annuity loan in a crisis month (rule 15) |
@@ -585,7 +586,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     A["Month opens: rule 1 up to interest on savings, new messages"] --> B["Explore: summary, messages, month plan, job, money"]
-    B --> C["Plan and act: activities, money actions, open options, hours for next month, the highlight event if any"]
+    B --> C["Plan and act: activities, money actions, open options, answers to job offers, the highlight event if any"]
     C --> D["Continue: planned activities applied, wellbeing, BSU in December, rule 8 check"]
     D --> A
 ```
@@ -616,7 +617,7 @@ A month has two parts. When it opens, the engine runs rule 1 up to interest on s
 - **Warnings before continuing:** before the player continues, the money view shows the rule 8 trigger status and goal progress after the planned activities' payments. If the plan would set off a trigger, continuing asks the player to confirm. In month 59, the warning says a crisis in month 60 would be the last chance before the ending. In month 60, if a trigger was true at the end of month 59, it says that continuing with the trigger still true gives the loss ending (FR-41).
 - **Result screens:** an option's result shows that option's own effect. The month's wellbeing and the BSU deduction are worked out when the player continues, and the December summary marks the deduction as expected.
 - Every request that changes the game names the month it belongs to. A request for an earlier month, such as one from another device, is refused (NFR-7). Continuing also carries the version of the month plan the device showed. If the plan has changed since, for example on another device, the server refuses and the device reloads (NFR-7).
-- **Month 60:** actions that only take effect the next month, such as changing hours or the spending level, are hidden or marked as having no effect, and the slot and upcoming-cost previews are empty.
+- **Month 60:** actions that only take effect the next month, such as an hours offer or the spending level, are hidden or marked as having no effect, and the slot and upcoming-cost previews are empty.
 - After month 60, the player goes to the ending (FR-41). Month 60's summary says that continuing ends this life. A playthrough counts as completed once its ending is calculated.
 
 #### FR-13: Play an active month
@@ -728,10 +729,10 @@ New options open in set in-game months (rule 11). Realizes UJ-1 and UJ-4.
 | Option | Opens | In-game month | Offer message | Source |
 |---|---|---|---|---|
 | Savings account and BSU | 15 | 1 | None | FR-22. BSU has no lower age |
-| Part-time job, up to 12 h a week (NOK 136.41 until month 12) | 15, in grunnskole | 3 | Month 3 | Rule 10. From 15, a minor can sign their own work contract (vergemålsloven § 10) |
+| Part-time job, 10 h a week (configuration; rule 10 allows up to 12) (NOK 136.41 until month 12) | 15, in grunnskole | 3 | Month 3 | Rule 10. From 15, a minor can sign their own work contract (vergemålsloven § 10) |
 | Moped licence | 16th birthday | 13 | Month 13 | FR-28. Class AM 146 from 16 |
 | Owning a moped (buying, gift offer) | With a moped licence | 13 at the earliest | Gift: a drawn offer (FR-55). Buying: none | FR-29 |
-| Part-time job, up to 40 h a week | After grunnskole | 19 | None | Rule 10 |
+| Part-time job, 10 h a week (configuration; rule 10 allows up to 40) | After grunnskole | 19 | None | Rule 10 |
 | Summer job | 16 | 18, 30, 42 (June), paid in 19, 31, 43 (July) | Months 18, 30, and 42, as one message that repeats | FR-20, worked example 1 |
 | Car licence: the gift draw, then the paid licence | 18th birthday | 37 | Month 37: one family message with the result of the gift draw | FR-30. Class B is from 18 (Statens vegvesen) |
 | Credit card | 18th birthday | 37 | Month 39 | Rule 6 |
@@ -778,13 +779,14 @@ Some events and offer messages carry a short, general, pre-written tip, which th
 
 #### FR-52: Month plan and activity slots
 
-Each month the player has a few activity slots for their free time. They fill them with activities or leave them empty. Work isn't placed in slots. It comes from the hours setting (FR-47), so more work means fewer slots. Realizes UJ-4 and UJ-6.
+Each month the player has a few activity slots for their free time. They fill them with activities or leave them empty. Regular work isn't placed in slots. It comes from the weekly hours (FR-47), so more work means fewer slots. The one exception is a one-off shift, which the player places in a slot like an activity (FR-47). Realizes UJ-4 and UJ-6.
 
 **Consequences (testable):**
 - **How many:** slots this month = the month's free time (rule 12) ÷ 20, rounded down, at least 1 and at most 4. The divisor and the maximum are configuration (OQ-8). In a school month, 0 or 10 h a week gives 4 slots, 12 h gives 3, 25 h gives 2, and 40 h gives 1. Full-time at 37.5 h after school gives 4, and so does July (worked example 24).
 - **Never zero:** the formula never gives fewer than 1, whatever the divisor is tuned to. At the default, rule 10 keeps free time at 20 or above anyway.
 - **Fixed when the month opens:** the count comes from that month's hours, extra shifts included. An hours change applies from the next month (FR-47).
 - **Never required:** an empty slot has no effect, and the player can always continue with empty slots (FR-49).
+- **One-off shifts:** a one-off shift (FR-47) takes one slot, like an activity. The plan shows its hours and pay, and removing it while the month is open frees the slot again.
 - **School and work as blocks:** the plan shows school and work as fixed blocks that the player can't move. Each month starts with empty slots, and plans don't carry over. The look is UX.
 - **Same as last month:** one action places last month's activities again, where they're still available. Each one is checked like any placement (FR-53).
 - **What a slot is worth:** the content check reports ending wellbeing for the reference runs at 1, 2, 3, and 4 slots, so the team can tune what a slot is worth (OQ-8).
@@ -841,6 +843,7 @@ The engine decides which messages arrive each month, in the same selection step 
 - **Bank messages:** they're triggered when progress towards the savings target (FR-57) or towards goal 1, the only goal with a percentage (FR-9), passes 25, 50, 75, or 100%. Progress is measured when the month opens, after rule 1's steps up to interest on savings. Each threshold is sent once per target in a playthrough. If several are passed in one month, only the highest is sent, and pinning the same option again doesn't resend thresholds already sent. One more bank message reports savings interest: the first month the interest earned so far passes NOK 50 (configuration), once per playthrough, with the engine's figure (UJ-3).
 - **Offers always arrive:** each offer in the FR-18 table arrives as a message in its offer month, and so does the car licence result (FR-30). A player who doesn't qualify yet still gets it, and it shows what's missing (FR-48). An offer message isn't sent if its option has already been taken, can't be taken again under its one-at-a-time rule, or has closed. Nothing can push an offer out.
 - **Drawn offers:** the employer's extra shifts (FR-47) and the gift moped (FR-29) are drawn offers. Each has required and blocking flags and a chance per in-game year (configuration), and can be taken only in the month it arrives (FR-54). Extra shifts are offered only under FR-47's conditions.
+- **Answers about hours:** when the player has asked for more or fewer hours (FR-47), the employer's answer arrives as a triggered offer the next month, can be answered only in that month, and doesn't count towards the message limit.
 - **How many:** at most 3 new messages a month (configuration). Offers and the event copy always arrive and don't count towards the limit. Bank messages, then invitations, then info messages, fill the rest. A bank message that doesn't fit arrives the next month instead.
 - **Invitations:** 0-2 a month are drawn from the eligible ones (configuration). Invitations are repeatable, at most once each per in-game year. The content check reports invitations per in-game year, and fails if seeded runs have more than 2 months a year with no eligible invitation.
 
@@ -850,11 +853,11 @@ The engine decides which messages arrive each month, in the same selection step 
 
 #### FR-56: Job view
 
-The job view shows the workplace and role, the hourly rate for the player's age, the hours setting and this month's hours with any extra shifts, the rule 10 limit, the expected monthly pay, and any current offers. Realizes UJ-1, UJ-4, and UJ-6.
+The job view shows the workplace and role, the hourly rate for the player's age, the weekly hours and this month's hours with any extra shifts and one-off shifts, the rule 10 limit, the expected monthly pay, and any current offers. Realizes UJ-1, UJ-4, and UJ-6.
 
 **Consequences (testable):**
 - **Engine figures:** the pay shown is the engine's, and FR-20, FR-47, and rule 10 apply unchanged. An extra-shift offer shows the kroner it would leave after spending (FR-47), never a fixed amount per slot.
-- **Actions:** set hours from the next month, quit, take a job offer (FR-48), and take or end extra shifts (FR-47). Each shows the next month's slot count before the player confirms it (FR-52). These are the same actions as in FR-45 and FR-47.
+- **Actions:** answer an hours offer, ask for more or fewer hours, quit, take a job offer (FR-48), and take or end extra shifts (FR-47). One-off shifts are listed here and placed from the month plan (FR-52). Each shows the next month's slot count before the player confirms it (FR-52). These are the same actions as in FR-45 and FR-47.
 - **Flavour only:** the workplace and role are flavour text. Every part-time and summer job pays the Virke/HK rate for the player's age (D2).
 - **With no job:** the view shows the open job offers, or when the next one unlocks (FR-18).
 
@@ -897,7 +900,7 @@ The player has a current account, a savings account, and, if they open one, a BS
   - turn card use on or off, set the card payment, and pay extra on the card
   - pay off a consumer loan, a family loan, or a payment plan early, with no fee
   - set the spending level, and stop an everyday cost that has no binding period (FR-23)
-  - set working hours or quit a job (FR-47), also from the job view (FR-56)
+  - answer an hours offer, ask for more or fewer hours, or quit a job (FR-47), also from the job view (FR-56)
   - sell the moped (FR-29)
 
   Taking an open option (FR-48) works the same way. These actions don't use up the month's real choice.
@@ -924,18 +927,20 @@ The player can earn hourly wages from part-time and summer jobs, at the Virke/HK
 
 #### FR-47: Working hours
 
-A player with a job sets how many hours a week they work. The setting stays until they change it. Realizes UJ-4, UJ-5, and UJ-6.
+A job comes with fixed weekly hours. The player can't set them freely: hours change only when the player says yes to an offer from the employer, and the player can ask for one. Realizes UJ-4, UJ-5, and UJ-6.
 
 **Consequences (testable):**
-- The player has at most one part-time or full-time job, plus a summer job in July. They set weekly hours when taking the job, and can change them or quit in any month. A change applies from the next month.
+- The player has at most one part-time or full-time job, plus a summer job in July. The job offer states the weekly hours (FR-18), and the player gets them by taking the job. The player can quit in any month. Every change of hours applies from the next month.
 - Monthly pay is weekly hours × 52 / 12 × the hourly rate for the player's age, in whole kroner, for at most 173 h a month (rule 10). A full-time week of 37.5 h at 18+ pays NOK 31,694 a month, and a 40 h week pays NOK 33,742.
 - **Weekly limit:** hours never go above rule 10: 12 h a week in grunnskole (months 1-18), and 40 h a week from month 19. An hours change is checked against the limit of the month it applies from, so a change made in month 18 can set up to 40 h for month 19.
 - **Monthly cap:** a summer job and part-time hours share one monthly cap of 173 h. The engine cuts the summer job to fit at July's income step, using that month's hours, extra shifts included. With 30 h a week of part-time work (130 h), a 120 h summer job is cut to 43 h. If the player's hours leave 0 h when the offer is made, the summer job can't be taken: its message still arrives (FR-55), shows that the monthly cap is full, and says why. If an hours change or extra shifts would cut a summer job the player has taken, the game warns before the player confirms. If July's cut leaves 0 h, the summer job is cancelled with a note.
-- A full-time job is 37.5 h a week and can be raised to 40.
-- **Extra shifts:** they add the offer's amount (default +4 h) to the hours setting for the offer's number of months (default 3), from the next month. Weekly hours are the setting plus any running extra shifts, never above rule 10, so an offer is capped at the limit. Changing the setting leaves running extra shifts as they are. Extra shifts come from an event option or an employer message (FR-55). They're offered only to a player with a job who is below the weekly limit and has no extra shifts running, and only while a later income step remains, so not in month 60. The offer shows the kroner it would leave after spending at the player's level, not only the extra wage (worked example 25).
+- A full-time job is 37.5 h a week and can be raised to 40 through an hours offer.
+- **Hours offers:** the player can ask for more or fewer hours from the job view, one request at a time. The employer answers with a message the next month (FR-55): an offer of 2 h a week more or fewer (configuration), within rule 10's limit for the month it applies from and never below 4 h a week (configuration). If the player is already at the limit, or at the floor when asking for fewer, the answer says no and why. The player says yes or no in that month, and an offer not answered by the end of the month lapses. The offer shows what it would leave after spending each month and the next month's slot count, like an extra-shift offer (worked example 25).
+- **One-off shifts (enkeltvakter):** a player with a job sees the employer's one-off shifts for this month in the job view and in the month plan's activity picker. Each has a name (flavour) and its hours, from the content library. Placing one takes a slot (FR-52). Its pay is its hours × the hourly rate for the player's age, paid with this month's wage, taxed as wage income (FR-21), and linked to the shift as its cause (FR-36). A shift can be placed only if this month's hours with it stay within rule 10 (the weekly limit × 52 / 12) and the 173 h monthly cap. It has no wellbeing effect of its own: the slot it takes is its cost.
+- **Extra shifts:** they add the offer's amount (default +4 h) to the weekly hours for the offer's number of months (default 3), from the next month. Weekly hours are the setting plus any running extra shifts, never above rule 10, so an offer is capped at the limit. An hours offer changes the weekly hours and leaves running extra shifts as they are. Extra shifts come from an event option or an employer message (FR-55). They're offered only to a player with a job who is below the weekly limit and has no extra shifts running, and only while a later income step remains, so not in month 60. The offer shows the kroner it would leave after spending at the player's level, not only the extra wage (worked example 25).
 - **Ending extra shifts:** running extra shifts can be ended from the job view, from the next month. Quitting or changing job ends them.
-- **Never in a slot:** extra shifts and hours never take an activity slot, and no wage is paid outside the income step. The month plan shows them as work blocks from the month they start (FR-52).
-- More hours mean less free time (FR-33) and fewer activity slots (FR-52). The hours control shows how many slots the new hours give, and the limit where free time goes below 50, which is 25 h a week alongside school.
+- **Never in a slot, except one-off shifts:** weekly hours and extra shifts never take an activity slot, and no wage is paid outside the income step. The month plan shows them as work from the month they start (FR-52). Only a one-off shift takes a slot.
+- More hours mean less free time (FR-33) and fewer activity slots (FR-52). Every hours offer shows how many slots the new hours give, and warns when they would take free time below 50, which happens above 25 h a week alongside school.
 
 #### FR-21: Tax
 
@@ -1173,7 +1178,7 @@ Every effect in the engine stores what caused it. An effect with no choice behin
 - Every cause link points to a choice that exists in the playthrough, or to a rule (F10).
 - **Shared causes:** an effect with several causes stores each one with its share in whole kroner, and the shares add up to the effect. Interest on a card or loan is shared between the choices that make up the balance, and savings interest between the deposits, in proportion to each one's part of the balance.
 - **Effects that continue:** an effect that keeps following from an earlier choice links to that choice, such as the moped's fuel and insurance, a subscription's monthly fee, or interest on a purchase made on the card.
-- **System causes:** wages, tax, the mobile cost, unexpected expenses, and spending have a system cause. Interest on spending put on the card links to the spending's system cause. Setting a level or hours has no kroner of its own, so it isn't ranked in FR-42, and "Hvorfor?" explains it from the rules.
+- **System causes:** wages, tax, the mobile cost, unexpected expenses, and spending have a system cause. Interest on spending put on the card links to the spending's system cause. Setting a level or taking an hours offer has no kroner of its own, so it isn't ranked in FR-42, and "Hvorfor?" explains it from the rules.
 - **Wellbeing:** a wellbeing change links to the choice whose option set it, or to a rule, such as stress from a crisis month. An activity's effect links to the activity.
 - **Activities:** an applied activity is a choice (FR-53). Its cost, and anything that follows from that cost, such as card interest, links to the activity.
 
@@ -1536,8 +1541,7 @@ The Blocks column names the work each question holds up. Gaps in the numbering a
 | OQ-3 | How far the moped and the car are driven each month, and whether moped service is charged (#43). Moped insurance is settled: a flat NOK 3,000 a year in V1, and varying offers from different insurers in V2 (§4.3). Sources for the other figures: Rule Set v1 parameters, `research/prices-oq3-oq17-2026-11-12/` | Team | Writing those events and final tuning |
 | OQ-4 | How password reset email works at low cost at go-live: the relay (Resend is built in), a verified domain, and its quota. The playtest is settled by NFR-11 (team-made reset links, no email, 2026-11-13), and the examiner's local run by NFR-6 (#30) | Team, before go-live | Go-live only |
 | OQ-8 | Tuning values (list below the table) | Team, when tuning | Event balancing |
-| OQ-9 | What the avatar contains, and which control the player uses to set weekly hours (the mechanism is in FR-47) | UX | Nothing |
-| OQ-11 | Whether a delivery with no AI in the app meets the course requirements, including moving F5 to V2. So far it's checked only against part 1 of the examiner's guide, and the lecturer's difficulty rating leaned partly on in-app AI (#39). The team has decided to keep the AI game master in V2 and to update this PRD if that changes | Team | Nothing |
+| OQ-9 | What the avatar contains | UX | Nothing |
 | OQ-13 | The exact delivery date, and a check of the tentative dates in §4.4 against it | Team | Sprint planning |
 | OQ-14 | Verify in the sprint-1 hosting spike what the architecture decided (AD-14, #68): Railway in EU West (Amsterdam) with Supabase Postgres in Frankfurt, sleeping switched off so there's no cold start (NFR-10), the 300 ms server budget between the two regions, and a cost of about USD 5-8 a month (NFR-5). The fallback is Railway Postgres, used only if Supabase pauses or fails | Backend, sprint 1 | First playtest |
 | OQ-15 | The approved proposal isn't in the repo. The examiner's guide requires anything left out or changed from it to be described and justified, so the proposal needs adding to the repo, and the "Changes from the proposal" table in the addendum needs finishing | Team | Delivery |
@@ -1560,4 +1564,4 @@ Confirmed assumptions A-1 to A-30 are kept in `addendum.md`. The ones below chan
 
 | ID | Assumption | Affects |
 |---|---|---|
-| A-26 | F5, the fallback when the AI fails, moves to V2 with the AI, because the MVP has no AI. Checked against part 1 of the examiner's guide only (OQ-11, #39) | §7.3, OQ-11 |
+| A-26 | F5, the fallback when the AI fails, moves to V2 with the AI, because the MVP has no AI. Settled by the team 2026-11-22: AI comes in a later version (#39) | §7.3 |
