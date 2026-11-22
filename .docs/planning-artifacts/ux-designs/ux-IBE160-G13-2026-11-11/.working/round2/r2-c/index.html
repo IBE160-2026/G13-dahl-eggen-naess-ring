@@ -1,0 +1,1631 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LifeMode · Varsel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&display=swap" rel="stylesheet">
+<style>
+/* ============ Tokens: «Varsel» ============ */
+:root{
+  /* ground and ink */
+  --ground:#ECF1F5;
+  --surface:#FFFFFF;
+  --surface-2:#F5F8FA;
+  --ink:#0F2131;
+  --ink-2:#3B5064;
+  --ink-3:#56697B;
+  --rule:#D5DEE6;
+  --rule-strong:#A7B6C3;
+  /* fjord and sky */
+  --fjord:#135A96;
+  --fjord-deep:#0B3D68;
+  --fjord-tint:#E2EDF7;
+  --sky:#CBE0F1;
+  --past:#D9E6F1;
+  /* data colours, only where they mean something */
+  --trivsel:#0A7566;        /* the wellbeing line, good change */
+  --trivsel-tint:#DDF1EC;
+  --warn:#F2B51F;           /* highlight event (varsel) */
+  --warn-ink:#6E4700;
+  --warn-tint:#FFF3D1;
+  --neg:#B3261E;            /* money out, missing */
+  --neg-tint:#FCE9E7;
+  --echo:#8A2C7A;           /* nordlys: an earlier choice lighting up */
+  --echo-tint:#F6E6F2;
+  --held:#1569B5;           /* held change marker */
+  --focus:#1C7DD0;
+  /* season light (set per month by JS) */
+  --sky-top:#4E6476;
+  --sky-bot:#8C9FAF;
+  --win-light:#B9C8D4;
+  --win-op:.22;
+  /* type */
+  --font:"Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fs-xs:12px;
+  --fs-s:13.5px;
+  --fs-b:15.5px;
+  --fs-m:18px;
+  --fs-l:22px;
+  --fs-xl:30px;
+  --fs-xxl:44px;
+  /* space and shape */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+  --r-s:6px; --r-m:10px; --r-l:14px;
+  --nav-h:64px;
+  --rail-w:92px;
+  --shadow:0 1px 2px rgba(15,33,49,.06), 0 4px 14px -6px rgba(15,33,49,.12);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:96px}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--font);font-size:var(--fs-b);line-height:1.45;font-feature-settings:"tnum" 1;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--sky);color:var(--ink)}
+input,button,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--fjord);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--fjord-deep)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+[tabindex="-1"]:focus{outline:none}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{text-wrap:balance;letter-spacing:-.015em}
+.num{font-variant-numeric:tabular-nums}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+* {scrollbar-width:thin;scrollbar-color:var(--rule-strong) transparent}
+[hidden]{display:none!important}
+svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ============ Shell ============ */
+.app{min-height:100vh}
+.nav{position:fixed;z-index:30;left:0;right:0;bottom:0;height:var(--nav-h);background:var(--surface);border-top:1px solid var(--rule);display:flex}
+.nav .brand,.nav .nav-aar,.nav .nav-foot{display:none}
+.nav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--ink-3);font-size:12px;font-weight:600;position:relative;min-height:44px}
+.nav a svg.i{width:22px;height:22px}
+.nav a[aria-current="page"]{color:var(--fjord)}
+.nav a[aria-current="page"]::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--fjord)}
+.nav .badge{position:absolute;top:7px;left:calc(50% + 6px)}
+.badge{min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--held);color:#fff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+
+.topbar{position:sticky;top:0;z-index:20;background:rgba(236,241,245,.94);backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid var(--rule);padding:8px 12px 6px}
+.topbar .who{display:none}
+main{padding-bottom:16px}
+body.pre .nav, body.pre .topbar{display:none}
+body.pre main{padding-bottom:0}
+.route{animation:none}
+.wrap{padding:16px}
+
+/* ============ Timeline: the meteogram strip ============ */
+.tl{display:block;text-decoration:none;color:inherit;border-radius:var(--r-m);padding:2px 2px 0}
+.tl:hover .tl-open{color:var(--fjord-deep);text-decoration:underline}
+.tl-head{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.tl-month{font-size:var(--fs-m);font-weight:750;letter-spacing:-.02em}
+.tl-meta{font-size:var(--fs-s);color:var(--ink-2);font-weight:550}
+.tl-meta b{color:var(--ink);font-weight:700}
+.tl-open{margin-left:auto;display:inline-flex;align-items:center;gap:2px;font-size:var(--fs-s);font-weight:650;color:var(--fjord)}
+.tl-open svg.i{width:16px;height:16px}
+.tl-strip{position:relative}
+.tl-cells{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(12,1fr);gap:2px}
+.tl-cells li{display:flex;flex-direction:column;align-items:center}
+.tl-cells .bar{display:block;width:100%;height:24px;border-radius:3px;background:transparent;border:1px dashed var(--rule-strong);border-width:1px 0 0}
+.tl-cells .past .bar{background:var(--past);border:0}
+.tl-cells .now .bar{background:var(--surface);box-shadow:inset 0 0 0 2px var(--fjord)}
+.tl-cells .lbl{font-size:11px;line-height:14px;margin-top:3px;color:var(--ink-3);font-weight:550}
+.tl-cells .lbl .long{display:none}
+.tl-cells .now .lbl{color:var(--fjord);font-weight:800}
+.tl-plot{position:absolute;left:0;right:0;top:0;height:24px;pointer-events:none}
+.tl-line{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible}
+.tl-line polyline{fill:none;stroke:var(--trivsel);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round}
+.tl-dot{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--surface);border:2px solid var(--trivsel)}
+.tl-dot.past{background:var(--trivsel);width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border:0}
+
+/* ============ Common components ============ */
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-l)}
+.pad{padding:16px}
+.mod-head{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--rule)}
+.mod-head h2,.mod-head h3{font-size:var(--fs-b);font-weight:700}
+.mod-head .more{margin-left:auto;font-size:var(--fs-s);font-weight:650;text-decoration:none;display:inline-flex;align-items:center;gap:2px;min-height:32px}
+.mod-head .more:hover{text-decoration:underline}
+.page-h{display:flex;align-items:center;gap:12px;margin:4px 0 14px}
+.page-h h1{font-size:var(--fs-xl);font-weight:780;letter-spacing:-.03em;line-height:1.1}
+.page-h p{color:var(--ink-2);font-size:var(--fs-s)}
+.back{width:44px;height:44px;flex:none;border-radius:50%;border:1px solid var(--rule);background:var(--surface);display:inline-flex;align-items:center;justify-content:center;color:var(--ink);text-decoration:none}
+.back:hover{border-color:var(--rule-strong)}
+.muted{color:var(--ink-2)}
+.small{font-size:var(--fs-s)}
+.xs{font-size:var(--fs-xs)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:var(--r-m);border:1px solid transparent;background:var(--fjord);color:#fff;font-weight:680;font-size:16px;text-decoration:none;transition:background .15s}
+.btn:hover{background:var(--fjord-deep);color:#fff}
+.btn.block{width:100%}
+.btn.lg{min-height:56px;font-size:17px}
+.btn.ghost{background:var(--surface);color:var(--ink);border-color:var(--rule-strong)}
+.btn.ghost:hover{background:var(--surface-2);color:var(--ink)}
+.btn.quiet{background:transparent;color:var(--fjord);border-color:transparent;padding:0 10px}
+.btn.quiet:hover{background:var(--fjord-tint);color:var(--fjord-deep)}
+.btn[disabled]{background:var(--surface-2);color:var(--ink-3);border-color:var(--rule);cursor:not-allowed}
+
+.delta{display:inline-flex;align-items:baseline;gap:6px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.delta .w{font-weight:550;color:var(--ink-2);font-size:.88em}
+.pos{color:var(--trivsel)}
+.neg{color:var(--neg)}
+.tag{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:11px;font-size:12px;font-weight:650;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--rule);white-space:nowrap}
+.tag.inv{background:var(--fjord-tint);color:var(--fjord-deep);border-color:#BCD3E8}
+.tag.offer{background:#E6F1EC;color:#0B5A4E;border-color:#B8D9CF}
+.tag.exp{background:var(--surface-2);color:var(--ink-3);border-style:dashed}
+.tag.warn{background:var(--warn-tint);color:var(--warn-ink);border-color:#EED38A}
+.tag.echo{background:var(--echo-tint);color:var(--echo);border-color:#E3C2DB}
+
+/* held change: stays until seen */
+.newmark{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:750;color:var(--held);letter-spacing:.01em}
+.newmark::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--held)}
+.is-seen .newmark{display:none}
+
+.dtable{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.dtable th,.dtable td{padding:9px 16px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:baseline;font-size:14.5px}
+.dtable th{font-weight:550;color:var(--ink-2)}
+.dtable td.r,.dtable th.r{text-align:right;white-space:nowrap}
+.dtable tr:last-child td,.dtable tr:last-child th{border-bottom:0}
+.dtable .sub{display:block;font-size:12.5px;color:var(--ink-3);font-weight:500}
+
+.bar{height:8px;border-radius:4px;background:var(--surface-2);box-shadow:inset 0 0 0 1px var(--rule);position:relative;overflow:hidden}
+.bar > i{position:absolute;inset:0 auto 0 0;border-radius:4px;background:var(--fjord)}
+
+/* ============ Room ============ */
+.room{position:relative;width:100%;aspect-ratio:800/480;overflow:hidden;background:#DDE6ED}
+.room svg.scene{position:absolute;inset:0;width:100%;height:100%;display:block}
+.room .layer{position:absolute;inset:0}
+.room .layer.in{animation:fadeIn 1.1s cubic-bezier(.16,1,.3,1) both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.hot{position:absolute;transform:translate(-50%,0);display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 11px 0 9px;border-radius:16px;background:rgba(255,255,255,.96);border:1px solid var(--rule-strong);box-shadow:0 2px 6px -2px rgba(15,33,49,.25);color:var(--ink);font-size:13.5px;font-weight:680;text-decoration:none;white-space:nowrap}
+.hot svg.i{width:17px;height:17px;color:var(--fjord)}
+.hot:hover{border-color:var(--fjord);color:var(--fjord-deep)}
+.hot.l{transform:none}
+.hot.r{transform:translate(-100%,0)}
+.hot .badge{margin-left:2px}
+.hot.alert{border-color:var(--held)}
+.room-cap{font-size:var(--fs-s);color:var(--ink-2);padding:9px 16px;border-top:1px solid var(--rule);background:var(--surface)}
+.sleet line{stroke:#fff;stroke-width:1.6;stroke-linecap:round;opacity:.65}
+.snow circle{fill:#fff;opacity:.85}
+@media (prefers-reduced-motion:no-preference){
+  .sleet,.snow{animation:fall 3.2s linear infinite}
+  @keyframes fall{from{transform:translate(0,-40px)}to{transform:translate(-8px,0)}}
+  .phoneglow{animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.35}}
+}
+
+/* ============ Hub ============ */
+.hub{display:grid;gap:12px;padding:0 0 12px}
+.hub .now-room{border-radius:0;border-left:0;border-right:0;border-top:0;overflow:hidden}
+.now-card{margin:0 12px}
+.now-head{display:flex;align-items:flex-start;gap:12px;padding:16px 16px 12px}
+.now-head h1{font-size:var(--fs-l);font-weight:760;letter-spacing:-.025em;line-height:1.15}
+.now-head p{color:var(--ink-2);font-size:var(--fs-s);margin-top:2px}
+.sym{width:40px;height:40px;flex:none;border-radius:10px;background:var(--fjord-tint);display:flex;align-items:center;justify-content:center;color:var(--fjord)}
+.sym svg.i{width:24px;height:24px}
+.sym.warn{background:var(--warn-tint);color:var(--warn-ink)}
+.held-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.held-list li{border-bottom:1px solid var(--rule)}
+.held-list li:last-child{border-bottom:0}
+.held-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 12px;width:100%;min-height:48px;padding:9px 16px;background:none;border:0;text-align:left;text-decoration:none;color:inherit}
+.held-row:hover{background:var(--surface-2)}
+.held-row .what{font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.held-row .why{grid-column:1;font-size:12.5px;color:var(--ink-3)}
+.held-row .val{grid-row:1 / span 2;grid-column:2;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.held-row .val .w{display:block;font-size:12px;font-weight:550;color:var(--ink-3)}
+.held-row.held{background:linear-gradient(90deg,rgba(21,105,181,.07),transparent 60%)}
+.held-row.held.is-seen{background:none}
+.held-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 8px 6px 16px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--ink-3)}
+
+.wb{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;padding:14px 16px 16px;align-items:center}
+.wb-score{grid-row:1 / span 3}
+.wb-score .big{font-size:46px;font-weight:780;letter-spacing:-.04em;line-height:1}
+.wb-score .of{font-size:15px;color:var(--ink-3);font-weight:600}
+.wb-score .lbl{font-size:13px;font-weight:650;color:var(--ink-2);margin-top:4px}
+.wb-part{display:grid;grid-template-columns:62px 1fr auto;align-items:center;gap:10px;font-size:13.5px}
+.wb-part .n{font-weight:700;font-variant-numeric:tabular-nums;text-align:right;min-width:72px}
+.wb-part .n .w{font-weight:550;color:var(--ink-3);font-size:12px}
+.wb-part .bar{height:6px}
+.wb-part .bar > i{background:var(--trivsel)}
+.wb-part.stress .bar > i{background:#6B8AA6}
+.wb-note{grid-column:1 / -1;font-size:12.5px;color:var(--ink-3);margin-top:6px}
+
+.bal{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--rule)}
+.bal a{display:block;padding:12px 16px;text-decoration:none;color:inherit;min-height:44px}
+.bal a + a{border-left:1px solid var(--rule)}
+.bal a:hover{background:var(--surface-2)}
+.bal .k{font-size:12.5px;color:var(--ink-2);font-weight:550}
+.bal .v{font-size:var(--fs-m);font-weight:750;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+
+.go{margin:0 12px;display:grid;gap:6px;align-content:start}
+.go-sticky{position:sticky;bottom:var(--nav-h);z-index:10;padding:16px 0 8px;margin-top:-12px;background:linear-gradient(rgba(236,241,245,0),var(--ground) 28%)}
+.wb-mini{margin-left:auto;display:flex;align-items:center;gap:5px;text-decoration:none;color:var(--ink);padding:4px 0 4px 10px;border-left:1px solid var(--rule)}
+.wb-mini b{font-size:30px;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--trivsel)}
+.wb-mini span{font-size:11.5px;line-height:1.15;color:var(--ink-2);font-weight:600}
+.side-stack{display:contents}
+.go .btn{box-shadow:0 8px 20px -10px rgba(11,61,104,.6)}
+.go-note{font-size:12.5px;color:var(--ink-3);text-align:center}
+.pane-wide{display:none}
+.planrow{display:flex;align-items:center;gap:12px;padding:12px 16px;text-decoration:none;color:inherit;min-height:48px}
+.planrow:hover{background:var(--surface-2)}
+.slots-mini{display:flex;gap:4px;margin-left:auto}
+.slots-mini i{width:22px;height:22px;border-radius:5px;border:1.5px dashed var(--rule-strong)}
+.slots-mini i.f{background:var(--fjord);border:0}
+.slots-mini i.x{border:0;background:repeating-linear-gradient(135deg,#C7D3DD 0 3px,#E6ECF1 3px 7px)}
+
+/* inbox rows (shared) */
+.thread{display:grid;grid-template-columns:44px 1fr auto;gap:2px 12px;align-items:center;padding:11px 16px;text-decoration:none;color:inherit;border-bottom:1px solid var(--rule);min-height:64px;position:relative}
+.thread:hover{background:var(--surface-2)}
+.thread[aria-current="true"]{background:var(--fjord-tint)}
+.av{width:44px;height:44px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:750;font-size:16px;color:#fff;grid-row:1 / span 2}
+.av svg.i{width:22px;height:22px}
+.thread .who{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;min-width:0}
+.thread .who span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thread .prev{grid-column:2;font-size:13.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.thread.unread .prev{color:var(--ink);font-weight:550}
+.thread .side{grid-row:1 / span 2;grid-column:3;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.dotnew{width:10px;height:10px;border-radius:50%;background:var(--held)}
+.thread.old .who{color:var(--ink-2)}
+.group-h{padding:14px 16px 6px;font-size:13px;font-weight:700;color:var(--ink-2);display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--rule);background:var(--surface-2)}
+
+/* ============ Plan ============ */
+.fixed-blocks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fblock{border-radius:var(--r-m);padding:10px 12px;background:repeating-linear-gradient(135deg,#E3EAF0 0 6px,#EEF3F6 6px 12px);border:1px solid var(--rule);min-height:64px}
+.fblock .t{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14.5px}
+.fblock .t svg.i{width:16px;height:16px;color:var(--ink-3)}
+.fblock .d{font-size:12.5px;color:var(--ink-2)}
+.slots{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.slot{position:relative;min-height:108px;border-radius:var(--r-m);border:1.5px dashed var(--rule-strong);background:var(--surface);padding:10px 12px;display:flex;flex-direction:column;gap:2px;text-align:left}
+.slot.empty{align-items:flex-start;justify-content:center;color:var(--ink-3);cursor:pointer}
+.slot.empty:hover{border-color:var(--fjord);color:var(--fjord)}
+.slot.sel{border:2px solid var(--fjord);background:var(--fjord-tint);color:var(--fjord-deep)}
+.slot.full{border:1px solid #BCD3E8;background:var(--fjord-tint)}
+.slot.taken{border:1px solid var(--rule);background:repeating-linear-gradient(135deg,#E3EAF0 0 6px,#EEF3F6 6px 12px);color:var(--ink-2)}
+.slot .sn{font-size:11.5px;font-weight:700;color:var(--ink-3);letter-spacing:.02em}
+.slot .nm{font-weight:720;font-size:15px;line-height:1.2}
+.slot .px{font-size:13px;font-weight:650}
+.slot .ef{font-size:12px;color:var(--ink-2)}
+.slot .rm{position:absolute;top:6px;right:6px;width:32px;height:32px;border-radius:50%;border:1px solid var(--rule);background:var(--surface);display:flex;align-items:center;justify-content:center}
+.slot .rm svg.i{width:16px;height:16px}
+.plan-sum{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule)}
+.plan-sum div{padding:10px 12px}
+.plan-sum div + div{border-left:1px solid var(--rule)}
+.plan-sum .k{font-size:12px;color:var(--ink-2);font-weight:550}
+.plan-sum .v{font-weight:750;font-variant-numeric:tabular-nums;font-size:16px}
+.acts{list-style:none;margin:0;padding:0}
+.act{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--rule)}
+.act:last-child{border-bottom:0}
+.act .nm{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.act .meta{grid-column:1;font-size:13px;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:4px 12px}
+.act .meta b{font-weight:700}
+.act .add{grid-row:1 / span 2;grid-column:2;min-height:44px;min-width:44px;padding:0 14px;border-radius:var(--r-m);border:1px solid var(--fjord);background:var(--surface);color:var(--fjord);font-weight:680;display:inline-flex;align-items:center;gap:6px}
+.act .add:hover{background:var(--fjord);color:#fff}
+.act .add[disabled]{border-color:var(--rule);color:var(--ink-3);background:var(--surface-2);cursor:not-allowed}
+.act.lock{background:var(--surface-2)}
+.act.lock .nm{color:var(--ink-2)}
+.miss{color:var(--neg);font-weight:700}
+.act.placed .add{background:var(--fjord-tint);border-color:#BCD3E8;color:var(--fjord-deep)}
+
+/* ============ Event / result ============ */
+.ev-room{position:relative}
+@media (max-width:1099px){.ev-grid .res-main{order:-1}}
+.ev-room .room{filter:saturate(.75) brightness(.86)}
+.ev-room .spot{position:absolute;border-radius:50%;box-shadow:0 0 0 2000px rgba(15,33,49,.35);pointer-events:none}
+.ev-bubble{display:flex;gap:12px;align-items:flex-start;padding:16px}
+.ev-bubble .msg{background:var(--surface-2);border:1px solid var(--rule);border-radius:4px 14px 14px 14px;padding:10px 14px;font-size:15px}
+.ev-bubble .from{font-size:12.5px;font-weight:700;color:var(--ink-2);margin-bottom:2px}
+.varsel{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px 0 6px;border-radius:13px;background:var(--warn);color:#2D1E00;font-size:12.5px;font-weight:750}
+.varsel svg.i{width:16px;height:16px}
+.opts{display:grid;gap:10px}
+.opt{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 12px;width:100%;min-height:64px;padding:12px 16px;border-radius:var(--r-l);border:1px solid var(--rule-strong);background:var(--surface);text-align:left;box-shadow:0 1px 0 rgba(15,33,49,.04)}
+.opt:hover{border-color:var(--fjord);background:var(--surface-2)}
+.opt .t{font-weight:700;font-size:16px}
+.opt .k{grid-column:1;font-size:14px}
+.opt svg.i{grid-row:1 / span 2;grid-column:2;color:var(--fjord)}
+.res-deltas{display:flex;flex-wrap:wrap;gap:8px}
+.res-chip{display:flex;flex-direction:column;padding:10px 14px;border-radius:var(--r-m);border:1px solid var(--rule);background:var(--surface);min-width:120px}
+.res-chip .v{font-size:20px;font-weight:780;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.res-chip .w{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.res-chip.neg{background:var(--neg-tint);border-color:#F1C6C1}
+.res-chip.pos{background:var(--trivsel-tint);border-color:#B5DDD3}
+.echo{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:14px 16px;border-radius:var(--r-l);background:var(--echo-tint);border:1px solid #E3C2DB}
+.echo .ic{width:40px;height:40px;border-radius:50%;background:var(--echo);color:#fff;display:flex;align-items:center;justify-content:center}
+.echo .t{font-weight:750;color:var(--echo);font-size:14.5px}
+.echo p{font-size:14px;color:#4A2342}
+.why-btn{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:0 16px;border-radius:var(--r-l);border:1px solid var(--fjord);background:var(--surface);color:var(--fjord-deep);font-weight:700;font-size:15.5px;text-align:left}
+.why-btn:hover{background:var(--fjord-tint)}
+.why-btn .chev{margin-left:auto;transition:transform .2s}
+.why-btn[aria-expanded="true"]{border-radius:var(--r-l) var(--r-l) 0 0;background:var(--fjord);color:#fff}
+.why-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.why-body{border:1px solid var(--fjord);border-top:0;border-radius:0 0 var(--r-l) var(--r-l);padding:14px 16px;background:var(--surface);display:grid;gap:10px;font-size:14.5px}
+.stack{display:flex;height:28px;border-radius:6px;overflow:hidden;font-size:12px;font-weight:700;color:#fff}
+.stack span{display:flex;align-items:center;padding:0 8px;white-space:nowrap;overflow:hidden}
+.oc{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.oc li{display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:14.5px;align-items:start}
+.oc svg.i{width:20px;height:20px;margin-top:1px}
+
+/* ============ Phone ============ */
+.phone-wrap{display:grid}
+.ph-filter{display:flex;gap:6px;padding:10px 16px;overflow-x:auto;border-bottom:1px solid var(--rule)}
+.ph-filter button{min-height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--rule-strong);background:var(--surface);font-weight:650;font-size:13.5px;white-space:nowrap}
+.ph-filter button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.msg-pane{display:flex;flex-direction:column;min-height:100%}
+.msg-top{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--rule)}
+.msg-top .n{font-weight:750;font-size:16px}
+.msg-top .r{font-size:12.5px;color:var(--ink-2)}
+.bubbles{display:flex;flex-direction:column;gap:6px;padding:16px}
+.day{align-self:center;font-size:12px;font-weight:650;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--rule);padding:3px 10px;border-radius:11px;margin:4px 0 8px}
+.bub{max-width:82%;padding:9px 13px;border-radius:16px 16px 16px 4px;background:#E7EEF4;font-size:15px}
+.inv-card{margin:6px 16px 0;border:1.5px solid var(--fjord);border-radius:var(--r-l);overflow:hidden;background:var(--surface)}
+.inv-card .h{padding:12px 16px 4px}
+.inv-card .h .k{font-size:12.5px;font-weight:700;color:var(--fjord)}
+.inv-card .h .t{font-size:var(--fs-l);font-weight:780;letter-spacing:-.02em}
+.inv-card .foot{padding:12px 16px;display:grid;gap:8px;border-top:1px solid var(--rule)}
+.note-line{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--ink-2)}
+.note-line svg.i{width:18px;height:18px;margin-top:1px}
+.cannot{margin:16px;padding:10px 14px;border-radius:var(--r-m);background:var(--surface-2);border:1px dashed var(--rule-strong);font-size:13px;color:var(--ink-2);display:flex;gap:8px;align-items:center}
+.msg-empty{display:none}
+
+/* ============ Money ============ */
+.money-grid{display:grid;gap:12px}
+.acct{display:grid;grid-template-columns:36px 1fr auto;gap:2px 12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--rule);min-height:60px}
+.acct:last-child{border-bottom:0}
+.acct .ic{width:36px;height:36px;border-radius:9px;background:var(--fjord-tint);color:var(--fjord);display:flex;align-items:center;justify-content:center;grid-row:1 / span 2}
+.acct .ic svg.i{width:20px;height:20px}
+.acct .n{font-weight:700;font-size:15px}
+.acct .s{grid-column:2;font-size:12.5px;color:var(--ink-3)}
+.acct .v{grid-row:1 / span 2;grid-column:3;text-align:right;font-weight:780;font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.acct .v .w{display:block;font-size:12px;font-weight:650}
+.acct.locked{background:var(--surface-2)}
+.acct.locked .ic{background:#E4E9EE;color:var(--ink-3)}
+.acct.locked .n{color:var(--ink-2)}
+.total-row{display:flex;align-items:baseline;justify-content:space-between;padding:14px 16px 4px}
+.total-row .v{font-size:var(--fs-xxl);font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.goal{padding:14px 16px 16px;display:grid;gap:8px}
+.goal .top{display:flex;align-items:baseline;gap:10px}
+.goal .t{font-weight:750;font-size:15.5px;display:flex;align-items:center;gap:6px}
+.goal .p{margin-left:auto;font-size:24px;font-weight:800;letter-spacing:-.03em;color:var(--fjord-deep)}
+.goal .bar{height:12px;border-radius:6px}
+.goal .bar > i{border-radius:6px}
+.goal .tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+.goal .scale{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px}
+.actions .btn{min-height:48px;font-size:15px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule-strong);border-radius:var(--r-m);overflow:hidden}
+.seg button{min-height:44px;border:0;background:var(--surface);font-weight:650;font-size:14.5px}
+.seg button + button{border-left:1px solid var(--rule-strong)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.form-inline{display:grid;gap:10px;padding:12px 16px;border-top:1px solid var(--rule);background:var(--surface-2)}
+.field label{display:block;font-size:13.5px;font-weight:650;margin-bottom:4px}
+.field input,.field select{width:100%;min-height:46px;padding:0 12px;border:1px solid var(--rule-strong);border-radius:var(--r-m);background:var(--surface);font-size:16px}
+.field input:focus,.field select:focus{outline:3px solid var(--focus);outline-offset:0;border-color:var(--focus)}
+.field .help{font-size:12.5px;color:var(--ink-2);margin-top:4px}
+.fc{display:grid}
+.fc-row{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:9px 16px;border-bottom:1px solid var(--rule);font-size:14.5px}
+.fc-row svg.i{width:20px;height:20px;color:var(--ink-3)}
+.fc-row .v{font-weight:700;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.fc-row .pbar{grid-column:2 / span 2;height:4px;border-radius:2px;background:#C9DCEC;margin-top:-4px}
+.fc-sum{display:flex;justify-content:space-between;align-items:baseline;padding:12px 16px;font-weight:700;background:var(--surface-2)}
+.fc-sum .v{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.fc-note{padding:10px 16px 14px;font-size:12.5px;color:var(--ink-3);display:flex;gap:8px}
+.fc-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--rule)}
+.fc-head .mo{font-size:var(--fs-l);font-weight:780;letter-spacing:-.02em}
+.small-bars{list-style:none;margin:0;padding:6px 0}
+.small-bars li{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:8px 16px;font-size:14px}
+.small-bars .bar{grid-column:1 / -1;height:6px}
+.small-bars .bar > i{background:#5E8DB5}
+
+/* ============ Job ============ */
+.stepper{display:grid;grid-template-columns:48px 1fr 48px;align-items:center;border:1px solid var(--rule-strong);border-radius:var(--r-m);overflow:hidden;background:var(--surface)}
+.stepper button{height:52px;border:0;background:var(--surface-2);display:flex;align-items:center;justify-content:center}
+.stepper button:hover{background:var(--fjord-tint)}
+.stepper button[disabled]{color:var(--rule-strong);cursor:not-allowed;background:var(--surface-2)}
+.stepper output{text-align:center;font-size:22px;font-weight:780;font-variant-numeric:tabular-nums}
+.stepper output small{font-size:13px;color:var(--ink-3);font-weight:600}
+.choice2{display:grid;gap:10px}
+.ch{border:1px solid var(--rule-strong);border-radius:var(--r-l);padding:14px 16px;display:grid;gap:6px;background:var(--surface)}
+.ch.on{border:2px solid var(--fjord);background:var(--fjord-tint)}
+.ch .t{font-weight:750;font-size:15.5px;display:flex;align-items:center;gap:8px}
+.ch ul{margin:0;padding:0;list-style:none;display:grid;gap:3px;font-size:14px}
+.hours-chart{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;align-items:end;height:96px;padding:12px 16px 0}
+.hours-chart .c{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:3px}
+.hours-chart .c i{display:block;width:100%;border-radius:3px 3px 0 0;background:#9FBEDA}
+.hours-chart .c.x i{background:var(--fjord)}
+.hours-chart .c.f i{background:transparent;border:1.5px dashed var(--rule-strong);border-bottom:0}
+.hours-chart .c b{font-size:11px;font-weight:700;color:var(--ink-2)}
+.hours-lbl{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;padding:4px 16px 12px;font-size:11px;color:var(--ink-3);text-align:center}
+
+/* ============ Year ============ */
+.year-chart{position:relative;padding:12px 16px 0}
+.yc-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;height:120px;position:relative}
+.yc-grid .col{border-radius:4px;background:var(--past);position:relative}
+.yc-grid .col.now{background:var(--surface);box-shadow:inset 0 0 0 2px var(--fjord)}
+.yc-grid .col.fut{background:transparent;border:1px dashed var(--rule-strong)}
+.yc-svg{position:absolute;left:16px;right:16px;top:12px;height:120px;width:calc(100% - 32px);overflow:visible;pointer-events:none}
+.yc-svg polyline{fill:none;stroke:var(--trivsel);stroke-width:2.5;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.yc-svg line{stroke:var(--rule-strong);stroke-width:1;stroke-dasharray:3 3;vector-effect:non-scaling-stroke}
+.yc-val{position:absolute;transform:translate(-50%,-130%);font-size:11.5px;font-weight:750;color:var(--trivsel);font-variant-numeric:tabular-nums}
+.yc-pt{position:absolute;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:var(--trivsel)}
+.yc-lbls{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;padding:6px 16px 4px;font-size:11.5px;text-align:center;color:var(--ink-2);font-weight:600}
+.yc-lbls .now{color:var(--fjord);font-weight:800}
+.yc-thr{position:absolute;left:0;right:0;border-top:1px dashed #8FB3A9}
+.yc-thr span{position:absolute;right:2px;top:-16px;font-size:11px;color:var(--trivsel);font-weight:650;background:var(--surface);padding:0 3px}
+.mrows{list-style:none;margin:0;padding:0}
+.mrow{display:grid;grid-template-columns:52px 36px 1fr auto;gap:4px 12px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--rule)}
+.mrow:last-child{border-bottom:0}
+.mrow .m{font-weight:750;font-size:15px}
+.mrow .ic{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--surface-2);color:var(--ink-3)}
+.mrow .ic.ev{background:var(--warn-tint);color:var(--warn-ink)}
+.mrow .ic.of{background:#E6F1EC;color:#0B5A4E}
+.mrow .ic.nw{background:var(--fjord);color:#fff}
+.mrow .tx{font-size:14px}
+.mrow .tx b{font-weight:700}
+.mrow .tx .s{display:block;font-size:12.5px;color:var(--ink-3)}
+.mrow .wv{font-weight:750;font-variant-numeric:tabular-nums;color:var(--trivsel);text-align:right;font-size:14px;min-width:30px}
+.mrow.now{background:var(--fjord-tint)}
+.mrow.fut .m,.mrow.fut .tx{color:var(--ink-3)}
+.agerail{padding:14px 16px 16px}
+.ar-track{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;position:relative}
+.ar-seg{height:40px;border-radius:6px;background:var(--surface-2);border:1px solid var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.ar-seg i{position:absolute;inset:0 auto 0 0;background:var(--past)}
+.ar-seg.done i{right:0;background:#9FC0DD}
+.ar-seg.cur i{background:#9FC0DD}
+.yc-sym{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;padding:0 16px 6px;justify-items:center}
+.yc-sym span{width:100%;max-width:26px;aspect-ratio:1;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--ink-3);background:var(--surface-2)}
+.yc-sym span svg.i{width:16px;height:16px}
+.yc-sym .ev{background:var(--warn-tint);color:var(--warn-ink)}
+.yc-sym .of{background:#E6F1EC;color:#0B5A4E}
+.yc-sym .nw{background:var(--fjord);color:#fff}
+.yc-sym .fu{background:none;border:1px dashed var(--rule-strong)}
+.ar-seg span{position:relative;font-weight:750;font-size:14px}
+.ar-seg.cur{border:2px solid var(--fjord)}
+.ar-yrs{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;font-size:11.5px;color:var(--ink-3);margin-top:4px;text-align:center}
+.ar-pin{position:absolute;top:-8px;width:2px;height:56px;background:var(--fjord)}
+.ar-pin::after{content:"";position:absolute;top:-4px;left:-4px;width:10px;height:10px;border-radius:50%;background:var(--fjord)}
+.unl{list-style:none;margin:0;padding:0}
+.unl li{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:10px 16px;border-bottom:1px solid var(--rule);font-size:14px}
+.unl li:last-child{border-bottom:0}
+.unl svg.i{color:var(--fjord)}
+.unl .when{display:block;font-size:12.5px;color:var(--ink-3);font-weight:600}
+
+/* ============ Pre-game (landing, opprett, start) ============ */
+.pre-top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;max-width:1200px;margin:0 auto}
+.wordmark{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:19px;letter-spacing:-.03em;color:var(--ink);text-decoration:none}
+.wordmark svg{width:28px;height:28px}
+.land{max-width:1200px;margin:0 auto;padding:8px 16px 40px;display:grid;gap:24px}
+.land h1{font-size:clamp(40px,10.5vw,84px);font-weight:800;letter-spacing:-.04em;line-height:.98}
+.land h1 .soft{color:var(--fjord)}
+.land .lead{font-size:clamp(16.5px,2vw,19px);color:var(--ink-2);max-width:34em;margin-top:14px}
+.land .cta{display:grid;gap:10px;margin-top:22px;max-width:420px}
+.land .cta-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.land-hero{border-radius:var(--r-l);overflow:hidden;border:1px solid var(--rule);background:var(--surface)}
+.land-strip{padding:12px 16px 14px;border-top:1px solid var(--rule)}
+.land-facts{display:grid;gap:0;border:1px solid var(--rule);border-radius:var(--r-l);background:var(--surface);overflow:hidden}
+.land-facts div{padding:14px 16px;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:auto 1fr;gap:2px 14px;align-items:baseline}
+.land-facts div:last-child{border-bottom:0}
+.land-facts b{font-size:26px;font-weight:800;letter-spacing:-.03em;grid-row:1 / span 2;min-width:110px;font-variant-numeric:tabular-nums}
+.land-facts .t{font-weight:700}
+.land-facts .s{font-size:13.5px;color:var(--ink-2)}
+.form-page{max-width:520px;margin:0 auto;padding:8px 16px 48px}
+.form-page h1{font-size:var(--fs-xl);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:8px 0 6px}
+.form-page .intro{color:var(--ink-2);margin-bottom:20px}
+.form{display:grid;gap:16px}
+.check{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:600}
+.check input{width:22px;height:22px;accent-color:var(--fjord)}
+.nick-preview{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--rule);margin-top:8px}
+.nick-preview .bub{max-width:none;font-size:14px}
+details.info{border:1px solid var(--rule);border-radius:var(--r-m);background:var(--surface)}
+details.info summary{min-height:44px;padding:0 14px;display:flex;align-items:center;font-weight:650;color:var(--fjord);cursor:pointer}
+details.info div{padding:0 14px 14px;font-size:14px;color:var(--ink-2);display:grid;gap:6px}
+.goals{display:grid;gap:10px;border:0;padding:0;margin:0}
+.goals legend,.avs legend{font-weight:750;font-size:var(--fs-m);margin-bottom:10px;padding:0}
+.gopt{display:grid;grid-template-columns:24px 1fr;gap:4px 12px;padding:14px 16px;border:1px solid var(--rule-strong);border-radius:var(--r-l);background:var(--surface);cursor:pointer}
+.gopt input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--fjord);grid-row:1 / span 2}
+.gopt .t{font-weight:750}
+.gopt .s{font-size:13.5px;color:var(--ink-2)}
+.gopt:has(input:checked){border:2px solid var(--fjord);background:var(--fjord-tint)}
+.avs{border:0;padding:0;margin:0}
+.av-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.avopt{position:relative;border:1px solid var(--rule-strong);border-radius:var(--r-l);background:var(--surface);padding:8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12.5px;font-weight:650;color:var(--ink-2)}
+.avopt input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.avopt svg{width:100%;max-width:84px;height:auto}
+.avopt:has(input:checked){border:2px solid var(--fjord);background:var(--fjord-tint);color:var(--fjord-deep)}
+.avopt:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:2px}
+.err{color:var(--neg);font-size:13px;font-weight:600}
+
+/* ============ Prototype index (not product UI) ============ */
+.proto{position:relative;z-index:60;padding:8px 16px calc(var(--nav-h) + 20px);font-family:ui-monospace,Menlo,monospace}
+.proto > button{min-height:32px;padding:0 10px;border-radius:6px;border:1px dashed #555;background:#2B2B2B;color:#EEE;font-size:11.5px;font-family:inherit;opacity:.82}
+.proto > button:hover{opacity:1}
+.proto ul{position:absolute;left:16px;bottom:calc(var(--nav-h) + 58px);width:230px;max-height:70vh;overflow:auto;margin:0;padding:6px;list-style:none;background:#2B2B2B;border:1px dashed #666;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.proto li a,.proto li button{display:block;width:100%;text-align:left;padding:7px 10px;color:#EEE;text-decoration:none;font-size:12px;border-radius:4px;background:none;border:0;font-family:inherit}
+.proto li a:hover,.proto li button:hover{background:#444}
+.proto li.sep{border-top:1px dashed #555;margin:4px 0}
+body.pre .proto{padding-bottom:20px}
+body.pre .proto ul{bottom:58px}
+
+/* toast/live */
+.toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 86px);transform:translateX(-50%);z-index:50;background:var(--ink);color:#fff;padding:10px 16px;border-radius:var(--r-m);font-size:14px;font-weight:600;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
+
+.year-grid > *,.two > *,.plan-grid > *,.ev-grid > *,.phone-wrap > *,.money-grid > *,.hub > *{min-width:0}
+.mod-head{flex-wrap:wrap}
+
+/* ============ ≥ 480 ============ */
+@media (min-width:480px){
+  .tl-cells .lbl .short{display:none}
+  .tl-cells .lbl .long{display:inline}
+  .slots{grid-template-columns:repeat(4,1fr)}
+}
+
+/* ============ Tablet ≥ 768: rail + panes ============ */
+@media (min-width:768px){
+  body{font-size:16px}
+  .app{display:grid;grid-template-columns:var(--rail-w) minmax(0,1fr)}
+  body.pre .app{display:block}
+  .nav{position:sticky;top:0;bottom:auto;height:100vh;flex-direction:column;border-top:0;border-right:1px solid var(--rule);padding:12px 8px;gap:4px;background:var(--fjord-deep)}
+  .nav .brand{display:flex;flex-direction:column;align-items:center;gap:2px;color:#fff;text-decoration:none;font-size:11px;font-weight:800;letter-spacing:-.01em;padding:4px 0 14px;min-height:0}
+  .nav .brand svg{width:34px;height:34px}
+  .nav .nav-aar{display:flex}
+  .nav a{flex:none;height:64px;border-radius:12px;color:#BFD3E6}
+  .nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+  .nav a[aria-current="page"]{background:rgba(255,255,255,.14);color:#fff}
+  .nav a[aria-current="page"]::before{display:none}
+  .nav .badge{top:8px;left:calc(50% + 6px);box-shadow:0 0 0 2px var(--fjord-deep)}
+  .nav .nav-foot{display:block;margin-top:auto;color:#9FB8CF;font-size:11px;text-align:center;line-height:1.3}
+  main{padding-bottom:32px;min-width:0}
+  .topbar{display:flex;align-items:center;gap:20px;padding:12px 24px 10px}
+  .topbar .tl{flex:1;max-width:820px}
+  .topbar .who{display:flex;align-items:center;gap:10px;margin-left:auto;font-size:13px;color:var(--ink-2)}
+  .topbar .who .av{width:36px;height:36px;font-size:14px}
+  .topbar .who b{color:var(--ink);font-size:14px}
+  .tl-cells .bar,.tl-plot{height:30px}
+  .tl-month{font-size:20px}
+  .wrap{padding:20px 24px}
+  .proto{position:fixed;padding:0;bottom:12px;right:12px}
+  .proto ul{left:auto;right:0;bottom:38px}
+  body.pre .proto ul{bottom:38px}
+  .go{margin:0}
+  .go-sticky{position:static;padding:0;margin-top:0;background:none}
+  .side-stack{display:grid;gap:16px;align-content:start}
+  .wb-mini{display:none}
+  .toast{bottom:32px}
+
+  .hub{padding:20px 24px;grid-template-columns:1fr 1fr;gap:16px}
+  .hub .now-room{grid-column:1 / -1;border:1px solid var(--rule);border-radius:var(--r-l)}
+  .now-card{margin:0}
+  .pane-wide{display:block}
+  .hub .planrow-m{display:none}
+  .page-h h1{font-size:34px}
+  .fixed-blocks{grid-template-columns:1fr 1fr}
+  .money-grid{grid-template-columns:1fr 1fr}
+  .money-grid .span2{grid-column:1 / -1}
+  .choice2{grid-template-columns:1fr 1fr}
+  .land{grid-template-columns:1.05fr 1fr;align-items:center;padding-top:24px;gap:40px}
+  .land .below{grid-column:1 / -1}
+  .land-facts{grid-template-columns:repeat(3,1fr)}
+  .land-facts div{border-bottom:0;border-right:1px solid var(--rule);grid-template-columns:1fr}
+  .land-facts div:last-child{border-right:0}
+  .land-facts b{grid-row:auto}
+  .av-grid{grid-template-columns:repeat(6,1fr)}
+}
+
+/* ============ Desktop ≥ 1100: weather dashboard ============ */
+@media (min-width:1100px){
+  .hub{grid-template-columns:minmax(0,1.45fr) minmax(340px,1fr);grid-template-areas:"now panes";align-items:start;padding:20px 28px}
+  .hub .now-main{grid-area:now;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .hub .now-main .now-room{grid-column:1 / -1}
+  .hub .now-main .room{aspect-ratio:800/440}
+  .hub .panes{grid-area:panes;display:grid;gap:16px}
+  .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+  .plan-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
+  .money-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .money-grid .span2{grid-column:span 2}
+  .money-grid .span3{grid-column:1 / -1}
+  .phone-wrap{grid-template-columns:minmax(320px,400px) minmax(0,1fr);border:1px solid var(--rule);border-radius:var(--r-l);background:var(--surface);overflow:hidden;min-height:calc(100vh - 150px)}
+  .phone-wrap .ph-list{border-right:1px solid var(--rule)}
+  .phone-wrap .panel{border:0;border-radius:0}
+  .msg-empty{display:flex}
+  .ev-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:start}
+  .year-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,1fr);gap:16px;align-items:start}
+  .wrap{padding:20px 28px}
+  .topbar{padding:12px 28px 10px}
+}
+@media (min-width:768px) and (max-width:1099px){
+  .hub .now-main,.hub .panes{display:contents}
+  .two{display:grid;gap:16px}
+  .plan-grid,.ev-grid,.year-grid{display:grid;gap:16px}
+  .phone-wrap .msg-pane-wrap{display:none}
+  .phone-wrap.show-msg .ph-list{display:none}
+  .phone-wrap.show-msg .msg-pane-wrap{display:block}
+}
+@media (max-width:767px){
+  .hub .now-main,.hub .panes{display:contents}
+  .two,.plan-grid,.ev-grid,.year-grid{display:grid;gap:12px}
+  .phone-wrap .msg-pane-wrap{display:none}
+  .phone-wrap.show-msg .ph-list{display:none}
+  .phone-wrap.show-msg .msg-pane-wrap{display:block}
+  .phone-wrap .panel{border-radius:0;border-left:0;border-right:0}
+  .wrap.flush{padding:0}
+}
+@media (max-width:359px){
+  .hot{font-size:12px;padding:0 8px 0 7px;min-height:28px}
+  .hot svg.i{width:14px;height:14px}
+  .wb{grid-template-columns:1fr}
+  .wb-score{grid-row:auto;display:flex;align-items:baseline;gap:8px}
+  .actions{grid-template-columns:1fr}
+  .plan-sum{grid-template-columns:1fr}
+  .plan-sum div + div{border-left:0;border-top:1px solid var(--rule)}
+  .land .cta-row{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body class="pre">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.5 12 4l8.5 6.5"/><path d="M5.5 9v10.5h13V9"/><path d="M10 19.5v-5h4v5"/></symbol>
+    <symbol id="i-plan" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><path d="M7.5 13h3v3h-3z"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></symbol>
+    <symbol id="i-money" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18"/><path d="M15 14.5h3"/></symbol>
+    <symbol id="i-work" viewBox="0 0 24 24"><path d="M8 4.5h8l1 3.5H7z"/><path d="M6 8h12l-1 12H7z"/><path d="M10 12h4"/></symbol>
+    <symbol id="i-year" viewBox="0 0 24 24"><path d="M3.5 19.5h17"/><path d="M5 15l4-4 3.5 2.5L19 7"/><path d="M5 19.5V17M9 19.5v-3M12.5 19.5v-2M16 19.5v-4"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+    <symbol id="i-unlock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 7.6-1.7"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M5 9l7 7 7-7"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></symbol>
+    <symbol id="i-echo" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/><path d="M12 8v4l2.5 2"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5M12 17.2v.3"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.3"/></symbol>
+    <symbol id="i-why" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.5 9.5a2.6 2.6 0 1 1 3.4 2.5c-.6.2-.9.7-.9 1.3v.7M12 16.8v.3"/></symbol>
+    <symbol id="i-calm" viewBox="0 0 24 24"><path d="M3 14c2.2 0 2.2-1.6 4.5-1.6S9.8 14 12 14s2.2-1.6 4.5-1.6S18.8 14 21 14"/><path d="M3 18.5h18"/><circle cx="16.5" cy="7.5" r="2.5"/></symbol>
+    <symbol id="i-event" viewBox="0 0 24 24"><path d="M12 3l8.5 9-8.5 9-8.5-9z"/><path d="M12 8.5v4M12 15.3v.3"/></symbol>
+    <symbol id="i-offer" viewBox="0 0 24 24"><path d="M4 7.5h16v12H4z"/><path d="M8 7.5V5h8v2.5"/><path d="M4 12.5h16"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="12" r="3.5"/><path d="M11.5 12H20M17 12v3M20 12v2.5"/></symbol>
+    <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3.5 9 12 4l8.5 5"/><path d="M5 9.5v8M9.5 9.5v8M14.5 9.5v8M19 9.5v8M3.5 19.5h17"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M4 18.5h16"/><rect x="5.5" y="12" width="3" height="6.5"/><rect x="10.5" y="9" width="3" height="9.5"/><rect x="15.5" y="5.5" width="3" height="13"/></symbol>
+    <symbol id="i-house" viewBox="0 0 24 24"><path d="M4 11 12 4.5 20 11"/><path d="M6.5 9.5v10h11v-10"/><path d="M12 13v3.5M10.3 14.7h3.4"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12.5" rx="2"/><path d="M3 10h18M6.5 15h4"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8.5h14l-3.5-3.5M20 15.5H6l3.5 3.5"/></symbol>
+    <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M4.5 11a7.5 7.5 0 0 1 13-4.5L19.5 9"/><path d="M19.5 4.5V9H15"/><path d="M19.5 13a7.5 7.5 0 0 1-13 4.5L4.5 15"/><path d="M4.5 19.5V15H9"/></symbol>
+    <symbol id="i-moped" viewBox="0 0 24 24"><circle cx="6" cy="17" r="2.5"/><circle cx="18" cy="17" r="2.5"/><path d="M8.5 17h7M15 17l-2-7h-3M13 10l1.5-4h2.5M6 14.5h5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5 19 6v5.5c0 4.3-3 7.5-7 9-4-1.5-7-4.7-7-9V6z"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3.5 5h2.5l2 10h10l2-7H7"/><circle cx="9.5" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.5" cy="9.5" r="2.5"/><path d="M15.5 14.2c2.4 0 4.4 1.6 5 4.3"/></symbol>
+    <symbol id="i-film" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M3.5 9.5h17M3.5 14.5h17M8 5.5v13M16 5.5v13"/></symbol>
+    <symbol id="i-run" viewBox="0 0 24 24"><circle cx="14.5" cy="4.8" r="1.8"/><path d="M8 20l3-5 3 2v4M6 11l3.5-3 4 1 2 3 3 1"/></symbol>
+    <symbol id="i-bed" viewBox="0 0 24 24"><path d="M3.5 18.5v-11M3.5 14.5h17v4M20.5 14.5V12a2.5 2.5 0 0 0-2.5-2.5h-7v5"/><circle cx="7.3" cy="11.5" r="1.8"/></symbol>
+    <symbol id="i-game" viewBox="0 0 24 24"><path d="M7 8.5h10a4 4 0 0 1 4 4v1a3 3 0 0 1-5.4 1.8L14.5 14h-5l-1.1 1.3A3 3 0 0 1 3 13.5v-1a4 4 0 0 1 4-4z"/><path d="M7.5 11v3M6 12.5h3"/></symbol>
+    <symbol id="i-mtn" viewBox="0 0 24 24"><path d="M2.5 19.5 9 8l4 6.5 2.5-3.5 6 8z"/></symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <nav class="nav" aria-label="Hovedmeny">
+    <a class="brand" href="#hjem" aria-label="LifeMode, til rommet">
+      <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="1" y="1" width="32" height="32" rx="9" fill="#fff"/><path d="M7 24h20" stroke="#A7B6C3" stroke-width="1.6"/><rect x="8.5" y="18" width="3" height="6" rx="1" fill="#CBE0F1"/><rect x="13.5" y="15" width="3" height="9" rx="1" fill="#CBE0F1"/><rect x="18.5" y="16.5" width="3" height="7.5" rx="1" fill="#CBE0F1"/><path d="M7.5 17 12 12.5l5 2.5 5.5-5L27 11" fill="none" stroke="#0A7566" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="27" cy="11" r="2.4" fill="#fff" stroke="#135A96" stroke-width="2"/></svg>
+      LifeMode
+    </a>
+    <a href="#hjem" data-nav="hjem"><svg class="i"><use href="#i-home"/></svg>Hjem</a>
+    <a href="#aar" data-nav="aar" class="nav-aar"><svg class="i"><use href="#i-year"/></svg>Året</a>
+    <a href="#plan" data-nav="plan"><svg class="i"><use href="#i-plan"/></svg>Plan</a>
+    <a href="#telefon" data-nav="telefon" id="nav-mobil"><svg class="i"><use href="#i-phone"/></svg>Mobil</a>
+    <a href="#penger" data-nav="penger"><svg class="i"><use href="#i-money"/></svg>Penger</a>
+    <a href="#jobb" data-nav="jobb"><svg class="i"><use href="#i-work"/></svg>Jobb</a>
+    <div class="nav-foot">Lagret<br>på kontoen</div>
+  </nav>
+
+  <div class="col">
+    <header class="topbar" id="topbar"></header>
+    <main id="main" tabindex="-1">
+
+      <!-- ===== LANDING ===== -->
+      <section data-route="landing" class="route" aria-labelledby="h-landing" hidden>
+        <div class="pre-top">
+          <a class="wordmark" href="#landing"><svg viewBox="0 0 34 34" aria-hidden="true"><rect x="1" y="1" width="32" height="32" rx="9" fill="#0B3D68"/><path d="M7 24h20" stroke="#5E7F9C" stroke-width="1.6"/><rect x="8.5" y="18" width="3" height="6" rx="1" fill="#3E6C93"/><rect x="13.5" y="15" width="3" height="9" rx="1" fill="#3E6C93"/><rect x="18.5" y="16.5" width="3" height="7.5" rx="1" fill="#3E6C93"/><path d="M7.5 17 12 12.5l5 2.5 5.5-5L27 11" fill="none" stroke="#5FD3BE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="27" cy="11" r="2.4" fill="#0B3D68" stroke="#fff" stroke-width="2"/></svg>LifeMode</a>
+          <a href="#hjem" class="btn quiet" data-action="login">Logg inn</a>
+        </div>
+        <div class="land">
+          <div>
+            <h1 id="h-landing">Gjør de dyre tabbene her. <span class="soft">Ikke i virkeligheten.</span></h1>
+            <p class="lead">Lev fem år, fra du er 15 til du fyller 20. Jobb, spar, si ja til konserten eller la være. Hver måned ser du hva valgene gjorde med kontoen og humøret, og hvorfor. Med ekte norske tall fra 2026.</p>
+            <div class="cta">
+              <a href="#opprett" class="btn lg block">Opprett bruker</a>
+              <div class="cta-row">
+                <a href="#hjem" class="btn ghost" data-action="login">Logg inn</a>
+                <a href="#landing" class="btn quiet" data-action="forgot">Glemt passord?</a>
+              </div>
+              <p class="small muted" id="forgot-note" hidden role="status">Skriv e-posten din når du logger inn, så sender vi en lenke for å lage nytt passord.</p>
+            </div>
+          </div>
+          <div class="land-hero" aria-label="Forhåndsvisning: rommet ditt i november, med en måned i spillet">
+            <div class="room" id="land-room"></div>
+            <div class="land-strip" id="land-strip"></div>
+          </div>
+          <div class="below land-facts">
+            <div><b>10–15 min</b><span class="t">Ett år i spillet</span><span class="s">Spill en måned på bussen. Stille måneder tar ett trykk.</span></div>
+            <div><b>139,40 kr</b><span class="t">Ekte timelønn under 18</span><span class="s">Frikort, BSU og lappen koster det de koster i 2026.</span></div>
+            <div><b>Hvorfor?</b><span class="t">Alltid forklart</span><span class="s">Hver krone og hvert humørskifte kan spores til et valg du tok.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== OPPRETT ===== -->
+      <section data-route="opprett" class="route" aria-labelledby="h-opprett" hidden>
+        <div class="pre-top"><a class="back" href="#landing" aria-label="Tilbake"><svg class="i"><use href="#i-back"/></svg></a><span></span></div>
+        <div class="form-page">
+          <h1 id="h-opprett" tabindex="-1">Opprett bruker</h1>
+          <p class="intro">Livet ditt lagres på kontoen, så du kan fortsette på mobilen, nettbrettet eller skole-PC-en.</p>
+          <form class="form" id="f-opprett" novalidate>
+            <div class="field"><label for="em1">E-post</label><input id="em1" type="email" autocomplete="email" required></div>
+            <div class="field"><label for="em2">Gjenta e-post</label><input id="em2" type="email" autocomplete="email" required><p class="err" id="em-err" hidden>E-postene er ikke like. Sjekk skrivefeil.</p></div>
+            <div class="field"><label for="pw">Passord</label><input id="pw" type="password" autocomplete="new-password" minlength="8" required aria-describedby="pw-help"><p class="help" id="pw-help">Minst 8 tegn. <span id="pw-count" class="num">0 av 8</span></p></div>
+            <div class="field">
+              <label for="nick">Kallenavn</label>
+              <input id="nick" type="text" maxlength="16" value="Mak" autocomplete="off" aria-describedby="nick-help">
+              <p class="help" id="nick-help">Bare for deg. Ingen andre ser det, og det trenger ikke være ditt ekte navn. Folk i spillet bruker det når de skriver til deg.</p>
+              <div class="nick-preview" aria-hidden="true"><span class="av" style="background:#2D7FB8;width:32px;height:32px;font-size:13px">E</span><span class="bub">Hei <b id="nick-prev">Mak</b>! Blir du med på konsert?</span></div>
+            </div>
+            <label class="check"><input type="checkbox" id="stay" checked> Forbli innlogget</label>
+            <details class="info"><summary>Kort spillerinformasjon</summary><div><p>Vi lagrer e-post, passord (kryptert), kallenavnet og spillet ditt. Ingen ekte penger, ingen bank-tilkobling og ingen reklame.</p><p>Du kan slette brukeren din når du vil.</p></div></details>
+            <button class="btn lg block" type="submit">Opprett bruker</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ===== START ===== -->
+      <section data-route="start" class="route" aria-labelledby="h-start" hidden>
+        <div class="pre-top"><a class="back" href="#opprett" aria-label="Tilbake"><svg class="i"><use href="#i-back"/></svg></a><span class="small muted">Du er 15. Fem år foran deg.</span></div>
+        <div class="form-page" style="max-width:760px">
+          <h1 id="h-start" tabindex="-1">Hva skal livet ditt handle om?</h1>
+          <p class="intro">Målet sjekkes når du fyller 20. Trivselen teller også: å bli rik på bekostning av alt annet gir en hul seier.</p>
+          <form class="form" id="f-start">
+            <fieldset class="goals">
+              <legend>Velg livsmål</legend>
+              <label class="gopt"><input type="radio" name="goal" value="1" checked><span class="t">Spar til noe stort</span><span class="s">Minst 100 000 kr i nettosparing når du fyller 20.</span></label>
+              <label class="gopt"><input type="radio" name="goal" value="2"><span class="t">Gjeldfri med buffer</span><span class="s">Minst 30 000 kr tilgjengelig hver måned det siste året, og ingen gjeld når du fyller 20.</span></label>
+              <label class="gopt"><input type="radio" name="goal" value="3"><span class="t">Råd til en stor opplevelse</span><span class="s">Åtte uker interrail gjennom Europa for 60 000 kr, kjøpt innen august året du fyller 19.</span></label>
+            </fieldset>
+            <fieldset class="avs">
+              <legend>Velg utseende</legend>
+              <div class="av-grid" id="av-grid"></div>
+            </fieldset>
+            <p class="small muted">Målet kan ikke byttes underveis, bare når du starter på nytt.</p>
+            <button class="btn lg block" type="submit">Start livet</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ===== GAME ROUTES (rendered) ===== -->
+      <section data-route="hjem" class="route" aria-labelledby="h-hjem" hidden></section>
+      <section data-route="aar" class="route" aria-labelledby="h-aar" hidden></section>
+      <section data-route="plan" class="route" aria-labelledby="h-plan" hidden></section>
+      <section data-route="hendelse" class="route" aria-labelledby="h-hendelse" hidden></section>
+      <section data-route="resultat" class="route" aria-labelledby="h-resultat" hidden></section>
+      <section data-route="telefon" class="route" aria-labelledby="h-telefon" hidden></section>
+      <section data-route="melding" class="route" aria-labelledby="h-melding" hidden></section>
+      <section data-route="penger" class="route" aria-labelledby="h-penger" hidden></section>
+      <section data-route="jobb" class="route" aria-labelledby="h-jobb" hidden></section>
+    </main>
+  </div>
+</div>
+
+<div class="proto" id="proto">
+  <button type="button" aria-expanded="false" aria-controls="proto-list" id="proto-btn">Prototype · skjermer</button>
+  <ul id="proto-list" hidden>
+    <li><a href="#landing">#landing · Landing</a></li>
+    <li><a href="#opprett">#opprett · Opprett bruker</a></li>
+    <li><a href="#start">#start · Livsmål og utseende</a></li>
+    <li class="sep"></li>
+    <li><a href="#hjem">#hjem · Rommet</a></li>
+    <li><a href="#aar">#aar · Året</a></li>
+    <li><a href="#plan">#plan · Månedsplan</a></li>
+    <li><a href="#hendelse">#hendelse · Hendelse (variant)</a></li>
+    <li><a href="#resultat">#resultat · Resultat</a></li>
+    <li><a href="#telefon">#telefon · Mobil, innboks</a></li>
+    <li><a href="#melding">#melding · Melding fra Emma</a></li>
+    <li><a href="#penger">#penger · Penger</a></li>
+    <li><a href="#jobb">#jobb · Jobb</a></li>
+    <li class="sep"></li>
+    <li><button type="button" data-action="reset">Nullstill til november</button></li>
+  </ul>
+</div>
+<div id="live" class="sr" role="status" aria-live="polite"></div>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+(function(){
+"use strict";
+/* ---------------- data (Rule Set v1, worked examples 24-26) ---------------- */
+const MONTHS=["januar","februar","mars","april","mai","juni","juli","august","september","oktober","november","desember"];
+const MSHORT=["jan","feb","mar","apr","mai","jun","jul","aug","sep","okt","nov","des"];
+const YEAR=2027, AGE=16;
+const WB_PAST=[71,70,66,63,69,72,74,70,69,66]; // jan-okt (invented history)
+const SEASON={
+  10:{top:"#4E6476",bot:"#8C9FAF",light:"#B9C8D4",op:.22,wx:"sleet",cap:"sludd"},
+  11:{top:"#22364B",bot:"#566E84",light:"#9FB2C3",op:.12,wx:"snow",cap:"snø og mørkt"}
+};
+const ACTS=[
+  {id:"konsert",name:"Konsert med Emma",kind:"Konserter",icon:"music",price:450,s:0,so:8,inv:"Invitasjon fra Emma",only:"Bare i november"},
+  {id:"venner",name:"Kveld med venner",kind:"Tid med venner",icon:"people",price:200,s:0,so:5},
+  {id:"hvile",name:"Hvilekveld hjemme",kind:"Hvile",icon:"bed",price:0,s:-5,so:0},
+  {id:"gaming",name:"Gaming med venner",kind:"Tid med venner",icon:"game",price:0,s:-2,so:4},
+  {id:"trening",name:"Trening med laget",kind:"Trening",icon:"run",price:0,s:-3,so:2},
+  {id:"kino",name:"Kino med Jonas",kind:"Kino",icon:"film",price:150,s:-1,so:3},
+  {id:"hytte",name:"Hyttetur med klassen",kind:"Turer",icon:"mtn",price:3600,s:-4,so:6,lock:1236}
+];
+const LAST_MONTH=["venner","hvile"]; // october: NOK 200, under NOK 375 (ex. 25)
+const BASE={bk:2364, sp:23556, target:32500, wage:8457, ins:250, spend:6343, rente:56, stress:25, fritid:72, sosialt:55};
+
+const S={
+  month:10, plan:[null,null,null], sel:0, seen:{}, read:{}, spend:"normal",
+  hours:10, shiftsEnd:false, pick:"rep", why:false, filter:"alle", moneyForm:null,
+  nick:"Mak", av:0, novFinal:null, decState:null
+};
+
+/* ---------------- helpers ---------------- */
+const NB=" ";
+const fmt=n=>String(Math.abs(Math.round(n))).replace(/\B(?=(\d{3})+(?!\d))/g,NB);
+const kr=n=>(n<0?"−":"")+fmt(n)+NB+"kr";
+const sk=n=>(n>0?"+":n<0?"−":"±")+fmt(n)+NB+"kr";
+const sg=n=>(n>0?"+":n<0?"−":"±")+Math.abs(n);
+const pct=x=>(Math.round(x*1000)/10).toFixed(1).replace(".",",")+NB+"%";
+const ic=(id,cls)=>`<svg class="i${cls?" "+cls:""}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $=s=>document.querySelector(s);
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+function stressWord(d){return d<0?"roligere":d>0?"mer stress":"uendret"}
+function socWord(d){return d>0?"mer sosialt":d<0?"mindre sosialt":"uendret"}
+function act(id){return ACTS.find(a=>a.id===id)}
+function planned(){return S.plan.filter(Boolean).map(act)}
+function planCost(){return planned().reduce((t,a)=>t+a.price,0)}
+function wbCalc(stress,fritid,sos){const v=4*(100-stress)+3*fritid+3*sos;return Math.floor((v+5)/10)}
+function planWB(){
+  const p=planned();const ds=clamp(p.reduce((t,a)=>t+a.s,0),-15,15),dso=clamp(p.reduce((t,a)=>t+a.so,0),-15,15);
+  return {stress:BASE.stress+ds,sos:BASE.sosialt+dso,wb:wbCalc(BASE.stress+ds,BASE.fritid,BASE.sosialt+dso),ds,dso};
+}
+function isDec(){return S.month===11}
+function cur(){ // current month figures
+  if(!isDec()){return {bk:BASE.bk,sp:BASE.sp,wb:wbCalc(BASE.stress,BASE.fritid,BASE.sosialt),stress:BASE.stress,fritid:BASE.fritid,sos:BASE.sosialt}}
+  return S.decState;
+}
+function unread(){
+  if(isDec()) return S.read.mamma?0:1;
+  return (S.read.emma?0:1)+(S.read.bank?0:1);
+}
+function say(t){const l=$("#live");l.textContent="";setTimeout(()=>l.textContent=t,30)}
+function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,3200)}
+
+/* ---------------- avatar ---------------- */
+const AVS=[
+  {skin:"#F1C9A5",hair:"#3B2A20",shirt:"#135A96",style:"short"},
+  {skin:"#C98E62",hair:"#1E1A17",shirt:"#0A7566",style:"curly"},
+  {skin:"#F5D7BD",hair:"#C9A15A",shirt:"#56697B",style:"long"},
+  {skin:"#8D5A3B",hair:"#141210",shirt:"#8A2C7A",style:"buzz"},
+  {skin:"#E9B98F",hair:"#6B3A22",shirt:"#2F4D68",style:"bun"},
+  {skin:"#F3CFB0",hair:"#2A2A33",shirt:"#3E7FB0",style:"cap"}
+];
+function avatarSVG(i){const a=AVS[i];let hair="";
+  if(a.style==="short")hair=`<path d="M27 33c0-12 8-18 17-18s17 6 17 18c-3-6-9-8-17-8s-14 2-17 8z" fill="${a.hair}"/>`;
+  if(a.style==="curly")hair=`<g fill="${a.hair}"><circle cx="32" cy="27" r="7"/><circle cx="42" cy="22" r="8"/><circle cx="53" cy="24" r="7.5"/><circle cx="59" cy="32" r="5"/><circle cx="28" cy="34" r="4.5"/></g>`;
+  if(a.style==="long")hair=`<path d="M25 52V33c0-12 8-18 19-18s19 6 19 18v19h-6V36c-3-5-7-7-13-7s-10 2-13 7v16z" fill="${a.hair}"/>`;
+  if(a.style==="buzz")hair=`<path d="M28 31c1-10 8-14 16-14s15 4 16 14c-4-4-9-5-16-5s-12 1-16 5z" fill="${a.hair}"/>`;
+  if(a.style==="bun")hair=`<circle cx="44" cy="12" r="6" fill="${a.hair}"/><path d="M27 34c0-12 8-18 17-18s17 6 17 18c-4-5-9-7-17-7s-13 2-17 7z" fill="${a.hair}"/>`;
+  if(a.style==="cap")hair=`<path d="M26 31c0-10 8-16 18-16s18 6 18 16z" fill="${a.hair}"/><path d="M44 28h24c0 3-3 4-8 4H44z" fill="${a.hair}"/>`;
+  return `<svg viewBox="0 0 88 88" aria-hidden="true"><rect width="88" height="88" rx="16" fill="#E2EDF7"/><path d="M14 88c2-16 14-24 30-24s28 8 30 24z" fill="${a.shirt}"/><rect x="38" y="52" width="12" height="12" rx="4" fill="${a.skin}"/><ellipse cx="44" cy="38" rx="16" ry="18" fill="${a.skin}"/>${hair}<circle cx="38" cy="40" r="1.8" fill="#1A2633"/><circle cx="50" cy="40" r="1.8" fill="#1A2633"/><path d="M39.5 47.5c2.8 2 6.2 2 9 0" stroke="#1A2633" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>`;
+}
+
+/* ---------------- room illustration ---------------- */
+let roomN=0;
+function roomSVG(o){
+  o=o||{};const id="r"+(roomN++);const se=SEASON[o.month!=null?o.month:S.month]||SEASON[10];
+  const cracked=!!o.cracked, glow=o.glow!=null?o.glow:unread()>0;
+  let wx="";
+  if(se.wx==="sleet"){let l="";for(let k=0;k<26;k++){const x=150+((k*37)%190),y=60+((k*53)%200);l+=`<line x1="${x}" y1="${y}" x2="${x-4}" y2="${y+9}"/>`}wx=`<g class="sleet">${l}</g><g class="sleet" style="animation-delay:-1.6s">${l}</g>`}
+  if(se.wx==="snow"){let c="";for(let k=0;k<30;k++){const x=150+((k*41)%190),y=60+((k*59)%200);c+=`<circle cx="${x}" cy="${y}" r="${1.4+(k%3)*.6}"/>`}wx=`<g class="snow">${c}</g><g class="snow" style="animation-delay:-1.6s">${c}</g>`}
+  const night=o.month===11||(o.month==null&&S.month===11);
+  return `<svg class="scene" viewBox="0 0 800 480" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(o.label||roomLabel(o))}">
+  <defs>
+    <linearGradient id="${id}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${se.top}"/><stop offset="1" stop-color="${se.bot}"/></linearGradient>
+    <linearGradient id="${id}w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E3EAF0"/><stop offset="1" stop-color="#D5DFE7"/></linearGradient>
+    <linearGradient id="${id}l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${se.light}" stop-opacity="${se.op*1.6}"/><stop offset="1" stop-color="${se.light}" stop-opacity="0"/></linearGradient>
+    <clipPath id="${id}c"><rect x="156" y="70" width="178" height="188" rx="2"/></clipPath>
+    <radialGradient id="${id}g"><stop offset="0" stop-color="#9FD4FF" stop-opacity=".9"/><stop offset="1" stop-color="#9FD4FF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="800" height="362" fill="url(#${id}w)"/>
+  <rect y="350" width="800" height="12" fill="#C3CFD9"/>
+  <rect y="362" width="800" height="118" fill="#C5D0D9"/>
+  <g stroke="#B2BFCB" stroke-width="1.2"><path d="M0 384h800M0 410h800M0 440h800"/><path d="M90 362v22M260 384v26M470 362v22M640 384v26M150 410v30M380 410v30M600 410v30M720 440v40M300 440v40"/></g>
+  <!-- door + work vest -->
+  <g>
+    <rect x="22" y="100" width="96" height="262" fill="#CFD9E2" stroke="#A9B7C4" stroke-width="2"/>
+    <rect x="34" y="114" width="72" height="104" rx="3" fill="none" stroke="#B4C1CD" stroke-width="2"/>
+    <rect x="34" y="232" width="72" height="116" rx="3" fill="none" stroke="#B4C1CD" stroke-width="2"/>
+    <circle cx="106" cy="240" r="4" fill="#7F93A5"/>
+    <circle cx="70" cy="140" r="3.5" fill="#6C8195"/>
+    <path d="M70 140l-16 22h32z" fill="none" stroke="#6C8195" stroke-width="2"/>
+    <path d="M52 160h36l6 92H46z" fill="#2E6A8E"/>
+    <path d="M52 160c4 14 32 14 36 0" fill="none" stroke="#24546F" stroke-width="3"/>
+    <rect x="58" y="186" width="26" height="12" rx="2" fill="#F5F8FA"/>
+    <path d="M62 192h18" stroke="#2E6A8E" stroke-width="2"/>
+    <path d="M56 220h28v16H56z" fill="#24546F"/>
+  </g>
+  <!-- window -->
+  <g>
+    <rect x="148" y="62" width="194" height="204" rx="4" fill="#F5F8FA" stroke="#A9B7C4" stroke-width="2"/>
+    <g clip-path="url(#${id}c)">
+      <rect x="156" y="70" width="178" height="188" fill="url(#${id}s)"/>
+      <path d="M156 196c30-26 52-38 78-30s40-24 64-26 30 14 36 20v98H156z" fill="#5F768A" opacity=".75"/>
+      <path d="M156 214c26-12 50-10 76-2s58-8 102-4v50H156z" fill="#465D71"/>
+      <rect x="156" y="236" width="178" height="22" fill="#3B4F61"/>
+      <path d="M156 240h178" stroke="#6E8496" stroke-width="1.5" stroke-dasharray="10 8"/>
+      <rect x="296" y="168" width="3" height="70" fill="#2B3C4C"/>
+      <path d="M297.5 170h-12" stroke="#2B3C4C" stroke-width="3"/>
+      <circle cx="285" cy="174" r="${night?9:6}" fill="#E8EEF2" opacity="${night?.95:.7}"/>
+      ${night?`<circle cx="285" cy="174" r="22" fill="#E8EEF2" opacity=".18"/>`:""}
+      <!-- moped outside (layer from 16) -->
+      <g transform="translate(196 214)">
+        <circle cx="6" cy="22" r="7" fill="#1C2C3B"/><circle cx="6" cy="22" r="3" fill="#7F93A5"/>
+        <circle cx="44" cy="22" r="7" fill="#1C2C3B"/><circle cx="44" cy="22" r="3" fill="#7F93A5"/>
+        <path d="M2 16c4-8 12-8 20-8h10l6-10h6l-4 12c6 2 8 6 8 12H30c0-4-4-6-8-6H8z" fill="#E5EDF3"/>
+        <path d="M14 8h16" stroke="#1C2C3B" stroke-width="4" stroke-linecap="round"/>
+        <path d="M40 -2l4-3" stroke="#1C2C3B" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      ${wx}
+    </g>
+    <path d="M245 70v188M156 164h178" stroke="#F5F8FA" stroke-width="6"/>
+    <rect x="140" y="264" width="210" height="10" rx="2" fill="#E9EEF2" stroke="#A9B7C4" stroke-width="1.5"/>
+    <!-- plant on sill -->
+    <path d="M180 264h26l-3 -20h-20z" fill="#5E7F9C"/>
+    <path d="M193 244c-2-14-12-20-18-22 4 8 6 16 18 22zM193 244c2-16 10-24 18-26-2 10-6 18-18 26zM193 244c0-10 2-18 0-26" fill="#3F8A78" stroke="#2F6E60" stroke-width="1"/>
+  </g>
+  <!-- window light on floor -->
+  <path d="M150 274h192l100 206H200z" fill="url(#${id}l)"/>
+  <!-- poster -->
+  <g><rect x="604" y="34" width="86" height="104" rx="2" fill="#F7FAFC" stroke="#A9B7C4" stroke-width="1.5"/><rect x="612" y="42" width="70" height="66" fill="#CBE0F1"/><path d="M612 108l20-30 14 18 10-12 26 24z" fill="#135A96"/><circle cx="666" cy="58" r="7" fill="#F2B51F"/><path d="M616 120h40M616 128h26" stroke="#56697B" stroke-width="3"/></g>
+  <!-- planner on wall -->
+  <g>
+    <rect x="392" y="86" width="140" height="168" rx="4" fill="#FFFFFF" stroke="#A9B7C4" stroke-width="2"/>
+    <rect x="392" y="86" width="140" height="34" rx="4" fill="#135A96"/>
+    <rect x="392" y="108" width="140" height="12" fill="#135A96"/>
+    <text x="404" y="110" font-family="Geist,sans-serif" font-weight="800" font-size="17" fill="#fff" letter-spacing="1">${MSHORT[o.month!=null?o.month:S.month].toUpperCase()}</text>
+    <circle cx="512" cy="103" r="4" fill="#CBE0F1"/>
+    <g fill="none" stroke="#B9C6D2" stroke-width="1.2">
+      ${(()=>{let g="";for(let r=0;r<4;r++)for(let c=0;c<4;c++){g+=`<rect x="${404+c*30}" y="${130+r*29}" width="26" height="24" rx="3"/>`}return g})()}
+    </g>
+    <g fill="#DDE5EC">${(()=>{let g="";for(let c=0;c<4;c++){g+=`<rect x="${404+c*30}" y="130" width="26" height="24" rx="3"/><rect x="${404+c*30}" y="159" width="26" height="24" rx="3"/>`}return g})()}</g>
+    <g fill="#9FBEDA"><rect x="404" y="188" width="26" height="24" rx="3"/><rect x="434" y="188" width="26" height="24" rx="3"/><rect x="464" y="188" width="26" height="24" rx="3"/><rect x="494" y="188" width="26" height="24" rx="3"/></g>
+    ${S.plan.map((p,i)=>`<rect x="${404+i*30}" y="217" width="26" height="24" rx="3" fill="${p?"#135A96":"#fff"}" stroke="${p?"#135A96":"#135A96"}" stroke-width="1.6" ${p?"":'stroke-dasharray="3 3"'}/>`).join("")}
+    <rect x="494" y="217" width="26" height="24" rx="3" fill="#C9D4DE"/>
+  </g>
+  <!-- desk -->
+  <g>
+    <rect x="372" y="296" width="200" height="12" rx="2" fill="#E9EEF2" stroke="#9FB0BE" stroke-width="1.5"/>
+    <rect x="380" y="308" width="8" height="104" fill="#9FB0BE"/>
+    <rect x="500" y="308" width="64" height="96" fill="#DCE4EB" stroke="#9FB0BE" stroke-width="1.5"/>
+    <path d="M500 340h64M500 372h64" stroke="#9FB0BE" stroke-width="1.5"/>
+    <rect x="524" y="322" width="16" height="3" rx="1.5" fill="#7F93A5"/><rect x="524" y="354" width="16" height="3" rx="1.5" fill="#7F93A5"/>
+    <path d="M410 296l6-54h76l6 54z" fill="#2B4157"/>
+    <path d="M419 290l5-42h64l5 42z" fill="#3D6C94"/>
+    <path d="M428 262h40M428 272h52M428 282h30" stroke="#8FC0E6" stroke-width="3" opacity=".8"/>
+    <rect x="400" y="294" width="108" height="5" rx="2" fill="#7F93A5"/>
+    <rect x="530" y="276" width="18" height="20" rx="3" fill="#F5F8FA" stroke="#9FB0BE" stroke-width="1.5"/>
+    <path d="M548 282c6 0 6 9 0 9" fill="none" stroke="#9FB0BE" stroke-width="1.5"/>
+  </g>
+  <!-- chair -->
+  <g><rect x="424" y="318" width="66" height="10" rx="4" fill="#3E5A73"/><rect x="430" y="270" width="54" height="50" rx="8" fill="#4A6882"/><path d="M457 328v52M436 400l21-20 21 20" stroke="#2F4558" stroke-width="5" stroke-linecap="round"/></g>
+  <!-- shelf: wallet, helmet -->
+  <g>
+    <rect x="596" y="168" width="184" height="8" rx="2" fill="#B5C3CF"/>
+    <path d="M612 176v14M764 176v14" stroke="#9FB0BE" stroke-width="4"/>
+    <g transform="translate(612 140)"><rect x="0" y="6" width="46" height="22" rx="4" fill="#2F4D68"/><rect x="8" y="0" width="32" height="18" rx="2.5" fill="#8CC1E6"/><rect x="8" y="5" width="32" height="3" fill="#5E8DB5"/><rect x="0" y="12" width="46" height="16" rx="4" fill="#24405A"/><circle cx="38" cy="20" r="3" fill="#8CC1E6"/></g>
+    <g transform="translate(676 130)"><path d="M2 38c0-22 12-34 28-34s26 12 26 30v4z" fill="#1F6FB2"/><path d="M30 14c12 0 20 8 22 18H30z" fill="#BFD9EE"/><rect x="0" y="34" width="58" height="5" rx="2" fill="#174F80"/></g>
+    <g transform="translate(748 138)"><path d="M4 30h18l-2 -14H6z" fill="#E9EEF2" stroke="#9FB0BE"/><path d="M13 16c-6-6-10-8-12-8 2 6 6 8 12 8zM13 16c4-8 8-10 12-10-2 6-6 9-12 10z" fill="#3F8A78"/></g>
+  </g>
+  <!-- bed -->
+  <g>
+    <rect x="770" y="282" width="26" height="150" rx="4" fill="#5E7487"/>
+    <rect x="588" y="378" width="208" height="44" rx="4" fill="#5E7487"/>
+    <rect x="588" y="350" width="190" height="30" rx="6" fill="#F2F5F8"/>
+    <path d="M588 352c40-10 120-12 160-6l2 46H588z" fill="#7FA6C8"/>
+    <path d="M588 352c40-10 120-12 160-6" fill="none" stroke="#6A93B7" stroke-width="2"/>
+    <rect x="726" y="332" width="48" height="24" rx="10" fill="#FFFFFF" stroke="#C9D4DE"/>
+    <rect x="596" y="422" width="10" height="16" fill="#4B6175"/><rect x="782" y="422" width="10" height="16" fill="#4B6175"/>
+    <!-- phone on bed -->
+    ${glow?`<circle class="phoneglow" cx="660" cy="344" r="30" fill="url(#${id}g)"/>`:""}
+    <g transform="translate(646 336) rotate(-12)">
+      <rect width="30" height="16" rx="3" fill="#13222F"/>
+      <rect x="2.5" y="2.5" width="25" height="11" rx="1.5" fill="${glow?"#BFE3FF":"#3A5268"}"/>
+      ${cracked?`<path d="M6 3l5 5-2 4M11 8l6-2 4 7M17 6l3-3" stroke="#13222F" stroke-width="1" fill="none"/>`:""}
+    </g>
+  </g>
+  <!-- rug + speaker -->
+  <ellipse cx="460" cy="448" rx="120" ry="18" fill="#A8BCCD"/>
+  <ellipse cx="460" cy="448" rx="96" ry="12" fill="none" stroke="#93AAC0" stroke-width="2"/>
+  <g transform="translate(320 396)"><rect width="30" height="44" rx="5" fill="#2F4558"/><circle cx="15" cy="28" r="9" fill="#4A6882"/><circle cx="15" cy="11" r="4" fill="#4A6882"/></g>
+  ${o.dim?`<rect width="800" height="480" fill="#0F2131" opacity=".35"/>`:""}
+</svg>`;
+}
+function roomLabel(o){
+  const m=o.month!=null?o.month:S.month;const se=SEASON[m]||SEASON[10];
+  const u=unread();
+  return `Rommet ditt i ${MONTHS[m]}: ryddig. Ute er det ${se.cap}, og mopeden står parkert utenfor vinduet. På veggen henger planleggeren, på hylla ligger lommeboka og mopedhjelmen, på døra henger jobbforkleet. ${o.cracked?"Mobilen på senga har knust skjerm.":u?"Mobilen på senga lyser: "+u+(u===1?" ny melding.":" nye meldinger."):"Mobilen ligger på senga."}`;
+}
+function shortCap(){const u=unread();return `Ryddig rom · ${SEASON[S.month].cap} ute · mopeden står parkert · ${u?`mobilen lyser, ${u} ${u===1?"ny":"nye"}`:"ingen nye på mobilen"}`}
+function roomBlock(o){
+  o=o||{};const u=unread();
+  const hot=o.nohot?"":`
+    <a class="hot l" href="#jobb" style="left:2%;top:24%">${ic("work")}Jobb</a>
+    <a class="hot" href="#plan" style="left:58%;top:6%">${ic("plan")}Planlegger</a>
+    <a class="hot" href="#penger" style="left:80.5%;top:31%">${ic("money")}Penger</a>
+    <a class="hot r${u?" alert":""}" href="#telefon" style="left:97%;top:80%" aria-label="Mobil${u?", "+u+(u===1?" ny melding":" nye meldinger"):""}">${ic("phone")}Mobil${u?`<span class="badge" aria-hidden="true">${u}</span>`:""}</a>`;
+  return `<div class="room" ${o.id?`id="${o.id}"`:""}><div class="layer">${roomSVG(o)}</div>${hot}</div>`;
+}
+
+/* ---------------- timeline (meteogram strip) ---------------- */
+function wbSeries(){const s=WB_PAST.slice();if(isDec()&&S.novFinal!=null)s.push(S.novFinal);return s}
+function yPct(v){return 100-((v-45)/(85-45))*100}
+function timeline(){
+  const m=S.month,ser=wbSeries();
+  const pts=ser.map((v,i)=>`${i*10+5},${(yPct(v)*0.4).toFixed(1)}`).join(" ");
+  const nowV=cur().wb;
+  let cells="";
+  for(let i=0;i<12;i++){const cl=i<m?"past":i===m?"now":"future";
+    cells+=`<li class="${cl}"><span class="bar"></span><span class="lbl"><span class="short">${MSHORT[i].charAt(0)}</span><span class="long">${MSHORT[i]}</span></span></li>`}
+  return `<a class="tl" href="#aar" aria-label="Tidslinje: ${MONTHS[m]} ${YEAR}, du er ${AGE} år. Trivselen så langt i år vises som en linje over månedene som er gått. Åpne året.">
+    <span class="tl-head"><span class="tl-month">${cap(MONTHS[m])}</span><span class="tl-meta"><b>${AGE} år</b> · ${YEAR}</span><span class="tl-open">Året${ic("chev")}</span></span>
+    <span class="tl-strip" aria-hidden="true">
+      <ol class="tl-cells">${cells}</ol>
+      <span class="tl-plot"><svg class="tl-line" viewBox="0 0 120 40" preserveAspectRatio="none"><polyline points="${pts}"/></svg>
+      <span class="tl-dot" style="left:${(m*10+5)/1.2}%;top:${yPct(nowV)}%"></span></span>
+    </span>
+  </a>`;
+}
+function renderTop(){
+  const tb=$("#topbar");
+  tb.innerHTML=timeline()+`<div class="who"><span class="av" style="background:#E2EDF7;padding:0;overflow:hidden">${avatarSVG(S.av)}</span><span><b>${esc(S.nick)}</b><br>Spar til noe stort</span></div>`;
+  // nav badge
+  const n=$("#nav-mobil");n.querySelector(".badge")&&n.querySelector(".badge").remove();
+  const u=unread();if(u){n.insertAdjacentHTML("beforeend",`<span class="badge" aria-hidden="true">${u}</span>`)}
+  n.setAttribute("aria-label","Mobil"+(u?", "+u+(u===1?" ny melding":" nye meldinger"):""));
+}
+
+/* ---------------- held changes ---------------- */
+function heldItems(){
+  if(!isDec()) return [
+    {k:"lonn",what:"Lønn fra Butikken",why:"14 t/uke med ekstravaktene",val:sk(BASE.wage),w:"inn",href:"#penger",cls:"pos"},
+    {k:"rente",what:"Rente på sparekontoen",why:"23 500 kr × 2,87 % ÷ 12",val:sk(BASE.rente),w:"til sparekonto",href:"#penger",cls:"pos"},
+    {k:"stress",what:"Stress nede på 25",why:"Ingen trekk denne måneden, så stresset faller 5",val:"Stress "+sg(-5),w:"roligere",href:"#aar",cls:"pos"},
+    {k:"msg",what:"2 nye meldinger",why:"Emma inviterer · Banken om sparemålet",val:"2",w:"nye",href:"#telefon",cls:""}
+  ];
+  const d=S.decState;return [
+    {k:"lonn",what:"Lønn fra Butikken",why:"Siste måned med ekstravakter",val:sk(BASE.wage),w:"inn",href:"#penger",cls:"pos"},
+    {k:"novplan",what:"November-planen betalt",why:d.planTxt,val:sk(-d.paid),w:"ut",href:"#penger",cls:d.paid?"neg":""},
+    {k:"stress",what:"Stress nede på 20",why:"Fortsatt ingen trekk, stresset faller 5",val:"Stress "+sg(-5),w:"roligere",href:"#aar",cls:"pos"},
+    {k:"msg",what:"1 ny melding",why:"Mamma om jul",val:"1",w:"ny",href:"#telefon",cls:""}
+  ];
+}
+function heldCount(){return heldItems().filter(h=>!S.seen[h.k]).length}
+
+/* ---------------- HUB ---------------- */
+function renderHub(){
+  const c=cur(),dec=isDec(),items=heldItems(),hc=heldCount(),pw=planWB(),pc=planCost(),used=S.plan.filter(Boolean).length;
+  const next=dec?"Avslutt året":"Fortsett til desember";
+  const held=items.map(h=>`<li><a class="held-row held${S.seen[h.k]?" is-seen":""}" href="${h.href}" data-seen="${h.k}">
+      <span class="what">${esc(h.what)} <span class="newmark">Ny</span></span><span class="why">${esc(h.why)}</span>
+      <span class="val ${h.cls}">${h.val}<span class="w">${h.w}</span></span></a></li>`).join("");
+  const part=(cls,name,v,word,d)=>`<div class="wb-part ${cls}"><span>${name}</span><span class="bar"><i style="width:${v}%"></i></span><span class="n">${v} <span class="w">${word}${d?" "+d:""}</span></span></div>`;
+  const wbBlock=`<section class="panel" aria-labelledby="h-wb"><div class="mod-head"><h2 id="h-wb">Trivsel</h2><a class="more" href="#aar">Året${ic("chev")}</a></div>
+    <div class="wb"><div class="wb-score"><span class="big num">${c.wb}</span><span class="of">/100</span><div class="lbl">${c.wb>=50?"Over 50, bra":"Under 50"}</div></div>
+      ${part("stress","Stress",c.stress,"lavt",`<b class="pos">(${sg(-5)})</b>`)}
+      ${part("","Fritid",c.fritid,"bra")}
+      ${part("","Sosialt",c.sos,"middels")}
+      <p class="wb-note">${!dec&&used?`Med planen din blir november <b>${pw.wb}</b> (${sg(pw.wb-c.wb)}). `:""}Lavt stress er bra. Over 50 i snitt teller i slutten.</p></div></section>`;
+  const nowCard=`<section class="panel now-card" aria-labelledby="h-hjem">
+      <div class="now-head"><span class="sym">${ic("calm")}</span><div><h1 id="h-hjem" tabindex="-1">${dec?"Desember · stille måned":"Stille måned"}</h1><p>${dec?"Ingen hendelse. Siste måned med ekstravakter.":"Ingen hendelse i november. Lønna kom inn."}</p></div><a class="wb-mini" href="#h-wb" aria-label="Trivsel ${c.wb} av 100"><b class="num">${c.wb}</b><span>/100<br>trivsel</span></a></div>
+      <ul class="held-list" aria-label="Endringer siden forrige måned">${held}</ul>
+      <div class="held-foot"><span>${hc?`${hc} ${hc===1?"endring":"endringer"} du ikke har sett`:"Alt er sett"}</span>${hc?`<button class="btn quiet" style="min-height:36px;font-size:13px" data-action="seeall">Merk alt som sett</button>`:""}</div>
+      <div class="bal"><a href="#penger"><span class="k">Brukskonto</span><br><span class="v">${kr(c.bk)}</span></a><a href="#penger"><span class="k">Sparekonto</span><br><span class="v">${kr(c.sp)}</span></a></div>
+      <a class="planrow planrow-m" href="#plan" style="border-top:1px solid var(--rule)">${ic("plan")}<span><b>Månedsplan</b><br><span class="small muted">${dec?"Ny plan i desember":`${used} av 3 økter brukt${pc?" · "+sk(-pc)+" planlagt":""}`}</span></span><span class="slots-mini" aria-hidden="true">${S.plan.map(p=>`<i class="${p&&!dec?"f":""}"></i>`).join("")}${dec?"":"<i class=x></i>"}</span></a>
+    </section>`;
+  const go=`<div class="go go-sticky"><button class="btn lg block" data-action="next" ${dec?"":""}>${next}${ic("chev")}</button><p class="go-note">${dec?"Prototypen stopper her. Årsoppgjøret kommer når du fortsetter fra desember.":used?"Planen betales når du fortsetter.":"Tomme økter er helt greit. Du kan fortsette nå."}</p></div>`;
+  // wide panes
+  const threads=inboxData().filter(t=>t.month===S.month).slice(0,3);
+  const phonePane=`<section class="panel pane-wide" aria-labelledby="h-pm"><div class="mod-head"><h2 id="h-pm">Mobil</h2>${unread()?`<span class="badge">${unread()}</span>`:""}<a class="more" href="#telefon">Alle meldinger${ic("chev")}</a></div>${threads.map(threadRow).join("")}<a class="planrow small" href="#telefon" style="color:var(--ink-2)">${ic("echo")}Eldre: ${dec?"november, oktober, september":"oktober, september, august"}</a></section>`;
+  const tgt=(c.bk+c.sp)/BASE.target;
+  const moneyPane=`<section class="panel pane-wide" aria-labelledby="h-mp"><div class="mod-head"><h2 id="h-mp">Penger</h2><a class="more" href="#penger">Banken${ic("chev")}</a></div>
+    <table class="dtable"><tbody>
+      <tr><th>Brukskonto</th><td class="r"><b>${kr(c.bk)}</b></td></tr>
+      <tr><th>Sparekonto<span class="sub">2,87 % rente</span></th><td class="r"><b>${kr(c.sp)}</b></td></tr>
+      <tr><th>BSU</th><td class="r muted">Ikke opprettet</td></tr>
+      <tr><th>Kredittkort</th><td class="r muted">${ic("lock")} Fra 18 år</td></tr>
+    </tbody></table>
+    <div class="goal" style="border-top:1px solid var(--rule)"><div class="top"><span class="t">${ic("save")}Lappen</span><span class="p num" style="font-size:20px">${pct(tgt)}</span></div><div class="bar"><i style="width:${tgt*100}%"></i><span class="tick" style="left:75%"></span></div><div class="scale"><span>${kr(c.bk+c.sp)} av ${kr(BASE.target)}</span><span>åpner jan. 2029</span></div></div></section>`;
+  const fcPane=`<section class="panel pane-wide" aria-labelledby="h-fp">${forecast(true)}</section>`;
+  const planPane=`<section class="panel pane-wide" aria-labelledby="h-pp"><div class="mod-head"><h2 id="h-pp">Månedsplan</h2><a class="more" href="#plan">Planlegg${ic("chev")}</a></div>
+    <a class="planrow" href="#plan"><span><b class="num">${dec?0:used} av 3</b> økter brukt<br><span class="small muted">${dec?"Ny måned, tom plan":pc?sk(-pc)+" planlagt · trivsel "+pw.wb:"Ekstravaktene tar den fjerde"}</span></span><span class="slots-mini" aria-hidden="true">${S.plan.map(p=>`<i class="${p&&!dec?"f":""}"></i>`).join("")}<i class="x"></i></span></a></section>`;
+  $('[data-route="hjem"]').innerHTML=`<div class="hub">
+    <div class="now-main">
+      <figure class="panel now-room" style="margin:0">${roomBlock({id:"hub-room"})}<figcaption class="room-cap">${shortCap()}</figcaption></figure>
+      ${nowCard}<div class="side-stack">${wbBlock}${go}</div>
+    </div>
+    <div class="panes">${phonePane}${moneyPane}${fcPane}${planPane}</div>
+  </div>`;
+}
+
+/* ---------------- forecast card: Neste måned ---------------- */
+function forecast(compact){
+  const dec=isDec();
+  if(dec) return `<div class="fc-head"><span class="sym">${ic("year")}</span><div><h2 id="${compact?"h-fp":"h-fc"}" style="font-size:16px;font-weight:750">Neste måned</h2><span class="small muted">Januar 2028 · nytt år</span></div></div>
+    <div class="fc-row">${ic("work")}<span>Lønn, 10 t/uke<br><span class="xs muted">Ekstravaktene er over</span></span><span class="v pos">+6${NB}041${NB}kr</span></div>
+    <div class="fc-row">${ic("shield")}<span>Mopedforsikring</span><span class="v neg">−250${NB}kr</span></div>
+    <div class="fc-row">${ic("cart")}<span>Forbruk, normal 75 %</span><span class="v neg">−4${NB}531${NB}kr</span></div>
+    <div class="fc-sum"><span>Ventet igjen</span><span class="v num">ca. 1${NB}260${NB}kr</span></div>
+    <p class="fc-note">${ic("info")}<span>Bare kjente regninger. LifeMode varsler aldri hendelser.</span></p>`;
+  const rows=[
+    {i:"work",t:"Lønn, 14 t/uke",s:"Siste måned med ekstravakter",v:BASE.wage,max:BASE.wage},
+    {i:"shield",t:"Mopedforsikring",s:"Fast, din egen regning",v:-BASE.ins,max:BASE.wage},
+    {i:"cart",t:"Forbruk, "+S.spend+" "+({lav:"60",normal:"75",hoy:"95"}[S.spend])+" %",s:"Av lønna etter skatt",v:-({lav:5074,normal:6343,hoy:8034}[S.spend]),max:BASE.wage},
+    {i:"phone",t:"Mobilabonnement",s:"Foreldrene betaler til du er 18",v:0,max:BASE.wage}
+  ];
+  const sum=rows.reduce((t,r)=>t+r.v,0);
+  return `<div class="fc-head"><span class="sym">${ic("year")}</span><div><h2 id="${compact?"h-fp":"h-fc"}" style="font-size:16px;font-weight:750">Neste måned</h2><span class="small muted">Desember · kjente beløp</span></div>${compact?`<a class="more small" href="#penger" style="margin-left:auto;font-weight:650;text-decoration:none">Detaljer${ic("chev")}</a>`:""}</div>
+    ${rows.map(r=>`<div class="fc-row">${ic(r.i)}<span>${r.t}<br><span class="xs muted">${r.s}</span></span><span class="v ${r.v>0?"pos":r.v<0?"neg":"muted"}">${r.v===0?"0"+NB+"kr":sk(r.v)}</span>${compact?"":`<span class="pbar" style="width:${Math.abs(r.v)/r.max*100}%;background:${r.v>0?"#9ED2C7":"#C9DCEC"}"></span>`}</div>`).join("")}
+    <div class="fc-sum"><span>Ventet igjen etter regningene</span><span class="v num">ca. ${kr(sum)}</span></div>
+    <p class="fc-note">${ic("info")}<span>Bare regninger vi vet om. LifeMode varsler aldri hendelser. Fra januar er lønna ca. 6${NB}041${NB}kr.</span></p>`;
+}
+
+/* ---------------- YEAR ---------------- */
+const YEARLOG=[
+  {k:"of",t:"Fylte 16",s:"Mopedlappen åpnet seg"},
+  {k:"ev",t:"Sykkelen ble stjålet",s:"Du kjøpte en brukt: −1 500 kr"},
+  {k:"of",t:"Tok mopedlappen",s:"−12 000 kr fra sparekontoen"},
+  {k:"of",t:"Morfar ga deg mopeden sin",s:"Forsikring 250 kr i måneden fra nå"},
+  {k:"st",t:"Stille måned",s:"Mopedsesongen i gang"},
+  {k:"ev",t:"Bursdag i Oslo",s:"Du dro: −900 kr, sosialt opp"},
+  {k:"st",t:"Sommerjobb",s:"Fire uker i butikken"},
+  {k:"st",t:"Vg1 starter",s:"Ny grense: 40 t/uke"},
+  {k:"of",t:"Sjefen spurte om ekstravakter",s:"Du sa ja: +4 t/uke ut desember"},
+  {k:"ev",t:"Punktering på mopeden",s:"Du fikset den: −500 kr"}
+];
+function renderYear(){
+  const m=S.month,ser=wbSeries(),nowV=cur().wb;
+  const pts=ser.map((v,i)=>`${i*10+5},${yPct(v)}`).join(" ");
+  let cols="",lbls="",vals="";
+  for(let i=0;i<12;i++){cols+=`<div class="col ${i<m?"":i===m?"now":"fut"}"></div>`;lbls+=`<span class="${i===m?"now":""}">${MSHORT[i]}</span>`}
+  ser.forEach((v,i)=>{vals+=`<span class="yc-pt" style="left:calc(16px + (100% - 32px) * ${(i*10+5)/120});top:calc(12px + 120px * ${yPct(v)/100})"></span><span class="yc-val" style="left:calc(16px + (100% - 32px) * ${(i*10+5)/120});top:calc(12px + 120px * ${yPct(v)/100})">${v}</span>`});
+  vals+=`<span class="yc-pt" style="left:calc(16px + (100% - 32px) * ${(m*10+5)/120});top:calc(12px + 120px * ${yPct(nowV)/100});background:#fff;border:2px solid var(--trivsel);width:11px;height:11px;margin:-5.5px 0 0 -5.5px"></span><span class="yc-val" style="left:calc(16px + (100% - 32px) * ${(m*10+5)/120});top:calc(12px + 120px * ${yPct(nowV)/100});transform:translate(-50%,60%);color:var(--fjord)">nå ${nowV}</span>`;
+  const icons={ev:"event",of:"offer",st:"calm"};
+  const rows=MONTHS.map((mn,i)=>{
+    if(i<10||(isDec()&&i===10)){const L=i<10?YEARLOG[i]:{k:"st",t:"Stille måned",s:S.decState.planTxt};const v=ser[i];
+      return `<li class="mrow"><span class="m">${cap(MSHORT[i])}</span><span class="ic ${L.k}">${ic(icons[L.k])}</span><span class="tx"><b>${L.t}</b><span class="s">${L.k==="ev"?"Hendelse · ":L.k==="of"?"Ditt valg · ":""}${esc(L.s)}</span></span><span class="wv" aria-label="Trivsel ${v}">${v}</span></li>`}
+    if(i===m) return `<li class="mrow now" aria-current="true"><span class="m">${cap(MSHORT[i])}</span><span class="ic nw">${ic("calm")}</span><span class="tx"><b>Nå · stille måned</b><span class="s">${isDec()?"1 ny melding":"2 nye meldinger · 3 økter å planlegge"}</span></span><span class="wv">${nowV}</span></li>`;
+    return `<li class="mrow fut"><span class="m">${cap(MSHORT[i])}</span><span class="ic">${ic("info")}</span><span class="tx"><b>Ikke skjedd ennå</b><span class="s">Kjent: ekstravaktene slutter etter desember. BSU-fradraget regnes ut når du fortsetter fra desember.</span></span><span class="wv">–</span></li>`;
+  }).join("");
+  $('[data-route="aar"]').innerHTML=`<div class="wrap">
+    <div class="page-h"><a class="back" href="#hjem" aria-label="Tilbake til rommet">${ic("back")}</a><div><h1 id="h-aar" tabindex="-1">${YEAR} · ${AGE} år</h1><p>Hva som har skjedd i år. Fremtiden varsles ikke.</p></div></div>
+    <div class="year-grid">
+      <div style="display:grid;gap:16px">
+        <section class="panel" aria-labelledby="h-yc"><div class="mod-head"><h2 id="h-yc">Trivsel måned for måned</h2><span class="more muted" style="font-weight:550">Linjen stopper i dag</span></div>
+          <div class="year-chart" aria-hidden="true">
+            <div class="yc-grid">${cols}<div class="yc-thr" style="top:${yPct(50)}%"><span>50</span></div></div>
+            <svg class="yc-svg" viewBox="0 0 120 100" preserveAspectRatio="none"><polyline points="${pts}"/><line x1="${(ser.length-1)*10+5}" y1="${yPct(ser[ser.length-1])}" x2="${m*10+5}" y2="${yPct(nowV)}"/></svg>
+            ${vals}
+          </div>
+          <div class="yc-lbls" aria-hidden="true">${lbls}</div>
+          <div class="yc-sym" aria-hidden="true">${MONTHS.map((x,i)=>{const L=i<10?YEARLOG[i]:(isDec()&&i===10?{k:"st"}:null);return i===m?`<span class="nw">${ic("calm")}</span>`:L?`<span class="${L.k}">${ic(icons[L.k])}</span>`:`<span class="fu"></span>`}).join("")}</div>
+          <p class="sr">Trivsel i år: ${ser.map((v,i)=>MONTHS[i]+" "+v).join(", ")}. Nå: ${nowV}.</p>
+          <ol class="mrows" style="border-top:1px solid var(--rule)">${rows}</ol>
+        </section>
+      </div>
+      <div style="display:grid;gap:16px;align-content:start">
+        <section class="panel" aria-labelledby="h-ar"><div class="mod-head"><h2 id="h-ar">Fem år, 15 til 20</h2></div>
+          <div class="agerail">
+            <div class="ar-track">
+              ${[15,16,17,18,19].map(a=>`<div class="ar-seg ${a<AGE?"done":a===AGE?"cur":""}">${a===AGE?`<i style="width:${(m+.5)/12*100}%"></i>`:"<i></i>"}<span>${a}</span></div>`).join("")}
+            </div>
+            <div class="ar-yrs"><span>2026</span><span>2027</span><span>2028</span><span>2029</span><span>2030</span></div>
+            <p class="small" style="margin-top:12px"><b>Du er her:</b> ${MONTHS[m]} året du er ${AGE}. Bursdag i januar, da fyller du 17. Spillet slutter på 20-årsdagen.</p>
+          </div>
+        </section>
+        <section class="panel" aria-labelledby="h-unl"><div class="mod-head"><h2 id="h-unl">Låses opp med alderen</h2></div>
+          <ul class="unl">
+            <li>${ic("check")}<span><span class="when">16 år · januar 2027</span>Mopedlappen. Tatt i mars.</span></li>
+            <li>${ic("key")}<span><span class="when">18 år · januar 2029</span>Førerkort klasse B. Sparemålet ditt, Lappen.</span></li>
+            <li>${ic("card")}<span><span class="when">18 år · januar 2029</span>Kredittkort og forbrukslån. Kreditt kommer først fra 18.</span></li>
+            <li>${ic("work")}<span><span class="when">18 år · januar 2029</span>Voksen timelønn, 195,04 kr i timen.</span></li>
+          </ul>
+        </section>
+        <section class="panel pad small muted">${ic("info")} Hendelser vises først når måneden kommer. Tre symboler: ${ic("event")} hendelse, ${ic("offer")} ditt valg, ${ic("calm")} stille måned.</section>
+      </div>
+    </div></div>`;
+}
+
+/* ---------------- PLAN ---------------- */
+function renderPlan(){
+  const pc=planCost(),pw=planWB(),left=BASE.bk-pc,tgt=(BASE.bk+BASE.sp-pc)/BASE.target,dec=isDec();
+  const slots=S.plan.map((id,i)=>{const a=id&&act(id);
+    if(a) return `<div class="slot full"><span class="sn">Økt ${i+1}</span><span class="nm">${a.name}</span><span class="px ${a.price?"neg":"pos"}">${a.price?sk(-a.price):"Gratis"}</span><span class="ef">${effTxt(a)}</span><button class="rm" data-action="unplace" data-i="${i}" aria-label="Fjern ${a.name} fra økt ${i+1}">${ic("x")}</button></div>`;
+    return `<button class="slot empty${S.sel===i?" sel":""}" data-action="sel" data-i="${i}" aria-pressed="${S.sel===i}"><span class="sn">Økt ${i+1}</span><span class="nm">Ledig</span><span class="ef">${S.sel===i?"Velg en aktivitet under":"Trykk for å velge"}</span></button>`;
+  }).join("")+`<div class="slot taken" aria-label="Økt 4 er tatt av ekstravaktene"><span class="sn">Økt 4</span><span class="nm">Tatt av ekstravakter</span><span class="ef">Tilbake i januar</span></div>`;
+  const full=S.plan.every(Boolean);
+  const list=ACTS.map(a=>{
+    const placed=S.plan.includes(a.id);
+    if(a.lock) return `<li class="act lock"><span class="nm">${ic(a.icon)}${a.name}</span><span class="meta"><span class="neg">${sk(-a.price)}</span><span>${effTxt(a)}</span><span class="miss">Mangler ${kr(a.lock)}</span></span><button class="add" disabled aria-label="${a.name} kan ikke legges til: mangler ${fmt(a.lock)} kroner">${ic("lock")}</button></li>`;
+    return `<li class="act${placed?" placed":""}"><span class="nm">${ic(a.icon)}${a.name}${a.inv?`<span class="tag inv">${a.inv}</span>`:""}</span><span class="meta"><b class="${a.price?"neg":"pos"}">${a.price?sk(-a.price):"Gratis"}</b><span>${effTxt(a)}</span>${a.only?`<span>${a.only}</span>`:""}</span>
+      <button class="add" data-action="place" data-id="${a.id}" ${placed||(full&&!placed)?"disabled":""} aria-label="${placed?a.name+" er lagt i planen":"Legg "+a.name+" i økt "+(S.sel+1)}">${placed?ic("check")+"Lagt":ic("plus")+"Legg til"}</button></li>`;
+  }).join("");
+  $('[data-route="plan"]').innerHTML=`<div class="wrap">
+    <div class="page-h"><a class="back" href="#hjem" aria-label="Tilbake til rommet">${ic("back")}</a><div><h1 id="h-plan" tabindex="-1">Månedsplan</h1><p>${dec?"Desember":"November"} · fritiden din denne måneden</p></div></div>
+    <div class="plan-grid">
+      <div style="display:grid;gap:12px;align-content:start">
+        <div class="fixed-blocks">
+          <div class="fblock"><div class="t">${ic("lock")}Skole</div><div class="d">Vg1 · 30 t/uke · fast</div></div>
+          <div class="fblock"><div class="t">${ic("lock")}Jobb</div><div class="d">Butikken · 14 t/uke (10 + 4 ekstra) · fast</div></div>
+        </div>
+        <section class="panel" aria-labelledby="h-slots">
+          <div class="mod-head" style="display:block"><h2 id="h-slots">3 ledige økter denne måneden</h2><p class="small muted" style="margin-top:2px">Ekstravaktene tar én økt. Med 10 t/uke hadde du hatt 4.</p></div>
+          <div class="pad"><div class="slots">${slots}</div></div>
+          <div class="plan-sum">
+            <div><span class="k">Planlagt</span><br><span class="v ${pc?"neg":""}">${pc?sk(-pc):"0"+NB+"kr"}</span></div>
+            <div><span class="k">Igjen på brukskonto</span><br><span class="v">${kr(left)}</span></div>
+            <div><span class="k">Trivsel med planen</span><br><span class="v ${pw.wb>68?"pos":""}">${pw.wb} <span class="small muted" style="font-weight:600">(${sg(pw.wb-68)})</span></span></div>
+          </div>
+          <p class="small muted" style="padding:0 16px 12px">Stress ${pw.stress} (${sg(pw.ds)}, ${stressWord(pw.ds)}) · Sosialt ${pw.sos} (${sg(pw.dso)}, ${socWord(pw.dso)}) · Lappen etter planen ${pct(tgt)}. Ingen penger trekkes før du fortsetter.</p>
+        </section>
+        <button class="btn ghost block" data-action="same">${ic("repeat")}Samme som forrige måned <span class="small muted" style="font-weight:550">Kveld med venner, Hvilekveld</span></button>
+      </div>
+      <section class="panel" aria-labelledby="h-acts"><div class="mod-head"><h2 id="h-acts">${full?"Alle økter er fylt":"Velg til økt "+(S.sel+1)}</h2><span class="more muted" style="font-weight:550">${full?"Fjern en for å bytte":"Trykk «Legg til»"}</span></div><ul class="acts">${list}</ul></section>
+    </div>
+    <div class="go" style="margin-top:16px;justify-items:end"><a class="btn lg block" style="max-width:520px" href="#hjem">Ferdig, tilbake til rommet</a></div>
+  </div>`;
+}
+function effTxt(a){return `Stress ${sg(a.s)} ${stressWord(a.s)} · Sosialt ${sg(a.so)} ${socWord(a.so)}`}
+
+/* ---------------- EVENT ---------------- */
+const OPTS={
+  rep:{t:"Reparer skjermen på verkstedet",kr:-2500},
+  selv:{t:"Bytt skjermen selv med et billig sett",kr:-600},
+  lev:{t:"Lev med sprekkene",kr:0}
+};
+function renderEvent(){
+  $('[data-route="hendelse"]').innerHTML=`<div class="wrap">
+    <div class="ev-grid">
+      <figure class="panel ev-room" style="margin:0;overflow:hidden">${roomBlock({nohot:true,cracked:true,glow:false,label:"Rommet ditt er dempet. Lyset er på mobilen på senga, som har knust skjerm."})}<span class="spot" style="left:74%;top:51%;width:16%;aspect-ratio:1"></span><figcaption class="room-cap">${ic("phone")} Mobilen på senga: knust skjerm.</figcaption></figure>
+      <section class="panel" aria-labelledby="h-hendelse">
+        <div class="pad" style="padding-bottom:8px"><span class="varsel">${ic("warn")}Hendelse i november</span>
+          <h1 id="h-hendelse" tabindex="-1" style="font-size:var(--fs-xl);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-top:10px">Skjermen er knust</h1></div>
+        <div class="ev-bubble"><span class="av" style="background:#0A7566">M</span><div><div class="from">Mamma</div><div class="msg">Mobilen din glapp i bussgangen, ikke sant? Verkstedet sier 2${NB}500${NB}kr. Den er din, så det er du som bestemmer.</div></div></div>
+        <div class="pad" style="padding-top:4px">
+          <div class="opts" role="group" aria-label="Hva gjør du?">
+            ${Object.entries(OPTS).map(([k,o])=>`<button class="opt" data-action="pick" data-k="${k}"><span class="t">${o.t}</span><span class="k">${o.kr?`<b class="neg">${sk(o.kr)}</b> ut`:`<b>0${NB}kr</b> <span class="tag offer" style="margin-left:6px">Gratis</span>`}</span>${ic("chev")}</button>`).join("")}
+          </div>
+          <p class="note-line" style="margin-top:12px">${ic("info")}<span>Hvordan valget påvirker trivselen ser du etter at du har valgt. Du har ${kr(BASE.bk)} på brukskonto og ${kr(BASE.sp)} på sparekonto.</span></p>
+        </div>
+      </section>
+    </div></div>`;
+}
+const RES={
+  rep:{h:"Du reparerte skjermen",money:-2500,st:-3,so:0,cracked:false,
+    echo:{t:"Ekko fra januar 2026 · pengegaven",p:"Du satte pengegaven på sparekonto da du var 15. Den dekket 136 kr av reparasjonen, så brukskontoen gikk ikke i minus."},
+    why:[["Reparasjon",2500],["Fra brukskonto",2364],["Resten fra sparekonto",136]],
+    open:"Konserten med Emma kan fortsatt betales, fra sparekontoen.",closed:"75 %-merket på Lappen. Du er nede på 72,1 %.",room:"Mobilen er hel igjen"},
+  selv:{h:"Du byttet skjermen selv",money:-600,st:2,so:0,cracked:false,
+    echo:null,why:[["Skjermsett",600],["Fra brukskonto",600],["Fra sparekonto",0]],
+    open:"Du sparte 1 900 kr mot verkstedet.",closed:"To kvelder gikk med til å skru. Ingen garanti hvis den sprekker igjen.",room:"Mobilen er hel, med en liten sprekk i hjørnet"},
+  lev:{h:"Du lever med sprekkene",money:0,st:3,so:-1,cracked:true,
+    echo:null,why:[["Kostnad",0],["Fra brukskonto",0],["Fra sparekonto",0]],
+    open:"2 500 kr er fortsatt på vei mot Lappen (79,8 %).",closed:"Skjermen blir ikke bedre. Den kan komme tilbake som en ny utgift.",room:"Mobilen har fortsatt knust skjerm"}
+};
+function renderResult(){
+  const r=RES[S.pick];
+  const chips=`<div class="res-deltas" role="list">
+    <div class="res-chip ${r.money<0?"neg":""}" role="listitem"><span class="v">${r.money?sk(r.money):"0"+NB+"kr"}</span><span class="w">${r.money?"ut av kontoen":"ingen kostnad"}</span></div>
+    <div class="res-chip ${r.st<0?"pos":r.st>0?"neg":""}" role="listitem"><span class="v">Stress ${sg(r.st)}</span><span class="w">${stressWord(r.st)}</span></div>
+    <div class="res-chip ${r.so>0?"pos":r.so<0?"neg":""}" role="listitem"><span class="v">Sosialt ${sg(r.so)}</span><span class="w">${socWord(r.so)}</span></div></div>`;
+  const whyBody=S.pick==="rep"?`<p>Reparasjonen kostet <b>2${NB}500${NB}kr</b>. Brukskontoen hadde <b>2${NB}364${NB}kr</b> etter lønn, forsikring og forbruk. Resten, <b>136${NB}kr</b>, ble tatt fra sparekontoen. BSU brukes aldri.</p>
+      <div class="stack" aria-hidden="true"><span style="flex:2364;background:var(--fjord)">Brukskonto 2${NB}364</span><span style="flex:420;background:var(--echo)">136</span></div>
+      <p>Sparemålet Lappen regnes av brukskonto + sparekonto: 25${NB}920 → 23${NB}420${NB}kr, altså <b>79,8 % → 72,1 %</b>.</p>
+      <p>Stress −3: du slapp å irritere deg over skjermen resten av måneden.</p>`:
+    S.pick==="selv"?`<p>Settet kostet <b>600${NB}kr</b>, betalt fra brukskontoen. Lappen: 79,8 % → 78,0 %.</p><p>Stress +2: det tok to kvelder, og det ble en liten sprekk i hjørnet.</p>`:
+    `<p>Ingen penger gikk ut. Lappen står på 79,8 %.</p><p>Stress +3 og sosialt −1: en knust skjerm er irriterende, og du svarer folk sjeldnere.</p>`;
+  $('[data-route="resultat"]').innerHTML=`<div class="wrap">
+    <div class="ev-grid">
+      <div style="display:grid;gap:12px;align-content:start">
+        <figure class="panel" style="margin:0;overflow:hidden">${roomBlock({nohot:true,cracked:r.cracked,glow:!r.cracked,label:"Rommet ditt etter valget. "+r.room+"."})}<figcaption class="room-cap" style="display:flex;gap:8px;align-items:center">${ic(r.cracked?"warn":"check")}<b>${r.room}.</b> <span class="newmark">Endret</span></figcaption></figure>
+        <section class="panel pad" aria-labelledby="h-oc"><h2 id="h-oc" style="font-size:15.5px;font-weight:750;margin-bottom:10px">Åpnet og stengt</h2>
+          <ul class="oc"><li>${ic("unlock","pos")}<span><b>Åpnet:</b> ${r.open}</span></li><li>${ic("lock","neg")}<span><b>Stengt:</b> ${r.closed}</span></li></ul></section>
+      </div>
+      <section class="panel res-main" aria-labelledby="h-resultat">
+        <div class="pad" style="display:grid;gap:14px">
+          <div><span class="varsel" style="background:var(--surface-2);color:var(--ink-2);border:1px solid var(--rule)">${ic("check")}Ditt valg i november</span>
+          <h1 id="h-resultat" tabindex="-1" style="font-size:var(--fs-xl);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-top:10px">${r.h}</h1></div>
+          ${chips}
+          ${r.echo?`<div class="echo" role="note" aria-label="Ekko: ${esc(r.echo.t)}. ${esc(r.echo.p)}"><span class="ic">${ic("echo")}</span><div><div class="t">${r.echo.t}</div><p>${r.echo.p}</p></div></div>`:""}
+          <div><button class="why-btn" data-action="why" aria-expanded="${S.why}" aria-controls="why-body">${ic("why")}Hvorfor ble det sånn?${ic("down","chev")}</button>
+          <div class="why-body" id="why-body" ${S.why?"":"hidden"}>${whyBody}</div></div>
+          <a class="btn lg block" href="#hjem">Tilbake til rommet</a>
+          <a class="btn quiet" href="#hendelse" style="justify-self:center">Se valgene igjen (prototype)</a>
+        </div>
+      </section>
+    </div></div>`;
+}
+
+/* ---------------- PHONE ---------------- */
+function inboxData(){
+  const nick=esc(S.nick);
+  const d=[
+    {id:"emma",who:"Emma",rel:"venn",col:"#2D7FB8",init:"E",grp:"venner",month:10,tag:["inv","Invitasjon"],prev:`Hei ${nick}! Konsert i byen denne måneden? 450 kr`,unread:!S.read.emma},
+    {id:"bank",who:"Banken",rel:"bank",col:"#0B3D68",icon:"bank",grp:"bank",month:10,tag:["","Sparemål"],prev:"Du har passert tre fjerdedeler av Lappen: 79,8 %",unread:!S.read.bank},
+    {id:"mamma2",who:"Mamma",rel:"familie",col:"#0A7566",init:"M",grp:"familie",month:9,tag:null,prev:"Mopedforsikringen går fra din konto nå, 250 kr i måneden",old:1},
+    {id:"jonas",who:"Jonas",rel:"venn",col:"#56697B",init:"J",grp:"venner",month:9,tag:["exp","Utløpt"],prev:"Gaming hos meg i oktober? Gikk ut med oktober",old:1},
+    {id:"butikk",who:"Line · Butikken",rel:"jobb",col:"#2E6A8E",icon:"work",grp:"jobb",month:8,tag:["offer","Tatt"],prev:"Kan du ta 4 timer ekstra i uka fra oktober til desember?",old:1},
+    {id:"sport",who:"Sportsbutikken",rel:"jobb",col:"#7F93A5",icon:"offer",grp:"jobb",month:7,tag:["exp","Utløpt tilbud"],prev:"Helgejobb hos oss? Tilbudet gjaldt bare i august",old:1}
+  ];
+  if(isDec()){d.unshift({id:"mamma",who:"Mamma",rel:"familie",col:"#0A7566",init:"M",grp:"familie",month:11,tag:null,prev:`Hei ${nick}, farmor lurer på hva du ønsker deg til jul`,unread:!S.read.mamma});d.forEach(t=>{if(t.month===10){t.unread=false;t.old=1;if(t.id==="emma")t.tag=["exp","Utløpt"]}})}
+  return d;
+}
+function threadRow(t){
+  return `<a class="thread${t.unread?" unread":""}${t.old?" old":""}" href="#melding" data-open="${t.id}" ${S.open===t.id&&location.hash==="#melding"?'aria-current="true"':""} aria-label="${esc(t.who)}, ${t.rel}${t.tag?", "+t.tag[1]:""}${t.unread?", ny":""}: ${esc(t.prev.replace(/<[^>]+>/g,""))}">
+    <span class="av" style="background:${t.col}">${t.icon?ic(t.icon):t.init}</span>
+    <span class="who"><span>${esc(t.who)}</span>${t.tag?`<span class="tag ${t.tag[0]}">${t.tag[1]}</span>`:""}</span>
+    <span class="prev">${t.prev}</span>
+    <span class="side">${t.unread?'<span class="dotnew"></span>':""}</span></a>`;
+}
+function inboxHTML(){
+  const all=inboxData().filter(t=>S.filter==="alle"||t.grp===S.filter);
+  const months=[...new Set(all.map(t=>t.month))].sort((a,b)=>b-a);
+  const u=unread();
+  return `<div class="ph-list"><div class="mod-head" style="display:block;border-bottom:0;padding-bottom:4px"><h1 id="h-telefon" tabindex="-1" style="font-size:var(--fs-xl);font-weight:800;letter-spacing:-.03em">Meldinger</h1><p class="small muted">${cap(MONTHS[S.month])} · ${u?u+(u===1?" ny":" nye")+" denne måneden":"ingen nye"}</p></div>
+    <div class="ph-filter" role="group" aria-label="Filtrer avsendere">${[["alle","Alle"],["venner","Venner"],["familie","Familie"],["jobb","Jobb"],["bank","Bank"]].map(([k,l])=>`<button aria-pressed="${S.filter===k}" data-action="filter" data-k="${k}">${l}</button>`).join("")}</div>
+    ${months.map(mo=>`<div class="group-h">${cap(MONTHS[mo])}${mo===S.month?' <span class="newmark">Nytt</span>':""}</div>${all.filter(t=>t.month===mo).map(threadRow).join("")}`).join("")||`<p class="pad muted">Ingen meldinger her ennå.</p>`}
+    <div class="cannot">${ic("info")}Du svarer med det du gjør, ikke med tekst.</div></div>`;
+}
+function msgHTML(id){
+  const nick=esc(S.nick);
+  if(id==="bank") return `<div class="msg-pane"><div class="msg-top"><a class="back" href="#telefon" aria-label="Tilbake til meldinger">${ic("back")}</a><span class="av" style="background:#0B3D68">${ic("bank")}</span><div><div class="n" id="h-melding" tabindex="-1">Banken</div><div class="r">sparemål · info</div></div></div>
+    <div class="bubbles"><span class="day">${cap(MONTHS[10])}</span><div class="bub">Hei ${nick}! Du har passert tre fjerdedeler av sparemålet ditt, Lappen. Du har 25${NB}920 av 32${NB}500${NB}kr: 79,8${NB}%.</div><div class="bub">Lappen åpner når du fyller 18. Følg målet i Penger.</div></div>
+    <div style="padding:0 16px 16px"><a class="btn ghost block" href="#penger">${ic("money")}Se sparemålet</a></div></div>`;
+  if(id!=="emma") return `<div class="msg-pane"><div class="msg-top"><a class="back" href="#telefon" aria-label="Tilbake til meldinger">${ic("back")}</a><div><div class="n" id="h-melding" tabindex="-1">${esc((inboxData().find(t=>t.id===id)||{}).who||"")}</div></div></div><div class="bubbles"><div class="bub">${(inboxData().find(t=>t.id===id)||{}).prev||""}</div></div></div>`;
+  const placed=S.plan.includes("konsert"),slot=S.plan.indexOf("konsert"),free=S.plan.filter(x=>!x).length,exp=isDec();
+  return `<div class="msg-pane">
+    <div class="msg-top"><a class="back" href="#telefon" aria-label="Tilbake til meldinger">${ic("back")}</a><span class="av" style="background:#2D7FB8">E</span><div><div class="n" id="h-melding" tabindex="-1">Emma</div><div class="r">venn · invitasjon i november</div></div></div>
+    <div class="bubbles"><span class="day">November</span>
+      <div class="bub">Hei ${nick}!</div>
+      <div class="bub">Blir du med på konsert i byen denne måneden? Jonas kommer også</div>
+      <div class="bub">Billetten er 450 kr, vi drar rett etter skolen</div>
+    </div>
+    <div class="inv-card">
+      <div class="h"><div class="k">Invitasjon</div><div class="t">Konsert med Emma</div></div>
+      <table class="dtable"><tbody>
+        <tr><th>Pris</th><td class="r"><b class="neg">−450${NB}kr</b></td></tr>
+        <tr><th>Trivsel i november</th><td class="r">Sosialt <b class="pos">+8</b> mer sosialt · Stress ±0</td></tr>
+        <tr><th>Bruker</th><td class="r">1 av 3 økter${placed?"":` · ${free} ledig${free===1?"":"e"}`}</td></tr>
+      </tbody></table>
+      <div class="foot">
+        <p class="note-line">${ic(exp?"lock":"warn")}<span>${exp?"<b>Utløpt.</b> Invitasjonen gjaldt bare i november.":"Gjelder bare november. Går ut etterpå."}</span></p>
+        ${exp?"":placed?`<p class="note-line pos" role="status">${ic("check")}<span><b>Lagt i økt ${slot+1}.</b> Ingen penger trekkes før du fortsetter.</span></p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><a class="btn block" href="#plan">Se månedsplanen</a><button class="btn ghost block" data-action="unplace-konsert">Fjern fra planen</button></div>`:
+          free?`<button class="btn lg block" data-action="add-konsert">${ic("plus")}Legg i månedsplanen</button><a class="btn ghost block" href="#telefon">Ikke nå</a><p class="xs muted">Ingen penger trekkes før du fortsetter.</p>`:
+          `<p class="note-line">${ic("info")}<span>Alle økter er fylt. Fjern en aktivitet i planen først.</span></p><a class="btn ghost block" href="#plan">Åpne månedsplanen</a>`}
+      </div>
+    </div>
+    <div class="cannot">${ic("lock")}Du kan ikke skrive her. Du svarer med valgene dine.</div>
+  </div>`;
+}
+function renderPhone(which){
+  const route=which||"telefon";const show=route==="melding";
+  if(show){S.read[S.open]=true; if(S.open==="emma"||S.open==="bank")S.seen.msg=S.read.emma&&S.read.bank?true:S.seen.msg; if(isDec()&&S.open==="mamma")S.seen.msg=true}
+  const body=`<div class="wrap flush"><div class="phone-wrap${show?" show-msg":""}">
+      <section class="panel">${inboxHTML()}</section>
+      <section class="panel msg-pane-wrap" aria-label="Åpen melding">${show?msgHTML(S.open):`<div class="msg-empty" style="height:100%;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--ink-3);padding:40px">${ic("phone")}<p>Velg en melding</p></div>`}</section>
+    </div></div>`;
+  const other=show?"telefon":"melding";
+  $(`[data-route="${other}"]`).innerHTML="";
+  $(`[data-route="${route}"]`).innerHTML=body;
+  if(!show){const h=$('[data-route="telefon"] #h-telefon');}
+}
+
+/* ---------------- MONEY ---------------- */
+function renderMoney(){
+  const c=cur(),dec=isDec(),pc=dec?0:planCost(),tgt=(c.bk+c.sp)/BASE.target,tgtAfter=(c.bk+c.sp-pc)/BASE.target;
+  const spendTxt={lav:"Lav · 60 % av lønna · sosialt −2 i måneden",normal:"Normal · 75 % av lønna",hoy:"Høy · 95 % av lønna · sosialt +2 i måneden"};
+  const form=S.moneyForm==="flytt"?`<form class="form-inline" data-form="flytt"><div class="field"><label for="mv-from">Fra</label><select id="mv-from"><option>Brukskonto · ${kr(c.bk)}</option><option>Sparekonto · ${kr(c.sp)}</option></select></div><div class="field"><label for="mv-amt">Beløp</label><input id="mv-amt" inputmode="numeric" value="1000"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="btn" type="submit">Flytt</button><button class="btn ghost" type="button" data-action="mform" data-k="">Avbryt</button></div></form>`:
+    S.moneyForm==="bsu"?`<form class="form-inline" data-form="bsu"><p class="small">BSU gir 5,61 % rente og 10 % skattefradrag på det du setter inn i året (maks 27${NB}500${NB}kr). Pengene er bundet til bolig, og BSU teller ikke i sparemålet.</p><div class="field"><label for="bsu-amt">Sett inn fra brukskonto</label><input id="bsu-amt" inputmode="numeric" value="500"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="btn" type="submit">Opprett BSU og sett inn</button><button class="btn ghost" type="button" data-action="mform" data-k="">Avbryt</button></div></form>`:"";
+  const tx=dec?[["Lønn fra Butikken","Inn",BASE.wage],["November-planen","Aktiviteter",-S.decState.paid],["Mopedforsikring","Fast",-250],["Forbruk, normal","75 %",-6343],["Rente sparekonto","Til sparekonto",56]]:
+    [["Lønn fra Butikken","14 t/uke × 52/12 × 139,40 kr",BASE.wage],["Mopedforsikring","Fast",-250],["Forbruk, normal","75 % av lønna",-6343],["Rente sparekonto","Til sparekonto",56]];
+  const small=[["Konserter",900],["Tid med venner",1400],["Kino",300],["Turer",900],["Hvile og trening",0]];
+  const smallMax=1400, smallSum=small.reduce((t,r)=>t+r[1],0);
+  $('[data-route="penger"]').innerHTML=`<div class="wrap">
+    <div class="page-h"><a class="back" href="#hjem" aria-label="Tilbake til rommet">${ic("back")}</a><div><h1 id="h-penger" tabindex="-1">Penger</h1><p>${cap(MONTHS[S.month])} ${YEAR} · alle beløp er regnet ut av spillet</p></div></div>
+    <div class="money-grid">
+      <section class="panel" aria-labelledby="h-acc">
+        <div class="mod-head"><h2 id="h-acc">Kontoer</h2></div>
+        <div class="total-row"><span class="small muted">Disponibelt<br>bruk + spar</span><span class="v">${kr(c.bk+c.sp)}</span></div>
+        <div class="acct"><span class="ic">${ic("money")}</span><span class="n">Brukskonto</span><span class="s">Lønna kommer hit</span><span class="v">${kr(c.bk)}<span class="w pos">${sk(BASE.wage)} lønn inn</span></span></div>
+        <div class="acct"><span class="ic">${ic("save")}</span><span class="n">Sparekonto</span><span class="s">2,87 % rente</span><span class="v">${kr(c.sp)}<span class="w pos">${sk(56)} rente</span></span></div>
+        <div class="acct"><span class="ic">${ic("house")}</span><span class="n">BSU</span><span class="s">5,61 % rente · ikke opprettet</span><span class="v muted" style="font-size:15px">0${NB}kr</span></div>
+        <div class="acct locked"><span class="ic">${ic("lock")}</span><span class="n">Kredittkort</span><span class="s">Låst til du fyller 18</span><span class="v muted" style="font-size:14px">Fra 18 år</span></div>
+      </section>
+      <section class="panel span2" aria-labelledby="h-goal">
+        <div class="mod-head"><h2 id="h-goal">Sparemål</h2><button class="btn quiet more" style="min-height:32px" data-action="toast" data-t="Du kan bytte sparemål når du vil. Det flytter ingen penger.">Bytt mål</button></div>
+        <div class="goal">
+          <div class="top"><span class="t">${ic("key")}Lappen · førerkort klasse B</span><span class="p num">${pct(tgt)}</span></div>
+          <div class="bar" role="img" aria-label="Lappen: ${pct(tgt)} spart"><i style="width:${tgt*100}%"></i><span class="tick" style="left:75%" title="Tre fjerdedeler"></span></div>
+          <div class="scale"><span class="num">${kr(c.bk+c.sp)} av ${kr(BASE.target)}</span><span>Mangler ${kr(BASE.target-c.bk-c.sp)}</span></div>
+          <p class="small muted">Brukskonto + sparekonto mot prisen. BSU teller ikke. Lappen åpner i januar 2029, når du fyller 18.${pc?` Etter planlagte aktiviteter: <b>${pct(tgtAfter)}</b>.`:""}</p>
+        </div>
+        <div class="mod-head" style="border-top:1px solid var(--rule)"><h3>Gjør noe med pengene</h3></div>
+        <div class="actions"><button class="btn ghost" data-action="mform" data-k="flytt" aria-expanded="${S.moneyForm==="flytt"}">${ic("swap")}Flytt penger</button><button class="btn ghost" data-action="mform" data-k="bsu" aria-expanded="${S.moneyForm==="bsu"}">${ic("house")}BSU-innskudd</button></div>
+        ${form}
+        <div style="padding:4px 16px 16px"><p class="small" style="font-weight:650;margin-bottom:6px" id="lbl-spend">Forbruksnivå</p>
+          <div class="seg" role="group" aria-labelledby="lbl-spend">${[["lav","Lav"],["normal","Normal"],["hoy","Høy"]].map(([k,l])=>`<button aria-pressed="${S.spend===k}" data-action="spend" data-k="${k}">${l}</button>`).join("")}</div>
+          <p class="xs muted" style="margin-top:6px">${spendTxt[S.spend]}. Gjelder fra neste måned.</p></div>
+      </section>
+      <section class="panel" aria-labelledby="h-fc">${forecast(false)}</section>
+      <section class="panel" aria-labelledby="h-tx"><div class="mod-head"><h2 id="h-tx">Bevegelser i ${MONTHS[S.month]}</h2></div>
+        <table class="dtable"><tbody>${tx.map(r=>`<tr><th>${r[0]}<span class="sub">${r[1]}</span></th><td class="r"><b class="${r[2]>0?"pos":"neg"}">${sk(r[2])}</b></td></tr>`).join("")}</tbody></table>
+        ${pc?`<p class="small muted" style="padding:10px 16px;border-top:1px solid var(--rule)">Planlagt, ikke trukket: <b class="neg">${sk(-pc)}</b> når du fortsetter.</p>`:""}</section>
+      <section class="panel" aria-labelledby="h-sm"><div class="mod-head"><h2 id="h-sm">Småtteri i ${YEAR}</h2><span class="more muted" style="font-weight:700">${kr(smallSum)}</span></div>
+        <ul class="small-bars">${small.map(r=>`<li><span>${r[0]}</span><b class="num">${kr(r[1])}</b><span class="bar"><i style="width:${r[1]/smallMax*100}%"></i></span></li>`).join("")}</ul>
+        <p class="xs muted" style="padding:0 16px 14px">Aktiviteter du har betalt for i år, etter type. Små beløp blir store.</p></section>
+    </div></div>`;
+}
+
+/* ---------------- JOB ---------------- */
+function pay(h){return Math.round(h*52/12*139.40)}
+function slotsFor(h){return clamp(Math.floor((100-2*h)/20),1,4)}
+function renderJob(){
+  const extra=S.shiftsEnd?0:4, h=S.hours, tot=h+extra, dec=isDec();
+  const hrs=[10,10,10,10,10,10,37.5,10,10,14,14,14];
+  $('[data-route="jobb"]').innerHTML=`<div class="wrap">
+    <div class="page-h"><a class="back" href="#hjem" aria-label="Tilbake til rommet">${ic("back")}</a><div><h1 id="h-jobb" tabindex="-1">Jobb</h1><p>Butikken · butikkmedarbeider</p></div></div>
+    <div class="two">
+      <div style="display:grid;gap:12px;align-content:start">
+        <section class="panel" aria-labelledby="h-job1"><div class="mod-head"><h2 id="h-job1">Nå i ${MONTHS[S.month]}</h2></div>
+          <table class="dtable"><tbody>
+            <tr><th>Timelønn<span class="sub">Minstesats under 18 år</span></th><td class="r"><b>139,40${NB}kr</b></td></tr>
+            <tr><th>Timer<span class="sub">10 t + 4 t ekstravakter (okt–des)</span></th><td class="r"><b>14 t/uke</b></td></tr>
+            <tr><th>Lønn denne måneden<span class="sub">14 × 52/12 × 139,40</span></th><td class="r"><b class="pos">${sk(BASE.wage)}</b></td></tr>
+            <tr><th>Grense<span class="sub">Videregående, arbeidsmiljøloven</span></th><td class="r"><b>40 t/uke</b></td></tr>
+            <tr><th>Fritid under 50<span class="sub">Ved så mange timer ved siden av skolen</span></th><td class="r"><b>25 t/uke</b></td></tr>
+            <tr><th>Frikort<span class="sub">Ingen skatt under 100 000 kr i året</span></th><td class="r"><b>0${NB}kr skatt</b></td></tr>
+          </tbody></table></section>
+        <section class="panel" aria-labelledby="h-hc"><div class="mod-head"><h2 id="h-hc">Timer per uke i ${YEAR}</h2><span class="more muted" style="font-weight:550">Juli: sommerjobb</span></div>
+          <div class="hours-chart" aria-hidden="true">${hrs.map((v,i)=>`<div class="c ${i>=9?"x":""} ${i>S.month?"f":""}"><b>${v===37.5?"37,5":v}</b><i style="height:${v/40*64}px"></i></div>`).join("")}</div>
+          <div class="hours-lbl" aria-hidden="true">${MSHORT.map(m=>`<span>${m}</span>`).join("")}</div>
+          <p class="sr">Timer per uke: januar til juni 10, juli sommerjobb 37,5, august og september 10, oktober til desember 14.</p></section>
+      </div>
+      <div style="display:grid;gap:12px;align-content:start">
+        <section class="panel" aria-labelledby="h-ex"><div class="mod-head"><h2 id="h-ex">Ekstravaktene</h2><span class="tag offer">+4 t/uke · okt–des</span></div>
+          <div class="pad"><div class="choice2">
+            <div class="ch ${S.shiftsEnd?"":"on"}"><span class="t">${S.shiftsEnd?"":ic("check")}Behold dem</span><ul><li><b>3 økter</b> i desember, 4 fra januar</li><li><b class="pos">+604${NB}kr</b> mer i måneden etter forbruk</li><li>Lønn ${kr(8457)} i desember</li></ul></div>
+            <div class="ch ${S.shiftsEnd?"on":""}"><span class="t">${S.shiftsEnd?ic("check"):""}Avslutt dem</span><ul><li><b>4 økter</b> fra desember</li><li><b class="neg">−604${NB}kr</b> mindre i måneden etter forbruk</li><li>Lønn ${kr(6041)} i desember</li></ul></div>
+          </div>
+          <button class="btn ${S.shiftsEnd?"ghost":""} block" style="margin-top:12px" data-action="shifts">${S.shiftsEnd?"Angre, behold ekstravaktene":"Avslutt ekstravaktene fra desember"}</button>
+          <p class="xs muted" style="margin-top:6px">${S.shiftsEnd?"Ekstravaktene slutter fra desember. Du kan angre helt til du fortsetter.":"De slutter uansett etter desember."}</p></div></section>
+        <section class="panel" aria-labelledby="h-hrs"><div class="mod-head"><h2 id="h-hrs">Faste timer fra desember</h2></div>
+          <div class="pad" style="display:grid;gap:10px">
+            <div class="stepper"><button data-action="hrs" data-d="-1" aria-label="Én time mindre" ${h<=0?"disabled":""}>${ic("x").replace("i-x","i-x")}</button><output aria-live="polite">${h} <small>t/uke${extra?" + 4 ekstra":""}</small></output><button data-action="hrs" data-d="1" aria-label="Én time mer" ${tot>=40?"disabled":""}>${ic("plus")}</button></div>
+            <table class="dtable" style="border:1px solid var(--rule);border-radius:10px"><tbody>
+              <tr><th>Timer i desember</th><td class="r"><b>${tot} t/uke</b></td></tr>
+              <tr><th>Økter i desember</th><td class="r"><b>${slotsFor(tot)}</b></td></tr>
+              <tr><th>Ventet lønn</th><td class="r"><b>ca. ${kr(pay(tot))}</b></td></tr>
+            </tbody></table>
+            ${tot>25?`<p class="note-line neg">${ic("warn")}<span>Over 25 t/uke går fritiden under 50.</span></p>`:""}
+            <button class="btn ghost" data-action="toast" data-t="Å si opp jobben er en del av fullversjonen. Lønna stopper fra neste måned.">Si opp jobben</button>
+          </div></section>
+      </div>
+    </div></div>`;
+  // fix minus icon
+  const b=$('[data-route="jobb"] .stepper button');if(b)b.innerHTML=`<svg class="i" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14"/></svg>`;
+}
+
+/* ---------------- landing extras ---------------- */
+function renderLanding(){
+  $("#land-room").innerHTML=`<div class="layer">${roomSVG({month:10,glow:true,label:"Et rom med vindu, planlegger, lommebok, jobbforkle og en mobil som lyser på senga. Ute er det november og sludd."})}</div>`;
+  const ser=WB_PAST;const pts=ser.map((v,i)=>`${i*10+5},${(yPct(v)*0.4).toFixed(1)}`).join(" ");
+  let cells="";for(let i=0;i<12;i++)cells+=`<li class="${i<10?"past":i===10?"now":"future"}"><span class="bar"></span><span class="lbl"><span class="short">${MSHORT[i].charAt(0)}</span><span class="long">${MSHORT[i]}</span></span></li>`;
+  $("#land-strip").innerHTML=`<div class="tl-head"><span class="tl-month" style="font-size:16px">November</span><span class="tl-meta"><b>16 år</b> · trivselen så langt i år</span></div><div class="tl-strip" aria-hidden="true"><ol class="tl-cells">${cells}</ol><span class="tl-plot"><svg class="tl-line" viewBox="0 0 120 40" preserveAspectRatio="none"><polyline points="${pts}"/></svg></span></div>`;
+}
+function renderStart(){
+  $("#av-grid").innerHTML=AVS.map((a,i)=>`<label class="avopt"><input type="radio" name="av" value="${i}" ${i===S.av?"checked":""} aria-label="Utseende ${i+1}">${avatarSVG(i)}<span>Utseende ${i+1}</span></label>`).join("");
+}
+
+/* ---------------- Fortsett: the month opens ---------------- */
+function nextMonth(){
+  if(isDec()){toast("Prototypen stopper her. Neste steg er årsoppgjøret for "+YEAR+".");return}
+  const pw=planWB(),pc=planCost();
+  const fromSav=Math.max(0,pc-BASE.bk), novEnd=BASE.bk-pc+fromSav, sav=BASE.sp-fromSav;
+  const rente=Math.floor(sav*0.0287/12+.5);
+  const names=planned().map(a=>a.name);
+  S.novFinal=pw.wb;
+  S.decState={bk:novEnd+BASE.wage-BASE.ins-6343,sp:sav+rente,wb:wbCalc(20,72,55),stress:20,fritid:72,sos:55,paid:pc,
+    planTxt:names.length?names.join(", ").replace(/, ([^,]*)$/," og $1"):"Ingen aktiviteter planlagt"};
+  S.month=11;S.seen={};S.plan=[null,null,null];S.sel=0;S.open="mamma";
+  document.documentElement.style.setProperty("--sky-top",SEASON[11].top);
+  renderAll();
+  const layer=document.querySelector("#hub-room .layer");if(layer)layer.classList.add("in");
+  say("Desember åpnet. "+heldCount()+" endringer er merket til du har sett dem.");
+  const h=$("#h-hjem");if(h)h.focus();
+}
+
+/* ---------------- router ---------------- */
+const PRE=["landing","opprett","start"];
+const ROUTES=["landing","opprett","start","hjem","aar","plan","hendelse","resultat","telefon","melding","penger","jobb"];
+function renderAll(){renderTop();renderHub();renderYear();renderPlan();renderEvent();renderResult();renderMoney();renderJob()}
+function route(){
+  let r=(location.hash||"#landing").slice(1);if(!ROUTES.includes(r))r="landing";
+  if(r==="melding"&&!S.open)S.open="emma";
+  document.body.classList.toggle("pre",PRE.includes(r));
+  // render the target fresh
+  if(r==="telefon"||r==="melding")renderPhone(r);
+  if(r==="penger"){S.seen.lonn=true;S.seen.rente=true;renderMoney()}
+  if(r==="plan")renderPlan();
+  if(r==="resultat")renderResult();
+  if(r==="aar"){S.seen.stress=true;renderYear()}
+  if(r==="jobb")renderJob();
+  if(r==="hjem")renderHub();
+  renderTop();
+  document.querySelectorAll("[data-route]").forEach(s=>s.hidden=s.dataset.route!==r);
+  document.querySelectorAll("[data-nav]").forEach(a=>{const n=a.dataset.nav;const on=n===r||(n==="telefon"&&r==="melding")||(n==="hjem"&&(r==="hendelse"||r==="resultat"));on?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current")});
+  window.scrollTo(0,0);
+  const h=document.querySelector(`[data-route="${r}"] h1, [data-route="${r}"] #h-melding`);
+  if(h&&route.started){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}
+  route.started=true;
+  $("#proto-list").hidden=true;$("#proto-btn").setAttribute("aria-expanded","false");
+}
+
+/* ---------------- events ---------------- */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-action],[data-open],[data-seen]");if(!t)return;
+  if(t.dataset.open){S.open=t.dataset.open}
+  if(t.dataset.seen){S.seen[t.dataset.seen]=true}
+  const a=t.dataset.action;if(!a)return;
+  switch(a){
+    case "next":nextMonth();break;
+    case "seeall":heldItems().forEach(h=>S.seen[h.k]=true);renderHub();say("Alle endringer er merket som sett.");break;
+    case "sel":S.sel=+t.dataset.i;renderPlan();break;
+    case "place":{const id=t.dataset.id;let i=S.plan[S.sel]?S.plan.indexOf(null):S.sel;if(i<0)break;S.plan[i]=id;const nx=S.plan.indexOf(null);S.sel=nx<0?0:nx;renderPlan();say(act(id).name+" lagt i økt "+(i+1)+". Planlagt totalt "+fmt(planCost())+" kroner.");break}
+    case "unplace":{const i=+t.dataset.i;const n=act(S.plan[i]).name;S.plan[i]=null;S.sel=i;renderPlan();say(n+" fjernet fra økt "+(i+1)+".");break}
+    case "same":{if(isDec())break;S.plan=[null,null,null];LAST_MONTH.forEach((id,i)=>S.plan[i]=id);S.sel=2;renderPlan();say("Forrige måneds plan er lagt inn: Kveld med venner og Hvilekveld.");break}
+    case "add-konsert":{const i=S.plan.indexOf(null);if(i>=0){S.plan[i]="konsert";renderPhone("melding");say("Konsert med Emma lagt i økt "+(i+1)+".")}break}
+    case "unplace-konsert":{const i=S.plan.indexOf("konsert");if(i>=0)S.plan[i]=null;renderPhone("melding");say("Konserten er fjernet fra planen.");break}
+    case "pick":e.preventDefault();S.pick=t.dataset.k;S.why=false;location.hash="#resultat";break;
+    case "why":S.why=!S.why;{const b=$("#why-body");b.hidden=!S.why;t.setAttribute("aria-expanded",S.why)}break;
+    case "filter":S.filter=t.dataset.k;renderPhone(location.hash==="#melding"?"melding":"telefon");break;
+    case "spend":S.spend=t.dataset.k;renderMoney();say("Forbruksnivå satt til "+t.textContent+" fra neste måned.");break;
+    case "mform":S.moneyForm=S.moneyForm===t.dataset.k?null:t.dataset.k||null;renderMoney();{const f=document.querySelector(".form-inline input");f&&f.focus()}break;
+    case "shifts":S.shiftsEnd=!S.shiftsEnd;renderJob();say(S.shiftsEnd?"Ekstravaktene avsluttes fra desember: 4 økter, 604 kroner mindre i måneden.":"Du beholder ekstravaktene.");break;
+    case "hrs":S.hours=clamp(S.hours+ +t.dataset.d,0,40-(S.shiftsEnd?0:4));renderJob();break;
+    case "toast":toast(t.dataset.t);break;
+    case "login":break;
+    case "forgot":e.preventDefault();$("#forgot-note").hidden=false;break;
+    case "reset":S.month=10;S.plan=[null,null,null];S.seen={};S.read={};S.novFinal=null;S.decState=null;S.shiftsEnd=false;S.hours=10;S.open=null;location.hash="#hjem";renderAll();route();break;
+  }
+});
+document.addEventListener("submit",e=>{
+  const f=e.target;e.preventDefault();
+  if(f.id==="f-opprett"){const a=$("#em1").value.trim(),b=$("#em2").value.trim();const err=$("#em-err");if(a&&b&&a!==b){err.hidden=false;$("#em2").focus();return}err.hidden=true;S.nick=($("#nick").value.trim()||"Mak");location.hash="#start";return}
+  if(f.id==="f-start"){const v=f.querySelector('input[name="av"]:checked');S.av=v?+v.value:0;location.hash="#hjem";return}
+  if(f.dataset.form){S.moneyForm=null;renderMoney();toast(f.dataset.form==="bsu"?"I fullversjonen opprettes BSU og pengene flyttes når du bekrefter.":"I fullversjonen flyttes pengene med en gang.");}
+});
+document.addEventListener("input",e=>{
+  if(e.target.id==="nick")$("#nick-prev").textContent=e.target.value.trim()||"Mak";
+  if(e.target.id==="pw"){const n=e.target.value.length;$("#pw-count").textContent=n>=8?"Bra, langt nok":n+" av 8"}
+});
+$("#proto-btn").addEventListener("click",()=>{const l=$("#proto-list");l.hidden=!l.hidden;$("#proto-btn").setAttribute("aria-expanded",String(!l.hidden))});
+window.addEventListener("hashchange",route);
+renderLanding();renderStart();renderAll();route();
+})();
+</script>
+</body>
+</html>

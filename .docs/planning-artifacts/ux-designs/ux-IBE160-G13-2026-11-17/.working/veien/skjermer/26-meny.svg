@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>Veien: Meny: konto, personvern og nytt liv</title>
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&amp;display=block');</style>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24107A"/><stop offset=".55" stop-color="#6A22E0"/><stop offset="1" stop-color="#FF6FA8"/></linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A1690"/><stop offset="1" stop-color="#1C0858"/></linearGradient>
+    <linearGradient id="road" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5CF2E4"/><stop offset="1" stop-color="#B8FFF7"/></linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12053A" stop-opacity="0"/><stop offset=".45" stop-color="#12053A" stop-opacity=".85"/><stop offset="1" stop-color="#12053A"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="170%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0B0426" flood-opacity=".5"/></filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5"/></filter>
+  </defs>
+  <rect width="390" height="844" fill="#12053A"/>
+<rect width="390" height="170" fill="url(#sky)"/><circle cx="30" cy="50" r="1.8" fill="#fff" opacity=".8"/><circle cx="140" cy="40" r="1.8" fill="#fff" opacity=".8"/><circle cx="250" cy="34" r="1.8" fill="#fff" opacity=".8"/><circle cx="320" cy="70" r="1.8" fill="#fff" opacity=".8"/><circle cx="200" cy="90" r="1.8" fill="#fff" opacity=".8"/><circle cx="80" cy="100" r="1.8" fill="#fff" opacity=".8"/><circle cx="310" cy="142" r="40" fill="#FFD36E" opacity=".35" filter="url(#glow)"/><circle cx="310" cy="144" r="30" fill="#FFD36E"/><path d="M0 140 C80 112 150 136 220 120 S330 110 390 130 V210 H0Z" fill="#9A55FF"/><path d="M0 158 C90 140 200 162 390 146 V210 H0Z" fill="#6A25D9"/>
+<text x="24" y="30" font-family="Rubik, sans-serif" font-size="15" font-weight="600" fill="#fff" text-anchor="start" >9:41</text><g fill="#fff"><rect x="331" y="19" width="23" height="11" rx="3" fill="none" stroke="#fff" stroke-width="1.4"/><rect x="333.5" y="21.5" width="16" height="6" rx="1.2"/></g>
+<g filter="url(#sh)"><circle cx="40" cy="64" r="20" fill="#12053A" opacity=".6"/></g><path d="M44 56l-8 8 8 8" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><text x="72" y="72" font-family="Rubik, sans-serif" font-size="26" font-weight="900" fill="#fff" text-anchor="start" >Meny</text>
+<path d="M0 176 Q0 150 26 150 H364 Q390 150 390 176 V844 H0Z" fill="#170A40"/>
+<text x="24" y="186" font-family="Rubik, sans-serif" font-size="13" font-weight="800" fill="#C9BEF2" text-anchor="start" letter-spacing="1">Spillet</text>
+<rect x="24" y="198" width="342" height="208" rx="18" fill="#24125E" stroke="#5B44B8" stroke-width="1.5"/>
+<text x="42" y="231" font-family="Rubik, sans-serif" font-size="15.5" font-weight="600" fill="#fff" text-anchor="start" >Året ditt</text><text x="348" y="231" font-family="Rubik, sans-serif" font-size="18" font-weight="600" fill="#C9BEF2" text-anchor="end" >›</text>
+<path d="M42 250H366" stroke="#3A2580"/>
+<text x="42" y="283" font-family="Rubik, sans-serif" font-size="15.5" font-weight="600" fill="#fff" text-anchor="start" >Rommet ditt</text><text x="348" y="283" font-family="Rubik, sans-serif" font-size="18" font-weight="600" fill="#C9BEF2" text-anchor="end" >›</text>
+<path d="M42 302H366" stroke="#3A2580"/>
+<text x="42" y="335" font-family="Rubik, sans-serif" font-size="15.5" font-weight="600" fill="#fff" text-anchor="start" >Om tallene</text><text x="348" y="335" font-family="Rubik, sans-serif" font-size="18" font-weight="600" fill="#C9BEF2" text-anchor="end" >›</text>
+<path d="M42 354H366" stroke="#3A2580"/>
+<text x="42" y="387" font-family="Rubik, sans-serif" font-size="15.5" font-weight="600" fill="#fff" text-anchor="start" >Start et nytt liv</text><text x="348" y="387" font-family="Rubik, sans-serif" font-size="18" font-weight="600" fill="#C9BEF2" text-anchor="end" >›</text>
+<text x="24" y="440" font-family="Rubik, sans-serif" font-size="13" font-weight="800" fill="#C9BEF2" text-anchor="start" letter-spacing="1">Kontoen</text>
+<rect x="24" y="452" width="342" height="208" rx="18" fill="#24125E" stroke="#5B44B8" stroke-width="1.5"/>
+<text x="42" y="485" font-family="Rubik, sans-serif" font-size="15.5" font-weight="600" fill="#fff" text-anchor="start" >Bytt passord</text><text x="348" y="485" font-family="Rubik, sans-serif" font-size="18" font-weight="600" fill="#C9BEF2" text-anchor="end" >›</text>
+<path d="M42 504H366" stroke="#3A2580"/>
+<text x="42" y="537" font-family="Rubik, sans-serif" font-size="15.5" font-weight="600" fill="#fff" text-anchor="start" >Spillerinformasjon</text><text x="348" y="537" font-family="Rubik, sans-serif" font-size="18" font-weight="600" fill="#C9BEF2" text-anchor="end" >›</text>
+<path d="M42 556H366" stroke="#3A2580"/>
+<text x="42" y="589" font-family="Rubik, sans-serif" font-size="15.5" font-weight="600" fill="#fff" text-anchor="start" >Logg ut</text><text x="348" y="589" font-family="Rubik, sans-serif" font-size="18" font-weight="600" fill="#C9BEF2" text-anchor="end" >›</text>
+<path d="M42 608H366" stroke="#3A2580"/>
+<text x="42" y="641" font-family="Rubik, sans-serif" font-size="15.5" font-weight="600" fill="#fff" text-anchor="start" >Logg ut på alle enheter</text><text x="348" y="641" font-family="Rubik, sans-serif" font-size="18" font-weight="600" fill="#C9BEF2" text-anchor="end" >›</text>
+<rect x="24" y="688" width="342" height="52" rx="16" fill="none" stroke="#FFB3C9" stroke-width="2"/><text x="195.0" y="720.0" font-family="Rubik, sans-serif" font-size="16" font-weight="700" fill="#FFB3C9" text-anchor="middle" >Slett kontoen</text>
+<text x="195" y="764" font-family="Rubik, sans-serif" font-size="12" font-weight="500" fill="#C9BEF2" text-anchor="middle" >Sletting krever passordet og kan ikke angres.</text>
+<rect x="140" y="828" width="110" height="4" rx="2" fill="#fff" opacity=".5"/>
+</svg>
