@@ -340,6 +340,8 @@ a.rail-me:hover,a.rail-me[aria-current]{background:var(--hair-2)}
 .kv li{display:flex;justify-content:space-between;gap:var(--s3);padding:10px 0;border-bottom:1px solid var(--hair-2);font-size:15px}
 .kv li span{color:var(--muted);font-weight:600}
 .kv li b{font-weight:800;text-align:right}
+.kv li small{display:block;font-size:13px}
+.facts li{align-items:center}
 .offer{border:2px solid var(--ink);border-radius:var(--r-lg);padding:var(--s4);background:var(--white);box-shadow:var(--shadow-card)}
 .offer p{font-size:15px}
 .offer .from{display:flex;gap:var(--s2);align-items:center;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:var(--s2)}
@@ -669,7 +671,7 @@ ${sceneHubInner()}
   <a class="tile" href="#penger"><span class="meta">Brukskonto</span><div class="big">${plain(cur())}</div><span class="meta">Sparekonto <b style="color:var(--ink)">${plain(23556)}</b></span><div class="bars" style="margin-top:var(--s3)"><div class="bar"><span>Sparemål: Lappen</span><b>${pct(net(),GOAL_PRICE)}</b><span class="tr"><i style="width:${Math.min(100,net()/GOAL_PRICE*100)}%"></i></span></div></div><p class="wb-foot">Åpne banken ${ic('chev','sm')}</p></a>
   <div class="tile"><span class="meta">Trivsel</span><div class="big">${wbTotal()}</div>
     <div class="bars">${WBnow().parts.map(wbBar).join('')}</div>
-    <p class="wb-foot">Fritid 72 gir deg <b>3 frie kvelder</b>. Snitt så langt <b>61</b>, du trenger 50.</p>
+    <p class="wb-foot">Fritid 72 gir deg <b>3 frie kvelder</b>. Snittet ditt er <b>61</b>. Trivselsmålet er <b>50</b>.</p>
   </div>
 </div>
 </div></div>
@@ -863,7 +865,7 @@ V.aarsslutt=()=>{const t=YEAR.slice(0,NOW+1).reduce((a,m)=>[a[0]+m[0],a[1]+m[1],
 return `${timeline(11,16,2027)}${scene('sc-glad','Speilbildet smiler.','Godt nytt år')}
 <h1 tabindex="-1" style="margin-top:var(--s5)">2027 er over</h1>
 <div class="chips" style="margin-top:var(--s3)"><span class="chip"><span class="k in"></span><b>+${plain(t[0])}</b> inn</span><span class="chip"><span class="k out"></span><b>−${plain(t[1])}</b> ut</span><span class="chip"><span class="k rate"></span><b>+${plain(t[2])}</b> rente</span></div>
-<ul class="oc" aria-label="Hva endret seg i år"><li><span class="oc-ic up">${ic('check','sm')}</span>Du tok mopedlappen.</li>${S.moped?`<li><span class="oc-ic up">${ic('check','sm')}</span>Mopeden står utenfor vinduet.</li>`:''}<li><span class="oc-ic same">${ic('dash','sm')}</span>Trivsel i snitt: 61. Du trenger 50.</li></ul>
+<ul class="oc" aria-label="Hva endret seg i år"><li><span class="oc-ic up">${ic('check','sm')}</span>Du tok mopedlappen.</li>${S.moped?`<li><span class="oc-ic up">${ic('check','sm')}</span>Mopeden står utenfor vinduet.</li>`:''}<li><span class="oc-ic same">${ic('dash','sm')}</span>Trivselen din var 61 i snitt. Målet er 50.</li></ul>
 <div class="row" style="margin-top:var(--s5);align-items:stretch"><div class="postit" style="--r:-2deg;flex:0 0 150px"><span class="lock">${ic('lock','sm')}</span><h3>Lappen (bil)</h3><p>fra 18 år</p></div><p class="grow" style="align-self:center">Et valg du tok i år, kan få følger senere.</p></div>
 <div class="ev-opts"><a class="btn pri block" href="#hjem">Fortsett til januar ${ic('arrow')}</a><a class="btn block" href="#landing">Ferdig for nå</a></div>`;};
 
@@ -877,7 +879,7 @@ const BAD=['Du droppet hytteturen i 2028',0,'Du sa nei for å jobbe. Vennene din
 function ending(k){const e=END[k],[c]=wbSt(e.tr),ch=k==='hul'?[CH[2],CH[1],BAD]:[CH[2],CH[1],CH[0]];
 return `<div class="story">${scene(e.sc,e.sc==='sc-glad'?'Speilbildet smiler.':'Speilbildet er alvorlig.',e.m)}
 <h1 tabindex="-1" style="margin-top:var(--s5)">${e.h}</h1><p class="lead" style="margin-top:var(--s2)">${e.p}</p>
-<ul class="kv card facts"><li><span>Spart, av 100 000 kr</span><b>${plain(e.spart)}</b></li><li><span>Trivsel i snitt, du trengte 50</span><b><span class="pill ${c}"><span class="sdot ${c}" aria-hidden="true"></span>${e.tr} ${{good:'bra',warn:'ok',bad:'lavt'}[c]}</span></b></li><li><span>Gjeld</span><b>${plain(e.gjeld)}</b></li></ul>
+<ul class="kv card facts"><li><span>Spart<small>Målet var 100 000 kr</small></span><b>${plain(e.spart)}</b></li><li><span>Trivsel i snitt<small>Målet var 50</small></span><b><span class="pill ${c}"><span class="sdot ${c}" aria-hidden="true"></span>${e.tr} ${{good:'bra',warn:'ok',bad:'lavt'}[c]}</span></b></li><li><span>Gjeld</span><b>${plain(e.gjeld)}</b></li></ul>
 <section class="sec" aria-labelledby="h-ch"><h2 id="h-ch">Valgene som betydde mest</h2><div class="stack">${ch.map(x=>`<details class="choice-d"><summary>${ic('chev')}<span>${x[0]}</span><span class="amt">${x[1]?kr(x[1]):'Trivsel −10'}</span></summary><div><p>${x[2]}</p><p class="meta">${x[3]}</p></div></details>`).join('')}</div></section>
 <a class="btn pri block" href="#start" style="margin-top:var(--s6)">Spill på nytt</a></div>`;}
 V.slutt=()=>ending('ekte');V['slutt-hul']=()=>ending('hul');V['slutt-ikke']=()=>ending('ikke');V['slutt-tap']=()=>ending('tap');

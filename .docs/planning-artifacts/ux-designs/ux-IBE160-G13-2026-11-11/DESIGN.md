@@ -254,7 +254,7 @@ Sheets and the CTA lift on a shadow pointing up or down. Dimming applies to the 
 - **Wellbeing tile.** From top to bottom:
   - the score out of 100 with a status pill next to it ("Det går bra" / "Helt ok" / "Tungt nå"). The pill wraps below the score when the tile is narrow
   - three labelled 6px bars ("Vanligvis 50" in 12px meta under a bar when the month's plan changes it) (Stress, Fritid, Sosialt) filled by status. On the right of each label: an 8px dot, the value and a word ("25 lavt", "72 bra", "55 ok"). Stress is inverted, so low is good
-  - a footer that states a consequence ("Fritid 72 gir deg 3 frie kvelder. Snitt så langt 61, du trenger 50.").
+  - a footer that states a consequence ("Fritid 72 gir deg 3 frie kvelder. Snittet ditt er 61. Trivselsmålet er 50.").
 - **Slot row.** It has a Kalam label ("Kveld 1"), a title, and cost · effect. A filled row is a white card with a round × button. An empty row has a 2px dashed muted border. Below 1100 px it holds a coral "+ Legg til" button. From 1100 px it holds the quiet text "Velg i lista →" in `{colors.ink-muted}`, which is not a control. School and work are one quiet locked line with a lock icon.
 - **Past-choice note ("Tidligere valg").** A paper card with a round cobalt history icon, a cobalt label and one plain sentence. This replaces "Ekko".
 - **Info / interest button.** An underlined amount (2px `{colors.money-rate}` underline) with a 18–20px cobalt (i). It opens a sheet with the explanation and a three-line calculation.

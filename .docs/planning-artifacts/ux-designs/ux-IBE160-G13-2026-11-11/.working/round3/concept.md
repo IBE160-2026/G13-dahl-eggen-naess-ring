@@ -22,7 +22,7 @@ Built 2026-11-22 from the team's round 3 revisions in `../../../../decisions.md`
 | Forbruksnivå | It stays, but no screen says "forbruksnivå". The bank asks "Hvor mye bruker du i måneden?", and each of the three choices shows kroner, examples ("Matpakke, sjelden nye klær") and what it means ("Du sparer mer"). |
 | Rente | Every interest amount is a button with an (i) icon (hub chip, savings account, transaction). It opens a sheet with what interest is and the calculation behind this month's amount. |
 | "Ekko fra …" | Now "Tidligere valg", followed by a plain sentence: "Du sa ja til ekstravakter i september. Derfor har du én kveld mindre." |
-| Trivsel | The parts are shown with their consequences: "Fritid 72 gir deg 3 kvelder. Snitt så langt 61, du trenger 50." See open questions. |
+| Trivsel | The parts are shown with their consequences: "Fritid 72 gir deg 3 kvelder. Snitt så langt 61, du trenger 50." The wording is now "Snittet ditt er 61. Trivselsmålet er 50." |
 | Less text | The "Stille måned" explanation, the CTA subline, the plan help text, the event footnote and the inbox filters are gone. |
 | Plan, left pane | Same style as the right pane: one row per evening ("Kveld 1 · Kveld med venner · −200 kr", "Kveld 2 · Ledig [+ Legg til]"). School and work are one locked line, not hatched blocks. |
 | "Plass 1/2/3" | Now "Kveld 1/2/3", and "3 ledige kvelder" on the hub. |
