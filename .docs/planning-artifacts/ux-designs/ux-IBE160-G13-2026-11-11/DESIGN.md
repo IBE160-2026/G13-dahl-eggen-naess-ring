@@ -30,6 +30,12 @@ colors:
   money-rate: '#2B4CC4'
   money-in-soft: '#E3F2EC'
   money-out-soft: '#F8E7DF'
+  status-good: '#1F7A4D'
+  status-warn: '#D99A00'
+  status-bad: '#C2261E'
+  status-good-soft: '#E3F1E8'
+  status-warn-soft: '#FBEFD2'
+  status-bad-soft: '#FBE2DF'
   tag-invite-text: '#7A2416'
   tag-offer-text: '#0E5A46'
   locked: '#FFE27A'
@@ -146,6 +152,7 @@ The style is restrained in operation and committed in identity. The rules are:
 - **Money colours.** `{colors.money-in}`, `{colors.money-out}` and `{colors.money-rate}` are the same everywhere: the chip dots, the transaction keys and the year chart. They passed the dataviz validator on white, with adjacent CVD ΔE 10.0 and normal-vision ΔE 23.2. They are marks, never text colours (`money-in` is only 4.3:1 on white). Every amount also has a sign and a word ("+8 457 kr lønn").
 - **Soft tints.** `{colors.money-in-soft}`, `{colors.money-out-soft}`, `{colors.coral-soft}` and `{colors.cobalt-soft}` are backgrounds for tags, outcome icons and hover states. Tag text uses `{colors.tag-invite-text}` (8.3:1) and `{colors.tag-offer-text}` (7.1:1).
 - **locked.** `{colors.locked}` yellow paper means locked, and only locked. Never use it for tips or news.
+- **Wellbeing status.** `{colors.status-good}`, `{colors.status-warn}` and `{colors.status-bad}` are used only for wellbeing: bar fills, an 8px dot before each value, and the score pill on `{colors.status-good-soft}` / `-warn-soft` / `-bad-soft` with ink text. They passed the dataviz validator on white (CVD ΔE 17.2, normal-vision ΔE 25.0). `status-warn` is only 2.45:1 on white, so it always has a visible word next to it ("55 ok") and its dot gets a thin ink ring. They are never text colours, and money never uses them.
 - **danger.** `{colors.danger}` is used only for "Si opp jobben", "Slett bruker" and form errors. A money loss is never red.
 - **Senders.** These colours fill the round initials in the phone: `sender-emma`, `sender-job`, `sender-family`, `sender-friend`, plus cobalt for the bank. White letters measure at least 4.9:1.
 - **Scene tokens.** The `scene-*` colours are the illustration's palette, exposed as CSS variables (`--sc-*`), so the hoodie, skin, hair, walls and frame can change without editing paths. The avatar picker sets `scene-hoodie`.
@@ -211,7 +218,7 @@ Sheets and the CTA lift on a shadow pointing up or down. Dimming applies to the 
 - **Money chip.** A white pill with a 10px colour key (square for in and out, round for interest), a bold signed amount and a plain word. A chip with an (i) is a button that opens the interest sheet.
 - **Buttons.** Primary and secondary buttons both have a 2px ink border. The primary is coral, and the CTA is 56px tall with a lift shadow. Ghost buttons are underlined text. Disabled buttons are at 50% opacity with no movement.
 - **Card / tile.** White, `{rounded.lg}` and 16px padding. A tile that links outlines in ink on hover.
-- **Wellbeing tile.** Score/100, three labelled bars (Stress, Fritid, Sosialt), and a footer that states a consequence ("Fritid 72 gir deg 3 frie kvelder. Snitt så langt 61, du trenger 50.").
+- **Wellbeing tile.** Score/100 with a status pill ("Det går bra" / "Helt ok" / "Tungt nå"), three labelled bars (Stress, Fritid, Sosialt) coloured by status with a dot and a word after each value ("25 lavt", "72 bra", "55 ok"; stress is inverted, low is good), and a footer that states a consequence ("Fritid 72 gir deg 3 frie kvelder. Snitt så langt 61, du trenger 50.").
 - **Slot row.** It has a Kalam label ("Kveld 1"), a title, and cost · effect. A filled row is a white card with a round × button. An empty row has a 2px dashed muted border and a coral "+ Legg til". School and work are one quiet locked line with a lock icon.
 - **Past-choice note ("Tidligere valg").** A paper card with a round cobalt history icon, a cobalt label and one plain sentence. This replaces "Ekko".
 - **Info / interest button.** An underlined amount (2px `{colors.money-rate}` underline) with a 18–20px cobalt (i). It opens a sheet with the explanation and a three-line calculation.

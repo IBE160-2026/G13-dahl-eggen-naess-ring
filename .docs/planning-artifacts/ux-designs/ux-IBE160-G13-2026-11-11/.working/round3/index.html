@@ -14,6 +14,8 @@
   --coral:#FF6F59; --coral-soft:#FFE3DD; --cobalt:#2B4CC4; --cobalt-soft:#E6EBFA;
   --in:#1E8A6E; --out:#C2552D; --rate:#2B4CC4;
   --in-soft:#E3F2EC; --out-soft:#F8E7DF;
+  --good:#1F7A4D; --warn:#D99A00; --bad:#C2261E;
+  --good-soft:#E3F1E8; --warn-soft:#FBEFD2; --bad-soft:#FBE2DF;
   --yellow:#FFE27A; --press:#A3122A; --phone:#121318; --dim:#14161F;
   --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
   --r-sm:6px; --r-md:10px; --r-lg:16px; --r-xl:20px; --r-sheet:24px;
@@ -168,6 +170,14 @@ button.chip:hover{background:var(--cobalt-soft)}
 .bar .tr{grid-column:1/-1;height:6px;border-radius:999px;background:var(--hair-2);overflow:hidden}
 .bar .tr i{display:block;height:100%;border-radius:999px;background:var(--ink)}
 .bar .tr.lim{position:relative}
+.bar b{display:inline-flex;align-items:center;gap:5px}
+.bar .tr i.good{background:var(--good)} .bar .tr i.warn{background:var(--warn)} .bar .tr i.bad{background:var(--bad)}
+.sdot{width:8px;height:8px;border-radius:999px;flex:none;display:inline-block}
+.sdot.good{background:var(--good)} .sdot.warn{background:var(--warn);box-shadow:inset 0 0 0 1px rgba(26,28,42,.35)} .sdot.bad{background:var(--bad)}
+.st-w{font-weight:600;color:var(--muted)}
+.tile .big{display:flex;align-items:baseline;gap:var(--s2);flex-wrap:wrap}
+.pill{align-self:center;display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:800;letter-spacing:0;padding:3px 10px 3px 8px;border-radius:999px;color:var(--ink)}
+.pill.good{background:var(--good-soft)} .pill.warn{background:var(--warn-soft)} .pill.bad{background:var(--bad-soft)}
 .wb-foot{margin-top:var(--s3);padding-top:var(--s3);border-top:1px solid var(--hair-2);font-size:13px;font-weight:600;color:var(--muted)}
 .wb-foot b{color:var(--ink)}
 
@@ -195,7 +205,8 @@ button.chip:hover{background:var(--cobalt-soft)}
 /* plan grid */
 .plan{display:grid;gap:var(--s5)}
 .plan-add-desk{display:none}
-@media (min-width:1100px){.plan{grid-template-columns:1fr 1fr;align-items:start}.plan-add-desk{display:block}}
+.pick-hint{display:none;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--muted);flex:none}
+@media (min-width:1100px){.plan{grid-template-columns:1fr 1fr;align-items:start}.plan-add-desk{display:block}.plan [data-pick]{display:none}.pick-hint{display:inline-flex}}
 .head{display:flex;align-items:center;gap:var(--s3);margin:var(--s4) 0 var(--s4)}
 .back{width:44px;height:44px;border-radius:999px;display:grid;place-items:center;background:var(--white);border:1.5px solid var(--muted);text-decoration:none;flex:none}
 .head p{margin-top:2px}
@@ -571,22 +582,28 @@ ${sceneHubInner()}
 </section>
 <div class="duo" style="margin-top:var(--s4)">
   <a class="tile" href="#penger"><span class="meta">Brukskonto</span><div class="big">${plain(2364)}</div><span class="meta">Sparekonto <b style="color:var(--ink)">${plain(23556)}</b></span><div class="bars" style="margin-top:var(--s3)"><div class="bar"><span>Sparemål: Lappen</span><b>79,8 %</b><span class="tr"><i style="width:79.8%"></i></span></div></div><p class="wb-foot">Åpne banken ${ic('chev','sm')}</p></a>
-  <div class="tile"><span class="meta">Trivsel</span><div class="big">68<span>/100</span></div>
-    <div class="bars">
-      <div class="bar"><span>Stress</span><b>25 lavt</b><span class="tr"><i style="width:25%"></i></span></div>
-      <div class="bar"><span>Fritid</span><b>72</b><span class="tr"><i style="width:72%"></i></span></div>
-      <div class="bar"><span>Sosialt</span><b>55</b><span class="tr"><i style="width:55%"></i></span></div>
-    </div>
+  <div class="tile"><span class="meta">Trivsel</span><div class="big">${wbTotal()}</div>
+    <div class="bars">${WB.parts.map(wbBar).join('')}</div>
     <p class="wb-foot">Fritid 72 gir deg <b>3 frie kvelder</b>. Snitt så langt <b>61</b>, du trenger 50.</p>
   </div>
 </div>
 </div></div>
 <div class="cta"><a class="btn pri" href="#hendelse">Fortsett til desember ${ic('arrow')}</a></div>`;
 
+/* trivsel: status by value. Stress is inverted (low is good). Thresholds are invented, see concept.md */
+const WB={total:68,parts:[['Stress',25,true],['Fritid',72],['Sosialt',55]]};
+function wbSt(v,inv){
+  if(inv) return v<=35?['good','lavt']:v<=60?['warn','middels']:['bad','høyt'];
+  return v>=60?['good','bra']:v>=40?['warn','ok']:['bad','lite'];
+}
+function wbBar([nm,v,inv]){const [c,w]=wbSt(v,inv);
+  return `<div class="bar"><span>${nm}</span><b><span class="sdot ${c}" aria-hidden="true"></span>${v} <span class="st-w">${w}</span></b><span class="tr"><i class="${c}" style="width:${v}%"></i></span></div>`;}
+function wbTotal(){const [c]=wbSt(WB.total);const w={good:'Det går bra',warn:'Helt ok',bad:'Tungt nå'}[c];
+  return `${WB.total}<span>/100</span><span class="pill ${c}"><span class="sdot ${c}" aria-hidden="true"></span>${w}</span>`;}
 function slotRow(k,i){
   const a=k&&ALL[k];
   if(!a) return `<li class="item empty"><span class="slot-n">Kveld ${i+1}</span><div class="grow"><h3>Ledig</h3></div>
-    <button class="btn sm pri" data-pick="${i}" aria-haspopup="dialog">${ic('plus','sm')} Legg til</button></li>`;
+    <button class="btn sm pri" data-pick="${i}" aria-haspopup="dialog">${ic('plus','sm')} Legg til</button><span class="pick-hint">Velg i lista ${ic('arrow','sm')}</span></li>`;
   return `<li class="item"><span class="slot-n">Kveld ${i+1}</span><div class="grow"><h3>${a.nm}</h3><p class="sub">${kr(a.cost)}${a.job?' lønn':''} · ${a.fx}</p></div>
     <button class="round" data-clear="${i}" aria-label="Fjern ${a.nm} fra kveld ${i+1}">${ic('x')}</button></li>`;
 }
@@ -826,8 +843,7 @@ document.addEventListener('click',e=>{
   const t=e.target.closest('button,[data-mon]');if(!t)return;
   const d=t.dataset;
   if(d.sheet){openSheet(d.sheet)}
-  else if(d.pick!==undefined){S.pickFor=+d.pick;
-    if(matchMedia('(min-width:1100px)').matches){$('#addlist [data-add]')?.focus();}else openSheet('pick')}
+  else if(d.pick!==undefined){S.pickFor=+d.pick;openSheet('pick')}
   else if(d.add){place(d.add)}
   else if(d.clear!==undefined){const a=ALL[S.slots[+d.clear]];S.slots[+d.clear]=null;live(`${a.nm} fjernet.`);render(false)}
   else if(d.tab){S.addTab=d.tab;document.querySelectorAll('#addlist').forEach(n=>n.innerHTML=addList());document.querySelector(`#addlist [data-tab="${d.tab}"]`)?.focus()}

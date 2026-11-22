@@ -43,6 +43,8 @@ Built 2026-11-22 from the team's round 3 revisions in `../../../../decisions.md`
 ## Palette check
 The money colours are the same everywhere (chips, transactions, year chart): in `#1E8A6E`, out `#C2552D`, interest `#2B4CC4`. They pass the dataviz validator on white: CVD ΔE 10.0, normal-vision ΔE 23.2, contrast ≥ 3:1. They always come with a sign and a word, never colour alone.
 
+Wellbeing has its own status palette, used only on the wellbeing tile: good `#1F7A4D`, warn `#D99A00`, bad `#C2261E`. It passes the validator (CVD ΔE 17.2, normal-vision ΔE 25.0). The warn colour is only 2.45:1 on white, so every bar always has a word next to it ("ok") and the dot has an ink ring. A plain red/amber/green set (`#2E8540`, `#B26B00`, `#B3261E`) failed: protan ΔE 3.9.
+
 ## Diverges from the PRD (needs team decision)
 - **FR-47 / UJ-5:** hours come as offers, and the player can ask for more. Today the player sets hours freely, and UJ-5 step 4 raises them from 10 to 12.
 - **FR-52:** a one-off shift in the plan takes an evening slot. Today work never goes in slots.
@@ -58,6 +60,7 @@ The money colours are the same everywhere (chips, transactions, year chart): in 
 - **Spending examples and effects:** the example texts and "Du sparer mer". The amounts (60/75/95 % of 8 457 kr) follow rule 16.
 - **Offers:** the extra-shift offer for January–March (ca. 2 414 kr) and "2 timer til" (ca. 1 207 kr).
 - **One-off shifts:** fredag 558 kr (4 h) and varetelling 697 kr (5 h).
+- **Wellbeing thresholds:** Fritid and Sosialt: ≥60 "bra", 40–59 "ok", <40 "lite". Stress: ≤35 "lavt" (good), 36–60 "middels", >60 "høyt". The score: ≥60 "Det går bra", 40–59 "Helt ok", <40 "Tungt nå". The engine should own these.
 - **Phone event:** as in round 2 (2 500 / 1 800 / 0 kr).
 - **Age:** UJ-6 is at 17, and it's shown at 16 as in round 2.
 
