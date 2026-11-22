@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>Veien: Årslinjen: januar til desember, år 1 til 5</title>
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&amp;display=block');</style>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24107A"/><stop offset=".55" stop-color="#6A22E0"/><stop offset="1" stop-color="#FF6FA8"/></linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A1690"/><stop offset="1" stop-color="#1C0858"/></linearGradient>
+    <linearGradient id="road" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5CF2E4"/><stop offset="1" stop-color="#B8FFF7"/></linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12053A" stop-opacity="0"/><stop offset=".45" stop-color="#12053A" stop-opacity=".85"/><stop offset="1" stop-color="#12053A"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="170%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0B0426" flood-opacity=".5"/></filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5"/></filter>
+  </defs>
+  <rect width="390" height="844" fill="#12053A"/>
+<rect width="390" height="150" fill="url(#sky)"/><circle cx="30" cy="50" r="1.8" fill="#fff" opacity=".8"/><circle cx="140" cy="40" r="1.8" fill="#fff" opacity=".8"/><circle cx="250" cy="34" r="1.8" fill="#fff" opacity=".8"/><circle cx="320" cy="70" r="1.8" fill="#fff" opacity=".8"/><circle cx="310" cy="122" r="40" fill="#FFD36E" opacity=".35" filter="url(#glow)"/><circle cx="310" cy="124" r="30" fill="#FFD36E"/><path d="M0 120 C80 92 150 116 220 100 S330 90 390 110 V190 H0Z" fill="#9A55FF"/><path d="M0 138 C90 120 200 142 390 126 V190 H0Z" fill="#6A25D9"/>
+<text x="24" y="30" font-family="Rubik, sans-serif" font-size="15" font-weight="600" fill="#fff" text-anchor="start" >9:41</text><g fill="#fff"><rect x="331" y="19" width="23" height="11" rx="3" fill="none" stroke="#fff" stroke-width="1.4"/><rect x="333.5" y="21.5" width="16" height="6" rx="1.2"/></g>
+<g filter="url(#sh)"><circle cx="40" cy="64" r="20" fill="#12053A" opacity=".6"/></g><path d="M44 56l-8 8 8 8" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><text x="72" y="72" font-family="Rubik, sans-serif" font-size="26" font-weight="900" fill="#fff" text-anchor="start" >Året ditt</text>
+<path d="M0 156 Q0 130 26 130 H364 Q390 130 390 156 V844 H0Z" fill="#170A40"/>
+<rect x="24" y="160" width="62" height="54" rx="14" fill="#24125E" stroke="#5B44B8" stroke-width="1.5" opacity="1"/>
+<text x="55" y="182" font-family="Rubik, sans-serif" font-size="13" font-weight="900" fill="#fff" text-anchor="middle" >År 1</text><text x="55" y="202" font-family="Rubik, sans-serif" font-size="11.5" font-weight="600" fill="#C9BEF2" text-anchor="middle" >15 år</text>
+<rect x="94" y="160" width="62" height="54" rx="14" fill="#24125E" stroke="#5B44B8" stroke-width="1.5" opacity="1"/>
+<text x="125" y="182" font-family="Rubik, sans-serif" font-size="13" font-weight="900" fill="#fff" text-anchor="middle" >År 2</text><text x="125" y="202" font-family="Rubik, sans-serif" font-size="11.5" font-weight="600" fill="#C9BEF2" text-anchor="middle" >16 år</text>
+<rect x="164" y="160" width="62" height="54" rx="14" fill="#B4E86E" stroke="#B4E86E" stroke-width="1.5" opacity="1"/>
+<text x="195" y="182" font-family="Rubik, sans-serif" font-size="13" font-weight="900" fill="#170A40" text-anchor="middle" >År 3</text><text x="195" y="202" font-family="Rubik, sans-serif" font-size="11.5" font-weight="600" fill="#170A40" text-anchor="middle" >17 år</text>
+<rect x="234" y="160" width="62" height="54" rx="14" fill="#24125E" stroke="#5B44B8" stroke-width="1.5" opacity="0.55"/>
+<text x="265" y="182" font-family="Rubik, sans-serif" font-size="13" font-weight="900" fill="#fff" text-anchor="middle" >År 4</text><text x="265" y="202" font-family="Rubik, sans-serif" font-size="11.5" font-weight="600" fill="#C9BEF2" text-anchor="middle" >18 år</text>
+<rect x="304" y="160" width="62" height="54" rx="14" fill="#24125E" stroke="#5B44B8" stroke-width="1.5" opacity="0.55"/>
+<text x="335" y="182" font-family="Rubik, sans-serif" font-size="13" font-weight="900" fill="#fff" text-anchor="middle" >År 5</text><text x="335" y="202" font-family="Rubik, sans-serif" font-size="11.5" font-weight="600" fill="#C9BEF2" text-anchor="middle" >19 år</text>
+<path d="M48 248 V732" stroke="#3A2580" stroke-width="6" stroke-linecap="round"/>
+<path d="M48 248 V688" stroke="#2FE3D2" stroke-width="6" stroke-linecap="round"/>
+<circle cx="48" cy="248" r="9" fill="#fff" stroke="#12053A" stroke-width="2"/>
+<text x="88" y="253" font-family="Rubik, sans-serif" font-size="14.5" font-weight="600" fill="#fff" text-anchor="start" >Januar</text>
+<text x="184" y="253" font-family="Rubik, sans-serif" font-size="12.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >Ny mobil? Du ventet</text>
+<circle cx="48" cy="292" r="6" fill="#2FE3D2" stroke="#12053A" stroke-width="2"/>
+<text x="88" y="297" font-family="Rubik, sans-serif" font-size="14.5" font-weight="600" fill="#fff" text-anchor="start" >Februar</text>
+<circle cx="48" cy="336" r="6" fill="#2FE3D2" stroke="#12053A" stroke-width="2"/>
+<text x="88" y="341" font-family="Rubik, sans-serif" font-size="14.5" font-weight="600" fill="#fff" text-anchor="start" >Mars</text>
+<circle cx="48" cy="380" r="9" fill="#fff" stroke="#12053A" stroke-width="2"/>
+<text x="88" y="385" font-family="Rubik, sans-serif" font-size="14.5" font-weight="600" fill="#fff" text-anchor="start" >April</text>
+<text x="184" y="385" font-family="Rubik, sans-serif" font-size="12.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >Bursdag: 1 000 kr fra bestemor</text>
+<circle cx="48" cy="424" r="6" fill="#2FE3D2" stroke="#12053A" stroke-width="2"/>
+<text x="88" y="429" font-family="Rubik, sans-serif" font-size="14.5" font-weight="600" fill="#fff" text-anchor="start" >Mai</text>
+<circle cx="48" cy="468" r="6" fill="#2FE3D2" stroke="#12053A" stroke-width="2"/>
+<text x="88" y="473" font-family="Rubik, sans-serif" font-size="14.5" font-weight="600" fill="#fff" text-anchor="start" >Juni</text>
+<text x="184" y="473" font-family="Rubik, sans-serif" font-size="12.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >Tilbud om sommerjobb</text>
+<circle cx="48" cy="512" r="9" fill="#fff" stroke="#12053A" stroke-width="2"/>
+<text x="88" y="517" font-family="Rubik, sans-serif" font-size="14.5" font-weight="600" fill="#fff" text-anchor="start" >Juli</text>
+<text x="184" y="517" font-family="Rubik, sans-serif" font-size="12.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >Sommerjobb i butikken</text>
+<circle cx="48" cy="556" r="6" fill="#2FE3D2" stroke="#12053A" stroke-width="2"/>
+<text x="88" y="561" font-family="Rubik, sans-serif" font-size="14.5" font-weight="600" fill="#fff" text-anchor="start" >August</text>
+<circle cx="48" cy="600" r="6" fill="#2FE3D2" stroke="#12053A" stroke-width="2"/>
+<text x="88" y="605" font-family="Rubik, sans-serif" font-size="14.5" font-weight="600" fill="#fff" text-anchor="start" >September</text>
+<text x="184" y="605" font-family="Rubik, sans-serif" font-size="12.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >Sjefen: ekstravakter</text>
+<circle cx="48" cy="644" r="9" fill="#fff" stroke="#12053A" stroke-width="2"/>
+<text x="88" y="649" font-family="Rubik, sans-serif" font-size="14.5" font-weight="600" fill="#fff" text-anchor="start" >Oktober</text>
+<text x="184" y="649" font-family="Rubik, sans-serif" font-size="12.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >Hyttetur med gjengen</text>
+<circle cx="48" cy="688" r="13" fill="#B4E86E" stroke="#12053A" stroke-width="3"/>
+<rect x="76" y="671" width="290" height="34" rx="12" fill="#24125E" stroke="#B4E86E" stroke-width="2"/>
+<text x="88" y="693" font-family="Rubik, sans-serif" font-size="14.5" font-weight="800" fill="#fff" text-anchor="start" >November</text>
+<text x="184" y="693" font-family="Rubik, sans-serif" font-size="12.5" font-weight="700" fill="#B4E86E" text-anchor="start" >Du er her</text>
+<circle cx="48" cy="732" r="6" fill="#12053A" stroke="#5B44B8" stroke-width="2"/>
+<text x="88" y="737" font-family="Rubik, sans-serif" font-size="14.5" font-weight="600" fill="#C9BEF2" text-anchor="start" >Desember</text>
+<text x="184" y="737" font-family="Rubik, sans-serif" font-size="12.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >Siste måned med ekstravakter</text>
+<circle cx="34" cy="772" r="7" fill="#fff"/><text x="48" y="777" font-family="Rubik, sans-serif" font-size="12" font-weight="500" fill="#C9BEF2" text-anchor="start" >= måned med hendelse</text>
+<rect x="140" y="828" width="110" height="4" rx="2" fill="#fff" opacity=".5"/>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>Veien: Velg livsmål</title>
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&amp;display=block');</style>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24107A"/><stop offset=".55" stop-color="#6A22E0"/><stop offset="1" stop-color="#FF6FA8"/></linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A1690"/><stop offset="1" stop-color="#1C0858"/></linearGradient>
+    <linearGradient id="road" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5CF2E4"/><stop offset="1" stop-color="#B8FFF7"/></linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12053A" stop-opacity="0"/><stop offset=".45" stop-color="#12053A" stop-opacity=".85"/><stop offset="1" stop-color="#12053A"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="170%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0B0426" flood-opacity=".5"/></filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5"/></filter>
+  </defs>
+  <rect width="390" height="844" fill="#12053A"/>
+<rect width="390" height="200" fill="url(#sky)"/><circle cx="30" cy="50" r="1.8" fill="#fff" opacity=".8"/><circle cx="140" cy="40" r="1.8" fill="#fff" opacity=".8"/><circle cx="250" cy="34" r="1.8" fill="#fff" opacity=".8"/><circle cx="320" cy="70" r="1.8" fill="#fff" opacity=".8"/><circle cx="200" cy="90" r="1.8" fill="#fff" opacity=".8"/><circle cx="80" cy="100" r="1.8" fill="#fff" opacity=".8"/><circle cx="310" cy="172" r="40" fill="#FFD36E" opacity=".35" filter="url(#glow)"/><circle cx="310" cy="174" r="30" fill="#FFD36E"/><path d="M0 170 C80 142 150 166 220 150 S330 140 390 160 V240 H0Z" fill="#9A55FF"/><path d="M0 188 C90 170 200 192 390 176 V240 H0Z" fill="#6A25D9"/>
+<text x="24" y="30" font-family="Rubik, sans-serif" font-size="15" font-weight="600" fill="#fff" text-anchor="start" >9:41</text><g fill="#fff"><rect x="331" y="19" width="23" height="11" rx="3" fill="none" stroke="#fff" stroke-width="1.4"/><rect x="333.5" y="21.5" width="16" height="6" rx="1.2"/></g>
+<text x="24" y="72" font-family="Rubik, sans-serif" font-size="26" font-weight="900" fill="#fff" text-anchor="start" >Velg livsmålet ditt</text>
+<path d="M0 202 Q0 176 26 176 H364 Q390 176 390 202 V844 H0Z" fill="#170A40"/>
+<text x="24" y="214" font-family="Rubik, sans-serif" font-size="13" font-weight="400" fill="#C9BEF2" text-anchor="start" >Målet sjekkes når du fyller 20. Du kan ikke bytte underveis.</text>
+<rect x="24" y="234" width="342" height="118" rx="20" fill="#24125E" stroke="#B4E86E" stroke-width="3"/>
+<circle cx="62" cy="274" r="22" fill="#B4E86E"/><g transform="translate(62 274)" fill="none" stroke="#170A40" stroke-width="2.4" stroke-linejoin="round"><path d="M-12 8 L0 -10 L12 8Z M-4 8v-8h8v8"/></g>
+<text x="98" y="270" font-family="Rubik, sans-serif" font-size="18" font-weight="900" fill="#fff" text-anchor="start" >Spar til noe stort</text><text x="42" y="314" font-family="Rubik, sans-serif" font-size="13.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >Ha minst 100 000 kr spart når du fyller 20.</text><text x="42" y="334" font-family="Rubik, sans-serif" font-size="13.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >For eksempel en start på egen leilighet.</text>
+<circle cx="340" cy="264" r="12" fill="#B4E86E"/><path d="M334 264l4 4 8-8" fill="none" stroke="#170A40" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="24" y="366" width="342" height="118" rx="20" fill="#24125E" stroke="#5B44B8" stroke-width="1.5"/>
+<circle cx="62" cy="406" r="22" fill="#3A2580"/><g transform="translate(62 406)" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"><path d="M-11 -9h22v18h-22z M-11 -3h22"/></g>
+<text x="98" y="402" font-family="Rubik, sans-serif" font-size="18" font-weight="900" fill="#fff" text-anchor="start" >Gjeldfri med buffer</text><text x="42" y="446" font-family="Rubik, sans-serif" font-size="13.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >Ingen gjeld, og minst 30 000 kr tilgjengelig</text><text x="42" y="466" font-family="Rubik, sans-serif" font-size="13.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >hver måned det siste året.</text>
+<rect x="24" y="498" width="342" height="118" rx="20" fill="#24125E" stroke="#5B44B8" stroke-width="1.5"/>
+<circle cx="62" cy="538" r="22" fill="#3A2580"/><g transform="translate(62 538)" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"><path d="M-12 6h24 M-8 6 l4 -14 h8 l4 14 M-2 -8 v-4"/></g>
+<text x="98" y="534" font-family="Rubik, sans-serif" font-size="18" font-weight="900" fill="#fff" text-anchor="start" >Råd til en stor opplevelse</text><text x="42" y="578" font-family="Rubik, sans-serif" font-size="13.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >Kjøp åtte uker Interrail for 60 000 kr</text><text x="42" y="598" font-family="Rubik, sans-serif" font-size="13.5" font-weight="400" fill="#C9BEF2" text-anchor="start" >uten lån, innen august det siste året.</text>
+<rect x="24" y="655" width="342" height="56" rx="18" fill="#7FAE45"/><rect x="24" y="650" width="342" height="56" rx="18" fill="#B4E86E"/><rect x="40" y="658" width="96" height="4" rx="2" fill="#fff" opacity=".5"/><text x="185.0" y="685.0" font-family="Rubik, sans-serif" font-size="17" font-weight="900" fill="#170A40" text-anchor="middle" letter-spacing=".8">VELG MÅL</text><path d="M322 678.0h18m-7-7 7 7-7 7" fill="none" stroke="#170A40" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="195" y="750" font-family="Rubik, sans-serif" font-size="12" font-weight="400" fill="#C9BEF2" text-anchor="middle" >Trivselen din teller også: et rikt, men slitsomt liv gir en hul seier.</text>
+<rect x="140" y="828" width="110" height="4" rx="2" fill="#fff" opacity=".5"/>
+</svg>
