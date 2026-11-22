@@ -367,6 +367,12 @@ details.tbl summary{cursor:pointer;font-weight:800;font-size:14px;margin-top:var
 .field input:focus-visible{outline:3px solid var(--ink);outline-offset:1px;box-shadow:none}
 .field.err input{border:2px solid var(--press)}
 .field .errmsg{color:var(--press);font-size:13px;font-weight:700;margin-top:4px}
+.form[hidden]{display:none}
+.mail-back{font-size:19px;font-weight:800;overflow-wrap:anywhere;margin:var(--s2) 0 var(--s4)}
+#h-mc:focus{outline:none;box-shadow:none}
+#mailcheck{gap:var(--s3)}
+.ask{display:grid;gap:var(--s3)}
+.asked{display:flex;align-items:center;gap:var(--s2);font-weight:700}
 .check{display:flex;gap:var(--s2);align-items:center;font-weight:600;min-height:44px}
 .check input{width:22px;height:22px;accent-color:var(--ink)}
 .onb-grid{display:grid;gap:var(--s6)}
@@ -472,12 +478,12 @@ const ACTS={
   trening:{nm:'Trening med laget',cost:0,fx:'Sosialt +2 · Stress −2'}
 };
 const SHIFTS={
-  fredag:{nm:'Ekstravakt fredag 21.',cost:558,fx:'4 timer · Stress +2',job:true},
-  telling:{nm:'Varetelling søndag 30.',cost:697,fx:'5 timer · Stress +2',job:true}
+  kveld:{nm:'Kveldsvakt',cost:558,fx:'4 timer',job:true},
+  telling:{nm:'Varetelling',cost:697,fx:'5 timer',job:true}
 };
 const ALL={...ACTS,...SHIFTS};
 const S={nick:'Mak',slots:['venner',null,null],addTab:'fritid',choice:'repair',spend:'vanlig',
-  offer:null,asked:false,askOffer:null,extraEnded:false,sel:NOW,emmaRead:false,goal:0,look:0,pickFor:null};
+  offer:null,asked:null,extraEnded:false,sel:NOW,emmaRead:false,goal:0,look:0,pickFor:null};
 
 /* ===== helpers ===== */
 const $=s=>document.querySelector(s);
@@ -534,14 +540,19 @@ V.opprett=()=>`<div class="wm">${ic('logo','lg')}LifeMode</div>
 <div class="onb-grid">
   <form class="form" data-form="opprett" novalidate>
     <h1 tabindex="-1">Lag bruker</h1>
-    <div class="field"><label for="f-mail">E-post</label><input id="f-mail" type="email" autocomplete="email" required></div>
-    <div class="field"><label for="f-mail2">Skriv e-posten en gang til</label><input id="f-mail2" type="email" autocomplete="email" required></div>
+    <div class="field" id="fld-mail"><label for="f-mail">E-post</label><input id="f-mail" type="email" autocomplete="email" required></div>
     <div class="field"><label for="f-pw">Passord</label><input id="f-pw" type="password" autocomplete="new-password" aria-describedby="h-pw" required><p class="hint" id="h-pw">Minst 8 tegn.</p></div>
-    <div class="field" id="fld-nick"><label for="f-nick">Hva skal vi kalle deg?</label><input id="f-nick" type="text" maxlength="16" value="${esc(S.nick)}" aria-describedby="h-nick" autocomplete="nickname"><p class="hint" id="h-nick">2–16 tegn. Bare du ser det.</p></div>
+    <div class="field" id="fld-nick"><label for="f-nick">Hva skal vi kalle deg?</label><input id="f-nick" type="text" maxlength="16" value="${esc(S.nick)}" data-hint="h-nick" aria-describedby="h-nick" autocomplete="nickname"><p class="hint" id="h-nick">2–16 tegn. Bare du ser det.</p></div>
     <label class="check"><input type="checkbox" checked> Forbli innlogget</label>
-    <button class="btn pri block" type="submit">Lag bruker</button>
+    <button class="btn pri block" type="submit">Fortsett</button>
     <p class="meta"><a href="#landing">Har du bruker? Logg inn</a></p>
   </form>
+  <section class="form" id="mailcheck" aria-labelledby="h-mc" hidden>
+    <h1 id="h-mc" tabindex="-1">Sjekk at e-posten er riktig</h1>
+    <p class="mail-back" id="mail-back"></p>
+    <button class="btn pri block" data-mailok>Lag bruker</button>
+    <button class="btn block" data-mailedit>Endre e-post</button>
+  </section>
   <div class="preview" aria-hidden="true">
     <p class="meta" style="margin-bottom:var(--s3)">Slik ser det ut i spillet</p>
     <div class="row" style="margin-bottom:var(--s2)"><span class="av" style="background:#94601A">E</span><b>Emma</b></div>
@@ -590,11 +601,12 @@ ${sceneHubInner()}
 </div></div>
 <div class="cta"><a class="btn pri" href="#hendelse">Fortsett til desember ${ic('arrow')}</a></div>`;
 
-/* trivsel: status by value. Stress is inverted (low is good). Thresholds are invented, see concept.md */
+/* trivsel: status from the PRD threshold (50, rule 12): below it is bad, 50-59 ok, 60 and up good. Stress is mirrored (100 - stress). */
+const WB_LIMIT=50,WB_OK=10;
 const WB={total:68,parts:[['Stress',25,true],['Fritid',72],['Sosialt',55]]};
 function wbSt(v,inv){
-  if(inv) return v<=35?['good','lavt']:v<=60?['warn','middels']:['bad','høyt'];
-  return v>=60?['good','bra']:v>=40?['warn','ok']:['bad','lite'];
+  const x=inv?100-v:v, c=x>=WB_LIMIT+WB_OK?'good':x>=WB_LIMIT?'warn':'bad';
+  return [c,(inv?{good:'lavt',warn:'middels',bad:'høyt'}:{good:'bra',warn:'ok',bad:'lite'})[c]];
 }
 function wbBar([nm,v,inv]){const [c,w]=wbSt(v,inv);
   return `<div class="bar"><span>${nm}</span><b><span class="sdot ${c}" aria-hidden="true"></span>${v} <span class="st-w">${w}</span></b><span class="tr"><i class="${c}" style="width:${v}%"></i></span></div>`;}
@@ -621,9 +633,9 @@ function addList(){
   return `${tabs}<ul class="list" style="margin-top:var(--s3)">${items}</ul>${hint}`;
 }
 function planSum(){
-  const xs=S.slots.filter(Boolean).map(k=>ALL[k]);
+  const xs=S.slots.filter(Boolean).map(k=>ALL[k]).filter(a=>!a.job);
   const sum=xs.reduce((s,a)=>s+a.cost,0);
-  return `<div class="row meta" style="margin-top:var(--s3)"><span>Denne måneden</span><b class="num" style="color:var(--ink);margin-left:auto">${xs.length?kr(sum):'0 kr'}</b></div>`;
+  return `<div class="row meta" style="margin-top:var(--s3)"><span>Aktiviteter denne måneden</span><b class="num" style="color:var(--ink);margin-left:auto">${xs.length?kr(sum):'0 kr'}</b></div>`;
 }
 V.plan=()=>`${timeline()}
 <div class="head"><a class="back" href="#hjem" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">Kveldene i november</h1><p class="meta">3 frie kvelder · ${freeSlots()} ledige</p></div></div>
@@ -716,7 +728,7 @@ ${r.past?`<div class="note" style="margin-top:var(--s4)"><span class="ic">${ic('
 const INBOX=[
   {k:'emma',nm:'Emma',c:'#94601A',t:'14:02',p:`Hei ${S.nick}! Konsert lørdag? Billetten er 450 kr.`,tag:['inv','Invitasjon'],href:'#melding'},
   {k:'bank',nm:'Banken',c:'#2B4CC4',t:'11:30',p:'Tre fjerdedeler! Du har 79,8 % av Lappen.',tag:null,href:'#penger'},
-  {k:'line',nm:'Line · Butikken',c:'#2E7D6B',t:'i går',p:'Vil du fortsette med ekstravaktene etter nyttår?',tag:['off','Tilbud'],href:'#jobb',read:true},
+  {k:'line',nm:'Line · Butikken',c:'#2E7D6B',t:'i går',p:'Du spurte om flere timer. Jeg har et tilbud.',tag:['off','Tilbud'],href:'#jobb',read:true},
   {k:'mamma',nm:'Mamma',c:'#7154A8',t:'okt.',p:'Vi betaler mobilen din til du fyller 18.',tag:null,read:true},
   {k:'jonas',nm:'Jonas',c:'#25292E',t:'okt.',p:'Gamingkveld hos meg lørdag?',tag:['','Utløpt'],read:true}];
 function appFrame(title,body,back='#hjem'){
@@ -764,24 +776,33 @@ function bank(){
       <li><span class="k out"></span>Hverdagsforbruk<span class="amt">${kr(-6343)}</span></li>
       <li><span class="k out"></span>Aktiviteter i oktober<span class="amt">${kr(-250)}</span></li></ul></section>`);
 }
+/* prototype only: the engine sends these figures (FR-47, rule 12, rule 16; worked examples 24 and 25) */
+const RATE=139.4,SHARE={lite:.6,vanlig:.75,mye:.95};
+const wage=h=>Math.round(h*52/12*RATE);
+const left=h=>wage(h)-Math.round(wage(h)*SHARE[S.spend]);
+const slotsAt=h=>Math.max(1,Math.min(4,Math.floor((100-2*h)/20)));
+const evenings=n=>`${n} ${n===1?'fri kveld':'frie kvelder'}`;
 function job(){
-  const offerDone=S.offer!==null;
-  const ask=S.askOffer;
-  return appFrame('Jobb',`<div class="card"><div class="row" style="margin-bottom:var(--s2)"><span class="av" style="background:#2E7D6B" aria-hidden="true">B</span><div><h2>Butikken</h2><p class="meta">Butikkmedarbeider · 139,40 kr i timen</p></div></div>
-    <ul class="kv"><li><span>Fast</span><b>10 t/uke</b></li><li><span>Ekstravakter</span><b>${S.extraEnded?'Slutter nå':'+4 t/uke ut desember'}</b></li><li><span>Lønn i november</span><b>${plain(8457)}</b></li></ul></div>
+  const done=S.offer!==null, base=S.offer?12:10, now=base+4;
+  const diff=left(14+2)-left(14), endDiff=left(now)-left(base);
+  const endTxt=slotsAt(base)===slotsAt(now)?`fortsatt <b>${evenings(slotsAt(base))}</b>`:`<b>${evenings(slotsAt(base))}</b> i stedet for ${slotsAt(now)}`;
+  return appFrame('Jobb',`<div class="card"><div class="row" style="margin-bottom:var(--s2)"><span class="av" style="background:#2E7D6B" aria-hidden="true">B</span><div><h2>Butikken</h2><p class="meta">Butikkmedarbeider · 139,40 kr i timen</p></div></div>
+    <ul class="kv"><li><span>Fast</span><b>10 t/uke${S.offer?', 12 fra desember':''}</b></li><li><span>Ekstravakter</span><b>${S.extraEnded?'Slutter nå':'+4 t/uke ut desember'}</b></li><li><span>Lønn i november</span><b>${plain(8457)}</b></li></ul></div>
     <section class="sec-card" aria-labelledby="h-off"><h2 id="h-off" style="margin-bottom:var(--s3)">Tilbud fra sjefen</h2>
-      <div class="offer ${offerDone?'done':''}"><div class="from"><span class="av" style="background:#2E7D6B">L</span>Line, i går</div>
-        <h3>Fortsette med ekstravaktene i januar–mars?</h3>
-        <p>Du tjener ca. <b>2 414 kr mer</b> i måneden, men får <b>én fri kveld mindre</b>.</p>
-        ${offerDone?`<p style="margin-top:var(--s3);font-weight:800">${S.offer?'Du sa ja.':'Du sa nei takk.'}</p>`:`<div class="btns"><button class="btn pri" data-offer="1">Ja takk</button><button class="btn" data-offer="0">Nei takk</button></div>`}
-      </div>
-      ${ask?`<div class="offer" style="margin-top:var(--s3)"><div class="from"><span class="av" style="background:#2E7D6B">L</span>Line, nå</div><h3>Jeg kan gi deg 2 timer til i uka fra januar.</h3>
-        <p>Du tjener ca. <b>1 207 kr mer</b> i måneden, men får <b>én fri kveld mindre</b>.</p>
-        <div class="btns"><button class="btn pri" data-ask="1">Ja takk</button><button class="btn" data-ask="0">Nei takk</button></div></div>`:
-      S.asked?'':`<button class="btn block" style="margin-top:var(--s3)" data-askmore>Spør om flere timer</button>`}
+      <div class="offer ${done?'done':''}"><div class="from"><span class="av" style="background:#2E7D6B">L</span>Line, i går</div>
+        <h3>Du spurte om flere timer. Vil du ha 2 timer mer i uka fra desember?</h3>
+        <p>Du sitter igjen med <b>${plain(diff)} mer</b> i måneden. Du får <b>${evenings(slotsAt(16))}</b> i desember, og fra januar ${slotsAt(12)} i stedet for ${slotsAt(10)}.</p>
+        ${done?`<p style="margin-top:var(--s3);font-weight:800">${S.offer?'Du sa ja.':'Du sa nei takk.'}</p>`:`<div class="btns"><button class="btn pri" data-offer="1">Ja takk</button><button class="btn" data-offer="0">Nei takk</button></div>`}
+      </div></section>
+    <section class="sec-card" aria-labelledby="h-ask"><h2 id="h-ask" style="margin-bottom:var(--s3)">Timene dine</h2>
+      ${S.asked?`<p class="asked">${ic('check','sm')}Du har spurt om ${S.asked} timer. Line svarer i desember.</p>`:
+      `<div class="ask"><button class="btn" data-ask="flere" ${done?'':'disabled'}>Spør om flere timer</button><button class="btn" data-ask="færre" ${done?'':'disabled'}>Spør om færre timer</button></div>
+      ${done?'':'<p class="meta" style="margin-top:var(--s2)">Svar på tilbudet først.</p>'}`}
     </section>
+    <section class="card sec-card" aria-labelledby="h-shift"><h2 id="h-shift">Enkeltvakter i november</h2><ul class="tx">
+      ${Object.entries(SHIFTS).map(([k,a])=>`<li><div class="grow"><b>${a.nm}</b><p class="meta">${a.fx} · ${kr(a.cost)} lønn</p></div>${S.slots.includes(k)?`<span class="chip"><span class="k in"></span><b>I planen</b></span>`:`<button class="btn sm" data-goplan aria-label="Til planen: ${a.nm}">Til planen</button>`}</li>`).join('')}</ul></section>
     <section class="card sec-card" aria-labelledby="h-end"><h2 id="h-end">Slutte med ekstravaktene?</h2>
-      <p style="margin-top:var(--s2)">Fra desember får du <b>én fri kveld mer</b> i måneden, men <b>604 kr mindre</b> i lønn.</p>
+      <p style="margin-top:var(--s2)">Fra desember får du ${endTxt}, men sitter igjen med <b>${plain(endDiff)} mindre</b> i måneden.</p>
       <button class="btn sm" style="margin-top:var(--s3)" data-endextra ${S.extraEnded?'disabled':''}>${S.extraEnded?'Avsluttet':'Slutt med ekstravaktene'}</button></section>
     <button class="btn ghost" style="margin-top:var(--s4);color:var(--press)">Si opp jobben</button>`);
 }
@@ -850,11 +871,13 @@ document.addEventListener('click',e=>{
   else if(d.choose){S.choice=d.choose;location.hash='#resultat'}
   else if(d.why!==undefined){const w=$('#why');w.hidden=!w.hidden;t.setAttribute('aria-expanded',String(!w.hidden))}
   else if(d.mon){S.sel=+d.mon;render(false);document.querySelector(`[data-mon="${d.mon}"]`)?.focus()}
-  else if(d.offer){S.offer=d.offer==='1';live(S.offer?'Du sa ja til ekstravaktene.':'Du sa nei takk.');render(false)}
-  else if(d.askmore!==undefined){S.asked=true;S.askOffer=true;live('Line svarte med et tilbud.');render(false)}
-  else if(d.ask){S.askOffer=null;live(d.ask==='1'?'Du sa ja til 2 timer til fra januar.':'Du sa nei takk.');render(false)}
-  else if(d.endextra!==undefined){S.extraEnded=true;live('Ekstravaktene slutter. Fra desember har du 4 kvelder.');render(false)}
+  else if(d.offer){S.offer=d.offer==='1';live(S.offer?'Du sa ja til 2 timer mer fra desember.':'Du sa nei takk.');render(false)}
+  else if(d.ask){S.asked=d.ask;live(`Du har spurt om ${d.ask} timer. Line svarer i desember.`);render(false)}
+  else if(d.goplan!==undefined){S.addTab='jobb';location.hash='#plan'}
+  else if(d.endextra!==undefined){S.extraEnded=true;live(`Ekstravaktene slutter. Fra desember har du ${evenings(slotsAt(S.offer?12:10))}.`);render(false)}
   else if(d.decline!==undefined){live('Du takket nei.');location.hash='#telefon'}
+  else if(d.mailok!==undefined){location.hash='#start'}
+  else if(d.mailedit!==undefined){$('#mailcheck').hidden=true;$('form[data-form=opprett]').hidden=false;$('#f-mail').focus()}
   else if(d.look){S.look=+d.look;applyLook();render(false)}
 });
 document.addEventListener('change',e=>{
@@ -866,10 +889,13 @@ document.addEventListener('input',e=>{
 });
 document.addEventListener('submit',e=>{
   if(e.target.dataset.form!=='opprett')return;e.preventDefault();
-  const f=$('#fld-nick'),v=$('#f-nick').value.trim();
-  f.classList.remove('err');f.querySelector('.errmsg')?.remove();
-  if(v.length<2){f.classList.add('err');$('#f-nick').setAttribute('aria-invalid','true');f.insertAdjacentHTML('beforeend','<p class="errmsg" id="e-nick">Kallenavnet må ha minst 2 tegn.</p>');$('#f-nick').setAttribute('aria-describedby','h-nick e-nick');$('#f-nick').focus();return}
-  S.nick=v;location.hash='#start';
+  const nick=$('#f-nick').value.trim(),mail=$('#f-mail').value.trim();
+  const fail=(box,inp,id,msg)=>{const f=$(box),i=$(inp);f.classList.add('err');i.setAttribute('aria-invalid','true');f.insertAdjacentHTML('beforeend',`<p class="errmsg" id="${id}">${msg}</p>`);i.setAttribute('aria-describedby',[i.dataset.hint,id].filter(Boolean).join(' '))};
+  document.querySelectorAll('.field.err').forEach(f=>{f.classList.remove('err');f.querySelector('.errmsg')?.remove();const i=f.querySelector('input');i.removeAttribute('aria-invalid');i.dataset.hint?i.setAttribute('aria-describedby',i.dataset.hint):i.removeAttribute('aria-describedby')});
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) fail('#fld-mail','#f-mail','e-mail','Skriv en hel e-postadresse, som navn@eksempel.no.');
+  if(nick.length<2) fail('#fld-nick','#f-nick','e-nick','Kallenavnet må ha minst 2 tegn.');
+  const bad=$('.field.err input');if(bad){bad.focus();return}
+  S.nick=nick;$('#mail-back').innerHTML=esc(mail).replace(/[@.]/g,'$&<wbr>');e.target.hidden=true;$('#mailcheck').hidden=false;$('#h-mc').focus();
 });
 lastWide=matchMedia('(min-width:1100px)').matches;
 render(false);

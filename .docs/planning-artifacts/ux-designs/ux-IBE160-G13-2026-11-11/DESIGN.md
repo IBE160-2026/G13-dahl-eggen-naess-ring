@@ -1,6 +1,6 @@
 ---
 name: LifeMode
-description: Ringer's layout in Speilet's world. A mirror selfie is home; phone, bank and job read like real apps; money always carries a sign, a word and one of three colours.
+description: Ringer's layout in Speilet's world. A mirror selfie is home; phone, bank and job read like real apps; money always carries a sign, a word and one of three colours, and wellbeing has its own status colours.
 title: LifeMode DESIGN
 status: draft
 created: 2026-11-11
@@ -103,7 +103,9 @@ components:
   button-secondary: { background: '{colors.surface}', textColor: '{colors.ink}', border: '{colors.ink}', borderWidth: 2px, height: 48px, rounded: '{rounded.full}' }
   button-cta: { background: '{colors.coral}', border: '{colors.ink}', height: 56px, rounded: '{rounded.full}' }
   card: { background: '{colors.surface}', rounded: '{rounded.lg}', padding: '{spacing.4}' }
-  slot-row: { background: '{colors.surface}', emptyBorder: '{colors.ink-muted}', emptyDash: 2px dashed, height: 68px, rounded: '{rounded.lg}', label: '{typography.marker-small}' }
+  slot-row: { background: '{colors.surface}', emptyBorder: '{colors.ink-muted}', emptyDash: 2px dashed, height: 68px, rounded: '{rounded.lg}', label: '{typography.marker-small}', hintDesktop: '{colors.ink-muted}' }
+  wellbeing-tile: { background: '{colors.surface}', rounded: '{rounded.lg}', scoreFont: '{typography.amount}', barHeight: 6px, barTrack: '{colors.hairline-soft}', barGood: '{colors.status-good}', barWarn: '{colors.status-warn}', barBad: '{colors.status-bad}', dotSize: 8px, valueColor: '{colors.ink}', wordColor: '{colors.ink-muted}' }
+  status-pill: { good: '{colors.status-good-soft}', warn: '{colors.status-warn-soft}', bad: '{colors.status-bad-soft}', textColor: '{colors.ink-muted}', fontSize: 15px, fontWeight: 800, rounded: '{rounded.full}', padding: 3px 10px 3px 8px, dotSize: 8px }
   past-choice-note: { background: '{colors.paper}', icon: '{colors.cobalt}', labelColor: '{colors.cobalt}', rounded: '{rounded.lg}' }
   info-button: { background: '{colors.cobalt}', textColor: '{colors.surface}', size: 20px, rounded: '{rounded.full}', underline: '{colors.money-rate}' }
   offer-card: { background: '{colors.surface}', border: '{colors.ink}', borderWidth: 2px, rounded: '{rounded.lg}' }
@@ -120,7 +122,7 @@ components:
 
 # LifeMode — Design Spine
 
-> **Draft, 2026-11-22.** Distilled from UX round 3 (`.working/round3/index.html`), which the team built from its own revisions in `../decisions.md`. The group hasn't picked a direction yet (#95). This spine is the proposal if round 3 is chosen. `EXPERIENCE.md` covers how it works. When this spine and the mockup disagree, the spine wins.
+> **Draft, 2026-11-22.** Distilled from UX round 3 (`.working/round3/index.html`), which the team built from its own revisions in `../decisions.md`. The group chose round 3 as the direction on 2026-11-22 (#95). The spine stays a draft until it is finalized. `EXPERIENCE.md` covers how it works. When this spine and the mockup disagree, the spine wins.
 
 ## Brand & Style
 
@@ -138,6 +140,7 @@ The game sits in the mirror. Everything else (money, messages, plans) is clean, 
 The style is restrained in operation and committed in identity. The rules are:
 - one accent (coral) for actions and "now"
 - three fixed money colours
+- a separate status palette that only wellbeing uses
 - one display family
 - one handwriting face used sparingly
 
@@ -150,10 +153,14 @@ The style is restrained in operation and committed in identity. The rules are:
 - **coral.** `{colors.coral}` is the only accent: the primary button, the current month, unread dots and the chosen radio. It is 2.1:1 on canvas, so a coral control always has a 2px `{colors.ink}` border, and ink on coral is 6.2:1. Coral never means loss or warning.
 - **cobalt.** `{colors.cobalt}` is for information: the "Tidligere valg" icon and label (6.5:1 on paper) and the (i) on interest. White on cobalt is 7.2:1.
 - **Money colours.** `{colors.money-in}`, `{colors.money-out}` and `{colors.money-rate}` are the same everywhere: the chip dots, the transaction keys and the year chart. They passed the dataviz validator on white, with adjacent CVD ΔE 10.0 and normal-vision ΔE 23.2. They are marks, never text colours (`money-in` is only 4.3:1 on white). Every amount also has a sign and a word ("+8 457 kr lønn").
-- **Soft tints.** `{colors.money-in-soft}`, `{colors.money-out-soft}`, `{colors.coral-soft}` and `{colors.cobalt-soft}` are backgrounds for tags, outcome icons and hover states. Tag text uses `{colors.tag-invite-text}` (8.3:1) and `{colors.tag-offer-text}` (7.1:1).
+- **Soft tints.** `{colors.money-in-soft}`, `{colors.money-out-soft}`, `{colors.coral-soft}` and `{colors.cobalt-soft}` are backgrounds for tags, outcome icons and hover states. The `status-*-soft` tints belong to the wellbeing pill and nothing else. Tag text uses `{colors.tag-invite-text}` (8.3:1) and `{colors.tag-offer-text}` (7.1:1).
 - **locked.** `{colors.locked}` yellow paper means locked, and only locked. Never use it for tips or news.
-- **Wellbeing status.** `{colors.status-good}`, `{colors.status-warn}` and `{colors.status-bad}` are used only for wellbeing: bar fills, an 8px dot before each value, and the score pill on `{colors.status-good-soft}` / `-warn-soft` / `-bad-soft` with ink text. They passed the dataviz validator on white (CVD ΔE 17.2, normal-vision ΔE 25.0). `status-warn` is only 2.45:1 on white, so it always has a visible word next to it ("55 ok") and its dot gets a thin ink ring. They are never text colours, and money never uses them.
-- **danger.** `{colors.danger}` is used only for "Si opp jobben", "Slett bruker" and form errors. A money loss is never red.
+- **Wellbeing status.** `{colors.status-good}`, `{colors.status-warn}` and `{colors.status-bad}` are used only for wellbeing: bar fills, an 8px dot before each value, and the score pill on `{colors.status-good-soft}` / `{colors.status-warn-soft}` / `{colors.status-bad-soft}` with `{colors.ink-muted}` text (at least 7.5:1).
+  - **Measured on white, all pairs:** normal-vision ΔE 25.0 at worst. For colour-blind players green and red are the weakest pair, at ΔE 7.6 (deutan), which is below the target of 8. That is allowed only with a second cue, so the word next to the value ("25 lavt", "72 bra", "55 ok") is required, never optional.
+  - **Bands follow the PRD threshold (50, rule 12):** under 50 is bad, 50–59 is ok, 60 and up is good. Stress is mirrored (100 − stress): up to 40 is good, 41–50 is medium, over 50 is bad.
+  - **`status-warn` is weak:** 2.45:1 on white and 1.9:1 on the bar track. The number and word carry the value, and its dot has a thin ink ring.
+  - They are never text colours, and money never uses them.
+- **danger.** `{colors.danger}` is used only for "Si opp jobben", "Slett bruker" and form errors. A money loss is never red. `{colors.status-bad}` is a different red with a different job, so don't swap them.
 - **Senders.** These colours fill the round initials in the phone: `sender-emma`, `sender-job`, `sender-family`, `sender-friend`, plus cobalt for the bank. White letters measure at least 4.9:1.
 - **Scene tokens.** The `scene-*` colours are the illustration's palette, exposed as CSS variables (`--sc-*`), so the hoodie, skin, hair, walls and frame can change without editing paths. The avatar picker sets `scene-hoodie`.
 - **No dark mode in this draft.** The scene is a lit room, so dark mode would need its own night scene. This is an open question.
@@ -187,7 +194,7 @@ The grid is 4px, using the `{spacing.1}`–`{spacing.7}` scale. The gutter is `{
 
 - **The scene:** on mobile it fills the column at 362:470. From tablet up, the mirror stands centred on a wide wall (`{components.scene.heightDesktop}`), with the stickers on the wall to the right.
 - **The timeline** sits at the top of Hjem, Plan, Hendelse and Resultat, always in the same place.
-- **The plan:** two columns on desktop (your evenings | add an activity). On mobile "Legg til" opens a sheet.
+- **The plan:** from 1100 px there are two columns (your evenings | add an activity), and the add list is always visible, so empty evenings have no button. Below 1100 px it is one column, and "Legg til" opens the add list in a sheet.
 
 ## Elevation & Depth
 
@@ -218,12 +225,18 @@ Sheets and the CTA lift on a shadow pointing up or down. Dimming applies to the 
 - **Money chip.** A white pill with a 10px colour key (square for in and out, round for interest), a bold signed amount and a plain word. A chip with an (i) is a button that opens the interest sheet.
 - **Buttons.** Primary and secondary buttons both have a 2px ink border. The primary is coral, and the CTA is 56px tall with a lift shadow. Ghost buttons are underlined text. Disabled buttons are at 50% opacity with no movement.
 - **Card / tile.** White, `{rounded.lg}` and 16px padding. A tile that links outlines in ink on hover.
-- **Wellbeing tile.** Score/100 with a status pill ("Det går bra" / "Helt ok" / "Tungt nå"), three labelled bars (Stress, Fritid, Sosialt) coloured by status with a dot and a word after each value ("25 lavt", "72 bra", "55 ok"; stress is inverted, low is good), and a footer that states a consequence ("Fritid 72 gir deg 3 frie kvelder. Snitt så langt 61, du trenger 50.").
-- **Slot row.** It has a Kalam label ("Kveld 1"), a title, and cost · effect. A filled row is a white card with a round × button. An empty row has a 2px dashed muted border and a coral "+ Legg til". School and work are one quiet locked line with a lock icon.
+- **Wellbeing tile.** From top to bottom:
+  - the score out of 100 with a status pill next to it ("Det går bra" / "Helt ok" / "Tungt nå"). The pill wraps below the score when the tile is narrow
+  - three labelled 6px bars (Stress, Fritid, Sosialt) filled by status. On the right of each label: an 8px dot, the value and a word ("25 lavt", "72 bra", "55 ok"). Stress is inverted, so low is good
+  - a footer that states a consequence ("Fritid 72 gir deg 3 frie kvelder. Snitt så langt 61, du trenger 50.").
+- **Slot row.** It has a Kalam label ("Kveld 1"), a title, and cost · effect. A filled row is a white card with a round × button. An empty row has a 2px dashed muted border. Below 1100 px it holds a coral "+ Legg til" button. From 1100 px it holds the quiet text "Velg i lista →" in `{colors.ink-muted}`, which is not a control. School and work are one quiet locked line with a lock icon.
 - **Past-choice note ("Tidligere valg").** A paper card with a round cobalt history icon, a cobalt label and one plain sentence. This replaces "Ekko".
 - **Info / interest button.** An underlined amount (2px `{colors.money-rate}` underline) with a 18–20px cobalt (i). It opens a sheet with the explanation and a three-line calculation.
 - **Segmented tabs.** Fritid | Jobb, with ink as the selected state.
-- **Offer card.** A white card with a 2px ink border, showing the sender and time, a question, one sentence of consequence, and Ja takk (primary) / Nei takk (secondary). Once answered, the border drops and the answer is shown.
+- **Offer card.** A white card with a 2px ink border, showing the sender and time, a question, the consequence (kroner left after spending, and free evenings as a number), and Ja takk (primary) / Nei takk (secondary). Once answered, the border drops and the answer is shown.
+- **Ask for hours.** Two full-width secondary buttons ("Spør om flere timer" / "Spør om færre timer"), disabled with one meta line ("Svar på tilbudet først.") while an offer is open. Once asked, they become one line with a check icon: "Du har spurt om flere timer. Line svarer i desember."
+- **One-off shift row.** In the job view: name, hours · signed pay, and a small secondary "Til planen". Once placed, a chip reads "I planen". It has no date.
+- **Email check.** On sign-up, the form gives way to a heading ("Sjekk at e-posten er riktig"), the address at 19px/800, which may break after @ and dots, a coral "Lag bruker" and a secondary "Endre e-post".
 - **Option radio card.** Used for spending and goals. The title and the amount sit on one line, with examples and the meaning below. When selected, the border is 2px ink and the dot is coral inside an ink ring.
 - **Event option.** A 64px white button with a 2px ink border, the action on the left and the signed kroner on the right.
 - **Outcome list.** A 26px round icon (check on green tint for better, arrow on rust tint for worse, dash for unchanged) and a sentence. This replaces Åpnet/Stengt.
@@ -240,8 +253,10 @@ Sheets and the CTA lift on a shadow pointing up or down. Dimming applies to the 
 |---|---|
 | Give every amount a sign, a word and a money colour key | Colour a number red or green, or use colour alone |
 | Use coral only for the action and "now", always with an ink border | Use coral for warnings or as a large fill behind text |
+| Give every wellbeing status a word next to its colour | Show wellbeing as a coloured bar alone, or use status colours for money |
 | Use yellow only for locked things | Use yellow for tips, news or highlights |
 | Write words in Kalam and values in Bricolage | Handwrite amounts, ages or body text |
+| Say what the player is left with after spending ("302 kr mer i måneden") | Show only the extra wage in an offer |
 | Say "fri kveld / frie kvelder i måneden" | Say "plass", "slot" or "tar en kveld" |
 | Keep the scene as editable SVG with `--sc-*` colours | Ship the illustration as a raster image or with baked-in grain |
 | Show interest as a tappable amount with (i) | Explain interest in a paragraph on the screen |

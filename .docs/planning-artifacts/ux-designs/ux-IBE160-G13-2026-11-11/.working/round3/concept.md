@@ -43,26 +43,27 @@ Built 2026-11-22 from the team's round 3 revisions in `../../../../decisions.md`
 ## Palette check
 The money colours are the same everywhere (chips, transactions, year chart): in `#1E8A6E`, out `#C2552D`, interest `#2B4CC4`. They pass the dataviz validator on white: CVD ΔE 10.0, normal-vision ΔE 23.2, contrast ≥ 3:1. They always come with a sign and a word, never colour alone.
 
-Wellbeing has its own status palette, used only on the wellbeing tile: good `#1F7A4D`, warn `#D99A00`, bad `#C2261E`. It passes the validator (CVD ΔE 17.2, normal-vision ΔE 25.0). The warn colour is only 2.45:1 on white, so every bar always has a word next to it ("ok") and the dot has an ink ring. A plain red/amber/green set (`#2E8540`, `#B26B00`, `#B3261E`) failed: protan ΔE 3.9.
+Wellbeing has its own status palette, used only on the wellbeing tile: good `#1F7A4D`, warn `#D99A00`, bad `#C2261E`. Measured across all pairs on white: normal-vision ΔE 25.0, and green against red ΔE 7.6 for colour-blind players (deutan). That is just below the target of 8, so the word is required. (An earlier note said 17.2, which covered neighbouring colours only.) The warn colour is only 2.45:1 on white, so every bar always has a word next to it ("ok") and the dot has an ink ring. A plain red/amber/green set (`#2E8540`, `#B26B00`, `#B3261E`) failed: protan ΔE 3.9.
 
-## Diverges from the PRD (needs team decision)
-- **FR-47 / UJ-5:** hours come as offers, and the player can ask for more. Today the player sets hours freely, and UJ-5 step 4 raises them from 10 to 12.
-- **FR-52:** a one-off shift in the plan takes an evening slot. Today work never goes in slots.
-- **FR-23:** the spending level is unchanged as a rule. Only the wording and the examples are new.
+## Aligned with the PRD (2026-11-22)
+#105 was decided and the PRD now has the rules, so the mockup was brought in line:
+- **Wellbeing bands** follow the threshold of 50 (rule 12): under 50 bad, 50–59 ok, 60 and up good, stress mirrored.
+- **Hours (FR-47):** the offer is the employer's answer to last month's request. It shows what is left after spending (302 kr) and free evenings as a number. The player can ask for more or fewer, one request at a time, answered next month. The old offer of new extra shifts is gone: they can't be offered while extra shifts run.
+- **Extra shifts:** ending them shows 4 evenings instead of 3 and 604 kr less left, as in UJ-6.
+- **One-off shifts (FR-47, FR-52):** no dates, no stress effect, not counted in the plan's total, and listed in the job view.
+- **Sign-up (FR-1, #109):** one email field, shown back before the user is created.
 
 ## Open questions
-- **Trivsel in play:** per the PRD, the felt effects are fewer evenings (free time), the end score (hollow win), and the room or mirror. High stress has no effect during play beyond these. Should high stress also cost something now, such as an evening or a darker mirror and a tired face?
+- **Trivsel in play:** per the PRD, the felt effects are fewer evenings (free time), the end score (hollow win), and the room or mirror. High stress has no effect during play beyond these. The group decided on 2026-11-22 that it stays that way (#106).
 - **Dark mode:** not drawn. The Speilet scene is a lit room, so dark mode would need its own scene.
 - **The mirror at 320 px:** the stickers overlap the reflection. That is the Speilet idea, but it should be tested.
 
 ## Invented figures (not in Rule Set v1)
 - **Year chart, month by month:** income, spending and interest. The November figures follow UJ-6.
 - **Spending examples and effects:** the example texts and "Du sparer mer". The amounts (60/75/95 % of 8 457 kr) follow rule 16.
-- **Offers:** the extra-shift offer for January–March (ca. 2 414 kr) and "2 timer til" (ca. 1 207 kr).
-- **One-off shifts:** fredag 558 kr (4 h) and varetelling 697 kr (5 h).
-- **Wellbeing thresholds:** Fritid and Sosialt: ≥60 "bra", 40–59 "ok", <40 "lite". Stress: ≤35 "lavt" (good), 36–60 "middels", >60 "høyt". The score: ≥60 "Det går bra", 40–59 "Helt ok", <40 "Tungt nå". The engine should own these.
+- **One-off shifts:** the names Kveldsvakt and Varetelling and their hours (4 and 5). The pay is hours × 139,40 kr.
 - **Phone event:** as in round 2 (2 500 / 1 800 / 0 kr).
 - **Age:** UJ-6 is at 17, and it's shown at 16 as in round 2.
 
 ## Verified
-Rendered at 320, 390 and 1280 px in headless Chrome. The Impeccable detector reported no findings.
+Rendered at 320, 390 and 1280 px in headless Chrome, with the job, plan and sign-up flows clicked through.
