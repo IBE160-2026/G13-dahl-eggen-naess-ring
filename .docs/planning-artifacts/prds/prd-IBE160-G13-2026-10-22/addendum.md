@@ -1,7 +1,7 @@
 ---
 title: LifeMode PRD addendum
 created: 2026-11-03
-updated: 2026-11-15
+updated: 2026-11-16
 ---
 
 # Addendum: LifeMode PRD
@@ -178,7 +178,7 @@ The team wants AI to act as the game engine where possible in V2, and not in the
 3. **The engine decides every amount.** Prices and effects come from configuration, or are checked against the schema's limits. AI never sets an amount (NFR-4, rule 8 "the engine, not the AI"). The brief's research on LLM game masters supports this split.
 4. **Stored, not regenerated.** Whatever arrives is stored with the playthrough (FR-12), so a reload or replay never asks the AI again. Generated content needs its own storage in V2, because library versions (NFR-4) don't cover it.
 5. **A fallback to the library.** If generation or moderation fails, the selection step falls back to pre-written content (F5, in V2).
-6. **No free text from the player.** Not in the MVP. In V2, only after a separate decision (brief addendum, AI safety principle 2).
+6. **No free text from the player.** Not in the MVP, apart from the nickname (FR-1). In V2, only after a separate decision (brief addendum, AI safety principle 2). If AI writes text in V2, the text should hold a placeholder that the server fills with the nickname, so the nickname never goes to an AI provider.
 
 ### How the engine keeps results repeatable and traceable
 
@@ -198,7 +198,7 @@ The team wants AI to act as the game engine where possible in V2, and not in the
 
 **Privacy review (was OQ-6, #24):** closed for the school project on 2026-11-13. Who the controller is, the legal basis, and the full privacy text are settled only if the game is developed further (PRD §4.3).
 
-**Player information covers:** what is stored (email, password as a hash, game data); what for (login, recovery, saving the game); how long; how to delete it; which services handle the data (the database host and any email relay); that there's no marketing, no other sharing, and no AI; who to contact; and who the game is for (15-20).
+**Player information covers:** what is stored (email, password as a hash, nickname, game data); what for (login, recovery, saving the game); how long; how to delete it; which services handle the data (the database host and any email relay); that there's no marketing, no other sharing, and no AI; who to contact; and who the game is for (15-20).
 
 **Deleting inactive accounts:** 12 months covers a whole school year and a summer, far longer than a five-session playthrough needs. No warning email is sent, so the address is used only for login and recovery.
 
@@ -236,6 +236,7 @@ Most topics run through several dated sections, and the latest one applies. This
 | Car licence | "UJ-4: card warning, family help, moped, and car licence" → "Team decisions on Dahl's proposals" → "Decisions from the independent review" → "Review fixes (2026-11-11)" (R1, R3) | The gift is random, and a player without it can pay (FR-30). The result arrives as one family message in month 37. Car fuel is a cost the player starts or stops (FR-23). In UJ-4, Markus paid for the licence himself (R1) |
 | Minigames and the driving game | "UJ-1 and UJ-2: progression, sessions, and the moped licence" → "Minigames" → "Decisions from the independent review" | Turn-based and judged by the server (FR-51). It's on the cut list, with "payment only" as the fallback. A real-time game can come in V2 |
 | Login and reset | "Login with email: decisions, limits, and reset routes" → "Team decisions on Dahl's proposals" → "Decisions from the PRD review" (K3) | Email and password (FR-1 to FR-5), and account deletion with the current password (FR-44). The default limits and reset routes stay in "Login with email: decisions, limits, and reset routes". The email relay is still open (OQ-4) |
+| Nickname | "Nickname (2026-11-16)" | The player picks a nickname when creating a user, and the game addresses them by it (FR-1, FR-54). It counts as personal data (NFR-3) |
 | AI and V2 (OQ-11) | "Changes from the proposal" → "Decisions from the final PRD check" → "Decisions from the independent review" → "Four game areas: more game, less quiz (2026-11-10)" (P8) | No AI in the MVP, and OQ-11 blocks nothing (PRD §8). The V2 seam is in "Ready for V2: AI as game master" |
 | Privacy (OQ-6, #24) | "Login with email: decisions, limits, and reset routes" → "Team decisions on Dahl's proposals" → "Decisions from the PRD review" (K9) → "Decisions from the final PRD check" | Closed for the school project on 2026-11-13 (PRD §4.3). The MVP's measures are in "Privacy measures in the MVP" |
 | Offers and active months | "Decisions from the PRD review" (X3) → "Decisions from the final PRD check" → "Four game areas: more game, less quiz (2026-11-10)" (P4) → "Review fixes (2026-11-11)" (R3, R4) → "Finalize (2026-11-11)" | Offers arrive as messages and never take an active month. Active months are 1, 4, 7, and 10 of each in-game year, and the event minimum is 40 ("Event scheduling and library size") |
@@ -556,6 +557,17 @@ Decided by sarahnaess on 2026-11-11 during Finalize, from the rubric review (`re
 - **Offers carry teaching:** the credit card and consumer loan offers have a tip and a teaching point (FR-19), as P4 planned.
 - **Smaller fixes:** FR-49's month 59-60 warning, the FR-9 reference runs, UJ-3's interest message (FR-55), "eligible" instead of "can be placed" for invitations, NFR-7's list of inputs, NFR-8's "actions, not quizzes", the glossary terms, the §7 targets, and the UJ-4 wording on extra hours.
 
+### Nickname (2026-11-16)
+
+Decided by sarahnaess on 2026-11-16, from the team's decisions in UX round 2 (`ux-designs/decisions.md`).
+
+- **What changed:** the player picks a nickname when creating a user, and messages and game text address them by it (FR-1, FR-54). It is the one exception to "no free text beyond the email address" (§4.2, NFR-3). The avatar still has no name (FR-10).
+- **Why:** a message such as «Hei Mak! Konsert lørdag?» makes the game feel like the player's own life, which the design aim in §1 asks for. A name the player picks needs no real name and adds nothing to the login.
+- **Rules:** 2-16 characters (configuration), letters including æ, ø, and å, digits, spaces, and hyphens. It needn't be unique and can be changed in the settings. There's no word filter, because no one but the player sees it.
+- **Privacy:** the nickname may be a real name, so it's treated as personal data. It's shown only to the player, kept out of the game's own logs and the playtest export (FR-50), deleted with the account (FR-44), and named in the player information.
+- **For the architecture:** the nickname is stored on the account, and the server fills it into game text the way it fills in figures, so the frontend never builds game text. This adds a field and a placeholder to the spine. Neither was in the handover list above.
+- **For content:** a message that uses the nickname must read correctly with any nickname the rules allow, from 2 to 16 characters.
+
 ## Confirmed assumptions (2026-11-05, A-29 and A-30 added 2026-11-11)
 
 | # | Assumption | Where |
@@ -573,7 +585,7 @@ Decided by sarahnaess on 2026-11-11 during Finalize, from the rubric review (`re
 | A-11 | A device showing older progress can't overwrite a newer choice | FR-8 |
 | A-12 | With no connection, the game accepts no new choices | FR-8 |
 | A-13 | The goal can't be changed during a playthrough | FR-9 |
-| A-14 | The avatar is picked from preset looks, with no free text | FR-10 |
+| A-14 | The avatar is picked from preset looks, with no free text. The nickname belongs to the account (FR-1) | FR-10 |
 | A-15 | The player can carry straight on into the next year | FR-15 |
 | A-16 | An automated check enforces the event schema | FR-17 |
 | A-17 | Tax uses the character's age in the game and fixed 2026 rates | FR-21 |

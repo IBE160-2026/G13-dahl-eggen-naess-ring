@@ -2,7 +2,7 @@
 title: LifeMode PRD
 status: final
 created: 2026-10-22
-updated: 2026-11-15
+updated: 2026-11-16
 ---
 
 # PRD: LifeMode
@@ -198,6 +198,7 @@ The journeys follow Markus's life in order, so UJ-6, at 17, comes before UJ-4, a
 | Money action | Something the player can do in any month without using up the month's real choice (FR-45) |
 | Money view | The place where the player sees their accounts, takes money actions (FR-45), takes open options (FR-48), and follows a savings target (FR-57). How it looks is UX |
 | Month plan | The month's activity slots and the activities in them, with school and work shown as fixed blocks (FR-52). It isn't the calendar of rule 11 |
+| Nickname | The name the player picks when creating a user (kallenavn), which the game uses to address them. It needn't be a real name, isn't used to log in, and no one else sees it (FR-1) |
 | Net savings | Current account, savings account, and BSU, minus all debt, family loans included. The savings goal uses it (rule 13) |
 | Offer | A message that points to an open option (FR-48), to extra shifts (FR-47), or to a one-time gift (FR-29, FR-30). The options with an offer month in the FR-18 table arrive this way |
 | Payment plan | A card balance turned into a 12-month annuity loan in a crisis month (rule 15) |
@@ -275,7 +276,7 @@ Version one of LifeMode won't:
 - use real money, real bank connections, or real financial data
 - give personal financial advice (tips are general and about the game)
 - use AI anywhere
-- let the player type free text beyond the email address
+- let the player type free text beyond the email address and a nickname (FR-1)
 - lock the player out in real time, or add interest or events during a break
 - be a classroom or teacher-led tool
 
@@ -404,7 +405,7 @@ The dates are set from the playtest start, because the exact delivery date isn't
 
 ### 5.1 Account and login
 
-**Description:** The first screen offers **Log in** and **Create user**, with a link for a forgotten password. An account is an email address and a password, with no username. NFR-3 sets how the address is used.
+**Description:** The first screen offers **Log in** and **Create user**, with a link for a forgotten password. An account is an email address and a password, with no username. The player also picks a nickname, which the game uses to address them. It isn't used to log in (FR-1). NFR-3 sets how the address and the nickname are used.
 
 **Functional Requirements:**
 
@@ -413,7 +414,10 @@ The dates are set from the playtest start, because the exact delivery date isn't
 A new player can create a user with an email address and a password they choose. Realizes UJ-1.
 
 **Consequences (testable):**
-- Creating a user asks only for an email address and a password, plus the "stay logged in" choice (FR-5). No real age is collected.
+- Creating a user asks only for an email address, a password, and a nickname, plus the "stay logged in" choice (FR-5). No real age is collected.
+- **Nickname:** 2-16 characters (configuration): letters, including æ, ø, and å, digits, spaces, and hyphens. Spaces before and after are removed. The screen says the nickname is only for the player and needn't be their real name. It needn't be unique, isn't used to log in, and no other player ever sees it. There's no word filter, because only the player sees it.
+- **Where the nickname is used:** messages and other game text can address the player by it (FR-54). The server fills it in, the same way it fills in figures, and the text reads correctly with any nickname the rules allow.
+- **Changing the nickname:** the player can change it in the settings. Text shown after that uses the new nickname, and nothing else in the game changes.
 - The password must have at least 8 characters (configuration). There are no other rules for what it contains, and paste and password managers work.
 - The player types the email address twice, and a mismatch is caught before the user is created.
 - The player information (NFR-3) is shown on the create-user screen, before the user is created.
@@ -551,7 +555,7 @@ The player chooses one of three life goals: (1) save for something big, (2) be d
 The player creates an avatar for their life in the game. Realizes UJ-1.
 
 **Consequences (testable):**
-- The player picks from a small set of preset looks. Nothing is typed in, so the avatar has no free-text name.
+- The player picks from a small set of preset looks. Nothing is typed in for the avatar. The player's nickname (FR-1) belongs to the account, not to the avatar.
 - The avatar is shown with the player's money and wellbeing, and on the ending screen (FR-42). How it looks is UX (OQ-9).
 
 **If left out (Extension, §4.4):** the start goes straight from the life goal to the pengegave (FR-11), and no avatar is shown with the money, the wellbeing, or the ending. The room (FR-34) stays the player's picture of their life. UJ-1 step 3 drops.
@@ -822,7 +826,7 @@ The phone is an inbox of pre-written messages from friends, family, the employer
 - **The event copy:** the month's highlight event is always shown when the month opens (FR-13). If the event has a sender, a copy also goes in the phone, so the event reads as coming from someone. The copy isn't a separate message, needs no answer in the phone, and doesn't count towards the limit (FR-55).
 - **No quiz answers:** an invitation is accepted by placing its activity, and an offer by taking it from the message, the job view, or the money view. Ignoring a message only means missing what it offered.
 - **Expired offers:** a drawn offer, such as extra shifts or a gift moped, can be taken only in the month it arrives. After that, and after a dated offer's last day (FR-48), the message shows it as expired.
-- **Pre-written:** all messages are pre-written in Norwegian (NFR-8), from fictional senders. The player can't write messages (§4.2).
+- **Pre-written:** all messages are pre-written in Norwegian (NFR-8), from fictional senders. The player can't write messages (§4.2). A message can address the player by their nickname (FR-1), which the server fills in.
 - **Engine figures:** any amount or share in a message, such as «Du har nådd halvparten av sparemålet ditt», is the engine's figure (NFR-4).
 - **New and old:** a message that arrived this month is marked new. Earlier messages stay readable for the rest of the playthrough. There are no unread badges across months.
 - **Reading changes nothing:** reading a message changes nothing in the game, and nothing about reading is stored.
@@ -1303,6 +1307,7 @@ In the playtest environment only, the game keeps a small record for each account
 - **Switched off elsewhere:** the setting is off by default and on only in the playtest environment. It's off in the examiner's local run, and a test covers both states.
 - **Test users:** accounts used for checks (NFR-11) are marked and left out of the records and the export.
 - **Tester code:** records are exported with the tester code, not the email address (NFR-3).
+- **Nickname:** never part of the records or the export, because it may be a real name (NFR-3).
 
 ## 6. Non-Functional Requirements
 
@@ -1333,11 +1338,12 @@ The game meets WCAG 2.2 level AA. This includes contrast, keyboard navigation, t
 
 ### NFR-3: Privacy and data minimization
 
-The email address and the password are the only real personal data the player types in. The game collects no real age, takes no free text beyond the email address, and simulates the whole economy. Game data is tied to the email address, and the attempt limits briefly process network addresses, so game data and network addresses count as personal data too.
+The email address, the password, and the nickname (FR-1) are the only things the player types in. The nickname may be a real name, so it counts as personal data. The game collects no real age, takes no free text beyond the email address and the nickname, and simulates the whole economy. Game data is tied to the email address, and the attempt limits briefly process network addresses, so game data and network addresses count as personal data too.
 
 **How the data is handled:**
 - The email address is used only for login and password recovery, and is never shown in the game or used for marketing.
-- Passwords are stored only as a hash, never in game data. Neither the email address nor the password is written to the game's own logs.
+- Passwords are stored only as a hash, never in game data. Neither the email address, the password, nor the nickname is written to the game's own logs.
+- The nickname is shown only to the player, never to anyone else, and is deleted with the account (FR-44).
 - A player can reach only their own data.
 - A player can delete their account and game data (FR-44).
 - Before creating a user, the player sees short information in plain Norwegian: what is stored, what for, how long, how to delete it, and which services handle the data (the database host and any email relay). The full text can also be opened from inside the game.
