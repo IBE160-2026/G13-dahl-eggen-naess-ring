@@ -57,9 +57,9 @@ Merge PR #119 og rett punkt 1-5 fra klarhetsgjennomgangen før epics: datoene, f
   - EXPERIENCE: Open Questions er oppdatert, 11-17-mappa er bare historikk, og Flyt 1 (5 000 kr på sparing) og Flyt 4 (juni i første år) stemmer nå med UJ-3 og FR-55.
   - brief.md har fått et datert notat, og endringstabellen har seks nye rader.
 - Memlogger oppdatert for PRD og arkitektur.
+- DESIGN.md fikk stå med Speilets DESIGN.md (11-17) som kilde. Det er bare opphav og ikke bindende.
 
 ### Åpne punkter
 - Datoene må fortsatt sjekkes mot den ekte leveringsfristen (#73, #46).
 - D12, D25 og D26 sier fortsatt at spilleren setter timer (#117). Fasitdelen er rettet.
 - De tre andre tekstpunktene fra polishen (#83). Én-om-gangen-regelen er rettet.
-- DESIGN.md viser fortsatt til Speilets DESIGN.md i 11-17-mappa som kilde. Det er bare opphav og ikke bindende, så det er ikke rettet.
