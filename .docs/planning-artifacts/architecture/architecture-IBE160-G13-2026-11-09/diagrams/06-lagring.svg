@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" role="img" aria-label="Postgres har users i midten med sessions, seen_disclosures, playthroughs, reset_links og playtest_records koblet til. playthroughs logger til action_log. auth_attempts, tester_codes og playtest_counters har ingen kobling til users. Hvert liv er festet til innholdsversjonen det startet med, i YAML-mappene config/v1 og library/v1, som fryses før playtesten.">
+  <style>
+    .d-bg{fill:var(--d-paper,#F6F3EC)}
+    .d-zone{fill:var(--d-zone,#DCE6D2)}
+    .d-zone2{fill:var(--d-zone2,#E6EBFA)}
+    .d-box{fill:var(--d-surface,#FFFFFF);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .d-core{fill:var(--d-coral-soft,#FFE3DD);stroke:var(--d-ink,#1A1C2A);stroke-width:2.5}
+    .d-full{fill:var(--d-cobalt-soft,#E6EBFA);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .d-ghost{fill:none;stroke:var(--d-ink,#1A1C2A);stroke-width:1.5;stroke-dasharray:6 5}
+    .d-ln{fill:none;stroke:var(--d-ink,#1A1C2A);stroke-width:1.6}
+    .d-dash{stroke-dasharray:6 5}
+    .d-ah{fill:var(--d-ink,#1A1C2A)}
+    svg text{font-family:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;fill:var(--d-ink,#1A1C2A)}
+    svg .d-t{font-size:15px;font-weight:800}
+    svg .d-s{font-size:12px;font-weight:500;fill:var(--d-muted,#454656)}
+    svg .d-l{font-size:12px;font-weight:700}
+    svg .d-h{font-size:11px;font-weight:800;letter-spacing:.09em}
+    svg .d-note{font-family:Kalam,'Segoe Print','Comic Sans MS',cursive;font-size:15px;fill:var(--d-cobalt,#2B4CC4)}
+  </style>
+  <defs>
+    <marker id="f6a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="d-ah"/></marker>
+  </defs>
+  <rect class="d-bg" x="0" y="0" width="1000" height="560"/>
+
+  <!-- Postgres -->
+  <rect class="d-zone" x="20" y="30" width="620" height="500" rx="14"/>
+  <text class="d-h" x="36" y="56">POSTGRES · BARE LAGRING, INGEN REGLER</text>
+
+  <rect class="d-box" x="60" y="80" width="150" height="60" rx="10"/>
+  <text class="d-t" x="135" y="106" text-anchor="middle">sessions</text>
+  <text class="d-s" x="135" y="126" text-anchor="middle">én rad per enhet</text>
+
+  <rect class="d-box" x="250" y="80" width="180" height="60" rx="10"/>
+  <text class="d-t" x="340" y="106" text-anchor="middle">seen_disclosures</text>
+  <text class="d-s" x="340" y="126" text-anchor="middle">sette «Forenklet»-tekster</text>
+
+  <rect class="d-core" x="60" y="200" width="150" height="60" rx="10"/>
+  <text class="d-t" x="135" y="226" text-anchor="middle">users</text>
+  <text class="d-s" x="135" y="246" text-anchor="middle">e-post, passordhash</text>
+
+  <rect class="d-box" x="250" y="200" width="180" height="60" rx="10"/>
+  <text class="d-t" x="340" y="226" text-anchor="middle">playthroughs</text>
+  <text class="d-s" x="340" y="246" text-anchor="middle">hele livet som én JSON</text>
+
+  <rect class="d-box" x="60" y="320" width="150" height="60" rx="10"/>
+  <text class="d-t" x="135" y="346" text-anchor="middle">reset_links</text>
+  <text class="d-s" x="135" y="366" text-anchor="middle">engangslenker, 60 min</text>
+
+  <rect class="d-box" x="250" y="320" width="180" height="60" rx="10"/>
+  <text class="d-t" x="340" y="346" text-anchor="middle">action_log</text>
+  <text class="d-s" x="340" y="366" text-anchor="middle">hvert valg, endres aldri</text>
+
+  <rect class="d-box" x="60" y="440" width="150" height="60" rx="10"/>
+  <text class="d-t" x="135" y="466" text-anchor="middle">playtest_records</text>
+  <text class="d-s" x="135" y="486" text-anchor="middle">bare i playtesten</text>
+
+  <path class="d-ln" d="M135 200 V140 M135 260 V320 M210 230 H250 M200 200 L262 140 M60 245 H40 V470 H60"/>
+  <path class="d-ln" d="M340 260 V318" marker-end="url(#f6a)"/>
+  <text class="d-l" x="348" y="294">logger</text>
+
+  <rect class="d-ghost" x="455" y="190" width="175" height="320" rx="12"/>
+  <text class="d-h" x="470" y="214">UTEN KOBLING</text>
+  <text class="d-s" x="470" y="230">til users, med vilje</text>
+  <rect class="d-box" x="467" y="250" width="151" height="56" rx="8"/>
+  <text class="d-t" x="542" y="274" text-anchor="middle">auth_attempts</text>
+  <text class="d-s" x="542" y="292" text-anchor="middle">innloggingstellere</text>
+  <rect class="d-box" x="467" y="325" width="151" height="56" rx="8"/>
+  <text class="d-t" x="542" y="349" text-anchor="middle">tester_codes</text>
+  <text class="d-s" x="542" y="367" text-anchor="middle">e-post → testkode</text>
+  <rect class="d-box" x="467" y="400" width="151" height="56" rx="8"/>
+  <text class="d-t" x="542" y="424" text-anchor="middle">playtest_counters</text>
+  <text class="d-s" x="542" y="442" text-anchor="middle">plasser igjen</text>
+
+  <!-- Festet til versjon -->
+  <path class="d-ln d-dash" d="M400 200 V165 H690" marker-end="url(#f6a)"/>
+  <text class="d-l" x="545" y="157" text-anchor="middle">festet til versjonen livet startet med</text>
+
+  <!-- Innhold -->
+  <rect class="d-zone2" x="670" y="30" width="310" height="500" rx="14"/>
+  <text class="d-h" x="686" y="56">INNHOLD · YAML I REPOET</text>
+  <path class="d-ln" d="M703 92 H695 V238 H703"/>
+
+  <rect class="d-box" x="705" y="90" width="255" height="64" rx="8"/>
+  <text class="d-t" x="722" y="116">config/v1</text>
+  <text class="d-s" x="722" y="136">tall fra regelsett v1, med kilde</text>
+  <rect class="d-box" x="705" y="174" width="255" height="64" rx="8"/>
+  <text class="d-t" x="722" y="200">library/v1</text>
+  <text class="d-s" x="722" y="220">hendelser, aktiviteter, meldinger</text>
+  <rect class="d-box" x="705" y="274" width="255" height="64" rx="8"/>
+  <text class="d-t" x="722" y="300">config/test-v1</text>
+  <text class="d-s" x="722" y="320">frosne tall for fasit-testene</text>
+  <rect class="d-ghost" x="705" y="374" width="255" height="64" rx="8"/>
+  <text class="d-t" x="722" y="400">v2 …</text>
+  <text class="d-s" x="722" y="420">endret tall = ny mappe</text>
+
+  <text class="d-note" x="825" y="476" text-anchor="middle">frosset før playtesten:</text>
+  <text class="d-note" x="825" y="498" text-anchor="middle">bare tekst kan rettes</text>
+</svg>

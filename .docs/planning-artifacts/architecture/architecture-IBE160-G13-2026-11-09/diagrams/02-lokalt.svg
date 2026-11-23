@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 260" role="img" aria-label="Lokalt kjører alt på én maskin med docker compose up: Caddy sender sider til frontend-containeren og /api til backenden, backenden lagrer i en Postgres-container, og e-post skrives til loggen.">
+  <style>
+    .d-bg{fill:var(--d-paper,#F6F3EC)}
+    .d-zone{fill:var(--d-zone,#DCE6D2)}
+    .d-zone2{fill:var(--d-zone2,#E6EBFA)}
+    .d-box{fill:var(--d-surface,#FFFFFF);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .d-core{fill:var(--d-coral-soft,#FFE3DD);stroke:var(--d-ink,#1A1C2A);stroke-width:2.5}
+    .d-full{fill:var(--d-cobalt-soft,#E6EBFA);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .d-ghost{fill:none;stroke:var(--d-ink,#1A1C2A);stroke-width:1.5;stroke-dasharray:6 5}
+    .d-ln{fill:none;stroke:var(--d-ink,#1A1C2A);stroke-width:1.6}
+    .d-dash{stroke-dasharray:6 5}
+    .d-ah{fill:var(--d-ink,#1A1C2A)}
+    svg text{font-family:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;fill:var(--d-ink,#1A1C2A)}
+    svg .d-t{font-size:15px;font-weight:800}
+    svg .d-s{font-size:12px;font-weight:500;fill:var(--d-muted,#454656)}
+    svg .d-l{font-size:12px;font-weight:700}
+    svg .d-h{font-size:11px;font-weight:800;letter-spacing:.09em}
+    svg .d-note{font-family:Kalam,'Segoe Print','Comic Sans MS',cursive;font-size:15px;fill:var(--d-cobalt,#2B4CC4)}
+  </style>
+  <defs>
+    <marker id="f2a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="d-ah"/></marker>
+  </defs>
+  <rect class="d-bg" x="0" y="0" width="1000" height="260"/>
+
+  <rect class="d-box" x="20" y="95" width="120" height="60" rx="10"/>
+  <text class="d-t" x="80" y="122" text-anchor="middle">Nettleser</text>
+  <text class="d-s" x="80" y="141" text-anchor="middle">localhost</text>
+
+  <rect class="d-zone" x="180" y="30" width="800" height="215" rx="14"/>
+  <text class="d-h" x="196" y="56">ÉN MASKIN · DOCKER COMPOSE UP</text>
+
+  <rect class="d-box" x="210" y="95" width="140" height="60" rx="10"/>
+  <text class="d-t" x="280" y="122" text-anchor="middle">Caddy</text>
+  <text class="d-s" x="280" y="141" text-anchor="middle">én adresse</text>
+
+  <rect class="d-box" x="430" y="62" width="160" height="56" rx="10"/>
+  <text class="d-t" x="510" y="86" text-anchor="middle">frontend</text>
+  <text class="d-s" x="510" y="105" text-anchor="middle">Next.js-container</text>
+
+  <rect class="d-core" x="430" y="150" width="160" height="56" rx="10"/>
+  <text class="d-t" x="510" y="174" text-anchor="middle">backend</text>
+  <text class="d-s" x="510" y="193" text-anchor="middle">samme image</text>
+
+  <path class="d-box" d="M680 152 v52 a45 9 0 0 0 90 0 v-52"/>
+  <ellipse class="d-box" cx="725" cy="152" rx="45" ry="9"/>
+  <text class="d-t" x="725" y="182" text-anchor="middle">Postgres</text>
+  <text class="d-s" x="725" y="198" text-anchor="middle">versjon 17</text>
+
+  <rect class="d-ghost" x="830" y="150" width="130" height="56" rx="10"/>
+  <text class="d-t" x="895" y="174" text-anchor="middle">E-post</text>
+  <text class="d-s" x="895" y="193" text-anchor="middle">skrives til loggen</text>
+
+  <text class="d-note" x="830" y="90" text-anchor="middle">sensor trenger bare</text>
+  <text class="d-note" x="830" y="112" text-anchor="middle">Docker og README</text>
+
+  <path class="d-ln" d="M140 125 H208" marker-end="url(#f2a)"/>
+  <path class="d-ln" d="M350 125 H390 V90 H428" marker-end="url(#f2a)"/>
+  <text class="d-l" x="384" y="84" text-anchor="end">sider</text>
+  <path class="d-ln" d="M390 125 V178 H428" marker-end="url(#f2a)"/>
+  <text class="d-l" x="384" y="172" text-anchor="end">/api</text>
+  <path class="d-ln" d="M590 178 H678" marker-end="url(#f2a)"/>
+  <text class="d-l" x="634" y="170" text-anchor="middle">SQL</text>
+  <path class="d-ln d-dash" d="M510 206 V226 H895 V208" marker-end="url(#f2a)"/>
+</svg>

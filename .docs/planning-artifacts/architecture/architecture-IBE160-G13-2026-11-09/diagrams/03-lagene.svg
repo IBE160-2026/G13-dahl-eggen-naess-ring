@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" role="img" aria-label="Lagene i koden: frontenden importerer app, så components, så api, og bare api snakker HTTP med backenden. I backenden ligger motoren i midten. api og jobs over den og persistence og content under den importerer motoren. Bare skallet snakker med Postgres, YAML-filene og Resend.">
+  <style>
+    .d-bg{fill:var(--d-paper,#F6F3EC)}
+    .d-zone{fill:var(--d-zone,#DCE6D2)}
+    .d-zone2{fill:var(--d-zone2,#E6EBFA)}
+    .d-box{fill:var(--d-surface,#FFFFFF);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .d-core{fill:var(--d-coral-soft,#FFE3DD);stroke:var(--d-ink,#1A1C2A);stroke-width:2.5}
+    .d-full{fill:var(--d-cobalt-soft,#E6EBFA);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .d-ghost{fill:none;stroke:var(--d-ink,#1A1C2A);stroke-width:1.5;stroke-dasharray:6 5}
+    .d-ln{fill:none;stroke:var(--d-ink,#1A1C2A);stroke-width:1.6}
+    .d-dash{stroke-dasharray:6 5}
+    .d-ah{fill:var(--d-ink,#1A1C2A)}
+    svg text{font-family:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;fill:var(--d-ink,#1A1C2A)}
+    svg .d-t{font-size:15px;font-weight:800}
+    svg .d-s{font-size:12px;font-weight:500;fill:var(--d-muted,#454656)}
+    svg .d-l{font-size:12px;font-weight:700}
+    svg .d-h{font-size:11px;font-weight:800;letter-spacing:.09em}
+    svg .d-note{font-family:Kalam,'Segoe Print','Comic Sans MS',cursive;font-size:15px;fill:var(--d-cobalt,#2B4CC4)}
+  </style>
+  <defs>
+    <marker id="f3a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="d-ah"/></marker>
+  </defs>
+  <rect class="d-bg" x="0" y="0" width="1000" height="640"/>
+
+  <!-- Frontend -->
+  <rect class="d-zone2" x="20" y="50" width="240" height="470" rx="14"/>
+  <text class="d-h" x="36" y="76">FRONTEND · NEXT.JS</text>
+  <rect class="d-box" x="45" y="100" width="190" height="66" rx="10"/>
+  <text class="d-t" x="140" y="128" text-anchor="middle">app/</text>
+  <text class="d-s" x="140" y="148" text-anchor="middle">ruter + gateFor</text>
+  <rect class="d-box" x="45" y="210" width="190" height="66" rx="10"/>
+  <text class="d-t" x="140" y="238" text-anchor="middle">components/</text>
+  <text class="d-s" x="140" y="258" text-anchor="middle">skjermer + CSS Modules</text>
+  <rect class="d-box" x="45" y="320" width="190" height="66" rx="10"/>
+  <text class="d-t" x="140" y="348" text-anchor="middle">api/</text>
+  <text class="d-s" x="140" y="368" text-anchor="middle">eneste som kaller /api</text>
+  <path class="d-ln" d="M140 166 V208" marker-end="url(#f3a)"/>
+  <text class="d-s" x="148" y="192">importerer</text>
+  <path class="d-ln" d="M140 276 V318" marker-end="url(#f3a)"/>
+  <text class="d-s" x="148" y="302">importerer</text>
+  <text class="d-note" x="140" y="440" text-anchor="middle">ingen spillregler,</text>
+  <text class="d-note" x="140" y="462" text-anchor="middle">ingen utregning her</text>
+
+  <!-- HTTP -->
+  <path class="d-ln" d="M235 353 H280 V125 H358" marker-end="url(#f3a)"/>
+  <text class="d-l" transform="translate(272 245) rotate(-90)" text-anchor="middle">HTTP /api/*</text>
+
+  <!-- Backend-skallet -->
+  <rect class="d-zone" x="300" y="50" width="680" height="470" rx="14"/>
+  <text class="d-h" x="316" y="76">BACKEND · SKALLET SNAKKER MED VERDEN</text>
+
+  <rect class="d-box" x="360" y="96" width="140" height="58" rx="10"/>
+  <text class="d-t" x="430" y="120" text-anchor="middle">api/</text>
+  <text class="d-s" x="430" y="139" text-anchor="middle">ruter og feil</text>
+  <rect class="d-box" x="570" y="96" width="140" height="58" rx="10"/>
+  <text class="d-t" x="640" y="120" text-anchor="middle">auth/</text>
+  <text class="d-s" x="640" y="139" text-anchor="middle">innlogging, økter</text>
+  <rect class="d-box" x="780" y="96" width="140" height="58" rx="10"/>
+  <text class="d-t" x="850" y="120" text-anchor="middle">jobs/</text>
+  <text class="d-s" x="850" y="139" text-anchor="middle">daglige jobber</text>
+
+  <rect class="d-core" x="400" y="200" width="480" height="150" rx="14"/>
+  <text class="d-t" x="640" y="232" text-anchor="middle">engine/ · kjernen</text>
+  <text class="d-s" x="640" y="256" text-anchor="middle">månedsløkke · hovedbok · trekk · trivsel · slutt · spillervisning</text>
+  <text class="d-l" x="640" y="286" text-anchor="middle">ingen database · klokke · nettverk · tilfeldighet</text>
+  <text class="d-note" x="640" y="324" text-anchor="middle">samme tilstand + valg + frø = samme resultat</text>
+
+  <rect class="d-box" x="360" y="400" width="140" height="58" rx="10"/>
+  <text class="d-t" x="430" y="424" text-anchor="middle">persistence/</text>
+  <text class="d-s" x="430" y="443" text-anchor="middle">pipeline + lagring</text>
+  <rect class="d-box" x="570" y="400" width="140" height="58" rx="10"/>
+  <text class="d-t" x="640" y="424" text-anchor="middle">content/</text>
+  <text class="d-s" x="640" y="443" text-anchor="middle">leser og sjekker YAML</text>
+  <rect class="d-box" x="780" y="400" width="140" height="58" rx="10"/>
+  <text class="d-t" x="850" y="424" text-anchor="middle">email/</text>
+  <text class="d-s" x="850" y="443" text-anchor="middle">Resend eller logg</text>
+
+  <path class="d-ln" d="M430 154 V198" marker-end="url(#f3a)"/>
+  <text class="d-s" x="438" y="181">importerer</text>
+  <path class="d-ln" d="M850 154 V198" marker-end="url(#f3a)"/>
+  <path class="d-ln" d="M430 400 V352" marker-end="url(#f3a)"/>
+  <text class="d-s" x="438" y="381">importerer</text>
+  <path class="d-ln" d="M640 400 V352" marker-end="url(#f3a)"/>
+
+  <!-- Utenfor -->
+  <path class="d-box" d="M380 556 v52 a50 10 0 0 0 100 0 v-52"/>
+  <ellipse class="d-box" cx="430" cy="556" rx="50" ry="10"/>
+  <text class="d-t" x="430" y="588" text-anchor="middle">Postgres</text>
+  <text class="d-s" x="430" y="605" text-anchor="middle">Supabase</text>
+  <rect class="d-box" x="585" y="548" width="110" height="66" rx="6"/>
+  <text class="d-t" x="640" y="578" text-anchor="middle">YAML-filer</text>
+  <text class="d-s" x="640" y="597" text-anchor="middle">content/ i repoet</text>
+  <rect class="d-ghost" x="780" y="548" width="140" height="66" rx="10"/>
+  <text class="d-t" x="850" y="578" text-anchor="middle">Resend</text>
+  <text class="d-s" x="850" y="597" text-anchor="middle">av i playtesten</text>
+
+  <path class="d-ln" d="M430 458 V544" marker-end="url(#f3a)"/>
+  <text class="d-l" x="438" y="505">SQL</text>
+  <path class="d-ln" d="M640 458 V546" marker-end="url(#f3a)"/>
+  <text class="d-l" x="648" y="505">leser ved oppstart</text>
+  <path class="d-ln d-dash" d="M850 458 V546" marker-end="url(#f3a)"/>
+</svg>
