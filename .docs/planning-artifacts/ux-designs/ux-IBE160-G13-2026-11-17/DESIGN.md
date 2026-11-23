@@ -1,7 +1,8 @@
 ---
 name: LifeMode
-description: A life and money game for 15–20-year-olds in Norway. Four candidate visual systems; the group chooses one in issue #95.
-status: candidate
+description: A life and money game for 15–20-year-olds in Norway. Superseded: round 2 of four candidate visual systems. The group chose in issue #95; the final UX is in ux-IBE160-G13-2026-11-11.
+status: superseded
+superseded_by: .docs/planning-artifacts/ux-designs/ux-IBE160-G13-2026-11-11/ (final; direction chosen in issue #95)
 created: 2026-11-17
 updated: 2026-11-18
 candidates:

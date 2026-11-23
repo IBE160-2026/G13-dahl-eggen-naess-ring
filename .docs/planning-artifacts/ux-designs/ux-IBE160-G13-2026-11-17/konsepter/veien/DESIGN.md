@@ -1,7 +1,8 @@
 ---
 name: LifeMode · Veien
 description: Five years of life as a level map in perspective. Dusk-violet world, turquoise road, one toned-down lime for action, pink only for pressure.
-status: candidate
+status: superseded
+superseded_by: .docs/planning-artifacts/ux-designs/ux-IBE160-G13-2026-11-11/ (final; direction chosen in issue #95)
 created: 2026-11-17
 updated: 2026-11-18
 sketches: ../../.working/veien/oversikt.html

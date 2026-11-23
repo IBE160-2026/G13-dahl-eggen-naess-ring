@@ -1,7 +1,8 @@
 ---
 name: LifeMode · Blokka
 description: Your life as an isometric 3D apartment block seen as a dollhouse. Five floors are År 1–5, your floor stands open, daylight and the Fjord palette.
-status: candidate
+status: superseded
+superseded_by: .docs/planning-artifacts/ux-designs/ux-IBE160-G13-2026-11-11/ (final; direction chosen in issue #95)
 created: 2026-11-17
 updated: 2026-11-18
 sketches: ../../.working/blokka/oversikt.html

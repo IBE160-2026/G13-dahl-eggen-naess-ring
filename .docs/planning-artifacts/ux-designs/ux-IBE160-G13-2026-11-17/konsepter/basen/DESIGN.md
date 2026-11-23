@@ -1,7 +1,8 @@
 ---
 name: LifeMode – Basen
 description: Candidate visual system. A mountain base camp in a glossy mobile-game style; the camp is your base, the trail has one camp per year, the summit is your life goal.
-status: candidate
+status: superseded
+superseded_by: .docs/planning-artifacts/ux-designs/ux-IBE160-G13-2026-11-11/ (final; direction chosen in issue #95)
 created: 2026-11-18
 updated: 2026-11-18
 sketches: ../../.working/basen/oversikt.html

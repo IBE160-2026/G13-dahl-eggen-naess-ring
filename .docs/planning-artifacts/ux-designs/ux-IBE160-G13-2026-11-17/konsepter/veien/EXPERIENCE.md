@@ -1,6 +1,7 @@
 ---
 name: LifeMode · Veien — Experience delta
-status: candidate
+status: superseded
+superseded_by: .docs/planning-artifacts/ux-designs/ux-IBE160-G13-2026-11-11/ (final; direction chosen in issue #95)
 created: 2026-11-17
 updated: 2026-11-18
 sources:
