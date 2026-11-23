@@ -30,7 +30,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{background:var(--wall-lit);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.45;font-weight:500;min-height:100dvh;font-variant-numeric:tabular-nums;font-optical-sizing:auto}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.04;mix-blend-mode:multiply;
+body::before{content:none;display:none;position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.04;mix-blend-mode:multiply;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
 ::selection{background:var(--yellow);color:var(--ink)}
 a{color:inherit}
@@ -61,7 +61,7 @@ p{max-width:62ch}
 .tab[aria-current="page"] .tab-ic{background:var(--ink);color:var(--paper)}
 .tab-ic{width:44px;height:28px;border-radius:999px;display:grid;place-items:center;position:relative}
 .dot{position:absolute;top:-1px;right:6px;min-width:16px;height:16px;border-radius:999px;background:var(--coral);border:2px solid var(--paper);font-size:10px;font-weight:800;color:var(--ink);display:grid;place-items:center;padding:0 3px;line-height:1}
-.dot.bare{min-width:10px;width:10px;height:10px;padding:0;top:1px;right:10px}
+.dot.bare{min-width:10px;width:10px;height:10px;padding:0;top:1px;right:10px;border:1.5px solid var(--ink)}
 .app.onb .tabbar,.app.onb .rail,.app.onb .pane{display:none!important}
 .app.onb .main{padding-bottom:var(--s7);max-width:1080px}
 
@@ -76,7 +76,7 @@ p{max-width:62ch}
   .rl:hover{background:var(--hair-2);color:var(--ink)}
   .rl[aria-current="page"]{background:var(--ink);color:var(--paper)}
   .rl .cnt{margin-left:auto;min-width:22px;height:22px;border-radius:999px;background:var(--coral);color:var(--ink);font-size:12px;font-weight:800;display:grid;place-items:center;border:1.5px solid var(--ink)}
-  .rl .cnt.bare{min-width:10px;width:10px;height:10px;border:0}
+  .rl .cnt.bare{min-width:10px;width:10px;height:10px;border:1.5px solid var(--ink)}
   .rail-me{margin-top:auto;display:flex;align-items:center;gap:var(--s2);padding:var(--s3);font-weight:700;font-size:14px}
 }
 @media (min-width:1100px){
@@ -89,12 +89,19 @@ p{max-width:62ch}
 .av{width:32px;height:32px;border-radius:999px;background:var(--cobalt);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;flex:none}
 
 /* ---------- timeline (shared) ---------- */
-.tl{display:block;text-decoration:none;padding:var(--s2) 0 var(--s3);border-radius:var(--r-md)}
-.tl-head{display:flex;align-items:baseline;gap:var(--s2);margin-bottom:var(--s2)}
+.tl{display:block;padding:var(--s2) 0 var(--s3)}
+.tl-barlink{display:block;text-decoration:none}
+.tl-me{display:grid;place-items:center;width:44px;height:44px;margin:-6px -6px -6px 0;border-radius:999px;text-decoration:none;flex:none}
+.tl-me .av{width:34px;height:34px}
+@media (min-width:768px){.tl-me{display:none}}
+.tl-head{display:flex;align-items:center;gap:var(--s2);margin-bottom:var(--s2)}
+.tl-meta{white-space:nowrap}
+.tl-when{display:flex;align-items:baseline;flex-wrap:wrap;column-gap:var(--s2);min-width:0}
+@media (max-width:359px){.tl-month{font-size:19px}.tl-meta{font-size:12px}.tl-go{padding:6px 6px 6px 10px}.tl-head{gap:6px}}
 .tl-month{font-size:22px;font-weight:800;letter-spacing:-.02em}
 .tl-meta{font-size:14px;font-weight:700;color:var(--muted)}
-.tl-go{margin-left:auto;display:inline-flex;align-items:center;gap:2px;font-size:14px;font-weight:800;padding:6px 10px 6px 12px;border-radius:999px;background:var(--white);border:1.5px solid var(--muted);min-height:36px}
-.tl:hover .tl-go{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tl-go{margin-left:auto;text-decoration:none;display:inline-flex;align-items:center;gap:2px;font-size:14px;font-weight:800;padding:6px 10px 6px 12px;border-radius:999px;background:var(--white);border:1.5px solid var(--muted);min-height:36px}
+.tl-go:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .tl-bar{list-style:none;display:grid;grid-template-columns:repeat(12,1fr);gap:3px}
 .tl-bar li{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--muted)}
 .tl-bar i{display:block;width:100%;height:8px;border-radius:999px;background:var(--ink)}
@@ -116,7 +123,7 @@ p{max-width:62ch}
 .stk:hover{transform:rotate(0) translateY(-1px)}
 .stk .ic{width:28px;height:28px;border-radius:999px;display:grid;place-items:center;color:#fff;flex:none;position:relative}
 .stk small{display:block;font-size:12px;font-weight:650;color:var(--muted);line-height:1.1}
-.stk .new{position:absolute;top:-3px;right:-3px;width:12px;height:12px;border-radius:999px;background:var(--coral);border:2px solid var(--white)}
+.stk .new{position:absolute;top:-3px;right:-3px;width:12px;height:12px;border-radius:999px;background:var(--coral);border:2px solid var(--white);box-shadow:0 0 0 1.5px var(--ink)}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);min-height:48px;padding:0 var(--s5);border-radius:999px;font-weight:800;font-size:16px;text-decoration:none;border:2px solid var(--ink);background:var(--white);transition:transform .2s var(--ease),background .2s}
@@ -158,8 +165,6 @@ button.chip:hover{background:var(--cobalt-soft)}
 @media (min-width:768px){.scene.room{--sc-beam:var(--sc-wall)}}
 @media (min-width:1100px){.scene.room{aspect-ratio:auto;height:430px;max-height:none}.scene.room .scene-stk{right:24px;bottom:auto;top:50%;transform:translateY(-50%)}}
 
-.scene-menu{position:absolute;left:10px;bottom:12px;width:44px;height:44px;border-radius:999px;background:var(--white);border:1.5px solid var(--muted);box-shadow:var(--shadow-stick);display:grid;place-items:center}
-@media (min-width:768px){.scene-menu{display:none}}
 a.rail-me{text-decoration:none;border-radius:var(--r-md)}
 a.rail-me:hover,a.rail-me[aria-current]{background:var(--hair-2)}
 
@@ -168,7 +173,15 @@ a.rail-me:hover,a.rail-me[aria-current]{background:var(--hair-2)}
 .btn[aria-disabled="true"]{background:var(--hair-2);border-color:var(--muted);color:var(--muted);cursor:not-allowed;transform:none;box-shadow:none}
 .ev-opt[disabled]{opacity:.5;cursor:not-allowed;transform:none;background:var(--white)}
 .ev-opt.saving{opacity:1}
-.toast{position:fixed;z-index:40;top:12px;left:var(--s4);right:var(--s4);max-width:480px;margin:0 auto;display:flex;align-items:center;gap:var(--s3);background:var(--white);border-radius:var(--r-xl);padding:var(--s3) var(--s4);box-shadow:0 8px 24px rgba(26,28,42,.22);animation:drop .45s var(--ease) both}
+.ev-opt[aria-disabled="true"],.round.add[aria-disabled="true"]{background:var(--hair-2);border-color:var(--muted);color:var(--muted);box-shadow:none;transform:none;cursor:not-allowed}
+.ibtn{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:999px;background:var(--cobalt);color:#fff;vertical-align:middle;margin-left:4px;flex:none}
+.ibtn .i{width:14px;height:14px;stroke-width:2.6}
+.ev-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2);margin-top:var(--s3)}
+.ev-facts div{background:var(--white);border-radius:var(--r-md);padding:var(--s2) var(--s3);font-size:13px;font-weight:600;color:var(--muted)}
+.ev-facts b{display:block;font-size:16px;color:var(--ink)}
+@media (max-width:767px){html{scroll-padding-bottom:156px}}
+.screen{scroll-padding-top:100px}
+.toast{position:relative;margin:0 0 var(--s3);display:flex;align-items:center;gap:var(--s3);background:var(--white);border-radius:var(--r-xl);padding:var(--s3) var(--s4);box-shadow:0 8px 24px rgba(26,28,42,.22);animation:drop .45s var(--ease) both}
 .toast a{flex:1;min-width:0;display:flex;gap:var(--s3);align-items:center;text-decoration:none}
 .toast p{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .toast b{display:block;font-size:14px}
@@ -252,7 +265,7 @@ a.rail-me:hover,a.rail-me[aria-current]{background:var(--hair-2)}
 /* segmented */
 .seg{display:inline-grid;grid-auto-flow:column;gap:4px;background:var(--hair-2);border-radius:999px;padding:4px}
 .seg button{min-height:40px;padding:0 var(--s4);border-radius:999px;font-weight:800;font-size:14px;color:var(--muted)}
-.seg button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 
 /* plan grid */
 .plan{display:grid;gap:var(--s5)}
@@ -292,7 +305,7 @@ a.rail-me:hover,a.rail-me[aria-current]{background:var(--hair-2)}
 .msg p{font-size:14px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .msg.unread p{color:var(--ink);font-weight:700}
 .msg time{font-size:12px;color:var(--muted);font-weight:600}
-.msg .u{width:10px;height:10px;border-radius:999px;background:var(--coral);flex:none}
+.msg .u{width:10px;height:10px;border-radius:999px;background:var(--coral);flex:none;box-shadow:0 0 0 1.5px var(--ink)}
 .tag{font-size:11.5px;font-weight:800;padding:2px 7px;border-radius:999px;background:var(--hair-2);color:var(--muted)}
 .tag.inv{background:var(--coral-soft);color:#7A2416}
 .tag.off{background:var(--in-soft);color:#0E5A46}
@@ -512,14 +525,13 @@ dialog.sheet[open]{animation:up .35s var(--ease)}
   <nav class="rail" aria-label="Hovedmeny">
     <a class="brand" href="#hjem"><svg class="i lg" aria-hidden="true"><use href="#i-logo"/></svg>LifeMode</a>
     <div id="rail-links"></div>
-    <a class="rail-me" href="#meny" id="rail-menu" aria-label="Meny"><span class="av" aria-hidden="true">M</span><span id="rail-me">Mak · 16 år</span></a>
+    <a class="rail-me" href="#meny" id="rail-menu"><span class="av" aria-hidden="true">M</span><span id="rail-me">Mak · 16 år</span></a>
   </nav>
   <main class="main" id="main" tabindex="-1"></main>
   <aside class="pane" id="pane" aria-label="Mobilen"></aside>
   <nav class="tabbar" id="tabbar" aria-label="Hovedmeny"></nav>
 </div>
 <div class="sr" aria-live="polite" id="live"></div>
-<div id="toast" role="status"></div>
 
 <dialog class="sheet" id="sheet" aria-labelledby="sheet-title"></dialog>
 
@@ -530,7 +542,7 @@ const MONTH_FULL=['januar','februar','mars','april','mai','juni','juli','august'
 const NOW=10;
 const YEAR=[ // inn, ut, rente
   [1000,400,94],[0,1200,92],[0,12300,66],[0,350,66],[0,11900,38],[0,300,39],
-  [16728,1100,39],[6036,4900,53],[6036,4700,54],[8457,6600,55],[8457,6593,56],null];
+  [16728,1100,39],[6041,4900,53],[6041,4700,54],[8457,6600,55],[8457,6593,56],null];
 const YEAR_NOTE=['Bursdagsgave','Klassetur','Mopedlappen','','Brukt moped','','Sommerjobb','Fast jobb','','Ekstravakter','',''];
 const ACTS={
   venner:{nm:'Kveld med venner',cost:-200,fx:'Sosialt +5',so:5},
@@ -566,26 +578,25 @@ const MOPED_PRICE=10772,GOAL_PRICE=32500;
 const cur=()=>2364+(S.moped?0:MOPED_PRICE), net=()=>cur()+23556;
 const pct=(a,b)=>(Math.min(100,a/b*100)).toLocaleString('nb-NO',{minimumFractionDigits:1,maximumFractionDigits:1}).replace(/,0$/,'')+' %';
 const ART=id=>`<svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#${id}"/></svg>`;
-const scene=(id,label,marker='',o={})=>`<div class="scene room ${o.dim?'dim':''}" role="img" aria-label="${label} ${roomText()}"><div class="scene-in">${ART(id)}${marker?`<div class="marker" style="${o.pos||'left:46%;top:9%'};max-width:27%">${marker}</div>`:''}</div></div>`;
+const scene=(id,label,marker='',o={})=>`<div class="scene room ${o.dim?'dim':''}" role="img" aria-label="${label} ${marker?marker.replace(/<[^>]*>/g,'')+'. ':''}${roomText()}"><div class="scene-in">${ART(id)}${marker?`<div class="marker" style="${o.pos||'left:46%;top:9%'};max-width:27%">${marker}</div>`:''}</div></div>`;
 
 /* ===== shared parts ===== */
 function timeline(n=NOW,age=16,yr=2027){
-  return `<a class="tl" href="#aar" aria-label="${cap(MONTH_FULL[n])} ${yr}, du er ${age} år. Åpne året.">
-    <div class="tl-head"><span class="tl-month">${cap(MONTH_FULL[n])}</span><span class="tl-meta">${age} år · ${yr}</span>
-    <span class="tl-go">Året ${ic('chev','sm')}</span></div>
-    <ol class="tl-bar" aria-hidden="true">${MONTHS.map((m,i)=>`<li class="${i<n?'past':i===n?'now':'fut'}"><i></i>${m}</li>`).join('')}</ol></a>`;
+  return `<div class="tl"><div class="tl-head"><span class="tl-when"><span class="tl-month">${cap(MONTH_FULL[n])}</span><span class="tl-meta">${age} år · ${yr}</span></span>
+    <a class="tl-go" href="#aar" aria-label="Året, ${MONTH_FULL[n]} ${yr}, du er ${age} år">Året ${ic('chev','sm')}</a>
+    <a class="tl-me" href="#meny" aria-label="Meny, ${esc(S.nick)}"><span class="av" aria-hidden="true">${esc(S.nick[0].toUpperCase())}</span></a></div>
+    <a class="tl-barlink" href="#aar" tabindex="-1" aria-hidden="true"><ol class="tl-bar">${MONTHS.map((m,i)=>`<li class="${i<n?'past':i===n?'now':'fut'}"><i></i>${m}</li>`).join('')}</ol></a></div>`;
 }
 const cap=s=>s[0].toUpperCase()+s.slice(1);
 const sceneHubInner=()=>sceneHub();
 function sceneHub(){
-  return `<div class="scene room" role="img" aria-label="Speilet: ${esc(S.nick)} tar en speilselfie på rommet sitt. ${roomText()}">
-    <div class="scene-in"><svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#sc-selfie"/></svg>
+  return `<div class="scene room">
+    <div class="scene-in" role="img" aria-label="Speilet: ${esc(S.nick)} tar en speilselfie på rommet sitt. ${roomText()}"><svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#sc-selfie"/></svg>
     <div class="marker" style="left:50%;top:9%;max-width:26%;overflow-wrap:anywhere">${esc(S.nick)}<svg width="40" height="70" style="left:12px;top:26px" aria-hidden="true"><path d="M18 4 C26 24 24 44 12 62 M8 50 L11 63 L23 57" stroke="#1A1C2A" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-    <a class="scene-menu" href="#meny" aria-label="Meny">${ic('user')}</a>
     <div class="scene-stk">
-      <a class="stk" href="#telefon" style="--r:-3deg"><span class="ic" style="background:var(--cobalt)">${ic('msg','sm')}${unread()?'<span class="new"></span>':''}</span><span>${unread()?`${unread()} ${unread()===1?'ny':'nye'}`:'Meldinger'}</span></a>
-      <a class="stk" href="#plan" style="--r:2deg"><span class="ic" style="background:var(--ink)">${ic('cal','sm')}</span><span>${freeSlots()} ledige kvelder</span></a>
-      <a class="stk" href="#jobb" style="--r:-2deg"><span class="ic" style="background:var(--in)">${ic('job','sm')}</span><span>Jobb 14 t</span></a>
+      <a class="stk" href="#telefon" style="--r:-3deg" aria-label="${unread()?`${unread()} ${unread()===1?'ny melding':'nye meldinger'}`:'Meldinger'}"><span class="ic" style="background:var(--cobalt)">${ic('msg','sm')}${unread()?'<span class="new"></span>':''}</span><span>${unread()?`${unread()} ${unread()===1?'ny':'nye'}`:'Meldinger'}</span></a>
+      <a class="stk" href="#plan" style="--r:2deg"><span class="ic" style="background:var(--ink)">${ic('cal','sm')}</span><span>${freeSlots()?`Planlegg ${freeSlots()} ${freeSlots()===1?'kveld':'kvelder'}`:'Planen er full'}</span></a>
+      <a class="stk" href="#jobb" style="--r:-2deg"><span class="ic" style="background:var(--in)">${ic('job','sm')}</span><span>Jobb 14 t i uka</span></a>
     </div>
   </div>`;
 }
@@ -601,8 +612,8 @@ V.landing=()=>`<div class="hero">
     <p class="lead">Lev fra 15 til 20, én måned om gangen. Alt koster tid eller penger, og du ser alltid hvorfor.</p>
     <div class="btns"><a class="btn pri" href="#opprett">Lag bruker ${ic('arrow')}</a><a class="btn" href="#logginn">Logg inn</a></div>
   </div>
-  <div class="scene" role="img" aria-label="En ungdom tar speilselfie på rommet sitt.">
-    <div class="scene-in"><svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#sc-selfie"/></svg></div>
+  <div class="scene">
+    <div class="scene-in" role="img" aria-label="En ungdom tar speilselfie på rommet sitt."><svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#sc-selfie"/></svg></div>
     <div class="scene-stk">
       <span class="stk" style="--r:-3deg"><span class="ic" style="background:var(--in)">${ic('job','sm')}</span>Første jobb</span>
       <span class="stk" style="--r:2deg"><span class="ic" style="background:var(--cobalt)">${ic('msg','sm')}</span>Konsert lørdag?</span>
@@ -617,7 +628,7 @@ V.opprett=()=>`<div class="wm">${ic('logo','lg')}LifeMode</div>
     <h1 tabindex="-1">Lag bruker</h1>
     <div class="field" id="fld-mail"><label for="f-mail">E-post</label><input id="f-mail" type="email" autocomplete="email" required></div>
     <div class="field" id="fld-pw"><label for="f-pw">Passord</label><input id="f-pw" type="password" autocomplete="new-password" data-hint="h-pw" aria-describedby="h-pw" required><p class="hint" id="h-pw">Minst 8 tegn.</p></div>
-    <div class="field" id="fld-nick"><label for="f-nick">Hva skal vi kalle deg?</label><input id="f-nick" type="text" maxlength="16" value="${esc(S.nick)}" data-hint="h-nick" aria-describedby="h-nick" autocomplete="nickname"><p class="hint" id="h-nick">2–16 tegn. Bare du ser det.</p></div>
+    <div class="field" id="fld-nick"><label for="f-nick">Hva skal vi kalle deg?</label><input id="f-nick" type="text" maxlength="16" value="${esc(S.nick)}" data-hint="h-nick" aria-describedby="h-nick" autocomplete="nickname"><p class="hint" id="h-nick">2–16 tegn. Trenger ikke være ditt ekte navn. Bare du ser det.</p></div>
     <label class="check"><input type="checkbox"> Forbli innlogget på denne enheten</label>
     <section class="info-box" aria-labelledby="h-pi"><h2 id="h-pi" style="font-size:15px">Dette lagrer vi</h2>${PI}</section>
     <button class="btn pri block" type="submit">Fortsett</button>
@@ -636,7 +647,7 @@ V.opprett=()=>`<div class="wm">${ic('logo','lg')}LifeMode</div>
   </div>
 </div>`;
 
-const GOALS=[['Spare til noe stort','100 000 kr spart når du er 20'],['Gjeldfri med buffer','30 000 kr tilgjengelig hver måned det siste året'],['En stor opplevelse','Interrail i åtte uker, uten lån']];
+const GOALS=[['Spare til noe stort','100 000 kr spart når du er 20'],['Ingen gjeld og en buffer','30 000 kr på konto hele det siste året, og ingen gjeld'],['En stor opplevelse','Interrail i åtte uker for 60 000 kr, uten lån']];
 const LOOKS=['#2B4CC4','#D99A2B','#2E7D6B','#8E6CC9','#25292E','#C8453A'];
 const LOOK_SHADE=['#243A96','#B07A1C','#22604F','#6E4FA6','#15181C','#A3352C'];
 function applyLook(){const r=document.documentElement.style;r.setProperty('--sc-hoodie',LOOKS[S.look]);r.setProperty('--sc-hoodie-shade',LOOK_SHADE[S.look])}
@@ -656,11 +667,13 @@ V.start=()=>`<div class="wm">${ic('logo','lg')}LifeMode</div>
 </div>`;
 
 V.hjem=()=>`${timeline()}
+<h1 class="sr" tabindex="-1">Hjem, november</h1>
+<div id="toast-slot"></div>
 <div class="hub-top">
 ${sceneHubInner()}
 <div>
 <section class="sec month-sum" aria-labelledby="h-sum" style="margin-top:0">
-  <h2 id="h-sum" tabindex="-1">Denne måneden</h2>
+  <h2 id="h-sum">Denne måneden</h2>
   <div class="chips">
     <span class="chip"><span class="k in"></span><b>${kr(8457)}</b> lønn</span>
     <span class="chip"><span class="k out"></span><b>${kr(-6593)}</b> brukt</span>
@@ -668,14 +681,14 @@ ${sceneHubInner()}
   </div>
 </section>
 <div class="duo" style="margin-top:var(--s4)">
-  <a class="tile" href="#penger"><span class="meta">Brukskonto</span><div class="big">${plain(cur())}</div><span class="meta">Sparekonto <b style="color:var(--ink)">${plain(23556)}</b></span><div class="bars" style="margin-top:var(--s3)"><div class="bar"><span>Sparemål: Lappen</span><b>${pct(net(),GOAL_PRICE)}</b><span class="tr"><i style="width:${Math.min(100,net()/GOAL_PRICE*100)}%"></i></span></div></div><p class="wb-foot">Åpne banken ${ic('chev','sm')}</p></a>
-  <div class="tile"><span class="meta">Trivsel</span><div class="big">${wbTotal()}</div>
+  <a class="tile" href="#penger"><span class="meta">Brukskonto</span><div class="big">${plain(cur())}</div><span class="meta">Sparekonto <b style="color:var(--ink)">${plain(23556)}</b></span><div class="bars" style="margin-top:var(--s3)"><div class="bar"><span>Sparemål: Billappen</span><b>${pct(net(),GOAL_PRICE)}</b><span class="tr"><i style="width:${Math.min(100,net()/GOAL_PRICE*100)}%"></i></span></div></div><p class="wb-foot">Åpne banken ${ic('chev','sm')}</p></a>
+  <div class="tile"><span class="meta">Trivsel<button class="ibtn" data-sheet="trivsel" aria-haspopup="dialog" aria-label="Hva er trivselsmålet?">${ic('info')}</button></span><div class="big">${wbTotal()}</div>
     <div class="bars">${WBnow().parts.map(wbBar).join('')}</div>
     <p class="wb-foot">Fritid 72 gir deg <b>3 frie kvelder</b>. Snittet ditt er <b>61</b>. Trivselsmålet er <b>50</b>.</p>
   </div>
 </div>
 </div></div>
-<div class="cta"><a class="btn pri" href="#hendelse">Fortsett til desember ${ic('arrow')}</a></div>`;
+<div class="cta"><a class="btn pri" href="#aarsslutt">Fortsett til desember ${ic('arrow')}</a></div>`;
 
 /* trivsel: status from the PRD threshold (50, rule 12): below it is bad, 50-59 ok, 60 and up good. Stress is mirrored (100 - stress). */
 const WB_LIMIT=50,WB_OK=10;
@@ -693,39 +706,40 @@ function wbTotal(){const WB=WBnow(),[c]=wbSt(WB.total);const w={good:'Det går b
   return `${WB.total}<span>/100</span><span class="pill ${c}"><span class="sdot ${c}" aria-hidden="true"></span>${w}</span>`;}
 function slotRow(k,i){
   const a=k&&ALL[k];
-  if(!a) return `<li class="item empty"><span class="slot-n">Kveld ${i+1}</span><div class="grow"><h3>Ledig</h3></div>
+  if(!a) return `<li class="item empty"><span class="slot-n">Kveld ${i+1}</span><div class="grow"><h3>Tom</h3></div>
     <button class="btn sm pri" data-pick="${i}" aria-haspopup="dialog">${ic('plus','sm')} Legg til</button><span class="pick-hint">Velg i lista ${ic('arrow','sm')}</span></li>`;
-  return `<li class="item"><span class="slot-n">Kveld ${i+1}</span><div class="grow"><h3>${a.nm}</h3><p class="sub">${kr(a.cost)}${a.job?' lønn':''} · ${a.fx}</p></div>
+  return `<li class="item" id="slot-${i}" tabindex="-1"><span class="slot-n">Kveld ${i+1}</span><div class="grow"><h3>${a.nm}</h3><p class="sub">${kr(a.cost)}${a.job?' lønn':''} · ${a.fx}</p></div>
     <button class="round" data-clear="${i}" aria-label="Fjern ${a.nm} fra kveld ${i+1}">${ic('x')}</button></li>`;
 }
 function addList(){
   const src=S.addTab==='fritid'?ACTS:SHIFTS;
-  const tabs=`<div class="seg" role="tablist" aria-label="Hva vil du legge til?">
-    <button role="tab" aria-selected="${S.addTab==='fritid'}" data-tab="fritid">Fritid</button>
-    <button role="tab" aria-selected="${S.addTab==='jobb'}" data-tab="jobb">Jobb</button></div>`;
+  const tabs=`<div class="seg" role="group" aria-label="Vis">
+    <button aria-pressed="${S.addTab==='fritid'}" data-tab="fritid">Fritid</button>
+    <button aria-pressed="${S.addTab==='jobb'}" data-tab="jobb">Jobb</button></div>`;
   const items=Object.entries(src).map(([k,a])=>{
     const placed=S.slots.includes(k);
     return `<li class="item"><div class="grow"><h3>${a.nm}</h3><p class="sub">${a.cost===0?'Gratis':kr(a.cost)}${a.job?' lønn':''} · ${a.fx}</p>${a.from?`<p class="sub" style="color:#7A2416">${a.from}</p>`:''}</div>
       ${placed?`<span class="round ok" role="img" aria-label="Lagt inn">${ic('check')}</span>`:
-      `<button class="round add" data-add="${k}" aria-label="Legg til ${a.nm}" ${freeSlots()?'':'disabled'}>${ic('plus')}</button>`}</li>`;}).join('');
+      `<button class="round add" data-add="${k}" aria-label="Legg til ${a.nm}" ${freeSlots()?'':'aria-disabled="true" aria-describedby="nofree"'}>${ic('plus')}</button>`}</li>`;}).join('');
   const hint=S.addTab==='jobb'?`<p class="meta" style="margin-top:var(--s3)">Vaktene kommer fra Butikken. En vakt bruker en av de frie kveldene dine.</p>`:'';
-  return `${tabs}<ul class="list" style="margin-top:var(--s3)">${items}</ul>${hint}`;
+  const full=freeSlots()?'':'<p class="meta" id="nofree" style="margin-top:var(--s3)">Alle de frie kveldene er fylt opp. Fjern en aktivitet først.</p>';
+  return `${tabs}<ul class="list" style="margin-top:var(--s3)">${items}</ul>${full}${hint}`;
 }
 const LAST=['gaming','hvile'];
 function planSum(){
   const xs=S.slots.filter(Boolean).map(k=>ALL[k]).filter(a=>!a.job);
   const sum=xs.reduce((s,a)=>s+a.cost,0);
-  return `<div class="row meta" style="margin-top:var(--s3)"><span>Aktiviteter denne måneden</span><b class="num" style="color:var(--ink);margin-left:auto">${xs.length?kr(sum):'0 kr'}</b></div>`;
+  return `<div class="row meta" style="margin-top:var(--s3)"><span>Aktivitetene koster</span><b class="num" style="color:var(--ink);margin-left:auto">${xs.length?kr(sum):'0 kr'}</b></div>`;
 }
 V.plan=()=>`${timeline()}
-<div class="head"><a class="back" href="#hjem" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">Kveldene i november</h1><p class="meta">3 frie kvelder · ${freeSlots()} ledige</p></div></div>
+<div class="head"><a class="back" href="#hjem" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">Kveldene i november</h1><p class="meta">3 frie kvelder · ${3-freeSlots()} planlagt</p></div></div>
 <div class="plan">
   <section aria-label="Dine kvelder">
     <ul class="list" id="slots">${S.slots.map(slotRow).join('')}
       <li class="item locked">${ic('lock','sm')}<p class="sub grow">Skole og jobb tar resten av uka</p></li></ul>
     <div class="note" style="margin-top:var(--s3)"><span class="ic">${ic('past','sm')}</span><p><b>Tidligere valg</b>Du sa ja til ekstravakter i september. Derfor har du 3 frie kvelder i stedet for 4.</p></div>
     ${planSum()}
-    ${LAST.some(k=>!S.slots.includes(k))&&freeSlots()?`<button class="btn block" style="margin-top:var(--s3)" data-same>Samme som i oktober</button>`:''}
+    ${LAST.some(k=>!S.slots.includes(k))&&freeSlots()?`<button class="btn block" style="margin-top:var(--s3)" data-same>Samme kvelder som i oktober</button>`:''}
     <a class="btn block" href="#hjem" style="margin-top:var(--s4)">Ferdig</a>
   </section>
   <section class="plan-add-desk" aria-labelledby="h-add"><h2 id="h-add" style="margin-bottom:var(--s3)">Legg til aktivitet</h2><div id="addlist">${addList()}</div></section>
@@ -741,7 +755,7 @@ V.aar=()=>{
       <span class="up" style="height:${Math.max(m[0]?3:0,m[0]/maxUp*96)}px"></span><span class="base"></span>
       <span class="dn" style="height:${Math.max(3,m[1]/maxDn*72)}px"></span><span class="m">${MONTHS[i][0]}<i>${MONTHS[i].slice(1)}</i></span></button>`;}).join('');
   const rate=YEAR.map(m=>m?`<i style="height:${m[2]/100*40}px"></i>`:'<i style="height:0"></i>').join('');
-  const notes=[['Mopedlappen','Tatt',true,-2],['Lappen (bil)','fra 18 år',false,2],['Kredittkort','fra 18 år',false,-1],['Forbrukslån','fra 18 år',false,3],['Full jobb','fra 19 år',false,-2]];
+  const notes=[['Mopedlappen','tatt',true,-2],['Billappen','fra 18 år',false,2],['Kredittkort','fra 18 år',false,-1],['Forbrukslån','mulig fra 18 år',false,3],['Fulltidsjobb','fra 19 år',false,-2]];
   return `<div class="head"><a class="back" href="#hjem" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">16 år · 2027</h1><p class="meta">Du er her: november</p></div></div>
   <div class="card"><h2 style="font-size:16px">Hele livet i spillet</h2>
     <div class="life">${[15,16,17,18,19].map(a=>`<div class="${a===16?'cur':''}"><i><b style="width:${a<16?100:a===16?(NOW+1)/12*100:0}%"></b></i>${a} år</div>`).join('')}</div></div>
@@ -768,13 +782,14 @@ V.aar=()=>{
   </section>`;
 };
 
-V.hendelse=()=>`${timeline()}
-<div class="scene room dim" role="img" aria-label="Speilet er mørkt. Mobilen har sprekker over halve skjermen. ${roomText()}">
+V.hendelse=()=>`${timeline(9)}
+<div class="scene room dim" role="img" aria-label="Speilet er mørkt. Mobilen gikk i bakken. ${roomText()}">
   <div class="scene-in"><svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#sc-selfie"/></svg>
   <div class="marker" style="left:46%;top:9%;max-width:27%">Mobilen gikk i bakken</div></div>
 </div>
 <h1 tabindex="-1" style="margin-top:var(--s5)">Hva gjør du?</h1>
-<p style="margin-top:var(--s2)">Den virker, men sprekkene går over halve skjermen.</p>
+<p style="margin-top:var(--s2)">Mobilen virker, men sprekkene går over halve skjermen.</p>
+<div class="ev-facts" aria-label="Dette har du"><div>Brukskonto<b>${plain(2364)}</b></div><div>Sparekonto<b>${plain(23556)}</b></div><div>Gjeld<b>0 kr</b></div><div>Faste utgifter<b>${kr(-250)} i mnd.</b></div></div>
 <div class="ev-opts">
   <button class="ev-opt" data-choose="repair"><span>Reparer skjermen</span><span class="amt">${kr(-2500)}</span></button>
   <button class="ev-opt" data-choose="used"><span>Kjøp en brukt mobil</span><span class="amt">${kr(-1800)}</span></button>
@@ -782,20 +797,20 @@ V.hendelse=()=>`${timeline()}
 </div>`;
 
 const RES={
-  repair:{h:'Du reparerte skjermen.',m:'Hel igjen',chips:[['out',kr(-2500),'betalt'],['n','Stress −2','lettere']],
-    past:'I januar i fjor satte du pengegaven på sparekontoen. Den dekket de 136 kr du manglet.',
-    why:`<p><b>Reparasjonen kostet 2 500 kr.</b> Brukskontoen hadde 2 364 kr. Resten tok banken fra sparekontoen.</p>
+  repair:{h:'Du reparerte skjermen.',m:'Hel igjen',chips:[['out',kr(-2500),'betalt'],['n','Stress −2','']],
+    past:null,
+    why:`<p><b>Reparasjonen kostet 2 500 kr.</b> Brukskontoen hadde 2 364 kr. Resten tok banken fra sparekontoen, som du har spart opp.</p>
       <div class="split" aria-hidden="true"><i style="width:94.6%;background:var(--ink)"></i><i style="width:5.4%;background:var(--cobalt)"></i></div>
       <ul class="kv"><li><span>Fra brukskontoen</span><b>${plain(2364)}</b></li><li><span>Fra sparekontoen</span><b>${plain(136)}</b></li></ul>
       <p class="meta" style="margin-top:var(--s3)">Stresset gikk ned fordi mobilen virker som før.</p>`,
-    after:[['up','Mobilen er hel igjen.'],['down','Sparemålet Lappen: 79,8 % → 72,1 %']]},
-  used:{h:'Du kjøpte en brukt mobil.',m:'Ny brukt',chips:[['out',kr(-1800),'betalt'],['n','Stress ±0','']],past:null,
-    why:'<p><b>Den brukte mobilen kostet 1 800 kr</b>, betalt fra brukskontoen.</p>',after:[['up','Skjermen er hel.'],['down','Sparemålet Lappen: 79,8 % → 74,2 %']]},
-  live:{h:'Du lever med sprekkene.',m:'Sprukket',chips:[['n','0 kr',''],['n','Stress +3','mer']],past:null,
-    why:'<p><b>Du betalte ingenting.</b> Men skjermen er vanskelig å lese, og det irriterer deg hver dag.</p>',after:[['same','Sparemålet Lappen står på 79,8 %.'],['down','Skjermen kan bli verre senere.']],sc:'sc-selfie'}
+    after:[['up','Mobilen er hel igjen.'],['down','Sparemålet Billappen: 79,8 % → 72,1 %']]},
+  used:{h:'Du kjøpte en brukt mobil.',m:'Brukt mobil',chips:[['out',kr(-1800),'betalt'],['n','Stress uendret','']],past:null,
+    why:'<p><b>Den brukte mobilen kostet 1 800 kr</b>, betalt fra brukskontoen.</p>',after:[['up','Skjermen er hel.'],['down','Sparemålet Billappen: 79,8 % → 74,2 %']]},
+  live:{h:'Du lever med sprekkene.',m:'Sprukket',chips:[['n','0 kr',''],['n','Stress +3','']],past:null,
+    why:'<p><b>Du betalte ingenting.</b> Men skjermen er vanskelig å lese, og det irriterer deg hver dag.</p>',after:[['same','Sparemålet Billappen står på 79,8 %.'],['down','Skjermen kan bli verre senere.']],sc:'sc-selfie'}
 };
 V.resultat=()=>{const r=RES[S.choice];return `${r.tl?timeline(...r.tl):timeline()}
-${scene(r.sc||'sc-glad',r.sc==='sc-selfie'?'Speilbildet er alvorlig.':'Speilbildet smiler.',r.m)}
+${scene(r.sc||'sc-glad',r.sc==='sc-selfie'?'Speilbildet ser alvorlig ut.':'Speilbildet smiler.',r.m)}
 <h1 tabindex="-1" style="margin-top:var(--s5)">${r.h}</h1>
 <div class="chips" role="status" style="margin-top:var(--s3)">${r.chips.map(c=>`<span class="chip reveal"><span class="k ${c[0]}"></span><b>${c[1]}</b> ${c[2]}</span>`).join('')}</div>
 ${r.past?`<div class="note" style="margin-top:var(--s4)"><span class="ic">${ic('past','sm')}</span><p><b>Tidligere valg</b>${r.past}</p></div>`:''}
@@ -811,12 +826,12 @@ Object.assign(RES,{
     why:'<p><b>Banken betaler deg for å ha penger på sparekontoen.</b> 18 500 kr × 2,87 % i året blir 44 kr den første måneden.</p>',after:[['up','Sparekontoen: 0 kr → 18 500 kr'],['same','Rommet er som før.']]},
   g_halv:{tl:[0,15,2026],h:'Du sparte halvparten.',m:'Litt av begge',chips:[['n',plain(9250),'på sparekontoen'],['out',kr(-9250),'brukt']],past:null,
     why:'<p><b>Halvparten gikk til ting du ville ha nå.</b> Resten får rente hver måned.</p>',after:[['up','Sparekontoen: 0 kr → 9 250 kr'],['up','Sosialt gikk opp.']]},
-  g_bruk:{tl:[0,15,2026],h:'Du kjøpte gaming-PC.',m:'Ny PC',chips:[['out',kr(-15000),'betalt'],['n','Sosialt +4','mer']],past:null,
+  g_bruk:{tl:[0,15,2026],h:'Du kjøpte en gaming-PC.',m:'Ny PC',chips:[['out',kr(-15000),'betalt'],['n','Sosialt +4','']],past:null,
     why:'<p><b>PC-en kostet 15 000 kr.</b> 3 500 kr er igjen på brukskontoen.</p>',after:[['up','Du spiller med vennene dine hver uke.'],['down','Brukskontoen: 18 500 kr → 3 500 kr']]},
   k_av:{tl:[4,18,2029],h:'Du skrudde av kortet.',m:'Kortet er av',chips:[['n','0 kr','ny gjeld']],past:null,why:'<p><b>Nye kjøp går ikke lenger på kortet.</b> Gjelden på 10 000 kr er der fortsatt, og renta går til den er betalt.</p>',after:[['up','Gjelden vokser ikke av nye kjøp.'],['same','Rente hver måned: ca. 188 kr']],sc:'sc-selfie'},
   k_mamma:{tl:[4,18,2029],h:'Mamma kan ikke låne deg penger nå.',m:'Et råd',chips:[['n','0 kr','']],past:null,why:'<p><b>Mamma vil hjelpe, men har ikke råd.</b> Hun sier at du kan la kortet ligge og spørre sjefen om flere timer.</p>',after:[['same','Gjelden står på 10 000 kr.']],sc:'sc-selfie'},
   k_timer:{tl:[4,18,2029],h:'Du spurte om flere timer.',m:'Line svarer',chips:[['n','Svar i juni','']],past:null,why:'<p><b>Sjefen svarer neste måned.</b> Sier du ja da, gjelder det fra måneden etter.</p>',after:[['same','Gjelden står på 10 000 kr.']],sc:'sc-selfie'},
-  k_nei:{tl:[4,18,2029],h:'Du gjorde ingenting med kortet.',m:'Som før',chips:[['n','188 kr','rente denne måneden']],past:null,why:'<p><b>Betaler du bare minstebeløpet, tar det 51 måneder.</b> Av de første 350 kronene går 188 kr til rente.</p>',after:[['down','Renta fortsetter.']],sc:'sc-selfie'}
+  k_nei:{tl:[4,18,2029],h:'Du gjorde ingenting med kortet.',m:'Som før',chips:[['out',kr(-188),'rente denne måneden']],past:null,why:'<p><b>Betaler du bare det minste, tar det 51 måneder å bli kvitt gjelden.</b> Av de første 350 kr du betaler, går 188 kr til rente.</p>',after:[['down','Renta fortsetter.']],sc:'sc-selfie'}
 });
 const opt=(attr,t,amt,sub='')=>`<button class="ev-opt" ${attr}><span>${t}${sub?`<small>${sub}</small>`:''}</span>${amt?`<span class="amt">${amt}</span>`:''}</button>`;
 const PI=`<p>Vi lagrer e&#8209;posten, passordet (som en kode ingen kan lese), kallenavnet og spillet ditt. E&#8209;posten brukes bare til innlogging og nytt passord. Ingen andre ser kallenavnet.</p><p>Spillet ligger hos Supabase i Tyskland. Serverne våre hos Railway lagrer logger med IP&#8209;adresser i USA i 90 dager, og Vercel lagrer logger i 1 time. Vi sporer deg ikke.</p><p>Du kan slette alt i menyen. Ellers slettes det etter 12 måneder uten spilling.</p>`;
@@ -829,7 +844,7 @@ V.logginn=()=>`<div class="wm">${ic('logo','lg')}LifeMode</div>
   <button class="btn pri block" type="submit">Logg inn</button>
   <p class="meta"><a href="#glemt">Glemt passordet?</a></p><p class="meta"><a href="#opprett">Ny her? Lag bruker</a></p></form>`;
 V.glemt=()=>`<div class="wm">${ic('logo','lg')}LifeMode</div>
-${S.sent?`<div class="form"><h1 tabindex="-1">Sjekk e-posten din</h1><p class="lead">Finnes adressen hos oss, har vi sendt en lenke. Den virker én gang, i 60 minutter.</p><a class="btn block" href="#logginn">Til innlogging</a></div>`:
+${S.sent?`<div class="form"><h1 tabindex="-1">Sjekk e-posten din</h1><p class="lead">Har du bruker med denne e-posten, har vi sendt deg en lenke. Den virker én gang, i 60 minutter.</p><a class="btn block" href="#logginn">Til innlogging</a></div>`:
 `<form class="form" data-form="glemt" novalidate><h1 tabindex="-1">Glemt passordet?</h1><div class="field"><label for="g-mail">E-post</label><input id="g-mail" type="email" autocomplete="email" required></div><button class="btn pri block" type="submit">Send lenke</button><p class="meta"><a href="#logginn">Tilbake til innlogging</a></p></form>`}`;
 
 V.gave=()=>`<div class="story"><div inert>${timeline(0,15,2026)}</div>
@@ -840,33 +855,35 @@ ${scene('sc-selfie','Speilet: du er 15 år og har fått pengegave.','15 år')}
 V.velkommen=()=>`<div class="story"><div class="wm">${ic('logo','lg')}LifeMode</div><h1 tabindex="-1">Hei igjen, ${esc(S.nick)}</h1>
 <p class="lead" style="margin-top:var(--s2)">Alt er som da du gikk.</p>
 <div style="margin-top:var(--s4)">${scene('sc-selfie','Speilet slik du forlot det.')}</div>
-<ul class="kv card facts"><li><span>Du er her</span><b>November 2027, 16 år</b></li><li><span>Brukskonto</span><b>${plain(cur())}</b></li><li><span>Nye meldinger</span><b>${unread()}</b></li><li><span>Planen</span><b>${3-freeSlots()} av 3 kvelder</b></li></ul>
-<div class="row" style="margin:var(--s5) 0;align-items:stretch"><div class="postit" style="--r:-2deg;flex:0 0 150px"><span class="lock">${ic('lock','sm')}</span><h3>Lappen (bil)</h3><p>fra 18 år</p></div>
-<p class="grow" style="align-self:center">Lappen koster <b>${plain(GOAL_PRICE)}</b>. Du har <b>${plain(net())}</b>.</p></div>
+<ul class="kv card facts"><li><span>Du er her</span><b>November 2027, 16 år</b></li><li><span>Brukskonto</span><b>${plain(cur())}</b></li><li><span>Nye meldinger</span><b>${unread()}</b></li><li><span>Planlagt</span><b>${3-freeSlots()} av 3 frie kvelder</b></li></ul>
+<div class="row" style="margin:var(--s5) 0;align-items:stretch"><div class="postit" style="--r:-2deg;flex:0 0 150px"><span class="lock">${ic('lock','sm')}</span><h3>Billappen</h3><p>fra 18 år</p></div>
+<p class="grow" style="align-self:center">Billappen koster <b>${plain(GOAL_PRICE)}</b>. Du har <b>${plain(net())}</b>.</p></div>
 <a class="btn pri block" href="#hjem">Fortsett i november ${ic('arrow')}</a></div>`;
 
 V.kort=()=>`${timeline(4,18,2029)}${scene('sc-selfie','Speilet er mørkt.','Kortet er fullt',{dim:true})}
 <h1 tabindex="-1" style="margin-top:var(--s5)">Du kunne ikke betale hele kortregningen</h1>
-<ul class="kv card facts"><li><span>Kortgjeld</span><b>${plain(10000)}</b></li><li><span>Rente denne måneden</span><b>${plain(188)}</b></li><li><span>Bare minstebeløpet</span><b>51 måneder, ${plain(5508)} i rente</b></li></ul>
+<ul class="kv card facts"><li><span>Kortgjeld</span><b>${plain(10000)}</b></li><li><span>Rente i året</span><b>22,6 %</b></li><li><span>Rente denne måneden</span><b>${kr(-188)}</b></li><li><span>Betaler du bare det minste<button class="ibtn" data-sheet="minste" aria-haspopup="dialog" aria-label="Hva er det minste?">${ic('info')}</button></span><b>51 måneder, ${kr(-5508)} i rente</b></li></ul>
 <div class="ev-opts">${opt('data-choose="k_av"','Skru av kortet','','Nye kjøp går fra kontoen')}${opt('data-choose="k_timer"','Spør om flere timer','','Svar neste måned')}${opt('data-choose="k_mamma"','Snakk med mamma')}${opt('data-choose="k_nei"','Ikke gjør noe nå')}</div>`;
 
 V.krise=()=>{const k=S.kr,head=timeline(7,18,2029);
-  if(k.end) return `${head}${scene(k.end==='loest'?'sc-glad':'sc-selfie',k.end==='loest'?'Speilbildet smiler.':'Speilbildet er alvorlig.',k.end==='loest'?'Det gikk':'Ikke løst')}
+  if(k.end) return `${head}${scene(k.end==='loest'?'sc-glad':'sc-selfie',k.end==='loest'?'Speilbildet smiler.':'Speilbildet ser alvorlig ut.',k.end==='loest'?'Det gikk':'Ikke løst')}
 <h1 tabindex="-1" style="margin-top:var(--s5)">${k.end==='loest'?'Krisen er over':'Krisen er ikke løst'}</h1>
 <ul class="oc" aria-label="Hva endret seg">${k.log.map(([c,t])=>`<li><span class="oc-ic ${c}">${ic(c==='up'?'check':c==='down'?'down':'dash','sm')}</span>${t}</li>`).join('')}</ul>
 <div class="cta"><a class="btn pri" href="#hjem">Fortsett ${ic('arrow')}</a></div>`;
   return `${head}${scene('sc-selfie','Speilet er mørkt.',k.step?'Nesten':'Stopp litt',{dim:true})}
 <h1 tabindex="-1" style="margin-top:var(--s5)">${k.step?`Du mangler fortsatt ${plain(k.due)}`:'Kortet er ikke betalt på to måneder'}</h1>
-<div class="steps"><i class="on"></i><i class="${k.step>0?'on':''}"></i><i class="${k.step>1?'on':''}"></i>Valg ${k.step+1} av inntil 3</div>
+<div class="steps"><i class="on"></i><i class="${k.step>0?'on':''}"></i><i class="${k.step>1?'on':''}"></i>Valg ${k.step+1} av maks 3</div>
 <p class="lead" style="margin-top:var(--s3)">${k.step?'Det finnes flere veier.':`Du skylder ${plain(700)} nå. Det finnes alltid en vei ut.`}</p>
-<div class="ev-opts">${S.moped?opt('data-kr="selg"','Selg mopeden',kr(8152),'Pengene kommer nå'):''}${opt('data-kr="avtale"','Be om betalingsavtale','939 kr i mnd','I 12 måneder fra september. Kortet sperres.')}${k.asked?'':opt('data-kr="mamma"','Spør mamma om hjelp','','Hun kan kanskje låne deg noe')}${opt('data-kr="ignorer"','Ikke gjør noe','','Gjelden vokser')}</div>`;};
+<div class="ev-opts">${S.moped?opt('data-kr="selg"','Selg mopeden',kr(7715),'Pengene kommer nå'):''}${opt('data-kr="avtale"','Del opp hele kortgjelden',kr(-939)+' i mnd.','12 måneder fra september. Kortet blir sperret.')}${opt('data-kr="mamma"','Spør mamma om hjelp','',k.asked?'Hun har allerede lånt deg 500 kr':'Hun kan kanskje låne deg noe')}${opt('data-kr="ignorer"','Ikke gjør noe','','Gjelden vokser')}</div>`;};
 
 V.aarsslutt=()=>{const t=YEAR.slice(0,NOW+1).reduce((a,m)=>[a[0]+m[0],a[1]+m[1],a[2]+m[2]],[8457,6593,57]);
 return `${timeline(11,16,2027)}${scene('sc-glad','Speilbildet smiler.','Godt nytt år')}
 <h1 tabindex="-1" style="margin-top:var(--s5)">2027 er over</h1>
 <div class="chips" style="margin-top:var(--s3)"><span class="chip"><span class="k in"></span><b>+${plain(t[0])}</b> inn</span><span class="chip"><span class="k out"></span><b>−${plain(t[1])}</b> ut</span><span class="chip"><span class="k rate"></span><b>+${plain(t[2])}</b> rente</span></div>
-<ul class="oc" aria-label="Hva endret seg i år"><li><span class="oc-ic up">${ic('check','sm')}</span>Du tok mopedlappen.</li>${S.moped?`<li><span class="oc-ic up">${ic('check','sm')}</span>Mopeden står utenfor vinduet.</li>`:''}<li><span class="oc-ic same">${ic('dash','sm')}</span>Trivselen din var 61 i snitt. Målet er 50.</li></ul>
-<div class="row" style="margin-top:var(--s5);align-items:stretch"><div class="postit" style="--r:-2deg;flex:0 0 150px"><span class="lock">${ic('lock','sm')}</span><h3>Lappen (bil)</h3><p>fra 18 år</p></div><p class="grow" style="align-self:center">Et valg du tok i år, kan få følger senere.</p></div>
+<ul class="oc" aria-label="Hva endret seg i år"><li><span class="oc-ic up">${ic('check','sm')}</span>Du tok mopedlappen.</li>${S.moped?`<li><span class="oc-ic up">${ic('check','sm')}</span>Mopeden står utenfor vinduet.</li>`:''}<li><span class="oc-ic same">${ic('dash','sm')}</span>Trivselen din var 61 i snitt. Trivselsmålet er 50.</li></ul>
+<ul class="kv card facts"><li><span>Skatt i 2027</span><b>0 kr</b></li></ul><p class="meta" style="margin-top:var(--s2)">Du har tjent for lite til å betale skatt i år.</p>
+${S.dropped?`<div class="note" style="margin-top:var(--s4)"><span class="ic">${ic('x','sm')}</span><p><b>Ble ikke noe av</b>Konserten med Emma ble ikke noe av. Du hadde ikke nok penger da november var over.</p></div>`:''}
+<div class="row" style="margin-top:var(--s5);align-items:stretch"><div class="postit" style="--r:-2deg;flex:0 0 150px"><span class="lock">${ic('lock','sm')}</span><h3>Billappen</h3><p>fra 18 år</p></div><p class="grow" style="align-self:center">Billappen åpner når du fyller 18. Den koster ${plain(GOAL_PRICE)}.</p></div>
 <div class="ev-opts"><a class="btn pri block" href="#hjem">Fortsett til januar ${ic('arrow')}</a><a class="btn block" href="#landing">Ferdig for nå</a></div>`;};
 
 const END={
@@ -874,12 +891,12 @@ const END={
   hul:{m:'20 år',sc:'sc-selfie',h:'Du nådde målet, men det kostet',p:'Pengene er der. Vennene og fritiden fikk lite plass.',spart:121300,tr:42,gjeld:0},
   ikke:{m:'20 år',sc:'sc-glad',h:'Målet ble ikke nådd denne gangen',p:'Du brukte penger på livet underveis, og det er lov. Litt fast sparing hver måned gjør store kjøp enklere senere.',spart:61300,tr:66,gjeld:0},
   tap:{m:'20 år',sc:'sc-selfie',h:'Økonomien holdt ikke',p:'Du hadde et godt liv, men kortregningene ble ikke betalt.',spart:0,tr:58,gjeld:14200}};
-const CH=[['Konserter og arrangementer',-9450,'Hadde du latt være, ville du hatt 10 210 kr mer da du fylte 20. De ga deg også mer sosialt liv.','Velg ut de få kveldene som betyr mest.'],['Du brukte 15 000 kr av pengegaven',-15000,'Hadde du valgt å spare alt, ville du hatt 17 270 kr mer da du fylte 20.','Sett av en del før du handler.'],['Sommerjobben i 2027',16728,'Uten sommerjobben ville du hatt 18 000 kr mindre.','Noen uker arbeid kan dekke et helt mål.']];
-const BAD=['Du droppet hytteturen i 2028',0,'Du sa nei for å jobbe. Vennene dine dro uten deg.','Noen turer kommer ikke tilbake.'];
-function ending(k){const e=END[k],[c]=wbSt(e.tr),ch=k==='hul'?[CH[2],CH[1],BAD]:[CH[2],CH[1],CH[0]];
-return `<div class="story">${scene(e.sc,e.sc==='sc-glad'?'Speilbildet smiler.':'Speilbildet er alvorlig.',e.m)}
+const CH=[['Konserter og arrangementer',-9450,'Hadde du droppet dem, ville du hatt 10 210 kr mer da du fylte 20. De ga deg også mer sosialt liv.','Velg ut de få kveldene som betyr mest.'],['Pengegaven',-15000,'Hadde du valgt å spare alt, ville du hatt 17 270 kr mer da du fylte 20.','Sett av en del før du handler.'],['Byturen på kortet i 2029',-4606,'Byturen på kortet sto for 406 kr av rentene dine.','Betal hele kortregningen hver måned, så slipper du rente.']];
+const BAD=['Hytteturen i 2028',0,'Du sa nei for å jobbe. Vennene dine dro uten deg.','Noen turer kommer ikke tilbake.'];
+function ending(k){const e=END[k],[c]=wbSt(e.tr),ch=k==='hul'?[CH[1],CH[0],BAD]:[CH[1],CH[0],CH[2]];
+return `<div class="story">${scene(e.sc,e.sc==='sc-glad'?'Speilbildet smiler.':'Speilbildet ser alvorlig ut.',e.m)}
 <h1 tabindex="-1" style="margin-top:var(--s5)">${e.h}</h1><p class="lead" style="margin-top:var(--s2)">${e.p}</p>
-<ul class="kv card facts"><li><span>Spart<small>Målet var 100 000 kr</small></span><b>${plain(e.spart)}</b></li><li><span>Trivsel i snitt<small>Målet var 50</small></span><b><span class="pill ${c}"><span class="sdot ${c}" aria-hidden="true"></span>${e.tr} ${{good:'bra',warn:'ok',bad:'lavt'}[c]}</span></b></li><li><span>Gjeld</span><b>${plain(e.gjeld)}</b></li></ul>
+<ul class="kv card facts"><li><span>Spart<small>Livsmålet var 100 000 kr</small></span><b>${plain(e.spart)}</b></li><li><span>Trivsel i snitt<small>Trivselsmålet var 50</small></span><b><span class="pill ${c}"><span class="sdot ${c}" aria-hidden="true"></span>${e.tr} · ${{good:'Det gikk bra',warn:'Helt ok',bad:'Tungt'}[c]}</span></b></li><li><span>Gjeld</span><b>${plain(e.gjeld)}</b></li></ul>
 <section class="sec" aria-labelledby="h-ch"><h2 id="h-ch">Valgene som betydde mest</h2><div class="stack">${ch.map(x=>`<details class="choice-d"><summary>${ic('chev')}<span>${x[0]}</span><span class="amt">${x[1]?kr(x[1]):'Trivsel −10'}</span></summary><div><p>${x[2]}</p><p class="meta">${x[3]}</p></div></details>`).join('')}</div></section>
 <a class="btn pri block" href="#start" style="margin-top:var(--s6)">Spill på nytt</a></div>`;}
 V.slutt=()=>ending('ekte');V['slutt-hul']=()=>ending('hul');V['slutt-ikke']=()=>ending('ikke');V['slutt-tap']=()=>ending('tap');
@@ -893,18 +910,18 @@ V.meny=()=>`<div class="head"><a class="back" href="#hjem" aria-label="Tilbake">
   <li><button data-sheet="nytt" aria-haspopup="dialog">${ic('past')}Start et nytt liv${ic('chev','sm')}</button></li></ul>
 <ul class="menu" style="margin-top:var(--s5)"><li><a href="#landing">Logg ut</a></li><li><button data-sheet="alle" aria-haspopup="dialog">Logg ut på alle enheter</button></li><li><button class="danger" data-sheet="slett" aria-haspopup="dialog">Slett bruker</button></li></ul>`;
 const TALL=[['Skatt','Skatten regnes ut fra hele årsinntekten din med satsene for 2026. I virkeligheten kan arbeidsgiveren trekke 50 % av lønna til du har skattekort, eller når frikortet er brukt opp.'],['Lønn','Timelønna i spillet er minstesatsen i tariffavtalen for varehandelen (Virke/HK) fra 1. april 2026. Norge har ingen lovbestemt minstelønn, så den ekte lønna di kan bli både høyere og lavere.'],['Alle satser','Alle satser og beløp er 2026-tall. De holdes faste gjennom hele spillet, selv om spillet varer fra du er 15 til du er 20.'],['Tid','Tiden i spillet går bare når du spiller. Mens du er borte, kommer det ingen renter, regninger eller hendelser, uansett hvor lenge du er borte.'],['Trivsel','Trivsel er mye mer enn tre tall. Spillet måler bare stress, fritid og sosialt liv, for å vise at et godt liv handler om mer enn penger.']];
-V.tallene=()=>`<div class="head"><a class="back" href="#meny" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">Om tallene</h1><p class="meta">Her er det spillet forenkler.</p></div></div><div class="stack">${TALL.map(t=>`<details class="choice-d"><summary>${ic('chev')}<span>${t[0]}</span></summary><div><p>${t[1]}</p></div></details>`).join('')}</div>`;
+V.tallene=()=>`<div class="head"><a class="back" href="#meny" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">Om tallene</h1><p class="meta">Dette gjør spillet enklere enn virkeligheten.</p></div></div><div class="stack">${TALL.map(t=>`<details class="choice-d"><summary>${ic('chev')}<span>${t[0]}</span></summary><div><p>${t[1]}</p></div></details>`).join('')}</div>`;
 V.offline=()=>V.hjem();
 
 /* ---- phone apps ---- */
 const INBOX=[
   {k:'emma',nm:'Emma',c:'#94601A',t:'14:02',p:`Hei ${S.nick}! Konsert lørdag? Billetten er 450 kr.`,tag:['inv','Invitasjon'],href:'#melding',now:true},
-  {k:'bank',nm:'Banken',c:'#2B4CC4',t:'11:30',p:'Tre fjerdedeler! Du har 79,8 % av Lappen.',tag:null,href:'#penger',now:true},
+  {k:'bank',nm:'Banken',c:'#2B4CC4',t:'11:30',p:'Over tre fjerdedeler! Du har spart 79,8 % av det billappen koster.',tag:null,href:'#penger',now:true},
   {k:'line',nm:'Line · Butikken',c:'#2E7D6B',t:'i går',p:'Du spurte om flere timer. Jeg har et tilbud.',tag:['off','Tilbud'],href:'#jobb',now:true},
   {k:'mamma',nm:'Mamma',c:'#7154A8',t:'okt.',p:'Vi betaler mobilen din til du fyller 18.',tag:null},
   {k:'jonas',nm:'Jonas',c:'#25292E',t:'okt.',p:'Gamingkveld hos meg lørdag?',tag:['','Utløpt']}];
 function appFrame(title,body,back='#hjem'){
-  return `<div class="head app-head">${back?`<a class="back" href="${back}" aria-label="Tilbake">${ic('back')}</a>`:''}<div><h1 class="app-title">${title}</h1></div></div><div class="app-body">${body}</div>`;
+  return `<div class="head app-head">${back?`<a class="back" href="${back}" aria-label="Tilbake">${ic('back')}</a>`:''}<div><h1 class="app-title" tabindex="-1">${title}</h1></div></div><div class="app-body">${body}</div>`;
 }
 function inbox(){
   const rows=list=>`<ul class="list">${list.map(m=>{
@@ -912,7 +929,7 @@ function inbox(){
     const p=m.k==='emma'?`Hei ${esc(S.nick)}! Konsert lørdag? Billetten er 450 kr.`:m.p;
     return `<li><a class="item msg ${un?'unread':''}" data-msg="${m.k}" href="${m.href||'#telefon'}"><span class="av" style="background:${m.c}" aria-hidden="true">${m.nm[0]}</span>
       <div class="grow"><h3>${m.nm}${m.tag?` <span class="tag ${m.tag[0]}">${m.tag[1]}</span>`:''}</h3><p>${p}</p></div>
-      <div class="msg-side"><time>${m.t}</time>${un?'<span class="u" role="img" aria-label="Ikke åpnet"></span>':''}</div></a></li>`;}).join('')}</ul>`;
+      <div class="msg-side"><time>${m.t}</time>${un?'<span class="u" role="img" aria-label="Ulest"></span>':''}</div></a></li>`;}).join('')}</ul>`;
   return appFrame('Meldinger',`<div><h2 class="grp">Nye i november</h2>${rows(INBOX.filter(m=>m.now))}<h2 class="grp">Tidligere</h2>${rows(INBOX.filter(m=>!m.now))}</div>
     <p class="foot-note">Du svarer med det du gjør, ikke med tekst.</p>`,false);
 }
@@ -922,37 +939,37 @@ function thread(){
     <div class="bub">Hei ${esc(S.nick)}! Konsert lørdag? Billetten er 450 kr. Jonas blir også med.</div>
     <div class="card invite"><span class="tag inv">Invitasjon</span><h3 style="margin-top:6px">Konsert med Emma</h3><p class="meta">Lørdag · ${kr(-450)} · Sosialt +8</p>
       <div class="btns">${added?`<span class="chip"><span class="k in"></span><b>Lagt i planen</b></span><a class="btn sm" href="#plan">Se planen</a>`:
-      `<button class="btn sm pri" data-add="konsert" ${freeSlots()?'':'disabled'}>Legg i planen</button><button class="btn sm" data-decline>Nei takk</button>`}</div>
-      ${!added&&!freeSlots()?'<p class="meta" style="margin-top:6px">Alle de frie kveldene er brukt.</p>':''}</div></div>`,'#telefon');
+      `<button class="btn sm pri" data-add="konsert" ${freeSlots()?'':'aria-disabled="true" aria-describedby="inv-full"'}>Legg i planen</button><button class="btn sm" data-decline>Nei takk</button>`}</div>
+      ${!added&&!freeSlots()?'<p class="meta" id="inv-full" style="margin-top:6px">Alle de frie kveldene er fylt opp.</p>':''}</div></div>`,'#telefon');
 }
 const SPEND={lite:['Lite',5074,'Matpakke, sjelden nye klær','Du sparer mer'],vanlig:['Vanlig',6343,'Kantina av og til, klær iblant','Det de fleste velger'],mye:['Mye',8034,'Kantina hver dag, nye klær ofte','Du sparer nesten ingenting']};
 function bank(){
   return appFrame('Banken',`<div class="card">
       <span class="meta">Brukskonto + sparekonto</span><div class="big-amt">${plain(net())}</div>
-      <span class="chip"><span class="k in"></span><b>${kr(1920+(S.moped?0:MOPED_PRICE))}</b> i november</span>
+      <span class="chip"><span class="k in"></span>Igjen etter november: <b>${kr(1920+(S.moped?0:MOPED_PRICE))}</b></span>
       <ul class="acc">
         <li><span class="ico">${ic('wallet')}</span><div class="grow"><h3>Brukskonto</h3><p class="sub">Til hverdagen</p></div><span class="amt">${plain(cur())}</span></li>
         <li><span class="ico">${ic('piggy')}</span><div class="grow"><h3>Sparekonto</h3><button class="rate-btn" data-sheet="rente" aria-haspopup="dialog">${kr(56)} rente<span class="info">${ic('info')}</span></button></div><span class="amt">${plain(23556)}</span></li>
-        <li><span class="ico">${ic('house')}</span><div class="grow"><h3>BSU</h3><p class="sub">Ikke åpnet</p></div><button class="btn sm">Åpne</button></li>
+        <li><span class="ico">${ic('house')}</span><div class="grow"><h3>BSU<button class="ibtn" data-sheet="bsu" aria-haspopup="dialog" aria-label="Hva er BSU?">${ic('info')}</button></h3><p class="sub">Du har ingen ennå</p></div><button class="btn sm">Start BSU</button></li>
         <li><span class="ico">${ic('card')}</span><div class="grow"><h3 style="color:var(--muted)">Kredittkort</h3><p class="sub">Fra 18 år</p></div>${ic('lock')}</li>
       </ul>
-      <div class="actions"><button class="btn sm">${ic('swap','sm')} Flytt penger</button><button class="btn sm">${ic('house','sm')} Til BSU</button></div>
+      <div class="actions" style="grid-template-columns:1fr"><button class="btn sm">${ic('swap','sm')} Flytt penger</button></div>
     </div>
-    <section class="card sec-card" aria-labelledby="h-goal"><div class="row"><h2 id="h-goal" class="grow">Sparemål: Lappen</h2><b class="num">${pct(net(),GOAL_PRICE)}</b></div><div class="progress"><i style="width:${Math.min(100,net()/GOAL_PRICE*100)}%"></i></div>
+    <section class="card sec-card" aria-labelledby="h-goal"><div class="row"><h2 id="h-goal" class="grow">Sparemål: Billappen</h2><b class="num">${pct(net(),GOAL_PRICE)}</b></div><div class="progress"><i style="width:${Math.min(100,net()/GOAL_PRICE*100)}%"></i></div>
       <p class="meta">${plain(GOAL_PRICE)}, fra 18 år. ${net()<GOAL_PRICE?`Mangler ${plain(GOAL_PRICE-net())}.`:'Du har nok.'}</p>
       <div class="row" style="margin-top:var(--s3)"><h3 class="grow">Livsmål: Spare til noe stort</h3><b class="num">${pct(net(),100000)}</b></div><div class="progress"><i style="width:${net()/1000}%"></i></div>
       <button class="btn sm" data-sheet="maal" aria-haspopup="dialog">Bytt sparemål</button></section>
     <section class="card sec-card" aria-labelledby="h-next"><h2 id="h-next">Fremover</h2>
       <details class="more"><summary>${ic('chev','sm')}Kommer i desember<span class="amt">${S.moped?kr(-250):'0 kr'}</span></summary><ul class="tx"><li><span class="k out"></span>Mopedforsikring<span class="amt">${S.moped?kr(-250):'0 kr'}</span></li><li>Buss og mobil<span class="amt">Foreldrene betaler til du er 18</span></li></ul></details>
       <details class="more"><summary>${ic('chev','sm')}Aktiviteter i år<span class="amt">${kr(-3150)}</span></summary><ul class="tx"><li>Konserter og arrangementer<span class="amt">${kr(-1350)}</span></li><li>Kvelder med venner<span class="amt">${kr(-1800)}</span></li></ul></details></section>
-    <section class="card sec-card" aria-labelledby="h-own"><h2 id="h-own">Kan kjøpes eller selges</h2><ul class="acc">
-      <li><span class="ico">${ic('moped')}</span><div class="grow"><h3>Moped, brukt</h3><p class="sub">${S.moped?`Verdt ${plain(MOPED_PRICE)} nå`:'Du har ingen moped'}</p></div>${S.moped?'<button class="btn sm" data-sheet="selg" aria-haspopup="dialog">Selg</button>':`<span class="amt">${plain(11645)}</span>`}</li>
-      <li><span class="ico">${ic('moped')}</span><div class="grow"><h3>Moped, ny</h3><p class="sub">${S.moped?'Du kan bare ha én moped':net()<29000?`Mangler ${plain(29000-net())}`:'Du har råd'}</p></div><span class="amt">${plain(29000)}</span></li>
-      <li><span class="ico">${ic('card')}</span><div class="grow"><h3 style="color:var(--muted)">Lappen (bil)</h3><p class="sub">Fra 18 år</p></div>${ic('lock')}</li></ul></section>
+    <section class="card sec-card" aria-labelledby="h-own"><h2 id="h-own" tabindex="-1">Kan kjøpes eller selges</h2><ul class="acc">
+      <li><span class="ico">${ic('moped')}</span><div class="grow"><h3>Brukt moped</h3><p class="sub">${S.moped?`Verdt ${plain(MOPED_PRICE)} nå`:'Du har ingen moped'}</p></div>${S.moped?'<button class="btn sm" data-sheet="selg" aria-haspopup="dialog">Selg</button>':`<span class="amt">${plain(11645)}</span>`}</li>
+      <li><span class="ico">${ic('moped')}</span><div class="grow"><h3>Ny moped</h3><p class="sub">${S.moped?'Du kan bare ha én moped':net()<29000?`Mangler ${plain(29000-net())}`:'Du har råd'}</p></div><span class="amt">${plain(29000)}</span></li>
+      <li><span class="ico">${ic('card')}</span><div class="grow"><h3 style="color:var(--muted)">Billappen</h3><p class="sub">Fra 18 år</p></div>${ic('lock')}</li></ul></section>
     <section class="card sec-card" aria-labelledby="h-sp"><h2 id="h-sp">Hvor mye bruker du i måneden?</h2>
-      <p class="meta">Av lønna di. Aktiviteter kommer i tillegg.</p>
+      <p class="meta">Mat, klær og annet hverdagsliv. Aktivitetene i planen kommer i tillegg.</p>
       <div class="choice" role="radiogroup" aria-labelledby="h-sp">${Object.entries(SPEND).map(([k,s])=>`<label class="opt"><input type="radio" name="spend" value="${k}" ${S.spend===k?'checked':''}><div class="grow"><h3><span>${s[0]}</span><span>ca. ${plain(s[1])}</span></h3><p>${s[2]}. ${s[3]}.</p></div></label>`).join('')}</div>
-      <p class="meta" style="margin-top:var(--s2)">${S.spend==='vanlig'?'Dette bruker du nå.':'Gjelder fra desember.'}</p></section>
+      <p class="meta" id="sp-note" style="margin-top:var(--s2)">${S.spend==='vanlig'?'Dette bruker du nå.':'Gjelder fra desember.'}</p></section>
     <section class="card sec-card" aria-labelledby="h-tx"><h2 id="h-tx">November</h2><ul class="tx">
       <li><span class="k in"></span>Lønn fra Butikken<span class="amt">${kr(8457)}</span></li>
       <li><span class="k rate"></span><button class="rate-btn" data-sheet="rente" aria-haspopup="dialog">Rente, sparekonto<span class="info">${ic('info')}</span></button><span class="amt">${kr(56)}</span></li>
@@ -970,23 +987,23 @@ function job(){
   const diff=left(14+2)-left(14), endDiff=left(now)-left(base);
   const endTxt=slotsAt(base)===slotsAt(now)?`fortsatt <b>${evenings(slotsAt(base))}</b>`:`<b>${evenings(slotsAt(base))}</b> i stedet for ${slotsAt(now)}`;
   return appFrame('Jobb',`<div class="card"><div class="row" style="margin-bottom:var(--s2)"><span class="av" style="background:#2E7D6B" aria-hidden="true">B</span><div><h2>Butikken</h2><p class="meta">Butikkmedarbeider · 139,40 kr i timen</p></div></div>
-    <ul class="kv"><li><span>Fast</span><b>10 t/uke${S.offer?', 12 fra desember':''}</b></li><li><span>Ekstravakter</span><b>${S.extraEnded?'Slutter nå':'+4 t/uke ut desember'}</b></li><li><span>Lønn i november</span><b>${plain(8457)}</b></li></ul></div>
+    <ul class="kv"><li><span>Faste timer</span><b>10 i uka${S.offer?', 12 fra desember':''}</b></li><li><span>Ekstravakter</span><b>${S.extraEnded?'Slutter etter november':'+4 t i uka til og med desember'}</b></li><li><span>Mest du kan jobbe</span><b>40 t i uka</b></li><li><span>Lønn i november</span><b>${plain(8457)}</b></li></ul></div>
     <section class="sec-card" aria-labelledby="h-off"><h2 id="h-off" style="margin-bottom:var(--s3)">Tilbud fra sjefen</h2>
       <div class="offer ${done?'done':''}"><div class="from"><span class="av" style="background:#2E7D6B">L</span>Line, i går</div>
         <h3>Du spurte om flere timer. Vil du ha 2 timer mer i uka fra desember?</h3>
         <p>Du sitter igjen med <b>${plain(diff)} mer</b> i måneden. Du får <b>${evenings(slotsAt(16))}</b> i desember, og fra januar ${slotsAt(12)} i stedet for ${slotsAt(10)}.</p>
-        ${done?`<p style="margin-top:var(--s3);font-weight:800">${S.offer?'Du sa ja.':'Du sa nei takk.'}</p>`:`<div class="btns"><button class="btn pri" data-offer="1">Ja takk</button><button class="btn" data-offer="0">Nei takk</button></div>`}
+        ${done?`<p id="offer-ans" tabindex="-1" style="margin-top:var(--s3);font-weight:800">${S.offer?'Du sa ja.':'Du sa nei takk.'}</p>`:`<div class="btns"><button class="btn pri" data-offer="1">Ja takk</button><button class="btn" data-offer="0">Nei takk</button></div>`}
       </div></section>
     <section class="sec-card" aria-labelledby="h-ask"><h2 id="h-ask" style="margin-bottom:var(--s3)">Timene dine</h2>
-      ${S.asked?`<p class="asked">${ic('check','sm')}Du har spurt om ${S.asked} timer. Line svarer i desember.</p>`:
-      `<div class="ask"><button class="btn" data-ask="flere" ${done?'':'disabled'}>Spør om flere timer</button><button class="btn" data-ask="færre" ${done?'':'disabled'}>Spør om færre timer</button></div>
-      ${done?'':'<p class="meta" style="margin-top:var(--s2)">Svar på tilbudet først.</p>'}`}
+      ${S.asked?`<p class="asked" id="asked" tabindex="-1">${ic('check','sm')}Du har spurt om ${S.asked} timer. Line svarer i desember.</p>`:
+      `<div class="ask"><button class="btn" data-ask="flere" ${done?'':'aria-disabled="true" aria-describedby="ask-why"'}>Spør om flere timer</button><button class="btn" data-ask="færre" ${done?'':'aria-disabled="true" aria-describedby="ask-why"'}>Spør om færre timer</button></div>
+      ${done?'':'<p class="meta" id="ask-why" style="margin-top:var(--s2)">Svar på tilbudet først.</p>'}`}
     </section>
-    <section class="card sec-card" aria-labelledby="h-shift"><h2 id="h-shift">Enkeltvakter i november</h2><ul class="tx">
+    <section class="card sec-card" aria-labelledby="h-shift"><h2 id="h-shift">Vakter du kan ta i november</h2><ul class="tx">
       ${Object.entries(SHIFTS).map(([k,a])=>`<li><div class="grow"><b>${a.nm}</b><p class="meta">${a.fx} · ${kr(a.cost)} lønn</p></div>${S.slots.includes(k)?`<span class="chip"><span class="k in"></span><b>I planen</b></span>`:`<button class="btn sm" data-goplan aria-label="Til planen: ${a.nm}">Til planen</button>`}</li>`).join('')}</ul></section>
     <section class="card sec-card" aria-labelledby="h-end"><h2 id="h-end">Slutte med ekstravaktene?</h2>
-      <p style="margin-top:var(--s2)">Fra desember får du ${endTxt}, men sitter igjen med <b>${plain(endDiff)} mindre</b> i måneden.</p>
-      <button class="btn sm" style="margin-top:var(--s3)" data-endextra ${S.extraEnded?'disabled':''}>${S.extraEnded?'Avsluttet':'Slutt med ekstravaktene'}</button></section>
+      <p style="margin-top:var(--s2)">I desember får du ${endTxt}, og <b>${plain(endDiff)} mindre</b>. Ekstravaktene slutter uansett etter desember.</p>
+      <button class="btn sm" style="margin-top:var(--s3)" data-endextra ${S.extraEnded?'aria-disabled="true"':''}>${S.extraEnded?'Avsluttet':'Slutt med ekstravaktene'}</button></section>
     <button class="btn ghost" style="margin-top:var(--s4);color:var(--press)">Si opp jobben</button>`);
 }
 const APPS={telefon:inbox,melding:thread,penger:bank,jobb:job};
@@ -1000,14 +1017,18 @@ function route(){return (location.hash||'#landing').slice(1).split('~')[0]}
 /* "#route~state" opens a screen in a given state, for oversikt.html */
 function preset(after){const st=location.hash.split('~')[1];if(!st)return;S.toast=true;const r=route();
   if(!after){if(r==='resultat'){S.choice=st;S.phone=st==='used'?'used':st==='live'?'crack':'ok'}
-    if(r==='krise'){const k=S.kr;if(st==='2'){k.step=1;k.due=200;k.asked=true}if(st==='loest'){S.moped=false;k.end='loest';k.log=[['up','Mopeden er solgt for 8 152 kr.'],['up','Kortregningene er betalt.'],['down','Du tar bussen fra september.']]}if(st==='ikke'){k.end='ikke';k.log=[['down','Gjelden vokser videre.'],['same','Neste krise kan komme tidligst i november.']]}}
-    if(r==='glemt')S.sent=true;if(r==='jobb'){S.offer=true;S.asked='flere'}if(r==='plan'&&st==='full')S.slots=['venner','konsert','hvile'];
+    if(r==='krise'){const k=S.kr;if(st==='2'){k.step=1;k.due=200;k.asked=true}if(st==='loest'){S.moped=false;k.end='loest';k.log=[['up','Mopeden er solgt for 7 715 kr.'],['up','Kortregningene er betalt.'],['down','Du tar bussen fra september.']]}if(st==='ikke'){k.end='ikke';k.log=[['down','Gjelden vokser videre.'],['same','Neste krise kan komme tidligst i november.']]}}
+    if(r==='glemt')S.sent=true;if(r==='aarsslutt'&&st==='droppet')S.dropped=true;if(r==='jobb'){S.offer=true;S.asked='flere'}if(r==='plan'&&st==='full')S.slots=['venner','konsert','hvile'];
     if(r==='penger'&&st==='solgt'||r==='hjem'&&st==='solgt')S.moped=false;return}
+  if(r==='opprett'&&st==='ibruk'){$('#f-mail').value='brukt@eksempel.no';$('#f-pw').value='passord1';$('form').requestSubmit();$('[data-mailok]').click();return}
   if(r==='opprett'){$('#f-mail').value='mak@eksempel.no';$('#f-pw').value='passord1';$('form').requestSubmit()}
   if(r==='resultat'&&st==='repair'&&$('[data-why]'))$('[data-why]').click();
-  if(['rente','selg','maal','slett','nytt','navn','passord','info'].includes(st))openSheet(st);
+  if(['rente','selg','maal','slett','nytt','navn','passord','info','trivsel','minste','bsu'].includes(st))openSheet(st);
   if(st==='varsel')showToast(true);if(st==='velg'){S.pickFor=1;openSheet('pick')}}
+function focusKey(){const a=document.activeElement;if(!a||a===document.body||a.closest('dialog'))return null;if(a.id)return '#'+CSS.escape(a.id);
+  for(const at of a.attributes){if(at.name.startsWith('data-'))return `[${at.name}="${CSS.escape(at.value)}"]`}if(a.name&&a.value)return `[name="${a.name}"][value="${CSS.escape(a.value)}"]`;return null}
 function render(focus=true){
+  const fk=!focus&&focusKey();
   const rr=route(), r=(V[rr]||APPS[rr])?rr:'landing';
   const wide=matchMedia('(min-width:1100px)').matches;
   const app=$('#app');app.classList.toggle('onb',ONB.includes(r));
@@ -1025,26 +1046,29 @@ function render(focus=true){
   nav(r);
   if(S.off&&!ONB.includes(r)) goOffline();
   if(r==='hjem'&&!S.toast&&!wide){S.toast=true;setTimeout(showToast,900)}
-  if(r!=='hjem') $('#toast').innerHTML='';
-  if(focus){const h=$('#main h1,#main h2[tabindex]');if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}window.scrollTo(0,0)}
+  else if(r==='hjem'&&S.toastOn) showToast();
+  document.title=((wide&&PANE_ROUTES.includes(r)?$('#pane h1'):$('#main h1'))?.textContent||'LifeMode').trim()+' · LifeMode';
+  if(focus){const h=wide&&PANE_ROUTES.includes(r)?$('#pane h1'):$('#main h1,#main h2[tabindex]');if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}window.scrollTo(0,0)}
+  else{const el=(S.focusTo&&$(S.focusTo))||(fk&&$(fk));if(el)el.focus();S.focusTo=null}
 }
 function goOffline(){
-  $('#main').insertAdjacentHTML('afterbegin',`<div class="net" role="status">${ic('off')}<span>Ingen nett. Valgene venter til du er på nett igjen.</span></div>`);
-  document.querySelectorAll('[data-choose],[data-add],[data-pick],[data-clear],[data-offer],[data-ask],[data-endextra],[data-kr],[data-same],[data-decline]').forEach(b=>b.disabled=true);
+  $('#main').insertAdjacentHTML('afterbegin',`<div class="net" id="netmsg">${ic('off')}<span>Ingen nett. Du kan se, men ikke velge, før du er på nett igjen.</span></div>`);
+  if(!S.offAnn){S.offAnn=true;live('Ingen nett. Du kan se, men ikke velge, før du er på nett igjen.')}
+  document.querySelectorAll('[data-choose],[data-add],[data-pick],[data-clear],[data-offer],[data-ask],[data-endextra],[data-kr],[data-same],[data-decline]').forEach(b=>{b.setAttribute('aria-disabled','true');b.setAttribute('aria-describedby','netmsg')});
   document.querySelectorAll('.cta a').forEach(a=>{a.removeAttribute('href');a.setAttribute('role','link');a.setAttribute('aria-disabled','true')});
 }
 function showToast(keep){
-  if(route()!=='hjem'||S.read.has('emma')) return;
-  $('#toast').innerHTML=`<div class="toast"><a href="#melding"><span class="av" style="background:#94601A" aria-hidden="true">E</span><span style="min-width:0"><b>Emma</b><p>Hei ${esc(S.nick)}! Konsert lørdag? Billetten er 450 kr.</p></span></a><button class="x" data-toastx aria-label="Lukk varselet">${ic('x')}</button></div>`;
-  if(!keep) setTimeout(()=>$('#toast').innerHTML='',8000);
+  const slot=$('#toast-slot');if(route()!=='hjem'||S.read.has('emma')||!slot) return;
+  if(!S.toastOn) live(`Ny melding fra Emma.`);S.toastOn=true;
+  slot.innerHTML=`<div class="toast"><a href="#melding"><span class="av" style="background:#94601A" aria-hidden="true">E</span><span style="min-width:0"><b>Emma</b><p>Hei ${esc(S.nick)}! Konsert lørdag? Billetten er 450 kr.</p></span></a><button class="x" data-toastx aria-label="Lukk varselet">${ic('x')}</button></div>`;
 }
 function nav(r){
   const items=[['hjem','Hjem','home'],['plan','Plan','cal'],['telefon','Mobil','phone'],['jobb','Jobb','job'],['penger','Penger','wallet']];
   const cur=r==='melding'?'telefon':HOME.includes(r)?'hjem':r;
   const badge=k=>k==='telefon'?unread():k==='plan'&&freeSlots()?-1:k==='jobb'&&S.offer===null?-1:0;
   $('#tabbar').innerHTML=items.map(([k,l,i])=>{const b=badge(k);return `<a class="tab" href="#${k}" ${cur===k?'aria-current="page"':''}><span class="tab-ic">${ic(i)}${b>0?`<span class="dot">${b}</span>`:b<0?'<span class="dot bare"></span>':''}</span>${l}${b>0?`<span class="sr">, ${b} nye</span>`:b<0?'<span class="sr">, noe nytt</span>':''}</a>`}).join('');
-  $('#rail-links').innerHTML=items.map(([k,l,i])=>{const b=badge(k);return `<a class="rl" href="#${k}" ${cur===k?'aria-current="page"':''}>${ic(i)}${l}${b>0?`<span class="cnt">${b}</span>`:b<0?'<span class="cnt bare" aria-label="noe nytt"></span>':''}</a>`}).join('');
-  $('#rail-me').textContent=`${S.nick} · ${AGE[r]||16} år`;$('#rail-menu').setAttribute('aria-label',`Meny, ${S.nick}`);$('#rail-menu .av').textContent=S.nick[0].toUpperCase();r==='meny'?$('#rail-menu').setAttribute('aria-current','page'):$('#rail-menu').removeAttribute('aria-current');
+  $('#rail-links').innerHTML=items.map(([k,l,i])=>{const b=badge(k);return `<a class="rl" href="#${k}" ${cur===k?'aria-current="page"':''}>${ic(i)}${l}${b>0?`<span class="cnt" aria-hidden="true">${b}</span><span class="sr">, ${b} nye</span>`:b<0?'<span class="cnt bare" aria-hidden="true"></span><span class="sr">, noe nytt</span>':''}</a>`}).join('');
+  $('#rail-me').textContent=`${S.nick} · ${AGE[r]||16} år`;$('#rail-menu').setAttribute('aria-label',`${S.nick} · ${AGE[r]||16} år, meny`);$('#rail-menu .av').textContent=S.nick[0].toUpperCase();r==='meny'?$('#rail-menu').setAttribute('aria-current','page'):$('#rail-menu').removeAttribute('aria-current');
 }
 addEventListener('hashchange',()=>{if(route()!=='glemt')S.sent=false;render()});
 addEventListener('offline',()=>render(false));addEventListener('online',()=>render(false));
@@ -1055,21 +1079,25 @@ const sheet=$('#sheet');
 function openSheet(kind){
   if(kind==='rente') sheet.innerHTML=`<div class="grab"></div><div class="sheet-h"><h2 id="sheet-title">Rente</h2><button class="x" data-close aria-label="Lukk">${ic('x')}</button></div>
     <p>Banken betaler deg for å ha penger på sparekontoen. Jo mer du har der, og jo lenger, jo mer får du.</p>
-    <div class="calc"><div><span>På sparekontoen</span><b>${plain(23500)}</b></div><div><span>Rente i året</span><b>2,87 %</b></div><div class="tot"><span>Denne måneden</span><span>${kr(56)}</span></div></div>
-    <p class="meta">BSU gir 5,61 % rente, men pengene er låst til bolig.</p>
+    <div class="calc"><div><span>På sparekontoen 1. november</span><b>${plain(23500)}</b></div><div><span>× rente i året</span><b>2,87 %</b></div><div><span>÷ 12 måneder</span><b></b></div><div class="tot"><span>Denne måneden</span><span>${kr(56)}</span></div></div>
+    <p style="margin-top:var(--s3)">Vil du ha mer? Spar mer, eller tjen mer med flere timer eller sommerjobb.</p>
+    <p class="meta" style="margin-top:var(--s2)">BSU er sparing til egen bolig og gir 5,61 % rente. Du kan bare ta ut alt på en gang, og da forsvinner skattefradraget.</p>
     <button class="btn block" data-close style="margin-top:var(--s4)">Skjønner</button>`;
   if(kind==='pick') sheet.innerHTML=`<div class="grab"></div><div class="sheet-h"><h2 id="sheet-title">Kveld ${S.pickFor+1}</h2><button class="x" data-close aria-label="Lukk">${ic('x')}</button></div><div id="addlist">${addList()}</div>`;
   const X=(t,body)=>`<div class="grab"></div><div class="sheet-h"><h2 id="sheet-title">${t}</h2><button class="x" data-close aria-label="Lukk">${ic('x')}</button></div>${body}`;
   const conf=(t,p,btn,attr,danger)=>X(t,`<p>${p}</p>${danger==='pw'?'<div class="field" style="margin-top:var(--s4)"><label for="c-pw">Passordet ditt</label><input id="c-pw" type="password" autocomplete="current-password"></div>':''}<div class="ask" style="margin-top:var(--s4)"><button class="btn ${danger?'danger':'pri'} block" ${attr}>${btn}</button><button class="btn block" data-close>Avbryt</button></div>`);
   const pw=(id,l,a)=>`<div class="field" style="margin-bottom:var(--s3)"><label for="${id}">${l}</label><input id="${id}" type="password" autocomplete="${a}"></div>`;
   if(kind==='selg') sheet.innerHTML=conf('Selge mopeden?',`Du får <b>${plain(MOPED_PRICE)}</b> på brukskontoen og slipper ${plain(250)} i forsikring. Fra desember tar du bussen.`,'Selg mopeden','data-selg');
-  if(kind==='maal') sheet.innerHTML=X('Hva sparer du til?',`<div class="ask">${[['Lappen (bil)',32500],['Moped, ny',29000]].map(m=>`<button class="btn block" data-maal="1">${m[0]}, ${plain(m[1])}</button>`).join('')}</div>`);
-  if(kind==='navn') sheet.innerHTML=X('Kallenavn',`<div class="field"><label for="n-nick">Hva skal vi kalle deg?</label><input id="n-nick" type="text" maxlength="16" value="${esc(S.nick)}"><p class="hint">2–16 tegn. Bare du ser det.</p></div><button class="btn pri block" style="margin-top:var(--s4)" data-navn>Lagre</button>`);
+  if(kind==='maal') sheet.innerHTML=X('Hva sparer du til?',`<div class="ask">${[['Billappen',32500],...(S.moped?[]:[['Ny moped',29000]])].map(m=>`<button class="btn block" data-maal="${m[0]}">${m[0]} · ${plain(m[1])}</button>`).join('')}</div>`);
+  if(kind==='navn') sheet.innerHTML=X('Kallenavn',`<div class="field"><label for="n-nick">Hva skal vi kalle deg?</label><input id="n-nick" type="text" maxlength="16" value="${esc(S.nick)}" aria-describedby="h-n"><p class="hint" id="h-n">2–16 tegn. Bare du ser det.</p></div><button class="btn pri block" style="margin-top:var(--s4)" data-navn>Lagre</button>`);
   if(kind==='passord') sheet.innerHTML=X('Endre passord',pw('p-old','Passordet du har nå','current-password')+pw('p-new','Nytt passord','new-password')+'<p class="meta">Minst 8 tegn. Andre enheter logges ut.</p><button class="btn pri block" style="margin-top:var(--s4)" data-close>Endre passord</button>');
   if(kind==='info') sheet.innerHTML=X('Dette lagrer vi',`<div class="stack">${PI}</div>`);
   if(kind==='nytt') sheet.innerHTML=conf('Starte et nytt liv?','Livet du har nå, slettes og kan ikke hentes tilbake.','Start på nytt','data-go="#start"','1');
   if(kind==='alle') sheet.innerHTML=conf('Logge ut på alle enheter?','Du må logge inn igjen overalt, også her.','Logg ut overalt','data-go="#landing"');
   if(kind==='slett') sheet.innerHTML=conf('Slette brukeren?','E-posten og hele spillet ditt slettes. Det kan ikke angres.','Slett bruker','data-go="#landing"','pw');
+  if(kind==='trivsel') sheet.innerHTML=X('Trivselsmålet','<p>Trivsel er stress, fritid og sosialt liv, fra 0 til 100.</p><p style="margin-top:var(--s3)">Trivselsmålet er 50. Har du minst 50 i snitt fra sommeren du er 16 til du fyller 20, har du klart deg både med penger og med livet.</p><button class="btn block" data-close style="margin-top:var(--s4)">Skjønner</button>');
+  if(kind==='minste') sheet.innerHTML=X('Det minste du kan betale','<p>Banken krever at du betaler litt av kortgjelden hver måned. Resten blir stående, og du betaler rente av det.</p><button class="btn block" data-close style="margin-top:var(--s4)">Skjønner</button>');
+  if(kind==='bsu') sheet.innerHTML=X('BSU','<p>BSU er sparing til egen bolig. Den gir 5,61 % rente, mer enn sparekontoen.</p><p style="margin-top:var(--s3)">Du kan bare ta ut alt på en gang, og da stenges BSU-en for resten av spillet.</p><button class="btn block" data-close style="margin-top:var(--s4)">Skjønner</button>');
   if(!sheet.open) sheet.showModal();
 }
 sheet.addEventListener('click',e=>{if(e.target===sheet||e.target.closest('[data-close]'))sheet.close()});
@@ -1078,51 +1106,54 @@ sheet.addEventListener('click',e=>{if(e.target===sheet||e.target.closest('[data-
 function place(k){
   let i=S.pickFor!==null&&!S.slots[S.pickFor]?S.pickFor:S.slots.indexOf(null);
   if(i<0) return;
-  S.slots[i]=k;S.pickFor=null;
+  S.slots[i]=k;S.pickFor=null;S.focusTo=`#slot-${i}`;
   live(`${ALL[k].nm} lagt inn på kveld ${i+1}.`);
   if(sheet.open) sheet.close();
   render(false);
 }
 document.addEventListener('click',e=>{
   const t=e.target.closest('button,[data-mon]');if(!t)return;
+  if(t.getAttribute('aria-disabled')==='true'){e.preventDefault();return}
   const d=t.dataset;
   if(d.sheet){openSheet(d.sheet)}
   else if(d.pick!==undefined){S.pickFor=+d.pick;openSheet('pick')}
   else if(d.add){place(d.add)}
-  else if(d.clear!==undefined){const a=ALL[S.slots[+d.clear]];S.slots[+d.clear]=null;live(`${a.nm} fjernet.`);render(false)}
+  else if(d.clear!==undefined){const a=ALL[S.slots[+d.clear]];S.slots[+d.clear]=null;S.focusTo=matchMedia('(min-width:1100px)').matches?'#h-add':`[data-pick="${d.clear}"]`;live(`${a.nm} fjernet.`);render(false)}
   else if(d.tab){S.addTab=d.tab;document.querySelectorAll('#addlist').forEach(n=>n.innerHTML=addList());document.querySelector(`#addlist [data-tab="${d.tab}"]`)?.focus()}
-  else if(d.toastx!==undefined){$('#toast').innerHTML=''}
+  else if(d.toastx!==undefined){$('#toast-slot').innerHTML='';S.toastOn=false;const h=$('#h-sum');h.setAttribute('tabindex','-1');h.focus()}
   else if(d.choose){ // saving: options lock, no result until the server confirms (FR-6)
-    document.querySelectorAll('[data-choose]').forEach(b=>b.disabled=true);t.classList.add('saving');
+    document.querySelectorAll('[data-choose]').forEach(b=>{if(b!==t)b.setAttribute('aria-disabled','true')});t.setAttribute('aria-disabled','true');t.classList.add('saving');
     const am=t.querySelector('.amt');if(am)am.textContent='Lagrer …';else t.insertAdjacentHTML('beforeend','<span class="amt">Lagrer …</span>');live('Lagrer valget.');
     setTimeout(()=>{S.choice=d.choose;if(d.choose==='repair')S.phone='ok';if(d.choose==='used')S.phone='used';location.hash='#resultat'},700)}
   else if(d.kr){const k=S.kr;
+    if(d.kr==='mamma'&&k.asked){live('Mamma: «Jeg har lånt deg det jeg kan nå.»');return}
     if(d.kr==='mamma'){k.asked=true;k.step++;k.due=200;k.log.push(['up','Mamma lånte deg 500 kr uten rente. Du betaler 100 kr i måneden.'])}
-    if(d.kr==='selg'){S.moped=false;k.end='loest';k.log.push(['up','Mopeden er solgt for 8 152 kr.'],['up','Kortregningene er betalt.'],['down','Du tar bussen fra september.'])}
-    if(d.kr==='avtale'){k.end='loest';k.log.push(['up','Gjelden betales ned på 12 måneder.'],['down','939 kr i måneden, og kortet er sperret.'])}
+    if(d.kr==='selg'){S.moped=false;k.end='loest';k.log.push(['up','Mopeden er solgt for 7 715 kr.'],['up','Kortregningene er betalt.'],['down','Du tar bussen fra september.'])}
+    if(d.kr==='avtale'){k.end='loest';k.log.push(['up','Gjelden betales ned på 12 måneder.'],['down','−939 kr i måneden i 12 måneder. Kortet er sperret.'])}
     if(d.kr==='ignorer'){k.end='ikke';k.log.push(['down','Gjelden vokser videre.'],['same','Neste krise kan komme tidligst i november.'])}
     render()}
-  else if(d.selg!==undefined){sheet.close();S.moped=false;live(`Mopeden er solgt. ${roomText()}`);render(false)}
-  else if(d.maal){sheet.close();live('Sparemålet er valgt.')}
-  else if(d.navn!==undefined){const v=$('#n-nick').value.trim();if(v.length>=2){S.nick=v;sheet.close();live('Kallenavnet er endret.');render(false)}else{$('#n-nick').setAttribute('aria-invalid','true');$('#n-nick').focus()}}
+  else if(d.selg!==undefined){sheet.close();S.moped=false;S.focusTo='#h-own';live(`Mopeden er solgt. ${roomText()}`);render(false)}
+  else if(d.maal){sheet.close();live(`Sparemålet er nå ${d.maal}.`)}
+  else if(d.navn!==undefined){const v=$('#n-nick').value.trim();if(v.length>=2&&/^[\p{L}0-9 -]+$/u.test(v)){S.nick=v;sheet.close();live('Kallenavnet er endret.');render(false)}else{const i=$('#n-nick');$('#e-n')?.remove();i.insertAdjacentHTML('afterend','<p class="errmsg" id="e-n">'+(v.length<2?'Kallenavnet må ha minst 2 tegn.':'Bruk bare bokstaver, tall, mellomrom og bindestrek.')+'</p>');i.setAttribute('aria-invalid','true');i.setAttribute('aria-describedby','h-n e-n');i.focus()}}
   else if(d.go){sheet.close();location.hash=d.go}
   else if(d.why!==undefined){const w=$('#why');w.hidden=!w.hidden;t.setAttribute('aria-expanded',String(!w.hidden))}
   else if(d.mon){S.sel=+d.mon;render(false);document.querySelector(`[data-mon="${d.mon}"]`)?.focus()}
-  else if(d.offer){S.offer=d.offer==='1';live(S.offer?'Du sa ja til 2 timer mer fra desember.':'Du sa nei takk.');render(false)}
-  else if(d.ask){S.asked=d.ask;live(`Du har spurt om ${d.ask} timer. Line svarer i desember.`);render(false)}
-  else if(d.same!==undefined){LAST.forEach(k=>{const i=S.slots.indexOf(null);if(i>=0&&!S.slots.includes(k))S.slots[i]=k});live('Aktivitetene fra oktober er lagt inn der de får plass.');render(false)}
+  else if(d.offer){S.offer=d.offer==='1';S.focusTo='#offer-ans';live(S.offer?'Du sa ja til 2 timer mer fra desember.':'Du sa nei takk.');render(false)}
+  else if(d.ask){S.asked=d.ask;S.focusTo='#asked';live(`Du har spurt om ${d.ask} timer. Line svarer i desember.`);render(false)}
+  else if(d.same!==undefined){LAST.forEach(k=>{const i=S.slots.indexOf(null);if(i>=0&&!S.slots.includes(k)){S.slots[i]=k;S.focusTo=S.focusTo||`#slot-${i}`}});live('Aktivitetene fra oktober er lagt inn der de får plass.');render(false)}
   else if(d.goplan!==undefined){S.addTab='jobb';location.hash='#plan'}
-  else if(d.endextra!==undefined){S.extraEnded=true;live(`Ekstravaktene slutter. Fra desember har du ${evenings(slotsAt(S.offer?12:10))}.`);render(false)}
+  else if(d.endextra!==undefined){S.extraEnded=true;S.focusTo='[data-endextra]';live(`Ekstravaktene slutter. Fra desember har du ${evenings(slotsAt(S.offer?12:10))}.`);render(false)}
   else if(d.decline!==undefined){live('Du takket nei.');location.hash='#telefon'}
-  else if(d.mailok!==undefined){location.hash='#start'}
+  else if(d.mailok!==undefined){if($('#mail-back').textContent.replace(/\s/g,'')==='brukt@eksempel.no'){$('#mailcheck').hidden=true;const f=$('form[data-form=opprett]');f.hidden=false;const box=$('#fld-mail'),i=$('#f-mail');box.classList.add('err');box.querySelector('.errmsg')?.remove();box.insertAdjacentHTML('beforeend','<p class="errmsg" id="e-mail">Det finnes allerede en bruker med denne e-posten. <a href="#logginn">Logg inn</a> eller <a href="#glemt">lag nytt passord</a>.</p>');i.setAttribute('aria-invalid','true');i.setAttribute('aria-describedby','e-mail');i.focus()}else location.hash='#start'}
   else if(d.mailedit!==undefined){$('#mailcheck').hidden=true;$('form[data-form=opprett]').hidden=false;$('#f-mail').focus()}
   else if(d.look){S.look=+d.look;applyLook();render(false)}
 });
 document.addEventListener('click',e=>{const m=e.target.closest('[data-msg]');if(m&&!S.read.has(m.dataset.msg)){S.read.add(m.dataset.msg)}},true);
 document.addEventListener('change',e=>{
-  if(e.target.name==='spend'){S.spend=e.target.value;render(false);live(`${SPEND[S.spend][0]} forbruk valgt.`)}
+  if(e.target.name==='spend'){S.spend=e.target.value;const n=$('#sp-note');if(n)n.textContent=S.spend==='vanlig'?'Dette bruker du nå.':'Gjelder fra desember.';live(`Du har valgt ${SPEND[S.spend][0]}: ca. ${plain(SPEND[S.spend][1])} i måneden.`)}
   if(e.target.name==='goal'){S.goal=+e.target.value}
 });
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&e.target.closest('.toast')){$('#toast-slot').innerHTML='';S.toastOn=false;$('#h-sum')?.setAttribute('tabindex','-1');$('#h-sum')?.focus()}});
 document.addEventListener('input',e=>{
   if(e.target.id==='f-nick'){const v=e.target.value.trim();document.querySelectorAll('[data-nick]').forEach(n=>n.textContent=v||'…')}
 });
@@ -1136,6 +1167,7 @@ document.addEventListener('submit',e=>{
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) fail('#fld-mail','#f-mail','e-mail','Skriv en hel e-postadresse, som navn@eksempel.no.');
   if($('#f-pw').value.length<8) fail('#fld-pw','#f-pw','e-pw','Passordet må ha minst 8 tegn.');
   if(nick.length<2) fail('#fld-nick','#f-nick','e-nick','Kallenavnet må ha minst 2 tegn.');
+  else if(!/^[\p{L}0-9 -]+$/u.test(nick)) fail('#fld-nick','#f-nick','e-nick','Bruk bare bokstaver, tall, mellomrom og bindestrek.');
   const bad=$('.field.err input');if(bad){bad.focus();return}
   S.nick=nick;$('#mail-back').innerHTML=esc(mail).replace(/[@.]/g,'$&<wbr>');e.target.hidden=true;$('#mailcheck').hidden=false;$('#h-mc').focus();
 });

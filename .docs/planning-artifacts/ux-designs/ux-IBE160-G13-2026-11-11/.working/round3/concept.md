@@ -59,6 +59,13 @@ Wellbeing has its own status palette, used only on the wellbeing tile: good `#1F
 - **Added:** savings target, life goal, next month's costs, activity spend and buy/sell in the bank; «Samme som i oktober»; «Vanligvis n» under stress and social; «Lagrer …»; the player information; password length; «Forbli innlogget» unticked by default (FR-5).
 - **Corrected against the PRD:** the 250 kr in November is moped insurance, not activities; the unlock notes follow FR-18 (Øvelseskjøring and «BSU når du har inntekt» weren't in it).
 
+## Validation fixes (2026-11-23)
+From `../../validation-report.md`. All critical and high findings are fixed, with the medium ones that hung on them:
+- **Accessibility:** the scene's image role covers only the artwork, the menu moved to an avatar in the timeline, focus is kept or moved after every change, the fixed bars no longer hide focused controls, locked controls use `aria-disabled` with a reason, the toast stays until closed, rail badges have screen-reader text, coral dots have an ink ring, every route has a title, and Hjem has an `h1`.
+- **PRD:** the event opens October with the facts FR-13 asks for, continuing from November opens December, «Spør mamma» is offered on every crisis step, the interest sheet divides by 12, the ending no longer ranks wages, and the crisis moped sale is 7 715 kr (rule 14). The 10-hour wage is 6 041 kr.
+- **Language:** «planlagt / Tom» instead of «ledige», Billappen, «det minste (i)», «Del opp hele kortgjelden», the 604 kr sentence, «Vakter du kan ta i november», «Igjen etter november», BSU with (i), the life goal 2 text, the offline text, and the trivselsmål with an (i).
+- **New states:** email in use (`#opprett~ibruk`), an activity dropped (`#aarsslutt~droppet`), and the December tax line.
+
 ## Open questions
 - **Trivsel in play:** per the PRD, the felt effects are fewer evenings (free time), the end score (hollow win), and the room or mirror. High stress has no effect during play beyond these. The group decided on 2026-11-22 that it stays that way (#106).
 - **Dark mode:** not drawn. The Speilet scene is a lit room, so dark mode would need its own scene.
