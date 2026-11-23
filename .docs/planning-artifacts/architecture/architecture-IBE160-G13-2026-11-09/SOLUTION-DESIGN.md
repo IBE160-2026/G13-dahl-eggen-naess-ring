@@ -1,17 +1,18 @@
 ---
-title: LifeMode MVP backend — solution design
+title: LifeMode MVP — solution design
 created: 2026-11-15
-audience: the team (UX and frontend), and the examiner
+updated: 2026-11-23
+audience: the team, and the examiner
 explains: ARCHITECTURE-SPINE.md
 ---
 
-# LifeMode MVP backend: solution design
+# LifeMode MVP: solution design
 
-This document explains the backend architecture of LifeMode's first version: what is decided, why, and what it means for the people who build against it. It covers the Python backend, the database, the content files, and hosting. The frontend belongs to the frontend team, so it appears here only where the two meet (section 9).
+This document explains the architecture of LifeMode's first version: what is decided, why, and what it means for the people who build it. It covers the Python backend, the database, the content files, hosting, and, since 2026-11-23, the Next.js frontend (section 9). The group builds both sides.
 
-**Where to start:** the frontend team can go straight to section 9. For the examiner, sections 1, 2, 8 and 10 give the decisions and the reasons, and section 12 says how they were checked.
+**Where to start:** for frontend work, go straight to section 9. For the examiner, sections 1, 2, 8 and 10 give the decisions and the reasons, and section 12 says how they were checked.
 
-The binding version is [`ARCHITECTURE-SPINE.md`](ARCHITECTURE-SPINE.md), which states each decision as a short rule with an ID (AD-1 to AD-16). This document explains those rules and adds none. If the two differ, the spine applies. The requirements come from the PRD (`prds/prd-IBE160-G13-2026-10-22/prd.md`), and FR and NFR numbers below refer to it.
+The binding version is [`ARCHITECTURE-SPINE.md`](ARCHITECTURE-SPINE.md), which states each decision as a short rule with an ID (AD-1 to AD-20). This document explains those rules and adds none. If the two differ, the spine applies. The requirements come from the PRD (`prds/prd-IBE160-G13-2026-10-22/prd.md`), and FR and NFR numbers below refer to it.
 
 ## 1. The short version
 
@@ -22,6 +23,7 @@ The binding version is [`ARCHITECTURE-SPINE.md`](ARCHITECTURE-SPINE.md), which s
 - **Content is files, not database rows.** Events, activities, messages and figures are YAML files in the repo, in versioned folders that are frozen before the playtest (AD-7).
 - **Login is our own.** Email and password, with sessions the server can end at once (AD-10).
 - **One address for the browser.** In the playtest, the frontend runs on Vercel and passes every `/api` call on to Caddy, a small web server in front of the backend, so the browser sees one address and the login cookie needs no cross-site rules. Locally, Caddy serves both (AD-12).
+- **The frontend is a thin layer.** It shows the view the server sends and sends the player's choices back. The game's state decides which full screen shows (an event, the recap, the ending); the address decides the area. One small client module talks to the API, and everything else goes through it (AD-17, AD-18).
 - **The playtest costs about USD 5-8 a month** on Railway and Supabase, and nothing afterwards (AD-14).
 
 ## 2. The system at a glance
@@ -153,7 +155,7 @@ Login is built in the backend, as the team's reference setup prescribes. Supabas
 
 | | Choice | Why |
 | --- | --- | --- |
-| Frontend | Vercel Hobby, functions in Frankfurt, `/api` passed on to Caddy | The frontend team's choice; free, and the browser still sees one address |
+| Frontend | Vercel Hobby, functions in Frankfurt, `/api` passed on to Caddy | Chosen 2026-11-22; free, and the browser still sees one address |
 | Backend and Caddy | Railway Hobby, EU West (Amsterdam), sleeping off | No cold start, so the 10-second rule in NFR-10 is met |
 | Database | Supabase Free Postgres, Frankfurt | The course requires Supabase; it has no Amsterdam region |
 | Email | Resend (an email service), built in but switched off | The playtest needs no email; go-live needs a verified domain (OQ-4) |
@@ -167,9 +169,52 @@ Login is built in the backend, as the team's reference setup prescribes. Supabas
 
 **Fallback:** if Supabase pauses or fails, the database moves to Railway Postgres by changing one setting. That would be recorded as a departure from the course requirement.
 
-## 9. For the frontend team
+## 9. The frontend
 
-These are the facts the frontend builds against. The exact request and response shapes are in `openapi.json`, which is generated from the backend, committed to the repo, and checked in CI. TypeScript types can be generated from it.
+The frontend is Next.js (App Router, React, TypeScript) in `frontend/`. It runs on Vercel in the playtest and as its own container behind Caddy locally. Section 9.1 is how it is built (AD-17 to AD-20); section 9.2 is what it can rely on from the backend.
+
+### 9.1 How the frontend is built
+
+**Screens: the game decides, the address follows (AD-17).** One function, `gateFor`, looks at the latest response and a small record of what happened in this browser tab, and returns the screen the game requires, if any. It checks in a fixed order, so two screens due at once never compete:
+
+```mermaid
+flowchart TD
+    R[Latest response + this tab's record] --> G{gateFor}
+    G -->|no life, or Spill på nytt| S[Start screens]
+    G -->|life completed| EN[Ending]
+    G -->|after login, or opened after 1 hour away| RC[Recap]
+    G -->|avatar or pengegave pending| SU[Setup step]
+    G -->|a choice was just saved| RS[Result]
+    G -->|December| YE[Year end]
+    G -->|event or card warning| EV[Event]
+    G -->|crisis step pending| CR[Crisis step]
+    G -->|nothing due| AR[The area in the address: /hjem, /plan, /mobil, /jobb, /penger, /aaret]
+```
+
+There are two kinds of these screens:
+
+- **Full-screen** (start, setup, recap, ending): no tabs. The menu, «Om tallene» and the privacy page still open over them, so a player can always log out or delete the account.
+- **Hjem screens** (result, year end, event, crisis step): they take over only Hjem. The other tabs keep working, so the player can move money or plan during a crisis (FR-32b). The server alone stops the month from closing while a choice is open.
+
+The recap and the year end close with «Fortsett» and stay closed in that tab. A screen change moves focus to the new heading, updates the page title and is announced to screen readers, just like a change of address.
+
+**Talking to the API: one client (AD-18).** Only `frontend/src/api/` calls the server. Its TypeScript types are generated from `openapi.json`, so a backend change that breaks the frontend fails the type check. The game client:
+
+- holds the latest response in one store that every screen reads;
+- sends one game action at a time, using the month and plan version of the screen the player actually saw;
+- retries a lost action with the same `request_id` (at 2, 5 and 10 seconds, then on «Prøv igjen» or when the connection returns), so it is never applied twice;
+- ignores a response older than the one it already has, and never blanks the screen on an error;
+- fetches the game only at set moments (page load, login, reconnect, the next input after 5 minutes idle or a tab return, and a few error cases). It never polls, so the 30-minute idle logout still works on a shared PC.
+
+**Look: tokens and CSS Modules (AD-19).** A script turns the tokens in `DESIGN.md` into `tokens.css`, the only file with colour values; lint rules refuse colours anywhere else, SVG included. Each component has its own `.module.css`. There is no component library: sheets are the browser's own `<dialog>`. Shared pieces (the sheet, the locked button, the one screen-reader announcer, money figures, bars) are built once, in the first frontend story. Fonts are files in the repo; nothing loads from another site, and a Content-Security-Policy enforces it (NFR-3).
+
+**Tests: against the real backend (AD-20).** Vitest tests the game client, `gateFor` and components with logic, using player views dumped from the seeded test games. Playwright runs the main flow end to end against the whole local stack in Chromium and WebKit at 320, 390, 900 and 1280 px, and axe fails the build on any serious or critical accessibility finding. Before each playtest, the team checks phones, keyboard and screen reader by hand and writes the results to `frontend/e2e/manual-checks.md`.
+
+**Rules of the road.** ESLint, Prettier, stylelint and the type check run on every PR, next to ruff on the backend. `main` needs green CI and an approval from another group member, also for AI-written code.
+
+### 9.2 Where the frontend meets the backend
+
+The exact request and response shapes are in `openapi.json`, which is generated from the backend, committed to the repo, and checked in CI. The frontend's types are generated from it.
 
 | Topic | What the frontend can rely on |
 | --- | --- |
@@ -178,7 +223,7 @@ These are the facts the frontend builds against. The exact request and response 
 | Response shape | Every game response is `{result?, state, server_time, recap_threshold}`, where `state` is the player view. Always replace the view with the latest response |
 | Changing the game | `POST /api/game/actions` for every game action, including starting, ending early and playing again |
 | Each action carries | A new `request_id` (UUID), the `playthrough_id`, the `month`, and the action. Send the same `request_id` again when retrying. Only game actions are retried automatically; after a lost sign-up, login, password or deletion response, fetch `GET /api/game` or show the login screen |
-| Knowing if the view is stale | `playthrough_id` + `state_version` identify a state. Fetch again on open, reload and reconnect, and on the player's next input after a tab return or 5 minutes idle (FR-8) |
+| Knowing if the view is stale | `playthrough_id` + `state_version` identify a state. Fetch again on open, reload and reconnect, and before the player's next input after a tab return or 5 minutes idle (FR-8). If the state changed, the input is dropped and the player sees «Spillet ble oppdatert på en annen enhet.» |
 | Month plan | The view carries `plan_version`. Send it back inside the continue action; a mismatch means another device changed the plan |
 | Text | The backend sends finished Norwegian game text with the figures and the player's nickname filled in. The frontend never calculates or formats an amount. The frontend owns button and label text, offline and saving notices, and the player information page |
 | Wellbeing status | Each wellbeing figure with a status comes as `{value, band}`, where `band` is `good`, `warn` or `bad`. This covers this month's score and three parts, the average so far (empty until month 19), the year's average on the year end, and the ending. Show the band; never work it out from the number, since the trivselsmål is configuration |
@@ -192,10 +237,9 @@ These are the facts the frontend builds against. The exact request and response 
 | "Continue anyway" (FR-49) | The confirmation is shown by the frontend; the server doesn't ask for it |
 | Hidden on purpose | Wellbeing effects of event options before the pick, future events |
 | No background polling | Never call the API from a timer. The idle and tab-return fetches run on the player's next input after the idle time or the return. Otherwise the 30-minute idle logout never happens on a shared PC |
-| Only the browser calls `/api` | Next.js server components, middleware and route handlers never call `/api`, so the session cookie always reaches the browser and no game data is cached by Next.js. The one exception is the proxy fallback in AD-10, if the sprint-1 spike needs it |
+| Only the browser calls `/api` | Next.js server components, `proxy.ts` and route handlers never call `/api`, so the session cookie always reaches the browser and no game data is cached by Next.js. The one exception is the proxy fallback in AD-10, if the sprint-1 spike needs it |
 | Agreed 2026-11-22 | The frontend is Next.js on Vercel. The reset link is `/nytt-passord#token=…`: the page reads the token from the fragment, removes it from the address bar, and posts it with the new password. The player information page is a static frontend page that names Vercel, Railway and Supabase |
 
-Still the frontend team's own decisions: framework, screens, accessibility checks in CI, self-hosted fonts, and the device test matrix (NFR-1, NFR-2).
 
 ## 10. Why these choices
 
@@ -206,13 +250,17 @@ Still the frontend team's own decisions: framework, screens, accessibility check
 | Snapshot plus action log | Snapshot only | The log gives safe retries and lets tests replay a whole life |
 | Content as YAML in the repo | Database tables; separate text files | Reviewed in pull requests, the same in every environment, and one event reads as one file |
 | Own login with session rows | Supabase Auth; long-lived tokens with no server record | The team's reference setup uses its own login. Tokens alone can't be withdrawn, which FR-4 and FR-5 require |
-| Caddy in front of everything | The backend serving the frontend's files | One origin keeps cookies simple, and the frontend team stays free to choose how the frontend is served |
+| Caddy in front of everything | The backend serving the frontend's files | One origin keeps cookies simple, and the frontend can be served by Vercel or a container without backend changes |
 | The backend writes game text | A text catalogue in the frontend | Text has to follow the content version a playthrough is pinned to, and figures may only come from the engine (NFR-4) |
 | FastAPI | Django, Flask | Request checking and the API contract come built in; Django's admin and ORM extras wouldn't be used |
 | No email in the playtest | Buying a domain; another relay | 10-20 known testers can be handed a link. It costs nothing and puts no addresses in logs |
 | Supabase before speed | Railway Postgres in the same region | The course requires Supabase. If it's slow, database round trips are cut first |
+| The game state picks the full screens | Every screen at its own address | A deep link, a reload or a second device can't show a screen the game doesn't allow, and no screen checks the state its own way |
+| Our own small game client | TanStack Query | The protocol (same `request_id` on retry, no polling, fetch before the next input) is specific to this game; a cache library's refetch on focus and timers would have to be switched off one by one |
+| CSS Modules with generated tokens | Tailwind, a component library (shadcn/Radix) | `DESIGN.md` already names every token; one generated file keeps them in step, and the sheets need nothing beyond `<dialog>` |
+| End-to-end tests against the real backend | A mocked API | A mock drifts from the backend; the seeded test games already exist for the examiner (NFR-6) |
 
-The team's reference setup (`architecture/technology.md`) is adapted, not copied. Left out because the MVP doesn't need them: Redis, file storage, payments, AI, backups and feature flags.
+The team's reference setup (`architecture/technology.md`) is adapted, not copied. Left out because the MVP doesn't need them: Redis, file storage, payments, AI, backups and feature flags, and on the frontend Tailwind, shadcn/Radix, TanStack Query and `NEXT_PUBLIC_*` flags.
 
 ## 11. Not decided here, and what sprint 1 must verify
 
@@ -229,6 +277,7 @@ The team's reference setup (`architecture/technology.md`) is adapted, not copied
 5. Supabase's public Data API is off and row-level security is on.
 6. A forged client-IP header doesn't affect the login limits.
 7. The daily check counts as database activity for Supabase.
+8. `/api/health` through the deployed Vercel frontend reaches Caddy with the origin secret, and a preview deployment gets `403`.
 
 If one fails, round trips are cut first. The database moves only if Supabase pauses or fails.
 
@@ -236,4 +285,5 @@ If one fails, round trips are cut first. The database moves only if Supabase pau
 
 - Two reconciliations against the PRD and its addendum (2026-11-13 and 2026-11-15). The second read every requirement against the finished spine; its 20 findings are closed (`reviews/reconcile-prd-2026-11-15.md`).
 - Three independent reviews on 2026-11-13: a checklist review, an adversarial review looking for ways two builders could follow every rule and still build incompatible parts, and a check of every named technology and version against current sources (`reviews/`).
+- The frontend part (AD-17 to AD-20, 2026-11-23) had its own four reviews: adversarial, checklist, versions, and a reconciliation against EXPERIENCE, DESIGN and the PRD (`reviews/review-2026-11-23-frontend-*.md`). Their fixes are in the spine.
 - Every decision and the reasoning behind it is in `.memlog.md`, oldest first.

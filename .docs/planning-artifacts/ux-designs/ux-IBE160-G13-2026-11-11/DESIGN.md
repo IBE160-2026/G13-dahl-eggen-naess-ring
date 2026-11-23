@@ -54,6 +54,18 @@ colors:
   scene-frame: '#1C1C20'
   scene-hoodie: '#2B4CC4'
   scene-hoodie-shade: '#243A96'
+  scene-look-1-hoodie: '#2B4CC4'
+  scene-look-1-shade: '#243A96'
+  scene-look-2-hoodie: '#D99A2B'
+  scene-look-2-shade: '#B07A1C'
+  scene-look-3-hoodie: '#2E7D6B'
+  scene-look-3-shade: '#22604F'
+  scene-look-4-hoodie: '#8E6CC9'
+  scene-look-4-shade: '#6E4FA6'
+  scene-look-5-hoodie: '#25292E'
+  scene-look-5-shade: '#15181C'
+  scene-look-6-hoodie: '#C8453A'
+  scene-look-6-shade: '#A3352C'
   scene-skin: '#E6B796'
   scene-skin-shade: '#C49B83'
   scene-hair: '#3A2A20'
@@ -156,7 +168,7 @@ components:
 
 # LifeMode — Design Spine
 
-> **Draft, 2026-11-23.** Distilled from UX round 3 (`mockups/index.html`; every surface and state on one page in `mockups/oversikt.html`), which the team built from its own revisions in `../decisions.md`. The group chose round 3 as the direction on 2026-11-22 (#95). The spine stays a draft until it is finalized. `EXPERIENCE.md` covers how it works. When this spine and the mockup disagree, the spine wins.
+> **Final, 2026-11-23.** Distilled from UX round 3 (`mockups/index.html`; every surface and state on one page in `mockups/oversikt.html`), which the team built from its own revisions in `../decisions.md`. The group chose round 3 as the direction on 2026-11-22 (#95). `EXPERIENCE.md` covers how it works. The frontmatter is the source of `frontend/src/styles/tokens.css` (architecture AD-19). When this spine and the mockup disagree, the spine wins.
 
 ## Brand & Style
 
@@ -197,8 +209,8 @@ The style is restrained in operation and committed in identity. The rules are:
 - **Other measured pairs:** paper on ink 15.2:1 (offline bar, selected tab), `{colors.danger}` on white 7.8:1, `{colors.tag-worse-text}` on `{colors.money-out-soft}` 7.9:1, ink on `{colors.locked}` 13.2:1. The Kalam marker: ink on the mirror glass 8.3:1, white on the dimmed glass 5.9:1.
 - **danger.** `{colors.danger}` is used only for "Si opp jobben", "Slett bruker" and form errors. A money loss is never red. `{colors.status-bad}` is a different red with a different job, so don't swap them.
 - **Senders.** These colours fill the round initials in the phone: `sender-emma`, `sender-job`, `sender-family`, `sender-friend`, plus cobalt for the bank. White letters measure at least 4.9:1.
-- **Scene tokens.** The `scene-*` colours are the illustration's palette, exposed as CSS variables (`--sc-*`), so the hoodie, skin, hair, walls and frame can change without editing paths. The avatar picker sets `scene-hoodie`. The room layers use `scene-phone`, `scene-phone-used`, `scene-moped` and `scene-licence`. A dimmed scene uses `{colors.scene-dim}` behind the art, so the wide wall dims with it.
-- **No dark mode in this draft.** The scene is a lit room, so dark mode would need its own night scene. The group can add one later; version one ships light only.
+- **Scene tokens.** The `scene-*` colours are the illustration's palette, exposed as CSS variables (`--sc-*`), so the hoodie, skin, hair, walls and frame can change without editing paths. The avatar picker sets `scene-hoodie` and `scene-hoodie-shade` from one of six looks, `scene-look-1-*` to `scene-look-6-*` (the colours in round 3's mockup; look 1 is the default). The look ids in the content's `lists.yaml` are `look-1` to `look-6`, in the same order. The room layers use `scene-phone`, `scene-phone-used`, `scene-moped` and `scene-licence`. A dimmed scene uses `{colors.scene-dim}` behind the art, so the wide wall dims with it.
+- **No dark mode in version one.** The scene is a lit room, so dark mode would need its own night scene. The group can add one later; version one ships light only.
 
 ## Typography
 
