@@ -261,6 +261,28 @@ a.rail-me:hover,a.rail-me[aria-current]{background:var(--hair-2)}
 .note{display:flex;gap:var(--s3);align-items:flex-start;background:var(--paper);border-radius:var(--r-lg);padding:var(--s3) var(--s4);font-size:14px;font-weight:600}
 .note .ic{width:32px;height:32px;border-radius:999px;background:var(--cobalt);color:#fff;display:grid;place-items:center;flex:none}
 .note b{display:block;font-size:13px;font-weight:800;color:var(--cobalt);margin-bottom:1px}
+.note.disc{margin-top:var(--s4)}
+.note.disc p{font-weight:600;max-width:62ch}
+.note.disc .btn{margin-top:var(--s3)}
+/* rule 8 status before continuing (FR-49) */
+.st-row{display:flex;gap:var(--s3);align-items:flex-start;padding:var(--s3) var(--s4);border-radius:var(--r-md);font-size:14px;font-weight:600;margin-top:var(--s3)}
+.st-row .sdot{margin-top:6px;width:10px;height:10px}
+.st-row b{display:block;font-weight:800;font-size:15px}
+.st-row.good{background:var(--good-soft)}.st-row.bad{background:var(--bad-soft)}
+/* switch, stepper */
+.switch{display:flex;align-items:center;gap:var(--s3);width:100%;min-height:56px;text-align:left;margin-top:var(--s3);padding:var(--s2) 0;border-top:1px solid var(--hair-2);border-bottom:1px solid var(--hair-2)}
+.switch b{display:block;font-size:15px}
+.switch .meta{display:block}
+.switch .knob{width:48px;height:28px;border-radius:999px;background:var(--hair);border:2px solid var(--ink);position:relative;flex:none;transition:background .2s var(--ease)}
+.switch .knob::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:999px;background:var(--white);border:2px solid var(--ink);transition:transform .2s var(--ease)}
+.switch[aria-checked="true"] .knob{background:var(--in)}
+.switch[aria-checked="true"] .knob::after{transform:translateX(20px)}
+.stepper{display:inline-flex;align-items:center;gap:var(--s3);margin-top:var(--s2)}
+.stepper output{min-width:96px;text-align:center;font-weight:800;font-size:17px;font-variant-numeric:tabular-nums}
+.round[aria-disabled="true"]{border-color:var(--hair);color:var(--hair);cursor:not-allowed;transform:none}
+.sum-h{font-size:14px;margin-top:var(--s3)}
+.sum-more .tx .meta{margin-top:0}
+.sum-more>.meta{margin-top:var(--s3)}
 
 /* segmented */
 .seg{display:inline-grid;grid-auto-flow:column;gap:4px;background:var(--hair-2);border-radius:999px;padding:4px}
@@ -394,6 +416,8 @@ a.rail-me:hover,a.rail-me[aria-current]{background:var(--hair-2)}
 .detail span{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--muted)}
 .detail b{font-size:17px;font-weight:800;display:block;margin-top:2px}
 .detail-h{display:flex;justify-content:space-between;align-items:baseline;margin-top:var(--s4)}
+.detail-h.mstep{align-items:center;gap:var(--s2)}
+.detail-h.mstep h3{flex:1;text-align:center;min-width:0}
 .notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:var(--s3)}
 .postit{background:var(--yellow);border:1.5px solid var(--muted);padding:var(--s3);min-height:112px;transform:rotate(var(--r,0deg));box-shadow:var(--shadow-stick);position:relative}
 .postit h3{font-family:var(--marker);font-size:17px;font-weight:700;line-height:1.15;margin-top:var(--s2)}
@@ -557,7 +581,8 @@ const SHIFTS={
 };
 const ALL={...ACTS,...SHIFTS};
 const S={nick:'Mak',slots:['venner',null,null],addTab:'fritid',choice:'repair',spend:'vanlig',
-  offer:null,asked:null,extraEnded:false,sel:NOW,read:new Set(['line']),moped:true,lapp:true,phone:'ok',off:false,toast:false,kr:{step:0,due:700,end:null,log:[]},goal:0,look:0,pickFor:null};
+  offer:null,asked:null,extraEnded:false,sel:NOW,read:new Set(['line']),moped:true,lapp:true,phone:'ok',off:false,toast:false,kr:{step:0,due:700,end:null,log:[]},goal:0,look:0,pickFor:null,
+  flytt:false,disc:false,m:null,paid:false,b18:false,age:null,cardOn:true,pay:'minste',fast:500,term:12};
 
 /* ===== helpers ===== */
 const $=s=>document.querySelector(s);
@@ -666,8 +691,29 @@ V.start=()=>`<div class="wm">${ic('logo','lg')}LifeMode</div>
   <div class="scene" role="img" aria-label="Speilbildet ditt."><div class="scene-in"><svg class="art" viewBox="14 140 362 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><use href="#sc-glad"/></svg></div></div>
 </div>`;
 
-V.hjem=()=>`${timeline()}
-<h1 class="sr" tabindex="-1">Hjem, november</h1>
+/* month summary contents (FR-23, FR-45, FR-53): example purchases have no amounts of their own */
+const ACT_OKT=[['Gaming med gjengen',0],['Hvilekveld',0]];
+function sumMore(){
+  const row=(k,t,amt,sub='')=>`<li><span class="k ${k}"></span><div class="grow">${t}${sub?`<p class="meta">${sub}</p>`:''}</div><span class="amt">${amt}</span></li>`;
+  return `<details class="more sum-more" ${S.flytt?'open':''}><summary>${ic('chev','sm')}Hva gikk pengene til?</summary>
+  <ul class="tx">${row('out','Hverdagsforbruk',kr(-6343),'Kantina, klær og snacks')}${S.moped?row('out','Mopedforsikring',kr(-250)):''}${S.flytt?row('n','Flyttet fra sparekontoen',plain(136),'Brukskontoen hadde ikke nok'):''}</ul>
+  <h3 class="sum-h">Kveldene i oktober</h3>
+  <ul class="tx">${ACT_OKT.map(([t,c])=>`<li><span class="grow">${t}</span><span class="amt">${c?kr(c):'Gratis'}</span></li>`).join('')}</ul>
+  <p class="meta">Mamma og pappa betaler mobilen og bussen til du fyller 18 i januar 2029. Da overtar du regningene.</p></details>`;
+}
+/* progress before continuing counts the planned activities' payments (FR-49, FR-57) */
+const planned=()=>S.slots.filter(Boolean).map(k=>ALL[k]).filter(a=>!a.job).reduce((s,a)=>s+a.cost,0);
+const netAfter=()=>net()+planned();
+const afterTag=()=>planned()?`<span class="us">Etter planlagte aktiviteter</span>`:'';
+/* rule 8 status in the money view, and the month 59/60 warnings (FR-49) */
+function trig(){
+  if(S.m&&!S.paid) return `<div class="st-row bad" id="trig" tabindex="-1"><span class="sdot bad" aria-hidden="true"></span><p>${S.m==='m59'?
+    '<b>Krise i desember hvis du fortsetter nå</b>Du har ikke betalt det minste på kortet to måneder på rad. Desember er siste sjanse før slutten.':
+    `<b>Spillet slutter med gjeld hvis du fortsetter nå</b>Kortregningen var ikke betalt da november var over. Betal ${plain(700)} på kortet før du fortsetter.`}</p></div>`;
+  return `<div class="st-row good" id="trig" tabindex="-1"><span class="sdot good" aria-hidden="true"></span><p><b>${S.paid?'Kortet er betalt':'Ingen krise på vei'}</b>${S.paid?'Ingen krise på vei når du fortsetter.':'Ingenting setter i gang en krisemåned når du fortsetter.'}</p></div>`;
+}
+V.hjem=()=>`${S.m?timeline(S.m==='m59'?10:11,19,2030):timeline()}
+<h1 class="sr" tabindex="-1">Hjem, ${S.m==='m60'?'desember':'november'}</h1>
 <div id="toast-slot"></div>
 <div class="hub-top">
 ${sceneHubInner()}
@@ -679,16 +725,18 @@ ${sceneHubInner()}
     <span class="chip"><span class="k out"></span><b>${kr(-6593)}</b> brukt</span>
     <button class="chip" data-sheet="rente" aria-haspopup="dialog"><span class="k rate"></span><b>${kr(56)}</b> rente <span class="info">${ic('info')}</span><span class="sr">Hva er rente?</span></button>
   </div>
+  ${S.m?'':sumMore()}
 </section>
 <div class="duo" style="margin-top:var(--s4)">
-  <a class="tile" href="#penger"><span class="meta">Brukskonto</span><div class="big">${plain(cur())}</div><span class="meta">Sparekonto <b style="color:var(--ink)">${plain(23556)}</b></span><div class="bars" style="margin-top:var(--s3)"><div class="bar"><span>Sparemål: Billappen</span><b>${pct(net(),GOAL_PRICE)}</b><span class="tr"><i style="width:${Math.min(100,net()/GOAL_PRICE*100)}%"></i></span></div></div><p class="wb-foot">Åpne banken ${ic('chev','sm')}</p></a>
+  <a class="tile" href="#penger"><span class="meta">Brukskonto</span><div class="big">${plain(cur())}</div><span class="meta">Sparekonto <b style="color:var(--ink)">${plain(23556)}</b></span><div class="bars" style="margin-top:var(--s3)"><div class="bar"><span>Sparemål: Billappen</span><b>${pct(netAfter(),GOAL_PRICE)}</b><span class="tr"><i style="width:${Math.min(100,netAfter()/GOAL_PRICE*100)}%"></i></span>${afterTag()}</div></div><p class="wb-foot">Åpne banken ${ic('chev','sm')}</p></a>
   <div class="tile"><span class="meta">Trivsel<button class="ibtn" data-sheet="trivsel" aria-haspopup="dialog" aria-label="Hva er trivselsmålet?">${ic('info')}</button></span><div class="big">${wbTotal()}</div>
     <div class="bars">${WBnow().parts.map(wbBar).join('')}</div>
     <p class="wb-foot">Fritid 72 gir deg <b>3 frie kvelder</b>. Snittet ditt er <b>61</b>. Trivselsmålet er <b>50</b>.</p>
   </div>
 </div>
 </div></div>
-<div class="cta"><a class="btn pri" href="#aarsslutt">Fortsett til desember ${ic('arrow')}</a></div>`;
+${S.m&&!S.paid?trig():''}
+<div class="cta">${S.m&&!S.paid?`<button class="btn pri" data-sheet="fortsett" aria-haspopup="dialog">${S.m==='m60'?'Se hvordan det gikk':'Fortsett til desember'} ${ic('arrow')}</button>`:`<a class="btn pri" href="${S.m==='m60'?'#slutt':'#aarsslutt'}">${S.m==='m60'?'Se hvordan det gikk':'Fortsett til desember'} ${ic('arrow')}</a>`}</div>`;
 
 /* trivsel: status from the PRD threshold (50, rule 12): below it is bad, 50-59 ok, 60 and up good. Stress is mirrored (100 - stress). */
 const WB_LIMIT=50,WB_OK=10;
@@ -708,7 +756,7 @@ function slotRow(k,i){
   const a=k&&ALL[k];
   if(!a) return `<li class="item empty"><span class="slot-n">Kveld ${i+1}</span><div class="grow"><h3>Tom</h3></div>
     <button class="btn sm pri" data-pick="${i}" aria-haspopup="dialog">${ic('plus','sm')} Legg til</button><span class="pick-hint">Velg i lista ${ic('arrow','sm')}</span></li>`;
-  return `<li class="item" id="slot-${i}" tabindex="-1"><span class="slot-n">Kveld ${i+1}</span><div class="grow"><h3>${a.nm}</h3><p class="sub">${kr(a.cost)}${a.job?' lønn':''} · ${a.fx}</p></div>
+  return `<li class="item" id="slot-${i}" tabindex="-1"><span class="slot-n">Kveld ${i+1}</span><div class="grow"><h3>${a.nm}</h3><p class="sub">${kr(a.cost)}${a.job?' lønn i desember':''} · ${a.fx}</p></div>
     <button class="round" data-clear="${i}" aria-label="Fjern ${a.nm} fra kveld ${i+1}">${ic('x')}</button></li>`;
 }
 function addList(){
@@ -718,10 +766,10 @@ function addList(){
     <button aria-pressed="${S.addTab==='jobb'}" data-tab="jobb">Jobb</button></div>`;
   const items=Object.entries(src).map(([k,a])=>{
     const placed=S.slots.includes(k);
-    return `<li class="item"><div class="grow"><h3>${a.nm}</h3><p class="sub">${a.cost===0?'Gratis':kr(a.cost)}${a.job?' lønn':''} · ${a.fx}</p>${a.from?`<p class="sub" style="color:#7A2416">${a.from}</p>`:''}</div>
+    return `<li class="item"><div class="grow"><h3>${a.nm}</h3><p class="sub">${a.cost===0?'Gratis':kr(a.cost)}${a.job?' lønn i desember':''} · ${a.fx}</p>${a.from?`<p class="sub" style="color:#7A2416">${a.from}</p>`:''}</div>
       ${placed?`<span class="round ok" role="img" aria-label="Lagt inn">${ic('check')}</span>`:
       `<button class="round add" data-add="${k}" aria-label="Legg til ${a.nm}" ${freeSlots()?'':'aria-disabled="true" aria-describedby="nofree"'}>${ic('plus')}</button>`}</li>`;}).join('');
-  const hint=S.addTab==='jobb'?`<p class="meta" style="margin-top:var(--s3)">Vaktene kommer fra Butikken. En vakt bruker en av de frie kveldene dine.</p>`:'';
+  const hint=S.addTab==='jobb'?`<p class="meta" style="margin-top:var(--s3)">Vaktene kommer fra Butikken. En vakt bruker en av de frie kveldene dine, og du får betalt med lønna i desember.</p>`:'';
   const full=freeSlots()?'':'<p class="meta" id="nofree" style="margin-top:var(--s3)">Alle de frie kveldene er fylt opp. Fjern en aktivitet først.</p>';
   return `${tabs}<ul class="list" style="margin-top:var(--s3)">${items}</ul>${full}${hint}`;
 }
@@ -732,7 +780,8 @@ function planSum(){
   return `<div class="row meta" style="margin-top:var(--s3)"><span>Aktivitetene koster</span><b class="num" style="color:var(--ink);margin-left:auto">${xs.length?kr(sum):'0 kr'}</b></div>`;
 }
 V.plan=()=>`${timeline()}
-<div class="head"><a class="back" href="#hjem" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">Kveldene i november</h1><p class="meta">3 frie kvelder · ${3-freeSlots()} planlagt</p></div></div>
+<div class="head"><a class="back" href="#hjem" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">Kveldene i november</h1><p class="meta">3 frie kvelder · ${3-freeSlots()} planlagt<button class="ibtn" data-sheet="d26" aria-haspopup="dialog" aria-label="Forenklet: slik regnes kveldene">${ic('info')}</button></p></div></div>
+${S.disc?`<aside class="note disc" id="disc" aria-labelledby="disc-h"><span class="ic">${ic('info','sm')}</span><div><b id="disc-h">Forenklet</b><p>${DISC.d26}</p><button class="btn sm" data-disc>Skjønner</button></div></aside>`:''}
 <div class="plan">
   <section aria-label="Dine kvelder">
     <ul class="list" id="slots">${S.slots.map(slotRow).join('')}
@@ -761,12 +810,12 @@ V.aar=()=>{
     <div class="life">${[15,16,17,18,19].map(a=>`<div class="${a===16?'cur':''}"><i><b style="width:${a<16?100:a===16?(NOW+1)/12*100:0}%"></b></i>${a} år</div>`).join('')}</div></div>
   <section class="sec card" aria-labelledby="h-money">
     <h2 id="h-money">Pengene dine i år</h2>
-    <p class="meta" style="margin:2px 0 var(--s3)">Trykk på en måned</p>
+    <p class="meta" style="margin:2px 0 var(--s3)">Trykk på en måned, eller bla med pilene under</p>
     <div class="legend" aria-hidden="true"><span><i class="k in" style="width:12px;height:12px;border-radius:3px;display:inline-block"></i>Inn</span><span><i class="k out" style="width:12px;height:12px;border-radius:3px;display:inline-block"></i>Ut</span><span><i class="k rate" style="width:12px;height:12px;display:inline-block"></i>Rente</span></div>
     <div class="chart" role="group" aria-label="Inn og ut per måned">${cols}</div>
     <div class="rate-lbl"><span>Rente</span><span>maks 100 kr</span></div>
     <div class="rate-strip" aria-hidden="true">${rate}</div>
-    <div class="detail-h"><h3>${cap(MONTH_FULL[S.sel])}${YEAR_NOTE[S.sel]?` · <span class="meta">${YEAR_NOTE[S.sel]}</span>`:''}</h3></div>
+    <div class="detail-h mstep"><button class="round" data-mstep="-1" aria-label="Forrige måned" ${S.sel===0?'aria-disabled="true"':''}>${ic('back')}</button><h3>${cap(MONTH_FULL[S.sel])}${YEAR_NOTE[S.sel]?` · <span class="meta">${YEAR_NOTE[S.sel]}</span>`:''}</h3><button class="round" data-mstep="1" aria-label="Neste måned" ${S.sel>=NOW?'aria-disabled="true"':''}>${ic('chev')}</button></div>
     <div class="detail" role="status">
       <div><span><i class="k in"></i>Inn</span><b>${kr(sel[0])}</b></div>
       <div><span><i class="k out"></i>Ut</span><b>${kr(-sel[1])}</b></div>
@@ -909,8 +958,42 @@ V.meny=()=>`<div class="head"><a class="back" href="#hjem" aria-label="Tilbake">
   <li><button data-sheet="info" aria-haspopup="dialog">${ic('q')}Dette lagrer vi${ic('chev','sm')}</button></li>
   <li><button data-sheet="nytt" aria-haspopup="dialog">${ic('past')}Start et nytt liv${ic('chev','sm')}</button></li></ul>
 <ul class="menu" style="margin-top:var(--s5)"><li><a href="#landing">Logg ut</a></li><li><button data-sheet="alle" aria-haspopup="dialog">Logg ut på alle enheter</button></li><li><button class="danger" data-sheet="slett" aria-haspopup="dialog">Slett bruker</button></li></ul>`;
-const TALL=[['Skatt','Skatten regnes ut fra hele årsinntekten din med satsene for 2026. I virkeligheten kan arbeidsgiveren trekke 50 % av lønna til du har skattekort, eller når frikortet er brukt opp.'],['Lønn','Timelønna i spillet er minstesatsen i tariffavtalen for varehandelen (Virke/HK) fra 1. april 2026. Norge har ingen lovbestemt minstelønn, så den ekte lønna di kan bli både høyere og lavere.'],['Alle satser','Alle satser og beløp er 2026-tall. De holdes faste gjennom hele spillet, selv om spillet varer fra du er 15 til du er 20.'],['Tid','Tiden i spillet går bare når du spiller. Mens du er borte, kommer det ingen renter, regninger eller hendelser, uansett hvor lenge du er borte.'],['Trivsel','Trivsel er mye mer enn tre tall. Spillet måler bare stress, fritid og sosialt liv, for å vise at et godt liv handler om mer enn penger.']];
-V.tallene=()=>`<div class="head"><a class="back" href="#meny" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">Om tallene</h1><p class="meta">Dette gjør spillet enklere enn virkeligheten.</p></div></div><div class="stack">${TALL.map(t=>`<details class="choice-d"><summary>${ic('chev')}<span>${t[0]}</span></summary><div><p>${t[1]}</p></div></details>`).join('')}</div>`;
+/* FR-40: D1-D26 from Rule Set v1. D12, D25 and D26 use the wording proposed in #117 */
+const DISC={d26:'En måned har noen få frie kvelder. Jo mer du jobber, jo færre blir de. Spillet følger ikke dager eller klokkeslett, og en aktivitet gjør bare den måneden bedre. Det sosiale livet ditt over tid følger valgene dine, hvor mye du bruker og hvor mye du jobber.'};
+const TALL=[
+ ['Penger og skatt',[
+  ['Skatt','Skatten regnes ut fra hele årsinntekten din med satsene for 2026. I virkeligheten kan arbeidsgiveren trekke 50 % av lønna til du har skattekort, eller når frikortet er brukt opp. Det som er trukket for mye, får du tilbake i skatteoppgjøret.'],
+  ['Lønn','Timelønna i spillet er minstesatsen i tariffavtalen for varehandelen (Virke/HK) fra 1. april 2026. Norge har ingen lovbestemt minstelønn, så den ekte lønna di kan bli både høyere og lavere.'],
+  ['Alle satser','Alle satser og beløp er 2026-tall. De holdes faste gjennom hele spillet, selv om spillet varer fra du er 15 til du er 20.'],
+  ['Hvor mye du bruker','I spillet velger du om du bruker lite, vanlig eller mye, og en fast del av lønna di går til hverdagen hver måned. I virkeligheten går pengene til mange små kjøp, og det er lett å miste oversikten.'],
+  ['Regninger før 18','I spillet betaler foreldrene mobilen og bussen din til du fyller 18. Da overtar du regningene. Lommepenger er ikke med i denne versjonen.']]],
+ ['Jobb og tid',[
+  ['Timer og lønn','Jobben har faste timer i uka. Du kan spørre sjefen om flere eller færre, eller ta enkeltvakter. Spillet gjør timene om til lønn for hele måneden, med 52 uker delt på 12 måneder. Skolen regnes som 30 timer i uka. Spillet følger arbeidstidsreglene for alderen din, men holder ikke oversikt over enkeltdager eller om du jobber kveld eller natt.'],
+  ['Fulltidsjobb','I spillet kan du ikke begynne å studere etter videregående, så det finnes ikke studielån. I virkeligheten er studielån fra Lånekassen rentefritt så lenge du studerer på heltid, og det er noe helt annet enn kredittkortgjeld.'],
+  ['Kveldene',DISC.d26],
+  ['Kalenderen','I spillet har alle bursdag i januar. Skoleåret går fra august til juni, og juli er sommerferie.'],
+  ['Pauser','Tiden i spillet går bare når du spiller. Mens du er borte, kommer det ingen renter, regninger eller hendelser, uansett hvor lenge du er borte.']]],
+ ['Bank og sparing',[
+  ['Sparekontoen dekker','I spillet flytter vi penger fra sparekontoen automatisk når brukskontoen ikke har nok. I virkeligheten må du flytte pengene selv, ellers kan betalingen bli avvist.'],
+  ['Minus på kontoen','Går du i minus i spillet, betaler du ikke renter eller gebyrer, men det starter en krisemåned. I virkeligheten kan ubetalte regninger gi purregebyr og inkasso.'],
+  ['BSU-renta','BSU-renta i spillet er gjennomsnittet for norske banker i august 2026 (SSB). Noen banker gir mer, og renta endrer seg over tid.'],
+  ['Starte BSU','I spillet kan du opprette BSU selv fra du er 15. I virkeligheten må en foresatt som regel være med, og Skatteetaten fraråder BSU før du er 17 hvis du ikke har skattepliktig arbeidsinntekt.'],
+  ['Ta ut BSU','I spillet kan du bare ta ut hele BSU-en, og da avsluttes den. Du betaler også tilbake skattefradraget du har fått. I virkeligheten skal BSU brukes til bolig, og bruker du pengene til noe annet, mister du fradraget.']]],
+ ['Kort og lån',[
+  ['Kort og lån fra 18','I spillet kan du få lån og kredittkort fra du fyller 18. I virkeligheten sjekker banken inntekt, gjeld og betalingsanmerkninger, og mange krever fast inntekt eller at du er eldre. Lån fra familien er ikke banklån, og de kan du få før du fyller 18.'],
+  ['Kredittkortet','Kortet ditt har én fast kredittgrense i spillet, og du betaler ingen gebyrer, verken for å gå over grensen eller for å betale for sent. I virkeligheten setter banken grensen ut fra inntekten og gjelden din, den kan endres senere, og det koster ofte gebyr.'],
+  ['Lånerenta','Lånerenta på 15 % er et anslag midt i markedet. Ekte forbrukslån koster ofte mellom 9 og 22 %, avhengig av bank og hvem du er.'],
+  ['Forbrukslån','I spillet koster det ingenting å betale ned lånet før tiden, og banken ser bare på lønna di de siste tre månedene.'],
+  ['Dele opp kortgjelden','I spillet blir en betalingsavtale et nedbetalingslån over 12 måneder med samme rente som kortet, og kortet sperres til lånet er betalt. I virkeligheten avtaler du vilkårene med banken.'],
+  ['Lån fra familien','Lån fra familien har ingen rente i spillet, og du betaler tilbake et fast beløp hver måned. I virkeligheten avtaler familier slike lån på mange måter. Spillet regner ikke med familielån når det sjekker om gjelden din er for stor, men du må betale dem tilbake likevel.']]],
+ ['Moped og lappen',[
+  ['Mopedens verdi','Mopeden taper 15 % av kjøpsprisen hvert år du eier den. I virkeligheten avhenger prisen av modell, stand og hvor mye den er kjørt. Prisene i spillet bygger på annonser på FINN høsten 2026.'],
+  ['Forsikring og drivstoff','Forsikringen koster et fast beløp hver måned i spillet, og drivstoffet et fast beløp hver måned fra april til oktober. I virkeligheten bruker du mer drivstoff jo mer du kjører, og prisen på forsikring avhenger blant annet av alderen din, hvor du bor og hvilken moped du har.'],
+  ['Lappen','I spillet betaler du for lappen og må klare et lite kjørespill. I virkeligheten må du gjennom kurs og bestå prøver, og det tar tid. Prisen er et anslag, og trafikkskolene tar ulike priser.']]],
+ ['Spillet',[
+  ['Trivsel','Trivsel er mye mer enn tre tall. Spillet måler bare stress, fritid og sosialt liv, for å vise at et godt liv handler om mer enn penger. Tallet sier ikke noe om hvordan du har det i virkeligheten.'],
+  ['«Hvis du hadde valgt annerledes»','Når spillet viser hva som kunne skjedd hvis du hadde valgt annerledes, regner det bare på pengene i det ene valget, som om alt annet var likt, og som om pengene sto på sparekonto. For en gruppe aktiviteter regner det på det de kostet til sammen. I virkeligheten kunne et annet valg også ha endret det som skjedde senere.']]]];
+V.tallene=()=>`<div class="head"><a class="back" href="#meny" aria-label="Tilbake">${ic('back')}</a><div><h1 tabindex="-1">Om tallene</h1><p class="meta">Dette gjør spillet enklere enn virkeligheten.</p></div></div>${TALL.map(([g,xs],gi)=>`<section class="sec" aria-labelledby="h-t${gi}"><h2 id="h-t${gi}">${g}</h2><div class="stack" style="margin-top:var(--s3)">${xs.map(t=>`<details class="choice-d"><summary>${ic('chev')}<span>${t[0]}</span></summary><div><p>${t[1]}</p></div></details>`).join('')}</div></section>`).join('')}`;
 V.offline=()=>V.hjem();
 
 /* ---- phone apps ---- */
@@ -944,9 +1027,11 @@ function thread(){
 }
 const SPEND={lite:['Lite',5074,'Matpakke, sjelden nye klær','Du sparer mer'],vanlig:['Vanlig',6343,'Kantina av og til, klær iblant','Det de fleste velger'],mye:['Mye',8034,'Kantina hver dag, nye klær ofte','Du sparer nesten ingenting']};
 function bank(){
+  if(S.b18) return bank18();
   return appFrame('Banken',`<div class="card">
       <span class="meta">Brukskonto + sparekonto</span><div class="big-amt">${plain(net())}</div>
       <span class="chip"><span class="k in"></span>Igjen etter november: <b>${kr(1920+(S.moped?0:MOPED_PRICE))}</b></span>
+      ${trig()}
       <ul class="acc">
         <li><span class="ico">${ic('wallet')}</span><div class="grow"><h3>Brukskonto</h3><p class="sub">Til hverdagen</p></div><span class="amt">${plain(cur())}</span></li>
         <li><span class="ico">${ic('piggy')}</span><div class="grow"><h3>Sparekonto</h3><button class="rate-btn" data-sheet="rente" aria-haspopup="dialog">${kr(56)} rente<span class="info">${ic('info')}</span></button></div><span class="amt">${plain(23556)}</span></li>
@@ -955,9 +1040,10 @@ function bank(){
       </ul>
       <div class="actions" style="grid-template-columns:1fr"><button class="btn sm">${ic('swap','sm')} Flytt penger</button></div>
     </div>
-    <section class="card sec-card" aria-labelledby="h-goal"><div class="row"><h2 id="h-goal" class="grow">Sparemål: Billappen</h2><b class="num">${pct(net(),GOAL_PRICE)}</b></div><div class="progress"><i style="width:${Math.min(100,net()/GOAL_PRICE*100)}%"></i></div>
-      <p class="meta">${plain(GOAL_PRICE)}, fra 18 år. ${net()<GOAL_PRICE?`Mangler ${plain(GOAL_PRICE-net())}.`:'Du har nok.'}</p>
-      <div class="row" style="margin-top:var(--s3)"><h3 class="grow">Livsmål: Spare til noe stort</h3><b class="num">${pct(net(),100000)}</b></div><div class="progress"><i style="width:${net()/1000}%"></i></div>
+    <section class="card sec-card" aria-labelledby="h-goal"><div class="row"><h2 id="h-goal" class="grow">Sparemål: Billappen</h2><b class="num">${pct(netAfter(),GOAL_PRICE)}</b></div><div class="progress"><i style="width:${Math.min(100,netAfter()/GOAL_PRICE*100)}%"></i></div>
+      ${planned()?`<p class="meta"><b style="color:var(--ink)">Etter planlagte aktiviteter</b> (${kr(planned())}). Før planen: ${pct(net(),GOAL_PRICE)}.</p>`:''}
+      <p class="meta">${plain(GOAL_PRICE)}, fra 18 år. ${netAfter()<GOAL_PRICE?`Mangler ${plain(GOAL_PRICE-netAfter())}.`:'Du har nok.'}</p>
+      <div class="row" style="margin-top:var(--s3)"><h3 class="grow">Livsmål: Spare til noe stort</h3><b class="num">${pct(netAfter(),100000)}</b></div><div class="progress"><i style="width:${netAfter()/1000}%"></i></div>${planned()?'<p class="meta">Etter planlagte aktiviteter.</p>':''}
       <button class="btn sm" data-sheet="maal" aria-haspopup="dialog">Bytt sparemål</button></section>
     <section class="card sec-card" aria-labelledby="h-next"><h2 id="h-next">Fremover</h2>
       <details class="more"><summary>${ic('chev','sm')}Kommer i desember<span class="amt">${S.moped?kr(-250):'0 kr'}</span></summary><ul class="tx"><li><span class="k out"></span>Mopedforsikring<span class="amt">${S.moped?kr(-250):'0 kr'}</span></li><li>Buss og mobil<span class="amt">Foreldrene betaler til du er 18</span></li></ul></details>
@@ -976,6 +1062,41 @@ function bank(){
       <li><span class="k out"></span>Hverdagsforbruk<span class="amt">${kr(-6343)}</span></li>
       <li><span class="k out"></span>Mopedforsikring<span class="amt">${kr(-250)}</span></li></ul></section>`);
 }
+/* 18+ bank (FR-25, FR-26, FR-45). April 2029 uses worked example 4 (3 200 kr on the card); months 59-60 use the card warning's 10 000 kr */
+function bank18(){
+  const late=!!S.m&&!S.paid, bal=S.m?10000:3200, rent=S.m?188:60, min=S.m?350:300, fast=Math.max(min,S.fast);
+  const payOpts=[['hele','Hele regningen',plain(bal),'Ingen rente'],['minste','Det minste',plain(min),S.m?'51 måneder og 5 508 kr i rente til sammen':'13 måneder og 406 kr i rente til sammen'],['fast','Fast beløp',S.pay==='fast'?plain(fast):'Velg selv','Minst det minste, i hele hundrelapper']];
+  const tx=(k,t,a)=>`<li>${k?`<span class="k ${k}"></span>`:''}<span class="grow">${t}</span><span class="amt">${a}</span></li>`;
+  return appFrame('Banken',`<div class="card">
+      <span class="meta">Brukskonto + sparekonto</span><div class="big-amt">${plain(S.m?1240:22420)}</div>
+      ${trig()}
+      <ul class="acc">
+        <li><span class="ico">${ic('wallet')}</span><div class="grow"><h3>Brukskonto</h3><p class="sub">Til hverdagen</p></div><span class="amt">${plain(S.m?640:4120)}</span></li>
+        <li><span class="ico">${ic('piggy')}</span><div class="grow"><h3>Sparekonto</h3><p class="sub">2,87 % rente</p></div><span class="amt">${plain(S.m?600:18300)}</span></li>
+        <li><span class="ico">${ic('house')}</span><div class="grow"><h3>BSU<button class="ibtn" data-sheet="bsu" aria-haspopup="dialog" aria-label="Hva er BSU?">${ic('info')}</button></h3><p class="sub">5,61 % rente</p></div><span class="amt">${plain(S.m?0:12400)}</span></li>
+        <li><span class="ico">${ic('card')}</span><div class="grow"><h3>Kredittkort</h3><p class="sub">Grense ${plain(10000)}</p></div><span class="amt">${kr(-bal)}</span></li>
+      </ul>
+      <div class="actions" style="grid-template-columns:1fr"><button class="btn sm">${ic('swap','sm')} Flytt penger</button></div>
+    </div>
+    <section class="card sec-card" aria-labelledby="h-card"><h2 id="h-card">Kredittkort</h2>
+      <ul class="kv"><li><span>Brukt</span><b>${plain(bal)} av ${plain(10000)}</b></li><li><span>Rente i året</span><b>22,6 %</b></li><li><span>Rente denne måneden</span><b>${kr(-rent)}</b></li>${late?`<li><span>Ikke betalt</span><b>${plain(700)}</b></li>`:''}</ul>
+      ${late?`<button class="btn pri block" style="margin-top:var(--s3)" data-pay>Betal ${plain(700)} nå</button>`:''}
+      <button class="switch" role="switch" aria-checked="${S.cardOn}" data-cardon><span class="grow"><b>Bruk kortet</b><span class="meta">${S.cardOn?'Kjøp går på kortet først':'Kjøp går fra brukskontoen'}</span></span><span class="knob" aria-hidden="true"></span></button>
+      <h3 id="h-pay" style="margin-top:var(--s4)">Slik betaler du kortregningen</h3>
+      <div class="choice" role="radiogroup" aria-labelledby="h-pay">${payOpts.map(([k,t,a,sub])=>`<label class="opt"><input type="radio" name="cardpay" value="${k}" ${S.pay===k?'checked':''}><div class="grow"><h3><span>${t}</span><span>${a}</span></h3><p>${sub}</p></div></label>`).join('')}</div>
+      ${S.pay==='fast'?`<div class="stepper" role="group" aria-label="Fast beløp hver måned"><button class="round" data-fast="-1" aria-label="100 kr mindre" ${fast<=min?'aria-disabled="true"':''}>${ic('dash')}</button><output id="fastv" aria-live="polite">${plain(fast)}</output><button class="round" data-fast="1" aria-label="100 kr mer" ${fast>=bal?'aria-disabled="true"':''}>${ic('plus')}</button></div>`:''}
+      <p class="meta" style="margin-top:var(--s2)">Endringen gjelder fra neste regning. Hva er det minste?<button class="ibtn" data-sheet="minste" aria-haspopup="dialog" aria-label="Hva er det minste?">${ic('info')}</button></p>
+      <button class="btn sm" style="margin-top:var(--s3)">Betal ekstra på kortet</button></section>
+    <section class="card sec-card" aria-labelledby="h-loan"><h2 id="h-loan">Forbrukslån</h2><ul class="acc">
+      <li><span class="ico">${ic('wallet')}</span><div class="grow"><h3>Du har ikke lån</h3><p class="sub">${S.m?'Kan ikke tas opp de to siste månedene':`Du kan låne ${plain(5000)}–${plain(22000)}`}</p></div>${S.m?ic('lock'):''}</li></ul>
+      ${S.m?'':'<button class="btn sm" style="margin-top:var(--s2)" data-sheet="laan" aria-haspopup="dialog">Se hva et lån koster</button>'}</section>
+    <section class="card sec-card" aria-labelledby="h-next18"><h2 id="h-next18">Fremover</h2>
+      <details class="more"><summary>${ic('chev','sm')}Kommer i ${S.m?'desember':'mai'}<span class="amt">${kr(-(299+(S.m?238:250)+min))}</span></summary><ul class="tx">${tx('out','Mobil',kr(-299))}${S.m?tx('out','Busskort',kr(-238)):tx('out','Mopedforsikring',kr(-250))}${tx('out','Kortregningen, '+({hele:'hele',minste:'det minste',fast:'fast beløp'}[S.pay]),kr(-(S.pay==='hele'?bal:S.pay==='fast'?fast:min)))}</ul></details>
+      <p class="meta" style="margin-top:var(--s2)">Du betaler mobilen og ${S.m?'bussen':'mopeden'} selv fra du fylte 18.</p></section>
+    <section class="card sec-card" aria-labelledby="h-tx18"><h2 id="h-tx18">${S.m?(S.m==='m59'?'November':'Desember'):'April'}</h2><ul class="tx">
+      ${tx('in','Lønn fra Butikken',kr(8457))}${tx('out','Hverdagsforbruk',kr(-6343))}${tx('out','Mobil',kr(-299))}${S.m?tx('out','Busskort',kr(-238)):tx('out','Mopedforsikring',kr(-250))}${tx('rate','Rente, kredittkort',kr(-rent))}${tx('out','Kortregningen',kr(-min))}</ul></section>`);
+}
+const annuity=(A,n,r=.15/12)=>{const p=Math.round(A*r/(1-Math.pow(1+r,-n)));let b=A,tot=0,last=p;for(let i=0;i<n;i++){const it=Math.round(b*r);last=i<n-1?p:b+it;b=b+it-last;tot+=last}return [p,last,tot]};
 /* prototype only: the engine sends these figures (FR-47, rule 12, rule 16; worked examples 24 and 25) */
 const RATE=139.4,SHARE={lite:.6,vanlig:.75,mye:.95};
 const wage=h=>Math.round(h*52/12*RATE);
@@ -1000,7 +1121,7 @@ function job(){
       ${done?'':'<p class="meta" id="ask-why" style="margin-top:var(--s2)">Svar på tilbudet først.</p>'}`}
     </section>
     <section class="card sec-card" aria-labelledby="h-shift"><h2 id="h-shift">Vakter du kan ta i november</h2><ul class="tx">
-      ${Object.entries(SHIFTS).map(([k,a])=>`<li><div class="grow"><b>${a.nm}</b><p class="meta">${a.fx} · ${kr(a.cost)} lønn</p></div>${S.slots.includes(k)?`<span class="chip"><span class="k in"></span><b>I planen</b></span>`:`<button class="btn sm" data-goplan aria-label="Til planen: ${a.nm}">Til planen</button>`}</li>`).join('')}</ul></section>
+      ${Object.entries(SHIFTS).map(([k,a])=>`<li><div class="grow"><b>${a.nm}</b><p class="meta">${a.fx} · ${kr(a.cost)}, betales med lønna i desember</p></div>${S.slots.includes(k)?`<span class="chip"><span class="k in"></span><b>I planen</b></span>`:`<button class="btn sm" data-goplan aria-label="Til planen: ${a.nm}">Til planen</button>`}</li>`).join('')}</ul></section>
     <section class="card sec-card" aria-labelledby="h-end"><h2 id="h-end">Slutte med ekstravaktene?</h2>
       <p style="margin-top:var(--s2)">I desember får du ${endTxt}, og <b>${plain(endDiff)} mindre</b>. Ekstravaktene slutter uansett etter desember.</p>
       <button class="btn sm" style="margin-top:var(--s3)" data-endextra ${S.extraEnded?'aria-disabled="true"':''}>${S.extraEnded?'Avsluttet':'Slutt med ekstravaktene'}</button></section>
@@ -1019,11 +1140,16 @@ function preset(after){const st=location.hash.split('~')[1];if(!st)return;S.toas
   if(!after){if(r==='resultat'){S.choice=st;S.phone=st==='used'?'used':st==='live'?'crack':'ok'}
     if(r==='krise'){const k=S.kr;if(st==='2'){k.step=1;k.due=200;k.asked=true}if(st==='loest'){S.moped=false;k.end='loest';k.log=[['up','Mopeden er solgt for 7 715 kr.'],['up','Kortregningene er betalt.'],['down','Du tar bussen fra september.']]}if(st==='ikke'){k.end='ikke';k.log=[['down','Gjelden vokser videre.'],['same','Neste krise kan komme tidligst i november.']]}}
     if(r==='glemt')S.sent=true;if(r==='aarsslutt'&&st==='droppet')S.dropped=true;if(r==='jobb'){S.offer=true;S.asked='flere'}if(r==='plan'&&st==='full')S.slots=['venner','konsert','hvile'];
-    if(r==='penger'&&st==='solgt'||r==='hjem'&&st==='solgt')S.moped=false;return}
+    if(r==='penger'&&st==='solgt'||r==='hjem'&&st==='solgt')S.moped=false;
+    if(r==='hjem'&&st==='flytt')S.flytt=true;if(r==='plan'&&st==='forste')S.disc=true;
+    if(st==='18'||st==='laan'){S.b18=true;S.age=18}
+    if(/^m(59|60)/.test(st)){S.m=st.slice(0,3);S.b18=true;S.age=19}
+    if(st==='fast')Object.assign(S,{b18:true,age:18,pay:'fast'});return}
   if(r==='opprett'&&st==='ibruk'){$('#f-mail').value='brukt@eksempel.no';$('#f-pw').value='passord1';$('form').requestSubmit();$('[data-mailok]').click();return}
   if(r==='opprett'){$('#f-mail').value='mak@eksempel.no';$('#f-pw').value='passord1';$('form').requestSubmit()}
   if(r==='resultat'&&st==='repair'&&$('[data-why]'))$('[data-why]').click();
-  if(['rente','selg','maal','slett','nytt','navn','passord','info','trivsel','minste','bsu'].includes(st))openSheet(st);
+  if(['rente','selg','maal','slett','nytt','navn','passord','info','trivsel','minste','bsu','laan'].includes(st))openSheet(st);
+  if(/^m(59|60)s$/.test(st))openSheet('fortsett');
   if(st==='varsel')showToast(true);if(st==='velg'){S.pickFor=1;openSheet('pick')}}
 function focusKey(){const a=document.activeElement;if(!a||a===document.body||a.closest('dialog'))return null;if(a.id)return '#'+CSS.escape(a.id);
   for(const at of a.attributes){if(at.name.startsWith('data-'))return `[${at.name}="${CSS.escape(at.value)}"]`}if(a.name&&a.value)return `[name="${a.name}"][value="${CSS.escape(a.value)}"]`;return null}
@@ -1054,7 +1180,7 @@ function render(focus=true){
 function goOffline(){
   $('#main').insertAdjacentHTML('afterbegin',`<div class="net" id="netmsg">${ic('off')}<span>Ingen nett. Du kan se, men ikke velge, før du er på nett igjen.</span></div>`);
   if(!S.offAnn){S.offAnn=true;live('Ingen nett. Du kan se, men ikke velge, før du er på nett igjen.')}
-  document.querySelectorAll('[data-choose],[data-add],[data-pick],[data-clear],[data-offer],[data-ask],[data-endextra],[data-kr],[data-same],[data-decline]').forEach(b=>{b.setAttribute('aria-disabled','true');b.setAttribute('aria-describedby','netmsg')});
+  document.querySelectorAll('[data-choose],[data-add],[data-pick],[data-clear],[data-offer],[data-ask],[data-endextra],[data-kr],[data-same],[data-decline],[data-pay],[data-cardon],[data-fast],[data-disc],.cta button').forEach(b=>{b.setAttribute('aria-disabled','true');b.setAttribute('aria-describedby','netmsg')});
   document.querySelectorAll('.cta a').forEach(a=>{a.removeAttribute('href');a.setAttribute('role','link');a.setAttribute('aria-disabled','true')});
 }
 function showToast(keep){
@@ -1068,7 +1194,7 @@ function nav(r){
   const badge=k=>k==='telefon'?unread():k==='plan'&&freeSlots()?-1:k==='jobb'&&S.offer===null?-1:0;
   $('#tabbar').innerHTML=items.map(([k,l,i])=>{const b=badge(k);return `<a class="tab" href="#${k}" ${cur===k?'aria-current="page"':''}><span class="tab-ic">${ic(i)}${b>0?`<span class="dot">${b}</span>`:b<0?'<span class="dot bare"></span>':''}</span>${l}${b>0?`<span class="sr">, ${b} nye</span>`:b<0?'<span class="sr">, noe nytt</span>':''}</a>`}).join('');
   $('#rail-links').innerHTML=items.map(([k,l,i])=>{const b=badge(k);return `<a class="rl" href="#${k}" ${cur===k?'aria-current="page"':''}>${ic(i)}${l}${b>0?`<span class="cnt" aria-hidden="true">${b}</span><span class="sr">, ${b} nye</span>`:b<0?'<span class="cnt bare" aria-hidden="true"></span><span class="sr">, noe nytt</span>':''}</a>`}).join('');
-  $('#rail-me').textContent=`${S.nick} · ${AGE[r]||16} år`;$('#rail-menu').setAttribute('aria-label',`${S.nick} · ${AGE[r]||16} år, meny`);$('#rail-menu .av').textContent=S.nick[0].toUpperCase();r==='meny'?$('#rail-menu').setAttribute('aria-current','page'):$('#rail-menu').removeAttribute('aria-current');
+  const age=AGE[r]||S.age||16;$('#rail-me').textContent=`${S.nick} · ${age} år`;$('#rail-menu').setAttribute('aria-label',`${S.nick} · ${age} år, meny`);$('#rail-menu .av').textContent=S.nick[0].toUpperCase();r==='meny'?$('#rail-menu').setAttribute('aria-current','page'):$('#rail-menu').removeAttribute('aria-current');
 }
 addEventListener('hashchange',()=>{if(route()!=='glemt')S.sent=false;render()});
 addEventListener('offline',()=>render(false));addEventListener('online',()=>render(false));
@@ -1098,6 +1224,14 @@ function openSheet(kind){
   if(kind==='trivsel') sheet.innerHTML=X('Trivselsmålet','<p>Trivsel er stress, fritid og sosialt liv, fra 0 til 100.</p><p style="margin-top:var(--s3)">Trivselsmålet er 50. Har du minst 50 i snitt fra sommeren du er 16 til du fyller 20, har du klart deg både med penger og med livet.</p><button class="btn block" data-close style="margin-top:var(--s4)">Skjønner</button>');
   if(kind==='minste') sheet.innerHTML=X('Det minste du kan betale','<p>Banken krever at du betaler litt av kortgjelden hver måned. Resten blir stående, og du betaler rente av det.</p><button class="btn block" data-close style="margin-top:var(--s4)">Skjønner</button>');
   if(kind==='bsu') sheet.innerHTML=X('BSU','<p>BSU er sparing til egen bolig. Den gir 5,61 % rente, mer enn sparekontoen.</p><p style="margin-top:var(--s3)">Du kan bare ta ut alt på en gang, og da stenges BSU-en for resten av spillet.</p><button class="btn block" data-close style="margin-top:var(--s4)">Skjønner</button>');
+  if(kind==='d26') sheet.innerHTML=X('Forenklet',`<p>${DISC.d26}</p><p class="meta" style="margin-top:var(--s3)">Alle forklaringene står under Om tallene i menyen.</p><button class="btn block" data-close style="margin-top:var(--s4)">Skjønner</button>`);
+  if(kind==='laan'){const [p,last,tot]=annuity(20000,S.term);sheet.innerHTML=X('Forbrukslån',`<p>Et lån du betaler ned med like mye hver måned.</p>
+    <p class="meta" style="margin-top:var(--s3)" id="h-term">Betales ned på</p><div class="seg" role="group" aria-labelledby="h-term" style="margin-top:var(--s2)">${[12,24,36].map(n=>`<button aria-pressed="${S.term===n}" data-term="${n}">${n} mnd.</button>`).join('')}</div>
+    <ul class="kv card facts" role="status"><li><span>Du låner</span><b>${plain(20000)}</b></li><li><span>Rente i året</span><b>15 %</b></li><li><span>Hver måned</span><b>${plain(p)}<small>Siste gang ${plain(last)}</small></b></li><li><span>Til sammen</span><b>${plain(tot)}</b></li></ul>
+    <p class="meta" style="margin-top:var(--s3)">Lånet koster deg ${plain(tot-20000)}. Du kan betale ned alt når du vil, uten gebyr.</p>
+    <div class="ask" style="margin-top:var(--s4)"><button class="btn pri block" data-close>Ta opp lånet</button><button class="btn block" data-close>Avbryt</button></div>`)}
+  if(kind==='fortsett') sheet.innerHTML=X(S.m==='m60'?'Avslutte med gjeld?':'Fortsette til desember?',`<p>${S.m==='m60'?`Kortregningen var ikke betalt da november var over. Fortsetter du uten å betale ${plain(700)}, slutter spillet med at økonomien ikke holdt.`:'Du har ikke betalt det minste på kortet to måneder på rad. Fortsetter du nå, blir desember en krisemåned, og det er siste sjanse før slutten.'}</p>
+    <div class="ask" style="margin-top:var(--s4)"><a class="btn pri block" href="#penger" data-close>Til banken</a><button class="btn block" data-go="${S.m==='m60'?'#slutt-tap':'#krise'}">Fortsett likevel</button></div>`);
   if(!sheet.open) sheet.showModal();
 }
 sheet.addEventListener('click',e=>{if(e.target===sheet||e.target.closest('[data-close]'))sheet.close()});
@@ -1138,6 +1272,12 @@ document.addEventListener('click',e=>{
   else if(d.go){sheet.close();location.hash=d.go}
   else if(d.why!==undefined){const w=$('#why');w.hidden=!w.hidden;t.setAttribute('aria-expanded',String(!w.hidden))}
   else if(d.mon){S.sel=+d.mon;render(false);document.querySelector(`[data-mon="${d.mon}"]`)?.focus()}
+  else if(d.mstep){S.sel=Math.max(0,Math.min(NOW,S.sel+ +d.mstep));render(false)}
+  else if(d.disc!==undefined){S.disc=false;S.focusTo='[data-sheet="d26"]';live('Forklaringen ligger bak i-knappen og under Om tallene.');render(false)}
+  else if(d.cardon!==undefined){S.cardOn=!S.cardOn;live(S.cardOn?'Kortet er på. Kjøp går på kortet først.':'Kortet er av. Kjøp går fra brukskontoen.');render(false)}
+  else if(d.fast){S.fast=Math.max(S.m?350:300,S.fast+100*d.fast);render(false)}
+  else if(d.pay!==undefined){S.paid=true;S.focusTo='#trig';live(`Du betalte ${plain(700)} på kortet. Ingen krise på vei.`);render(false)}
+  else if(d.term){S.term=+d.term;openSheet('laan');sheet.querySelector(`[data-term="${d.term}"]`)?.focus()}
   else if(d.offer){S.offer=d.offer==='1';S.focusTo='#offer-ans';live(S.offer?'Du sa ja til 2 timer mer fra desember.':'Du sa nei takk.');render(false)}
   else if(d.ask){S.asked=d.ask;S.focusTo='#asked';live(`Du har spurt om ${d.ask} timer. Line svarer i desember.`);render(false)}
   else if(d.same!==undefined){LAST.forEach(k=>{const i=S.slots.indexOf(null);if(i>=0&&!S.slots.includes(k)){S.slots[i]=k;S.focusTo=S.focusTo||`#slot-${i}`}});live('Aktivitetene fra oktober er lagt inn der de får plass.');render(false)}
@@ -1152,6 +1292,7 @@ document.addEventListener('click',e=>{const m=e.target.closest('[data-msg]');if(
 document.addEventListener('change',e=>{
   if(e.target.name==='spend'){S.spend=e.target.value;const n=$('#sp-note');if(n)n.textContent=S.spend==='vanlig'?'Dette bruker du nå.':'Gjelder fra desember.';live(`Du har valgt ${SPEND[S.spend][0]}: ca. ${plain(SPEND[S.spend][1])} i måneden.`)}
   if(e.target.name==='goal'){S.goal=+e.target.value}
+  if(e.target.name==='cardpay'){S.pay=e.target.value;render(false)}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&e.target.closest('.toast')){$('#toast-slot').innerHTML='';S.toastOn=false;$('#h-sum')?.setAttribute('tabindex','-1');$('#h-sum')?.focus()}});
 document.addEventListener('input',e=>{

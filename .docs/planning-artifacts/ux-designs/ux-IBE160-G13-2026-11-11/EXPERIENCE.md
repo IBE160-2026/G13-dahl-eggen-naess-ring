@@ -1,6 +1,6 @@
 ---
 title: LifeMode EXPERIENCE
-status: draft
+status: final
 created: 2026-11-11
 updated: 2026-11-23
 name: LifeMode
@@ -17,9 +17,9 @@ mockups:
 
 # LifeMode — Experience Spine
 
-> **Draft, 2026-11-22.** This describes how round 3 works (`mockups/index.html`, Ringer's layout in Speilet's style), built from the team's revisions in `../decisions.md`. It builds on saegg1205's shared spine (`ux-IBE160-G13-2026-11-17/EXPERIENCE.md`): the same 28 surfaces, states and journeys, with round 3's decisions on top. The group chose round 3 as the direction on 2026-11-22 (#95), took its job and shift rules into the PRD (#105), and decided that stress costs nothing extra during play (#106). The spine stays a draft until it is finalized. The PRD wins on product rules. This spine wins over the mockup.
+> **Final, 2026-11-23.** This describes how round 3 works (`mockups/index.html`, Ringer's layout in Speilet's style), built from the team's revisions in `../decisions.md`. It builds on saegg1205's shared spine (`ux-IBE160-G13-2026-11-17/EXPERIENCE.md`): the same 28 surfaces, states and journeys, with round 3's decisions on top. The group chose round 3 as the direction on 2026-11-22 (#95), took its job and shift rules into the PRD (#105), and decided that stress costs nothing extra during play (#106). On 2026-11-23 the group approved the last open UX decisions: the wellbeing bands (#111), unread marks (#112), one-off shift pay with next month's wage (#114) and FR-35 left out (#115). The spine is final. The PRD wins on product rules. This spine wins over the mockup.
 >
-> Tags: `[ASSUMPTION]` is a choice made without a team decision. `[NOTE FOR UX]` marks something the PRD asks for that isn't drawn yet.
+> Every choice here is a team decision or a PRD rule. What waits on the PRD, architecture or rule set is listed under Open Questions.
 
 ## Foundation
 
@@ -46,6 +46,9 @@ mockups:
   | Money view | «Penger» (tab), «Banken» (screen title) |
   | Minimum payment | «det minste» with an (i) |
   | Payment plan | «Del opp hele kortgjelden» |
+  | Disclosure | «Forenklet», then an (i) |
+  | Rule 8 trigger status | «Ingen krise på vei» / «Krise i <måned> hvis du fortsetter nå» |
+  | Card use on/off | «Bruk kortet» |
   | Device | «mobil eller PC», «overalt» |
 
 ## Information Architecture
@@ -75,7 +78,7 @@ mockups:
 | 14 | "Hvorfor?" | inline on 13 | 13, money | Cause behind a change (FR-36, FR-38) | yes (inline) |
 | 15 | Month plan | `#plan` | Tab, sticker «Planlegg n kvelder» | Free evenings by tapping: activities and one-off shifts (FR-47, FR-52, FR-53) | yes |
 | 16 | Job | `#jobb` | Tab, sticker «Jobb 14 t i uka», pane | Job, wage, hours, the weekly limit, offers, ask for more or fewer hours, one-off shifts, end extra shifts, quit (FR-47, FR-56) | yes |
-| 17 | Money (bank) | `#penger` | Tab, accounts tile, pane | Accounts, interest, BSU, card, savings target and life goal, what comes next, buy and sell, spending, transactions (FR-9c, FR-22, FR-23, FR-26, FR-29, FR-45, FR-48, FR-57) | yes |
+| 17 | Money (bank) | `#penger` | Tab, accounts tile, pane | Accounts, interest, BSU, card, savings target and life goal, what comes next, buy and sell, spending, transactions, the crisis check before continuing; from 18 the card, its payment and the consumer loan (`#penger~18`) (FR-9c, FR-22, FR-23, FR-25, FR-26, FR-29, FR-45, FR-48, FR-49, FR-57) | yes |
 | 18 | Wellbeing | tile on 08 | 08 | Score with a status, three parts with a status, their consequences (FR-33) | yes (tile) |
 | 19 | Year | `#aar` | The timeline, "Året ›" | Life bar, money per month, what unlocks | yes |
 | 20 | Card warning | `#kort` | Age 18+, first month with card interest | Card debt in kroner, no scolding (FR-31) | yes |
@@ -85,7 +88,7 @@ mockups:
 | 24 | Welcome back | `#velkommen` | Login, or an hour away | Quick recap (FR-16, UJ-2) | yes |
 | 25 | Ending | `#slutt`, `#slutt-hul`, `#slutt-ikke`, `#slutt-tap` | 20th birthday | Four endings, three choices that mattered (FR-41, FR-42, FR-43) | yes |
 | 26 | Menu | `#meny` | Avatar in the timeline (below 768 px), rail avatar | Nickname, password, information, new life, log out, delete user (FR-4, FR-5, FR-43, FR-44) | yes |
-| 27 | About the numbers | `#tallene` | 26 | Disclosed simplifications (FR-40) | yes |
+| 27 | About the numbers | `#tallene` | 26 | All 26 disclosed simplifications, grouped by theme (FR-40) | yes |
 | 28 | Offline | `#offline` (state) | Any | Readable, options locked (FR-8) | yes |
 
 → Composition reference: `mockups/index.html` (open `#hjem`, `#plan`, `#aar`, `#penger`, `#jobb`). `mockups/oversikt.html` shows every surface and its states on one page. The spine wins on conflict.
@@ -128,10 +131,14 @@ Behavioral. Visual specs are in `DESIGN.md` → Components.
 | CTA button | One primary action per screen. A quiet month can be finished in one tap from 08 (principle 5). Continuing opens the next month: its event first if it is an active month, otherwise its hub (FR-49). |
 | Event facts | Four small facts above the options: current account, savings, debt and fixed costs per month, engine figures (FR-13). |
 | Outcome list | On results and crisis ends: one line per change, better (check), worse (arrow down) or unchanged (dash), in the order the engine sends them. Announced with the result. |
-| Savings target | One option with a price, pinned in the bank (FR-57): progress from current account plus savings, the price, when it opens, and what's missing. «Bytt sparemål» opens a sheet; pinning moves no money. The life goal's progress is shown below it (FR-9c). Cleared with a note when the option is taken or given. |
+| Savings target | One option with a price, pinned in the bank (FR-57): progress from current account plus savings, the price, when it opens, and what's missing. Before continuing, progress counts the planned activities' payments and says so: «Etter planlagte aktiviteter», with the planned amount and the figure before the plan (FR-49, FR-57). The hub tile and the life goal are marked the same way. «Bytt sparemål» opens a sheet; pinning moves no money. The life goal's progress is shown below it (FR-9c). Cleared with a note when the option is taken or given. |
 | What comes next | Two closed rows in the bank: next month's known costs, and activity spend this year by kind (FR-57). In month 60 the first is empty. |
 | Open options | In the bank, «Kan kjøpes eller selges» (FR-48): each open option with its price, «Mangler … kr» when short, the reason when blocked, or a lock with the age. Selling shows today's value and asks once in a sheet with what it changes (FR-29). |
-| Credit card | From 18, in the bank (FR-26): balance, limit, how the bill is paid (whole, minimum or fixed), card use on/off, this month's interest in kroner and the cost of paying only the minimum. A consumer loan shows its monthly payment and total before it's taken (FR-25). `[NOTE FOR UX]` the 18+ bank isn't drawn; it reuses the account rows, radio cards and facts card. |
+| Credit card | From 18, in the bank (FR-26, `#penger~18`): a card row in the account list, then a card section with what is used against the limit, the yearly rate and this month's interest in kroner. An overdue amount adds «Ikke betalt» and a «Betal … nå» button. «Bruk kortet» is a switch (`role="switch"`) that says where purchases go. «Slik betaler du kortregningen» is three radio cards: the whole bill (no interest), «det minste» (with how long and how much interest if only that is paid) and a fixed amount, which opens a stepper in 100 kr steps from the minimum up to the balance. A change applies from the next bill. The bills taken over at 18 (mobile, then the moped or the bus) show under What comes next (FR-23). |
+| Consumer loan | In the bank from 18 (FR-25): what the player can borrow, and «Se hva et lån koster» opens a sheet. The term is three toggle buttons (12, 24, 36 months); the sheet shows the amount, the rate, the monthly payment, the last payment, the total and what the loan costs, all engine figures, before the loan is taken. In months 59–60 the row is locked with the reason (rule 6). |
+| Crisis check | At the top of the bank before continuing (FR-49, rule 8): a status row with a dot and words, «Ingen krise på vei» or what would start a crisis month. When a trigger is true, the hub repeats the row above the CTA, and the CTA opens a confirm sheet with «Til banken» first and «Fortsett likevel» second. Month 59: a crisis in December is the last chance before the ending. Month 60: continuing with the trigger still true ends the game with debt (FR-41). Paying what is overdue turns the row to «Kortet er betalt». |
+| Month summary | On 08 under the chips, «Hva gikk pengene til?», closed by default: everyday spending with example purchases that have no amounts of their own (FR-23, NFR-4), fixed costs, each automatic transfer from savings (FR-45), last month's evenings with their cost (FR-53), and when the player takes over the bills at 18 (FR-23, D23). |
+| Disclosure (first time) | The first time a mechanism appears, a note card labelled «Forenklet» with the D-text and «Skjønner» sits under the screen's heading (FR-40), for example D26 on the first plan. After «Skjønner» it is gone on every device and playthrough (the engine stores it once per account), and focus moves to the (i) beside the heading, where the same text stays. «Om tallene» lists all 26, grouped by theme. |
 | Card warning | An event (FR-31): the facts first (debt, the yearly rate, interest this month, time and cost if only «det minste» is paid, with an (i), and whether the player couldn't pay or chose to pay less), then the options that are possible. Shown before the next interest charge. |
 | Crisis | Up to three linked choices (FR-32). Each step shows «Valg n av maks 3», what is owed, and only options that are possible, each saying when it lands. Asking family and doing nothing are always offered on every step (FR-32b). Asking family again in the same crisis shows the stored answer («Hun har allerede lånt deg 500 kr»), moves no money and uses no step (FR-27). It ends when no trigger is true, after the third step, or when the player ignores it; the end screen lists what changed. |
 | Recap | After login or an hour away (FR-16): where they are, the current account, new messages this month, how much is planned, and a teaser with a price against what they have. One button continues. |
@@ -143,18 +150,18 @@ Behavioral. Visual specs are in `DESIGN.md` → Components.
 | Money chip | Read-only, except an interest chip, which is a button that opens the interest sheet. |
 | Info button | A 24 px (i) next to a word or amount that needs a sentence: interest, the trivselsmål, «det minste», BSU. It opens a sheet. The interest sheet shows what interest is, then balance × yearly rate ÷ 12 = this month («23 500 kr × 2,87 % ÷ 12 = 56 kr»), a pointer to earning more (more hours, a summer job) and the BSU rate. The texts come from the engine. |
 | Same as last month | «Samme kvelder som i oktober» in the plan places last month's activities on free evenings, each checked as a normal placement (FR-52). Hidden when there is nothing to place. |
-| Wellbeing tile | The PRD's threshold is called «trivselsmål» to the player, next to «sparemål» and «livsmål»; the number comes from the engine, and exactly the number counts as reached. Shows the score, three parts, and at least one consequence the player can act on (evenings from free time; the average so far against the threshold once month 19 is calculated, FR-33). An (i) explains the trivselsmål. The score and each part also show how it is going, in a word with a status colour (good, warn, bad). The word is always there. This row is the canonical band rule: under the trivselsmål (50 by default, configuration) is bad, from it to 9 above is ok, 10 above and up is good; stress is mirrored (100 − stress). The band comes with the figure from the engine `[ASSUMPTION]`, see Open Questions. Stress and Sosialt show the month's value including the plan, with «Vanligvis n» under the bar when the two differ (FR-33). |
+| Wellbeing tile | The PRD's threshold is called «trivselsmål» to the player, next to «sparemål» and «livsmål»; the number comes from the engine, and exactly the number counts as reached. Shows the score, three parts, and at least one consequence the player can act on (evenings from free time; the average so far against the threshold once month 19 is calculated, FR-33). An (i) explains the trivselsmål. The score and each part also show how it is going, in a word with a status colour (good, warn, bad). The word is always there. This row is the canonical band rule: under the trivselsmål (50 by default, configuration) is bad, from it to 9 above is ok, 10 above and up is good; stress is mirrored (100 − stress). The band comes with the figure from the engine (#111, decided 2026-11-23). Stress and Sosialt show the month's value including the plan, with «Vanligvis n» under the bar when the two differ (FR-33). |
 | Slot row | Empty rows read «Tom». Below 1100 px → "+ Legg til" opens the add list for that evening. Empty, from 1100 px → no button; the row says «Velg i lista →» as plain text, since the list is already beside it. Filled → a × removes it, free, while the month is open (FR-53). School and work are one locked line. An empty evening has no effect (FR-52). |
-| Add list | Fritid / Jobb as two toggle buttons (`aria-pressed`) that filter one list. Fritid lists activities with cost and effect. Jobb lists this month's one-off shifts with name, hours and pay, and needs a job (FR-47). A shift takes one evening, has no wellbeing effect of its own, and has no day or date (FR-52). A placed item shows a check. When there are no free evenings, the add buttons are locked and say why: «Alle de frie kveldene er fylt opp. Fjern en aktivitet først.» From 1100 px: the right column, always visible, and a + places the item on the first free evening. Below 1100 px: a sheet titled with the evening, and a + places the item on that evening. The plan's total («Aktivitetene koster») covers activity costs only, never wages (FR-52). When one-off pay is credited is open, see Open Questions. |
+| Add list | Fritid / Jobb as two toggle buttons (`aria-pressed`) that filter one list. Fritid lists activities with cost and effect. Jobb lists this month's one-off shifts with name, hours and pay («558 kr lønn i desember»), and needs a job (FR-47). The pay comes with next month's wage, at its income step (#114, rule 1). A shift takes one evening, has no wellbeing effect of its own, and has no day or date (FR-52). A placed item shows a check. When there are no free evenings, the add buttons are locked and say why: «Alle de frie kveldene er fylt opp. Fjern en aktivitet først.» From 1100 px: the right column, always visible, and a + places the item on the first free evening. Below 1100 px: a sheet titled with the evening, and a + places the item on that evening. The plan's total («Aktivitetene koster») covers activity costs only, never wages (FR-52). |
 | Past-choice note | Shown only when the engine has a cause link from an effect now to an earlier choice (FR-36, FR-37 echo badges), for example the extra shifts behind fewer evenings. One sentence naming the month and the choice. A payment topped up from savings is not a cause link; «Hvorfor?» explains it from the payment order instead (FR-45). |
 | Event option | An action plus signed kroner. The wellbeing effect is hidden until after the pick (5.12). The player picks by a tap or Enter. |
 | Result | Chips (money, wellbeing), an optional past-choice note, "Hvorfor?" (expands in place, `aria-expanded`), an outcome list, and one Fortsett. |
 | Offer card | From the employer in the phone and the job view: extra shifts, or the answer to an hours request. A question, one sentence of consequence, Ja takk / Nei takk. The sentence says what it leaves after spending each month and how many free evenings the new hours give next month (FR-47). It also warns when it would take free time below 50. It can be answered only in the month it arrives, then it shows as expired (FR-54, FR-55). Extra shifts are never offered while extra shifts run (FR-47). |
 | Ask for hours | In the job view, for more or fewer hours, one request at a time (FR-47). The employer answers by message the next month: an offer of 2 h a week more or fewer, or a no with the reason at the limit or the floor. The player can't set hours directly. The job view also lists this month's one-off shifts; «Til planen» opens Plan with the Jobb tab chosen, and they are placed there (FR-56). |
 | Option radio card | Spending and life goal. Spending: three cards with kroner and examples. The current level is marked «Dette bruker du nå»; a change shows «Gjelder fra desember» and is announced (FR-23). Changing the radio never re-renders the group, so arrow keys keep working. |
-| Year chart | Each month is a button. The selection updates a three-figure detail (`role="status"`). The table view lists the same data. Coming months are inert. |
+| Year chart | Each month is a button. Under the chart, ‹ month › arrow buttons (44 px) step through the months; on narrow phones the month bars are under 24 px wide, and the arrows are the equivalent control (WCAG 2.5.8). The selection updates a three-figure detail (`role="status"`). The table view lists the same data. Coming months are inert. |
 | Locked post-it | Shows what it is and when it opens; never tappable as an option before it unlocks (FR-18). |
-| Message | Read-only. An offer can carry a short tip (FR-19), as one sentence under the offer. An invitation has one action, "Legg i planen", plus "Nei takk". Grouped as «Nye i <måned>» and «Tidligere», so this month's messages stay marked as new all month (FR-54). The dot (with an ink ring) and the badge clear when a message is opened, in the open page only: nothing about reading is stored, and a reload shows them again (#112). An invitation's «Nei takk» only closes it; nothing is sent. |
+| Message | Read-only. An offer can carry a short tip (FR-19), as one sentence under the offer. An invitation has one action, "Legg i planen", plus "Nei takk". Grouped as «Nye i <måned>» and «Tidligere», so this month's messages stay marked as new all month (FR-54). The dot (with an ink ring) and the badge clear when a message is opened, in the open page only: nothing about reading is stored, and a reload shows them again (#112, decided 2026-11-23). An invitation's «Nei takk» only closes it; nothing is sent. |
 | Sheet | Native `<dialog>`: focus moves in and returns, Esc closes, a scrim click closes. One level deep. |
 
 ## State Patterns
@@ -167,12 +174,14 @@ Behavioral. Visual specs are in `DESIGN.md` → Components.
 | Server waking | First load | A loading message within 1 s, usable within 10 s (NFR-10). |
 | Login failed | 03 | «Feil e-post eller passord.» for either, focus on the email. After repeated failures: «Prøv igjen om en stund, eller lag nytt passord.» (FR-2) |
 | Reset link used or expired | 04 | Says so and offers a new one (FR-3). |
-| Confirm before continuing | 08 | If the plan would set off a crisis trigger, continuing asks first (FR-49). |
+| Confirm before continuing | 08, 17 | If a crisis trigger is true, the crisis check shows on the hub and in the bank, and the CTA asks first (FR-49). Month 59: «Krise i desember hvis du fortsetter nå … Desember er siste sjanse før slutten.» Month 60: «Spillet slutter med gjeld hvis du fortsetter nå», and «Fortsett likevel» leads to the loss ending. |
+| Months 59–60 | 17 | The consumer loan is locked with the reason (rule 6). In month 60 next month's previews are empty (FR-49). |
 | Minigame unfinished | 08, 22 | The player can't continue to the next month; the CTA names the game (FR-49, FR-51). |
 | After the ending | 25 | The ending is read-only until a new life starts (FR-43). |
 | Offline | Any | The screen stays readable, options and next month are locked (`aria-disabled`, described by the bar), and a bar says «Ingen nett. Du kan se, men ikke velge, før du er på nett igjen.» (FR-8). Announced once through the page's live region. |
 | Logged out elsewhere | Any | After «Logg ut overalt», a password change or a reset elsewhere, the next action shows Log in with «Du ble logget ut. Logg inn igjen for å spille videre.» The game is unchanged (FR-5). |
-| Quiet month | 08 | The heading is "Denne måneden", the chips show wage, spending and interest. No event text. |
+| Quiet month | 08 | The heading is "Denne måneden", the chips show wage, spending and interest, and «Hva gikk pengene til?» opens the month summary. No event text. |
+| Automatic transfer | 08 | The month summary has a line «Flyttet fra sparekontoen» with the amount and «Brukskontoen hadde ikke nok» (FR-45). |
 | Unread | 08, tabs, 10 | A coral dot with an ink ring on the sticker, a count badge on the Mobil tab/rail, bold rows in the inbox. "1 ny" / "2 nye". |
 | Something new in an area | Tabs/rail | A bare coral dot with an ink ring on Plan (free evenings left) and Jobb (an unanswered offer). Screen-reader text: ", noe nytt". |
 | Wellbeing status | 08, 25 | The words, with the band rule in Component Patterns → Wellbeing tile. Score: «Det går bra» / «Helt ok» / «Tungt nå» (on the ending in past tense: «Det gikk bra» / «Helt ok» / «Tungt»). Fritid and Sosialt: «bra» / «ok» / «lite». Stress: «lavt» / «middels» / «høyt». Example at the default trivselsmål of 50: 60 and up is good, 50–59 ok, under 50 bad; stress up to 40 good. |
@@ -225,6 +234,9 @@ Behavioral. Contrast is measured in `DESIGN.md` → Colors.
   | Selling in the bank | The section heading |
   | Closing a sheet whose opener is gone | The nearest stable heading |
   | Closing the toast | «Denne måneden» |
+  | «Skjønner» on a disclosure | The (i) beside the heading |
+  | Paying what is overdue on the card | The crisis check row |
+  | The card switch, the payment radios, the stepper, Året's arrows | Stay on the control |
 
   Nothing re-renders the control that has focus without restoring it.
 - **Focus not obscured (2.4.11):** below 768 px the page scrolls focused content clear of the fixed CTA and tab bar (scroll padding of at least 150 px at the bottom); in the desktop pane, clear of the sticky app bar. Check by tabbing through every surface at 320 × 640.
@@ -340,19 +352,17 @@ Edge: hollow win (goal reached, average under 50), goal not reached (never frame
 - **Not UX surfaces:** FR-12, FR-17, FR-20, FR-21, FR-24, FR-46, FR-50 and FR-58 are engine, content or test rules. They reach the player through the surfaces above.
 - **Spine-only:** 22 Driving minigame. It follows the event layout: one traffic situation, two to four answers, no timing, and the result on 13. It waits for #51.
 - **FR-28 and FR-30 (licences):** bought as open options in the bank; the gift arrives as a message. Both change the licence layer.
-- **FR-35 (what a choice opened or closed):** an extension in the PRD. Not drawn, after the team dropped «Åpnet/Stengt». The outcome list shows what changed.
+- **FR-35 (what a choice opened or closed):** left out of the MVP by the team on 2026-11-23 (#115), under its «If left out» clause. Flags still drive follow-ups, unlocks and the room; the outcome list shows what changed.
 - **FR-27 (family help):** appears as an option in events and crises, never as advice on its own.
 - **FR-24 vs the phone event:** the broken phone in Flow 5 is a story event (FR-17). An FR-24 unexpected expense arrives as a deduction with a «Hvorfor?» system cause, not as an event.
 
 ## Open Questions
 
-- **Unread marks (#112):** built as proposed; the group can still choose otherwise.
-- **For the PRD or architecture (from the validation, 2026-11-23):**
-  - One-off shift pay: FR-47 says it comes with this month's wage, rule 1 says the plan never adds wages to the current month. When is it credited?
-  - The wellbeing bands and a `band` field in the player view are not in FR-33 or AD-13 yet; Sosialt's own rule limit is 20, not 50.
-  - FR-35 (what a choice opened or closed) isn't drawn: build it as outcome lines or record it as left out.
-  - A start year for «2027» in the timeline, and the year's monthly totals for Året, are not in the player view.
-  - D12, D25 and D26 still say the player sets hours, «forbruksnivå» and «plasser».
-- **Not drawn yet `[NOTE FOR UX]`:** what the quiet-month summary lists (example purchases, activity lines, transfers, the note at 18); first-time disclosures (FR-40) as a one-time (i); the progress marked «etter planlagte aktiviteter» and the month 59/60 warnings (FR-49); the 18+ bank; Året's month buttons below 375 px, which are under 24 px wide.
+- **Decided 2026-11-23:** the wellbeing bands as built (#111), unread marks as built (#112), one-off shift pay with next month's wage (#114), and FR-35 left out (#115).
+- **For the PRD, architecture and rule set (they don't change the screens):**
+  - The PRD texts for #111, #114 and #115 (FR-33, FR-47, FR-35).
+  - A start year for «2027» in the timeline, the year's monthly totals for Året, and the wellbeing band are not in the player view yet (#116, AD-13).
+  - D12, D25 and D26 still say the player sets hours, «forbruksnivå» and «plasser» (#117). The prototype shows the proposed wording on «Om tallene» and in the first-plan disclosure.
+- **Driving minigame (#51):** surface 22 is spine-only until the team decides.
 - **Player information:** the wording follows the architecture (AD-14). The frontend team owns the final text, and the 12-month deletion is named only if that job is built (NFR-3).
 - **Unverified:** whether the stickers on the mirror read well at 320 px; test with players.

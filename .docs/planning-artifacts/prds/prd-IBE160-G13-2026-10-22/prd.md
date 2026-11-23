@@ -2,7 +2,7 @@
 title: LifeMode PRD
 status: final
 created: 2026-10-22
-updated: 2026-11-22
+updated: 2026-11-23
 ---
 
 # PRD: LifeMode
@@ -936,7 +936,7 @@ A job comes with fixed weekly hours. The player can't set them freely: hours cha
 - **Monthly cap:** a summer job and part-time hours share one monthly cap of 173 h. The engine cuts the summer job to fit at July's income step, using that month's hours, extra shifts included. With 30 h a week of part-time work (130 h), a 120 h summer job is cut to 43 h. If the player's hours leave 0 h when the offer is made, the summer job can't be taken: its message still arrives (FR-55), shows that the monthly cap is full, and says why. If an hours change or extra shifts would cut a summer job the player has taken, the game warns before the player confirms. If July's cut leaves 0 h, the summer job is cancelled with a note.
 - A full-time job is 37.5 h a week and can be raised to 40 through an hours offer.
 - **Hours offers:** the player can ask for more or fewer hours from the job view, one request at a time. The employer answers with a message the next month (FR-55): an offer of 2 h a week more or fewer (configuration), within rule 10's limit for the month it applies from and never below 4 h a week (configuration). If the player is already at the limit, or at the floor when asking for fewer, the answer says no and why. The player says yes or no in that month, and an offer not answered by the end of the month lapses. The offer shows what it would leave after spending each month and the next month's slot count, like an extra-shift offer (worked example 25).
-- **One-off shifts (enkeltvakter):** a player with a job sees the employer's one-off shifts for this month in the job view and in the month plan's activity picker. Each has a name (flavour) and its hours, from the content library. Placing one takes a slot (FR-52). Its pay is its hours × the hourly rate for the player's age, paid with this month's wage, taxed as wage income (FR-21), and linked to the shift as its cause (FR-36). A shift can be placed only if this month's hours with it stay within rule 10 (the weekly limit × 52 / 12) and the 173 h monthly cap. It has no wellbeing effect of its own: the slot it takes is its cost.
+- **One-off shifts (enkeltvakter):** a player with a job sees the employer's one-off shifts for this month in the job view and in the month plan's activity picker. Each has a name (flavour) and its hours, from the content library. Placing one takes a slot (FR-52). Its pay is its hours × the hourly rate for the player's age, paid with next month's wage at its income step (rule 1: the plan never adds wages to the current month; #114), taxed as wage income in the month it's paid (FR-21), and linked to the shift as its cause (FR-36). The shift shows when the pay comes. Since no income step follows month 60, no one-off shifts are offered then. A shift can be placed only if this month's hours with it stay within rule 10 (the weekly limit × 52 / 12) and the 173 h monthly cap. It has no wellbeing effect of its own: the slot it takes is its cost.
 - **Extra shifts:** they add the offer's amount (default +4 h) to the weekly hours for the offer's number of months (default 3), from the next month. Weekly hours are the setting plus any running extra shifts, never above rule 10, so an offer is capped at the limit. An hours offer changes the weekly hours and leaves running extra shifts as they are. Extra shifts come from an event option or an employer message (FR-55). They're offered only to a player with a job who is below the weekly limit and has no extra shifts running, and only while a later income step remains, so not in month 60. The offer shows the kroner it would leave after spending at the player's level, not only the extra wage (worked example 25).
 - **Ending extra shifts:** running extra shifts can be ended from the job view, from the next month. Quitting or changing job ends them.
 - **Never in a slot, except one-off shifts:** weekly hours and extra shifts never take an activity slot, and no wage is paid outside the income step. The month plan shows them as work from the month they start (FR-52). Only a one-off shift takes a slot.
@@ -1135,6 +1135,7 @@ Activities (FR-53) change stress and social life in the month they happen. The c
 
 **Consequences (testable):**
 - Each part and the score stay between 0 and 100.
+- **Status bands (#111):** the player view gives the score and each part a band set from the threshold: below it is bad, from the threshold to 9 above is ok, and 10 above and up is good. Stress is mirrored (100 − stress). The offset is configuration. The bands only describe a figure; rule 12's own rows, such as social life under 20, are unchanged.
 - Every event choice has a stored effect on stress and social life, which may be 0, and it isn't shown before the pick (FR-13). Free time changes only with hours.
 - **The hollow win still holds:** a money chaser who fills every slot with activities at the effect limits, within the monthly cap, still ends below the threshold, at 42, 46, and 37 with the weights of goals 1, 2, and 3 (worked example 26c). The content check fails if a change to the catalogue, the limits, the slot divisor, or the threshold lifts any of them to 50 or above.
 - **The boundary moves with activities:** with activities at the limits in every slot, the 26 h run on normal spending in worked example 17b rises from 41 to 52, a real win (worked example 26d). With the catalogue's best free activities, the content check reports the boundary runs at 25 h and 26 h in worked example 17b and careless run 21c in worked example 21, so the threshold and the activity effects are tuned together (OQ-8).
@@ -1161,6 +1162,8 @@ After a choice, the game shows what the choice opened or closed. Realizes UJ-1.
 
 **Consequences (testable):**
 - What is shown comes from the event's flags, with a short text for each in the event (see the event schema in the addendum).
+
+**Decision (2026-11-23, #115):** left out of the MVP, so the clause below applies.
 
 **If left out (Extension, §4.4):** the game doesn't show what a choice opened or closed. Flags still decide follow-ups, unlocks, and the room (FR-46, FR-18, FR-34), and the event schema keeps the texts so they can be added later.
 

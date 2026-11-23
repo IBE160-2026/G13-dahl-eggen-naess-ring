@@ -78,6 +78,11 @@ From `../../validation-report.md`. All critical and high findings are fixed, wit
 - **Phone event:** as in round 2 (2 500 / 1 800 / 0 kr).
 - **Gift:** 18 500 kr and the three choices. **Crisis:** 700 kr overdue, mother lends 500 kr, 939 kr a month for the payment plan (10 000 kr, 22,6 %, 12 months). **Endings:** all amounts except 17 270, 16 728 and 5 508. **Activity spend:** 3 150 kr. The moped's value follows rule 14 (11 645 kr, six months).
 - **Age:** UJ-6 is at 17, and it's shown at 16 as in round 2.
+- **18+ bank (April 2029):** the account balances (4 120, 18 300 and 12 400 kr) and the transfer of 136 kr in the month summary. The card follows worked example 4 (3 200 kr, minimum 300 kr by rule 5, 13 months and 406 kr in interest); 60 kr interest is 3 200 × 22,6 % ÷ 12. Mobile 299 kr and the bus 238 kr are sourced in Rule Set v1. The loan sheet uses rule 4's annuity: 20 000 kr over 12 months gives F1 (1 805 / 1 808 / 21 663 kr); 24 and 36 months are calculated the same way. «Du kan låne 5 000–22 000 kr» is 3 × 8 457 kr minus the card debt, rounded down (FR-25).
+- **Months 59–60:** the balances (640 and 600 kr) and 700 kr overdue; the card figures follow the card warning (10 000 kr, 350 kr minimum, 51 months, 5 508 kr).
+
+## Finalization (2026-11-23)
+The group approved the open decisions (#111, #112, #114, #115), and #118 is drawn: the month summary, the first-time disclosure and all 26 texts on Om tallene, progress after planned activities, the crisis check with the month 59/60 warnings, the 18+ bank and Året's arrow buttons. Both spines are final.
 
 ## Verified
 Rendered at 320, 390 and 1280 px in headless Chrome, with the job, plan and sign-up flows clicked through.

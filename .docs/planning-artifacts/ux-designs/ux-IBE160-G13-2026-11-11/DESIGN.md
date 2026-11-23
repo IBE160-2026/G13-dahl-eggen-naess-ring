@@ -2,7 +2,7 @@
 name: LifeMode
 description: Ringer's layout in Speilet's world. A mirror selfie is home; phone, bank and job read like real apps; money always carries a sign, a word and one of three colours, and wellbeing has its own status colours.
 title: LifeMode DESIGN
-status: draft
+status: final
 created: 2026-11-11
 updated: 2026-11-23
 sources:
@@ -133,6 +133,10 @@ components:
   info-button: { background: '{colors.cobalt}', textColor: '{colors.surface}', size: 24px, rounded: '{rounded.full}', underline: '{colors.money-rate}' }
   focus-ring: { outline: '{colors.ink}', outlineWidth: 3px, offset: 2px, halo: '{colors.coral}', haloWidth: 6px }
   progress: { track: '{colors.hairline-soft}', fill: '{colors.ink}', height: 10px, rounded: '{rounded.full}' }
+  status-row: { good: '{colors.status-good-soft}', bad: '{colors.status-bad-soft}', textColor: '{colors.ink}', rounded: '{rounded.md}', dotSize: 10px }
+  disclosure: { background: '{colors.paper}', icon: '{colors.cobalt}', labelColor: '{colors.cobalt}', rounded: '{rounded.lg}', measure: 62ch }
+  switch: { track: '{colors.hairline}', trackOn: '{colors.money-in}', border: '{colors.ink}', knob: '{colors.surface}', width: 48px, height: 28px, rounded: '{rounded.full}' }
+  stepper: { button: 44px, valueFont: '{typography.h3}', valueMinWidth: 96px }
   account-row: { icon: '{colors.paper}', iconRounded: '{rounded.tile-icon}', divider: '{colors.hairline-soft}', minHeight: 60px, font: '{typography.h3}' }
   transaction-row: { key: 10px, divider: '{colors.hairline-soft}', font: '{typography.meta}' }
   option-row: { icon: '{colors.paper}', divider: '{colors.hairline-soft}', lockColor: '{colors.ink-muted}', minHeight: 60px }
@@ -286,7 +290,12 @@ Sheets and the CTA lift on a shadow pointing up or down (0 −4px 16px at 18% in
 - **Account row.** `{components.account-row}`: a 40px paper icon tile, a title with an optional (i) and a sub line, the amount or one small button at the right.
 - **Transaction row.** `{components.transaction-row}`: a money colour key, the text, the signed amount at the right.
 - **Option row.** `{components.option-row}`: like the account row, for "Kan kjøpes eller selges". The right side holds the price, "Selg", or a lock; the sub line holds "Mangler … kr" or the reason.
-- **Card panel.** From 18, in the bank: the account-row layout for the card, with balance and limit, the payment choice as option radio cards, a card-use switch, and a facts card for this month's interest and the minimum-only cost. Not drawn yet.
+- **Card panel.** From 18, in the bank: the card as an account row (balance as a signed amount, the limit in the sub line), then its own white section: key-value rows (used of the limit, yearly rate, this month's interest), a coral «Betal … nå» button when something is overdue, the card-use switch between two hairlines, and the payment choice as option radio cards with the amount on the title line. A fixed amount adds the stepper under the cards.
+- **Switch.** `{components.switch}`: a 48 × 28px track with a 2px ink border and a white knob; off is hairline, on is `money-in` with the knob to the right. The label and a sub line saying what it does sit to the left, and the whole row is the target.
+- **Stepper.** `{components.stepper}`: two 44px round buttons (− and +) around the value in h3 weight with tabular figures. A button at its limit takes the locked look.
+- **Crisis check.** `{components.status-row}`: a soft status-colour band (`status-good-soft` or `status-bad-soft`) with a 10px dot, a bold line and one sentence in ink, at the top of the bank and above the hub CTA when a trigger is true. The words carry the meaning; the colour repeats it.
+- **Disclosure.** `{components.disclosure}`: the past-choice note's shape with an (i) icon, the label «Forenklet», the text at most 62ch wide and a small secondary «Skjønner». It sits under the screen's heading the first time, then lives behind a 24px (i) beside the heading.
+- **Month summary.** A closed «Hva gikk pengene til?» row under the chips on Hjem, the bank's expandable-row style. Open, it holds transaction rows (example purchases in a meta line, no amount of their own), a small «Kveldene i oktober» heading with free evenings shown as «Gratis», and one meta line about the bills at 18.
 - **Choice row.** A white expandable row (chevron, title, signed amount) on the ending and Om tallene. It opens to one sentence and one meta line.
 - **Toast.** A white card at the top of Hjem's content, below 1100px only: sender initial, name, one line, and a 44px ×. It drops in once and stays until closed.
 - **Offline bar.** Ink with paper text and an icon, at the top of the content. Locked buttons turn `{colors.hairline-soft}` with a muted border and muted text, never see-through.
@@ -297,7 +306,7 @@ Sheets and the CTA lift on a shadow pointing up or down (0 −4px 16px at 18% in
 - **Event option.** A 64px white button with a 2px ink border, the action on the left and the signed kroner on the right.
 - **Outcome list.** `{components.outcome-list}`: a 26px round icon (check on `money-in-soft` for better, arrow on `money-out-soft` with `tag-worse-text` for worse, dash on white for unchanged) and a sentence. This replaces Åpnet/Stengt.
 - **Note card (dropped).** The past-choice note's shape with an × icon and the label "Ble ikke noe av", for a planned activity the engine dropped.
-- **Year chart.** A diverging bar for each month, with income up and spending down, 14px bars, 4px rounded ends at the data end and an ink baseline. Interest is a separate small strip on its own scale (never a second axis). The selected month gets a paper background and an ink outline, with a three-figure detail below and a table view.
+- **Year chart.** A diverging bar for each month, with income up and spending down, 14px bars, 4px rounded ends at the data end and an ink baseline. Interest is a separate small strip on its own scale (never a second axis). The selected month gets a paper background and an ink outline. Under it, the month name sits between two 44px round arrow buttons (‹ ›), which take the locked look at the first and current month, then a three-figure detail and a table view.
 - **Locked post-it.** Yellow, square, rotated, with a lock icon, a Kalam title and an age ("fra 18 år"). When open it turns white with an open lock in `money-in`.
 - **Phone, bank and job.**
   - Mobile: the shared design, with a round back button, white cards and chips.
