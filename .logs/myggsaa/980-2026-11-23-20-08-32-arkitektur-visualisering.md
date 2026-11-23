@@ -13,7 +13,7 @@ Brukeren kjørte `bmad-help` og spurte om arkitekturen er ferdig for både front
 ### Resultat
 - **Arkitekturen:** final for både backend og frontend (AD-17 til AD-20, #122). Den ble committet i en parallell økt (`95e4c4f`, PR #129).
   - Rettelse til svaret jeg ga tidligere i økten: punktene om ukommittede filer, de seks avatarfargene og hash-ruter i EXPERIENCE var allerede løst i den økten, se [981-frontend-arkitektur-og-epics](981-2026-11-23-20-01-59-frontend-arkitektur-og-epics.md).
-- **SVG-filer** i `.docs/planning-artifacts/architecture/architecture-IBE160-G13-2026-11-09/diagrams/` (ukommittert):
+- **SVG-filer** i `.docs/planning-artifacts/architecture/architecture-IBE160-G13-2026-11-09/diagrams/`. De er committet i `bcde633`, pushet til `docs/epics-and-stories` og lagt til i PR #129, som har fått en diagramseksjon i beskrivelsen:
   - `01-playtest-hosting.svg`: nettleser → Vercel → Caddy → backend → Supabase
   - `02-lokalt.svg`: docker compose
   - `03-lagene.svg`: functional core / imperative shell og frontendmappene
