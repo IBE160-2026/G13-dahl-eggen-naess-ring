@@ -76,7 +76,7 @@ sequenceDiagram
 The pipeline is the one backend function that saves game actions. Because every action takes this path, the PRD's saving rules hold without extra code per feature:
 
 - **A choice counts once the server has saved it (FR-6).** The browser shows the result only after the response.
-- **A retry never applies twice (NFR-7).** The browser makes an ID for each action and sends the same ID again if the connection drops. The server recognises it and returns the first result.
+- **A retry never applies twice (NFR-7).** The browser makes an ID for each action and sends the same ID again if the connection drops. The server recognises it, applies nothing, and returns the current view with a reference to the first result while that result is still in the open month.
 - **Two devices can't both win (FR-8).** The game row is locked while a request runs, and every request names the month it belongs to. The second device gets a refusal together with the latest game.
 - **A refusal changes nothing (NFR-7)** and always returns the current game, so the browser can show where the player really is.
 
@@ -174,20 +174,25 @@ These are the facts the frontend builds against. The exact request and response 
 | Topic | What the frontend can rely on |
 | --- | --- |
 | Address | Everything is on one origin. The frontend calls only `/api/*` on its own domain, and `vercel.json` passes those calls on to Caddy with the origin secret and with caching off (AD-12). No CORS, no tokens to store: the session is a cookie the browser sends by itself |
-| Reading the game | `GET /api/game` returns the player view |
+| Reading the game | `GET /api/game` returns the player view. Before the first start, or after a life ended early, it still answers `200`, with `status` `none` or `ended` and the start screens' texts and figures. The last action's result is part of the view, so it shows again after a reconnect |
+| Response shape | Every game response is `{result?, state, server_time, recap_threshold}`, where `state` is the player view. Always replace the view with the latest response |
 | Changing the game | `POST /api/game/actions` for every game action, including starting, ending early and playing again |
-| Each action carries | A new `request_id` (UUID), the `playthrough_id`, the `month`, and the action. Send the same `request_id` again when retrying |
-| Knowing if the view is stale | `playthrough_id` + `state_version` identify a state. Fetch again on open, reload, tab return, reconnect, and after 5 minutes idle (FR-8) |
-| Month plan | The view carries `plan_version`. Send it back when continuing; a mismatch means another device changed the plan |
-| Text | The backend sends finished Norwegian game text with the figures and the player's nickname filled in. The view also carries the nickname on its own, for the settings. The frontend never calculates or formats an amount. The frontend owns button and label text, offline and saving notices, and the player information page |
+| Each action carries | A new `request_id` (UUID), the `playthrough_id`, the `month`, and the action. Send the same `request_id` again when retrying. Only game actions are retried automatically; after a lost sign-up, login, password or deletion response, fetch `GET /api/game` or show the login screen |
+| Knowing if the view is stale | `playthrough_id` + `state_version` identify a state. Fetch again on open, reload and reconnect, and on the player's next input after a tab return or 5 minutes idle (FR-8) |
+| Month plan | The view carries `plan_version`. Send it back inside the continue action; a mismatch means another device changed the plan |
+| Text | The backend sends finished Norwegian game text with the figures and the player's nickname filled in. The frontend never calculates or formats an amount. The frontend owns button and label text, offline and saving notices, and the player information page |
 | Wellbeing status | Each wellbeing figure with a status comes as `{value, band}`, where `band` is `good`, `warn` or `bad`. This covers this month's score and three parts, the average so far (empty until month 19), the year's average on the year end, and the ending. Show the band; never work it out from the number, since the trivselsmål is configuration |
 | Date | The view carries `year`, `calendar_month` (1-12) and age for the timeline. Turn 1-12 into a month name and nothing more. Dates in game text are already written |
-| Money per month (Året) | Twelve entries for the current year: closed months, the open month marked `open: true`, and coming months empty. Each has in, out, tax and interest (earned and charged) with their parts. The year so far is already summed, and the year end also gets the expected BSU deduction. Borrowed money is never in or out. Amounts come without a sign, and you show the sign the screen needs |
-| Errors | One shape: `{code, message, state}`. `code` is stable, `message` is Norwegian and can be shown, `state` is the current view when a game action is refused |
+| Money per month (Året) | Twelve entries for the current year: closed months, the open month marked `open: true`, and coming months empty. Each has in, out, tax and interest (earned and charged) with their parts. The year so far is already summed, and the year end also gets the expected BSU deduction. Borrowed money is never in or out. Each part comes as a raw integer and a signed, formatted string: show the string, and use the integer only for bar lengths |
+| Errors | The same envelope with `code` and `message` added. `code` is stable, `message` is Norwegian and can be shown, `state` is the current view when a game action is refused and null otherwise. Account forms also get `fields: [{field, code}]` so the right field can be marked. A response under `/api` without a JSON `code` (a Vercel or Caddy error page) is a connection problem: retry a game action with the same `request_id`, never show it as a refusal |
+| Amounts | Show the formatted string the view gives for every amount (non-breaking space, a real minus sign, «kr» after). Use the raw integer only for bar lengths and comparisons |
+| Loan sheet | The view carries the engine's quote for each allowed term (configuration; 12, 24 and 36 months today) at the amount the player can borrow. For another amount, call `GET /api/game/quote?kind=loan&amount=&term=`. Never compute a quote |
+| Nickname | Show it on its own (settings, the hub marker, the menu link), never inside a sentence. The one exception is the sign-up preview, a fixed frontend sentence |
 | Recap (FR-16) | Each response has `server_time` and the recap threshold. Compare with the view's last action time, never with the device clock |
 | "Continue anyway" (FR-49) | The confirmation is shown by the frontend; the server doesn't ask for it |
 | Hidden on purpose | Wellbeing effects of event options before the pick, minigame answers, future events |
-| No background polling | Call the API only when the player acts or under the fetch rules above. Otherwise the 30-minute idle logout never happens on a shared PC |
+| No background polling | Never call the API from a timer. The idle and tab-return fetches run on the player's next input after the idle time or the return. Otherwise the 30-minute idle logout never happens on a shared PC |
+| Only the browser calls `/api` | Next.js server components, middleware and route handlers never call `/api`, so the session cookie always reaches the browser and no game data is cached by Next.js. The one exception is the proxy fallback in AD-10, if the sprint-1 spike needs it |
 | Agreed 2026-11-22 | The frontend is Next.js on Vercel. The reset link is `/nytt-passord#token=…`: the page reads the token from the fragment, removes it from the address bar, and posts it with the new password. The player information page is a static frontend page that names Vercel, Railway and Supabase |
 
 Still the frontend team's own decisions: framework, screens, accessibility checks in CI, self-hosted fonts, and the device test matrix (NFR-1, NFR-2).

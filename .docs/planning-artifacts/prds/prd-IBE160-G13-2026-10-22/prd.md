@@ -824,7 +824,7 @@ The phone is an inbox of pre-written messages from friends, family, the employer
 - **Three kinds:**
   - **Info:** no action.
   - **Invitation:** makes an activity available in the month it arrives (FR-53).
-  - **Offer:** points to an open option (FR-48), to extra shifts (FR-47), or to a one-time gift (FR-29, FR-30). It can carry a tip and a teaching point (FR-19).
+  - **Offer:** points to an open option (FR-48), to extra shifts (FR-47), to the employer's answer to an hours request (FR-47, FR-55), or to a one-time gift (FR-29, FR-30). It can carry a tip and a teaching point (FR-19).
 - **The event copy:** the month's highlight event is always shown when the month opens (FR-13). If the event has a sender, a copy also goes in the phone, so the event reads as coming from someone. The copy isn't a separate message, needs no answer in the phone, and doesn't count towards the limit (FR-55).
 - **No quiz answers:** an invitation is accepted by placing its activity, and an offer by taking it from the message, the job view, or the money view. Ignoring a message only means missing what it offered.
 - **Expired offers:** a drawn offer, such as extra shifts or a gift moped, can be taken only in the month it arrives. After that, and after a dated offer's last day (FR-48), the message shows it as expired.
@@ -857,7 +857,7 @@ The job view shows the workplace and role, the hourly rate for the player's age,
 
 **Consequences (testable):**
 - **Engine figures:** the pay shown is the engine's, and FR-20, FR-47, and rule 10 apply unchanged. An extra-shift offer shows the kroner it would leave after spending (FR-47), never a fixed amount per slot.
-- **Actions:** answer an hours offer, ask for more or fewer hours, quit, take a job offer (FR-48), and take or end extra shifts (FR-47). One-off shifts are listed here and placed from the month plan (FR-52). Each shows the next month's slot count before the player confirms it (FR-52). These are the same actions as in FR-45 and FR-47.
+- **Actions:** answer an hours offer, ask for more or fewer hours, quit, take a job offer (FR-48), and take or end extra shifts (FR-47). Saying no to an hours offer or an extra-shift offer is stored like a yes, and the offer then shows the answer. One-off shifts are listed here and placed from the month plan (FR-52). Each shows the next month's slot count before the player confirms it (FR-52). These are the same actions as in FR-45 and FR-47.
 - **Flavour only:** the workplace and role are flavour text. Every part-time and summer job pays the Virke/HK rate for the player's age (D2).
 - **With no job:** the view shows the open job offers, or when the next one unlocks (FR-18).
 
@@ -936,7 +936,7 @@ A job comes with fixed weekly hours. The player can't set them freely: hours cha
 - **Monthly cap:** a summer job and part-time hours share one monthly cap of 173 h. The engine cuts the summer job to fit at July's income step, using that month's hours, extra shifts included. With 30 h a week of part-time work (130 h), a 120 h summer job is cut to 43 h. If the player's hours leave 0 h when the offer is made, the summer job can't be taken: its message still arrives (FR-55), shows that the monthly cap is full, and says why. If an hours change or extra shifts would cut a summer job the player has taken, the game warns before the player confirms. If July's cut leaves 0 h, the summer job is cancelled with a note.
 - A full-time job is 37.5 h a week and can be raised to 40 through an hours offer.
 - **Hours offers:** the player can ask for more or fewer hours from the job view, one request at a time. The employer answers with a message the next month (FR-55): an offer of 2 h a week more or fewer (configuration), within rule 10's limit for the month it applies from and never below 4 h a week (configuration). If the player is already at the limit, or at the floor when asking for fewer, the answer says no and why. The player says yes or no in that month, and an offer not answered by the end of the month lapses. The offer shows what it would leave after spending each month and the next month's slot count, like an extra-shift offer (worked example 25).
-- **One-off shifts (enkeltvakter):** a player with a job sees the employer's one-off shifts for this month in the job view and in the month plan's activity picker. Each has a name (flavour) and its hours, from the content library. Placing one takes a slot (FR-52). Its pay is its hours × the hourly rate for the player's age, paid with next month's wage at its income step (rule 1: the plan never adds wages to the current month; #114), taxed as wage income in the month it's paid (FR-21), and linked to the shift as its cause (FR-36). The shift shows when the pay comes. Since no income step follows month 60, no one-off shifts are offered then. A shift can be placed only if this month's hours with it stay within rule 10 (the weekly limit × 52 / 12) and the 173 h monthly cap. It has no wellbeing effect of its own: the slot it takes is its cost.
+- **One-off shifts (enkeltvakter):** a player with a job sees the employer's one-off shifts for this month in the job view and in the month plan's activity picker. Each has a name (flavour) and its hours, from the content library. Placing one takes a slot (FR-52). Its pay is its hours × the hourly rate for the player's age in the month the shift is worked, rounded once when it's placed, paid with next month's wage at its income step (rule 1: the plan never adds wages to the current month; #114), taxed as wage income in the month it's paid (FR-21), and linked to the shift as its cause (FR-36). The shift shows when the pay comes. Since no income step follows month 60, no one-off shifts are offered then. A shift can be placed only if this month's hours with it stay within rule 10 (the weekly limit × 52 / 12) and the 173 h monthly cap. It has no wellbeing effect of its own: the slot it takes is its cost.
 - **Extra shifts:** they add the offer's amount (default +4 h) to the weekly hours for the offer's number of months (default 3), from the next month. Weekly hours are the setting plus any running extra shifts, never above rule 10, so an offer is capped at the limit. An hours offer changes the weekly hours and leaves running extra shifts as they are. Extra shifts come from an event option or an employer message (FR-55). They're offered only to a player with a job who is below the weekly limit and has no extra shifts running, and only while a later income step remains, so not in month 60. The offer shows the kroner it would leave after spending at the player's level, not only the extra wage (worked example 25).
 - **Ending extra shifts:** running extra shifts can be ended from the job view, from the next month. Quitting or changing job ends them.
 - **Never in a slot, except one-off shifts:** weekly hours and extra shifts never take an activity slot, and no wage is paid outside the income step. The month plan shows them as work from the month they start (FR-52). Only a one-off shift takes a slot.
@@ -995,7 +995,7 @@ From age 18, the player can take a consumer loan, repaid in equal monthly instal
 - NOK 20,000 over 12 months gives monthly payments of NOK 1,805, a final payment of NOK 1,808, and NOK 21,663 in total (worked example 3, F1).
 - A loan needs a steady wage, and it can't be taken in months 59-60 (rule 6).
 - The amount can be from NOK 5,000 up to 3× the average monthly wage over the last three months, minus the player's other debt, not counting family loans, rounded down to the nearest NOK 1,000. Below NOK 5,000 no loan is offered. The multiplier is configuration.
-- The term is 12, 24, 36, 48, or 60 months. A loan may run past age 20, and what's left counts as debt in the ending.
+- The term is 12, 24, or 36 months (configuration; the loan sheet shows the engine's figures for each term before the loan is taken). A loan may run past age 20, and what's left counts as debt in the ending.
 - The player can have one consumer loan at a time, and can pay off what's left at any time with no fee.
 
 **If left out (Extension, §4.4):** there is no consumer loan. The FR-18 consumer-loan row and its month-49 offer message (FR-55) drop, and so do the loan in FR-48's open options, paying off a consumer loan in FR-45, its tip in FR-19, and the loan refusals in NFR-7. Rule 4 stays, because payment plans (rule 15) and family loans (FR-27) use it, and F1 stays an engine test of rule 4.
@@ -1354,7 +1354,7 @@ The email address, the password, and the nickname (FR-1) are the only things the
 - The nickname is shown only to the player, never to anyone else, and is deleted with the account (FR-44).
 - A player can reach only their own data.
 - A player can delete their account and game data (FR-44).
-- Before creating a user, the player sees short information in plain Norwegian: what is stored, what for, how long, how to delete it, and which services handle the data (the database host and any email relay). The full text can also be opened from inside the game.
+- Before creating a user, the player sees short information in plain Norwegian: what is stored, what for, how long, how to delete it, and which services handle the data (the hosts for the frontend and its proxy, the backend and the database, and any email relay). The full text can also be opened from inside the game.
 - An account and its game data are deleted after 12 months without play (configuration). The player information says so, and no email is sent about it. If the deletion job is cut (cut list: login hardening), the player information doesn't promise it, and the job goes on the "before go-live" list.
 - The game uses no analytics, advertising, or tracking cookies or scripts, and loads nothing from third parties.
 - Only the current playthrough, or the last finished or ended one, is kept (FR-43). In the playtest environment, the records in FR-50 are the one exception, and the playtesters' information describes them.
@@ -1388,7 +1388,7 @@ The README also provides test users seeded at useful states: just before 18 with
 
 ### NFR-7: Robust against wrong input
 
-The server decides every result. The device sends only the player's inputs, never a result: the life goal and the avatar at the start, the option, money action, or activity they picked, plus changes to the month plan, a savings-target pin, a disclosure they've seen, ending a life early or starting a new one, an amount where one is asked for, or an answer in a minigame. The server ignores anything else. The server refuses:
+The server decides every result. The device sends only the player's inputs, never a result: the life goal and the avatar at the start, the option, money action, or activity they picked, plus changes to the month plan, a savings-target pin, a disclosure they've seen, ending a life early or starting a new one, an amount where one is asked for, the other parameters an action asks for (a loan term, a card payment mode, more or fewer hours, or a yes or no to an offer), or an answer in a minigame. The server ignores anything else. The server refuses:
 - **Turn and month:**
   - a choice or money action for an event or month that isn't the current one (FR-49)
   - moving to the next month before the real choice is made, with a crisis unfinished, or with a minigame unfinished (FR-49)
@@ -1401,7 +1401,9 @@ The server decides every result. The device sends only the player's inputs, neve
   - an offer taken after it has expired: a drawn offer after its month, or a dated offer after its last day (FR-48, FR-54)
   - the paid car licence before the draw or after a gift (FR-30)
 - **Money, credit, and work:**
-  - more working hours than rule 10 allows for the month they apply from, including extra shifts (FR-47)
+  - accepting an hours offer or extra shifts, or placing a one-off shift, that would go above rule 10 or the 173 h monthly cap (FR-47)
+  - an hours request while one is pending or an hours offer is open, or an answer to an hours offer that isn't open (FR-47)
+  - a loan term that isn't one of the allowed terms (FR-25)
   - a loan or credit card before the 18th birthday (rule 6), a card or loan with no steady wage (FR-25, FR-26), or a loan in months 59-60 (rule 6)
   - turning card use on while a payment plan blocks the card (rule 15)
   - a BSU deposit when the year's cap is used up, or after the BSU has closed (FR-22)
@@ -1411,6 +1413,7 @@ The server decides every result. The device sends only the player's inputs, neve
   - a second moped, or a moped without a licence (FR-29)
 - **Month plan and activities:**
   - an activity with no empty slot left, one that isn't available (its invitation came in another month, it hasn't unlocked yet, or its flags rule it out), the same activity twice in a month, or one the player can't pay for on top of what's already planned (FR-52, FR-53)
+  - a one-off shift with no job, one not offered this month, the same shift twice, or any one-off shift in month 60 (FR-47)
 - **Minigames:**
   - a minigame answer with no started attempt, for a situation that isn't the current one, or a second answer to the same situation (FR-51)
   - a second minigame attempt in the same month (FR-51)
@@ -1428,7 +1431,7 @@ Five cases aren't refusals, and each has its own test:
 
 **Consequences (testable):**
 - A refusal leaves the game unchanged, returns the current progress, and, where the player could see it, shows a short message in plain Norwegian.
-- A repeated request applies the action once and returns the same result as the first time.
+- A repeated request applies the action once and returns the same result as the first time, as a reference to that result while it is still in the open month; after that, the current progress is shown. A malformed request returns no progress, and the device then fetches it.
 - Each case in the list has its own automated test (NFR-9).
 - Refusals are logged without the email address or the password.
 
