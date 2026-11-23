@@ -36,7 +36,8 @@ Gren `docs/epics-and-stories`:
   - **AD-12 og AD-20:** personverninfo på `/ny-bruker`, Firefox og `wcag22aa`.
   - **PRD:** FR-5 (nettleserøkt), FR-25 og NFR-7 (steg på 1 000 kr), NFR-1 (Firefox i den automatiske kjøringen). Addendumet, `EXPERIENCE.md` og `SOLUTION-DESIGN.md` sier det samme.
 - Commit `009aaf5`: `epics.md` med epic-liste, FR-dekningskart og 64 storyer i 10 epics. Alle FR-er og UX-DR-er er dekket av minst én story. `stepsCompleted: [1, 2]`.
-- Pushet til `docs/epics-and-stories`, og PR #129 er oppdatert med beskjed om at det må gjøres review.
+- Commit `ca6119d`: diagram 05 (`diagrams/05-hvilken-skjerm.svg`, laget i en annen økt) viste årsslutten før hendelsen. Nå kommer den etter hendelse og krise, som i AD-17.
+- Pushet til `docs/epics-and-stories`, og PR #129 er oppdatert med ny tittel og beskrivelse, og en kommentar om at det må gjøres review.
 
 ### Åpne punkter
 - Epics steg 4: sjekk avhengighetene mellom storyene før sprint-planlegging, som brukeren ba om (#130).
