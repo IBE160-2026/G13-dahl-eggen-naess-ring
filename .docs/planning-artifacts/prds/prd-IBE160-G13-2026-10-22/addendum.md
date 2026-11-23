@@ -1,7 +1,7 @@
 ---
 title: LifeMode PRD addendum
 created: 2026-11-03
-updated: 2026-11-16
+updated: 2026-11-23
 ---
 
 # Addendum: LifeMode PRD
@@ -150,6 +150,19 @@ The offers in FR-18 are offer messages (below), so events have no `milestone` fi
 | source | A citation for the price | Every price above NOK 0 traces to a citation (OQ-17) |
 | texts | Name and a short description, in Norwegian | Not empty; no alcohol or tobacco (NFR-8) |
 
+### One-off shift schema (FR-47, FR-52)
+
+| Field | Content | Checked |
+|---|---|---|
+| id, version | Unique text ID, and a whole-number version | ID unique; version rises on any change to a non-text field (NFR-4) |
+| hours | Hours for the shift, as a quoted decimal | Above 0; a shift alone fits under rule 10's monthly limit for every age it's offered at |
+| age range, flags | The ages it's offered at, and required and blocking flags | A job is always required; never offered in month 60 |
+| per month | How many of the employer's shifts are offered each month, or the chance of one | Configuration-backed; drawn through the selection step |
+| source | Where the shift length comes from | Present |
+| texts | Name (flavour) and a short description, in Norwegian | Not empty; no alcohol or tobacco (NFR-8) |
+
+A one-off shift pays money, so it is never an activity (FR-53).
+
 ### Message schema (FR-54, FR-55)
 
 | Field | Content | Checked |
@@ -157,7 +170,7 @@ The offers in FR-18 are offer messages (below), so events have no `milestone` fi
 | id, version | Unique text ID, and a whole-number version | ID unique; version rises on any change to a non-text field. A text-only correction keeps it (NFR-4) |
 | kind | Info, invitation, or offer. The phone's copy of the highlight event comes from the event's sender field (event schema), not from a message | Kind exists |
 | sender | Friend, family, employer, or bank, with a fictional name | Sender is from the fixed list |
-| links to | Info: nothing. Invitation: an activity. Offer: an open option (FR-48), extra shifts (FR-47), or a one-time gift (FR-29, FR-30) | The target exists. An invitation's activity covers the message's age range, and the message requires at least the activity's flags |
+| links to | Info: nothing. Invitation: an activity. Offer: an open option (FR-48), extra shifts (FR-47), the employer's answer to an hours request (FR-47), or a one-time gift (FR-29, FR-30) | The target exists. An invitation's activity covers the message's age range, and the message requires at least the activity's flags |
 | when | Depends on the kind. See "When messages arrive" below | Every FR-18 row with an offer month has exactly one offer message |
 | tip, teaching point, LK20 code | Optional. The credit card and consumer loan offers must have a tip and a teaching point (FR-19) | Present where required; LK20 codes exist |
 | text | Norwegian. Any amount is a placeholder the engine fills in (NFR-4) | No typed-in amounts; no alcohol or tobacco (NFR-8) |
@@ -479,7 +492,7 @@ Decided by the team, as Dahl reported on 2026-11-10 (`.memlog.md`). The change c
 |---|---|---|---|
 | P1 | Activity slots come from free time (rule 12), ÷ 20, at most 4. Hours stay the only source of pay and free time | Pay, tax, free time, and rule 10 stay unchanged. More work means fewer slots by itself | Slots replacing hours. It would rewrite rules 3, 10, and 12, FR-47, and examples 1, 5, 17, and 20-23, and need a second wage path |
 | P2 | The player plans the current month. Activities are applied when the player continues, at the end of the choice step | The rule 1 order is unchanged, there's no undo logic, and payment is checked again at the end | Planning the next month. It splits money, payment, and cause links over two months. V2 |
-| P3 | Extra shifts are never placed in a slot, and start next month as in FR-47 | This month's income and tax are already calculated when the month opens | The concept's "+500 kr per slot", now replaced by the engine's own figure |
+| P3 | Extra shifts are never placed in a slot, and start next month as in FR-47 (one-off shifts, added by #105, are the exception: they take a slot) | This month's income and tax are already calculated when the month opens | The concept's "+500 kr per slot", now replaced by the engine's own figure |
 | P4 | FR-18 offers arrive as messages and open options. 4 active months a year go to story events. Event minimum 40 | Offers stop looking like A/B/C questions, FR-46 loses milestones and push-outs, and the overlap drops from 64% to 51% at N = 40. The 64% was N = 50 with 11 milestone events in 25 active months, and 66% for goal 3 | Keeping milestones as events with 5 active months (1, 3, 6, 8, and 10, chosen so that the June offers fell in active months) |
 | P5 | Activities change stress and social life only, capped, and never free time | No double counting with hours | — |
 | P6 | "Month plan" in the PRD | "Calendar" is already rule 11 and D17 | — |
@@ -514,7 +527,7 @@ Added on 2026-11-11 from saegg1205's branch `docs/prd-sara-endringer`. The revis
 
 **How UJ-6 differs from the example:**
 - **Persona and figures:** Markus, his hours, the car licence target, month 35, and all amounts are the PRD's own, taken from worked examples 24-26 (R1, R2).
-- **Shifts:** in the example the player places shifts in the calendar and cuts them to get less pay this month. In the PRD, shifts are never placed in a slot, and hours change from the next month (P3, rule 10). Markus therefore sees in the job view what ending the extra shifts would give from December, and keeps them.
+- **Shifts:** in the example the player places shifts in the calendar and cuts them to get less pay this month. In the PRD, extra shifts are never placed in a slot, and hours change from the next month (P3, rule 10); only one-off shifts take a slot (#105). Markus therefore sees in the job view what ending the extra shifts would give from December, and keeps them.
 - **What carries over:** savings and the month's wellbeing score carry over. An activity's effect on stress and social life counts in its own month only (rule 12, decided 2026-11-11). The player plans one month at a time, and planning the next month is V2 (P2, §4.3).
 
 **Not taken from that branch:** it solved the same contradiction as R1 and R2 (Markus saving for the moped licence at 17 although he has had a moped since 16) by moving the concert journey to month 15, with examples 24-26 recalculated for that month, and by renumbering the journeys by age. This PRD keeps the car licence in month 35, which feeds UJ-4 (R1), and keeps the journey IDs stable while ordering them by age (§2.3), so that reviews, issues, and logs keep matching. Its other changes were already here: OQ-19 decided, ending extra shifts, and the wording of UJ-6 step 3.
