@@ -94,7 +94,7 @@ The engine is ordinary Python functions: state and an action in, a new state and
 - **One selection step.** A single function decides which event and which messages arrive when a month opens (FR-46, FR-55). In V2, an AI can propose content at this one point without the rest changing.
 - **Testable without a database.** The worked examples and F1-F10 run in milliseconds.
 
-The engine also builds the **player view**: the part of the state the player is allowed to see, with finished Norwegian text. The raw state never leaves the server. The view leaves out the seed, future events, minigame answers, and the wellbeing effect of event options not yet picked (FR-13).
+The engine also builds the **player view**: the part of the state the player is allowed to see, with finished Norwegian text. The raw state never leaves the server. The view leaves out the seed, future events, and the wellbeing effect of event options not yet picked (FR-13).
 
 ## 5. What is stored
 
@@ -190,7 +190,7 @@ These are the facts the frontend builds against. The exact request and response 
 | Nickname | Show it on its own (settings, the hub marker, the menu link), never inside a sentence. The one exception is the sign-up preview, a fixed frontend sentence |
 | Recap (FR-16) | Each response has `server_time` and the recap threshold. Compare with the view's last action time, never with the device clock |
 | "Continue anyway" (FR-49) | The confirmation is shown by the frontend; the server doesn't ask for it |
-| Hidden on purpose | Wellbeing effects of event options before the pick, minigame answers, future events |
+| Hidden on purpose | Wellbeing effects of event options before the pick, future events |
 | No background polling | Never call the API from a timer. The idle and tab-return fetches run on the player's next input after the idle time or the return. Otherwise the 30-minute idle logout never happens on a shared PC |
 | Only the browser calls `/api` | Next.js server components, middleware and route handlers never call `/api`, so the session cookie always reaches the browser and no game data is cached by Next.js. The one exception is the proxy fallback in AD-10, if the sprint-1 spike needs it |
 | Agreed 2026-11-22 | The frontend is Next.js on Vercel. The reset link is `/nytt-passord#token=…`: the page reads the token from the fragment, removes it from the address bar, and posts it with the new password. The player information page is a static frontend page that names Vercel, Railway and Supabase |

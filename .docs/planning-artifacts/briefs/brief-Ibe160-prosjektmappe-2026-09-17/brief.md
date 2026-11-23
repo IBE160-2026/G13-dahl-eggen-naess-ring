@@ -7,6 +7,8 @@ updated: 2026-11-05
 
 # Product Brief: LifeMode
 
+> **Note (2026-11-23):** this brief is the starting point from September and isn't kept up to date. Where it differs from the PRD and the architecture, those win. The main differences: login is the backend's own, not Supabase Auth; local runs use plain PostgreSQL in Docker, not self-hosted Supabase; the event minimum is 40, not 50; the cut order is in PRD §4.4; and the driving game is V2. Every change is listed with its reason in the PRD addendum under "Changes from the proposal".
+
 > Detail that does not belong in a 1-2 page brief (competitor research, AI guardrail design, safety principles, business model) lives in [addendum.md](addendum.md) and moves on to the PRD and architecture.
 
 ## Executive Summary

@@ -8,7 +8,6 @@ sources:
   - .docs/planning-artifacts/prds/prd-IBE160-G13-2026-10-22/prd.md
   - PRODUCT.md
   - .docs/planning-artifacts/ux-designs/decisions.md
-  - .docs/planning-artifacts/ux-designs/ux-IBE160-G13-2026-11-17/EXPERIENCE.md
 design: DESIGN.md
 mockups:
   - mockups/index.html
@@ -17,7 +16,7 @@ mockups:
 
 # LifeMode — Experience Spine
 
-> **Final, 2026-11-23.** This describes how round 3 works (`mockups/index.html`, Ringer's layout in Speilet's style), built from the team's revisions in `../decisions.md`. It builds on saegg1205's shared spine (`ux-IBE160-G13-2026-11-17/EXPERIENCE.md`): the same 28 surfaces, states and journeys, with round 3's decisions on top. The group chose round 3 as the direction on 2026-11-22 (#95), took its job and shift rules into the PRD (#105), and decided that stress costs nothing extra during play (#106). On 2026-11-23 the group approved the last open UX decisions: the wellbeing bands (#111), unread marks (#112), one-off shift pay with next month's wage (#114) and FR-35 left out (#115). The spine is final. The PRD wins on product rules. This spine wins over the mockup.
+> **Final, 2026-11-23.** This describes how round 3 works (`mockups/index.html`, Ringer's layout in Speilet's style), built from the team's revisions in `../decisions.md`. It started from saegg1205's shared spine and keeps its 28 surfaces, states and journeys, with round 3's decisions on top. This spine is self-contained: the `ux-IBE160-G13-2026-11-17/` folder is history only and binds nothing. The group chose round 3 as the direction on 2026-11-22 (#95), took its job and shift rules into the PRD (#105), and decided that stress costs nothing extra during play (#106). On 2026-11-23 the group approved the last open UX decisions: the wellbeing bands (#111), unread marks (#112), one-off shift pay with next month's wage (#114) and FR-35 left out (#115). The spine is final. The PRD wins on product rules. This spine wins over the mockup.
 >
 > Every choice here is a team decision or a PRD rule. What waits on the PRD, architecture or rule set is listed under Open Questions.
 
@@ -83,7 +82,7 @@ mockups:
 | 19 | Year | `#aar` | The timeline, "Året ›" | Life bar, money per month, what unlocks | yes |
 | 20 | Card warning | `#kort` | Age 18+, first month with card interest | Card debt in kroner, no scolding (FR-31) | yes |
 | 21 | Crisis month | `#krise` | A trigger at month end | Up to three choices, always a way out (FR-32) | yes |
-| 22 | Driving minigame | — | Licence purchase | Turn-based, no timing (FR-51). Waits for #51 | spine-only |
+| 22 | Driving minigame | — | Licence purchase | V2 (#51): not in the MVP, where the licence is a payment only. Turn-based, no timing (FR-51) | V2 |
 | 23 | December and year end | `#aarsslutt` | December opens | The year's money, the year's tax, what changed, notes for anything dropped, teaser (FR-15, FR-21, FR-49) | yes |
 | 24 | Welcome back | `#velkommen` | Login, or an hour away | Quick recap (FR-16, UJ-2) | yes |
 | 25 | Ending | `#slutt`, `#slutt-hul`, `#slutt-ikke`, `#slutt-tap` | 20th birthday | Four endings, three choices that mattered (FR-41, FR-42, FR-43) | yes |
@@ -176,7 +175,6 @@ Behavioral. Visual specs are in `DESIGN.md` → Components.
 | Reset link used or expired | 04 | Says so and offers a new one (FR-3). |
 | Confirm before continuing | 08, 17 | If a crisis trigger is true, the crisis check shows on the hub and in the bank, and the CTA asks first (FR-49). Month 59: «Krise i desember hvis du fortsetter nå … Desember er siste sjanse før slutten.» Month 60: «Spillet slutter med gjeld hvis du fortsetter nå», and «Fortsett likevel» leads to the loss ending. |
 | Months 59–60 | 17 | The consumer loan is locked with the reason (rule 6). In month 60 next month's previews are empty (FR-49). |
-| Minigame unfinished | 08, 22 | The player can't continue to the next month; the CTA names the game (FR-49, FR-51). |
 | After the ending | 25 | The ending is read-only until a new life starts (FR-43). |
 | Offline | Any | The screen stays readable, options and next month are locked (`aria-disabled`, described by the bar), and a bar says «Ingen nett. Du kan se, men ikke velge, før du er på nett igjen.» (FR-8). Announced once through the page's live region. |
 | Logged out elsewhere | Any | After «Logg ut overalt», a password change or a reset elsewhere, the next action shows Log in with «Du ble logget ut. Logg inn igjen for å spille videre.» The game is unchanged (FR-5). |
@@ -207,7 +205,7 @@ Behavioral. Visual specs are in `DESIGN.md` → Components.
 
 - Tap or select to act. Everything works with a keyboard (NFR-2).
 - No dragging anywhere. The plan is tap-to-place (WCAG 2.2, 2.5.7).
-- No timers, countdowns or real-time waiting, and nothing on screen disappears by itself. Minigames have no timing or gestures (FR-51).
+- No timers, countdowns or real-time waiting, and nothing on screen disappears by itself. When minigames come in V2, they have no timing or gestures (FR-51).
 - No chance-based rewards. Random draws are stated as a fact.
 - Targets are at least 24 × 24 CSS px, and 44 × 44 for options, round buttons and tabs.
 - Motion: one authored moment (chips pop in on the result, the sheet slides up) and stickers straighten on hover. All motion is off under reduced motion.
@@ -278,7 +276,7 @@ The protagonist is Markus, from the PRD. In the prototype his nickname is "Mak".
 1. 01: he taps «Lag bruker».
 2. 02: email once (shown back for checking), password, and «Hva skal vi kalle deg?» → «Mak». Emma's preview bubble updates as he types.
 3. 05–06: picks «Spare til noe stort» and a hoodie colour; the mirror figure changes colour.
-4. 07: gets 18 500 kr and chooses «Sett alt på sparekontoen». It reads «Lagrer …» until the server confirms.
+4. 07: gets 18 500 kr, spends most of it, and puts 5 000 kr on the savings account (UJ-3). It reads «Lagrer …» until the server confirms.
 5. **Climax:** 13 shows the money with a sign and a word, wellbeing revealed, and the mirror reflecting his mood, because of his own choice.
 6. 08: months pass. Line at Butikken messages him (09–11), and he takes the job she offers (16).
 7. 23: December opens with the year's money and a teaser for what opens next. He taps «Ferdig for nå».
@@ -305,11 +303,11 @@ Edge: he forgot the password → 04, same answer whether or not the email exists
 
 Edge: he can't afford the concert → it shows the missing amount and can't be placed. He spends the money before continuing → the concert is dropped, and December opens with a note. He switches to the PC → it reloads before he can continue (FR-49). He does nothing → the invitation runs out at the end of the month.
 
-### Flow 4 — Interest grew (Markus, mid-game) · UJ-3
+### Flow 4 — Interest grew (Markus, 15, June of the first year) · UJ-3
 
-1. 10: Banken: «Sparepengene dine har tjent over 50 kr i rente.» (FR-55)
+1. 10: Banken: «Sparepengene dine har tjent over 50 kr i rente.» It comes in June, the first month the interest so far passes 50 kr (FR-55).
 2. 17: he taps «Hvorfor?» on the interest line.
-3. **Climax:** it links the interest to his own choice: «I januar i fjor satte du pengegaven på sparekontoen.» The interest sheet shows 23 500 kr × 2,87 % ÷ 12 = 56 kr this month.
+3. **Climax:** it links the interest to his own choice: «I januar satte du 5 000 kr av pengegaven på sparekontoen.» The interest sheet shows 5 048 kr × 2,87 % ÷ 12 = 12 kr this month. (The figures follow rule 2 from Flow 1's deposit; the engine computes the real ones, and the month text comes from its formatter, AD-13.)
 4. The sheet points on: «Vil du ha mer? Spar mer, eller tjen mer med flere timer eller sommerjobb.»
 5. 19: on Året, the blue interest strip shows it month by month.
 
@@ -350,7 +348,7 @@ Edge: hollow win (goal reached, average under 50), goal not reached (never frame
 ## Coverage
 
 - **Not UX surfaces:** FR-12, FR-17, FR-20, FR-21, FR-24, FR-46, FR-50 and FR-58 are engine, content or test rules. They reach the player through the surfaces above.
-- **Spine-only:** 22 Driving minigame. It follows the event layout: one traffic situation, two to four answers, no timing, and the result on 13. It waits for #51.
+- **V2:** 22 Driving minigame (#51). The MVP has no minigame, and the licences are a payment only. When it comes, it follows the event layout: one traffic situation, two to four answers, no timing, and the result on 13.
 - **FR-28 and FR-30 (licences):** bought as open options in the bank; the gift arrives as a message. Both change the licence layer.
 - **FR-35 (what a choice opened or closed):** left out of the MVP by the team on 2026-11-23 (#115), under its «If left out» clause. Flags still drive follow-ups, unlocks and the room; the outcome list shows what changed.
 - **FR-27 (family help):** appears as an option in events and crises, never as advice on its own.
@@ -359,10 +357,7 @@ Edge: hollow win (goal reached, average under 50), goal not reached (never frame
 ## Open Questions
 
 - **Decided 2026-11-23:** the wellbeing bands as built (#111), unread marks as built (#112), one-off shift pay with next month's wage (#114), and FR-35 left out (#115).
-- **For the PRD, architecture and rule set (they don't change the screens):**
-  - The PRD texts for #111, #114 and #115 (FR-33, FR-47, FR-35).
-  - A start year for «2027» in the timeline, the year's monthly totals for Året, and the wellbeing band are not in the player view yet (#116, AD-13).
-  - D12, D25 and D26 still say the player sets hours, «forbruksnivå» and «plasser» (#117). The prototype shows the proposed wording on «Om tallene» and in the first-plan disclosure.
-- **Driving minigame (#51):** surface 22 is spine-only until the team decides.
+- **Done in the PRD and architecture on 2026-11-23:** the PRD texts for #111, #114 and #115 (FR-33, FR-47, FR-35), and the start year, monthly totals and wellbeing band in the player view (#116, AD-13). The driving minigame is V2 (#51), so surface 22 isn't built in the MVP.
+- **For the rule set (doesn't change the screens):** D12, D25 and D26 still say the player sets hours, «forbruksnivå» and «plasser» (#117). The prototype shows the proposed wording on «Om tallene» and in the first-plan disclosure.
 - **Player information:** the wording follows the architecture (AD-14). The frontend team owns the final text, and the 12-month deletion is named only if that job is built (NFR-3).
 - **Unverified:** whether the stickers on the mirror read well at 320 px; test with players.
