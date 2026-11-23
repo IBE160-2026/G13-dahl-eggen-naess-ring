@@ -771,6 +771,8 @@ An option that has unlocked stays open until the player takes it, and opens agai
 | Part-time or full-time job | One at a time (FR-47). Open again after the player quits |
 | The experience (goal 3) | Once per playthrough |
 
+The family loan and the payment plan aren't open options, so the table doesn't list them, but each is one at a time too. A family loan comes from an event or crisis month, and family lends again only after the current loan is paid back (FR-27). A payment plan is a crisis option, offered only when no plan is already running (FR-32b, rule 15).
+
 #### FR-19: Tips in events and offers
 
 Some events and offer messages carry a short, general, pre-written tip, which the player is free to ignore. Realizes UJ-3.
