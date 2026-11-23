@@ -74,22 +74,22 @@
   <text class="d-t" x="638" y="265">Resultat</text>
 
   <circle class="d-num" cx="294" cy="310" r="12"/><text class="d-n" x="294" y="314" text-anchor="middle">6</text>
-  <text class="d-c" x="316" y="315">året er omme (desember)</text>
+  <text class="d-c" x="316" y="315">hendelse eller kortvarsel venter</text>
   <path class="d-ln" d="M590 310 H618" marker-end="url(#f5a)"/>
   <rect class="d-hjem" x="620" y="292" width="280" height="36" rx="8"/>
-  <text class="d-t" x="638" y="315">Årsslutt</text>
+  <text class="d-t" x="638" y="315">Hendelse</text>
 
   <circle class="d-num" cx="294" cy="360" r="12"/><text class="d-n" x="294" y="364" text-anchor="middle">7</text>
-  <text class="d-c" x="316" y="365">hendelse eller kortvarsel venter</text>
+  <text class="d-c" x="316" y="365">krisesteg venter</text>
   <path class="d-ln" d="M590 360 H618" marker-end="url(#f5a)"/>
   <rect class="d-hjem" x="620" y="342" width="280" height="36" rx="8"/>
-  <text class="d-t" x="638" y="365">Hendelse</text>
+  <text class="d-t" x="638" y="365">Krisesteg</text>
 
   <circle class="d-num" cx="294" cy="410" r="12"/><text class="d-n" x="294" y="414" text-anchor="middle">8</text>
-  <text class="d-c" x="316" y="415">krisesteg venter</text>
+  <text class="d-c" x="316" y="415">desember, valgene er tatt</text>
   <path class="d-ln" d="M590 410 H618" marker-end="url(#f5a)"/>
   <rect class="d-hjem" x="620" y="392" width="280" height="36" rx="8"/>
-  <text class="d-t" x="638" y="415">Krisesteg</text>
+  <text class="d-t" x="638" y="415">Årsslutt</text>
 
   <text class="d-c" x="316" y="472">ingenting skyldes</text>
   <path class="d-ln" d="M590 467 H618" marker-end="url(#f5a)"/>
