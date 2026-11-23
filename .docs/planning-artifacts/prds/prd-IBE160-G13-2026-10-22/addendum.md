@@ -383,7 +383,7 @@ What this changes for the build:
 | Login attempts per network | 300 an hour | A class of 30 at three attempts each isn't blocked |
 | Reset emails | 1 per address a minute and 5 a day; total per day at most 80% of the relay's daily quota | One script can't use up the quota and block recovery. Applies once a relay is switched on (go-live, OQ-4); with Resend Free (100 a day) the total is 80 a day |
 | Reset link | 60 minutes, and a new link cancels older ones | |
-| Login without "stay logged in" | Until the browser closes, or 30 minutes with no activity | Shared school PCs |
+| Login without "stay logged in" | Until the browser ends its session, or 30 minutes with no activity (some browsers keep the session through a restart) | Shared school PCs |
 | Login with "stay logged in" | Until logout, or 30 days without play | The box is unticked by default, which suits shared school PCs. The cost is that a phone player logs in again more often, which could lower the return rate. Check this in the playtest |
 
 **Reset email routes (OQ-4, #30).** Password reset has to send email at NFR-5's low cost, and it has to work in the examiner's Docker run without the team's cloud account or keys (NFR-6).

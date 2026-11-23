@@ -85,7 +85,7 @@ The second column is the round 3 mockup's anchor, for finding a surface in `mock
 | 20 | Card warning | `#kort` | Age 18+, first month with card interest | Card debt in kroner, no scolding (FR-31) | yes |
 | 21 | Crisis month | `#krise` | A trigger at month end | Up to three choices, always a way out (FR-32) | yes |
 | 22 | Driving minigame | — | Licence purchase | V2 (#51): not in the MVP, where the licence is a payment only. Turn-based, no timing (FR-51) | V2 |
-| 23 | December and year end | `#aarsslutt` | December opens | The year's money, the year's tax, what changed, notes for anything dropped, teaser (FR-15, FR-21, FR-49) | yes |
+| 23 | December and year end | `#aarsslutt` | December opens (after its event or crisis, if it has one) | The year's money, the year's tax, what changed, notes for anything dropped, teaser (FR-15, FR-21, FR-49) | yes |
 | 24 | Welcome back | `#velkommen` | Login, or an hour away | Quick recap (FR-16, UJ-2) | yes |
 | 25 | Ending | `#slutt`, `#slutt-hul`, `#slutt-ikke`, `#slutt-tap` | 20th birthday | Four endings, three choices that mattered (FR-41, FR-42, FR-43) | yes |
 | 26 | Menu | `#meny` | Avatar in the timeline (below 768 px), rail avatar | Nickname, password, information, new life, log out, delete user (FR-4, FR-5, FR-43, FR-44) | yes |

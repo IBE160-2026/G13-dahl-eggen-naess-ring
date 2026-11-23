@@ -185,9 +185,9 @@ flowchart TD
     G -->|after login, or opened after 1 hour away| RC[Recap]
     G -->|avatar or pengegave pending| SU[Setup step]
     G -->|a choice was just saved| RS[Result]
-    G -->|December| YE[Year end]
     G -->|event or card warning| EV[Event]
     G -->|crisis step pending| CR[Crisis step]
+    G -->|December, choices done| YE[Year end]
     G -->|nothing due| AR[The area in the address: /hjem, /plan, /mobil, /jobb, /penger, /aaret]
 ```
 
@@ -202,13 +202,13 @@ The recap and the year end close with «Fortsett» and stay closed in that tab. 
 
 - holds the latest response in one store that every screen reads;
 - sends one game action at a time, using the month and plan version of the screen the player actually saw;
-- retries a lost action with the same `request_id` (at 2, 5 and 10 seconds, then on «Prøv igjen» or when the connection returns), so it is never applied twice;
+- retries a lost action with the same `request_id` (2, 5 and 10 seconds after each failure, then every 30 seconds, on «Prøv igjen», or when the connection returns), so it is never applied twice;
 - ignores a response older than the one it already has, and never blanks the screen on an error;
 - fetches the game only at set moments (page load, login, reconnect, the next input after 5 minutes idle or a tab return, and a few error cases). It never polls, so the 30-minute idle logout still works on a shared PC.
 
 **Look: tokens and CSS Modules (AD-19).** A script turns the tokens in `DESIGN.md` into `tokens.css`, the only file with colour values; lint rules refuse colours anywhere else, SVG included. Each component has its own `.module.css`. There is no component library: sheets are the browser's own `<dialog>`. Shared pieces (the sheet, the locked button, the one screen-reader announcer, money figures, bars) are built once, in the first frontend story. Fonts are files in the repo; nothing loads from another site, and a Content-Security-Policy enforces it (NFR-3).
 
-**Tests: against the real backend (AD-20).** Vitest tests the game client, `gateFor` and components with logic, using player views dumped from the seeded test games. Playwright runs the main flow end to end against the whole local stack in Chromium and WebKit at 320, 390, 900 and 1280 px, and axe fails the build on any serious or critical accessibility finding. Before each playtest, the team checks phones, keyboard and screen reader by hand and writes the results to `frontend/e2e/manual-checks.md`.
+**Tests: against the real backend (AD-20).** Vitest tests the game client, `gateFor` and components with logic, using player views dumped from the seeded test games. Playwright runs the main flow end to end against the whole local stack in Chromium, WebKit and Firefox at 320, 390, 900 and 1280 px, and axe fails the build on any serious or critical accessibility finding. Before each playtest, the team checks phones, keyboard and screen reader by hand and writes the results to `frontend/e2e/manual-checks.md`.
 
 **Rules of the road.** ESLint, Prettier, stylelint and the type check run on every PR, next to ruff on the backend. `main` needs green CI and an approval from another group member, also for AI-written code.
 
@@ -220,7 +220,7 @@ The exact request and response shapes are in `openapi.json`, which is generated 
 | --- | --- |
 | Address | Everything is on one origin. The frontend calls only `/api/*` on its own domain, and `vercel.json` passes those calls on to Caddy with the origin secret and with caching off (AD-12). No CORS, no tokens to store: the session is a cookie the browser sends by itself |
 | Reading the game | `GET /api/game` returns the player view. Before the first start, or after a life ended early, it still answers `200`, with `status` `none` or `ended` and the start screens' texts and figures. The last action's result is part of the view, so it shows again after a reconnect |
-| Response shape | Every game response is `{result?, state, server_time, recap_threshold}`, where `state` is the player view. Always replace the view with the latest response |
+| Response shape | Every game response is `{result?, state, server_time, recap_threshold, client_times}`, where `state` is the player view and `client_times` holds the saving-notice and idle times from the backend's settings. Always replace the view with the latest response |
 | Changing the game | `POST /api/game/actions` for every game action, including starting, ending early and playing again |
 | Each action carries | A new `request_id` (UUID), the `playthrough_id`, the `month`, and the action. Send the same `request_id` again when retrying. Only game actions are retried automatically; after a lost sign-up, login, password or deletion response, fetch `GET /api/game` or show the login screen |
 | Knowing if the view is stale | `playthrough_id` + `state_version` identify a state. Fetch again on open, reload and reconnect, and before the player's next input after a tab return or 5 minutes idle (FR-8). If the state changed, the input is dropped and the player sees «Spillet ble oppdatert på en annen enhet.» |
