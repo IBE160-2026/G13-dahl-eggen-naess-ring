@@ -243,7 +243,7 @@ The FRs refer to the financial rules by number. Each line below sums up one rule
 | 8 Crisis months | The current account below 0, two missed minimums in a row, or net debt (card, consumer loans and payment plans, minus a positive current account and savings, not counting family loans) above the larger of 3× the 3-month average wage and NOK 5,000 starts a crisis month with up to 3 linked choices and a 2-month cooldown; a trigger true at the end of both month 59 and month 60 is the loss ending |
 | 9 BSU deduction | Once a year, 10% of the year's BSU deposits (at most NOK 27,500 in deposits), never more than the year's tax |
 | 10 Working hours | At most 12 h a week in grunnskole (months 1-18) and 40 h a week from month 19, with a monthly cap of 173 h that summer jobs share |
-| 11 Calendar | Month 1 is January of the year the player turns 15, month 60 is December of the year they turn 19, and school stages follow fixed months |
+| 11 Calendar | Month 1 is January of the year the player turns 15, month 60 is December of the year they turn 19, and school stages follow fixed months. Month 1 is in the start year, 2026 by default (configuration), so the game runs 2026-2030 |
 | 12 Wellbeing | Free time comes from school and work hours; stress and social life move with choices, spending, interest, and crises; activities add effects for this month only; wellbeing is their weighted sum, and ending wellbeing is the average over months 19-60 |
 | 13 Life goals | Each goal is checked once after month 60, using net savings, available money, and debt |
 | 14 Moped | One moped at most, only with the licence; its value falls 15% a year down to 20%, and insurance and fuel replace the transport ticket |
@@ -601,7 +601,7 @@ The engine processes every month in the order set by rule 1: income, then tax, f
 - **Costs started by a choice:** an everyday cost started in month M by an event option, an open option, or car borrowing (FR-30) is first charged in month M+1's fixed-cost step, and last charged in the month it's stopped, the same way as the moped in rule 14.
 - The same starting state, random draws, choices, and minigame answers always give the same result.
 - The worked examples pass as unit tests, and they cover F1-F3, F7, and F8.
-- **Calendar (rule 11):** month 1 is January, at the 15th birthday. Each session runs from January to December and is one tax year. Upper secondary school ends after month 54.
+- **Calendar (rule 11):** month 1 is January, at the 15th birthday, in the start year (2026 by default, configuration). Each session runs from January to December and is one tax year, and the game shows its calendar year («November · 16 år · 2027»). Upper secondary school ends after month 54.
 - **Random results:** every random result, such as the pengegave, which event comes next, which messages arrive, an unexpected expense, a gift offer, or whether family can help, is drawn by the engine once and stored before the player sees it. Reloading, logging in again, or switching device shows the same result.
 - **Reproducible:** a playthrough's random results can be reproduced from values stored when it starts, so engine tests can replay a whole playthrough from those values, the player's choices, their applied activities, their savings-target pins, and their minigame answers.
 - Everything the engine processes in a month, quiet or active, is saved as soon as it's processed (FR-6, FR-7).
