@@ -771,6 +771,8 @@ An option that has unlocked stays open until the player takes it, and opens agai
 | Part-time or full-time job | One at a time (FR-47). Open again after the player quits |
 | The experience (goal 3) | Once per playthrough |
 
+The family loan and the payment plan aren't open options, so the table doesn't list them, but each is one at a time too. A family loan comes from an event or crisis month, and family lends again only after the current loan is paid back (FR-27). A payment plan is a crisis option, offered only when no plan is already running (FR-32b, rule 15).
+
 #### FR-19: Tips in events and offers
 
 Some events and offer messages carry a short, general, pre-written tip, which the player is free to ignore. Realizes UJ-3.
@@ -1506,7 +1508,7 @@ There are 10-20 playtesters before the December delivery, all 18-20-year-olds. T
 | SM-11 | Pace | One session, one in-game year | 10-15 minutes on a phone | FR-15, FR-46 |
 | SM-12 | Mission | A parent or teacher wants to try the game after the team shows it to them | At least one, noted by the team | — |
 
-- **Counted from records:** completion, coming back within 3 days, time to the first choice, and session length are counted from the playtest records (FR-50) in the playtest environment (NFR-11), across several sittings. Coming back is measured over each tester's own first 3 days, and the team sends no reminders during them. The window can be extended later if the test period allows it.
+- **Counted from records:** completion, coming back within 3 days, time to the first choice, and session length are counted from the playtest records (FR-50) in the playtest environment (NFR-11). The counts cover every sitting a tester plays, not only the first. Coming back is measured over each tester's own first 3 days, and the team sends no reminders during them. The window can be extended later if the test period allows it.
 - **Written explanations (SM-1, SM-3, SM-4):** after the last sitting, each tester answers these in writing in a few sentences, without the game open. Two team members score each answer against a fixed rubric as correct, partly correct, or wrong, and only correct answers count towards the target. The rubric is written before the playtest, and disagreements are settled together. This replaces the testers' own judgement of whether they understood. The rubric is `.docs/planning-artifacts/playtest/rubric-written-explanations.md` (draft, #69).
 - **Quiz and survey:** the quiz is taken before the first sitting and after the last one. Its questions still need a teacher's review (#108). The quiz and the playtest survey use a random tester code instead of a name or email address.
 - **Planning time:** the time spent on the month plan is counted from the records (FR-50), and the playtest survey asks whether planning the month felt quick (7.2).
