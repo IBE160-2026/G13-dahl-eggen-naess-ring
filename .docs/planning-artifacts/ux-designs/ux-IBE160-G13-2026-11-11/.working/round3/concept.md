@@ -12,7 +12,7 @@ Built 2026-11-22 from the team's round 3 revisions in `../../../../decisions.md`
   - sage wall, paper, ink, coral primary with an ink border
   - Bricolage Grotesque plus Kalam marker
   - stuck-on stickers, grain, and yellow post-its that mean locked only
-- **Hub:** the mirror selfie replaces the room. Both scenes are cut from Speilet's screens 08 and 13 and inlined in `index.html` as SVG (`#sc-selfie` and `#sc-glad`). The garland, post-its, status bar, goal-box labels and grain are removed.
+- **Hub:** the mirror selfie replaces the room. Both scenes are cut from Speilet's screens 08 and 13 and inlined in `../../mockups/index.html` as SVG (`#sc-selfie` and `#sc-glad`). The garland, post-its, status bar, goal-box labels and grain are removed.
 
 ## What changed, by the team's points
 | Point | Change |
@@ -22,7 +22,7 @@ Built 2026-11-22 from the team's round 3 revisions in `../../../../decisions.md`
 | Forbruksnivå | It stays, but no screen says "forbruksnivå". The bank asks "Hvor mye bruker du i måneden?", and each of the three choices shows kroner, examples ("Matpakke, sjelden nye klær") and what it means ("Du sparer mer"). |
 | Rente | Every interest amount is a button with an (i) icon (hub chip, savings account, transaction). It opens a sheet with what interest is and the calculation behind this month's amount. |
 | "Ekko fra …" | Now "Tidligere valg", followed by a plain sentence: "Du sa ja til ekstravakter i september. Derfor har du én kveld mindre." |
-| Trivsel | The parts are shown with their consequences: "Fritid 72 gir deg 3 kvelder. Snitt så langt 61, du trenger 50." See open questions. |
+| Trivsel | The parts are shown with their consequences: "Fritid 72 gir deg 3 kvelder. Snitt så langt 61, du trenger 50." The wording is now "Snittet ditt er 61. Trivselsmålet er 50." |
 | Less text | The "Stille måned" explanation, the CTA subline, the plan help text, the event footnote and the inbox filters are gone. |
 | Plan, left pane | Same style as the right pane: one row per evening ("Kveld 1 · Kveld med venner · −200 kr", "Kveld 2 · Ledig [+ Legg til]"). School and work are one locked line, not hatched blocks. |
 | "Plass 1/2/3" | Now "Kveld 1/2/3", and "3 ledige kvelder" on the hub. |
@@ -43,26 +43,46 @@ Built 2026-11-22 from the team's round 3 revisions in `../../../../decisions.md`
 ## Palette check
 The money colours are the same everywhere (chips, transactions, year chart): in `#1E8A6E`, out `#C2552D`, interest `#2B4CC4`. They pass the dataviz validator on white: CVD ΔE 10.0, normal-vision ΔE 23.2, contrast ≥ 3:1. They always come with a sign and a word, never colour alone.
 
-Wellbeing has its own status palette, used only on the wellbeing tile: good `#1F7A4D`, warn `#D99A00`, bad `#C2261E`. It passes the validator (CVD ΔE 17.2, normal-vision ΔE 25.0). The warn colour is only 2.45:1 on white, so every bar always has a word next to it ("ok") and the dot has an ink ring. A plain red/amber/green set (`#2E8540`, `#B26B00`, `#B3261E`) failed: protan ΔE 3.9.
+Wellbeing has its own status palette, used only on the wellbeing tile: good `#1F7A4D`, warn `#D99A00`, bad `#C2261E`. Measured across all pairs on white: normal-vision ΔE 25.0, and green against red ΔE 7.6 for colour-blind players (deutan). That is just below the target of 8, so the word is required. (An earlier note said 17.2, which covered neighbouring colours only.) The warn colour is only 2.45:1 on white, so every bar always has a word next to it ("ok") and the dot has an ink ring. A plain red/amber/green set (`#2E8540`, `#B26B00`, `#B3261E`) failed: protan ΔE 3.9.
 
-## Diverges from the PRD (needs team decision)
-- **FR-47 / UJ-5:** hours come as offers, and the player can ask for more. Today the player sets hours freely, and UJ-5 step 4 raises them from 10 to 12.
-- **FR-52:** a one-off shift in the plan takes an evening slot. Today work never goes in slots.
-- **FR-23:** the spending level is unchanged as a rule. Only the wording and the examples are new.
+## Aligned with the PRD (2026-11-22)
+#105 was decided and the PRD now has the rules, so the mockup was brought in line:
+- **Wellbeing bands** follow the threshold of 50 (rule 12): under 50 bad, 50–59 ok, 60 and up good, stress mirrored.
+- **Hours (FR-47):** the offer is the employer's answer to last month's request. It shows what is left after spending (302 kr) and free evenings as a number. The player can ask for more or fewer, one request at a time, answered next month. The old offer of new extra shifts is gone: they can't be offered while extra shifts run.
+- **Extra shifts:** ending them shows 4 evenings instead of 3 and 604 kr less left, as in UJ-6.
+- **One-off shifts (FR-47, FR-52):** no dates, no stress effect, not counted in the plan's total, and listed in the job view.
+- **Sign-up (FR-1, #109):** one email field, shown back before the user is created.
+
+## Completed (2026-11-22)
+- **The mirror is the room (FR-34, per sarahnaess):** moped, licence and phone are layers in the scene. Selling the moped in the bank removes it. Try `#penger` on desktop.
+- **Drawn:** 03, 04, 07, 09, 20, 21, 23, 24, 25 (four endings), 26, 27 and 28. 22 waits for #51.
+- **Added:** savings target, life goal, next month's costs, activity spend and buy/sell in the bank; «Samme som i oktober»; «Vanligvis n» under stress and social; «Lagrer …»; the player information; password length; «Forbli innlogget» unticked by default (FR-5).
+- **Corrected against the PRD:** the 250 kr in November is moped insurance, not activities; the unlock notes follow FR-18 (Øvelseskjøring and «BSU når du har inntekt» weren't in it).
+
+## Validation fixes (2026-11-23)
+From `../../validation-report.md`. All critical and high findings are fixed, with the medium ones that hung on them:
+- **Accessibility:** the scene's image role covers only the artwork, the menu moved to an avatar in the timeline, focus is kept or moved after every change, the fixed bars no longer hide focused controls, locked controls use `aria-disabled` with a reason, the toast stays until closed, rail badges have screen-reader text, coral dots have an ink ring, every route has a title, and Hjem has an `h1`.
+- **PRD:** the event opens October with the facts FR-13 asks for, continuing from November opens December, «Spør mamma» is offered on every crisis step, the interest sheet divides by 12, the ending no longer ranks wages, and the crisis moped sale is 7 715 kr (rule 14). The 10-hour wage is 6 041 kr.
+- **Language:** «planlagt / Tom» instead of «ledige», Billappen, «det minste (i)», «Del opp hele kortgjelden», the 604 kr sentence, «Vakter du kan ta i november», «Igjen etter november», BSU with (i), the life goal 2 text, the offline text, and the trivselsmål with an (i).
+- **New states:** email in use (`#opprett~ibruk`), an activity dropped (`#aarsslutt~droppet`), and the December tax line.
 
 ## Open questions
-- **Trivsel in play:** per the PRD, the felt effects are fewer evenings (free time), the end score (hollow win), and the room or mirror. High stress has no effect during play beyond these. Should high stress also cost something now, such as an evening or a darker mirror and a tired face?
+- **Trivsel in play:** per the PRD, the felt effects are fewer evenings (free time), the end score (hollow win), and the room or mirror. High stress has no effect during play beyond these. The group decided on 2026-11-22 that it stays that way (#106).
 - **Dark mode:** not drawn. The Speilet scene is a lit room, so dark mode would need its own scene.
 - **The mirror at 320 px:** the stickers overlap the reflection. That is the Speilet idea, but it should be tested.
 
 ## Invented figures (not in Rule Set v1)
 - **Year chart, month by month:** income, spending and interest. The November figures follow UJ-6.
 - **Spending examples and effects:** the example texts and "Du sparer mer". The amounts (60/75/95 % of 8 457 kr) follow rule 16.
-- **Offers:** the extra-shift offer for January–March (ca. 2 414 kr) and "2 timer til" (ca. 1 207 kr).
-- **One-off shifts:** fredag 558 kr (4 h) and varetelling 697 kr (5 h).
-- **Wellbeing thresholds:** Fritid and Sosialt: ≥60 "bra", 40–59 "ok", <40 "lite". Stress: ≤35 "lavt" (good), 36–60 "middels", >60 "høyt". The score: ≥60 "Det går bra", 40–59 "Helt ok", <40 "Tungt nå". The engine should own these.
+- **One-off shifts:** the names Kveldsvakt and Varetelling and their hours (4 and 5). The pay is hours × 139,40 kr.
 - **Phone event:** as in round 2 (2 500 / 1 800 / 0 kr).
+- **Gift:** 18 500 kr and the three choices. **Crisis:** 700 kr overdue, mother lends 500 kr, 939 kr a month for the payment plan (10 000 kr, 22,6 %, 12 months). **Endings:** all amounts except 17 270, 16 728 and 5 508. **Activity spend:** 3 150 kr. The moped's value follows rule 14 (11 645 kr, six months).
 - **Age:** UJ-6 is at 17, and it's shown at 16 as in round 2.
+- **18+ bank (April 2029):** the account balances (4 120, 18 300 and 12 400 kr) and the transfer of 136 kr in the month summary. The card follows worked example 4 (3 200 kr, minimum 300 kr by rule 5, 13 months and 406 kr in interest); 60 kr interest is 3 200 × 22,6 % ÷ 12. Mobile 299 kr and the bus 238 kr are sourced in Rule Set v1. The loan sheet uses rule 4's annuity: 20 000 kr over 12 months gives F1 (1 805 / 1 808 / 21 663 kr); 24 and 36 months are calculated the same way. «Du kan låne 5 000–22 000 kr» is 3 × 8 457 kr minus the card debt, rounded down (FR-25).
+- **Months 59–60:** the balances (640 and 600 kr) and 700 kr overdue; the card figures follow the card warning (10 000 kr, 350 kr minimum, 51 months, 5 508 kr).
+
+## Finalization (2026-11-23)
+The group approved the open decisions (#111, #112, #114, #115), and #118 is drawn: the month summary, the first-time disclosure and all 26 texts on Om tallene, progress after planned activities, the crisis check with the month 59/60 warnings, the 18+ bank and Året's arrow buttons. Both spines are final.
 
 ## Verified
-Rendered at 320, 390 and 1280 px in headless Chrome. The Impeccable detector reported no findings.
+Rendered at 320, 390 and 1280 px in headless Chrome, with the job, plan and sign-up flows clicked through.

@@ -1,17 +1,18 @@
 ---
 name: LifeMode
-description: Ringer's layout in Speilet's world. A mirror selfie is home; phone, bank and job read like real apps; money always carries a sign, a word and one of three colours.
+description: Ringer's layout in Speilet's world. A mirror selfie is home; phone, bank and job read like real apps; money always carries a sign, a word and one of three colours, and wellbeing has its own status colours.
 title: LifeMode DESIGN
-status: draft
+status: final
 created: 2026-11-11
-updated: 2026-11-22
+updated: 2026-11-23
 sources:
   - PRODUCT.md
   - .docs/planning-artifacts/prds/prd-IBE160-G13-2026-10-22/prd.md
   - .docs/planning-artifacts/ux-designs/decisions.md
   - .docs/planning-artifacts/ux-designs/ux-IBE160-G13-2026-11-17/konsepter/speilet/DESIGN.md
 mockups:
-  - .working/round3/index.html
+  - mockups/index.html
+  - mockups/oversikt.html
 colors:
   canvas: '#DCE6D2'
   wall: '#C7D5C0'
@@ -57,6 +58,14 @@ colors:
   scene-skin-shade: '#C49B83'
   scene-hair: '#3A2A20'
   scene-pants: '#E4D6BC'
+  scene-dim: '#6F756B'
+  scene-phone: '#FF6F59'
+  scene-phone-used: '#5C6270'
+  scene-moped: '#7154A8'
+  scene-licence: '#F3C9CF'
+  bubble: '#ECECF1'
+  option-selected: '#FFFCF6'
+  tag-worse-text: '#7A2E14'
 typography:
   display: { fontFamily: Bricolage Grotesque, fontSize: 60px, fontWeight: 800, lineHeight: 1.02, letterSpacing: -0.03em }
   h1: { fontFamily: Bricolage Grotesque, fontSize: 28px, fontWeight: 800, lineHeight: 1.15, letterSpacing: -0.015em }
@@ -73,12 +82,19 @@ typography:
   tab-label: { fontFamily: Bricolage Grotesque, fontSize: 12px, fontWeight: 700 }
   marker: { fontFamily: Kalam, fontSize: 22px, fontWeight: 700, lineHeight: 1 }
   marker-small: { fontFamily: Kalam, fontSize: 15px, fontWeight: 700 }
+  caption: { fontFamily: Bricolage Grotesque, fontSize: 12px, fontWeight: 600, lineHeight: 1.3 }
+  pill: { fontFamily: Bricolage Grotesque, fontSize: 15px, fontWeight: 800 }
 rounded:
+  key: 3px
+  bar: 4px
   sm: 6px
   md: 10px
+  tile-icon: 12px
   lg: 16px
+  bubble: 18px
   xl: 20px
   sheet: 24px
+  screen: 34px
   device: 44px
   full: 9999px
 spacing:
@@ -103,9 +119,29 @@ components:
   button-secondary: { background: '{colors.surface}', textColor: '{colors.ink}', border: '{colors.ink}', borderWidth: 2px, height: 48px, rounded: '{rounded.full}' }
   button-cta: { background: '{colors.coral}', border: '{colors.ink}', height: 56px, rounded: '{rounded.full}' }
   card: { background: '{colors.surface}', rounded: '{rounded.lg}', padding: '{spacing.4}' }
-  slot-row: { background: '{colors.surface}', emptyBorder: '{colors.ink-muted}', emptyDash: 2px dashed, height: 68px, rounded: '{rounded.lg}', label: '{typography.marker-small}' }
+  slot-row: { background: '{colors.surface}', emptyBorder: '{colors.ink-muted}', emptyDash: 2px dashed, height: 68px, rounded: '{rounded.lg}', label: '{typography.marker-small}', hintDesktop: '{colors.ink-muted}' }
+  wellbeing-tile: { background: '{colors.surface}', rounded: '{rounded.lg}', scoreFont: '{typography.amount}', barHeight: 6px, barTrack: '{colors.hairline-soft}', barGood: '{colors.status-good}', barWarn: '{colors.status-warn}', barBad: '{colors.status-bad}', dotSize: 8px, valueColor: '{colors.ink}', wordColor: '{colors.ink-muted}' }
+  room-layer: { moped: '{colors.scene-moped}', phone: '{colors.scene-phone}', phoneUsed: '{colors.scene-phone-used}', licence: '{colors.scene-licence}' }
+  choice-row: { background: '{colors.surface}', rounded: '{rounded.lg}', minHeight: 56px, padding: '{spacing.4}' }
+  crisis-steps: { on: '{colors.ink}', off: '{colors.paper}', offBorder: '{colors.ink-muted}', width: 28px, height: 8px, rounded: '{rounded.full}' }
+  toast: { background: '{colors.surface}', rounded: '{rounded.xl}', maxWidth: 480px }
+  offline-bar: { background: '{colors.ink}', textColor: '{colors.paper}', rounded: '{rounded.lg}' }
+  info-box: { background: '{colors.paper}', rounded: '{rounded.lg}', padding: '{spacing.4}' }
+  menu-row: { background: '{colors.surface}', rounded: '{rounded.lg}', minHeight: 56px }
+  status-pill: { good: '{colors.status-good-soft}', warn: '{colors.status-warn-soft}', bad: '{colors.status-bad-soft}', textColor: '{colors.ink-muted}', font: '{typography.pill}', rounded: '{rounded.full}', padding: 3px 10px 3px 8px, dotSize: 8px }
   past-choice-note: { background: '{colors.paper}', icon: '{colors.cobalt}', labelColor: '{colors.cobalt}', rounded: '{rounded.lg}' }
-  info-button: { background: '{colors.cobalt}', textColor: '{colors.surface}', size: 20px, rounded: '{rounded.full}', underline: '{colors.money-rate}' }
+  info-button: { background: '{colors.cobalt}', textColor: '{colors.surface}', size: 24px, rounded: '{rounded.full}', underline: '{colors.money-rate}' }
+  focus-ring: { outline: '{colors.ink}', outlineWidth: 3px, offset: 2px, halo: '{colors.coral}', haloWidth: 6px }
+  progress: { track: '{colors.hairline-soft}', fill: '{colors.ink}', height: 10px, rounded: '{rounded.full}' }
+  status-row: { good: '{colors.status-good-soft}', bad: '{colors.status-bad-soft}', textColor: '{colors.ink}', rounded: '{rounded.md}', dotSize: 10px }
+  disclosure: { background: '{colors.paper}', icon: '{colors.cobalt}', labelColor: '{colors.cobalt}', rounded: '{rounded.lg}', measure: 62ch }
+  switch: { track: '{colors.hairline}', trackOn: '{colors.money-in}', border: '{colors.ink}', knob: '{colors.surface}', width: 48px, height: 28px, rounded: '{rounded.full}' }
+  stepper: { button: 44px, valueFont: '{typography.h3}', valueMinWidth: 96px }
+  account-row: { icon: '{colors.paper}', iconRounded: '{rounded.tile-icon}', divider: '{colors.hairline-soft}', minHeight: 60px, font: '{typography.h3}' }
+  transaction-row: { key: 10px, divider: '{colors.hairline-soft}', font: '{typography.meta}' }
+  option-row: { icon: '{colors.paper}', divider: '{colors.hairline-soft}', lockColor: '{colors.ink-muted}', minHeight: 60px }
+  event-facts: { background: '{colors.surface}', rounded: '{rounded.md}', label: '{typography.meta}', value: '{typography.h3}' }
+  outcome-list: { better: '{colors.money-in-soft}', betterBorder: '{colors.money-in}', worse: '{colors.money-out-soft}', worseBorder: '{colors.money-out}', worseText: '{colors.tag-worse-text}', size: 26px }
   offer-card: { background: '{colors.surface}', border: '{colors.ink}', borderWidth: 2px, rounded: '{rounded.lg}' }
   option-radio: { border: '{colors.hairline}', selectedBorder: '{colors.ink}', dot: '{colors.coral}', rounded: '{rounded.lg}' }
   event-option: { background: '{colors.surface}', border: '{colors.ink}', borderWidth: 2px, height: 64px, rounded: '{rounded.lg}' }
@@ -120,7 +156,7 @@ components:
 
 # LifeMode — Design Spine
 
-> **Draft, 2026-11-22.** Distilled from UX round 3 (`.working/round3/index.html`), which the team built from its own revisions in `../decisions.md`. The group hasn't picked a direction yet (#95). This spine is the proposal if round 3 is chosen. `EXPERIENCE.md` covers how it works. When this spine and the mockup disagree, the spine wins.
+> **Draft, 2026-11-23.** Distilled from UX round 3 (`mockups/index.html`; every surface and state on one page in `mockups/oversikt.html`), which the team built from its own revisions in `../decisions.md`. The group chose round 3 as the direction on 2026-11-22 (#95). The spine stays a draft until it is finalized. `EXPERIENCE.md` covers how it works. When this spine and the mockup disagree, the spine wins.
 
 ## Brand & Style
 
@@ -138,6 +174,7 @@ The game sits in the mirror. Everything else (money, messages, plans) is clean, 
 The style is restrained in operation and committed in identity. The rules are:
 - one accent (coral) for actions and "now"
 - three fixed money colours
+- a separate status palette that only wellbeing uses
 - one display family
 - one handwriting face used sparingly
 
@@ -147,16 +184,21 @@ The style is restrained in operation and committed in identity. The rules are:
 - **ink, ink-muted.**
   - `{colors.ink}` is all primary text, the borders of primary controls, past months on the timeline and the selected tab.
   - `{colors.ink-muted}` is secondary text and sticker borders. It measures 7.2:1 on canvas, 9.3:1 on white and 8.4:1 on paper.
-- **coral.** `{colors.coral}` is the only accent: the primary button, the current month, unread dots and the chosen radio. It is 2.1:1 on canvas, so a coral control always has a 2px `{colors.ink}` border, and ink on coral is 6.2:1. Coral never means loss or warning.
+- **coral.** `{colors.coral}` is the only accent: the primary button, the current month, unread dots and the chosen radio. It is 2.1:1 on canvas, so a coral control always has a 2px `{colors.ink}` border, and a coral dot that carries meaning (unread, «noe nytt») has a 1.5px ink ring. Ink on coral is 6.2:1. Coral never means loss or warning.
 - **cobalt.** `{colors.cobalt}` is for information: the "Tidligere valg" icon and label (6.5:1 on paper) and the (i) on interest. White on cobalt is 7.2:1.
 - **Money colours.** `{colors.money-in}`, `{colors.money-out}` and `{colors.money-rate}` are the same everywhere: the chip dots, the transaction keys and the year chart. They passed the dataviz validator on white, with adjacent CVD ΔE 10.0 and normal-vision ΔE 23.2. They are marks, never text colours (`money-in` is only 4.3:1 on white). Every amount also has a sign and a word ("+8 457 kr lønn").
-- **Soft tints.** `{colors.money-in-soft}`, `{colors.money-out-soft}`, `{colors.coral-soft}` and `{colors.cobalt-soft}` are backgrounds for tags, outcome icons and hover states. Tag text uses `{colors.tag-invite-text}` (8.3:1) and `{colors.tag-offer-text}` (7.1:1).
+- **Soft tints.** `{colors.money-in-soft}`, `{colors.money-out-soft}`, `{colors.coral-soft}` and `{colors.cobalt-soft}` are backgrounds for tags, outcome icons and hover states. The `status-*-soft` tints belong to the wellbeing pill and nothing else. Tag text uses `{colors.tag-invite-text}` (8.3:1) and `{colors.tag-offer-text}` (7.1:1).
 - **locked.** `{colors.locked}` yellow paper means locked, and only locked. Never use it for tips or news.
-- **Wellbeing status.** `{colors.status-good}`, `{colors.status-warn}` and `{colors.status-bad}` are used only for wellbeing: bar fills, an 8px dot before each value, and the score pill on `{colors.status-good-soft}` / `-warn-soft` / `-bad-soft` with ink text. They passed the dataviz validator on white (CVD ΔE 17.2, normal-vision ΔE 25.0). `status-warn` is only 2.45:1 on white, so it always has a visible word next to it ("55 ok") and its dot gets a thin ink ring. They are never text colours, and money never uses them.
-- **danger.** `{colors.danger}` is used only for "Si opp jobben", "Slett bruker" and form errors. A money loss is never red.
+- **Wellbeing status.** `{colors.status-good}`, `{colors.status-warn}` and `{colors.status-bad}` are used only for wellbeing: bar fills, an 8px dot before each value, and the score pill on `{colors.status-good-soft}` / `{colors.status-warn-soft}` / `{colors.status-bad-soft}` with `{colors.ink-muted}` text (at least 7.5:1).
+  - **Measured on white, all pairs:** normal-vision ΔE 25.0 at worst. For colour-blind players green and red are the weakest pair, at ΔE 7.6 (deutan), which is below the target of 8. That is allowed only with a second cue, so the word next to the value ("25 lavt", "72 bra", "55 ok") is required, never optional.
+  - **Bands follow the PRD threshold (50, rule 12):** under 50 is bad, 50–59 is ok, 60 and up is good. Stress is mirrored (100 − stress): up to 40 is good, 41–50 is medium, over 50 is bad.
+  - **`status-warn` is weak:** 2.45:1 on white and 1.9:1 on the bar track. The number and word carry the value, and its dot has a thin ink ring.
+  - They are never text colours, and money never uses them.
+- **Other measured pairs:** paper on ink 15.2:1 (offline bar, selected tab), `{colors.danger}` on white 7.8:1, `{colors.tag-worse-text}` on `{colors.money-out-soft}` 7.9:1, ink on `{colors.locked}` 13.2:1. The Kalam marker: ink on the mirror glass 8.3:1, white on the dimmed glass 5.9:1.
+- **danger.** `{colors.danger}` is used only for "Si opp jobben", "Slett bruker" and form errors. A money loss is never red. `{colors.status-bad}` is a different red with a different job, so don't swap them.
 - **Senders.** These colours fill the round initials in the phone: `sender-emma`, `sender-job`, `sender-family`, `sender-friend`, plus cobalt for the bank. White letters measure at least 4.9:1.
-- **Scene tokens.** The `scene-*` colours are the illustration's palette, exposed as CSS variables (`--sc-*`), so the hoodie, skin, hair, walls and frame can change without editing paths. The avatar picker sets `scene-hoodie`.
-- **No dark mode in this draft.** The scene is a lit room, so dark mode would need its own night scene. This is an open question.
+- **Scene tokens.** The `scene-*` colours are the illustration's palette, exposed as CSS variables (`--sc-*`), so the hoodie, skin, hair, walls and frame can change without editing paths. The avatar picker sets `scene-hoodie`. The room layers use `scene-phone`, `scene-phone-used`, `scene-moped` and `scene-licence`. A dimmed scene uses `{colors.scene-dim}` behind the art, so the wide wall dims with it.
+- **No dark mode in this draft.** The scene is a lit room, so dark mode would need its own night scene. The group can add one later; version one ships light only.
 
 ## Typography
 
@@ -171,6 +213,8 @@ The ramp:
 - `{typography.h3}`: card and row titles.
 - `{typography.body}`: 15px body text at 1.45.
 - `{typography.meta}`: secondary lines at 13px. This is the floor for running text.
+- `{typography.caption}` (12px): only for short labels under something else ("Vanligvis 50", message times, the life bar).
+- `{typography.pill}`: the wellbeing status pill.
 - `{typography.timeline-label}` (11.5px) and `{typography.tab-label}` (12px): only for single short words. They drop to 11px under 360px wide.
 
 Amounts use `{typography.amount-large}` for a bank total, `{typography.amount}` for tiles, and weight 800 inline.
@@ -187,7 +231,7 @@ The grid is 4px, using the `{spacing.1}`–`{spacing.7}` scale. The gutter is `{
 
 - **The scene:** on mobile it fills the column at 362:470. From tablet up, the mirror stands centred on a wide wall (`{components.scene.heightDesktop}`), with the stickers on the wall to the right.
 - **The timeline** sits at the top of Hjem, Plan, Hendelse and Resultat, always in the same place.
-- **The plan:** two columns on desktop (your evenings | add an activity). On mobile "Legg til" opens a sheet.
+- **The plan:** from 1100 px there are two columns (your evenings | add an activity), and the add list is always visible, so empty evenings have no button. Below 1100 px it is one column, and "Legg til" opens the add list in a sheet.
 
 ## Elevation & Depth
 
@@ -196,7 +240,7 @@ There are three levels:
 2. **Resting:** cards and tiles, with a soft two-layer shadow (1px/2px at 6%, 6px/18px at 6%). There are no borders on cards.
 3. **Stuck on:** stickers and post-its, with a small offset shadow (2.5px down, 4px blur, 28% ink) and a slight rotation of −4° to 4°.
 
-Sheets and the CTA lift on a shadow pointing up or down. Dimming applies to the scene's glass only (events). The device frame on desktop has a 20px/40px shadow at 25%. A shadow never has zero offset.
+Sheets and the CTA lift on a shadow pointing up or down (0 −4px 16px at 18% ink for sheets; 0 6px 16px at 22% for the CTA). Dimming applies to the scene's glass only (events). The device frame on desktop has a 20px/40px shadow at 25%. A shadow never has zero offset.
 
 ## Shapes
 
@@ -212,22 +256,57 @@ Sheets and the CTA lift on a shadow pointing up or down. Dimming applies to the 
   - the current month is coral with an ink border and taller
   - coming months are paper with a muted outline
 
-  The whole thing is one link to Året. There are no events, no photos and no "måned X av 60".
-- **Scene (the mirror).** The inline SVG scenes `#sc-selfie` (hub, event) and `#sc-glad` (result) have the named groups `-figur` and `-speilbilde`. A Kalam marker sits on the glass: the nickname with an arrow on the hub, or the outcome on the result. On events the glass dims to 55%, and the marker turns white. Stickers on the scene are links: "2 nye" (with a coral dot when unread), "2 ledige kvelder" and "Jobb 14 t".
+  «Året ›» and the bar link to Året. Below 768px the row ends with the player's avatar (34px initial in a 44px target), the link to the menu. There are no events, no photos and no "måned X av 60".
+- **Scene (the mirror).** The inline SVG scenes `#sc-selfie` (hub, event) and `#sc-glad` (result) have the named groups `-figur` and `-speilbilde`. A Kalam marker sits on the glass: the nickname with an arrow on the hub, or the outcome on the result. On events, the card warning and crisis steps the whole scene dims to 55%, and the marker turns white. The marker sits to the right of the window, above the head, at most 27% wide, so it never covers the window or crosses the frame. Stickers sit over the scene as links, outside the image: "2 nye" (with a coral dot when unread), "Planlegg 2 kvelder" and "Jobb 14 t i uka".
+- **Room layers.** The mirror is the room (FR-34). Each belonging is one named group in both scenes (`-lag-moped`, `-lag-hjelm`, `-lag-lapp`, `-lag-sprekk`), switched by a CSS variable and drawn in flat shapes with one shade:
+  - **Moped:** none / owned. Outside the window, with the helmet on the boxes.
+  - **Licence:** none / moped licence. A pink card tucked into the right side of the frame. A car licence reuses the spot.
+  - **Phone:** whole / cracked (white lines) / used (grey). In the player's hand.
+  - Up to three more layers fit: the bed, the poster and the free wall.
+- **Menu avatar.** Below 768px, the player's initial at the end of the timeline row opens the menu on every in-game screen. From 768px the rail's avatar row does the same.
 - **Sticker.** A white pill with a 1.5px `{colors.ink-muted}` border, a 28px round icon and an 800-weight label. It is rotated slightly and straightens on hover.
 - **Money chip.** A white pill with a 10px colour key (square for in and out, round for interest), a bold signed amount and a plain word. A chip with an (i) is a button that opens the interest sheet.
-- **Buttons.** Primary and secondary buttons both have a 2px ink border. The primary is coral, and the CTA is 56px tall with a lift shadow. Ghost buttons are underlined text. Disabled buttons are at 50% opacity with no movement.
-- **Card / tile.** White, `{rounded.lg}` and 16px padding. A tile that links outlines in ink on hover.
-- **Wellbeing tile.** Score/100 with a status pill ("Det går bra" / "Helt ok" / "Tungt nå"), three labelled bars (Stress, Fritid, Sosialt) coloured by status with a dot and a word after each value ("25 lavt", "72 bra", "55 ok"; stress is inverted, low is good), and a footer that states a consequence ("Fritid 72 gir deg 3 frie kvelder. Snitt så langt 61, du trenger 50.").
-- **Slot row.** It has a Kalam label ("Kveld 1"), a title, and cost · effect. A filled row is a white card with a round × button. An empty row has a 2px dashed muted border and a coral "+ Legg til". School and work are one quiet locked line with a lock icon.
+- **Buttons.** Primary and secondary buttons both have a 2px ink border. The primary is coral, and the CTA is 56px tall with a lift shadow. Ghost buttons are underlined text. A locked control (any button, option or + that the player can't use now) turns `{colors.hairline-soft}` with a muted border and muted text, never see-through.
+- **Focus ring.** `{components.focus-ring}`: a 3px ink outline 2px out, with a 6px coral halo. It is never removed. On ink-filled controls (selected tab, offline bar) the outline sits outside the halo. Inputs use the outline without the halo.
+- **Card / tile.** White, `{rounded.lg}` and `{spacing.4}` padding. A tile that links outlines in ink on hover.
+- **Wellbeing tile.** From top to bottom:
+  - the label "Trivsel" with an (i) that explains the trivselsmål
+  - the score out of 100 with a status pill next to it ("Det går bra" / "Helt ok" / "Tungt nå"). The pill wraps below the score when the tile is narrow
+  - three labelled 6px bars ("Vanligvis 50" in `{typography.caption}` under a bar when the month's plan changes it) (Stress, Fritid, Sosialt) filled by status. On the right of each label: an 8px dot, the value and a word ("25 lavt", "72 bra", "55 ok"). Stress is inverted, so low is good
+  - a footer that states a consequence ("Fritid 72 gir deg 3 frie kvelder. Snittet ditt er 61. Trivselsmålet er 50.").
+- **Slot row.** It has a Kalam label ("Kveld 1"), a title, and cost · effect. A filled row is a white card with a round × button. An empty row reads "Tom" and has a 2px dashed muted border. Below 1100 px it holds a coral "+ Legg til" button. From 1100 px it holds the quiet text "Velg i lista →" in `{colors.ink-muted}`, which is not a control. School and work are one quiet locked line with a lock icon.
 - **Past-choice note ("Tidligere valg").** A paper card with a round cobalt history icon, a cobalt label and one plain sentence. This replaces "Ekko".
-- **Info / interest button.** An underlined amount (2px `{colors.money-rate}` underline) with a 18–20px cobalt (i). It opens a sheet with the explanation and a three-line calculation.
-- **Segmented tabs.** Fritid | Jobb, with ink as the selected state.
-- **Offer card.** A white card with a 2px ink border, showing the sender and time, a question, one sentence of consequence, and Ja takk (primary) / Nei takk (secondary). Once answered, the border drops and the answer is shown.
+- **Info button.** A 24px cobalt (i) after a word, or an underlined amount (2px `{colors.money-rate}` underline) with the (i), for interest. It opens a sheet. The interest sheet has a four-line calculation: balance, × yearly rate, ÷ 12 months, this month.
+- **Message.** The inbox is split by two small headings, "Nye i november" and "Tidligere". A coral dot with an ink ring marks a message not opened yet.
+- **Segmented.** Fritid | Jobb as two toggle buttons in a pill track, with ink as the pressed state.
+- **Offer card.** A white card with a 2px ink border, showing the sender and time, a question, the consequence (kroner left after spending, and free evenings as a number), and Ja takk (primary) / Nei takk (secondary). Once answered, the border drops and the answer is shown.
+- **Ask for hours.** Two full-width secondary buttons ("Spør om flere timer" / "Spør om færre timer"), locked with one meta line ("Svar på tilbudet først.") while an offer is open. Once asked, they become one line with a check icon: "Du har spurt om flere timer. Line svarer i desember."
+- **One-off shift row.** In the job view, under "Vakter du kan ta i november": name, hours · signed pay, and a small secondary "Til planen". Once placed, a chip reads "I planen". It has no date.
+- **Email check.** On sign-up, the form gives way to a heading ("Sjekk at e-posten er riktig"), the address in `{typography.h2}`, which may break after @ and dots, a coral "Lag bruker" and a secondary "Endre e-post".
+- **Facts card.** A white card with label and bold value rows, used on the recap, the card warning and the ending.
+- **Crisis.** Three 28 × 8px step pills, ink when reached and paper with a muted outline when not, followed by "Valg 1 av maks 3", then event options.
+- **Event facts.** `{components.event-facts}`: four small white boxes in two columns above the options (Brukskonto, Sparekonto, Gjeld, Faste utgifter), label in meta, value in h3.
+- **Progress.** `{components.progress}`: a 10px ink fill on a hairline-soft track, for the savings target and the life goal, with the percentage at the right of the heading.
+- **Account row.** `{components.account-row}`: a 40px paper icon tile, a title with an optional (i) and a sub line, the amount or one small button at the right.
+- **Transaction row.** `{components.transaction-row}`: a money colour key, the text, the signed amount at the right.
+- **Option row.** `{components.option-row}`: like the account row, for "Kan kjøpes eller selges". The right side holds the price, "Selg", or a lock; the sub line holds "Mangler … kr" or the reason.
+- **Card panel.** From 18, in the bank: the card as an account row (balance as a signed amount, the limit in the sub line), then its own white section: key-value rows (used of the limit, yearly rate, this month's interest), a coral «Betal … nå» button when something is overdue, the card-use switch between two hairlines, and the payment choice as option radio cards with the amount on the title line. A fixed amount adds the stepper under the cards.
+- **Switch.** `{components.switch}`: a 48 × 28px track with a 2px ink border and a white knob; off is hairline, on is `money-in` with the knob to the right. The label and a sub line saying what it does sit to the left, and the whole row is the target.
+- **Stepper.** `{components.stepper}`: two 44px round buttons (− and +) around the value in h3 weight with tabular figures. A button at its limit takes the locked look.
+- **Crisis check.** `{components.status-row}`: a soft status-colour band (`status-good-soft` or `status-bad-soft`) with a 10px dot, a bold line and one sentence in ink, at the top of the bank and above the hub CTA when a trigger is true. The words carry the meaning; the colour repeats it.
+- **Disclosure.** `{components.disclosure}`: the past-choice note's shape with an (i) icon, the label «Forenklet», the text at most 62ch wide and a small secondary «Skjønner». It sits under the screen's heading the first time, then lives behind a 24px (i) beside the heading.
+- **Month summary.** A closed «Hva gikk pengene til?» row under the chips on Hjem, the bank's expandable-row style. Open, it holds transaction rows (example purchases in a meta line, no amount of their own), a small «Kveldene i oktober» heading with free evenings shown as «Gratis», and one meta line about the bills at 18.
+- **Choice row.** A white expandable row (chevron, title, signed amount) on the ending and Om tallene. It opens to one sentence and one meta line.
+- **Toast.** A white card at the top of Hjem's content, below 1100px only: sender initial, name, one line, and a 44px ×. It drops in once and stays until closed.
+- **Offline bar.** Ink with paper text and an icon, at the top of the content. Locked buttons turn `{colors.hairline-soft}` with a muted border and muted text, never see-through.
+- **Saving.** The chosen option keeps full strength and reads "Lagrer …" where the amount was; the others take the locked look.
+- **Info box (player information).** A paper box with a small heading, for "Dette lagrer vi" on sign-up.
+- **Menu.** White 56px rows with an icon, a label and a value or chevron. Delete is `{colors.danger}` text.
 - **Option radio card.** Used for spending and goals. The title and the amount sit on one line, with examples and the meaning below. When selected, the border is 2px ink and the dot is coral inside an ink ring.
 - **Event option.** A 64px white button with a 2px ink border, the action on the left and the signed kroner on the right.
-- **Outcome list.** A 26px round icon (check on green tint for better, arrow on rust tint for worse, dash for unchanged) and a sentence. This replaces Åpnet/Stengt.
-- **Year chart.** A diverging bar for each month, with income up and spending down, 14px bars, 4px rounded ends at the data end and an ink baseline. Interest is a separate small strip on its own scale (never a second axis). The selected month gets a paper background and an ink outline, with a three-figure detail below and a table view.
+- **Outcome list.** `{components.outcome-list}`: a 26px round icon (check on `money-in-soft` for better, arrow on `money-out-soft` with `tag-worse-text` for worse, dash on white for unchanged) and a sentence. This replaces Åpnet/Stengt.
+- **Note card (dropped).** The past-choice note's shape with an × icon and the label "Ble ikke noe av", for a planned activity the engine dropped.
+- **Year chart.** A diverging bar for each month, with income up and spending down, 14px bars, 4px rounded ends at the data end and an ink baseline. Interest is a separate small strip on its own scale (never a second axis). The selected month gets a paper background and an ink outline. Under it, the month name sits between two 44px round arrow buttons (‹ ›), which take the locked look at the first and current month, then a three-figure detail and a table view.
 - **Locked post-it.** Yellow, square, rotated, with a lock icon, a Kalam title and an age ("fra 18 år"). When open it turns white with an open lock in `money-in`.
 - **Phone, bank and job.**
   - Mobile: the shared design, with a round back button, white cards and chips.
@@ -240,9 +319,13 @@ Sheets and the CTA lift on a shadow pointing up or down. Dimming applies to the 
 |---|---|
 | Give every amount a sign, a word and a money colour key | Colour a number red or green, or use colour alone |
 | Use coral only for the action and "now", always with an ink border | Use coral for warnings or as a large fill behind text |
+| Give every wellbeing status a word next to its colour | Show wellbeing as a coloured bar alone, or use status colours for money |
 | Use yellow only for locked things | Use yellow for tips, news or highlights |
 | Write words in Kalam and values in Bricolage | Handwrite amounts, ages or body text |
-| Say "fri kveld / frie kvelder i måneden" | Say "plass", "slot" or "tar en kveld" |
+| Say what the player is left with after spending ("302 kr mer i måneden") | Show only the extra wage in an offer |
+| Say "fri kveld / frie kvelder i måneden", and "planlagt" / "Tom" for its state | Say "plass", "slot", "tar en kveld" or "ledig" |
+| Keep links outside the scene's image | Put stickers or buttons inside `role="img"` |
+| Show a belonging as a layer in the mirror | Add a second room screen, or list belongings without showing them |
 | Keep the scene as editable SVG with `--sc-*` colours | Ship the illustration as a raster image or with baked-in grain |
 | Show interest as a tappable amount with (i) | Explain interest in a paragraph on the screen |
 | Keep the timeline in the same place on every month screen | Show "måned X av 60" or "År N av 5" |
