@@ -26,7 +26,7 @@ These items came out of the PRD review and were handed to the `bmad-architecture
 - **Mobile-first:** add NFR-1's supported browsers and test devices as the test matrix.
 - **Game flow:** the two-part month and the state check on every request that changes the game (FR-49), and the open-option model (FR-48). Placing and removing activities are requests that name their month. The request to continue carries the version of the month plan the device showed, and is refused if the plan has changed since (FR-49). The planned activities are applied in the same request as continuing, before wellbeing is calculated.
 - **Content and selection:** events, activities, and messages make up the content library (FR-17). Each type has its own schema and versions (NFR-4). One selection step uses the state and the seed to decide what arrives each month: the event and the messages. Name it as one unit (see "Ready for V2").
-- **Minigames:** they run on the server like the rest of the game, one saved answer at a time (FR-51). A real-time game would need its own decision on how to check results, so it's left for V2.
+- **Minigames:** moved to V2 (#51, 2026-11-23). The MVP has none, and the licences are a payment only (FR-28). When the driving game comes, it runs on the server like the rest of the game, one saved answer at a time (FR-51).
 - **V2:** generated content and its replay under FR-12 aren't designed, but leave room to store generated content with the playthrough, so that V2 needs less rework. See "Ready for V2: AI as game master".
 - **Playtest:** the records in FR-50, the setting that keeps them off outside the playtest environment, test-user marking, and how they're exported.
 - **Examiner:** seeding test users at the states NFR-6 names, and `.env.example`.
@@ -43,7 +43,7 @@ From the concept sketches:
 
 ### UJ-4 month by month
 
-This trace shows that the engine can reproduce UJ-4 under rules 1, 2, and 5. It's a set test state, not a scheduled playthrough: the city trip in month 40 is a drawn event, so a test sets it directly. Markus plans no activities in this trace. It reflects M13 (Markus keeps the moped), the spending level with costs on top, and the 3.5% card minimum, all decided on 2026-11-05. With a NOK 10,000 limit, a sale for about NOK 7,900 and six months of extra shifts can't both be true: the sale would cover most of the debt.
+This trace shows that the engine can reproduce UJ-4 under rules 1, 2, and 5. It's a set test state, not a scheduled playthrough: the city trip in month 40 is a drawn event, so a test sets it directly. The weekly hours are set directly too: the trace goes to 12 h in W+1 and to 20 h in W+5, faster than FR-47's hours offers allow (2 h at a time, answered the next month and applied the month after). A test sets the hours on the state (#117). Markus plans no activities in this trace. It reflects M13 (Markus keeps the moped), the spending level with costs on top, and the 3.5% card minimum, all decided on 2026-11-05. With a NOK 10,000 limit, a sale for about NOK 7,900 and six months of extra shifts can't both be true: the sale would cover most of the debt.
 
 Entry state at month W, month 41 (May): age 18. His earlier bills were paid in full, including lunches and fuel. In month W−1, after that month's bill was paid, he put a NOK 10,000 city trip for everyone on the card at the event step. Card bill at the debt step: NOK 10,000. That's his limit, so the card takes no more purchases and his spending comes from the current account. Payment setting: the whole balance. NOK 1,000 in the current account and no savings. Wage 10 h a week, NOK 8,452. Mobile NOK 299, moped insurance NOK 250, and moped fuel NOK 186 in April-October (rule 14), so NOK 735 in months W to W+5 (May-October) and NOK 549 from W+6. Spending level: high. Tax is NOK 0 while his wages so far this year stay under NOK 99,650, which they pass in W+6. He also worked 10 h a week in months 37-40.
 
@@ -103,7 +103,7 @@ Flag gating raises overlap and different choices lower it, so the seeded content
 | Field | Content | Checked |
 |---|---|---|
 | id, version | Unique text ID, and a whole-number version (NFR-4) | ID unique; version rises on any change to a non-text field. A text-only correction keeps it (NFR-4) |
-| type, trigger | Regular or crisis. A crisis event also names its rule 8 trigger | Every trigger is covered at each age where it can occur |
+| type, trigger | Regular, crisis, or card warning. A crisis event also names its rule 8 trigger. Crisis events and the card warning have extra fields (see their schemas below) | Every trigger is covered at each age where it can occur |
 | mechanism | One or more from the fixed list | Names exist |
 | age range | From and to, in years and months, within 15y0m-19y11m | From ≤ to |
 | requires flags, blocks flags | Lists of flag names | Names exist in the flag list |
@@ -112,7 +112,7 @@ Flag gating raises overlap and different choices lower it, so the seeded content
 | teaching point | One sentence | Not empty |
 | LK20 code | One or more codes from the fixed list, or "none", because no core aim names tax or BSU | Codes exist |
 | source | The parameter keys the event's figures use, or a citation for any other figure | Every amount traces to a parameter or a citation |
-| options | 2-4 options. See "Option fields" below | See "Option fields" below |
+| options | Regular events: 2-4 options. See "Option fields" below. Crisis events and the card warning use steps and engine options instead (schemas below) | See "Option fields" below |
 
 **Option fields.** Each option has:
 - its text
@@ -125,12 +125,11 @@ Flag gating raises overlap and different choices lower it, so the seeded content
 An option can also have a type with its own values:
 - a job
 - extra shifts (hours and months)
-- a loan (allowed range and terms)
+- a consumer loan (the amount bounds come from FR-25 and the terms from configuration, never from the option; #121)
 - a family loan (amount of at least NOK 500, over 2-12 months)
 - an amount the player enters (allowed range)
-- a minigame (which one, its situations and right answers, and the result for passing and for not passing, FR-51)
 
-**What the content check enforces on options:** every option states its wellbeing effect; every regular event has an option with no cost; every crisis event includes an option to ask family and an option to ignore the crisis; values stay inside the limits above.
+**What the content check enforces on options:** every option states its wellbeing effect; every regular event has an option with no cost; every crisis event includes an option to ask family and an option to ignore the crisis; values stay inside the limits above; no option carries its own loan terms.
 
 Unexpected expenses are a separate list, each with a kind, an amount, the flags it needs, and a source.
 
@@ -182,6 +181,83 @@ A one-off shift pays money, so it is never an activity (FR-53).
 - **Info:** an age range and flags, one-off or repeatable.
 - **Bank messages:** when progress towards the savings target or goal 1 passes 25, 50, 75, or 100%, once per threshold and target.
 
+### Crisis event schema (FR-32b)
+
+A crisis event is an event with type crisis. It has the event fields above, except options, plus these:
+
+| Field | Content | Checked |
+|---|---|---|
+| trigger | One rule 8 trigger: below zero, missed minimum, or debt | The library of about 10 covers every trigger at each age where it can occur; before 18 only below zero |
+| steps | 1-3 step texts. Each says what the situation is now, with any figures as placeholders the engine fills in | At least one step, at most three |
+| engine options | The crisis actions this event offers, from the fixed list: sell, extra shifts, take a job, lower the spending level, withdraw BSU, payment plan, turn card use off, ask family, ignore. The item gives only the Norwegian text for each. The engine shows an action only when it's possible, says when its effect lands, and calculates the effect (FR-32b) | Ask family and ignore are always included; names come from the fixed list; no amounts in the text |
+| extra options | Optional authored options with the normal option fields, which fit the trigger. They follow the same "only when possible" rule | Effects inside the option limits |
+| endings | A text for each way the month ends: solved, ignored, and steps used up with a trigger still true (FR-32c) | All three present |
+
+### Card warning schema (FR-31)
+
+The card warning is an event with type card warning. It's the event of the month in which interest starts, so it uses the event fields above, except options and trigger, plus these:
+
+| Field | Content | Checked |
+|---|---|---|
+| reason texts | One text for "couldn't pay the whole bill" and one for "chose to pay less". The interest, the balance, and the payoff time and total at the minimum are placeholders the engine fills in | Both present; no amounts in the text |
+| engine options | Text for each action the warning can offer: pay the whole balance (only when the reason is "chose to pay less"), turn card use off, extra shifts, sell, ask family, and do nothing. As in a crisis, an action is shown only when it's possible | Do nothing is always included |
+| teaching point, LK20 code | As for events | Present |
+
+The library needs at least one card warning for ages 18-20. A crisis month that also has a warning shows the warning's figures first (FR-31), using the same item.
+
+### Open option schema (FR-48, FR-18)
+
+One item per open option in `options/`, referenced by id from its offer message and listed in the money view or the job view.
+
+| Field | Content | Checked |
+|---|---|---|
+| id, version | Unique text ID, and a whole-number version | As for events |
+| kind | Moped licence, paid car licence, moped, credit card, consumer loan, part-time job, full-time job, summer job, or the experience | Kind exists; every option in FR-48 has exactly one item |
+| opens | The FR-18 month, plus conditions from the fixed list, such as a moped licence, a steady wage, or no job | Matches FR-18 |
+| one at a time | The FR-48 rule: once per playthrough, one at a time (with the flag that marks one as held), or one card per playthrough | Matches the FR-48 table |
+| prices and terms | Parameter keys only: one or more prices (a moped has a new and a used price), the wage and weekly hours for a job, and for the consumer loan the FR-25 bounds and the configured terms | Every amount traces to a parameter row; no typed-in amounts or loan terms |
+| expires | Optional last month: the summer job's July income step, the experience's month 56 | Matches FR-48 |
+| effects | Flags set, monthly costs started (such as insurance and fuel), the room layer it changes, and any wellbeing effect | Flags and layers exist |
+| offer message | The id of its offer message, or none, as in FR-18's column | Matches FR-18 |
+| disclosure, mechanism, teaching point | The D-number shown with the first offer, if any; the mechanism; one sentence | Exist |
+| texts | Name and a short description in Norwegian. "Can't pay yet" and blocked reasons are system texts | Not empty; no alcohol or tobacco (NFR-8) |
+
+### Room state schema (FR-34)
+
+| Field | Content | Checked |
+|---|---|---|
+| layer | One belonging from the fixed list of layers | At most 6 layers |
+| state | An id per state, with the flags that select it | For every combination of the layer's flags, exactly one state matches |
+| picture | A named key the frontend maps to its drawing | Present |
+| texts | What's in the room in this state, and what just changed when the room enters it (NFR-2) | Both present |
+
+### Text schema (`texts/`)
+
+| Field | Content | Checked |
+|---|---|---|
+| id, version | As for events | As for events |
+| kind | Ending text (FR-42), system cause (FR-36), example purchase (month summary), disclosure D1-D26 (FR-40), or teaser (FR-18) | Kind exists |
+| key | What the text is for: a mechanism and a sign for ending texts, a cause id, a D-number, or the option a teaser names | Every key the engine can ask for has exactly one text: every mechanism with both signs, every system cause, D1-D26, and every FR-18 row |
+| placeholders | The placeholders the text uses, from the fixed list | Only listed placeholders. After the freeze, a text-only correction can't add a placeholder (AD-7) |
+| text | Norwegian | No typed-in amounts; no alcohol or tobacco (NFR-8) |
+
+### Unexpected expense schema (FR-24)
+
+| Field | Content | Checked |
+|---|---|---|
+| id, version | As for events | As for events |
+| kind | From the fixed list, such as phone screen or moped repair | Kind exists |
+| amount | A parameter key or a cited amount, in whole kroner | Traces to a parameter row or a citation |
+| age range, requires flags, blocks flags | As for events. A moped repair requires owning a moped | Names exist |
+| system cause | The key of its text in `texts/`, so "Hvorfor?" can explain it (FR-24) | The text exists |
+| text | The name in Norwegian | Not empty |
+
+At least one expense needs no flags and fits every age, so the yearly draw always finds one.
+
+### Fixed lists (`lists.yaml`)
+
+The names every schema refers to: flags, mechanisms, activity kinds, senders, LK20 codes, the six avatar looks (FR-10), expense kinds, room layers, crisis actions, open option kinds, open option conditions, and text placeholders. The content check fails on any name that isn't in its list.
+
 ### Ready for V2: AI as game master
 
 The team wants AI to act as the game engine where possible in V2, and not in the MVP. The MVP keeps that cheap to add later, without building anything for it:
@@ -230,7 +306,12 @@ The examiner's guide requires anything left out or changed from the approved pro
 | AI-generated events moved to V2, so the MVP has no AI. F5 moves with them | Team decision, logged on 2026-11-03. The lecturer's feedback of 2026-10-06 advised building the engine and the event library first, so the game works with no AI, and rated in-app AI among the hardest parts. Whether this meets the course requirements was OQ-11, settled by the team 2026-11-22: AI comes in a later version (#39) |
 | *To check:* login with an email address and a password, with no username | Password recovery needs an address, and a username would be a second identifier to protect (NFR-3) |
 | *To check:* the car licence is in the MVP | Added from UJ-4 on 2026-11-04, so Markus has a reason to borrow the parents' car in the card story (FR-30) |
-| *To check:* minigames for the licences | Decided on 2026-11-05, so the player sometimes uses skill, not only choices (FR-51) |
+| *To check:* minigames for the licences, now moved to V2 | Decided on 2026-11-05, so the player sometimes uses skill, not only choices (FR-51). Moved to V2 on 2026-11-23 (#51) to fit the schedule: the licences are a payment only in the MVP, and the team builds the driving game once the MVP is ready |
+| Own login in the backend instead of Supabase Auth | Architecture decision (AD-10, AD-3): login follows the team's reference setup, with sessions in the backend that can be revoked (FR-4, FR-5) and login limits it enforces itself. The course's Supabase requirement is met by Supabase Postgres alone |
+| Plain PostgreSQL in Docker for local runs, instead of self-hosted Supabase | Architecture (AD-3, AD-14): the backend needs only a Postgres database. The playtest uses Supabase Postgres as the hosted database, so Supabase is still the database, without the rest of its stack |
+| Hosting on Vercel (frontend) and Railway (backend) for the playtest | Architecture (AD-14, OQ-14): free or near-free tiers in EU regions, nothing that keeps costing money after the playtest (NFR-5) |
+| The event minimum is 40, not 50 | PRD §4.4 cut list: 40 events still give 8 per in-game year (FR-17) |
+| Testers are 18-20 years old only | The privacy scope of the school project (NFR-3): players aged 15-17 need a full privacy review first (#24) |
 | *To check:* no tobacco or alcohol choices | Content suitable for a 15-year-old, and the marketing rules for minors (NFR-8, research of 2026-11-04) |
 | *To check:* no student loan | Education is a later life area (PRD §4.3) |
 | *To check:* four game areas: the month plan, the phone, the job view, and the money view | Team decision of 2026-11-10: more game, less quiz |
@@ -278,7 +359,7 @@ Decided on 2026-11-03 from UJ-1. These features come from the team's journey and
 
 **Sessions:** one session is one in-game year, and nothing locks the player out in real time. 20-30 choices over five years gives about 4-6 choices a year, which fits a 10-15 minute session. Waiting in real time would work against the target of 70% finishing the game.
 
-**Moped licence:** when the player chooses to take it, they pay for driving lessons, mandatory lessons and the licence itself, at real prices from sources such as Statens vegvesen, driving schools, and SSB. The recap's teaser names the cost, so no new screen is needed. It's a payment only, with no exam or driving mechanics. Owning a moped and the car licence were added from UJ-4; see "UJ-4: card warning, family help, moped, and car licence". *Superseded 2026-11-05 (Minigames): a minigame replaced "payment only" (FR-51).*
+**Moped licence:** when the player chooses to take it, they pay for driving lessons, mandatory lessons and the licence itself, at real prices from sources such as Statens vegvesen, driving schools, and SSB. The recap's teaser names the cost, so no new screen is needed. It's a payment only, with no exam or driving mechanics. Owning a moped and the car licence were added from UJ-4; see "UJ-4: card warning, family help, moped, and car licence". *Superseded 2026-11-05 (Minigames): a minigame replaced "payment only" (FR-51).* *Back to payment only on 2026-11-23: the driving game moved to V2 (#51).*
 
 ### Login with email: decisions, limits, and reset routes
 
@@ -411,6 +492,8 @@ Decided on 2026-11-05.
 Decided by the team, as Dahl reported on 2026-11-05 (`.memlog.md`). The game gets small minigames along the way, to make it more fun. Not all of them are defined yet. The example so far is the licence: to take it, the player plays a game where they drive a route and have to follow some rules.
 
 This replaces "the licence is a payment only, with no exam or driving" from 2026-11-03. See FR-28, FR-30, and D10. A minigame is the first thing in the game the player does with skill rather than by choosing, and it runs on the device, so FR-51 sets how its result reaches the engine. Dahl added on 2026-11-05 that the team sees minigames along the lines of the driving test for the licence, so the MVP's minigames are for the licences. *Superseded 2026-11-05 (independent review): the driving game is turn-based and judged by the server (FR-51).*
+
+**Moved to V2 (2026-11-23, #51).** The team decided that minigames are V2: they try to build the driving game once the MVP is ready. Until then the licences are a payment only (FR-28, FR-30), D10 drops its sentence about the game, and OQ-16 waits for V2. The reason is the schedule: no code existed on 2026-11-23, and the driving game needed its own epic and content model.
 
 ### Decisions from the PRD review
 
