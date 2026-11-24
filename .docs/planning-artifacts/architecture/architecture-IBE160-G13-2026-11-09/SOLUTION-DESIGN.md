@@ -182,8 +182,8 @@ flowchart TD
     R[Latest response + this tab's record] --> G{gateFor}
     G -->|no life, or Spill på nytt| S[Start screens]
     G -->|life completed| EN[Ending]
-    G -->|after login, or opened after 1 hour away| RC[Recap]
     G -->|avatar or pengegave pending| SU[Setup step]
+    G -->|after login, or opened after 1 hour away| RC[Recap]
     G -->|a choice was just saved| RS[Result]
     G -->|event or card warning| EV[Event]
     G -->|crisis step pending| CR[Crisis step]
@@ -196,7 +196,7 @@ There are two kinds of these screens:
 - **Full-screen** (start, setup, recap, ending): no tabs. The menu, «Om tallene» and the privacy page still open over them, so a player can always log out or delete the account.
 - **Hjem screens** (result, year end, event, crisis step): they take over only Hjem. The other tabs keep working, so the player can move money or plan during a crisis (FR-32b). The server alone stops the month from closing while a choice is open.
 
-The recap and the year end close with «Fortsett» and stay closed in that tab. A screen change moves focus to the new heading, updates the page title and is announced to screen readers, just like a change of address.
+A player who returns during setup goes straight on with it, with no recap. The recap and the year end close with «Fortsett» and stay closed in that tab. A screen change moves focus to the new heading, updates the page title and is announced to screen readers, just like a change of address.
 
 **Talking to the API: one client (AD-18).** Only `frontend/src/api/` calls the server. Its TypeScript types are generated from `openapi.json`, so a backend change that breaks the frontend fails the type check. The game client:
 
@@ -223,7 +223,7 @@ The exact request and response shapes are in `openapi.json`, which is generated 
 | Response shape | Every game response is `{result?, state, server_time, recap_threshold, client_times}`, where `state` is the player view and `client_times` holds the saving-notice and idle times from the backend's settings. Always replace the view with the latest response |
 | Changing the game | `POST /api/game/actions` for every game action, including starting, ending early and playing again |
 | Each action carries | A new `request_id` (UUID), the `playthrough_id`, the `month`, and the action. Send the same `request_id` again when retrying. Only game actions are retried automatically; after a lost sign-up, login, password or deletion response, fetch `GET /api/game` or show the login screen |
-| Knowing if the view is stale | `playthrough_id` + `state_version` identify a state. Fetch again on open, reload and reconnect, and before the player's next input after a tab return or 5 minutes idle (FR-8). If the state changed, the input is dropped and the player sees «Spillet ble oppdatert på en annen enhet.» |
+| Knowing if the view is stale | `playthrough_id` + `state_version` identify a state. Fetch again on open, reload and reconnect, and before the player's next input after a tab return or 5 minutes idle (FR-8). If the state changed, the input is dropped and the player sees «Spillet ble oppdatert på en annen enhet.» If the recap is due, the input is dropped and the recap shows first |
 | Month plan | The view carries `plan_version`. Send it back inside the continue action; a mismatch means another device changed the plan |
 | Text | The backend sends finished Norwegian game text with the figures and the player's nickname filled in. The frontend never calculates or formats an amount. The frontend owns button and label text, offline and saving notices, and the player information page |
 | Wellbeing status | Each wellbeing figure with a status comes as `{value, band}`, where `band` is `good`, `warn` or `bad`. This covers this month's score and three parts, the average so far (empty until month 19), the year's average on the year end, and the ending. Show the band; never work it out from the number, since the trivselsmål is configuration |
