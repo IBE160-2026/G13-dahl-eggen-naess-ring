@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 340" role="img" aria-label="I playtesten går hvert kall fra nettleseren til Next.js på Vercel, som sender /api-kall med en hemmelig nøkkel videre til Caddy på Railway. Caddy slipper dem inn til backenden, som bruker motoren og YAML-innholdet og lagrer i Postgres hos Supabase.">
+  <style>
+    .d-bg{fill:var(--d-paper,#F6F3EC)}
+    .d-zone{fill:var(--d-zone,#DCE6D2)}
+    .d-zone2{fill:var(--d-zone2,#E6EBFA)}
+    .d-box{fill:var(--d-surface,#FFFFFF);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .d-core{fill:var(--d-coral-soft,#FFE3DD);stroke:var(--d-ink,#1A1C2A);stroke-width:2.5}
+    .d-full{fill:var(--d-cobalt-soft,#E6EBFA);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .d-ghost{fill:none;stroke:var(--d-ink,#1A1C2A);stroke-width:1.5;stroke-dasharray:6 5}
+    .d-ln{fill:none;stroke:var(--d-ink,#1A1C2A);stroke-width:1.6}
+    .d-dash{stroke-dasharray:6 5}
+    .d-ah{fill:var(--d-ink,#1A1C2A)}
+    svg text{font-family:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;fill:var(--d-ink,#1A1C2A)}
+    svg .d-t{font-size:15px;font-weight:800}
+    svg .d-s{font-size:12px;font-weight:500;fill:var(--d-muted,#454656)}
+    svg .d-l{font-size:12px;font-weight:700}
+    svg .d-h{font-size:11px;font-weight:800;letter-spacing:.09em}
+    svg .d-note{font-family:Kalam,'Segoe Print','Comic Sans MS',cursive;font-size:15px;fill:var(--d-cobalt,#2B4CC4)}
+  </style>
+  <defs>
+    <marker id="f1a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="d-ah"/></marker>
+  </defs>
+  <rect class="d-bg" x="0" y="0" width="1000" height="340"/>
+
+  <!-- Spillerens enhet -->
+  <text class="d-h" x="20" y="86">SPILLERENS ENHET</text>
+  <rect class="d-box" x="20" y="125" width="120" height="80" rx="10"/>
+  <text class="d-t" x="80" y="160" text-anchor="middle">Nettleser</text>
+  <text class="d-s" x="80" y="180" text-anchor="middle">mobil eller PC</text>
+  <text class="d-note" x="80" y="250" text-anchor="middle">ser bare</text>
+  <text class="d-note" x="80" y="270" text-anchor="middle">én adresse</text>
+
+  <!-- Vercel -->
+  <rect class="d-zone2" x="170" y="60" width="200" height="260" rx="14"/>
+  <text class="d-h" x="186" y="86">VERCEL · FRANKFURT</text>
+  <rect class="d-box" x="190" y="120" width="160" height="90" rx="10"/>
+  <text class="d-t" x="270" y="152" text-anchor="middle">Next.js</text>
+  <text class="d-s" x="270" y="172" text-anchor="middle">sidene spilleren ser</text>
+  <text class="d-s" x="270" y="190" text-anchor="middle">+ en /api-proxy</text>
+  <text class="d-note" x="270" y="250" text-anchor="middle">legger på den</text>
+  <text class="d-note" x="270" y="270" text-anchor="middle">hemmelige nøkkelen</text>
+
+  <!-- Railway -->
+  <rect class="d-zone" x="400" y="60" width="420" height="260" rx="14"/>
+  <text class="d-h" x="416" y="86">RAILWAY · AMSTERDAM</text>
+  <rect class="d-box" x="420" y="120" width="150" height="90" rx="10"/>
+  <text class="d-t" x="495" y="152" text-anchor="middle">Caddy</text>
+  <text class="d-s" x="495" y="172" text-anchor="middle">slipper bare inn</text>
+  <text class="d-s" x="495" y="190" text-anchor="middle">med nøkkelen</text>
+  <text class="d-note" x="495" y="250" text-anchor="middle">uten nøkkel:</text>
+  <text class="d-note" x="495" y="270" text-anchor="middle">avvist</text>
+
+  <rect class="d-core" x="650" y="120" width="150" height="90" rx="10"/>
+  <text class="d-t" x="725" y="152" text-anchor="middle">Backend</text>
+  <text class="d-s" x="725" y="172" text-anchor="middle">Python · FastAPI</text>
+  <text class="d-s" x="725" y="190" text-anchor="middle">ikke åpen mot nettet</text>
+
+  <rect class="d-box" x="622" y="250" width="92" height="54" rx="8"/>
+  <text class="d-t" x="668" y="274" text-anchor="middle">Motor</text>
+  <text class="d-s" x="668" y="292" text-anchor="middle">spillregler</text>
+  <rect class="d-box" x="728" y="250" width="82" height="54" rx="8"/>
+  <text class="d-t" x="769" y="274" text-anchor="middle">Innhold</text>
+  <text class="d-s" x="769" y="292" text-anchor="middle">YAML</text>
+  <path class="d-ln" d="M705 210 L668 250"/>
+  <path class="d-ln" d="M745 210 L769 250"/>
+
+  <!-- Supabase -->
+  <rect class="d-zone" x="850" y="60" width="130" height="260" rx="14"/>
+  <text class="d-h" x="866" y="86">SUPABASE</text>
+  <text class="d-h" x="866" y="102">FRANKFURT</text>
+  <path class="d-box" d="M870 135 v70 a45 10 0 0 0 90 0 v-70"/>
+  <ellipse class="d-box" cx="915" cy="135" rx="45" ry="10"/>
+  <text class="d-t" x="915" y="175" text-anchor="middle">Postgres</text>
+  <text class="d-s" x="915" y="193" text-anchor="middle">bare lagring</text>
+  <text class="d-note" x="915" y="260" text-anchor="middle">data i EU</text>
+
+  <!-- Piler -->
+  <path class="d-ln" d="M140 165 H188" marker-end="url(#f1a)"/>
+  <path class="d-ln" d="M350 165 H418" marker-end="url(#f1a)"/>
+  <text class="d-l" x="385" y="156" text-anchor="middle">/api/*</text>
+  <path class="d-ln" d="M570 165 H648" marker-end="url(#f1a)"/>
+  <text class="d-l" x="610" y="156" text-anchor="middle">/api</text>
+  <path class="d-ln" d="M800 165 H868" marker-end="url(#f1a)"/>
+  <text class="d-l" x="834" y="156" text-anchor="middle">SQL</text>
+</svg>

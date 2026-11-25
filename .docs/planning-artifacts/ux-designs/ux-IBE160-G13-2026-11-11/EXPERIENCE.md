@@ -23,7 +23,7 @@ mockups:
 ## Foundation
 
 - **Form factor:** a web app, mobile-first at 390 × 844, working from 320 CSS px up to tablet and desktop with no horizontal scroll (NFR-1). It is not a PWA and has no offline mode.
-- **UI system:** none is named. The framework is the frontend team's choice (architecture AD-12/AD-13). `DESIGN.md` is the visual identity.
+- **UI system:** no component library. The frontend is Next.js with CSS Modules; routes, screens, data and styling follow architecture AD-17 to AD-19. `DESIGN.md` is the visual identity.
 - **The server decides everything (FR-6–FR-8):**
   - The frontend never calculates or formats an amount.
   - Every figure and game sentence comes finished from the engine in Norwegian bokmål.
@@ -57,9 +57,11 @@ mockups:
 - Tablet and desktop: the same five items in a rail on the left.
 - Desktop: a phone pane on the right that always shows Meldinger unless the player opened Melding, Penger or Jobb there.
 - Hjem is home. Året, Hendelse, Resultat, the card warning, crisis and year end are reached from Hjem and count as Hjem in the navigation. Log in, sign-up, the gift, the recap and the ending have no tabs or rail.
-- Sheets (interest, add an activity below 1100 px, menu) stack one level deep and never on top of each other.
+- Sheets (interest, add an activity below 1100 px, and the menu's nickname and password sheets) stack one level deep and never on top of each other. The menu is its own route, `/meny`, so its sheets stay one level deep.
 
-| # | Surface | Route (round 3) | Reached from | Purpose (PRD) | Mocked |
+The second column is the round 3 mockup's anchor, for finding a surface in `mockups/index.html`. The app's routes are set by architecture AD-17 (`/hjem`, `/plan`, `/mobil`, `/jobb`, `/penger`, `/aaret`, `/meny`, `/om-tallene`, and outside the game `/`, `/logg-inn`, `/ny-bruker`, `/glemt-passord`, `/nytt-passord`, `/personvern`). Events, results, the card warning, crisis, year end, the recap, the start screens and the ending have no route: the game state decides when they show.
+
+| # | Surface | Mockup anchor (round 3) | Reached from | Purpose (PRD) | Mocked |
 |---|---|---|---|---|---|
 | 01 | First screen | `#landing` | App open, logged out | Lag bruker / Logg inn (UJ-1) | yes |
 | 02 | Create user | `#opprett` | 01 | Email once (shown back for checking), password, **nickname** with a live preview, stay logged in (FR-1, NFR-3) | yes |
@@ -83,7 +85,7 @@ mockups:
 | 20 | Card warning | `#kort` | Age 18+, first month with card interest | Card debt in kroner, no scolding (FR-31) | yes |
 | 21 | Crisis month | `#krise` | A trigger at month end | Up to three choices, always a way out (FR-32) | yes |
 | 22 | Driving minigame | — | Licence purchase | V2 (#51): not in the MVP, where the licence is a payment only. Turn-based, no timing (FR-51) | V2 |
-| 23 | December and year end | `#aarsslutt` | December opens | The year's money, the year's tax, what changed, notes for anything dropped, teaser (FR-15, FR-21, FR-49) | yes |
+| 23 | December and year end | `#aarsslutt` | December opens (after its event or crisis, if it has one) | The year's money, the year's tax, what changed, notes for anything dropped, teaser (FR-15, FR-21, FR-49) | yes |
 | 24 | Welcome back | `#velkommen` | Login, or an hour away | Quick recap (FR-16, UJ-2) | yes |
 | 25 | Ending | `#slutt`, `#slutt-hul`, `#slutt-ikke`, `#slutt-tap` | 20th birthday | Four endings, three choices that mattered (FR-41, FR-42, FR-43) | yes |
 | 26 | Menu | `#meny` | Avatar in the timeline (below 768 px), rail avatar | Nickname, password, information, new life, log out, delete user (FR-4, FR-5, FR-43, FR-44) | yes |
@@ -359,5 +361,5 @@ Edge: hollow win (goal reached, average under 50), goal not reached (never frame
 - **Decided 2026-11-23:** the wellbeing bands as built (#111), unread marks as built (#112), one-off shift pay with next month's wage (#114), and FR-35 left out (#115).
 - **Done in the PRD and architecture on 2026-11-23:** the PRD texts for #111, #114 and #115 (FR-33, FR-47, FR-35), and the start year, monthly totals and wellbeing band in the player view (#116, AD-13). The driving minigame is V2 (#51), so surface 22 isn't built in the MVP.
 - **For the rule set (doesn't change the screens):** D12, D25 and D26 still say the player sets hours, «forbruksnivå» and «plasser» (#117). The prototype shows the proposed wording on «Om tallene» and in the first-plan disclosure.
-- **Player information:** the wording follows the architecture (AD-14). The frontend team owns the final text, and the 12-month deletion is named only if that job is built (NFR-3).
+- **Player information:** the wording follows the architecture (AD-14). The group writes the final text, and the 12-month deletion is named only if that job is built (NFR-3).
 - **Unverified:** whether the stickers on the mirror read well at 320 px; test with players.

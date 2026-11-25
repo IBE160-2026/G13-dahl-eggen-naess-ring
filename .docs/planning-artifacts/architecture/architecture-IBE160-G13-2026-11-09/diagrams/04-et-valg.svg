@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1090 390" role="img" aria-label="Et valg går fra nettleseren til API-et, som sjekker økten, og til pipelinen, som låser spillet. Er request_id kjent fra før, sendes det lagrede svaret. Er måneden feil eller valget ikke lov, avvises det uten at noe lagres. Ellers regner motoren ut ny tilstand, og tilstand og logg lagres i én transaksjon. Alle tre utfall svarer med gjeldende spill.">
+  <style>
+    .d-bg{fill:var(--d-paper,#F6F3EC)}
+    .d-zone{fill:var(--d-zone,#DCE6D2)}
+    .d-zone2{fill:var(--d-zone2,#E6EBFA)}
+    .d-box{fill:var(--d-surface,#FFFFFF);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .d-core{fill:var(--d-coral-soft,#FFE3DD);stroke:var(--d-ink,#1A1C2A);stroke-width:2.5}
+    .d-full{fill:var(--d-cobalt-soft,#E6EBFA);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .d-ghost{fill:none;stroke:var(--d-ink,#1A1C2A);stroke-width:1.5;stroke-dasharray:6 5}
+    .d-ln{fill:none;stroke:var(--d-ink,#1A1C2A);stroke-width:1.6}
+    .d-dash{stroke-dasharray:6 5}
+    .d-ah{fill:var(--d-ink,#1A1C2A)}
+    svg text{font-family:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;fill:var(--d-ink,#1A1C2A)}
+    svg .d-t{font-size:15px;font-weight:800}
+    svg .d-s{font-size:12px;font-weight:500;fill:var(--d-muted,#454656)}
+    svg .d-l{font-size:12px;font-weight:700}
+    svg .d-h{font-size:11px;font-weight:800;letter-spacing:.09em}
+    svg .d-note{font-family:Kalam,'Segoe Print','Comic Sans MS',cursive;font-size:15px;fill:var(--d-cobalt,#2B4CC4)}
+  </style>
+  <defs>
+    <marker id="f4a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="d-ah"/></marker>
+  </defs>
+  <rect class="d-bg" x="0" y="0" width="1090" height="390"/>
+
+  <rect class="d-box" x="20" y="70" width="140" height="70" rx="10"/>
+  <text class="d-t" x="90" y="100" text-anchor="middle">Nettleser</text>
+  <text class="d-s" x="90" y="120" text-anchor="middle">spilleren velger</text>
+
+  <rect class="d-box" x="210" y="70" width="120" height="70" rx="10"/>
+  <text class="d-t" x="270" y="100" text-anchor="middle">API</text>
+  <text class="d-s" x="270" y="120" text-anchor="middle">sjekker økten</text>
+
+  <rect class="d-box" x="370" y="70" width="120" height="70" rx="10"/>
+  <text class="d-t" x="430" y="100" text-anchor="middle">Pipeline</text>
+  <text class="d-s" x="430" y="120" text-anchor="middle">låser spillet</text>
+
+  <polygon class="d-box" points="610,55 690,105 610,155 530,105"/>
+  <text class="d-l" x="610" y="101" text-anchor="middle">Kjent</text>
+  <text class="d-l" x="610" y="117" text-anchor="middle">request_id?</text>
+
+  <polygon class="d-box" points="810,55 890,105 810,155 730,105"/>
+  <text class="d-l" x="810" y="101" text-anchor="middle">Riktig måned</text>
+  <text class="d-l" x="810" y="117" text-anchor="middle">og lov?</text>
+
+  <rect class="d-core" x="920" y="70" width="150" height="70" rx="10"/>
+  <text class="d-t" x="995" y="100" text-anchor="middle">Motoren</text>
+  <text class="d-s" x="995" y="120" text-anchor="middle">regner ut alt</text>
+
+  <path class="d-ln" d="M160 105 H208" marker-end="url(#f4a)"/>
+  <text class="d-l" x="184" y="97" text-anchor="middle">POST</text>
+  <path class="d-ln" d="M330 105 H368" marker-end="url(#f4a)"/>
+  <path class="d-ln" d="M490 105 H528" marker-end="url(#f4a)"/>
+  <path class="d-ln" d="M690 105 H728" marker-end="url(#f4a)"/>
+  <text class="d-l" x="709" y="97" text-anchor="middle">nei</text>
+  <path class="d-ln" d="M890 105 H918" marker-end="url(#f4a)"/>
+  <text class="d-l" x="904" y="97" text-anchor="middle">ja</text>
+
+  <!-- Utfall -->
+  <rect class="d-box" x="535" y="230" width="150" height="74" rx="10"/>
+  <text class="d-t" x="610" y="256" text-anchor="middle">Samme svar igjen</text>
+  <text class="d-s" x="610" y="275" text-anchor="middle">ingenting gjøres</text>
+  <text class="d-s" x="610" y="291" text-anchor="middle">to ganger</text>
+
+  <rect class="d-box" x="735" y="230" width="150" height="74" rx="10"/>
+  <text class="d-t" x="810" y="256" text-anchor="middle">Avvist</text>
+  <text class="d-s" x="810" y="275" text-anchor="middle">ingenting lagret,</text>
+  <text class="d-s" x="810" y="291" text-anchor="middle">får gjeldende spill</text>
+
+  <rect class="d-core" x="920" y="230" width="150" height="74" rx="10"/>
+  <text class="d-t" x="995" y="256" text-anchor="middle">Lagret</text>
+  <text class="d-s" x="995" y="275" text-anchor="middle">tilstand + logg</text>
+  <text class="d-s" x="995" y="291" text-anchor="middle">i én transaksjon</text>
+
+  <path class="d-ln" d="M610 155 V228" marker-end="url(#f4a)"/>
+  <text class="d-l" x="618" y="196">ja</text>
+  <path class="d-ln" d="M810 155 V228" marker-end="url(#f4a)"/>
+  <text class="d-l" x="818" y="196">nei</text>
+  <path class="d-ln" d="M995 140 V228" marker-end="url(#f4a)"/>
+  <text class="d-l" x="1003" y="190">ny tilstand</text>
+
+  <!-- Svaret tilbake -->
+  <path class="d-ln" d="M610 304 V350 M810 304 V350 M995 304 V350 H90 V142" marker-end="url(#f4a)"/>
+  <text class="d-l" x="350" y="342" text-anchor="middle">svar: resultat + gjeldende spill</text>
+
+  <text class="d-note" x="108" y="200">mistet svaret?</text>
+  <text class="d-note" x="108" y="222">send samme request_id</text>
+  <text class="d-note" x="108" y="244">igjen etter 2, 5 og 10 s</text>
+</svg>

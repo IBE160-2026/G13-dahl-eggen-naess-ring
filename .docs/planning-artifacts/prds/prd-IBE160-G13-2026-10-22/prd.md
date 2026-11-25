@@ -469,7 +469,7 @@ A logged-in player can log out from inside the game, because a player needs this
 - After logging out, the game can't be reached on that device without logging in again.
 - The player can also choose **Log out on all devices**, for example after forgetting to log out on a school PC.
 - A device that was logged out from somewhere else can't make a choice. Its next action shows the login screen, and the game is unchanged.
-- **Staying logged in:** at login and when creating a user, the player chooses whether to stay logged in on this device. The box is unticked by default. Unticked, the login ends when the browser is closed or after 30 minutes with no activity. Ticked, it lasts until the player logs out or hasn't played for 30 days. Both times are configuration.
+- **Staying logged in:** at login and when creating a user, the player chooses whether to stay logged in on this device. The box is unticked by default. Unticked, the login ends when the browser ends its session, or after 30 minutes with no activity. Some browsers keep the session through a restart, so on a shared PC the 30 minutes is the limit the game can promise, and the player information says so (2026-11-23). Ticked, it lasts until the player logs out or hasn't played for 30 days. Both times are configuration.
 
 #### FR-44: Delete account
 
@@ -1007,7 +1007,7 @@ From age 18, the player can take a consumer loan, repaid in equal monthly instal
 **Consequences (testable):**
 - NOK 20,000 over 12 months gives monthly payments of NOK 1,805, a final payment of NOK 1,808, and NOK 21,663 in total (worked example 3, F1).
 - A loan needs a steady wage, and it can't be taken in months 59-60 (rule 6).
-- The amount can be from NOK 5,000 up to 3× the average monthly wage over the last three months, minus the player's other debt, not counting family loans, rounded down to the nearest NOK 1,000. Below NOK 5,000 no loan is offered. The multiplier is configuration.
+- The amount can be from NOK 5,000 up to 3× the average monthly wage over the last three months, minus the player's other debt, not counting family loans, rounded down to the nearest NOK 1,000. The player picks the amount in steps of NOK 1,000 (2026-11-23). Below NOK 5,000 no loan is offered. The multiplier is configuration.
 - The term is 12, 24, or 36 months (configuration; the loan sheet shows the engine's figures for each term before the loan is taken). A loan may run past age 20, and what's left counts as debt in the ending.
 - The player can have one consumer loan at a time, and can pay off what's left at any time with no fee.
 
@@ -1344,7 +1344,7 @@ LifeMode is a web app that runs in the browser, with nothing to install. It isn'
 
 **Browsers:** the two newest major versions of Safari (iPhone, iPad, Mac), Chrome (Android, Windows, Mac, Chromebook), Edge, and Firefox.
 
-**Verified by:** the main flow, from creating a user to the ending, is tested on Safari on an iPhone, Chrome on an Android phone, a tablet, and Chrome or Edge on a Windows laptop.
+**Verified by:** the main flow, from creating a user to the ending, is tested on Safari on an iPhone, Chrome on an Android phone, a tablet, and Chrome or Edge on a Windows laptop. The automated end-to-end run in CI also covers Chromium, WebKit and Firefox, so every supported browser engine is checked.
 
 ### NFR-2: Accessibility
 
@@ -1418,7 +1418,7 @@ The server decides every result. The device sends only the player's inputs, neve
 - **Money, credit, and work:**
   - accepting an hours offer or extra shifts, or placing a one-off shift, that would go above rule 10 or the 173 h monthly cap (FR-47)
   - an hours request while one is pending or an hours offer is open, or an answer to an hours offer that isn't open (FR-47)
-  - a loan term that isn't one of the allowed terms (FR-25)
+  - a loan term that isn't one of the allowed terms, or a loan amount below NOK 5,000, above what the player can borrow, or not in steps of NOK 1,000 (FR-25)
   - a loan or credit card before the 18th birthday (rule 6), a card or loan with no steady wage (FR-25, FR-26), or a loan in months 59-60 (rule 6)
   - turning card use on while a payment plan blocks the card (rule 15)
   - a BSU deposit when the year's cap is used up, or after the BSU has closed (FR-22)
