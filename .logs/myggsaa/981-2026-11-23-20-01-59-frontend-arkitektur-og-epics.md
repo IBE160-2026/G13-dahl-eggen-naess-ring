@@ -42,3 +42,30 @@ Gren `docs/epics-and-stories`:
 ### Åpne punkter
 - Epics steg 4: sjekk avhengighetene mellom storyene før sprint-planlegging, som brukeren ba om (#130).
 - Spørsmålet om hvordan frontend vet at e-post er av i playtesten hører til #125.
+
+## 2026-11-25 kl. 19:06 — Myggsaa
+
+### Oppgave
+Brukeren spurte hva neste BMad-steg var, hentet det nyeste fra GitHub (#131 og #129 var merget) og ba om steg 4 i `bmad-create-epics-and-stories`: sluttsjekken av dekning og avhengigheter mellom storyene (#130). Etterpå ba brukeren om commit, push og PR, og om å oppdatere #130 og #133.
+
+### Plan
+- `git pull` på `docs/epics-and-stories` (fast-forward til `7ec2b0e`), så bytte til `main` og pull (`34de3f2`). Ny gren `docs/epics-steg-4`.
+- Steg 4: hele `epics.md` lest (72 storyer). Dekningen ble sjekket med skript, og alle henvisninger til senere storyer ble listet og vurdert. Saras log (`../saegg1205/991-2026-11-24-20-12-40-review-pr-129.md`) og kommentaren i #130 ble sjekket mot teksten.
+- 8 funn ble lagt fram. Brukeren valgte å rette alle unntatt funn 2 (1.4 og 10.4), som venter på Sara. Rettelsen av funn 1 og 4 ga nye henvisninger framover, og brukeren valgte å bytte numre.
+
+### Resultat
+- **Sjekket og i orden:** alle FR (unntatt FR-35 og FR-51), alle 45 UX-DR, alle NFR og AD-1 til AD-20 er nevnt i storyene. Ingen startmal, og tabellene lages når de trengs. Alle punktene i kommentaren i #130 er løst i teksten.
+- Commit `7e10ae6` på `docs/epics-steg-4` (`epics.md`):
+  - **2.3 ↔ 2.4:** pengegaven (kjerne) er 2.3 og bygger speilet (UX-DR7) og tidslinja (UX-DR6). Avataren (utvidelse) er 2.4.
+  - **4.1 ↔ 4.2:** årsslutten (kjerne) er 4.1 og legger tabellen over aldersvalg (FR-18) i config. «Året» er 4.2.
+  - 4.3 (linja om slutten fjernet), 6.1 (krisemåneder testes i 7.7), 8.1 (forberedte flagg), 9.1 (nivålinje), Epic 10 og dekningskartet (daglig sjekk og NFR-11 i 1.9), og en merknad om at 8.11 kan bygges før 8.6.
+  - Nivåtabellen, lenkeregelen og henvisningene i 2.5, 5.3 og 5.5 bruker de nye numrene. Ingen andre filer bruker numrene.
+- Pushet, og PR #134 er opprettet mot `main`.
+- #133 fikk ny tittel (story 4.2) og en kommentar om at tabellen ikke lenger avhenger av den. #130 fikk en kommentar med funnene.
+- `stepsCompleted` er fortsatt `[1, 2, 3]`. Brukeren vil vente på at gruppa godkjenner.
+
+### Åpne punkter
+- Gruppa godkjenner storyene i #134. Så settes `stepsCompleted` til `[1, 2, 3, 4]`, og #130 lukkes (#130).
+- Sara avgjør om testen av innlogget på forsiden kjøres i 1.4 eller 10.4 (#135).
+- Velg nivå for 4.2 «Året» (#133).
+- Sett opp låsen på `main` før første story, som brukeren vil ta neste (#132).
