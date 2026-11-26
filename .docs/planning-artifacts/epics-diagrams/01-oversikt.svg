@@ -1,0 +1,322 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="lm-epics" viewBox="0 0 2802 1452" width="2802" height="1452" role="img" aria-label="Oversikt over LifeMode: ti epics i rekkefølge fra 1 til 10 med 73 storyer. 63 storyer er kjerne, 6 er utvidelse, 3 kan kuttes og 1 (4.2) har ingen tier ennå.">
+  <style>
+    .lm-epics{--d-paper:#F6F3EC;--d-surface:#FFFFFF;--d-canvas:#DCE6D2;--d-ink:#1A1C2A;--d-muted:#454656;--d-hairline:#DDD8CC;--d-coral:#FF6F59;--d-coral-soft:#FFE3DD;--d-cobalt:#2B4CC4;--d-cobalt-soft:#E6EBFA;--d-locked:#FFE27A;}
+    .d-bg{fill:var(--d-paper,#F6F3EC)}
+    .d-zone{fill:var(--d-canvas,#DCE6D2)}
+    .d-card{fill:var(--d-surface,#FFFFFF);stroke:var(--d-hairline,#DDD8CC);stroke-width:1.5}
+    .d-box{fill:var(--d-surface,#FFFFFF);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .t-kjerne{fill:var(--d-coral-soft,#FFE3DD);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .t-utv{fill:var(--d-cobalt-soft,#E6EBFA);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .t-kutt{fill:var(--d-surface,#FFFFFF);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5;stroke-dasharray:6 4}
+    .t-ingen{fill:var(--d-locked,#FFE27A);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5;stroke-dasharray:2 3}
+    .d-ln{fill:none;stroke:var(--d-ink,#1A1C2A);stroke-width:1.6}
+    .d-need{fill:none;stroke:var(--d-coral,#FF6F59);stroke-width:3}
+    .d-later{fill:none;stroke:var(--d-cobalt,#2B4CC4);stroke-width:2.2;stroke-dasharray:7 5}
+    .d-ah{fill:var(--d-ink,#1A1C2A)}
+    .d-ah-c{fill:var(--d-coral,#FF6F59)}
+    .d-ah-b{fill:var(--d-cobalt,#2B4CC4)}
+    svg text{font-family:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;fill:var(--d-ink,#1A1C2A)}
+    svg .d-title{font-size:32px;font-weight:800;letter-spacing:-.015em}
+    svg .d-sub{font-size:16px;font-weight:500;fill:var(--d-muted,#454656)}
+    svg .d-h{font-size:12px;font-weight:800;letter-spacing:.09em}
+    svg .d-et{font-size:18px;font-weight:800}
+    svg .d-n{font-weight:800}
+    svg .d-st{font-size:14px;font-weight:600}
+    svg .d-t{font-size:15px;font-weight:800}
+    svg .d-s{font-size:13px;font-weight:500;fill:var(--d-muted,#454656)}
+    svg .d-p{font-size:15px;font-weight:500}
+    svg .d-pb{font-size:15px;font-weight:800}
+    svg .d-c{font-size:12px;font-weight:600;fill:var(--d-muted,#454656)}
+    svg .d-note{font-family:Kalam,'Segoe Print','Comic Sans MS',cursive;font-size:16px;fill:var(--d-cobalt,#2B4CC4)}
+  </style>
+  <defs>
+    <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="d-ah"/></marker>
+  </defs>
+  <rect class="d-bg" x="0" y="0" width="2802" height="1452"/>
+  <text class="d-title" x="40" y="62">Epics og storyer i LifeMode</text>
+  <text class="d-sub" x="40" y="92">10 epics og 73 storyer. Epicene bygges én etter én, fra 1 til 10. Fargen og kanten på hver boks viser tieren fra PRD §4.4.</text>
+  <rect class="t-kjerne" x="40" y="124" width="44" height="30" rx="8"/>
+  <text class="d-pb" x="96" y="138">Kjerne (63)</text>
+  <text class="d-s" x="96" y="155">må være med</text>
+  <rect class="t-utv" x="224.2025" y="124" width="44" height="30" rx="8"/>
+  <text class="d-pb" x="280.2025" y="138">Utvidelse (6)</text>
+  <text class="d-s" x="280.2025" y="155">bygges hvis den er startet før frysingen</text>
+  <rect class="t-kutt" x="568.7325000000001" y="124" width="44" height="30" rx="8"/>
+  <text class="d-pb" x="624.7325000000001" y="138">Kan kuttes (3)</text>
+  <text class="d-s" x="624.7325000000001" y="155">går først når tida blir knapp</text>
+  <rect class="t-ingen" x="836.9525000000001" y="124" width="44" height="30" rx="8"/>
+  <text class="d-pb" x="892.9525000000001" y="138">Ingen tier ennå (1)</text>
+  <text class="d-s" x="892.9525000000001" y="155">gruppa bestemmer, se #133</text>
+  <text class="d-s" x="1108.6825000000001" y="138">Grå linje nederst i boksen: en del av storyen har en annen tier</text>
+  <text class="d-s" x="1108.6825000000001" y="155">(for eksempel «deler kan kuttes»), slik Tier-linja i epics.md sier.</text>
+  <rect class="d-zone" x="40" y="210" width="256" height="1162" rx="14"/>
+  <text class="d-h" x="54" y="238">EPIC 1</text>
+  <text class="d-et" x="54" y="264">Konto og innlogging</text>
+  <text class="d-c" x="54" y="336">9 storyer · 8 kjerne</text>
+  <path class="d-ln" d="M298 234 h12" marker-end="url(#a1)"/>
+  <rect class="t-kjerne" x="52.0" y="352" width="232" height="80" rx="10"/>
+  <text class="d-st" x="64.0" y="376"><tspan class="d-n">1.1</tspan><tspan x="95.4">Kjør appen fra README</tspan></text>
+  <text class="d-st" x="64.0" y="395">med én kommando</text>
+  <rect class="t-kjerne" x="52.0" y="444" width="232" height="80" rx="10"/>
+  <text class="d-st" x="64.0" y="468"><tspan class="d-n">1.2</tspan><tspan x="95.4">Åpne første skjerm på</tspan></text>
+  <text class="d-st" x="64.0" y="487">alle enheter</text>
+  <rect class="t-kjerne" x="52.0" y="536" width="232" height="80" rx="10"/>
+  <text class="d-st" x="64.0" y="560"><tspan class="d-n">1.3</tspan><tspan x="95.4">Lag en bruker</tspan></text>
+  <text class="d-s" x="64.0" y="604">deler kan kuttes</text>
+  <rect class="t-kjerne" x="52.0" y="628" width="232" height="80" rx="10"/>
+  <text class="d-st" x="64.0" y="652"><tspan class="d-n">1.4</tspan><tspan x="95.4">Logg inn, forbli innlogget</tspan></text>
+  <text class="d-st" x="64.0" y="671">og logg ut</text>
+  <text class="d-s" x="64.0" y="696">deler kan kuttes</text>
+  <rect class="t-kjerne" x="52.0" y="720" width="232" height="80" rx="10"/>
+  <text class="d-st" x="64.0" y="744"><tspan class="d-n">1.5</tspan><tspan x="95.4">Få nytt passord med en</tspan></text>
+  <text class="d-st" x="64.0" y="763">lenke</text>
+  <text class="d-s" x="64.0" y="788">deler kan kuttes</text>
+  <rect class="t-utv" x="52.0" y="812" width="232" height="80" rx="10"/>
+  <text class="d-st" x="64.0" y="836"><tspan class="d-n">1.6</tspan><tspan x="95.4">Bytt passord og</tspan></text>
+  <text class="d-st" x="64.0" y="855">kallenavn</text>
+  <text class="d-s" x="64.0" y="880">kallenavnet er kjerne</text>
+  <rect class="t-kjerne" x="52.0" y="904" width="232" height="80" rx="10"/>
+  <text class="d-st" x="64.0" y="928"><tspan class="d-n">1.7</tspan><tspan x="95.4">Slett brukeren min</tspan></text>
+  <text class="d-s" x="64.0" y="972">deler kan kuttes</text>
+  <rect class="t-kjerne" x="52.0" y="996" width="232" height="80" rx="10"/>
+  <text class="d-st" x="64.0" y="1020"><tspan class="d-n">1.8</tspan><tspan x="95.4">Bare inviterte testere kan</tspan></text>
+  <text class="d-st" x="64.0" y="1039">registrere seg</text>
+  <rect class="t-kjerne" x="52.0" y="1088" width="232" height="80" rx="10"/>
+  <text class="d-st" x="64.0" y="1112"><tspan class="d-n">1.9</tspan><tspan x="95.4">Nå appen i</tspan></text>
+  <text class="d-st" x="64.0" y="1131">playtestmiljøet</text>
+  <rect class="d-zone" x="314" y="210" width="256" height="1162" rx="14"/>
+  <text class="d-h" x="328" y="238">EPIC 2</text>
+  <text class="d-et" x="328" y="264">Start et liv og spill</text>
+  <text class="d-et" x="328" y="287">måned for måned</text>
+  <text class="d-c" x="328" y="336">10 storyer · 9 kjerne</text>
+  <path class="d-ln" d="M572 234 h12" marker-end="url(#a1)"/>
+  <rect class="t-kjerne" x="326.0" y="352" width="232" height="80" rx="10"/>
+  <text class="d-st" x="338.0" y="376"><tspan class="d-n">2.1</tspan><tspan x="369.4">Spilltall og hendelser</tspan></text>
+  <text class="d-st" x="338.0" y="395">som sjekket YAML</text>
+  <rect class="t-kjerne" x="326.0" y="444" width="232" height="80" rx="10"/>
+  <text class="d-st" x="338.0" y="468"><tspan class="d-n">2.2</tspan><tspan x="369.4">Velg livsmål og start et</tspan></text>
+  <text class="d-st" x="338.0" y="487">liv</text>
+  <rect class="t-kjerne" x="326.0" y="536" width="232" height="80" rx="10"/>
+  <text class="d-st" x="338.0" y="560"><tspan class="d-n">2.3</tspan><tspan x="369.4">Få pengegaven og ta det</tspan></text>
+  <text class="d-st" x="338.0" y="579">første valget</text>
+  <rect class="t-utv" x="326.0" y="628" width="232" height="80" rx="10"/>
+  <text class="d-st" x="338.0" y="652"><tspan class="d-n">2.4</tspan><tspan x="369.4">Velg avatar</tspan></text>
+  <rect class="t-kjerne" x="326.0" y="720" width="232" height="80" rx="10"/>
+  <text class="d-st" x="338.0" y="744"><tspan class="d-n">2.5</tspan><tspan x="369.4">Velg i en hendelse og se</tspan></text>
+  <text class="d-st" x="338.0" y="763">hva som skjedde</text>
+  <rect class="t-kjerne" x="326.0" y="812" width="232" height="80" rx="10"/>
+  <text class="d-st" x="338.0" y="836"><tspan class="d-n">2.6</tspan><tspan x="369.4">Gå videre til neste måned</tspan></text>
+  <rect class="t-kjerne" x="326.0" y="904" width="232" height="80" rx="10"/>
+  <text class="d-st" x="338.0" y="928"><tspan class="d-n">2.7</tspan><tspan x="369.4">Se hvordan det går med</tspan></text>
+  <text class="d-st" x="338.0" y="947">meg</text>
+  <rect class="t-kjerne" x="326.0" y="996" width="232" height="80" rx="10"/>
+  <text class="d-st" x="338.0" y="1020"><tspan class="d-n">2.8</tspan><tspan x="369.4">Spill videre på dårlig nett</tspan></text>
+  <text class="d-st" x="338.0" y="1039">og på en annen enhet</text>
+  <rect class="t-kjerne" x="326.0" y="1088" width="232" height="80" rx="10"/>
+  <text class="d-st" x="338.0" y="1112"><tspan class="d-n">2.9</tspan><tspan x="369.4">Logg inn som seedet</tspan></text>
+  <text class="d-st" x="338.0" y="1131">testbruker</text>
+  <rect class="t-kjerne" x="326.0" y="1180" width="232" height="80" rx="10"/>
+  <text class="d-st" x="338.0" y="1204"><tspan class="d-n">2.10</tspan><tspan x="378.6">Se bare mitt eget spill</tspan></text>
+  <rect class="d-zone" x="588" y="210" width="256" height="1162" rx="14"/>
+  <text class="d-h" x="602" y="238">EPIC 3</text>
+  <text class="d-et" x="602" y="264">Pengene i hverdagen</text>
+  <text class="d-c" x="602" y="336">6 storyer · 6 kjerne</text>
+  <path class="d-ln" d="M846 234 h12" marker-end="url(#a1)"/>
+  <rect class="t-kjerne" x="600.0" y="352" width="232" height="80" rx="10"/>
+  <text class="d-st" x="612.0" y="376"><tspan class="d-n">3.1</tspan><tspan x="643.4">Flytt penger til sparing</tspan></text>
+  <text class="d-st" x="612.0" y="395">og få rente</text>
+  <rect class="t-kjerne" x="600.0" y="444" width="232" height="80" rx="10"/>
+  <text class="d-st" x="612.0" y="468"><tspan class="d-n">3.2</tspan><tspan x="643.4">Spar i BSU</tspan></text>
+  <rect class="t-kjerne" x="600.0" y="536" width="232" height="80" rx="10"/>
+  <text class="d-st" x="612.0" y="560"><tspan class="d-n">3.3</tspan><tspan x="643.4">Betal kostnadene og velg</tspan></text>
+  <text class="d-st" x="612.0" y="579">hvor mye jeg bruker</text>
+  <rect class="t-kjerne" x="600.0" y="628" width="232" height="80" rx="10"/>
+  <text class="d-st" x="612.0" y="652"><tspan class="d-n">3.4</tspan><tspan x="643.4">Sparingen dekker det</tspan></text>
+  <text class="d-st" x="612.0" y="671">brukskontoen ikke klarer</text>
+  <rect class="t-kjerne" x="600.0" y="720" width="232" height="80" rx="10"/>
+  <text class="d-st" x="612.0" y="744"><tspan class="d-n">3.5</tspan><tspan x="643.4">Møt uventede utgifter</tspan></text>
+  <rect class="t-kjerne" x="600.0" y="812" width="232" height="80" rx="10"/>
+  <text class="d-st" x="612.0" y="836"><tspan class="d-n">3.6</tspan><tspan x="643.4">Se hvor nær livsmålet jeg</tspan></text>
+  <text class="d-st" x="612.0" y="855">er</text>
+  <rect class="d-zone" x="862" y="210" width="256" height="1162" rx="14"/>
+  <text class="d-h" x="876" y="238">EPIC 4</text>
+  <text class="d-et" x="876" y="264">Året, slutten og et nytt</text>
+  <text class="d-et" x="876" y="287">liv</text>
+  <text class="d-c" x="876" y="336">6 storyer · 4 kjerne</text>
+  <path class="d-ln" d="M1120 234 h12" marker-end="url(#a1)"/>
+  <rect class="t-kjerne" x="874.0" y="352" width="232" height="80" rx="10"/>
+  <text class="d-st" x="886.0" y="376"><tspan class="d-n">4.1</tspan><tspan x="917.4">Avslutt året i desember</tspan></text>
+  <rect class="t-ingen" x="874.0" y="444" width="232" height="80" rx="10"/>
+  <text class="d-st" x="886.0" y="468"><tspan class="d-n">4.2</tspan><tspan x="917.4">Se året mitt</tspan></text>
+  <text class="d-s" x="886.0" y="512">ingen tier ennå (#133)</text>
+  <rect class="t-utv" x="874.0" y="536" width="232" height="80" rx="10"/>
+  <text class="d-st" x="886.0" y="560"><tspan class="d-n">4.3</tspan><tspan x="917.4">Få en oppsummering når</tspan></text>
+  <text class="d-st" x="886.0" y="579">jeg kommer tilbake</text>
+  <rect class="t-kjerne" x="874.0" y="628" width="232" height="80" rx="10"/>
+  <text class="d-st" x="886.0" y="652"><tspan class="d-n">4.4</tspan><tspan x="917.4">Nå en av fire slutter ved</tspan></text>
+  <text class="d-st" x="886.0" y="671">20</text>
+  <text class="d-s" x="886.0" y="696">deler er utvidelse</text>
+  <rect class="t-kjerne" x="874.0" y="720" width="232" height="80" rx="10"/>
+  <text class="d-st" x="886.0" y="744"><tspan class="d-n">4.5</tspan><tspan x="917.4">Se de tre valgene som</tspan></text>
+  <text class="d-st" x="886.0" y="763">betydde mest</text>
+  <text class="d-s" x="886.0" y="788">deler kan kuttes</text>
+  <rect class="t-kjerne" x="874.0" y="812" width="232" height="80" rx="10"/>
+  <text class="d-st" x="886.0" y="836"><tspan class="d-n">4.6</tspan><tspan x="917.4">Start et nytt liv</tspan></text>
+  <rect class="d-zone" x="1136" y="210" width="256" height="1162" rx="14"/>
+  <text class="d-h" x="1150" y="238">EPIC 5</text>
+  <text class="d-et" x="1150" y="264">Mobilen og valgene som</text>
+  <text class="d-et" x="1150" y="287">står åpne</text>
+  <text class="d-c" x="1150" y="336">5 storyer · 5 kjerne</text>
+  <path class="d-ln" d="M1394 234 h12" marker-end="url(#a1)"/>
+  <rect class="t-kjerne" x="1148.0" y="352" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1160.0" y="376"><tspan class="d-n">5.1</tspan><tspan x="1191.4">Les meldingene på</tspan></text>
+  <text class="d-st" x="1160.0" y="395">mobilen</text>
+  <rect class="t-kjerne" x="1148.0" y="444" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1160.0" y="468"><tspan class="d-n">5.2</tspan><tspan x="1191.4">Få riktige meldinger hver</tspan></text>
+  <text class="d-st" x="1160.0" y="487">måned</text>
+  <text class="d-s" x="1160.0" y="512">deler kan kuttes</text>
+  <rect class="t-kjerne" x="1148.0" y="536" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1160.0" y="560"><tspan class="d-n">5.3</tspan><tspan x="1191.4">Lås opp valg etter hvert</tspan></text>
+  <text class="d-st" x="1160.0" y="579">som jeg blir eldre</text>
+  <rect class="t-kjerne" x="1148.0" y="628" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1160.0" y="652"><tspan class="d-n">5.4</tspan><tspan x="1191.4">Ta valg som står åpne,</tspan></text>
+  <text class="d-st" x="1160.0" y="671">også den store opplevelsen</text>
+  <rect class="t-kjerne" x="1148.0" y="720" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1160.0" y="744"><tspan class="d-n">5.5</tspan><tspan x="1191.4">Møt oppfølginger av</tspan></text>
+  <text class="d-st" x="1160.0" y="763">tidligere valg</text>
+  <rect class="d-zone" x="1410" y="210" width="256" height="1162" rx="14"/>
+  <text class="d-h" x="1424" y="238">EPIC 6</text>
+  <text class="d-et" x="1424" y="264">Jobb, fritid og</text>
+  <text class="d-et" x="1424" y="287">månedsplan</text>
+  <text class="d-c" x="1424" y="336">7 storyer · 7 kjerne</text>
+  <path class="d-ln" d="M1668 234 h12" marker-end="url(#a1)"/>
+  <rect class="t-kjerne" x="1422.0" y="352" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1434.0" y="376"><tspan class="d-n">6.1</tspan><tspan x="1465.4">Planlegg de frie kveldene</tspan></text>
+  <rect class="t-kjerne" x="1422.0" y="444" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1434.0" y="468"><tspan class="d-n">6.2</tspan><tspan x="1465.4">Lev de planlagte</tspan></text>
+  <text class="d-st" x="1434.0" y="487">aktivitetene ved månedsslutt</text>
+  <text class="d-s" x="1434.0" y="512">deler kan kuttes</text>
+  <rect class="t-kjerne" x="1422.0" y="536" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1434.0" y="560"><tspan class="d-n">6.3</tspan><tspan x="1465.4">Få jobb og tjen lønn</tspan></text>
+  <rect class="t-kjerne" x="1422.0" y="628" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1434.0" y="652"><tspan class="d-n">6.4</tspan><tspan x="1465.4">Ha sommerjobb</tspan></text>
+  <rect class="t-kjerne" x="1422.0" y="720" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1434.0" y="744"><tspan class="d-n">6.5</tspan><tspan x="1465.4">Betal skatt på lønna</tspan></text>
+  <rect class="t-kjerne" x="1422.0" y="812" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1434.0" y="836"><tspan class="d-n">6.6</tspan><tspan x="1465.4">Be om flere eller færre</tspan></text>
+  <text class="d-st" x="1434.0" y="855">timer og ta ekstravakter</text>
+  <rect class="t-kjerne" x="1422.0" y="904" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1434.0" y="928"><tspan class="d-n">6.7</tspan><tspan x="1465.4">Ta enkeltvakter</tspan></text>
+  <rect class="d-zone" x="1684" y="210" width="256" height="1162" rx="14"/>
+  <text class="d-h" x="1698" y="238">EPIC 7</text>
+  <text class="d-et" x="1698" y="264">Kort, lån og kriser</text>
+  <text class="d-c" x="1698" y="336">8 storyer · 7 kjerne</text>
+  <path class="d-ln" d="M1942 234 h12" marker-end="url(#a1)"/>
+  <rect class="t-kjerne" x="1696.0" y="352" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1708.0" y="376"><tspan class="d-n">7.1</tspan><tspan x="1739.4">Få kredittkort og velg</tspan></text>
+  <text class="d-st" x="1708.0" y="395">hvordan regningen betales</text>
+  <text class="d-s" x="1708.0" y="420">tipset er utvidelse</text>
+  <rect class="t-kjerne" x="1696.0" y="444" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1708.0" y="468"><tspan class="d-n">7.2</tspan><tspan x="1739.4">Bruk kortet til kjøp</tspan></text>
+  <rect class="t-utv" x="1696.0" y="536" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1708.0" y="560"><tspan class="d-n">7.3</tspan><tspan x="1739.4">Ta forbrukslån</tspan></text>
+  <rect class="t-kjerne" x="1696.0" y="628" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1708.0" y="652"><tspan class="d-n">7.4</tspan><tspan x="1739.4">Be familien om hjelp</tspan></text>
+  <rect class="t-kjerne" x="1696.0" y="720" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1708.0" y="744"><tspan class="d-n">7.5</tspan><tspan x="1739.4">Vit før jeg går videre om</tspan></text>
+  <text class="d-st" x="1708.0" y="763">en krise kommer</text>
+  <rect class="t-kjerne" x="1696.0" y="812" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1708.0" y="836"><tspan class="d-n">7.6</tspan><tspan x="1739.4">Få kortvarsel</tspan></text>
+  <rect class="t-kjerne" x="1696.0" y="904" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1708.0" y="928"><tspan class="d-n">7.7</tspan><tspan x="1739.4">Kom gjennom en</tspan></text>
+  <text class="d-st" x="1708.0" y="947">krisemåned</text>
+  <rect class="t-kjerne" x="1696.0" y="996" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1708.0" y="1020"><tspan class="d-n">7.8</tspan><tspan x="1739.4">Del opp kortgjelda i en</tspan></text>
+  <text class="d-st" x="1708.0" y="1039">nedbetalingsplan</text>
+  <rect class="d-zone" x="1958" y="210" width="256" height="1162" rx="14"/>
+  <text class="d-h" x="1972" y="238">EPIC 8</text>
+  <text class="d-et" x="1972" y="264">Moped, lappene,</text>
+  <text class="d-et" x="1972" y="287">rommet og hele</text>
+  <text class="d-et" x="1972" y="310">innholdet</text>
+  <text class="d-c" x="1972" y="336">11 storyer · 9 kjerne</text>
+  <path class="d-ln" d="M2216 234 h12" marker-end="url(#a1)"/>
+  <rect class="t-kjerne" x="1970.0" y="352" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1982.0" y="376"><tspan class="d-n">8.1</tspan><tspan x="2013.4">Se tingene mine i rommet</tspan></text>
+  <text class="d-s" x="1982.0" y="420">mer enn 3 lag kan kuttes</text>
+  <rect class="t-kjerne" x="1970.0" y="444" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1982.0" y="468"><tspan class="d-n">8.2</tspan><tspan x="2013.4">Ta mopedlappen</tspan></text>
+  <rect class="t-kjerne" x="1970.0" y="536" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1982.0" y="560"><tspan class="d-n">8.3</tspan><tspan x="2013.4">Kjøp, eie og selg moped</tspan></text>
+  <text class="d-s" x="1982.0" y="604">deler kan kuttes</text>
+  <rect class="t-kutt" x="1970.0" y="628" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1982.0" y="652"><tspan class="d-n">8.4</tspan><tspan x="2013.4">Få moped i gave</tspan></text>
+  <rect class="t-kutt" x="1970.0" y="720" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1982.0" y="744"><tspan class="d-n">8.5</tspan><tspan x="2013.4">Ta lappen og lån bilen</tspan></text>
+  <rect class="t-kjerne" x="1970.0" y="812" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1982.0" y="836"><tspan class="d-n">8.6</tspan><tspan x="2013.4">Spill hendelsene i år 1</tspan></text>
+  <text class="d-st" x="1982.0" y="855">(15 år)</text>
+  <text class="d-s" x="1982.0" y="880">deler kan kuttes</text>
+  <rect class="t-kjerne" x="1970.0" y="904" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1982.0" y="928"><tspan class="d-n">8.7</tspan><tspan x="2013.4">Spill hendelsene i år 2</tspan></text>
+  <text class="d-st" x="1982.0" y="947">(16 år)</text>
+  <text class="d-s" x="1982.0" y="972">deler kan kuttes</text>
+  <rect class="t-kjerne" x="1970.0" y="996" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1982.0" y="1020"><tspan class="d-n">8.8</tspan><tspan x="2013.4">Spill hendelsene i år 3</tspan></text>
+  <text class="d-st" x="1982.0" y="1039">(17 år)</text>
+  <text class="d-s" x="1982.0" y="1064">deler kan kuttes</text>
+  <rect class="t-kjerne" x="1970.0" y="1088" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1982.0" y="1112"><tspan class="d-n">8.9</tspan><tspan x="2013.4">Spill hendelsene i år 4</tspan></text>
+  <text class="d-st" x="1982.0" y="1131">(18 år)</text>
+  <text class="d-s" x="1982.0" y="1156">deler kan kuttes</text>
+  <rect class="t-kjerne" x="1970.0" y="1180" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1982.0" y="1204"><tspan class="d-n">8.10</tspan><tspan x="2022.6">Spill hendelsene i år 5</tspan></text>
+  <text class="d-st" x="1982.0" y="1223">(19 år)</text>
+  <text class="d-s" x="1982.0" y="1248">deler kan kuttes</text>
+  <rect class="t-kjerne" x="1970.0" y="1272" width="232" height="80" rx="10"/>
+  <text class="d-st" x="1982.0" y="1296"><tspan class="d-n">8.11</tspan><tspan x="2022.6">Sjekk innholdet på hver</tspan></text>
+  <text class="d-st" x="1982.0" y="1315">pull request</text>
+  <rect class="d-zone" x="2232" y="210" width="256" height="1162" rx="14"/>
+  <text class="d-h" x="2246" y="238">EPIC 9</text>
+  <text class="d-et" x="2246" y="264">Forstå tallene</text>
+  <text class="d-c" x="2246" y="336">5 storyer · 2 kjerne</text>
+  <path class="d-ln" d="M2490 234 h12" marker-end="url(#a1)"/>
+  <rect class="t-kjerne" x="2244.0" y="352" width="232" height="80" rx="10"/>
+  <text class="d-st" x="2256.0" y="376"><tspan class="d-n">9.1</tspan><tspan x="2287.4">Spør hvorfor noe endret</tspan></text>
+  <text class="d-st" x="2256.0" y="395">seg («Hvorfor?»)</text>
+  <text class="d-s" x="2256.0" y="420">kuttes aldri</text>
+  <rect class="t-utv" x="2244.0" y="444" width="232" height="80" rx="10"/>
+  <text class="d-st" x="2256.0" y="468"><tspan class="d-n">9.2</tspan><tspan x="2287.4">Se når et tidligere valg</tspan></text>
+  <text class="d-st" x="2256.0" y="487">kommer tilbake</text>
+  <rect class="t-utv" x="2244.0" y="536" width="232" height="80" rx="10"/>
+  <text class="d-st" x="2256.0" y="560"><tspan class="d-n">9.3</tspan><tspan x="2287.4">Les hva spillet forenkler</tspan></text>
+  <text class="d-s" x="2256.0" y="604">gruppa sikter på å bygge den</text>
+  <rect class="t-kjerne" x="2244.0" y="628" width="232" height="80" rx="10"/>
+  <text class="d-st" x="2256.0" y="652"><tspan class="d-n">9.4</tspan><tspan x="2287.4">Se hva som kommer</tspan></text>
+  <text class="d-st" x="2256.0" y="671">neste måned</text>
+  <rect class="t-kutt" x="2244.0" y="720" width="232" height="80" rx="10"/>
+  <text class="d-st" x="2256.0" y="744"><tspan class="d-n">9.5</tspan><tspan x="2287.4">Fest et sparemål og se</tspan></text>
+  <text class="d-st" x="2256.0" y="763">årets aktivitetsutgifter</text>
+  <rect class="d-zone" x="2506" y="210" width="256" height="1162" rx="14"/>
+  <text class="d-h" x="2520" y="238">EPIC 10</text>
+  <text class="d-et" x="2520" y="264">Playtesten</text>
+  <text class="d-c" x="2520" y="336">6 storyer · 6 kjerne</text>
+  <rect class="t-kjerne" x="2518.0" y="352" width="232" height="80" rx="10"/>
+  <text class="d-st" x="2530.0" y="376"><tspan class="d-n">10.1</tspan><tspan x="2570.6">Registrer hva testerne</tspan></text>
+  <text class="d-st" x="2530.0" y="395">gjør</text>
+  <rect class="t-kjerne" x="2518.0" y="444" width="232" height="80" rx="10"/>
+  <text class="d-st" x="2530.0" y="468"><tspan class="d-n">10.2</tspan><tspan x="2570.6">Eksporter dataene etter</tspan></text>
+  <text class="d-st" x="2530.0" y="487">testerkode</text>
+  <rect class="t-kjerne" x="2518.0" y="536" width="232" height="80" rx="10"/>
+  <text class="d-st" x="2530.0" y="560"><tspan class="d-n">10.3</tspan><tspan x="2570.6">Frys og juster innholdet</tspan></text>
+  <text class="d-st" x="2530.0" y="579">før playtesten</text>
+  <rect class="t-kjerne" x="2518.0" y="628" width="232" height="80" rx="10"/>
+  <text class="d-st" x="2530.0" y="652"><tspan class="d-n">10.4</tspan><tspan x="2570.6">Sjekk enheter,</tspan></text>
+  <text class="d-st" x="2530.0" y="671">tilgjengelighet og fart for hånd</text>
+  <rect class="t-kjerne" x="2518.0" y="720" width="232" height="80" rx="10"/>
+  <text class="d-st" x="2530.0" y="744"><tspan class="d-n">10.5</tspan><tspan x="2570.6">Logg inn som</tspan></text>
+  <text class="d-st" x="2530.0" y="763">testbruker nær hver slutt</text>
+  <rect class="t-kjerne" x="2518.0" y="812" width="232" height="80" rx="10"/>
+  <text class="d-st" x="2530.0" y="836"><tspan class="d-n">10.6</tspan><tspan x="2570.6">Rydd opp etter</tspan></text>
+  <text class="d-st" x="2530.0" y="855">playtesten</text>
+  <text class="d-note" x="40" y="1422">Kilde: epics.md, tiertabellen under «Epic List» og Tier-linja under hver story. Hvilke storyer som trenger hverandre, står i 02-avhengigheter.svg.</text>
+</svg>
