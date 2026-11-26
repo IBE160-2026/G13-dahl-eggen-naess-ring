@@ -1231,7 +1231,7 @@ So that I can try other choices (FR-43).
 **Given** my life is `completed`
 **When** I press «Spill på nytt»
 **Then** `playAgain` is set and the start screens show from the `completed` view's start texts and versions, and only confirming a life goal sends the start (AD-17)
-**And** the start creates a new playthrough with a new pengegave; the finished one is deleted in the same transaction, and only the account's seen disclosures carry over (stored from Story 9.3)
+**And** the start creates a new playthrough with a new pengegave; the finished one is deleted in the same transaction, and nothing from it carries over (FR-43). Seen disclosures belong to the account, not the playthrough, so deleting a life never touches them; Story 9.3 adds them and tests that they survive a new life
 
 **Given** a life in progress
 **When** I choose «Nytt liv» in the menu and confirm
