@@ -350,7 +350,7 @@ FR-56: Epic 6 - Job view
 FR-57: Epic 9 - Savings target, upcoming costs and activity spend
 FR-58: Epic 8 - Content check (the schema gate starts in Epic 2)
 
-Not mapped: FR-35 (left out of the MVP, #115) and FR-51 (V2, #51). NFR-1, NFR-2, NFR-4 and NFR-7 apply to every epic and are tested in each story; NFR-3, NFR-5, NFR-6 and NFR-9 start in Epic 1; NFR-8 is checked with the content in Epic 8; NFR-10 and NFR-11 are verified in Epic 10.
+Not mapped: FR-35 (left out of the MVP, #115) and FR-51 (V2, #51). NFR-1, NFR-2, NFR-4 and NFR-7 apply to every epic and are tested in each story; NFR-3, NFR-5, NFR-6 and NFR-9 start in Epic 1; NFR-8 is checked with the content in Epic 8; NFR-11 (the environment and the daily check) is set up in Story 1.9; NFR-10 is measured in Epic 10.
 
 ## Epic List
 
@@ -364,15 +364,15 @@ Ten epics, each a vertical slice: backend, frontend and tests for the same playe
 
 The story isn't done until these are in place. Story 10.4 checks NFR-7's whole list against the tests.
 
-**Rule for every story: no link to what isn't built.** A tab, sticker or link shows only when its page exists. The story that builds a page adds the links to it (`/penger` 3.1, `/aaret` 4.1, `/mobil` 5.1, `/plan` 6.1, `/jobb` 6.3).
+**Rule for every story: no link to what isn't built.** A tab, sticker or link shows only when its page exists. The story that builds a page adds the links to it (`/penger` 3.1, `/aaret` 4.2, `/mobil` 5.1, `/plan` 6.1, `/jobb` 6.3).
 
 **Tiers (PRD §4.4).** Each story has a **Tier** line under its heading, from the PRD's FR overview (§5): Core must be in, Extension is built when it is started before the freeze, and Can be cut goes first when time runs short. Setup, safety and check stories with no FR tier of their own are Core, because the Core stories or an NFR need them.
 
 | Tier | Stories |
 |---|---|
-| Extension | 1.6, 2.3, 4.3, 7.3, 9.2, 9.3 |
+| Extension | 1.6, 2.4, 4.3, 7.3, 9.2, 9.3 |
 | Can be cut | 8.4, 8.5, 9.4 |
-| Not set by the PRD | 4.1 |
+| Not set by the PRD | 4.2 |
 | Core | all the others, 9.1 («Hvorfor?») included |
 
 ### Epic 1: Konto og innlogging
@@ -413,7 +413,7 @@ A player can take a credit card and a consumer loan, borrow from family, gets th
 ### Epic 8: Moped, lappene, rommet og hele innholdet
 A player takes the moped licence, buys and sells a moped, gets or pays for the car licence and borrows the parents' car, sees belongings in the mirror's room, and plays the full event library with tips.
 **FRs covered:** FR-9b, FR-17, FR-19, FR-28, FR-29, FR-30, FR-34, FR-58
-**Notes:** Car fuel can go on the card, so Epic 7 comes first. The full library (8.6-8.10, one story per year) and the content check (8.11) come last, since events use jobs, cards, loans and the moped. Drafting events can start once Story 2.1 is done. NFR-8 tone is checked with the content. The freeze and event-authoring plan (#126) and tuning with real event costs (#48) come before 8.6-8.11.
+**Notes:** Car fuel can go on the card, so Epic 7 comes first. The full library (8.6-8.10, one story per year) and the content check (8.11) come last, since events use jobs, cards, loans and the moped. Drafting events can start once Story 2.1 is done. Story 8.11 needs only the engine and the starter set, so it can be built before 8.6; its reports then help the authors and the tuning (#48, 10.3) while the library grows. NFR-8 tone is checked with the content. The freeze and event-authoring plan (#126) and tuning with real event costs (#48) come before 8.6-8.11.
 
 ### Epic 9: Forstå tallene
 A player can ask «Hvorfor?», sees «Tidligere valg» on effects of earlier choices, reads «Forenklet» notes and «Om tallene», pins a savings target and sees what comes next month.
@@ -421,9 +421,9 @@ A player can ask «Hvorfor?», sees «Tidligere valg» on effects of earlier cho
 **Notes:** Story 9.1 («Hvorfor?», FR-38) is Core, is always built and is never cut. The other stories are mostly Extension tier, so scope can be cut there first.
 
 ### Epic 10: Playtesten
-The group can run the playtest: records per tester and export by tester code, the daily check, the manual and measured checks before the playtest, and the test players close to each ending. Sign-up limited to testers is in Epic 1.
+The group can run the playtest: records per tester and export by tester code, the content freeze, the manual and measured checks before the playtest, the test players close to each ending, and the clean-up afterwards. Sign-up limited to testers, the playtest environment and the daily check are in Epic 1.
 **FRs covered:** FR-50 (playtest records)
-**Notes:** Also NFR-10 (measured) and NFR-11 (environment and daily check), and the playtest-safety items in #125. The metric definitions and rubrics (#82, #69, #108) come before these stories.
+**Notes:** Also NFR-10 (measured), and the playtest-safety items in #125. NFR-11's environment and daily check are set up in Story 1.9. The metric definitions and rubrics (#82, #69, #108) come before these stories.
 
 ## Epic 1: Konto og innlogging
 
@@ -742,26 +742,7 @@ So that my life starts with a goal I chose (FR-9a, FR-11).
 **Then** nothing is applied again and the response marks the result `replayed`, tested for start and for every later action (NFR-7)
 **And** the game client is single-flight: while the action is pending, the controls are locked and read «Lagrer …» (UX-DR21)
 
-### Story 2.3: Pick my avatar
-
-**Tier:** Extension (FR-10). If left out, the start goes straight from the goal to the pengegave
-
-As a new player,
-I want to pick how I look,
-So that the mirror shows me (FR-10).
-
-**Acceptance Criteria:**
-
-**Given** I have just picked a goal
-**When** the view's `pending` is `setup_avatar`
-**Then** I see six preset looks (surface 06) that recolour the mirror figure through `--sc-hoodie` and `--sc-hoodie-shade` from DESIGN's `scene-look-1-*` to `scene-look-6-*`, and nothing is typed (UX-DR37)
-**And** confirming a look saves it with the pipeline and the next step is `setup_gift`
-
-**Given** I stop playing before I have picked a look
-**When** I log in again
-**Then** the game resumes at the look step with no recap first, and the goal isn't asked again (FR-11, AD-17)
-
-### Story 2.4: Get the pengegave and make my first choice
+### Story 2.3: Get the pengegave and make my first choice
 
 **Tier:** Core
 
@@ -771,10 +752,11 @@ So that my first choice is about real money (FR-11).
 
 **Acceptance Criteria:**
 
-**Given** `pending` is `setup_gift`
+**Given** I have just picked a goal, so `pending` is `setup_gift` (Story 2.4 later puts the look step in between)
 **When** the step opens
 **Then** the pengegave (NOK 10,000-30,000, config) was drawn once by `draws.py` from (seed, month, draw key) when the goal was confirmed, and is stored in the draw store
 **And** surface 07 shows the gift and the first choice on one full-screen setup step with no tabs, as in the mockup (`#gave`): the inert timeline for January, the mirror, «Du har fått <beløp>», «Hva gjør du med pengegaven?» and the options of the fixed pengegave event with their engine-formatted kroner (UX-DR37)
+**And** this story builds the mirror scene and the timeline that later screens reuse: the scene as inline SVG with named groups and colours from `--sc-*`, the Kalam marker on the glass, and only the artwork as `role="img"` with its text alternative and marker text from the view (UX-DR7); the timeline's heading and 12 segments, inert here (UX-DR6); Story 2.6 makes the timeline live on the hub and adds the stickers
 **And** the amount reaches the current account through the ledger with a system cause, so every krone has a cause (AD-9, FR-36)
 
 **Given** the options on surface 07
@@ -786,6 +768,25 @@ So that my first choice is about real money (FR-11).
 **When** I log in again
 **Then** the game resumes at the first step not done, with the same pengegave and no recap first, so the amount is never shown before surface 07 (FR-11, AD-17)
 **And** engine tests can fix the amount by pre-filling the draw store (AD-6)
+
+### Story 2.4: Pick my avatar
+
+**Tier:** Extension (FR-10). If left out, the start goes straight from the goal to the pengegave
+
+As a new player,
+I want to pick how I look,
+So that the mirror shows me (FR-10).
+
+**Acceptance Criteria:**
+
+**Given** I have just picked a goal
+**When** the view's `pending` is `setup_avatar`
+**Then** I see six preset looks (surface 06) that recolour the mirror figure from Story 2.3 through `--sc-hoodie` and `--sc-hoodie-shade` from DESIGN's `scene-look-1-*` to `scene-look-6-*`, and nothing is typed (UX-DR37)
+**And** from this story a confirmed goal leads to `setup_avatar` first; confirming a look saves it with the pipeline and the next step is `setup_gift`
+
+**Given** I stop playing before I have picked a look
+**When** I log in again
+**Then** the game resumes at the look step with no recap first, and the goal isn't asked again (FR-11, AD-17)
 
 ### Story 2.5: Make a choice in an event and see what happened
 
@@ -800,7 +801,7 @@ So that my choices change my money and my life (FR-13, FR-45, FR-36).
 **Given** an active month with an event (the first one after the pengegave is April; tests here use a prepared state until Story 2.6 opens months)
 **When** `pending` is `event`
 **Then** the event screen (surface 12) shows the dimmed mirror, the event facts (current account, savings, debt, fixed costs) from the engine, and options as buttons with their signed kroner, and the wellbeing effect of each option is stored but not in the view until picked (FR-13)
-**And** month 1's choice is not shown here: it is the pengegave on surface 07 (FR-46a, Story 2.4)
+**And** month 1's choice is not shown here: it is the pengegave on surface 07 (FR-46a, Story 2.3)
 
 **Given** an option I can't afford from my current account
 **When** the event shows
@@ -810,7 +811,7 @@ So that my choices change my money and my life (FR-13, FR-45, FR-36).
 **When** the pipeline applies it
 **Then** the ledger moves the money with the option as the cause, the stored wellbeing effect is saved in the state, and the result is appended to the open month's results as ids, integers and cause links
 **And** every cause link points to a choice that exists in the playthrough, or to a rule, tested in the engine for every effect, now and in later stories (F10, FR-36)
-**And** the response's `result.result_id` raises the same result gate as in Story 2.4 (surface 13), with money and wellbeing chips, the outcome list in the engine's order, and one «Fortsett» that closes it (UX-DR20); the wellbeing chip and the score are added in Story 2.7
+**And** the response's `result.result_id` raises the same result gate as in Story 2.3 (surface 13), with money and wellbeing chips, the outcome list in the engine's order, and one «Fortsett» that closes it (UX-DR20); the wellbeing chip and the score are added in Story 2.7
 
 **Given** I tap an option twice
 **When** both requests arrive
@@ -1094,7 +1095,28 @@ So that I know whether my choices are taking me there (FR-9c).
 
 A player gets the year end each December and a recap on return, reaches one of four endings at 20 with the three choices that mattered and what would have happened otherwise, and can start a new life.
 
-### Story 4.1: See my year
+### Story 4.1: Close the year in December
+
+**Tier:** Core
+
+As a player,
+I want a summary of the year when December comes,
+So that I see what the year gave me and what comes next, and can stop for now (FR-15).
+
+**Acceptance Criteria:**
+
+**Given** December is open and its event or crisis, if any, is done
+**When** the view's `year_end` is true
+**Then** the year end (surface 23) shows as a Hjem gate after any December event or crisis step: the year's money, the year's tax (or «0 kr» with why), the expected BSU deduction when there is a BSU, what changed, and the year's average wellbeing against the trivselsmål (UX-DR35)
+**And** a teaser names the next age unlock with its price, or hints at an open boomerang pair when there is none, and from month 55 points to the ending at 20; the hint at a boomerang pair is added in Story 5.5 and the year's tax and BSU deduction in Story 6.5
+**And** the teaser reads the FR-18 unlock table (ages and prices), which this story adds to config; Story 4.2 shows it on `/aaret` and Story 5.3 makes the options open from it
+
+**Given** the year end shows
+**When** I press «Fortsett» or «Ferdig for nå»
+**Then** it closes into the page-session record for (`playthrough_id`, month), nothing locks me out, and «Ferdig for nå» returns to the hub with a line that everything is saved (AD-17)
+**And** a reload may show it once more, and it closes for good when December is continued
+
+### Story 4.2: See my year
 
 **Tier:** not set by the PRD: no FR requires this screen (UX surface 19), so the group decides
 
@@ -1112,27 +1134,7 @@ So that I can spot where it comes from and where it goes (UX surface 19).
 **Given** the year chart's detail changes
 **When** I pick another month
 **Then** the change goes through the one live region (`announce()`), not a second `role="status"` region (AD-19)
-**And** the page shows what unlocks at which age from the FR-18 unlock table, which this story adds to config, with the age and price; Story 5.3 makes the options open from it
-
-### Story 4.2: Close the year in December
-
-**Tier:** Core
-
-As a player,
-I want a summary of the year when December comes,
-So that I see what the year gave me and what comes next, and can stop for now (FR-15).
-
-**Acceptance Criteria:**
-
-**Given** December is open and its event or crisis, if any, is done
-**When** the view's `year_end` is true
-**Then** the year end (surface 23) shows as a Hjem gate after any December event or crisis step: the year's money, the year's tax (or «0 kr» with why), the expected BSU deduction when there is a BSU, what changed, and the year's average wellbeing against the trivselsmål (UX-DR35)
-**And** a teaser names the next age unlock with its price, or hints at an open boomerang pair when there is none, and from month 55 points to the ending at 20; the hint at a boomerang pair is added in Story 5.5 and the year's tax and BSU deduction in Story 6.5
-
-**Given** the year end shows
-**When** I press «Fortsett» or «Ferdig for nå»
-**Then** it closes into the page-session record for (`playthrough_id`, month), nothing locks me out, and «Ferdig for nå» returns to the hub with a line that everything is saved (AD-17)
-**And** a reload may show it once more, and it closes for good when December is continued
+**And** the page shows what unlocks at which age, with the age and price, from the FR-18 unlock table that Story 4.1 adds to config
 
 ### Story 4.3: Get a recap when I come back
 
@@ -1162,7 +1164,6 @@ So that I can pick up the game after a break (FR-16).
 **Given** a break of any length
 **When** I come back
 **Then** the game is exactly as I left it: no interest, events or messages ran during the break, and planned activities stay planned
-**And** when my life has ended, the ending shows instead of the recap (FR-43)
 
 ### Story 4.4: Reach one of four endings at 20
 
@@ -1303,7 +1304,7 @@ So that the game grows with me from 15 to 20 (FR-18).
 
 **Acceptance Criteria:**
 
-**Given** the FR-18 unlock table in config (added in Story 4.1)
+**Given** the FR-18 unlock table in config (added in Story 4.1, the year end)
 **When** a month opens
 **Then** each option opens in its month (savings and BSU from month 1, part-time job month 3, moped licence month 13, part-time up to 40 h from 19, summer jobs offered 18/30/42 and paid 19/31/43, car licence draw and paid licence 37, credit card 37 offered 39, consumer loan 37 offered 49, the experience 44-56 and only for players with life goal 3, full-time job offered 54 and starting 55), and only age unlocks
 **And** an option that a later story builds (jobs in 6.3 and 6.4, the card in 7.1, the loan in 7.3, licences and moped in 8.2-8.5) is only a row in the table until that story adds the option and its offer message
@@ -1361,7 +1362,7 @@ So that I see that choices have consequences later (FR-46c).
 **Given** several events are due in one active month
 **When** the month opens
 **Then** the order is crisis, card warning, follow-ups in due order, drawn event; a pushed-out follow-up takes the next active month or makes month 59 or 60 active, and if none is left it is dropped and reported (FR-58); the card warning and the crisis join the order in 7.6 and 7.7
-**And** with nothing left to unlock, the teasers in the year end and the recap hint at an open boomerang pair (FR-15, Stories 4.2 and 4.3)
+**And** with nothing left to unlock, the teasers in the year end and the recap hint at an open boomerang pair (FR-15, Stories 4.1 and 4.3)
 
 ## Epic 6: Jobb, fritid og månedsplan
 
@@ -1389,7 +1390,7 @@ So that I choose how to spend my free time (FR-52, FR-53).
 **Given** an activity I can afford
 **When** I place or remove it
 **Then** planning moves no money, removal is free while the month is open, an activity is placed at most once a month, an unaffordable one shows the missing amount and can't be placed, and «Samme kvelder som i <måned>» re-places last month's activities with the same checks
-**And** empty evenings never block continue, the plan's total is the engine's activity cost only, continue carries `plan_version`, and planning works in crisis months; the library has at least 5 basic activities, 2 of them free for ages 15-20, and the activity catalogue with sourced prices (#57) is in place first
+**And** empty evenings never block continue, the plan's total is the engine's activity cost only, continue carries `plan_version` (that planning works in crisis months is tested in Story 7.7); the library has at least 5 basic activities, 2 of them free for ages 15-20, and the activity catalogue with sourced prices (#57) is in place first
 **And** the recap from Story 4.3 says what is planned (FR-16), and the life-goal progress in the bank is shown after the planned payments (Story 3.6, FR-9c)
 
 ### Story 6.2: Live my planned activities when the month ends
@@ -1727,6 +1728,7 @@ So that my choices are visible in my world (FR-34).
 **When** the view loads
 **Then** one named SVG group per belonging (`-lag-moped`, `-lag-hjelm`, `-lag-lapp`, `-lag-sprekk`) is switched only by the view's room-layer state ids, at most 6 layers, with three in the MVP: moped (none or owned), licence (none, moped or car) and phone (whole, cracked or used) (UX-DR8, AD-19)
 **And** the layers follow the playthrough's flags (derived flags for typed facts, AD-16), so the room looks the same after a reload and on every device
+**And** the moped and licence layers are tested with prepared flags until Stories 8.2-8.5 set them, and the phone layer until events in 8.6-8.10 change the phone
 
 **Given** a choice that changes a belonging
 **When** its result shows
@@ -1951,6 +1953,8 @@ A player can ask «Hvorfor?», sees «Tidligere valg» on effects of earlier cho
 
 ### Story 9.1: Ask why something changed
 
+**Tier:** Core (FR-38), never cut
+
 As a player,
 I want to press «Hvorfor?» on a change,
 So that I understand which choice or rule caused it (FR-38).
@@ -2032,7 +2036,7 @@ So that I can plan my money (FR-57).
 
 ## Epic 10: Playtesten
 
-The group can run the playtest: records per tester and export by tester code, the daily check, the manual and measured checks before the playtest, and the test players close to each ending. Sign-up limited to testers is in Epic 1.
+The group can run the playtest: records per tester and export by tester code, the content freeze, the manual and measured checks before the playtest, the test players close to each ending, and the clean-up afterwards. Sign-up limited to testers, the playtest environment and the daily check are in Epic 1.
 
 ### Story 10.1: Record what testers do
 
