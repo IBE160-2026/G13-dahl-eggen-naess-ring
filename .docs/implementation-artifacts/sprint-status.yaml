@@ -1,0 +1,139 @@
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created, ready for development
+#   - in-progress: Developer actively working on implementation
+#   - review: Implementation complete, ready for review
+#   - done: Story completed
+
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+
+# Action Item Status:
+#   - open: Committed during a retrospective, not yet addressed
+#   - in-progress: Actively being worked on
+#   - done: Completed
+
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when its first story starts (via build's sprint sync)
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates the next story after the previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+# - Retrospective appends its action items to action_items; the status view surfaces open ones
+generated: 11-26-2026 14:41
+last_updated: 11-26-2026 14:41
+project: IBE160-G13
+project_key: NOKEY
+tracking_system: file-system
+story_location: .docs/implementation-artifacts
+development_status:
+  epic-1: backlog
+  1-1-run-the-app-from-the-readme-with-one-command: backlog
+  1-2-open-the-first-screen-on-any-device: backlog
+  1-3-create-a-user: backlog
+  1-4-log-in-stay-logged-in-and-log-out: backlog
+  1-5-get-a-new-password-with-a-reset-link: backlog
+  1-6-change-my-password-and-nickname: backlog
+  1-7-delete-my-user: backlog
+  1-8-let-only-invited-testers-sign-up-in-the-playtest: backlog
+  1-9-reach-the-app-in-the-playtest-environment: backlog
+  epic-1-retrospective: optional
+
+  epic-2: backlog
+  2-1-write-game-figures-and-events-as-checked-yaml: backlog
+  2-2-choose-my-life-goal-and-start-a-life: backlog
+  2-3-get-the-pengegave-and-make-my-first-choice: backlog
+  2-4-pick-my-avatar: backlog
+  2-5-make-a-choice-in-an-event-and-see-what-happened: backlog
+  2-6-continue-to-the-next-month: backlog
+  2-7-see-how-i-m-doing: backlog
+  2-8-keep-playing-on-a-bad-connection-and-on-another-device: backlog
+  2-9-log-in-as-a-seeded-test-player: backlog
+  2-10-see-only-my-own-game: backlog
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-move-money-to-savings-and-earn-interest: backlog
+  3-2-save-in-a-bsu: backlog
+  3-3-pay-my-costs-and-choose-how-much-i-spend: backlog
+  3-4-let-savings-cover-what-the-current-account-can-t: backlog
+  3-5-meet-unexpected-expenses: backlog
+  3-6-see-how-close-i-am-to-my-life-goal: backlog
+  epic-3-retrospective: optional
+
+  epic-4: backlog
+  4-1-close-the-year-in-december: backlog
+  4-2-see-my-year: backlog
+  4-3-get-a-recap-when-i-come-back: backlog
+  4-4-reach-one-of-four-endings-at-20: backlog
+  4-5-see-the-three-choices-that-mattered-most: backlog
+  4-6-start-a-new-life: backlog
+  epic-4-retrospective: optional
+
+  epic-5: backlog
+  5-1-read-my-messages-on-the-phone: backlog
+  5-2-get-the-right-messages-each-month: backlog
+  5-3-unlock-options-as-i-grow-up: backlog
+  5-4-take-options-that-stay-open-including-the-big-experience: backlog
+  5-5-meet-follow-ups-to-my-earlier-choices: backlog
+  epic-5-retrospective: optional
+
+  epic-6: backlog
+  6-1-plan-my-free-evenings: backlog
+  6-2-live-my-planned-activities-when-the-month-ends: backlog
+  6-3-get-a-job-and-earn-a-wage: backlog
+  6-4-work-a-summer-job: backlog
+  6-5-pay-tax-on-my-wages: backlog
+  6-6-ask-for-more-or-fewer-hours-and-take-extra-shifts: backlog
+  6-7-take-one-off-shifts: backlog
+  epic-6-retrospective: optional
+
+  epic-7: backlog
+  7-1-get-a-credit-card-and-choose-how-to-pay-the-bill: backlog
+  7-2-use-the-card-for-purchases: backlog
+  7-3-take-a-consumer-loan: backlog
+  7-4-ask-my-family-for-help: backlog
+  7-5-know-before-i-continue-whether-a-crisis-is-coming: backlog
+  7-6-get-a-card-warning: backlog
+  7-7-get-through-a-crisis-month: backlog
+  7-8-split-my-card-debt-into-a-payment-plan: backlog
+  epic-7-retrospective: optional
+
+  epic-8: backlog
+  8-1-see-my-belongings-in-the-room: backlog
+  8-2-take-the-moped-licence: backlog
+  8-3-buy-own-and-sell-a-moped: backlog
+  8-4-get-a-moped-as-a-gift: backlog
+  8-5-get-the-car-licence-and-borrow-the-car: backlog
+  8-6-play-the-events-of-year-1-age-15: backlog
+  8-7-play-the-events-of-year-2-age-16: backlog
+  8-8-play-the-events-of-year-3-age-17: backlog
+  8-9-play-the-events-of-year-4-age-18: backlog
+  8-10-play-the-events-of-year-5-age-19: backlog
+  8-11-check-the-content-on-every-pull-request: backlog
+  epic-8-retrospective: optional
+
+  epic-9: backlog
+  9-1-ask-why-something-changed: backlog
+  9-2-see-when-an-earlier-choice-comes-back: backlog
+  9-3-read-what-the-game-simplifies: backlog
+  9-4-see-what-s-coming-next-month: backlog
+  9-5-pin-a-savings-target-and-see-this-year-s-activity-spend: backlog
+  epic-9-retrospective: optional
+
+  epic-10: backlog
+  10-1-record-what-testers-do: backlog
+  10-2-export-the-records-by-tester-code: backlog
+  10-3-freeze-and-tune-the-content-before-the-playtest: backlog
+  10-4-check-devices-accessibility-and-speed-by-hand-before-the-pla: backlog
+  10-5-log-in-as-a-test-player-close-to-each-ending: backlog
+  10-6-clean-up-after-the-playtest: backlog
+  epic-10-retrospective: optional
