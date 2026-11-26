@@ -370,9 +370,8 @@ The story isn't done until these are in place. Story 10.4 checks NFR-7's whole l
 
 | Tier | Stories |
 |---|---|
-| Extension | 1.6, 2.4, 4.3, 7.3, 9.2, 9.3 |
+| Extension | 1.6, 2.4, 4.2, 4.3, 7.3, 9.2, 9.3 |
 | Can be cut | 8.4, 8.5, 9.5 |
-| Not set by the PRD | 4.2 |
 | Core | all the others, 9.1 («Hvorfor?») included |
 
 ### Epic 1: Konto og innlogging
@@ -1111,7 +1110,7 @@ So that I see what the year gave me and what comes next, and can stop for now (F
 **When** the view's `year_end` is true
 **Then** the year end (surface 23) shows as a Hjem gate after any December event or crisis step: the year's money, the year's tax (or «0 kr» with why), the expected BSU deduction when there is a BSU, what changed, and the year's average wellbeing against the trivselsmål (UX-DR35)
 **And** a teaser names the next age unlock with its price, or hints at an open boomerang pair when there is none, and from month 55 points to the ending at 20; the hint at a boomerang pair is added in Story 5.5 and the year's tax and BSU deduction in Story 6.5
-**And** the teaser reads the FR-18 unlock table (ages and prices), which this story adds to config; Story 4.2 shows it on `/aaret` and Story 5.3 makes the options open from it
+**And** the teaser reads the FR-18 unlock table (ages and prices), which this story adds to config; Story 4.2 (Extension) shows it on `/aaret` and Story 5.3 makes the options open from it
 
 **Given** the year end shows
 **When** I press «Fortsett» or «Ferdig for nå»
@@ -1120,7 +1119,7 @@ So that I see what the year gave me and what comes next, and can stop for now (F
 
 ### Story 4.2: See my year
 
-**Tier:** not set by the PRD: no FR requires this screen (UX surface 19), so the group decides
+**Tier:** Extension. No FR requires this screen (UX surface 19), so the group set the tier (#133). If it isn't built, the year end in 4.1 still shows the year's money, «Året ›» isn't shown, and the timeline doesn't link to `/aaret` (the rule on links above)
 
 As a player,
 I want to see how my money went month by month this year,
