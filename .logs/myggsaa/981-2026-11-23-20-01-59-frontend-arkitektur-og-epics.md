@@ -69,3 +69,26 @@ Brukeren spurte hva neste BMad-steg var, hentet det nyeste fra GitHub (#131 og #
 - Sara avgjør om testen av innlogget på forsiden kjøres i 1.4 eller 10.4 (#135).
 - Velg nivå for 4.2 «Året» (#133).
 - Sett opp låsen på `main` før første story, som brukeren vil ta neste (#132).
+
+## 2026-11-26 kl. 13:32 — Myggsaa
+
+### Oppgave
+Brukeren spurte hva neste BMad-steg var, hentet det nyeste fra GitHub, ba om å pushe loggen fra forrige økt og tok opp #130.
+
+### Plan
+- `bmad-help`: planleggingen er ferdig fram til sprint-planlegging, som venter på at gruppa godkjenner storyene (#130).
+- `git pull`: #134 var merget (`85b8b35`, av sarahnaess) og grenen `docs/epics-steg-4` slettet på GitHub. Byttet til `main` og pullet.
+- Loggcommiten `519254b` var bare lokal. Den ble kopiert til `main` med cherry-pick og pushet, slik tidligere logger er pushet rett til `main` (`main` har ikke lås ennå, #132).
+- #130: #134 er merget uten formell review. Brukeren vil ikke regne mergen som godkjenning og vil vente.
+
+### Resultat
+- `main` er à jour med `origin/main`, og loggen fra 2026-11-25 er pushet (`12734a3`).
+- #130 har fått en kommentar som ber gruppa godkjenne de 72 storyene i `main`. #133 og #135 kan tas etter godkjenningen.
+- `stepsCompleted` er fortsatt `[1, 2, 3]`.
+- Den lokale grenen `docs/epics-steg-4` er ikke slettet. Alt på den ligger nå i `main`.
+
+### Åpne punkter
+- Gruppa godkjenner storyene. Så settes `stepsCompleted` til `[1, 2, 3, 4]`, og #130 lukkes (#130).
+- Velg nivå for 4.2 «Året» (#133).
+- Avgjør om testen av innlogget på forsiden kjøres i 1.4 eller 10.4 (#135).
+- Sett opp låsen på `main` før første story (#132).
