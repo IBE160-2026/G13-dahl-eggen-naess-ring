@@ -151,7 +151,7 @@ This document provides the complete epic and story breakdown for IBE160-G13 (Lif
 
 **Starter template and scaffold (affects Epic 1, Story 1)**
 
-- No starter template is named. The project is greenfield: the repo holds only planning documents today. The architecture's Structural Seed is the scaffold: `backend/` (`app/` with the composition roots `main.py`, `cli.py` and `registry.py`, `settings.py`, the shared kernel `shared/` with `engine/`, `content/`, `persistence/`, `api/`, `jobs/` and `tests/`, and one slice folder per epic domain in `features/<slice>/` (`account`, `life`, `money`, `year`, `phone`, `work`, `credit`, `belongings`, `explain`, `playtest`), each with its pure `engine/` and, when needed, `api.py`, `models.py`, `jobs.py`, `cli.py` and `tests/` (AD-21); `migrations/`; `Dockerfile` built from the repo root), `content/` (`config/v1/`, `config/test-v1/`, `config/backfill.yaml`, `library/v1/` with its subfolders), `infra/` (Caddyfile, Caddy Dockerfile with the origin-secret guard), `.github/workflows/` (`ci.yml`, `daily-check.yml`), `.railway/railway.ts`, `compose.yaml`, `.env.example`, committed `openapi.json`, `README.md`, and `frontend/` (`src/app/` with thin routes that compose the slices, `src/shared/` with `api/` (incl. `config.ts`), `ui/`, `gates/`, `styles/tokens.css` and `fonts/`, `src/features/<slice>/` with the same slice names, `src/test/fixtures/`, `e2e/` with `manual-checks.md`, `scripts/`, `vercel.json`, `Dockerfile`, `package.json` + `package-lock.json`). The group builds the frontend too (since 2026-11-23).
+- No starter template is named. The project is greenfield: the repo holds only planning documents today. The architecture's Structural Seed is the scaffold: `backend/` (`app/` with the composition roots `main.py`, `cli.py` and `registry.py`, `settings.py`, the shared kernel `shared/` with `engine/`, `content/`, `persistence/`, `api/`, `jobs/` and `tests/`, and one slice folder per epic domain in `features/<slice>/` (`account`, `life`, `money`, `year`, `phone`, `work`, `credit`, `belongings`, `explain`, `playtest`), each with its pure `engine/` and, when needed, `api.py`, `models.py`, `jobs.py`, `cli.py` and `tests/` (AD-21); `migrations/`; `Dockerfile` built from the repo root), `content/` (`config/v1/`, `config/test-v1/`, `config/backfill.yaml`, `library/v1/` with its subfolders), `infra/` (Caddyfile, Caddy Dockerfile with the origin-secret guard), `.github/workflows/` (`ci.yml`, `daily-check.yml`), `.railway/railway.ts`, `compose.yaml`, `.env.example`, committed `openapi.json`, `README.md`, and `frontend/` (`src/app/` with thin routes that compose the slices, `src/shared/` with `api/` (incl. `config.ts`), `ui/`, `gates/`, `styles/tokens.css` and `fonts/`, `src/features/<slice>/` with the same slice names, `src/shared/test/fixtures/`, `e2e/` with `manual-checks.md`, `scripts/`, `vercel.json`, `Dockerfile`, `package.json` + `package-lock.json`). The group builds the frontend too (since 2026-11-23).
 - Stack pins: Python 3.12, uv with committed `uv.lock` and `--locked` installs, FastAPI 0.165.x + Uvicorn, Pydantic 2 + pydantic-settings, SQLAlchemy 2.1.x async + asyncpg 0.32.x, Alembic 1.20.x, PyJWT 2.x, bcrypt 5.x, Jinja2, resend[async], PostgreSQL 17, Caddy 2.11.x (≥ 2.11.8), Docker Compose plugin, Railway Hobby (EU West), Supabase Free Postgres (Frankfurt), Resend Free (off until go-live).
 - Frontend stack pins: Node 24 LTS (`engines.node: "24.x"`), npm with committed `package-lock.json` and `npm ci`, Next.js 16.4.x (≥ 16.4.5) App Router with `output: 'standalone'` and Cache Components off, React 19, TypeScript 5.9.x `strict`, openapi-typescript 7.x + openapi-fetch, Vitest 5.x + Testing Library on jsdom, Playwright 1.65.x + @axe-core/playwright, ESLint 9.x, Prettier, stylelint; Vercel Hobby (Root Directory `frontend`, `fra1`, production branch `playtest`).
 
@@ -160,7 +160,7 @@ This document provides the complete epic and story breakdown for IBE160-G13 (Lif
 - AD-1 Pure engine: every financial result, wellbeing value, unlock, crisis check and ending is computed in `shared/engine/` and the slices' pure `engine/` folders, which import none of sqlalchemy, fastapi, httpx, random, secrets, time, os (import-linter on every engine package, with external packages counted) and no wall-clock datetime calls (ruff banned-api, same packages). The engine owns the content model. CI import-boundary checks enforce the dependency diagram (AD-21).
 - AD-2 Server decides: requests carry only the NFR-7 inputs plus protocol fields; unknown fields ignored, missing or wrongly typed refused (JSON null and omitted tested separately); no state change on GET; only `POST /api/game/actions` is auto-retried with the same `request_id`; the "continue anyway" confirmation is client-side only.
 - AD-3 Postgres is storage only: no rules in SQL; Supabase used as Postgres only (Data API off; RLS on with no policies, set by one Alembic helper; CI test fails on any table without RLS); one SQLAlchemy `Base`; Alembic is the only schema path; CI fails on more than one head.
-- AD-4 One mutation pipeline: every state-changing game request is `POST /api/game/actions` `{request_id, playthrough_id, month, action}` with `action` a discriminated union of the engine's action models, validated strictly in JSON mode (`TypeAdapter(GameRequest).validate_json`); `GET /api/game` returns the player view; read-only `GET /api/game/quote`. Idempotency via `request_id` in `action_log`; `409 game_changed`, `409 plan_changed` (`plan_version` on continue). Fixed lock order users → sessions → playthrough → playtest record. Life requests (start, end early, play again) in the same pipeline. Continue = one engine action closing M and opening M+1 (`apply_plan`, December step, rule 8, `close_month`, then ending or `open_month(M+1)`); the view computes after-the-plan figures on a copy; no read path opens a month. One AsyncSession per request; refusals before the first write; `action_log` insert last.
+- AD-4 One mutation pipeline: every state-changing game request is `POST /api/game/actions` `{request_id, playthrough_id, month, action}` with `action` a discriminated union of the kernel's members (start, continue, end early, play again) and the slices' action models, joined by `registry.build_kernel()` (AD-21), validated strictly in JSON mode (`TypeAdapter(GameRequest).validate_json`); `GET /api/game` returns the player view; read-only `GET /api/game/quote`. Idempotency via `request_id` in `action_log`; `409 game_changed`, `409 plan_changed` (`plan_version` on continue). Fixed lock order users → sessions → playthrough → playtest record. Life requests (start, end early, play again) in the same pipeline. Continue = one engine action closing M and opening M+1 (`apply_plan`, December step, rule 8, `close_month`, then ending or `open_month(M+1)`); the view computes after-the-plan figures on a copy; no read path opens a month. One AsyncSession per request; refusals before the first write; `action_log` insert last.
 - AD-5 Snapshot plus append-only log: one `playthroughs` row per user with indexed columns copied from the JSONB state (the document is the authority), `state_schema` with in-memory upgrades on load (read paths never write), `action_log` rows never updated or deleted while the playthrough exists, `model_dump(mode="json")` with Decimals as strings (round-trip test). Per-account data that survives a new life (seen disclosures) in its own table.
 - AD-6 Determinism and exact money: one seed per playthrough from `secrets`; every draw from `(seed, month, draw key)` via SHA-256 in `shared/engine/draws.py`; collections sorted by content id; each drawn result has one owner and is stored in the draw store; tests pre-fill the draw store. Money is `int` kroner everywhere; rates, wages and hours are `Decimal` (quoted strings in YAML; the loader fails on floats); one rule 2 rounding function at the named points only; no float in game arithmetic; replay checks only on logs from the same build.
 - AD-7 Content as versioned, frozen YAML: `content/config/vN/` and `content/library/vN/` (events, activities, messages, room, shifts, options, expenses, texts, lists.yaml), one YAML file per item. Manifests with fingerprints over non-text fields and `frozen: true|false`; new playthroughs pin the newest frozen library and its config (newest library in local/ci and pre-freeze playtest). While unfrozen only the schema and open-option gates fail; the schema gate also fails game text that writes a four-digit year or a month name. After freeze: text-only edits, fingerprint gate, every FR-58 gate fails, mechanics changes need a new version folder, no folder deleted. `cli clear-game-data` once when v1 freezes. All versions loaded and fingerprint-checked at startup; `backfill.yaml` for fields added after a freeze. Worked examples read only `config/test-vN/`. The schema gate's checks are one function that checks a single item against a loaded library (V2 seam).
@@ -172,12 +172,12 @@ This document provides the complete epic and story breakdown for IBE160-G13 (Lif
 - AD-13 API contract, player view and errors: the generated OpenAPI schema is committed and CI fails if stale. One engine `view(state, content, last_action_at, seen_disclosure_ids, nickname)` builds every response's player view and leaves out the seed, future schedule data and unpicked wellbeing effects (tested). Results are stored in the state as ids, integers, cause links and text parameters; the envelope's `result` is a reference `{result_id, replayed}`. The no-playthrough, ended and completed views carry the start screens. Every route declares its error responses with the shared envelope model. Identity `playthrough_id` + `state_version`; envelope `{result?, state, server_time, recap_threshold, client_times}` (saving-notice and idle times from settings). The backend renders all game text with one formatting function (NBSP group separator, U+2212 minus, «kr»); parameters captured when items enter the state; nickname and month placeholder resolved at view time; the frontend owns only UI chrome text. Derived figures in the view: wellbeing `{value, band}`, calendar (year, month, age from `start_year`), money per month (twelve entries, year so far, expected BSU deduction), trigger status, offer previews, slot counts, message `new` flags, loan quotes for 12/24/36 months, `pending` (`none`, `setup_avatar`, `setup_gift`, `event`, `crisis_step`), `year_end`, `continue_warning` (`none`, `trigger`, `month_59`, `month_60`) with its text, a `crisis_skipped` result entry, `min`/`max`/`step` on every amount action, room-layer state ids, the scene's text alternative and marker text; the place action's `slot` is optional (engine picks the first free evening). The frontend owns chrome text and form error texts, pre-validates only `required` and `type=email`, and formats only typed amounts through one `formatKroner(int)`. Errors: one `AppError(code, status)` and one envelope `{code, message, state?, fields?}` with the status table (401, 403, 404, 409, 410, 422, 429, 500, 503).
 - AD-14 Environments and operations: one backend image; all settings in `settings.py` (pydantic-settings), listed in `.env.example`; `APP_ENV` (`local | ci | playtest`) required; secrets ≥ 32 bytes and no placeholders outside local/ci; one Uvicorn worker. `python -m app.cli schema upgrade` before start (Railway pre-deploy in `.railway/railway.ts`; compose entrypoint), then `cli seed --if-empty` locally; seeding refused outside local/ci; seeded users made by scripted play through the pipeline and asserted in CI. `DATABASE_URL` normalized for asyncpg; Supabase session pooler, pool 5 with no overflow, NullPool for Alembic/CLI. Railway Hobby EU West with sleeping off; Supabase Free Frankfurt; Vercel Hobby `fra1`; deploy from a `playtest` branch; usage alert USD 6, hard limit USD 10; delete everything after the analysis. Ops commands via `railway run`. Sprint-1 hosting spike verifies the AD-3/10/12/14 assumptions (#92). During the playtest `openapi.json` changes only add, and the backend deploys before the frontend. The `ci` environment raises the auth limits for Playwright.
 - AD-15 Playtest data stays separate: everything playtest-only gated by `PLAYTEST_RECORDS` (default off); `records.on_action(...)` in the pipeline's transaction, registered by `features/playtest` as the pipeline's on-action hook; records never rebuilt from `action_log`; one `delete_account(user_id)` in `features/account` for every deletion, following the lock order and running every slice's registered on-account-deleted hook, where `features/playtest` deletes the records and increments `testers_left` when applicable; tester codes loaded by CLI into their own table and resolved only at export; `users.is_test` set by CLI and skipped; exports hold codes, never email or nickname.
-- AD-16 Typed facts have one owner: belongings, licences, job, BSU, card, loans and payment plan are typed fields; content sees them only as derived flags computed by one engine function, may require or block them but never set or clear them; `lists.yaml` marks derived flags and the content check rejects options that set them.
+- AD-16 Typed facts have one owner: belongings, licences, job, BSU, card, loans and payment plan are typed fields; content sees them only as derived flags; each fact is declared by name and type in `shared/engine/facts.py`, provided by one registered provider in the owning slice and merged by one kernel function (AD-21); content may require or block them but never set or clear them; `lists.yaml` marks derived flags and the content check rejects options that set them.
 - AD-17 Game state decides the gate screens, the URL the area: `gateFor(envelope, session)` returns the first match of start screens, ending, setup step, recap, result, event (incl. card warning), crisis step, year end (from the view's `year_end`). Full-screen gates (start, setup, recap, ending) hide tabs, with `/meny`, `/om-tallene`, `/personvern` reachable over them; Hjem gates (result, year end, event, crisis step) replace only Hjem, other areas stay reachable and `cannot_continue` alone blocks the month (FR-32b). Recap while `recapDue` is set (login or completed reset, or the first envelope after load or a tab return over the threshold), cleared by «Fortsett» and by a setup step; year end dismissed per (playthrough, month); result only from a success response's `result_id`, closed by «Fortsett»; «Nytt liv» on a completed or ended life only sets `playAgain`. Routes `/hjem`, `/plan`, `/mobil` (`/mobil/[id]`), `/jobb`, `/penger`, `/aaret`, `/meny`, `/om-tallene`; outside the game `/`, `/logg-inn`, `/ny-bruker`, `/glemt-passord`, `/nytt-passord`, `/personvern`. From 1100 px one game layout with Hjem centre and a right pane (CSS breakpoint). A gate change counts as a route change (focus to `h1`, title, one live region). Static «Laster …» before the first envelope; Norwegian error and not-found pages.
 - AD-18 One game client: only `frontend/src/shared/api/` calls `fetch`; types generated by openapi-typescript (committed, regenerated in the PR that changes `openapi.json`, CI staleness check), calls via openapi-fetch. One store (`useSyncExternalStore` + `getServerSnapshot`) with the envelope and a page-session record (`recapDue`, `playAgain`, dismissed gates, `shownResult`, opened message ids, seen disclosure ids, toast closed, pending action); client sequence numbers, so an older response never replaces a newer one; `state: null` never touches it; the first envelope into an empty store never clears the record; `reset()` aborts requests in flight and starts a new epoch, called after a 2xx logout or deletion and on `401 not_logged_in` (a lost logout is never taken as done; `login_failed` is a form refusal; `/`, `/logg-inn` and `/ny-bruker` make one entry check and go to `/hjem` only on a `200`, the other routes outside the game never fetch it). `sendAction(action, shown)` uses the shown view's fields, single-flight with controls locked; request timeout; transport retries with the same `request_id` 2, 5 and 10 s after each failure, then every 30 s while visible, plus «Prøv igjen» and `online`; a failed GET is a transport failure and drops a waiting input; «Prøver fortsatt …» after 5 s; turn refusals (and `game_changed` with a new playthrough) show «Spillet ble oppdatert på en annen enhet.»; a list of what goes to `announce()` (saving, saved, still trying, offline, back online, new messages). `GET /api/game` on page load of a game route, the entry check, login/sign-up/reset, `online`, state-null refusal, lost account response, nickname change, and before the next input after 5 min idle or tab return (input dropped if the state changed or the recap is due). Quotes kept out of the store. Saving and idle times come from the envelope; the timeout and retry schedule live in `frontend/src/shared/api/config.ts`. Unit tests for retry, error classes, triggers, single flight, stale envelopes, `reset()`.
-- AD-19 Tokens and CSS Modules: `frontend/src/shared/styles/tokens.css` generated from DESIGN.md's frontmatter (`colors` → `--color-*`, `scene-*` → `--sc-*`, `rounded` → `--radius-*`, `spacing` → `--space-*`, typography → `--font-<name>-*`), committed, CI staleness check; colours only there (stylelint and ESLint bans in CSS, TSX and SVG). One `.module.css` per component; no component library; shared primitives in `shared/ui/` (sheet on `<dialog>`, locked control, one live region with `announce()`, money figure, bar) built in the first frontend story. Scenes as inline SVG switched by the view's state ids; avatar colours from DESIGN's `scene-look-1-*` to `scene-look-6-*` tokens. Fonts self-hosted with `next/font/local` as `--font-bricolage` and `--font-kalam`. Light mode only.
+- AD-19 Tokens and CSS Modules: `frontend/src/shared/styles/tokens.css` generated from DESIGN.md's frontmatter (`colors` → `--color-*`, `scene-*` → `--sc-*`, `rounded` → `--radius-*`, `spacing` → `--space-*`, typography → `--font-<name>-*`), committed, CI staleness check; colours only there (stylelint and ESLint bans in CSS, TSX and SVG). One `.module.css` per component; no component library; shared primitives in `shared/ui/` (sheet on `<dialog>`, locked control, one live region with `announce()`, money figure, bar) built in the first frontend story. Scenes as inline SVG switched by the view's state ids; avatar colours from DESIGN's `scene-look-1-*` to `scene-look-6-*` tokens. Fonts self-hosted with `next/font/local` as `--font-bricolage` and `--font-kalam`. Light mode only. Pieces with several users (the scene, timeline, result list and the «Hvorfor?», «Tidligere valg» and «Forenklet» controls) are built in `shared/ui/` the first time (AD-21).
 - AD-20 Frontend tests against the real backend: Vitest + Testing Library with fixtures dumped from the seed states (committed, staleness check); Playwright on the full compose stack in Chromium, WebKit and Firefox at 320/390/900/1280 px, no horizontal scroll, fresh seeded DB, one seeded user per spec, no request to another origin; axe (WCAG 2.2 AA tags) on every route and gate fails CI on serious or critical; manual NFR-1, NFR-2 and NFR-10 results in `frontend/e2e/manual-checks.md` before each playtest.
-- AD-21 Vertical slices with a shared kernel: one slice per epic domain with the same names in `backend/app/features/` and `frontend/src/features/` (`account`, `life`, `money`, `year`, `phone`, `work`, `credit`, `belongings`, `explain`, `playtest`); the kernel in `shared/` (state and content models, month loop with rule 1's fixed step slots, ledger, draws, selection step, derived flags, view assembly and text formatting, pipeline, envelope and `/api/game` routes, auth dependency, job runner; frontend `shared/api`, `ui`, `gates`, `styles`, `fonts`). A slice imports only itself and `shared`; `shared` never imports a slice; only the composition roots (`main.py`, `cli.py`, `registry.py`, frontend `src/app/`) import slices; CI checks it with import-linter (`independence` over `app.features.*`, `forbidden` from `app.shared` to `app.features`, AD-1 purity on every engine package) and ESLint `import/no-restricted-paths` zones. Cross-slice behaviour only through the kernel's extension points: rule 1 step slots, the one action union, view parts, the pipeline on-action hook, the on-account-deleted hook, and derived flags or the shared state model for reading another slice's typed facts (never writing another slice's state section); `registry.py` collects them, and a test fails if a rule 1 slot has no handler once its slice exists. Shared surfaces (Hjem, year end, recap, ending) get rows from the view parts or a composing route. DRY by the rule of two: code moves to `shared` in the PR where a second slice needs it, never copied. Content data stays in the repo-root `content/` by kind.
+- AD-21 Vertical slices with a shared kernel: one slice per epic domain with the same names in `backend/app/features/` and `frontend/src/features/` (`account`, `life`, `money`, `year`, `phone`, `work`, `credit`, `belongings`, `explain`, `playtest`), each owning its state section model. The kernel in `shared/`: kernel state and content models, the month loop with rule 1's slots and the kernel actions (start, continue with `plan_version`, end early, play again), ledger, wellbeing (the one writer and rule 12), rule 8 triggers, the age unlock table, draws, selection step, facts, view assembly and text formatting; the `users`, `sessions` and `seen_disclosures` tables, the session check, pipeline, envelope, game router and job runner; frontend `shared/api`, `ui` (including the scene, timeline, result list and the «Hvorfor?», «Tidligere valg» and «Forenklet» controls), `gates`, `styles`, `fonts`, `test/fixtures`. A slice imports only itself and `shared`; `shared` never imports a slice; only the composition roots (`main.py`, `cli.py`, `registry.py`, frontend `src/app/`) import slices. CI checks it with import-linter (`independence` over `app.features.*`; `forbidden` from `app.shared` to `app.features`; `forbidden` from every engine package to `settings`, the app's shell and the composition roots; AD-1's purity contracts), a ban on `importlib.import_module` and `__import__`, two stub slices (`account`, `life`) and a self-test that plants each kind of violation (slice to slice, `shared` to a slice, an engine to `fastapi`, an engine to `app.settings`) in a temporary copy of `backend/app`, and ESLint zones generated per slice with the TypeScript resolver and `fetch` banned as a global. Cross-slice behaviour only through the twelve extension points in AD-21's table: month-step slots with explicit `order`, actions, effect handlers, crisis options, selection proposers, after-action hooks, continue guards, facts, view parts with named row slots, upcoming costs, shell hooks (on-action, extra locks, on-account-deleted, sign-up guard) and CLI, jobs and seeds; never writing another slice's state section. `registry.build_kernel()` returns one frozen `Kernel` passed to `create_app`, `build_game_router` and `apply`; nothing registers at module level, and a test asserts unique, stable orders. DRY by the rule of two, except pieces known to be shared, which are built in `shared` first. Content data stays in the repo-root `content/` by kind.
 
 **Consistency conventions**
 
@@ -194,7 +194,7 @@ This document provides the complete epic and story breakdown for IBE160-G13 (Lif
 - Frontend code: App Router, client components for game screens, `<html lang="nb">`, bokmål only with no i18n library, chrome words from EXPERIENCE's word table, no `NEXT_PUBLIC_*` and no secrets, relative `/api` only, a static Content-Security-Policy (`default-src 'self'`), no Vercel Analytics or Speed Insights.
 - Lint and format on every PR: ruff check + ruff format --check; ESLint (incl. no `fetch` outside `src/shared/api/`, import zones `app` → `features` → `shared` with no feature → feature (AD-21), no colour literals), Prettier --check, stylelint, `tsc --noEmit`.
 - Review: no ruleset on `main`; every PR is reviewed by hand before merge, never on red CI, either in GitHub (comments or an approval) or live with the group, after which the author may merge; `playtest` takes merges from `main` only; AI code is reviewed the same way.
-- Tests: pytest; engine tests without a DB; DB tests on Postgres 17 with the migrated schema (compose locally, a service container in Actions), never SQLite; one test per NFR-7 refusal (null and omitted separately); worked examples, F1-F4 and F6-F10, refusals, replays, the seed script, the import-boundary check, the single Alembic head and the content check on every PR.
+- Tests: pytest; engine tests without a DB; DB tests on Postgres 17 with the migrated schema (compose locally, a service container in Actions), never SQLite; one test per NFR-7 refusal (null and omitted separately); worked examples, F1-F4 and F6-F10, refusals, replays, the seed script, the import-boundary checks with their planted-violation self-test (AD-1, AD-21), the single Alembic head and the content check on every PR. pytest runs with `--import-mode=importlib`; a slice's own tests live in `features/<slice>/tests/`, the kernel's in `shared/tests/`, and real-app, database and cross-slice tests in `backend/tests/`, outside the `app` package.
 
 **Left to stories by the architecture (Deferred table)**
 
@@ -367,21 +367,21 @@ The story isn't done until these are in place. Story 10.4 checks NFR-7's whole l
 
 **Rule for every story: no link to what isn't built.** A tab, sticker or link shows only when its page exists. The story that builds a page adds the links to it (`/penger` 3.1, `/aaret` 4.2, `/mobil` 5.1, `/plan` 6.1, `/jobb` 6.3).
 
-**Rule for every story: code goes in its slice (AD-21).** A story's code lives in `backend/app/features/<slice>/` and `frontend/src/features/<slice>/` for the slice named on its **Slice** line, plus `shared/` only when the kernel needs it, or when a second slice needs code that already exists (the rule of two: move it to `shared` in that PR, never copy). A story that adds to another slice's surface, such as tax on the year end or crisis options that use shifts, does it through the kernel's extension points (month-step slot, action union, view part, derived flags, the hook on account deletion), or in the route in `src/app/` that composes the slices. It never imports the other slice. CI's boundary checks fail otherwise.
+**Rule for every story: code goes in its slice (AD-21).** A story's code lives in `backend/app/features/<slice>/` and `frontend/src/features/<slice>/` for the slice named on its **Slice** line, plus `shared/` only when the kernel needs it, or when a second slice needs code that already exists (the rule of two: move it to `shared` in that PR, never copy). A story that adds to another slice's surface, such as tax on the year end or crisis options that use shifts, does it through the kernel's extension points (AD-21's table: month-step slots, actions, effect handlers, crisis options, selection proposers, after-action hooks, continue guards, facts, view parts, upcoming costs, shell hooks, and CLI, jobs and seeds), or in the route in `src/app/` that composes the slices. It never imports the other slice and never writes another slice's state section. CI's boundary checks fail otherwise. A story that builds kernel parts names them on a two-part Slice line (`shared (…) + life`), and a story that registers into a point another slice uses names it on an **Extension points** line. A story that adds registrations in another slice's folder (a crisis option, an upcoming cost) names that slice on a **Touches** line; it adds only registrations there, never an import.
 
 | Slice | Epic | Domain |
 |---|---|---|
-| `account` | 1 | Users, sessions, password, reset, email, deletion |
-| `life` | 2 | Starting a life, events, active and quiet months, wellbeing |
+| `account` | 1 | Sign-up, login, logout, password, reset, email, deletion (the `users` and `sessions` tables are kernel) |
+| `life` | 2 | The goal and start screens, avatar, pengegave, events and their options, the wellbeing view part |
 | `money` | 3 | Accounts, savings, BSU, costs, spending, unexpected expenses, goal progress |
-| `year` | 4 | Year end, recap, endings, ending summary, play again |
-| `phone` | 5 | Messages, age unlocks, open options, follow-ups |
+| `year` | 4 | Year end, recap, endings, ending summary, the play-again screen (the start, end-early and play-again actions are kernel) |
+| `phone` | 5 | Messages, open options, follow-ups (the age unlock table is kernel) |
 | `work` | 6 | Jobs, hours, shifts, wages, tax, month plan, activities |
 | `credit` | 7 | Card, consumer loan, family help, card warning, crisis |
 | `belongings` | 8 | Moped, licences, room layers |
 | `explain` | 9 | «Hvorfor?», «Tidligere valg», «Forenklet», «Om tallene», savings target, upcoming costs |
-| `playtest` | 10 | Tester codes, records, export, clean-up |
-| `shared` | — | The kernel (AD-21); built by Stories 1.1, 1.2, 2.1 and the parts of Epic 2 that the month loop needs |
+| `playtest` | 1, 10 | Tester codes and the sign-up guard (1.8), records, export, clean-up |
+| `shared` | — | The kernel (AD-21): Stories 1.1, 1.2, 2.1, 2.8, 2.9, 2.10 and 8.11, and the kernel parts of 1.3, 1.4, 1.8, 2.2, 2.3, 2.5, 2.6, 2.7, 3.4, 4.1, 4.4, 4.6, 7.2, 7.5 and 9.1-9.3, named on their Slice lines |
 
 **Tiers (PRD §4.4).** Each story has a **Tier** line under its heading, from the PRD's FR overview (§5): Core must be in, Extension is built when it is started before the freeze, and Can be cut goes first when time runs short. Setup, safety and check stories with no FR tier of their own are Core, because the Core stories or an NFR need them.
 
@@ -394,12 +394,12 @@ The story isn't done until these are in place. Story 10.4 checks NFR-7's whole l
 ### Epic 1: Konto og innlogging
 A player can create a user, log in and out, change and reset the password, log out on all devices and delete the user. The app runs locally with one command and in the playtest environment, where only invited testers can sign up.
 **FRs covered:** FR-1, FR-2, FR-3, FR-4, FR-5, FR-44, FR-50 (tester codes and the sign-up limit)
-**Notes:** Story 1.1 is the scaffold from the Structural Seed: repo layout with `shared/` and `features/`, compose with Caddy, backend, Postgres and frontend, and CI with lint, format, staleness checks and the slice boundary checks (AD-21). Story 1.2 adds the frontend shell with `shared/styles/tokens.css` and the shared primitives in `shared/ui/` (AD-19). Every story PR is reviewed before merge, in GitHub or live with the group (spine, Review). The sprint-1 hosting spike (#92) belongs here. NFR-3 player information page `/personvern`, NFR-5, NFR-6 (README run), NFR-9 (CI) and NFR-11 (environment) start here.
+**Notes:** Story 1.1 is the scaffold from the Structural Seed: repo layout with `shared/` and `features/`, compose with Caddy, backend, Postgres and frontend, and CI with lint, format, staleness checks and the slice boundary checks, with two stub slices (`account`, `life`) and a self-test that plants violations (AD-21). Story 1.2 adds the frontend shell with `shared/styles/tokens.css` and the shared primitives in `shared/ui/` (AD-19). Every story PR is reviewed before merge, in GitHub or live with the group (spine, Review). The sprint-1 hosting spike (#92) belongs here. NFR-3 player information page `/personvern`, NFR-5, NFR-6 (README run), NFR-9 (CI) and NFR-11 (environment) start here.
 
 ### Epic 2: Start et liv og spill måned for måned
 A player picks a life goal and an avatar, gets the pengegave and makes the first real choice, then plays active months with events and quiet months, sees wellbeing change, and continues on another device without losing anything.
 **FRs covered:** FR-6, FR-7, FR-8, FR-9a (choosing the goal), FR-10, FR-11, FR-12, FR-13, FR-14, FR-33, FR-36, FR-45 (current account and paying for choices), FR-46a, FR-46b, FR-49
-**Notes:** Builds the engine core (AD-1, AD-6), the mutation pipeline (AD-4, AD-5), the ledger with cause links (AD-9), content loading with the schema gate (AD-7), the player view (AD-13) and the frontend game client and gates (AD-17, AD-18). Stories 2.1-2.8 build the kernel in `shared/`: month loop with rule 1's step slots, ledger, draws, selection step, pipeline, view assembly, and the game client. Each later slice plugs into it (AD-21). Uses a small starter set of events. Needs #123 and #81 settled for the stories that cite them.
+**Notes:** Builds the engine core (AD-1, AD-6), the mutation pipeline (AD-4, AD-5), the ledger with cause links (AD-9), content loading with the schema gate (AD-7), the player view (AD-13) and the frontend game client and gates (AD-17, AD-18). Stories 2.1, 2.8, 2.9 and 2.10 are kernel stories, and 2.2, 2.3, 2.5, 2.6 and 2.7 build their kernel parts in `shared/`, named on their Slice lines: the pipeline, envelope, the start action, `sendAction`, the game store, `gateFor` and the focus manager (2.2); the ledger, draws, scene and timeline (2.3); cause links, results and the result list (2.5); the month loop with its slots, the kernel actions and the selection step (2.6); wellbeing (2.7). Each later slice plugs in through AD-21's extension points. Uses a small starter set of events. Needs #123 and #81 settled for the stories that cite them.
 
 ### Epic 3: Pengene i hverdagen
 A player moves money between the current account, savings and BSU, earns interest, pays fixed and everyday costs, picks a spending level, meets unexpected expenses, and sees progress towards the life goal.
@@ -473,7 +473,7 @@ So that I can run and grade it without the team's keys or secrets (NFR-6).
 
 **Given** a pull request
 **When** CI runs
-**Then** it runs `ruff check`, `ruff format --check`, the import-boundary checks (`shared.engine` and every `features.*.engine` pure, AD-1; slices independent of each other, `shared` never importing a slice, AD-21), with one empty example slice so the contracts have something to check, the banned-api rule, pytest against a Postgres 17 service container, the `openapi.json` staleness check and the single-Alembic-head check, and fails if any fails
+**Then** it runs `ruff check`, `ruff format --check`, the import-boundary checks (`shared.engine` and every `features.*.engine` pure, AD-1; slices independent of each other, `shared` never importing a slice, AD-21), the engine packages also barred from `settings`, the app's shell and the composition roots; two stub slices, `account` and `life`, each with an empty `engine/`, and a self-test that plants each kind of violation (slice to slice, `shared` to a slice, an engine to `fastapi`, an engine to `app.settings`) in a temporary copy and fails unless `lint-imports` fails on each; the banned-api rules (AD-1, and `importlib.import_module` and `__import__` under `app/`), pytest with `--import-mode=importlib` against a Postgres 17 service container, with real-app and cross-slice tests in `backend/tests/` outside the `app` package, the `openapi.json` staleness check and the single-Alembic-head check, and fails if any fails
 **And** every `/api` response carries `Cache-Control: no-store`, logs are JSON lines written by one access-log middleware without client addresses or query strings, and unhandled exceptions return `500 internal_error` in the AD-13 error envelope
 
 ### Story 1.2: Open the first screen on any device
@@ -505,7 +505,7 @@ So that I can choose to create a user or log in.
 
 **Given** a pull request
 **When** CI runs
-**Then** ESLint (including `fetch` only in `shared/api/` and the import zones `app` → `features` → `shared` with no feature → feature, AD-21), Prettier `--check`, stylelint, `tsc --noEmit` and Vitest run, and Playwright runs against the compose stack in Chromium, WebKit and Firefox with `@axe-core/playwright` on `/` using the WCAG 2.2 AA tags, failing on any `serious` or `critical` finding (AD-20)
+**Then** ESLint (including the `fetch` global banned outside `shared/api/` with `no-restricted-globals`, and the import zones `app` → `features` → `shared` with no feature → feature, generated per slice and resolved with the TypeScript resolver, with a lint fixture that must fail, AD-21), Prettier `--check`, stylelint, `tsc --noEmit` and Vitest run, and Playwright runs against the compose stack in Chromium, WebKit and Firefox with `@axe-core/playwright` on `/` using the WCAG 2.2 AA tags, failing on any `serious` or `critical` finding (AD-20)
 **And** `error.tsx`, `global-error.tsx` and `not-found.tsx` show Norwegian text with a link back
 **And** the primitives follow the three elevation levels and shapes (UX-DR4), chrome text uses EXPERIENCE's word table (UX-DR5), and every control is tap-or-select and keyboard-operable with targets of at least 24 × 24 px (44 × 44 for options and tabs), no dragging, no timers and motion off under reduced motion (UX-DR43)
 
@@ -513,7 +513,7 @@ So that I can choose to create a user or log in.
 
 **Tier:** Core; the per-network sign-up limit can be cut
 
-**Slice:** `account`
+**Slice:** `shared` (the `users` model) + `account`
 
 As a new player,
 I want to create a user with my email, a password and a nickname,
@@ -550,7 +550,7 @@ So that my game is saved and only I can reach it (FR-1).
 
 **Tier:** Core; «Forbli innlogget» and «Logg ut på alle enheter» can be cut
 
-**Slice:** `account`
+**Slice:** `shared` (the `sessions` model and the session check in `shared/api/auth.py`) + `account`
 
 As a player,
 I want to log in on any device, choose whether to stay logged in, and log out when I'm done,
@@ -643,6 +643,7 @@ So that I can keep my account safe and be called what I like (FR-4, FR-1).
 **Tier:** Core; the 12-month deletion job can be cut
 
 **Slice:** `account`
+**Extension points:** shell hooks (on-account-deleted: `delete_account` calls each registered hook as `hook(session, deleted)`; Story 10.1 registers `playtest`'s); jobs (the daily cleanup and inactivity jobs, run by `main.py`'s job runner)
 
 As a player,
 I want to delete my user and everything stored about me,
@@ -652,7 +653,7 @@ So that no data about me is kept when I stop playing (FR-44, NFR-3).
 
 **Given** I am in `/meny`
 **When** I choose «Slett bruker», confirm, and enter my current password
-**Then** one `delete_account(user_id)` deletes the user row and every child row by cascade (sessions, reset links and any table later stories add) and runs every slice's registered on-account-deleted hook in the same transaction (Story 10.1 registers the playtest records' one), every device is logged out, and I land on `/`
+**Then** one `delete_account(user_id)` deletes the user row and every child row by cascade (sessions, reset links and any table later stories add) and runs every slice's registered on-account-deleted hook after its `DELETE … RETURNING`, in the same transaction, each called as `hook(session, deleted)` with `deleted = DeletedUser(user_id, normalized_email, is_test, removed)` (Story 10.1 registers the playtest records' one), every device is logged out, and I land on `/`
 **And** the same address can sign up again, and a wrong password gives `403 wrong_password` with nothing deleted
 
 **Given** the backend is running
@@ -663,7 +664,8 @@ So that no data about me is kept when I stop playing (FR-44, NFR-3).
 
 **Tier:** Core
 
-**Slice:** `playtest`
+**Slice:** `shared` (`users.is_test`) + `playtest`
+**Extension points:** shell hooks (sign-up guard: `playtest` registers `sign_up_guard(session, normalized_email)`, which `account`'s sign-up calls)
 
 As the team,
 I want only the testers we invited to be able to sign up in the playtest,
@@ -748,7 +750,8 @@ So that the game reads one source of truth and a broken file never reaches a pla
 
 **Tier:** Core
 
-**Slice:** `life`
+**Slice:** `shared` (pipeline, envelope, the start action, `sendAction` and the game store, `gateFor` and the focus manager) + `life`
+**Extension points:** facts (provides `life_goal`)
 
 As a new player,
 I want to pick one of three life goals,
@@ -785,7 +788,7 @@ So that my life starts with a goal I chose (FR-9a, FR-11).
 
 **Tier:** Core
 
-**Slice:** `life`
+**Slice:** `shared` (ledger, draws, scene, timeline) + `life`
 
 As a new player,
 I want to get my pengegave and choose what to do with it,
@@ -835,7 +838,8 @@ So that the mirror shows me (FR-10).
 
 **Tier:** Core
 
-**Slice:** `life`
+**Slice:** `shared` (cause links, results, result list) + `life`
+**Extension points:** effect handlers (the kernel sends each option effect to the slice that owns its kind; `life` registers the events' own effects)
 
 As a player,
 I want to read an event, pick one of its options and see the result,
@@ -867,7 +871,8 @@ So that my choices change my money and my life (FR-13, FR-45, FR-36).
 
 **Tier:** Core
 
-**Slice:** `life`
+**Slice:** `shared` (month loop with its slots, kernel actions, selection step) + `life`
+**Extension points:** selection proposers (`life` registers the drawn-event proposer); continue guards (`life`: the real choice not yet made)
 
 As a player,
 I want to finish a month and move on to the next one,
@@ -893,13 +898,14 @@ So that my life moves forward month by month (FR-49, FR-12, FR-14, FR-46b).
 **Given** the same start state, draws and choices
 **When** a playthrough is replayed from its `action_log`
 **Then** every month gives the same result, tested by a replay test on every PR (FR-12)
-**And** after month 60's continue the playthrough's status is `completed` and further game actions get `game_ended`
+**And** after month 60's continue, once the after-month-60 slot has run, the kernel sets the playthrough's status to `completed` (the ending comes in Story 4.4) and further game actions get `game_ended`
 
 ### Story 2.7: See how I'm doing
 
 **Tier:** Core
 
-**Slice:** `life`
+**Slice:** `shared` (wellbeing: the one writer and rule 12) + `life`
+**Extension points:** facts (reads `life_goal`)
 
 As a player,
 I want to see my wellbeing and what it's made of,
@@ -971,7 +977,7 @@ So that I can see the game mid-life without playing from the start (NFR-6, AD-14
 
 **Given** the seeded states
 **When** `cli dump-view-fixtures` runs
-**Then** it writes their player views to `frontend/src/test/fixtures/`, CI fails if they are stale, and Vitest uses them (AD-20)
+**Then** it writes their player views to `frontend/src/shared/test/fixtures/`, CI fails if they are stale, and Vitest uses them (AD-20)
 
 ### Story 2.10: See only my own game
 
@@ -1008,6 +1014,7 @@ A player moves money between the current account, savings and BSU, earns interes
 **Tier:** Core
 
 **Slice:** `money`
+**Extension points:** month-step slot (savings interest); view parts (the interest chip in Hjem's «Denne måneden» rows)
 
 As a player,
 I want to move money between my current account and my savings account and see the interest it earns,
@@ -1031,6 +1038,7 @@ So that I learn how saving grows over time (FR-22, FR-45).
 **Tier:** Core
 
 **Slice:** `money`
+**Extension points:** facts (provides `has_bsu`, `bsu_closed`, `bsu_deposited_this_year`); month-step slots (savings interest; December BSU, which records the deductions received in `money`'s section)
 
 As a player,
 I want to open and save in a BSU,
@@ -1057,6 +1065,7 @@ So that I can learn how tax-favoured saving works (FR-22).
 **Tier:** Core
 
 **Slice:** `money`
+**Extension points:** month-step slots (fixed costs, everyday costs and spending, each with its `order`); facts (provides `spending_level`; reads the month's wage after tax from `work` once Epic 6 provides it, and `owns_moped`, false until Story 8.3, so transport is charged only without a moped); effect handlers for options that change spending; the month's debt interest is read from the ledger (AD-9); calls `wellbeing.add()` (a kernel call, not an extension point) for the spending level's social-life effect
 
 As a player,
 I want my fixed costs paid each month and to choose how much I spend,
@@ -1094,7 +1103,7 @@ So that I learn what everyday life costs (FR-23).
 
 **Tier:** Core
 
-**Slice:** `money`
+**Slice:** `shared` (`ledger.pay()` with the FR-45 payment order and savings cover) + `money`
 
 As a player,
 I want savings to cover a payment my current account can't,
@@ -1121,6 +1130,7 @@ So that I can afford a choice with the money I actually have (FR-45).
 **Tier:** Core
 
 **Slice:** `money`
+**Extension points:** month-step slot (unexpected expense); facts (reads `owns_moped` and the other ownership facts)
 
 As a player,
 I want unexpected expenses to happen now and then,
@@ -1143,6 +1153,7 @@ So that I learn why a buffer matters (FR-24).
 **Tier:** Core
 
 **Slice:** `money`
+**Extension points:** facts (reads `life_goal`; provides `goal_measure`, the rule 13 measure that the ending check reads)
 
 As a player,
 I want to see my progress towards my life goal,
@@ -1167,7 +1178,8 @@ A player gets the year end each December and a recap on return, reaches one of f
 
 **Tier:** Core
 
-**Slice:** `year`
+**Slice:** `shared` (the age unlock table, `unlocks.py`) + `year`
+**Extension points:** view parts (the year end's named row slots; `phone` and `work` add their rows in Epics 5 and 6); the teaser, a single-winner field in the kernel's precedence table (`phone` adds the boomerang hint in Story 5.5)
 
 As a player,
 I want a summary of the year when December comes,
@@ -1213,6 +1225,7 @@ So that I can spot where it comes from and where it goes (UX surface 19).
 **Tier:** Extension (FR-16)
 
 **Slice:** `year`
+**Extension points:** view parts (the recap's named row slots)
 
 As a returning player,
 I want a short recap of where I am,
@@ -1243,7 +1256,8 @@ So that I can pick up the game after a break (FR-16).
 
 **Tier:** Core; the avatar on the ending is Extension (FR-10)
 
-**Slice:** `year`
+**Slice:** `shared` (`triggers.py` for the triggers that exist) + `year`
+**Extension points:** month-step slot after month 60 (the ending handler); facts (`life_goal` from `life`, `goal_measure` from `money`, `experience_bought` from `phone`, debt from `credit`)
 
 As a player,
 I want my life to end at 20 with an ending that reflects my money and my wellbeing,
@@ -1253,7 +1267,7 @@ So that I see what my choices added up to (FR-41, FR-9a).
 
 **Given** month 60 is continued
 **When** the engine checks the endings
-**Then** it checks in order: loss (a rule 8 trigger true at the end of month 59 is still true at the end of month 60), real win (goal reached under rule 13 and ending wellbeing at or above the threshold), hollow win (goal reached, below the threshold), goal not reached; the result is stored and the playthrough is `completed`
+**Then** it checks in order: loss (a rule 8 trigger true at the end of month 59 is still true at the end of month 60), real win (goal reached under rule 13 and ending wellbeing at or above the threshold), hollow win (goal reached, below the threshold), goal not reached; the ending handler registered in the after-month-60 slot stores the ending in `year`'s section, and the kernel's continue action sets `completed` (Story 2.6)
 **And** ending wellbeing is the average of months 19-60 under rule 2, a value exactly at the threshold or a goal measure exactly at its target counts as reached (worked example 18), and every end state gives exactly one ending (F9, one test per end state, plus both boundaries)
 
 **Given** the three goals
@@ -1299,7 +1313,7 @@ So that I learn from my life (FR-42, FR-39).
 
 **Tier:** Core
 
-**Slice:** `year`
+**Slice:** `shared` (the end-early and play-again kernel actions) + `year`
 
 As a player,
 I want to start a new life from 15, after my ending or before it,
@@ -1357,6 +1371,7 @@ So that the game world talks to me like real life does (FR-54).
 **Tier:** Core; invitations and info messages can be cut to their minimum
 
 **Slice:** `phone`
+**Extension points:** selection proposers (drawn and triggered messages); facts (reads `life_goal`); view parts (the recap's message-count row)
 
 As a player,
 I want messages that fit my age and my situation,
@@ -1383,6 +1398,7 @@ So that the phone feels alive without flooding me (FR-55).
 **Tier:** Core
 
 **Slice:** `phone`
+**Extension points:** selection proposers (offer messages that open from the kernel's unlock table); facts (reads `life_goal`)
 
 As a player,
 I want new options to open as I get older,
@@ -1406,6 +1422,7 @@ So that the game grows with me from 15 to 20 (FR-18).
 **Tier:** Core
 
 **Slice:** `phone`
+**Extension points:** effect handlers (an option takes effect through the handler of the slice that owns its kind); selection proposers (offer messages); message actions (taking an offer); facts (reads `owns_moped`, the licences, `has_job`, `has_card`, `has_consumer_loan`, `has_family_loan`, `has_payment_plan`, `life_goal` and debt; provides `experience_bought`); view parts (the option rows on `/penger` and `/jobb`)
 
 As a player,
 I want offers like the big experience to stay open until I can take them,
@@ -1437,6 +1454,7 @@ So that I can save up instead of being rushed (FR-48, FR-9a).
 **Tier:** Core
 
 **Slice:** `phone`
+**Extension points:** selection proposers (follow-ups, in the kernel's merge order); the teaser (the boomerang hint through the kernel's precedence table)
 
 As a player,
 I want earlier choices to come back as follow-up events,
@@ -1463,6 +1481,7 @@ A player takes a part-time, summer or full-time job, asks for more or fewer hour
 **Tier:** Core
 
 **Slice:** `work`
+**Extension points:** actions (the month-plan actions; `plan_version` is kernel state); view parts (the recap's planned row)
 
 As a player,
 I want to place activities on my free evenings,
@@ -1490,6 +1509,7 @@ So that I choose how to spend my free time (FR-52, FR-53).
 **Tier:** Core; invitation activities can be cut to their minimum
 
 **Slice:** `work`
+**Extension points:** month-step slot (planned activities); calls `wellbeing.add()` (a kernel call, not an extension point); the kernel's wellbeing keeps the usual and this month's values, and `life`'s wellbeing tile shows «Vanligvis n»; selection proposers (invitations, 0-2 a month); message actions («Legg i planen»); view parts (the month summary's «Kveldene i <måned>» rows and Hjem's «Ble ikke noe av» note)
 
 As a player,
 I want my planned activities to happen when I continue,
@@ -1517,6 +1537,7 @@ So that they change my wellbeing and my money (FR-53, FR-55).
 **Tier:** Core
 
 **Slice:** `work`
+**Extension points:** selection proposers (job offers); message actions (taking a job); month-step slot (income); facts (provides `has_job`, `steady_monthly_wage`, `average_wage_3m` and the month's wage after tax; reads `spending_level` for the previews)
 
 As a player,
 I want to take a part-time job and later a full-time job,
@@ -1544,6 +1565,7 @@ So that I earn my own money (FR-20, FR-47, FR-56).
 **Tier:** Core
 
 **Slice:** `work`
+**Extension points:** selection proposers (summer-job offers); message actions (taking the summer job); month-step slot (income)
 
 As a player,
 I want to take a summer job in July,
@@ -1569,6 +1591,8 @@ So that I can earn extra money in the holidays (FR-20, FR-47).
 **Tier:** Core
 
 **Slice:** `work`
+**Extension points:** month-step slot (tax); facts (provides `tax_this_year`, which `money`'s December BSU step reads); view parts (the year end's and the month summary's tax rows)
+**Touches:** `money` (its December BSU step reads `tax_this_year`, and a full BSU withdrawal takes back the deductions recorded in its own section)
 
 As a player,
 I want tax worked out from my year's wages,
@@ -1592,6 +1616,7 @@ So that I learn how tax and trygdeavgift work (FR-21).
 **Tier:** Core
 
 **Slice:** `work`
+**Extension points:** selection proposers (the answer to an hours request and the employer's extra-shift messages); effect handlers (extra-shift offers from events); facts (reads `spending_level`)
 
 As a player,
 I want to ask my employer for more or fewer hours and take extra shifts,
@@ -1620,6 +1645,7 @@ So that I can balance money and free time (FR-47).
 **Tier:** Core
 
 **Slice:** `work`
+**Extension points:** selection proposers (the month's one-off shifts)
 
 As a player with a job,
 I want to take a single shift on a free evening,
@@ -1645,6 +1671,7 @@ A player can take a credit card and a consumer loan, borrow from family, gets th
 **Tier:** Core; the tip is Extension (FR-19); the cost in kroner stays
 
 **Slice:** `credit`
+**Extension points:** selection proposers (the card offer); message actions (taking the card); month-step slot (card bill and debt interest); facts (reads `steady_monthly_wage`; provides `has_card`, `card_minimum_missed_months`); seeds (the «just before 18 with a steady wage» user); the card panel is `credit`'s component, composed into `/penger` by the route in `src/app/`
 
 As a player from 18,
 I want to get a credit card and decide how the bill is paid,
@@ -1671,7 +1698,8 @@ So that I learn what a card really costs (FR-26, FR-19).
 
 **Tier:** Core
 
-**Slice:** `credit`
+**Slice:** `shared` (the card as a payment source in `ledger.pay()`) + `credit`
+**Extension points:** facts (provides `card_use_on` and `card_room_left`, read by `ledger.pay()`)
 
 As a player with a card,
 I want to choose whether purchases go on the card,
@@ -1697,6 +1725,7 @@ So that I control when I borrow (FR-26).
 **Tier:** Extension (FR-25)
 
 **Slice:** `credit`
+**Extension points:** facts (reads `steady_monthly_wage` for eligibility and `average_wage_3m` for the cap; provides `has_consumer_loan`); month-step slot (instalments); the quote route in `features/credit/api.py`
 
 As a player from 18,
 I want to see what a loan costs before I take it,
@@ -1719,6 +1748,7 @@ So that I understand borrowing before I do it (FR-25).
 **Tier:** Core
 
 **Slice:** `credit`
+**Extension points:** effect handlers (family help from events and messages); month-step slot (instalments); facts (provides `has_family_loan`); calls `wellbeing.add()` (a kernel call, not an extension point) for the stress of a postponed instalment
 
 As a player in trouble,
 I want to ask my family for help,
@@ -1742,7 +1772,8 @@ So that I learn what family can and can't do (FR-27).
 
 **Tier:** Core
 
-**Slice:** `credit`
+**Slice:** `shared` (card and loan triggers in `triggers.py`) + `credit`
+**Extension points:** facts (provides `card_minimum_missed_months` and `net_debt_excl_family`; reads `average_wage_3m`; `triggers.py` reads them); after-action hooks (the crisis recheck and rule 8's money-in order); continue guards; view parts (the bank's crisis band; `continue_warning` through the kernel's precedence table)
 
 As a player,
 I want to see whether continuing would start a crisis,
@@ -1769,6 +1800,7 @@ So that I can fix it first (FR-32a, FR-49).
 **Tier:** Core
 
 **Slice:** `credit`
+**Extension points:** selection proposers (the card warning, which makes a quiet month active)
 
 As a player who didn't pay the whole card bill,
 I want a clear warning about what it costs,
@@ -1791,6 +1823,8 @@ So that I understand card interest before it grows (FR-31).
 **Tier:** Core
 
 **Slice:** `credit`
+**Extension points:** crisis options (`money`: lower spending, BSU withdrawal; `work`: extra shifts, a job; `credit`: card off); selection proposers (crisis events); continue guards (crisis unfinished); seeds (the «in debt with a crisis due» user)
+**Touches:** `money`, `work` (their crisis-option providers, each registered in its own slice)
 
 As a player in a crisis,
 I want up to three chances to fix it, with a way out every time,
@@ -1818,6 +1852,7 @@ So that I learn to handle a money crisis (FR-32b, FR-32c).
 **Tier:** Core
 
 **Slice:** `credit`
+**Extension points:** crisis options (`credit`'s payment plan); month-step slot (instalments); facts (provides `has_payment_plan`)
 
 As a player in a crisis with card debt,
 I want to split the whole card balance into monthly payments,
@@ -1839,6 +1874,7 @@ A player takes the moped licence, buys and sells a moped, gets or pays for the c
 **Tier:** Core; with 3 layers; more can be cut
 
 **Slice:** `belongings`
+**Extension points:** view parts (room-layer state ids and the belongings' part of the scene's text alternative; the route in `src/app/` fills the shared scene's room-layer slots); facts (reads `owns_moped` and the licences)
 
 As a player,
 I want the room in the mirror to show what I own,
@@ -1862,6 +1898,7 @@ So that my choices are visible in my world (FR-34).
 **Tier:** Core
 
 **Slice:** `belongings`
+**Extension points:** effect handlers (licences bought through open options); facts (provides `has_moped_licence`)
 
 As a player from 16,
 I want to pay for the moped licence,
@@ -1879,6 +1916,7 @@ So that I can own a moped (FR-28).
 **Tier:** Core; the parents' share of the insurance can be cut
 
 **Slice:** `belongings`
+**Extension points:** crisis options (selling the moped); month-step slot (fixed costs, with its own `order` after `money`'s); facts (provides `owns_moped`, which `money`'s transport cost reads from Story 3.3)
 
 As a player with the moped licence,
 I want to buy a moped, pay what it costs to run, and sell it when I want,
@@ -1905,6 +1943,7 @@ So that I learn what owning something costs over time (FR-29, FR-23).
 **Tier:** Can be cut (gift mopeds, FR-29)
 
 **Slice:** `belongings`
+**Extension points:** effect handlers (a moped given in a message); selection proposers (the gift offer)
 
 As a player with the moped licence,
 I want the chance of getting a used moped from my family,
@@ -1925,6 +1964,7 @@ So that luck is part of life, stated as a fact (FR-29, FR-55).
 **Tier:** Can be cut (FR-30, with car fuel in FR-23)
 
 **Slice:** `belongings`
+**Extension points:** selection proposers (the licence-draw family message); effect handlers (the car licence); month-step slot (fixed costs: fuel in borrowed months, with its own `order`); facts (provides `has_car_licence`, `borrows_car`); the borrow control is `belongings`' component, composed into `/penger` by the route in `src/app/`
 
 As a player turning 18,
 I want to get the car licence, as a gift or by paying, and borrow my parents' car,
@@ -2097,7 +2137,8 @@ A player can ask «Hvorfor?», sees «Tidligere valg» on effects of earlier cho
 
 **Tier:** Core (FR-38), never cut
 
-**Slice:** `explain`
+**Slice:** `shared` (the «Hvorfor?» control in `frontend/src/shared/ui/`) + `explain`
+**Extension points:** view parts (the explanation on result and money rows from every slice)
 
 As a player,
 I want to press «Hvorfor?» on a change,
@@ -2119,7 +2160,8 @@ So that I understand which choice or rule caused it (FR-38).
 
 **Tier:** Extension (FR-37)
 
-**Slice:** `explain`
+**Slice:** `shared` (the «Tidligere valg» note in `frontend/src/shared/ui/`) + `explain`
+**Extension points:** view parts (the note on results, Hjem and the bank)
 
 As a player,
 I want to see when an effect comes from a choice I made earlier,
@@ -2137,7 +2179,7 @@ So that I notice how choices echo over time (FR-37).
 
 **Tier:** Extension (FR-40). A-23 and SM-2 rest on it, so the team aims to build it
 
-**Slice:** `explain`
+**Slice:** `shared` (the `seen_disclosures` table and the «Forenklet» note in `frontend/src/shared/ui/`) + `explain`
 
 As a player,
 I want the game to tell me where it simplifies real life,
@@ -2163,6 +2205,8 @@ So that I know what's real and what isn't (FR-40).
 **Tier:** Core (the upcoming costs, FR-57)
 
 **Slice:** `explain`
+**Extension points:** upcoming costs (every slice that charges next month registers its provider)
+**Touches:** `money`, `work`, `credit`, `belongings` (their upcoming-cost providers)
 
 As a player,
 I want to see next month's known costs before I continue,
@@ -2179,6 +2223,7 @@ So that I can see a cost coming before it hits and plan my money (FR-57).
 **Tier:** Can be cut (the savings target and activity spend, FR-57)
 
 **Slice:** `explain`
+**Extension points:** after-action hooks (reacting when an option is taken, given or closed); selection proposers (the savings target's bank messages); facts (open-option status from `phone`; activity spend by kind from `work`)
 
 As a player,
 I want to save towards something I choose and see what activities have cost this year,
@@ -2208,6 +2253,7 @@ The group can run the playtest: records per tester and export by tester code, th
 **Tier:** Core
 
 **Slice:** `playtest`
+**Extension points:** shell hooks (on-action; extra locks: the playtest record after the playthrough; on-account-deleted: the record and `testers_left`); facts (`ending`, `life_goal`, `applied_activity_count`, `invitation_applied`, read from `facts.py` and the kernel's results, never another slice's section)
 
 As the team,
 I want a small record per tester account,
@@ -2304,7 +2350,8 @@ So that what CI can't measure is still verified (NFR-1, NFR-2, NFR-9, NFR-10).
 
 **Tier:** Core
 
-**Slice:** `playtest`
+**Slice:** `year`
+**Extension points:** seeds (the four month-59 users as JSON action lists validated by `kernel.game_request_type`, importing no other slice; seeding is gated by `APP_ENV`, never by `PLAYTEST_RECORDS`)
 
 As an examiner,
 I want ready-made test players in month 59 close to each ending,
