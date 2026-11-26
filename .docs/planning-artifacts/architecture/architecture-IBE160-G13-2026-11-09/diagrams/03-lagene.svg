@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" role="img" aria-label="Lagene i koden: frontenden importerer app, så components, så api, og bare api snakker HTTP med backenden. I backenden ligger motoren i midten. api og jobs over den og persistence og content under den importerer motoren. Bare skallet snakker med Postgres, YAML-filene og Resend.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" role="img" aria-label="Vertikale skiver i koden: i frontenden importerer app/ skivene i features/, og skivene importerer bare shared/, der api/ er det eneste som snakker HTTP med backenden. I backenden setter main, cli og registry sammen ti skiver, én per epic-domene. En skive importerer bare seg selv og shared/, aldri en annen skive. I shared/ ligger motorkjernen med månedsløkka, hovedboka, trekkene og spillervisningen, og skallet api/, persistence/, content/ og jobs/ importerer den. Bare skallet snakker med Postgres og YAML-filene, og account-skiva med Resend.">
   <style>
     .d-bg{fill:var(--d-paper,#F6F3EC)}
     .d-zone{fill:var(--d-zone,#DCE6D2)}
@@ -27,76 +27,96 @@
   <text class="d-h" x="36" y="76">FRONTEND · NEXT.JS</text>
   <rect class="d-box" x="45" y="100" width="190" height="66" rx="10"/>
   <text class="d-t" x="140" y="128" text-anchor="middle">app/</text>
-  <text class="d-s" x="140" y="148" text-anchor="middle">ruter + gateFor</text>
+  <text class="d-s" x="140" y="148" text-anchor="middle">tynne ruter, setter sammen</text>
   <rect class="d-box" x="45" y="210" width="190" height="66" rx="10"/>
-  <text class="d-t" x="140" y="238" text-anchor="middle">components/</text>
+  <text class="d-t" x="140" y="238" text-anchor="middle">features/&lt;skive&gt;/</text>
   <text class="d-s" x="140" y="258" text-anchor="middle">skjermer + CSS Modules</text>
-  <rect class="d-box" x="45" y="320" width="190" height="66" rx="10"/>
-  <text class="d-t" x="140" y="348" text-anchor="middle">api/</text>
-  <text class="d-s" x="140" y="368" text-anchor="middle">eneste som kaller /api</text>
+  <rect class="d-full" x="45" y="320" width="190" height="66" rx="10"/>
+  <text class="d-t" x="140" y="348" text-anchor="middle">shared/</text>
+  <text class="d-s" x="140" y="368" text-anchor="middle">api · ui · gates · styles</text>
   <path class="d-ln" d="M140 166 V208" marker-end="url(#f3a)"/>
   <text class="d-s" x="148" y="192">importerer</text>
   <path class="d-ln" d="M140 276 V318" marker-end="url(#f3a)"/>
   <text class="d-s" x="148" y="302">importerer</text>
-  <text class="d-note" x="140" y="440" text-anchor="middle">ingen spillregler,</text>
-  <text class="d-note" x="140" y="462" text-anchor="middle">ingen utregning her</text>
+  <text class="d-note" x="140" y="430" text-anchor="middle">en skive importerer</text>
+  <text class="d-note" x="140" y="452" text-anchor="middle">aldri en annen skive</text>
+  <text class="d-note" x="140" y="484" text-anchor="middle">ingen spillregler her</text>
 
   <!-- HTTP -->
-  <path class="d-ln" d="M235 353 H280 V125 H358" marker-end="url(#f3a)"/>
-  <text class="d-l" transform="translate(272 245) rotate(-90)" text-anchor="middle">HTTP /api/*</text>
+  <path class="d-ln" d="M235 353 H280 V461 H343" marker-end="url(#f3a)"/>
+  <text class="d-l" transform="translate(272 300) rotate(-90)" text-anchor="middle">HTTP /api/*</text>
 
-  <!-- Backend-skallet -->
+  <!-- Backend -->
   <rect class="d-zone" x="300" y="50" width="680" height="470" rx="14"/>
-  <text class="d-h" x="316" y="76">BACKEND · SKALLET SNAKKER MED VERDEN</text>
+  <text class="d-h" x="316" y="76">BACKEND · VERTIKALE SKIVER + FELLES KJERNE</text>
 
-  <rect class="d-box" x="360" y="96" width="140" height="58" rx="10"/>
-  <text class="d-t" x="430" y="120" text-anchor="middle">api/</text>
-  <text class="d-s" x="430" y="139" text-anchor="middle">ruter og feil</text>
-  <rect class="d-box" x="570" y="96" width="140" height="58" rx="10"/>
-  <text class="d-t" x="640" y="120" text-anchor="middle">auth/</text>
-  <text class="d-s" x="640" y="139" text-anchor="middle">innlogging, økter</text>
-  <rect class="d-box" x="780" y="96" width="140" height="58" rx="10"/>
-  <text class="d-t" x="850" y="120" text-anchor="middle">jobs/</text>
-  <text class="d-s" x="850" y="139" text-anchor="middle">daglige jobber</text>
+  <rect class="d-box" x="400" y="88" width="480" height="48" rx="10"/>
+  <text class="d-t" x="640" y="109" text-anchor="middle">main.py · cli.py · registry.py</text>
+  <text class="d-s" x="640" y="127" text-anchor="middle">setter sammen skivene: handlinger, månedssteg, visning, kroker</text>
+  <path class="d-ln" d="M640 136 V192" marker-end="url(#f3a)"/>
+  <text class="d-s" x="648" y="166">importerer</text>
 
-  <rect class="d-core" x="400" y="200" width="480" height="150" rx="14"/>
-  <text class="d-t" x="640" y="232" text-anchor="middle">engine/ · kjernen</text>
-  <text class="d-s" x="640" y="256" text-anchor="middle">månedsløkke · hovedbok · trekk · trivsel · slutt · spillervisning</text>
-  <text class="d-l" x="640" y="286" text-anchor="middle">ingen database · klokke · nettverk · tilfeldighet</text>
-  <text class="d-note" x="640" y="324" text-anchor="middle">samme tilstand + valg + frø = samme resultat</text>
+  <text class="d-h" x="316" y="182">FEATURES/ · ÉN SKIVE PER EPIC</text>
+  <rect class="d-box" x="341" y="194" width="110" height="40" rx="10"/>
+  <text class="d-t" x="396" y="219" text-anchor="middle">account/</text>
+  <rect class="d-box" x="463" y="194" width="110" height="40" rx="10"/>
+  <text class="d-t" x="518" y="219" text-anchor="middle">life/</text>
+  <rect class="d-box" x="585" y="194" width="110" height="40" rx="10"/>
+  <text class="d-t" x="640" y="219" text-anchor="middle">money/</text>
+  <rect class="d-box" x="707" y="194" width="110" height="40" rx="10"/>
+  <text class="d-t" x="762" y="219" text-anchor="middle">year/</text>
+  <rect class="d-box" x="829" y="194" width="110" height="40" rx="10"/>
+  <text class="d-t" x="884" y="219" text-anchor="middle">phone/</text>
+  <rect class="d-box" x="341" y="242" width="110" height="40" rx="10"/>
+  <text class="d-t" x="396" y="267" text-anchor="middle">work/</text>
+  <rect class="d-box" x="463" y="242" width="110" height="40" rx="10"/>
+  <text class="d-t" x="518" y="267" text-anchor="middle">credit/</text>
+  <rect class="d-box" x="585" y="242" width="110" height="40" rx="10"/>
+  <text class="d-t" x="640" y="267" text-anchor="middle">belongings/</text>
+  <rect class="d-box" x="707" y="242" width="110" height="40" rx="10"/>
+  <text class="d-t" x="762" y="267" text-anchor="middle">explain/</text>
+  <rect class="d-box" x="829" y="242" width="110" height="40" rx="10"/>
+  <text class="d-t" x="884" y="267" text-anchor="middle">playtest/</text>
+  <text class="d-s" x="640" y="306" text-anchor="middle">hver skive: engine/ (ren) + api · models · tests, og importerer bare seg selv og shared/</text>
 
-  <rect class="d-box" x="360" y="400" width="140" height="58" rx="10"/>
-  <text class="d-t" x="430" y="424" text-anchor="middle">persistence/</text>
-  <text class="d-s" x="430" y="443" text-anchor="middle">pipeline + lagring</text>
-  <rect class="d-box" x="570" y="400" width="140" height="58" rx="10"/>
-  <text class="d-t" x="640" y="424" text-anchor="middle">content/</text>
-  <text class="d-s" x="640" y="443" text-anchor="middle">leser og sjekker YAML</text>
-  <rect class="d-box" x="780" y="400" width="140" height="58" rx="10"/>
-  <text class="d-t" x="850" y="424" text-anchor="middle">email/</text>
-  <text class="d-s" x="850" y="443" text-anchor="middle">Resend eller logg</text>
-
-  <path class="d-ln" d="M430 154 V198" marker-end="url(#f3a)"/>
-  <text class="d-s" x="438" y="181">importerer</text>
-  <path class="d-ln" d="M850 154 V198" marker-end="url(#f3a)"/>
-  <path class="d-ln" d="M430 400 V352" marker-end="url(#f3a)"/>
-  <text class="d-s" x="438" y="381">importerer</text>
-  <path class="d-ln" d="M640 400 V352" marker-end="url(#f3a)"/>
+  <path class="d-ln" d="M640 312 V338" marker-end="url(#f3a)"/>
+  <text class="d-h" x="316" y="332">SHARED/ · FELLES KJERNE</text>
+  <rect class="d-core" x="400" y="340" width="480" height="72" rx="14"/>
+  <text class="d-t" x="640" y="364" text-anchor="middle">shared/engine/ · kjernen</text>
+  <text class="d-s" x="640" y="383" text-anchor="middle">månedsløkke med faste steg · hovedbok · trekk · utvalg · spillervisning</text>
+  <text class="d-l" x="640" y="402" text-anchor="middle">ingen database · klokke · nettverk · tilfeldighet</text>
+  <rect class="d-box" x="345" y="436" width="130" height="50" rx="10"/>
+  <text class="d-t" x="410" y="457" text-anchor="middle">api/</text>
+  <text class="d-s" x="410" y="475" text-anchor="middle">ruter, feil, auth-sjekk</text>
+  <path class="d-ln" d="M410 436 V414" marker-end="url(#f3a)"/>
+  <rect class="d-box" x="495" y="436" width="130" height="50" rx="10"/>
+  <text class="d-t" x="560" y="457" text-anchor="middle">persistence/</text>
+  <text class="d-s" x="560" y="475" text-anchor="middle">pipeline + lagring</text>
+  <path class="d-ln" d="M560 436 V414" marker-end="url(#f3a)"/>
+  <rect class="d-box" x="645" y="436" width="130" height="50" rx="10"/>
+  <text class="d-t" x="710" y="457" text-anchor="middle">content/</text>
+  <text class="d-s" x="710" y="475" text-anchor="middle">leser og sjekker YAML</text>
+  <path class="d-ln" d="M710 436 V414" marker-end="url(#f3a)"/>
+  <rect class="d-box" x="795" y="436" width="130" height="50" rx="10"/>
+  <text class="d-t" x="860" y="457" text-anchor="middle">jobs/</text>
+  <text class="d-s" x="860" y="475" text-anchor="middle">daglige jobber</text>
+  <path class="d-ln" d="M860 436 V414" marker-end="url(#f3a)"/>
 
   <!-- Utenfor -->
-  <path class="d-box" d="M380 556 v52 a50 10 0 0 0 100 0 v-52"/>
-  <ellipse class="d-box" cx="430" cy="556" rx="50" ry="10"/>
-  <text class="d-t" x="430" y="588" text-anchor="middle">Postgres</text>
-  <text class="d-s" x="430" y="605" text-anchor="middle">Supabase</text>
-  <rect class="d-box" x="585" y="548" width="110" height="66" rx="6"/>
-  <text class="d-t" x="640" y="578" text-anchor="middle">YAML-filer</text>
-  <text class="d-s" x="640" y="597" text-anchor="middle">content/ i repoet</text>
-  <rect class="d-ghost" x="780" y="548" width="140" height="66" rx="10"/>
-  <text class="d-t" x="850" y="578" text-anchor="middle">Resend</text>
-  <text class="d-s" x="850" y="597" text-anchor="middle">av i playtesten</text>
+  <path class="d-box" d="M510 556 v52 a50 10 0 0 0 100 0 v-52"/>
+  <ellipse class="d-box" cx="560" cy="556" rx="50" ry="10"/>
+  <text class="d-t" x="560" y="588" text-anchor="middle">Postgres</text>
+  <text class="d-s" x="560" y="605" text-anchor="middle">Supabase</text>
+  <rect class="d-box" x="655" y="548" width="110" height="66" rx="6"/>
+  <text class="d-t" x="710" y="578" text-anchor="middle">YAML-filer</text>
+  <text class="d-s" x="710" y="597" text-anchor="middle">content/ i repoet</text>
+  <rect class="d-ghost" x="800" y="548" width="160" height="66" rx="10"/>
+  <text class="d-t" x="880" y="574" text-anchor="middle">Resend</text>
+  <text class="d-s" x="880" y="592" text-anchor="middle">fra features/account</text>
+  <text class="d-s" x="880" y="607" text-anchor="middle">av i playtesten</text>
 
-  <path class="d-ln" d="M430 458 V544" marker-end="url(#f3a)"/>
-  <text class="d-l" x="438" y="505">SQL</text>
-  <path class="d-ln" d="M640 458 V546" marker-end="url(#f3a)"/>
-  <text class="d-l" x="648" y="505">leser ved oppstart</text>
-  <path class="d-ln d-dash" d="M850 458 V546" marker-end="url(#f3a)"/>
+  <path class="d-ln" d="M560 486 V544" marker-end="url(#f3a)"/>
+  <text class="d-l" x="568" y="520">SQL</text>
+  <path class="d-ln" d="M710 486 V546" marker-end="url(#f3a)"/>
+  <text class="d-l" x="718" y="520">leser ved oppstart</text>
 </svg>
