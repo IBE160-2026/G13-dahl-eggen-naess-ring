@@ -92,7 +92,11 @@ Brukeren spurte hva neste BMad-steg var, hentet det nyeste fra GitHub, ba om å 
   - `dbb7df5`: `.docs/planning-artifacts/epics-diagrams/01-oversikt.svg` og `02-avhengigheter.svg`, laget av en underagent og sjekket som gyldig XML.
 - Artifact (lenkedelt): https://claude.ai/artifact/HwGTeDrrAmcJUvaRK4EoqJ, med alle 73 storyene, søk, filter på nivå og begge diagrammene.
 - Underagenten fant noe uklart i `epics.md`: 4.6 viser til 9.3, som kommer i en senere epic og er utvidelse. Det er ikke rettet.
-- Den lokale grenen `docs/epics-steg-4` er ikke slettet. Alt på den ligger nå i `main`.
+- PR #137 ble opprettet med de tre commitene og loggene. Den er merget (`0913cee`).
+- En egen side med alle de åtte diagrammene (seks for arkitekturen, to for epics), med en kort forklaring til hvert: https://claude.ai/artifact/7izxJ6RzyPtmgtVitxyCL9 (privat til den deles). Brukeren valgte bort de 201 UX-skissene i `.working`.
+- Logger som bare lå lokalt, er pushet til `main`: `e189f72` og `c58961a` (fr48-familielan fra 2026-11-23).
+- Utdaterte grener er slettet, lokalt og på GitHub, etter en sjekk av at PR-en er merget og at alt på grenen ligger i `main`: `docs/epics-and-stories`, `docs/epics-steg-4`, `docs/fr48-familielan`, `docs/fr57-kommende-kostnader`, `docs/arkitektur-116`, `docs/klarhet-for-epics`, `docs/sara-review-129` og `docs/issue-opprydding`.
+- `docs/issue-opprydding` hadde en commit som aldri kom inn i `main` (`babe2a8`, reviewer-gate 2026-11-22, #93). Brukeren valgte å ta den med. Den er kopiert til `docs/arkitektur-gate-2026-11-22` (`cc3cbd4`, med konflikten i memloggen løst til én ny linje), og PR #138 er opprettet.
 
 ### Åpne punkter
 - Gruppa godkjenner storyene, nå med 9.4/9.5 og AI-skjøtene. Så settes `stepsCompleted` til `[1, 2, 3, 4]`, og #130 lukkes (#130).
