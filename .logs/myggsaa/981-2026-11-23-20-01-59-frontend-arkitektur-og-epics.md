@@ -98,9 +98,10 @@ Brukeren spurte hva neste BMad-steg var, hentet det nyeste fra GitHub, ba om å 
 - Utdaterte grener er slettet, lokalt og på GitHub, etter en sjekk av at PR-en er merget og at alt på grenen ligger i `main`: `docs/epics-and-stories`, `docs/epics-steg-4`, `docs/fr48-familielan`, `docs/fr57-kommende-kostnader`, `docs/arkitektur-116`, `docs/klarhet-for-epics`, `docs/sara-review-129` og `docs/issue-opprydding`.
 - `docs/issue-opprydding` hadde en commit som aldri kom inn i `main` (`babe2a8`, reviewer-gate 2026-11-22, #93). Brukeren valgte å ta den med. Den er kopiert til `docs/arkitektur-gate-2026-11-22` (`cc3cbd4`, med konflikten i memloggen løst til én ny linje), og PR #138 er opprettet.
 - 4.2 «See my year» er utvidelse etter brukerens valg (`4ee670f`), og oversiktsdiagrammet er oppdatert av underagenten (`6edb4e9`). Begge sidene i Claude er oppdatert. PR #139 lukker #133 ved merge. Nå har alle 73 storyer et nivå.
+- PR #138 er merget. `main` er merget inn i `docs/story-4-2-utvidelse` (`6399f46`, loggkonflikten løst med grenens versjon, som hadde alt fra `main`).
+- Brukeren meldte at gruppa godkjenner storyene. `stepsCompleted` er satt til `[1, 2, 3, 4]` (`bc8146b`), og PR #139 lukker også #130 ved merge. Epics og storyer er dermed ferdige.
+- #135: testen av innlogget på forsiden blir i den manuelle sjekken i 10.4, slik teksten alt sier. Issuet er lukket uten endring i teksten.
 
 ### Åpne punkter
-- Gruppa godkjenner storyene, nå med 9.4/9.5 og AI-skjøtene. Så settes `stepsCompleted` til `[1, 2, 3, 4]`, og #130 lukkes (#130).
-- Avgjør om testen av innlogget på forsiden kjøres i 1.4 eller 10.4 (#135).
 - Sett opp låsen på `main` før første story (#132).
 - Avgjør hva 4.6 tar vare på om 9.3 kuttes, siden 4.6 viser framover til 9.3 (#136).
