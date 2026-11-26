@@ -1,7 +1,7 @@
 ---
 title: LifeMode MVP — solution design
 created: 2026-11-15
-updated: 2026-11-23
+updated: 2026-11-26
 audience: the team, and the examiner
 explains: ARCHITECTURE-SPINE.md
 ---
@@ -12,7 +12,7 @@ This document explains the architecture of LifeMode's first version: what is dec
 
 **Where to start:** for frontend work, go straight to section 9. For the examiner, sections 1, 2, 8 and 10 give the decisions and the reasons, and section 12 says how they were checked.
 
-The binding version is [`ARCHITECTURE-SPINE.md`](ARCHITECTURE-SPINE.md), which states each decision as a short rule with an ID (AD-1 to AD-20). This document explains those rules and adds none. If the two differ, the spine applies. The requirements come from the PRD (`prds/prd-IBE160-G13-2026-10-22/prd.md`), and FR and NFR numbers below refer to it.
+The binding version is [`ARCHITECTURE-SPINE.md`](ARCHITECTURE-SPINE.md), which states each decision as a short rule with an ID (AD-1 to AD-21). This document explains those rules and adds none. If the two differ, the spine applies. The requirements come from the PRD (`prds/prd-IBE160-G13-2026-10-22/prd.md`), and FR and NFR numbers below refer to it.
 
 ## 1. The short version
 
@@ -24,6 +24,7 @@ The binding version is [`ARCHITECTURE-SPINE.md`](ARCHITECTURE-SPINE.md), which s
 - **Login is our own.** Email and password, with sessions the server can end at once (AD-10).
 - **One address for the browser.** In the playtest, the frontend runs on Vercel and passes every `/api` call on to Caddy, a small web server in front of the backend, so the browser sees one address and the login cookie needs no cross-site rules. Locally, Caddy serves both (AD-12).
 - **The frontend is a thin layer.** It shows the view the server sends and sends the player's choices back. The game's state decides which full screen shows (an event, the recap, the ending); the address decides the area. One small client module talks to the API, and everything else goes through it (AD-17, AD-18).
+- **The code is cut in vertical slices.** Each epic domain (account, life, money, year, phone, work, credit, belongings, explain, playtest) has its own folder in the backend and the frontend. A slice uses only itself and a shared kernel, never another slice, and CI checks that. What two slices need moves to the kernel instead of being copied (AD-21).
 - **The playtest costs about USD 5-8 a month** on Railway and Supabase, and nothing afterwards (AD-14).
 
 ## 2. The system at a glance
@@ -86,7 +87,7 @@ Continuing to the next month is one action. It closes the month and opens the ne
 
 ## 4. The engine
 
-The engine is ordinary Python functions: state and an action in, a new state and a list of results out. Everything around it (web, database, email) is the "shell". This split is called *functional core, imperative shell*.
+The engine is ordinary Python functions: state and an action in, a new state and a list of results out. Everything around it (web, database, email) is the "shell". This split is called *functional core, imperative shell*. The engine is itself cut in two: a shared kernel (`shared/engine/`) holds the month loop, the ledger, the draws, the selection step and the player view, and each slice's own `engine/` holds that domain's rules (the card, the job, the moped). A slice plugs its rules into the month loop's fixed steps, so the order of a month still lives in one place (AD-21).
 
 **Why it matters for this game:**
 
@@ -198,7 +199,7 @@ There are two kinds of these screens:
 
 A player who returns during setup goes straight on with it, with no recap. The recap and the year end close with «Fortsett» and stay closed in that tab. A screen change moves focus to the new heading, updates the page title and is announced to screen readers, just like a change of address.
 
-**Talking to the API: one client (AD-18).** Only `frontend/src/api/` calls the server. Its TypeScript types are generated from `openapi.json`, so a backend change that breaks the frontend fails the type check. The game client:
+**Talking to the API: one client (AD-18).** Only `frontend/src/shared/api/` calls the server. Its TypeScript types are generated from `openapi.json`, so a backend change that breaks the frontend fails the type check. The game client:
 
 - holds the latest response in one store that every screen reads;
 - sends one game action at a time, using the month and plan version of the screen the player actually saw;

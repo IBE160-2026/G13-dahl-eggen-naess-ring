@@ -168,7 +168,7 @@ components:
 
 # LifeMode — Design Spine
 
-> **Final, 2026-11-23.** Distilled from UX round 3 (`mockups/index.html`; every surface and state on one page in `mockups/oversikt.html`), which the team built from its own revisions in `../decisions.md`. The group chose round 3 as the direction on 2026-11-22 (#95). `EXPERIENCE.md` covers how it works. The frontmatter is the source of `frontend/src/styles/tokens.css` (architecture AD-19). When this spine and the mockup disagree, the spine wins.
+> **Final, 2026-11-23.** Distilled from UX round 3 (`mockups/index.html`; every surface and state on one page in `mockups/oversikt.html`), which the team built from its own revisions in `../decisions.md`. The group chose round 3 as the direction on 2026-11-22 (#95). `EXPERIENCE.md` covers how it works. The frontmatter is the source of `frontend/src/shared/styles/tokens.css` (architecture AD-19). When this spine and the mockup disagree, the spine wins.
 
 ## Brand & Style
 
