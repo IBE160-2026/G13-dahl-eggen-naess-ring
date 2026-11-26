@@ -82,7 +82,7 @@ This document provides the complete epic and story breakdown for IBE160-G13 (Lif
 
 **Money view (PRD 5.8)**
 
-- FR-57: Savings target, upcoming costs and activity spend [Can be cut]. Pin one priced option (even unopened; one of two prices); pinning moves no money and isn't a choice. Progress = current account + savings against the price, at most 100 %, engine-calculated, shown after the plan's payments before continuing. Cleared with a note when taken, given or closed. Upcoming costs: next month's known fixed and everyday costs and instalments; the card as its current balance; empty in month 60. Activity spend: this year's applied activities by kind.
+- FR-57: Savings target, upcoming costs and activity spend [Core for upcoming costs; the savings target and activity spend can be cut]. Pin one priced option (even unopened; one of two prices); pinning moves no money and isn't a choice. Progress = current account + savings against the price, at most 100 %, engine-calculated, shown after the plan's payments before continuing. Cleared with a note when taken, given or closed. Upcoming costs: next month's known fixed and everyday costs and instalments; the card as its current balance; empty in month 60. Activity spend: this year's applied activities by kind.
 
 **Money (PRD 5.9)**
 
@@ -163,8 +163,8 @@ This document provides the complete epic and story breakdown for IBE160-G13 (Lif
 - AD-4 One mutation pipeline: every state-changing game request is `POST /api/game/actions` `{request_id, playthrough_id, month, action}` with `action` a discriminated union of the engine's action models, validated strictly in JSON mode (`TypeAdapter(GameRequest).validate_json`); `GET /api/game` returns the player view; read-only `GET /api/game/quote`. Idempotency via `request_id` in `action_log`; `409 game_changed`, `409 plan_changed` (`plan_version` on continue). Fixed lock order users → sessions → playthrough → playtest record. Life requests (start, end early, play again) in the same pipeline. Continue = one engine action closing M and opening M+1 (`apply_plan`, December step, rule 8, `close_month`, then ending or `open_month(M+1)`); the view computes after-the-plan figures on a copy; no read path opens a month. One AsyncSession per request; refusals before the first write; `action_log` insert last.
 - AD-5 Snapshot plus append-only log: one `playthroughs` row per user with indexed columns copied from the JSONB state (the document is the authority), `state_schema` with in-memory upgrades on load (read paths never write), `action_log` rows never updated or deleted while the playthrough exists, `model_dump(mode="json")` with Decimals as strings (round-trip test). Per-account data that survives a new life (seen disclosures) in its own table.
 - AD-6 Determinism and exact money: one seed per playthrough from `secrets`; every draw from `(seed, month, draw key)` via SHA-256 in `engine/draws.py`; collections sorted by content id; each drawn result has one owner and is stored in the draw store; tests pre-fill the draw store. Money is `int` kroner everywhere; rates, wages and hours are `Decimal` (quoted strings in YAML; the loader fails on floats); one rule 2 rounding function at the named points only; no float in game arithmetic; replay checks only on logs from the same build.
-- AD-7 Content as versioned, frozen YAML: `content/config/vN/` and `content/library/vN/` (events, activities, messages, room, shifts, options, expenses, texts, lists.yaml), one YAML file per item. Manifests with fingerprints over non-text fields and `frozen: true|false`; new playthroughs pin the newest frozen library and its config (newest library in local/ci and pre-freeze playtest). While unfrozen only the schema and open-option gates fail; the schema gate also fails game text that writes a four-digit year or a month name. After freeze: text-only edits, fingerprint gate, every FR-58 gate fails, mechanics changes need a new version folder, no folder deleted. `cli clear-game-data` once when v1 freezes. All versions loaded and fingerprint-checked at startup; `backfill.yaml` for fields added after a freeze. Worked examples read only `config/test-vN/`.
-- AD-8 One selection step: one engine unit decides the event, the messages (incl. hours answers) and the month's one-off shifts at month open; drawn and triggered items merged under FR-55's cap and order; stored in the state.
+- AD-7 Content as versioned, frozen YAML: `content/config/vN/` and `content/library/vN/` (events, activities, messages, room, shifts, options, expenses, texts, lists.yaml), one YAML file per item. Manifests with fingerprints over non-text fields and `frozen: true|false`; new playthroughs pin the newest frozen library and its config (newest library in local/ci and pre-freeze playtest). While unfrozen only the schema and open-option gates fail; the schema gate also fails game text that writes a four-digit year or a month name. After freeze: text-only edits, fingerprint gate, every FR-58 gate fails, mechanics changes need a new version folder, no folder deleted. `cli clear-game-data` once when v1 freezes. All versions loaded and fingerprint-checked at startup; `backfill.yaml` for fields added after a freeze. Worked examples read only `config/test-vN/`. The schema gate's checks are one function that checks a single item against a loaded library (V2 seam).
+- AD-8 One selection step: one engine unit decides the event, the messages (incl. hours answers) and the month's one-off shifts at month open; drawn and triggered items merged under FR-55's cap and order; stored in the state. Proposing and the eligibility check are separate functions, and each stored item carries `source: library` with its id and version (V2 seams).
 - AD-9 One ledger: every balance change goes through `engine/ledger.py` (`pay()` implements the FR-45 table, `transfer()`, `receive()`); every call carries a cause and updates per-cause parts (proportional interest, proportional payments, largest-remainder rounding); choice ids are a state sequence number; per-choice money and wellbeing totals for FR-42; flow classes `in`/`out`/`tax`/`interest`/`internal` with parts (#116); month totals written only by the ledger, closed by `close_month(M)` and read by every surface; a reconciliation test for every month of every worked example, seed run and replay.
 - AD-10 Own login with revocable sessions: email normalized by one function; password `bcrypt(base64(sha256(pw)))`, 8-128 characters; `sessions` rows are the authority behind an HS256 JWT (`sid`, `exp`) in an httpOnly, SameSite=Lax cookie (Secure outside local/ci); sliding expiry at most once a minute with cookie re-issue; only the auth dependency writes `users.last_active_at`; the client never calls the API from a timer, except AD-18's retries of a pending action. Revocation per FR-3/4/5/44; a completed reset logs this device in. Attempt limits in `auth_attempts` keyed by HMAC-SHA256 address and network keys (IPv4 or IPv6 /64), unknown addresses do the same work, only sign-up and login answer 429, the reset cap follows Resend's UTC day. Client address only from `X-Client-IP` set by Caddy (`CADDY_MODE`); Vercel/Railway header choice and the route-handler fallback are verified in the spike. Reset links stored as SHA-256, one function for endpoint and CLI.
 - AD-11 Email through one module: Resend when keyed; local stand-in (`[email:mock]` in the backend log) in local/ci without a key; null sender in the playtest; one Jinja2 template; the CLI prints playtest reset links without logging addresses.
@@ -371,7 +371,7 @@ The story isn't done until these are in place. Story 10.4 checks NFR-7's whole l
 | Tier | Stories |
 |---|---|
 | Extension | 1.6, 2.4, 4.3, 7.3, 9.2, 9.3 |
-| Can be cut | 8.4, 8.5, 9.4 |
+| Can be cut | 8.4, 8.5, 9.5 |
 | Not set by the PRD | 4.2 |
 | Core | all the others, 9.1 («Hvorfor?») included |
 
@@ -418,7 +418,7 @@ A player takes the moped licence, buys and sells a moped, gets or pays for the c
 ### Epic 9: Forstå tallene
 A player can ask «Hvorfor?», sees «Tidligere valg» on effects of earlier choices, reads «Forenklet» notes and «Om tallene», pins a savings target and sees what comes next month.
 **FRs covered:** FR-37, FR-38, FR-40, FR-57
-**Notes:** Story 9.1 («Hvorfor?», FR-38) is Core, is always built and is never cut. The other stories are mostly Extension tier, so scope can be cut there first.
+**Notes:** Story 9.1 («Hvorfor?», FR-38) and Story 9.4 (what comes next month, FR-57) are Core, are always built and are never cut. 9.2 and 9.3 are Extension and 9.5 is Can be cut, so scope can be cut there first.
 
 ### Epic 10: Playtesten
 The group can run the playtest: records per tester and export by tester code, the content freeze, the manual and measured checks before the playtest, the test players close to each ending, and the clean-up afterwards. Sign-up limited to testers, the playtest environment and the daily check are in Epic 1.
@@ -705,6 +705,7 @@ So that the game reads one source of truth and a broken file never reaches a pla
 **Given** a pull request that changes content
 **When** CI runs the content check
 **Then** the schema gate and the fixed-list names fail on any error, and game text that writes a four-digit year or a month name fails (AD-7); the other FR-58 gates only warn while the library is unfrozen
+**And** the schema gate's checks are one function that checks a single item against the loaded library, and both the loader and the content check call it (AD-7)
 **And** the library has a starter set of regular events with a free option each, at least two that can be drawn in every in-game year from 15 to 19, and one boomerang pair, so a life can be played to 20 with events before the full library (8.6-8.10)
 
 ### Story 2.2: Choose my life goal and start a life
@@ -836,6 +837,7 @@ So that my life moves forward month by month (FR-49, FR-12, FR-14, FR-46b).
 **Given** month M+1 is an active month (January, April, July or October by default)
 **When** it opens
 **Then** one selection step draws its event uniformly from the eligible ones (age in range, required flags set, no blocking flags, not seen this playthrough) and stores it; with none eligible the month is quiet (FR-46b, AD-8)
+**And** proposing candidates and the eligibility check are separate functions in the selection step, and the stored event carries `source: library` with its id and version (AD-8)
 
 **Given** a quiet month
 **When** it opens
@@ -1283,7 +1285,7 @@ So that the phone feels alive without flooding me (FR-55).
 **Given** a month opens
 **When** the selection step runs with the event (AD-8)
 **Then** drawn messages (info, drawn offers) are chosen by age range and flags and stored, triggered messages (bank messages, other offers) are added, and one-off messages never repeat
-**And** the messages that belong to later stories are added by them: invitations in 6.2, the employer's extra shifts and hours answers in 6.6, the gift moped in 8.4, and the savings target's thresholds in 9.4; goal 1's thresholds work from here
+**And** the messages that belong to later stories are added by them: invitations in 6.2, the employer's extra shifts and hours answers in 6.6, the gift moped in 8.4, and the savings target's thresholds in 9.5; goal 1's thresholds work from here
 
 **Given** savings reach 25, 50, 75 or 100 % of the savings target or goal 1
 **When** the month opens
@@ -2010,13 +2012,27 @@ So that I know what's real and what isn't (FR-40).
 **When** the page loads
 **Then** it shows all 26 disclosures grouped by theme, rendered from my playthrough's pinned library, or from the start versions when no life is active (UX-DR39, AD-13)
 
-### Story 9.4: Pin a savings target and see what's coming
+### Story 9.4: See what's coming next month
 
-**Tier:** Can be cut (FR-57)
+**Tier:** Core (the upcoming costs, FR-57)
 
 As a player,
-I want to save towards something I choose and see next month's known costs,
-So that I can plan my money (FR-57).
+I want to see next month's known costs before I continue,
+So that I can see a cost coming before it hits and plan my money (FR-57).
+
+**Acceptance Criteria:**
+
+**Given** the bank
+**When** I open «Hva kommer neste måned»
+**Then** it lists next month's known fixed and everyday costs and the loan, payment-plan and family-loan instalments, with the card as its current balance, and is empty in month 60
+
+### Story 9.5: Pin a savings target and see this year's activity spend
+
+**Tier:** Can be cut (the savings target and activity spend, FR-57)
+
+As a player,
+I want to save towards something I choose and see what activities have cost this year,
+So that I can follow my progress towards it (FR-57).
 
 **Acceptance Criteria:**
 
@@ -2030,9 +2046,8 @@ So that I can plan my money (FR-57).
 **Then** the target is cleared with a short note, and bank messages for the target's thresholds follow it (FR-55)
 
 **Given** the bank
-**When** I open «Hva kommer neste måned»
-**Then** it lists next month's known fixed and everyday costs and the loan, payment-plan and family-loan instalments, with the card as its current balance, and is empty in month 60
-**And** «Aktiviteter i år» shows this in-game year's applied activity cost by kind (worked example 25)
+**When** I open «Aktiviteter i år»
+**Then** it shows this in-game year's applied activity cost by kind (worked example 25)
 
 ## Epic 10: Playtesten
 

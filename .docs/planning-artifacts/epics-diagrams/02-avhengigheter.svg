@@ -1,0 +1,350 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="lm-dep" viewBox="0 0 2000 3406" width="2000" height="3406" role="img" aria-label="Avhengigheter i LifeMode. Øverst de ti epicene i rekkefølge med hva hver epic trenger fra en tidligere: Epic 5 trenger Epic 2, Epic 6 trenger Epic 5, Epic 7 trenger Epic 6, Epic 8 trenger Epic 6 og 7 og Story 2.1, og Epic 10 bruker Epic 1. Nederst storyer i ulike epics som bygger på hverandre, for eksempel at 5.3 åpner valgene fra tabellen i 4.1.">
+  <style>
+    .lm-dep{--d-paper:#F6F3EC;--d-surface:#FFFFFF;--d-canvas:#DCE6D2;--d-ink:#1A1C2A;--d-muted:#454656;--d-hairline:#DDD8CC;--d-coral:#FF6F59;--d-coral-soft:#FFE3DD;--d-cobalt:#2B4CC4;--d-cobalt-soft:#E6EBFA;--d-locked:#FFE27A;}
+    .d-bg{fill:var(--d-paper,#F6F3EC)}
+    .d-zone{fill:var(--d-canvas,#DCE6D2)}
+    .d-card{fill:var(--d-surface,#FFFFFF);stroke:var(--d-hairline,#DDD8CC);stroke-width:1.5}
+    .d-box{fill:var(--d-surface,#FFFFFF);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .t-kjerne{fill:var(--d-coral-soft,#FFE3DD);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .t-utv{fill:var(--d-cobalt-soft,#E6EBFA);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5}
+    .t-kutt{fill:var(--d-surface,#FFFFFF);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5;stroke-dasharray:6 4}
+    .t-ingen{fill:var(--d-locked,#FFE27A);stroke:var(--d-ink,#1A1C2A);stroke-width:1.5;stroke-dasharray:2 3}
+    .d-ln{fill:none;stroke:var(--d-ink,#1A1C2A);stroke-width:1.6}
+    .d-need{fill:none;stroke:var(--d-coral,#FF6F59);stroke-width:3}
+    .d-later{fill:none;stroke:var(--d-cobalt,#2B4CC4);stroke-width:2.2;stroke-dasharray:7 5}
+    .d-ah{fill:var(--d-ink,#1A1C2A)}
+    .d-ah-c{fill:var(--d-coral,#FF6F59)}
+    .d-ah-b{fill:var(--d-cobalt,#2B4CC4)}
+    svg text{font-family:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;fill:var(--d-ink,#1A1C2A)}
+    svg .d-title{font-size:32px;font-weight:800;letter-spacing:-.015em}
+    svg .d-sub{font-size:16px;font-weight:500;fill:var(--d-muted,#454656)}
+    svg .d-h{font-size:12px;font-weight:800;letter-spacing:.09em}
+    svg .d-et{font-size:18px;font-weight:800}
+    svg .d-n{font-weight:800}
+    svg .d-st{font-size:14px;font-weight:600}
+    svg .d-t{font-size:15px;font-weight:800}
+    svg .d-s{font-size:13px;font-weight:500;fill:var(--d-muted,#454656)}
+    svg .d-p{font-size:15px;font-weight:500}
+    svg .d-pb{font-size:15px;font-weight:800}
+    svg .d-c{font-size:12px;font-weight:600;fill:var(--d-muted,#454656)}
+    svg .d-note{font-family:Kalam,'Segoe Print','Comic Sans MS',cursive;font-size:16px;fill:var(--d-cobalt,#2B4CC4)}
+  </style>
+  <defs>
+    <marker id="m-i" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="d-ah"/></marker>
+    <marker id="m-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="d-ah-c"/></marker>
+    <marker id="m-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="d-ah-b"/></marker>
+  </defs>
+  <rect class="d-bg" x="0" y="0" width="2000" height="3406"/>
+  <text class="d-title" x="40" y="62">Hva bygger på hva</text>
+  <text class="d-sub" x="40" y="92">Bare avhengigheter som står i epics.md. Pila går fra det som bygges først til det som bygger videre på det. Koblinger til forrige story i samme epic er utelatt.</text>
+  <text class="d-h" x="40" y="150">EPICENE</text>
+  <path class="d-ln" d="M40 180 h46" marker-end="url(#m-i)"/>
+  <text class="d-p" x="100" y="185">rekkefølgen, én epic etter én</text>
+  <path class="d-need" d="M354.1500000000001 180 h46" marker-end="url(#m-c)"/>
+  <text class="d-p" x="414.1500000000001" y="185">trenger noe fra en tidligere epic</text>
+  <path class="d-later" d="M688.4000000000002 180 h46" marker-end="url(#m-b)"/>
+  <text class="d-p" x="748.4000000000002" y="185">en senere epic legger til noe her eller prøver det ferdig</text>
+  <text class="d-h" x="890" y="228">HVA EPIC-LISTA SIER</text>
+  <rect class="d-box" x="250" y="250.0" width="480" height="62" rx="10"/>
+  <text class="d-t" x="264" y="288.0" style="font-size:16px"><tspan class="d-h" style="font-size:13px">EPIC 1</tspan><tspan x="326.1">Konto og innlogging</tspan></text>
+  <circle class="d-ah" cx="900" cy="279.5" r="3.5"/>
+  <text class="d-p" x="924" y="284.5">Starter alt: skjelettet med compose og CI (1.1) og frontend-skallet med tokens.css og felles komponenter (1.2).</text>
+  <path class="d-ln" d="M490.0 312.0 V340.0" marker-end="url(#m-i)"/>
+  <rect class="d-box" x="250" y="342.0" width="480" height="62" rx="10"/>
+  <text class="d-t" x="264" y="380.0" style="font-size:16px"><tspan class="d-h" style="font-size:13px">EPIC 2</tspan><tspan x="326.1">Start et liv og spill måned for måned</tspan></text>
+  <circle class="d-ah" cx="900" cy="361.0" r="3.5"/>
+  <text class="d-p" x="924" y="366.0">Motoren, hovedboka, innholdet med skjemasjekk og spillklienten, med et lite startsett hendelser (2.1).</text>
+  <circle class="d-ah" cx="900" cy="382.0" r="3.5"/>
+  <text class="d-p" x="924" y="387.0">Trenger at #123 og #81 er avklart for storyene som viser til dem.</text>
+  <path class="d-ln" d="M490.0 404.0 V432.0" marker-end="url(#m-i)"/>
+  <rect class="d-box" x="250" y="434.0" width="480" height="62" rx="10"/>
+  <text class="d-t" x="264" y="472.0" style="font-size:16px"><tspan class="d-h" style="font-size:13px">EPIC 3</tspan><tspan x="326.1">Pengene i hverdagen</tspan></text>
+  <path class="d-later" d="M890 463.5 h24"/>
+  <text class="d-p" x="924" y="468.5">Et liv kan spilles uten jobb. Lønn og skatt kommer i Epic 6.</text>
+  <path class="d-ln" d="M490.0 496.0 V524.0" marker-end="url(#m-i)"/>
+  <rect class="d-box" x="250" y="526.0" width="480" height="62" rx="10"/>
+  <text class="d-t" x="264" y="564.0" style="font-size:16px"><tspan class="d-h" style="font-size:13px">EPIC 4</tspan><tspan x="326.1">Året, slutten og et nytt liv</tspan></text>
+  <path class="d-later" d="M890 545.0 h24"/>
+  <text class="d-p" x="924" y="550.0">Meldinger, hint, planlagte aktiviteter og skatt legges til årsslutten og oppsummeringen i Epic 5 og 6.</text>
+  <path class="d-later" d="M890 566.0 h24"/>
+  <text class="d-p" x="924" y="571.0">Regelen for tapsslutten bygges her og prøves når krisene finnes i Epic 7.</text>
+  <path class="d-ln" d="M490.0 588.0 V616.0" marker-end="url(#m-i)"/>
+  <rect class="d-box" x="250" y="618.0" width="480" height="62" rx="10"/>
+  <text class="d-t" x="264" y="656.0" style="font-size:16px"><tspan class="d-h" style="font-size:13px">EPIC 5</tspan><tspan x="326.1">Mobilen og valgene som står åpne</tspan></text>
+  <path class="d-need" d="M890 637.0 h22"/>
+  <text class="d-p" x="924" y="642.0">Trenger Epic 2: bruker starthendelsene derfra.</text>
+  <circle class="d-ah" cx="900" cy="658.0" r="3.5"/>
+  <text class="d-p" x="924" y="663.0">Hvert valg får sine egne regler i sin epic (6, 7 og 8).</text>
+  <path class="d-ln" d="M490.0 680.0 V708.0" marker-end="url(#m-i)"/>
+  <rect class="d-box" x="250" y="710.0" width="480" height="62" rx="10"/>
+  <text class="d-t" x="264" y="748.0" style="font-size:16px"><tspan class="d-h" style="font-size:13px">EPIC 6</tspan><tspan x="326.1">Jobb, fritid og månedsplan</tspan></text>
+  <path class="d-need" d="M890 729.0 h22"/>
+  <text class="d-p" x="924" y="734.0">Trenger Epic 5: aldersvalgene (jobben åpner i måned 3).</text>
+  <circle class="d-ah" cx="900" cy="750.0" r="3.5"/>
+  <text class="d-p" x="924" y="755.0">Aktivitetskatalogen med priser (#57) kommer før aktivitetsstoryene.</text>
+  <path class="d-ln" d="M490.0 772.0 V800.0" marker-end="url(#m-i)"/>
+  <rect class="d-box" x="250" y="802.0" width="480" height="62" rx="10"/>
+  <text class="d-t" x="264" y="840.0" style="font-size:16px"><tspan class="d-h" style="font-size:13px">EPIC 7</tspan><tspan x="326.1">Kort, lån og kriser</tspan></text>
+  <path class="d-need" d="M890 831.5 h22"/>
+  <text class="d-p" x="924" y="836.5">Trenger Epic 6: fast lønn, timer og aktiviteter. Kort og lån krever fast lønn, og krisevalg bruker vakter og jobber.</text>
+  <path class="d-ln" d="M490.0 864.0 V907.0" marker-end="url(#m-i)"/>
+  <rect class="d-box" x="250" y="909.0" width="480" height="62" rx="10"/>
+  <text class="d-t" x="264" y="947.0" style="font-size:16px"><tspan class="d-h" style="font-size:13px">EPIC 8</tspan><tspan x="326.1">Moped, lappene, rommet og hele innholdet</tspan></text>
+  <path class="d-need" d="M890 907.0 h22"/>
+  <text class="d-p" x="924" y="912.0">Trenger Epic 7: bensin kan gå på kortet.</text>
+  <path class="d-need" d="M890 928.0 h22"/>
+  <text class="d-p" x="924" y="933.0">Trenger Epic 6 og 7: hele biblioteket (8.6–8.10) kommer sist, fordi hendelsene bruker jobb, kort, lån og moped.</text>
+  <path class="d-need" d="M890 949.0 h22"/>
+  <text class="d-p" x="924" y="954.0">Trenger 2.1: hendelser kan skrives så snart 2.1 er ferdig, og 8.11 trenger bare motoren og startsettet.</text>
+  <circle class="d-ah" cx="900" cy="970.0" r="3.5"/>
+  <text class="d-p" x="924" y="975.0">Frysing og skriveplan (#126) og justering med ekte priser (#48) kommer før 8.6–8.11.</text>
+  <path class="d-ln" d="M490.0 971.0 V1014.0" marker-end="url(#m-i)"/>
+  <rect class="d-box" x="250" y="1016.0" width="480" height="62" rx="10"/>
+  <text class="d-t" x="264" y="1054.0" style="font-size:16px"><tspan class="d-h" style="font-size:13px">EPIC 9</tspan><tspan x="326.1">Forstå tallene</tspan></text>
+  <circle class="d-ah" cx="900" cy="1045.5" r="3.5"/>
+  <text class="d-p" x="924" y="1050.5">Teksten nevner ingen egne avhengigheter utover rekkefølgen. 9.1 «Hvorfor?» og 9.4 er kjerne og kuttes aldri.</text>
+  <path class="d-ln" d="M490.0 1078.0 V1110.5" marker-end="url(#m-i)"/>
+  <rect class="d-box" x="250" y="1112.5" width="480" height="62" rx="10"/>
+  <text class="d-t" x="264" y="1150.5" style="font-size:16px"><tspan class="d-h" style="font-size:13px">EPIC 10</tspan><tspan x="326.1">Playtesten</tspan></text>
+  <path class="d-need" d="M890 1121.0 h22"/>
+  <text class="d-p" x="924" y="1126.0">Registrering bare for testere, playtestmiljøet og den daglige sjekken ligger i Epic 1.</text>
+  <path class="d-need" d="M890 1142.0 h22"/>
+  <text class="d-p" x="924" y="1147.0">10.5 trenger at alle andre storyer som endrer spillet er ferdige.</text>
+  <circle class="d-ah" cx="900" cy="1163.0" r="3.5"/>
+  <text class="d-p" x="924" y="1168.0">Måledefinisjoner og rubrikker (#82, #69, #108) kommer før disse storyene.</text>
+  <path class="d-need" d="M250 392.0 H224 Q216 392.0 216 400.0 V622.0 Q216 630.0 224 630.0 H247" marker-end="url(#m-c)"/>
+  <path class="d-need" d="M250 668.0 H224 Q216 668.0 216 676.0 V714.0 Q216 722.0 224 722.0 H247" marker-end="url(#m-c)"/>
+  <path class="d-need" d="M250 760.0 H224 Q216 760.0 216 768.0 V806.0 Q216 814.0 224 814.0 H247" marker-end="url(#m-c)"/>
+  <path class="d-need" d="M250 852.0 H224 Q216 852.0 216 860.0 V913.0 Q216 921.0 224 921.0 H247" marker-end="url(#m-c)"/>
+  <path class="d-need" d="M250 750.0 H198 Q190 750.0 190 758.0 V923.0 Q190 931.0 198 931.0 H247" marker-end="url(#m-c)"/>
+  <path class="d-need" d="M250 382.0 H172 Q164 382.0 164 390.0 V933.0 Q164 941.0 172 941.0 H247" marker-end="url(#m-c)"/>
+  <path class="d-need" d="M250 300.0 H146 Q138 300.0 138 308.0 V1116.5 Q138 1124.5 146 1124.5 H247" marker-end="url(#m-c)"/>
+  <path class="d-later" d="M730 576.0 H756 Q764 576.0 764 584.0 V622.0 Q764 630.0 756 630.0 H733" marker-end="url(#m-b)"/>
+  <path class="d-later" d="M730 566.0 H782 Q790 566.0 790 574.0 V714.0 Q790 722.0 782 722.0 H733" marker-end="url(#m-b)"/>
+  <path class="d-later" d="M730 484.0 H808 Q816 484.0 816 492.0 V724.0 Q816 732.0 808 732.0 H733" marker-end="url(#m-b)"/>
+  <path class="d-later" d="M730 556.0 H834 Q842 556.0 842 564.0 V806.0 Q842 814.0 834 814.0 H733" marker-end="url(#m-b)"/>
+  <path class="d-ln" d="M40 1239 H1960" style="stroke-width:1;opacity:.35"/>
+  <text class="d-h" x="40" y="1279">STORYER I ULIKE EPICS SOM HENGER SAMMEN</text>
+  <path class="d-need" d="M40 1313 h46" marker-end="url(#m-c)"/>
+  <text class="d-p" x="100" y="1318">bygger videre på: den senere storyen legger til noe i eller bruker det den første bygde</text>
+  <path class="d-later" d="M756.3000000000004 1313 h46" marker-end="url(#m-b)"/>
+  <text class="d-p" x="816.3000000000004" y="1318">den første storyen testes med forberedt tilstand, eller først, i den senere</text>
+  <rect class="d-card" x="40" y="1369" width="940" height="298" rx="16"/>
+  <text class="d-et" x="60" y="1405">Startsettet med hendelser</text>
+  <rect class="d-box" x="60" y="1460.0" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="72" y="1486.0"><tspan>2.1</tspan><tspan x="105.7">Spilltall og hendelser som</tspan></text>
+  <text class="d-t" x="72" y="1506.0">sjekket YAML</text>
+  <rect class="d-box" x="440" y="1429" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="1453"><tspan>8.6–8.10</tspan><tspan x="533.1">Spill hendelsene i år 1–5</tspan></text>
+  <text class="d-s" x="452" y="1471">hele biblioteket tar over etter startsettet</text>
+  <path class="d-need" d="M360 1488.0 C398.5 1488.0 398.5 1458.5 437 1458.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="440" y="1498" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="1522"><tspan>8.11</tspan><tspan x="495.5">Sjekk innholdet på hver pull request</tspan></text>
+  <text class="d-s" x="452" y="1540">trenger bare motoren og startsettet, så den kan bygges før 8.6</text>
+  <path class="d-need" d="M360 1498.0 C398.5 1498.0 398.5 1527.5 437 1527.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="60" y="1579.0" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="72" y="1605.0"><tspan>8.11</tspan><tspan x="115.5">Sjekk innholdet på hver pull</tspan></text>
+  <text class="d-t" x="72" y="1625.0">request</text>
+  <rect class="d-box" x="440" y="1579" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="1603"><tspan>10.3</tspan><tspan x="495.5">Frys og juster innholdet før playtesten</tspan></text>
+  <text class="d-s" x="452" y="1621">rapportene hjelper justeringen, og fra frysingen feiler alle portene</text>
+  <path class="d-need" d="M360 1612.0 C398.5 1612.0 398.5 1608.5 437 1608.5" marker-end="url(#m-c)"/>
+  <rect class="d-card" x="1020" y="1369" width="940" height="279" rx="16"/>
+  <text class="d-et" x="1040" y="1405">Seedede testbrukere</text>
+  <rect class="d-box" x="1040" y="1494.5" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="1052" y="1520.5"><tspan>2.9</tspan><tspan x="1085.7">Logg inn som seedet</tspan></text>
+  <text class="d-t" x="1052" y="1540.5">testbruker</text>
+  <rect class="d-box" x="1420" y="1429" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="1453"><tspan>7.1</tspan><tspan x="1465.7">Få kredittkort og velg hvordan regningen betales</tspan></text>
+  <text class="d-s" x="1432" y="1471">legger til brukeren «rett før 18 med fast lønn»</text>
+  <path class="d-need" d="M1340 1517.5 C1378.5 1517.5 1378.5 1458.5 1417 1458.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="1420" y="1498" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="1522"><tspan>7.7</tspan><tspan x="1465.7">Kom gjennom en krisemåned</tspan></text>
+  <text class="d-s" x="1432" y="1540">legger til brukeren «i gjeld med krise på vei»</text>
+  <path class="d-need" d="M1340 1527.5 C1378.5 1527.5 1378.5 1527.5 1417 1527.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="1420" y="1567" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="1591"><tspan>10.5</tspan><tspan x="1475.5">Logg inn som testbruker nær hver slutt</tspan></text>
+  <text class="d-s" x="1432" y="1609">brukere i måned 59 nær hver slutt, laget som i 2.9</text>
+  <path class="d-need" d="M1340 1537.5 C1378.5 1537.5 1378.5 1596.5 1417 1596.5" marker-end="url(#m-c)"/>
+  <rect class="d-card" x="1020" y="1672" width="940" height="279" rx="16"/>
+  <text class="d-et" x="1040" y="1708">Årsslutten</text>
+  <rect class="d-box" x="1040" y="1807.5" width="300" height="46" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="1052" y="1833.5"><tspan>4.1</tspan><tspan x="1085.7">Avslutt året i desember</tspan></text>
+  <rect class="d-box" x="1420" y="1732" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="1756"><tspan>5.3</tspan><tspan x="1465.7">Lås opp valg etter hvert som jeg blir eldre</tspan></text>
+  <text class="d-s" x="1432" y="1774">åpner valgene fra tabellen over aldersvalg som 4.1 legger i config</text>
+  <path class="d-need" d="M1340 1820.5 C1378.5 1820.5 1378.5 1761.5 1417 1761.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="1420" y="1801" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="1825"><tspan>5.5</tspan><tspan x="1465.7">Møt oppfølginger av tidligere valg</tspan></text>
+  <text class="d-s" x="1432" y="1843">legger til hintet om et boomerangpar</text>
+  <path class="d-need" d="M1340 1830.5 C1378.5 1830.5 1378.5 1830.5 1417 1830.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="1420" y="1870" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="1894"><tspan>6.5</tspan><tspan x="1465.7">Betal skatt på lønna</tspan></text>
+  <text class="d-s" x="1432" y="1912">legger til årets skatt og BSU-fradrag</text>
+  <path class="d-need" d="M1340 1840.5 C1378.5 1840.5 1378.5 1899.5 1417 1899.5" marker-end="url(#m-c)"/>
+  <rect class="d-card" x="40" y="1691" width="940" height="279" rx="16"/>
+  <text class="d-et" x="60" y="1727">Oppsummeringen når jeg kommer tilbake</text>
+  <rect class="d-box" x="60" y="1816.5" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="72" y="1842.5"><tspan>4.3</tspan><tspan x="105.7">Få en oppsummering når jeg</tspan></text>
+  <text class="d-t" x="72" y="1862.5">kommer tilbake</text>
+  <rect class="d-box" x="440" y="1751" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="1775"><tspan>5.2</tspan><tspan x="485.7">Få riktige meldinger hver måned</tspan></text>
+  <text class="d-s" x="452" y="1793">legger til hvor mange meldinger som kom</text>
+  <path class="d-need" d="M360 1839.5 C398.5 1839.5 398.5 1780.5 437 1780.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="440" y="1820" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="1844"><tspan>5.5</tspan><tspan x="485.7">Møt oppfølginger av tidligere valg</tspan></text>
+  <text class="d-s" x="452" y="1862">legger til hintet om et åpent boomerangpar</text>
+  <path class="d-need" d="M360 1849.5 C398.5 1849.5 398.5 1849.5 437 1849.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="440" y="1889" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="1913"><tspan>6.1</tspan><tspan x="485.7">Planlegg de frie kveldene</tspan></text>
+  <text class="d-s" x="452" y="1931">legger til hva som er planlagt</text>
+  <path class="d-need" d="M360 1859.5 C398.5 1859.5 398.5 1918.5 437 1918.5" marker-end="url(#m-c)"/>
+  <rect class="d-card" x="1020" y="1975" width="940" height="367" rx="16"/>
+  <text class="d-et" x="1040" y="2011">Sluttene</text>
+  <rect class="d-box" x="1040" y="2110.5" width="300" height="46" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="1052" y="2136.5"><tspan>4.4</tspan><tspan x="1085.7">Nå en av fire slutter ved 20</tspan></text>
+  <rect class="d-box" x="1420" y="2035" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="2059"><tspan>5.4</tspan><tspan x="1465.7">Ta valg som står åpne, også den store opplevelsen</tspan></text>
+  <text class="d-s" x="1432" y="2077">opplevelsen testes med forberedt tilstand til 5.4</text>
+  <path class="d-later" d="M1340 2123.5 C1378.5 2123.5 1378.5 2064.5 1417 2064.5" marker-end="url(#m-b)"/>
+  <rect class="d-box" x="1420" y="2104" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="2128"><tspan>7.7</tspan><tspan x="1465.7">Kom gjennom en krisemåned</tspan></text>
+  <text class="d-s" x="1432" y="2146">tapsslutten testes på spilte tilstander fra 7.7</text>
+  <path class="d-later" d="M1340 2133.5 C1378.5 2133.5 1378.5 2133.5 1417 2133.5" marker-end="url(#m-b)"/>
+  <rect class="d-box" x="1420" y="2173" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="2197"><tspan>10.5</tspan><tspan x="1475.5">Logg inn som testbruker nær hver slutt</tspan></text>
+  <text class="d-s" x="1432" y="2215">testbrukerne nær hver slutt kommer sist</text>
+  <path class="d-need" d="M1340 2143.5 C1378.5 2143.5 1378.5 2202.5 1417 2202.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="1040" y="2254.0" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="1052" y="2280.0"><tspan>4.5</tspan><tspan x="1085.7">Se de tre valgene som betydde</tspan></text>
+  <text class="d-t" x="1052" y="2300.0">mest</text>
+  <rect class="d-box" x="1420" y="2254" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="2278"><tspan>6.2</tspan><tspan x="1465.7">Lev de planlagte aktivitetene ved månedsslutt</tspan></text>
+  <text class="d-s" x="1432" y="2296">aktivitetsgrupper testes med forberedt tilstand til 6.2</text>
+  <path class="d-later" d="M1340 2287.0 C1378.5 2287.0 1378.5 2283.5 1417 2283.5" marker-end="url(#m-b)"/>
+  <rect class="d-card" x="40" y="1994" width="940" height="436" rx="16"/>
+  <text class="d-et" x="60" y="2030">Valgene som låses opp</text>
+  <rect class="d-box" x="60" y="2154.0" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="72" y="2180.0"><tspan>5.3</tspan><tspan x="105.7">Lås opp valg etter hvert som</tspan></text>
+  <text class="d-t" x="72" y="2200.0">jeg blir eldre</text>
+  <rect class="d-box" x="440" y="2054" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="2078"><tspan>6.3, 6.4</tspan><tspan x="519.7">Jobb og sommerjobb</tspan></text>
+  <text class="d-s" x="452" y="2096">legger til jobbene (til da er de bare en rad i tabellen)</text>
+  <path class="d-need" d="M360 2172.0 C398.5 2172.0 398.5 2083.5 437 2083.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="440" y="2123" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="2147"><tspan>7.1</tspan><tspan x="485.7">Få kredittkort og velg hvordan regningen betales</tspan></text>
+  <text class="d-s" x="452" y="2165">legger til kortet og tilbudsmeldingen</text>
+  <path class="d-need" d="M360 2182.0 C398.5 2182.0 398.5 2152.5 437 2152.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="440" y="2192" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="2216"><tspan>7.3</tspan><tspan x="485.7">Ta forbrukslån</tspan></text>
+  <text class="d-s" x="452" y="2234">legger til lånet og tilbudsmeldingen</text>
+  <path class="d-need" d="M360 2192.0 C398.5 2192.0 398.5 2221.5 437 2221.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="440" y="2261" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="2285"><tspan>8.2–8.5</tspan><tspan x="523.3">Lappene og mopeden</tspan></text>
+  <text class="d-s" x="452" y="2303">legger til lappene og mopeden</text>
+  <path class="d-need" d="M360 2202.0 C398.5 2202.0 398.5 2290.5 437 2290.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="60" y="2342.0" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="72" y="2368.0"><tspan>5.4</tspan><tspan x="105.7">Ta valg som står åpne, også</tspan></text>
+  <text class="d-t" x="72" y="2388.0">den store opplevelsen</text>
+  <rect class="d-box" x="440" y="2342" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="2366"><tspan>6.3</tspan><tspan x="485.7">Få jobb og tjen lønn</tspan></text>
+  <text class="d-s" x="452" y="2384">jobbvisningen kommer i 6.3</text>
+  <path class="d-need" d="M360 2375.0 C398.5 2375.0 398.5 2371.5 437 2371.5" marker-end="url(#m-c)"/>
+  <rect class="d-card" x="1020" y="2366" width="940" height="348" rx="16"/>
+  <text class="d-et" x="1040" y="2402">Meldingene</text>
+  <rect class="d-box" x="1040" y="2526.0" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="1052" y="2552.0"><tspan>5.2</tspan><tspan x="1085.7">Få riktige meldinger hver</tspan></text>
+  <text class="d-t" x="1052" y="2572.0">måned</text>
+  <rect class="d-box" x="1420" y="2426" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="2450"><tspan>6.2</tspan><tspan x="1465.7">Lev de planlagte aktivitetene ved månedsslutt</tspan></text>
+  <text class="d-s" x="1432" y="2468">legger til invitasjonene</text>
+  <path class="d-need" d="M1340 2544.0 C1378.5 2544.0 1378.5 2455.5 1417 2455.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="1420" y="2495" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="2519"><tspan>6.6</tspan><tspan x="1465.7">Be om flere eller færre timer og ta ekstravakter</tspan></text>
+  <text class="d-s" x="1432" y="2537">legger til ekstravakter og svar om timer</text>
+  <path class="d-need" d="M1340 2554.0 C1378.5 2554.0 1378.5 2524.5 1417 2524.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="1420" y="2564" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="2588"><tspan>8.4</tspan><tspan x="1465.7">Få moped i gave</tspan></text>
+  <text class="d-s" x="1432" y="2606">legger til meldingen om gavemopeden</text>
+  <path class="d-need" d="M1340 2564.0 C1378.5 2564.0 1378.5 2593.5 1417 2593.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="1420" y="2633" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="2657"><tspan>9.5</tspan><tspan x="1465.7">Fest et sparemål og se årets aktivitetsutgifter</tspan></text>
+  <text class="d-s" x="1432" y="2675">legger til tersklene for sparemålet</text>
+  <path class="d-need" d="M1340 2574.0 C1378.5 2574.0 1378.5 2662.5 1417 2662.5" marker-end="url(#m-c)"/>
+  <rect class="d-card" x="40" y="2454" width="940" height="210" rx="16"/>
+  <text class="d-et" x="60" y="2490">Oppfølgingene</text>
+  <rect class="d-box" x="60" y="2545.0" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="72" y="2571.0"><tspan>5.5</tspan><tspan x="105.7">Møt oppfølginger av tidligere</tspan></text>
+  <text class="d-t" x="72" y="2591.0">valg</text>
+  <rect class="d-box" x="440" y="2514" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="2538"><tspan>7.6</tspan><tspan x="485.7">Få kortvarsel</tspan></text>
+  <text class="d-s" x="452" y="2556">kortvarselet kommer inn i rekkefølgen</text>
+  <path class="d-need" d="M360 2573.0 C398.5 2573.0 398.5 2543.5 437 2543.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="440" y="2583" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="2607"><tspan>7.7</tspan><tspan x="485.7">Kom gjennom en krisemåned</tspan></text>
+  <text class="d-s" x="452" y="2625">krisen kommer inn i rekkefølgen</text>
+  <path class="d-need" d="M360 2583.0 C398.5 2583.0 398.5 2612.5 437 2612.5" marker-end="url(#m-c)"/>
+  <rect class="d-card" x="40" y="2688" width="940" height="310" rx="16"/>
+  <text class="d-et" x="60" y="2724">Planen for kveldene</text>
+  <rect class="d-box" x="60" y="2748.0" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="72" y="2774.0"><tspan>2.8</tspan><tspan x="105.7">Spill videre på dårlig nett og på</tspan></text>
+  <text class="d-t" x="72" y="2794.0">en annen enhet</text>
+  <rect class="d-box" x="440" y="2748" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="2772"><tspan>6.1</tspan><tspan x="485.7">Planlegg de frie kveldene</tspan></text>
+  <text class="d-s" x="452" y="2790">legger til avslaget plan_changed</text>
+  <path class="d-need" d="M360 2781.0 C398.5 2781.0 398.5 2777.5 437 2777.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="60" y="2842.5" width="300" height="46" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="72" y="2868.5"><tspan>3.6</tspan><tspan x="105.7">Se hvor nær livsmålet jeg er</tspan></text>
+  <rect class="d-box" x="440" y="2836" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="2860"><tspan>6.1</tspan><tspan x="485.7">Planlegg de frie kveldene</tspan></text>
+  <text class="d-s" x="452" y="2878">fremgangen mot livsmålet vises etter de planlagte betalingene</text>
+  <path class="d-need" d="M360 2865.5 C398.5 2865.5 398.5 2865.5 437 2865.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="60" y="2923.5" width="300" height="46" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="72" y="2949.5"><tspan>6.1</tspan><tspan x="105.7">Planlegg de frie kveldene</tspan></text>
+  <rect class="d-box" x="440" y="2917" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="2941"><tspan>7.7</tspan><tspan x="485.7">Kom gjennom en krisemåned</tspan></text>
+  <text class="d-s" x="452" y="2959">at planlegging virker i krisemåneder, testes i 7.7</text>
+  <path class="d-later" d="M360 2946.5 C398.5 2946.5 398.5 2946.5 437 2946.5" marker-end="url(#m-b)"/>
+  <rect class="d-card" x="1020" y="2738" width="940" height="298" rx="16"/>
+  <text class="d-et" x="1040" y="2774">Testerne og playtesten</text>
+  <rect class="d-box" x="1040" y="2829.0" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="1052" y="2855.0"><tspan>1.8</tspan><tspan x="1085.7">Bare inviterte testere kan</tspan></text>
+  <text class="d-t" x="1052" y="2875.0">registrere seg</text>
+  <rect class="d-box" x="1420" y="2798" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="2822"><tspan>10.1</tspan><tspan x="1475.5">Registrer hva testerne gjør</tspan></text>
+  <text class="d-s" x="1432" y="2840">holder testkontoene utenfor dataene</text>
+  <path class="d-need" d="M1340 2857.0 C1378.5 2857.0 1378.5 2827.5 1417 2827.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="1420" y="2867" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="2891"><tspan>10.2</tspan><tspan x="1475.5">Eksporter dataene etter testerkode</tspan></text>
+  <text class="d-s" x="1432" y="2909">holder testkontoene utenfor eksporten</text>
+  <path class="d-need" d="M1340 2867.0 C1378.5 2867.0 1378.5 2896.5 1417 2896.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="1040" y="2948.0" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="1052" y="2974.0"><tspan>1.4</tspan><tspan x="1085.7">Logg inn, forbli innlogget og</tspan></text>
+  <text class="d-t" x="1052" y="2994.0">logg ut</text>
+  <rect class="d-box" x="1420" y="2948" width="520" height="59" rx="10"/>
+  <text class="d-t" x="1432" y="2972"><tspan>10.4</tspan><tspan x="1475.5">Sjekk enheter, tilgjengelighet og fart for hånd</tspan></text>
+  <text class="d-s" x="1432" y="2990">testes når den første versjonen av appen finnes</text>
+  <path class="d-later" d="M1340 2981.0 C1378.5 2981.0 1378.5 2977.5 1417 2977.5" marker-end="url(#m-b)"/>
+  <rect class="d-card" x="40" y="3022" width="940" height="310" rx="16"/>
+  <text class="d-et" x="60" y="3058">Enkeltkoblinger</text>
+  <rect class="d-box" x="60" y="3088.5" width="300" height="46" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="72" y="3114.5"><tspan>1.3</tspan><tspan x="105.7">Lag en bruker</tspan></text>
+  <rect class="d-box" x="440" y="3082" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="3106"><tspan>2.2</tspan><tspan x="485.7">Velg livsmål og start et liv</tspan></text>
+  <text class="d-s" x="452" y="3124">legger til resten av /hjem</text>
+  <path class="d-need" d="M360 3111.5 C398.5 3111.5 398.5 3111.5 437 3111.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="60" y="3163.0" width="300" height="66" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="72" y="3189.0"><tspan>6.2</tspan><tspan x="105.7">Lev de planlagte aktivitetene</tspan></text>
+  <text class="d-t" x="72" y="3209.0">ved månedsslutt</text>
+  <rect class="d-box" x="440" y="3163" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="3187"><tspan>7.2</tspan><tspan x="485.7">Bruk kortet til kjøp</tspan></text>
+  <text class="d-s" x="452" y="3205">legger til korthalvdelen av eksempel 27</text>
+  <path class="d-need" d="M360 3196.0 C398.5 3196.0 398.5 3192.5 437 3192.5" marker-end="url(#m-c)"/>
+  <rect class="d-box" x="60" y="3257.5" width="300" height="46" rx="10" style="stroke-width:2.5"/>
+  <text class="d-t" x="72" y="3283.5"><tspan>4.6</tspan><tspan x="105.7">Start et nytt liv</tspan></text>
+  <rect class="d-box" x="440" y="3251" width="520" height="59" rx="10"/>
+  <text class="d-t" x="452" y="3275"><tspan>9.3</tspan><tspan x="485.7">Les hva spillet forenkler</tspan></text>
+  <text class="d-s" x="452" y="3293">lagrer forklaringene spilleren har sett, som 4.6 tar med til neste liv</text>
+  <path class="d-need" d="M360 3280.5 C398.5 3280.5 398.5 3280.5 437 3280.5" marker-end="url(#m-c)"/>
+  <text class="d-note" x="40" y="3382">Kilde: epics.md, Epic-lista og teksten i hver story. Tierne står i 01-oversikt.svg.</text>
+</svg>

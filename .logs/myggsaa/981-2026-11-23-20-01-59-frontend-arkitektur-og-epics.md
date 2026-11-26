@@ -73,22 +73,30 @@ Brukeren spurte hva neste BMad-steg var, hentet det nyeste fra GitHub (#131 og #
 ## 2026-11-26 kl. 13:32 — Myggsaa
 
 ### Oppgave
-Brukeren spurte hva neste BMad-steg var, hentet det nyeste fra GitHub, ba om å pushe loggen fra forrige økt og tok opp #130.
+Brukeren spurte hva neste BMad-steg var, hentet det nyeste fra GitHub, ba om å pushe loggen fra forrige økt og tok opp #130. Etterpå ba brukeren om en SVG-visualisering av epics og storyer (laget av en underagent), om å se alle epics og storyer på en side i Claude, og om min mening om hva som står på «kan kuttes». Brukeren ba meg ikke kutte noe jeg mener ikke må kuttes, og ba om det jeg anbefalte for å gjøre det lettere å bygge inn AI som spillmotor senere.
 
 ### Plan
 - `bmad-help`: planleggingen er ferdig fram til sprint-planlegging, som venter på at gruppa godkjenner storyene (#130).
 - `git pull`: #134 var merget (`85b8b35`, av sarahnaess) og grenen `docs/epics-steg-4` slettet på GitHub. Byttet til `main` og pullet.
 - Loggcommiten `519254b` var bare lokal. Den ble kopiert til `main` med cherry-pick og pushet, slik tidligere logger er pushet rett til `main` (`main` har ikke lås ennå, #132).
 - #130: #134 er merget uten formell review. Brukeren vil ikke regne mergen som godkjenning og vil vente.
+- Kan kuttes: gikk gjennom 8.4, 8.5 og 9.4 mot PRD §4.4, FR-9a og SM-9. Bare «Hva kommer neste måned» bør ikke kuttes. BSU-sammenligningen kan kuttes, fordi BSU læres i 3.2, ved årsslutten i 4.1 og i skattefradraget.
+- AI i V2: sjekket «Ready for V2: AI as game master» i addendumet og AD-1, AD-7 og AD-8 i spinen. Det meste er alt på plass. Tre billige skjøter ble lagt til, uten nye funksjoner.
 
 ### Resultat
 - `main` er à jour med `origin/main`, og loggen fra 2026-11-25 er pushet (`12734a3`).
-- #130 har fått en kommentar som ber gruppa godkjenne de 72 storyene i `main`. #133 og #135 kan tas etter godkjenningen.
-- `stepsCompleted` er fortsatt `[1, 2, 3]`.
+- #130 har fått en kommentar som ber gruppa godkjenne storyene i `main`. Kommentaren sier 72 storyer. Etter delingen av 9.4 er det 73.
+- Ny gren `docs/fr57-kommende-kostnader` (ikke pushet):
+  - `0db05cf`: FR-57 er kjerne for kostnadene som kommer, og sparemålet og aktivitetsforbruket står fortsatt først på kuttlista. PRD §4.4, FR-oversikten, FR-57, memloggen og addendumet er oppdatert. I `epics.md` er 9.4 «See what's coming next month» (kjerne) og 9.5 «Pin a savings target and see this year's activity spend» (kan kuttes).
+  - `1c9e765`: AD-7 har én funksjon som sjekker ett element mot et lastet bibliotek. AD-8 har egne funksjoner for å foreslå og å sjekke, og `source: library` på lagrede elementer. Story 2.1 og 2.6 og AD-linjene i `epics.md` er oppdatert, og memloggen for arkitekturen har fått en oppføring. Lint av spinen gir bare den kjente falske treffen `{client_ip}`.
+  - `dbb7df5`: `.docs/planning-artifacts/epics-diagrams/01-oversikt.svg` og `02-avhengigheter.svg`, laget av en underagent og sjekket som gyldig XML.
+- Artifact (lenkedelt): https://claude.ai/artifact/HwGTeDrrAmcJUvaRK4EoqJ, med alle 73 storyene, søk, filter på nivå og begge diagrammene.
+- Underagenten fant noe uklart i `epics.md`: 4.6 viser til 9.3, som kommer i en senere epic og er utvidelse. Det er ikke rettet.
 - Den lokale grenen `docs/epics-steg-4` er ikke slettet. Alt på den ligger nå i `main`.
 
 ### Åpne punkter
-- Gruppa godkjenner storyene. Så settes `stepsCompleted` til `[1, 2, 3, 4]`, og #130 lukkes (#130).
+- Gruppa godkjenner storyene, nå med 9.4/9.5 og AI-skjøtene. Så settes `stepsCompleted` til `[1, 2, 3, 4]`, og #130 lukkes (#130).
 - Velg nivå for 4.2 «Året» (#133).
 - Avgjør om testen av innlogget på forsiden kjøres i 1.4 eller 10.4 (#135).
 - Sett opp låsen på `main` før første story (#132).
+- Avgjør hva 4.6 tar vare på om 9.3 kuttes, siden 4.6 viser framover til 9.3 (#136).
