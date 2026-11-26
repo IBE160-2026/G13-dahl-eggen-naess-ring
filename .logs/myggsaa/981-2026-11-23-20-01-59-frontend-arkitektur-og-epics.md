@@ -101,7 +101,7 @@ Brukeren spurte hva neste BMad-steg var, hentet det nyeste fra GitHub, ba om å 
 - PR #138 er merget. `main` er merget inn i `docs/story-4-2-utvidelse` (`6399f46`, loggkonflikten løst med grenens versjon, som hadde alt fra `main`).
 - Brukeren meldte at gruppa godkjenner storyene. `stepsCompleted` er satt til `[1, 2, 3, 4]` (`bc8146b`), og PR #139 lukker også #130 ved merge. Epics og storyer er dermed ferdige.
 - #135: testen av innlogget på forsiden blir i den manuelle sjekken i 10.4, slik teksten alt sier. Issuet er lukket uten endring i teksten.
+- #136: 4.6 avhenger ikke lenger av 9.3 (`5bb78ab`). Sette forenklinger hører til kontoen, så 4.6 sier at ingenting fra det ferdige livet blir med, og 9.3 legger dem til og tester dem. PR #139 lukker #136 ved merge.
 
 ### Åpne punkter
 - Sett opp låsen på `main` før første story (#132).
-- Avgjør hva 4.6 tar vare på om 9.3 kuttes, siden 4.6 viser framover til 9.3 (#136).
