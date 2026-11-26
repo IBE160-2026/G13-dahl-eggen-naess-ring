@@ -82,7 +82,7 @@ This document provides the complete epic and story breakdown for IBE160-G13 (Lif
 
 **Money view (PRD 5.8)**
 
-- FR-57: Savings target, upcoming costs and activity spend [Can be cut]. Pin one priced option (even unopened; one of two prices); pinning moves no money and isn't a choice. Progress = current account + savings against the price, at most 100 %, engine-calculated, shown after the plan's payments before continuing. Cleared with a note when taken, given or closed. Upcoming costs: next month's known fixed and everyday costs and instalments; the card as its current balance; empty in month 60. Activity spend: this year's applied activities by kind.
+- FR-57: Savings target, upcoming costs and activity spend [Core for upcoming costs; the savings target and activity spend can be cut]. Pin one priced option (even unopened; one of two prices); pinning moves no money and isn't a choice. Progress = current account + savings against the price, at most 100 %, engine-calculated, shown after the plan's payments before continuing. Cleared with a note when taken, given or closed. Upcoming costs: next month's known fixed and everyday costs and instalments; the card as its current balance; empty in month 60. Activity spend: this year's applied activities by kind.
 
 **Money (PRD 5.9)**
 
@@ -371,7 +371,7 @@ The story isn't done until these are in place. Story 10.4 checks NFR-7's whole l
 | Tier | Stories |
 |---|---|
 | Extension | 1.6, 2.4, 4.3, 7.3, 9.2, 9.3 |
-| Can be cut | 8.4, 8.5, 9.4 |
+| Can be cut | 8.4, 8.5, 9.5 |
 | Not set by the PRD | 4.2 |
 | Core | all the others, 9.1 («Hvorfor?») included |
 
@@ -418,7 +418,7 @@ A player takes the moped licence, buys and sells a moped, gets or pays for the c
 ### Epic 9: Forstå tallene
 A player can ask «Hvorfor?», sees «Tidligere valg» on effects of earlier choices, reads «Forenklet» notes and «Om tallene», pins a savings target and sees what comes next month.
 **FRs covered:** FR-37, FR-38, FR-40, FR-57
-**Notes:** Story 9.1 («Hvorfor?», FR-38) is Core, is always built and is never cut. The other stories are mostly Extension tier, so scope can be cut there first.
+**Notes:** Story 9.1 («Hvorfor?», FR-38) and Story 9.4 (what comes next month, FR-57) are Core, are always built and are never cut. 9.2 and 9.3 are Extension and 9.5 is Can be cut, so scope can be cut there first.
 
 ### Epic 10: Playtesten
 The group can run the playtest: records per tester and export by tester code, the content freeze, the manual and measured checks before the playtest, the test players close to each ending, and the clean-up afterwards. Sign-up limited to testers, the playtest environment and the daily check are in Epic 1.
@@ -1283,7 +1283,7 @@ So that the phone feels alive without flooding me (FR-55).
 **Given** a month opens
 **When** the selection step runs with the event (AD-8)
 **Then** drawn messages (info, drawn offers) are chosen by age range and flags and stored, triggered messages (bank messages, other offers) are added, and one-off messages never repeat
-**And** the messages that belong to later stories are added by them: invitations in 6.2, the employer's extra shifts and hours answers in 6.6, the gift moped in 8.4, and the savings target's thresholds in 9.4; goal 1's thresholds work from here
+**And** the messages that belong to later stories are added by them: invitations in 6.2, the employer's extra shifts and hours answers in 6.6, the gift moped in 8.4, and the savings target's thresholds in 9.5; goal 1's thresholds work from here
 
 **Given** savings reach 25, 50, 75 or 100 % of the savings target or goal 1
 **When** the month opens
@@ -2010,13 +2010,27 @@ So that I know what's real and what isn't (FR-40).
 **When** the page loads
 **Then** it shows all 26 disclosures grouped by theme, rendered from my playthrough's pinned library, or from the start versions when no life is active (UX-DR39, AD-13)
 
-### Story 9.4: Pin a savings target and see what's coming
+### Story 9.4: See what's coming next month
 
-**Tier:** Can be cut (FR-57)
+**Tier:** Core (the upcoming costs, FR-57)
 
 As a player,
-I want to save towards something I choose and see next month's known costs,
-So that I can plan my money (FR-57).
+I want to see next month's known costs before I continue,
+So that I can see a cost coming before it hits and plan my money (FR-57).
+
+**Acceptance Criteria:**
+
+**Given** the bank
+**When** I open «Hva kommer neste måned»
+**Then** it lists next month's known fixed and everyday costs and the loan, payment-plan and family-loan instalments, with the card as its current balance, and is empty in month 60
+
+### Story 9.5: Pin a savings target and see this year's activity spend
+
+**Tier:** Can be cut (the savings target and activity spend, FR-57)
+
+As a player,
+I want to save towards something I choose and see what activities have cost this year,
+So that I can follow my progress towards it (FR-57).
 
 **Acceptance Criteria:**
 
@@ -2030,9 +2044,8 @@ So that I can plan my money (FR-57).
 **Then** the target is cleared with a short note, and bank messages for the target's thresholds follow it (FR-55)
 
 **Given** the bank
-**When** I open «Hva kommer neste måned»
-**Then** it lists next month's known fixed and everyday costs and the loan, payment-plan and family-loan instalments, with the card as its current balance, and is empty in month 60
-**And** «Aktiviteter i år» shows this in-game year's applied activity cost by kind (worked example 25)
+**When** I open «Aktiviteter i år»
+**Then** it shows this in-game year's applied activity cost by kind (worked example 25)
 
 ## Epic 10: Playtesten
 

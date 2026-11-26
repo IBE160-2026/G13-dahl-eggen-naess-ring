@@ -584,7 +584,7 @@ Decided by the team, as Dahl reported on 2026-11-10 (`.memlog.md`). The change c
 
 **Refined while applying (OQ-19):** P5 didn't say how long an activity's effect lasts. A script applying rule 12 showed that lasting effects pile up, because nothing pulls social life back towards a baseline. One free activity in every slot (stress −2, social +4) lifted the 17b money chaser from 34 to 65 and a careful player to 95. That would remove the hollow win. Effects therefore count in their own month only (rule 12, example 26). The chaser then ends at 41, 44, and 37 at worst with the weights of goals 1, 2, and 3 (corrected to 42, 46, and 37 on 2026-11-11, see "Review fixes" below).
 
-**Also decided:** the whole revision goes in, with FR-57 and the activity grouping (P7) at the top of the cut list. Tuning values are starting values under OQ-8. Worked examples 1-23 and the reference runs plan no activities.
+**Also decided:** the whole revision goes in, with FR-57 and the activity grouping (P7) at the top of the cut list. *Changed 2026-11-26: the upcoming costs in FR-57 are Core, and only the savings target and activity spend stay on the cut list (PRD §4.4).* Tuning values are starting values under OQ-8. Worked examples 1-23 and the reference runs plan no activities.
 
 **UX concept alignment:** recorded under "For UX" in "Detail for downstream work".
 

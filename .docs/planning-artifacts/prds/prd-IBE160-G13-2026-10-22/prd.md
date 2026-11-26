@@ -2,7 +2,7 @@
 title: LifeMode PRD
 status: final
 created: 2026-10-22
-updated: 2026-11-23
+updated: 2026-11-26
 ---
 
 # PRD: LifeMode
@@ -307,10 +307,10 @@ Version one of LifeMode won't:
 
 ### 4.4 Cut order
 
-**Tiers.** Every FR has a tier in the FR overview (§5). **Core** is what a playthrough from 15 to 20 needs, and what the playtest needs to measure the success metrics (§7.1): the engine, the month loop, events, money, the moped, the card warning and crisis months, wellbeing, cause links, "Hvorfor?", the endings, the month plan, the phone, the job view, a minimal login, and playtest records. **Extension** is the avatar, the recap on return, tips, consumer loans, echo badges, disclosed simplifications, and changing the password. **Can be cut** is the cut list below. Where an FR is Core but part of it is on the cut list, the overview says which part. The team aims to build every FR, Extension and Can be cut included, so Extension work can run alongside the core. The tiers decide what gives way first when time runs short, not what gets built.
+**Tiers.** Every FR has a tier in the FR overview (§5). **Core** is what a playthrough from 15 to 20 needs, and what the playtest needs to measure the success metrics (§7.1): the engine, the month loop, events, money, the moped, the card warning and crisis months, wellbeing, cause links, "Hvorfor?", the endings, the month plan, the phone, the job view, the upcoming costs in the money view, a minimal login, and playtest records. **Extension** is the avatar, the recap on return, tips, consumer loans, echo badges, disclosed simplifications, and changing the password. **Can be cut** is the cut list below. Where an FR is Core but part of it is on the cut list, the overview says which part. The team aims to build every FR, Extension and Can be cut included, so Extension work can run alongside the core. The tiers decide what gives way first when time runs short, not what gets built.
 
 If time runs short, the team cuts content before the core, in this order. Other sections call this the cut list and refer to its items by name, not number:
-1. The savings target, upcoming costs, and activity spend in the money view (FR-57)
+1. The savings target and activity spend in the money view (FR-57). The upcoming costs stay
 2. Grouped activities on the ending screen (FR-42). Activities then aren't ranked among the choices that matter most
 3. Invitation activities and info messages, down to their minimum (FR-17)
 4. "If you had chosen differently" lines during play, including the BSU comparison
@@ -321,7 +321,7 @@ If time runs short, the team cuts content before the core, in this order. Other 
 9. Room layers, down to 3 (FR-34)
 10. Login hardening: per-network limits, the daily email cap, the "stay logged in" choice, **Log out on all devices**, and the 12-month deletion job. These then go on a "before go-live" list. Creating a user, login, reset, logout, account deletion, and the pause after repeated failed logins stay
 
-These always stay: the engine, wellbeing, the spending level, the endings, cause links, "Hvorfor?", the card warning, the moped, login, the month plan with the basic activities, the phone with offers and invitations, and the job view.
+These always stay: the engine, wellbeing, the spending level, the endings, cause links, "Hvorfor?", the card warning, the moped, login, the month plan with the basic activities, the phone with offers and invitations, the job view, and the upcoming costs in the money view.
 
 **When to cut:** the team cuts in groups, not one at a time, following the checkpoint table below. Extension FRs not started by the freeze are left out. If the core isn't playable from 15 to 20 by its checkpoint, the whole Can be cut tier is dropped. If the team has to cut before a checkpoint, it cuts in the order of the list above.
 
@@ -373,7 +373,7 @@ The dates are set from the playtest start, because the exact delivery date isn't
 | FR-54 | Phone and messages | 5.6 | UJ-1, UJ-3, UJ-6 | Core |
 | FR-55 | Which messages arrive | 5.6 | UJ-1, UJ-6 | Core |
 | FR-56 | Job view | 5.7 | UJ-1, UJ-4, UJ-6 | Core |
-| FR-57 | Savings target, upcoming costs, and activity spend | 5.8 | UJ-3, UJ-6 | Can be cut |
+| FR-57 | Savings target, upcoming costs, and activity spend | 5.8 | UJ-3, UJ-6 | Core for upcoming costs; the savings target and activity spend can be cut |
 | FR-45 | Accounts and paying for choices | 5.9 | UJ-1, UJ-3, UJ-4 | Core |
 | FR-20 | Wages | 5.9 | UJ-1, UJ-4, UJ-5 | Core |
 | FR-47 | Working hours | 5.9 | UJ-4, UJ-5, UJ-6 | Core |
@@ -882,7 +882,7 @@ The job view shows the workplace and role, the hourly rate for the player's age,
 
 #### FR-57: Savings target, upcoming costs, and activity spend
 
-The money view shows progress towards one savings target the player picks, the costs already known for next month, and what activities have cost this year. It adds no money rule, and it's on the cut list (§4.4). Realizes UJ-3 and UJ-6.
+The money view shows progress towards one savings target the player picks, the costs already known for next month, and what activities have cost this year. It adds no money rule. The upcoming costs are Core, because they are the only place the player sees a cost before it comes. The savings target and activity spend are on the cut list (§4.4). Realizes UJ-3 and UJ-6.
 
 **Consequences (testable):**
 - **Savings target:** the player can pin one option with a price, such as the moped licence, even one that hasn't opened yet. The view then shows when it opens (FR-18). An option with two prices, such as a new or a used moped, is pinned as one of them. Pinning moves no money and isn't a choice, and the target can be changed in any month.
