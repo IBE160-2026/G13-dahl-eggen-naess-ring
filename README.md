@@ -36,7 +36,7 @@ Planleggingen ligger i `.docs/` og øktene i `.logs/`. Begge mappene starter med
 ## Slik jobber vi
 
 - Vi planlegger og bygger med [BMAD](https://docs.bmad-method.org/) og Claude Code.
-- Endringer går inn i `main` via pull requests. Fra første story kreves grønn CI og godkjenning fra en annen i gruppa (#132).
+- Endringer går inn i `main` via pull requests. Fra første story merges ingenting på rød CI eller uten review: enten i GitHub (kommentarer eller godkjenning fra en annen i gruppa) eller live med gruppa, og etter en live-gjennomgang kan forfatteren merge selv (#132).
 - Hver KI-økt avsluttes med en sesjonslogg i `.logs/<bruker>/`. Det som gjenstår blir GitHub-issues med label `sesjonslogg`.
 
 ## Vurdering

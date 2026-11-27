@@ -24,7 +24,7 @@ The binding version is [`ARCHITECTURE-SPINE.md`](ARCHITECTURE-SPINE.md), which s
 - **Login is our own.** Email and password, with sessions the server can end at once (AD-10).
 - **One address for the browser.** In the playtest, the frontend runs on Vercel and passes every `/api` call on to Caddy, a small web server in front of the backend, so the browser sees one address and the login cookie needs no cross-site rules. Locally, Caddy serves both (AD-12).
 - **The frontend is a thin layer.** It shows the view the server sends and sends the player's choices back. The game's state decides which full screen shows (an event, the recap, the ending); the address decides the area. One small client module talks to the API, and everything else goes through it (AD-17, AD-18).
-- **The code is cut in vertical slices.** Each epic domain (account, life, money, year, phone, work, credit, belongings, explain, playtest) has its own folder in the backend and the frontend. A slice uses only itself and a shared kernel, never another slice, and CI checks that. What two slices need moves to the kernel instead of being copied (AD-21).
+- **The code is cut in vertical slices.** Each epic domain (account, life, money, year, phone, work, credit, belongings, explain, playtest) has its own folder in the backend and the frontend. A slice uses only itself and a shared kernel, never another slice, and CI checks that. Slices work together only through a fixed list of extension points in the kernel, such as the month's steps, option effects and crisis options. What two slices need moves to the kernel instead of being copied (AD-21).
 - **The playtest costs about USD 5-8 a month** on Railway and Supabase, and nothing afterwards (AD-14).
 
 ## 2. The system at a glance
@@ -38,6 +38,8 @@ flowchart LR
     BE --> Y[(Content: YAML files)]
     BE --> DB[(Postgres)]
 ```
+
+Inside the backend and the frontend, the code is cut into ten slices, one per game domain, around a shared kernel (month loop, ledger, pipeline, player view, game client). Slices meet only at the kernel's extension points (AD-21, section 4).
 
 Locally there is no Vercel: Caddy serves the frontend and the API on one address. Otherwise the picture is the same, and only what sits behind each box changes:
 
@@ -87,7 +89,7 @@ Continuing to the next month is one action. It closes the month and opens the ne
 
 ## 4. The engine
 
-The engine is ordinary Python functions: state and an action in, a new state and a list of results out. Everything around it (web, database, email) is the "shell". This split is called *functional core, imperative shell*. The engine is itself cut in two: a shared kernel (`shared/engine/`) holds the month loop, the ledger, the draws, the selection step and the player view, and each slice's own `engine/` holds that domain's rules (the card, the job, the moped). A slice plugs its rules into the month loop's fixed steps, so the order of a month still lives in one place (AD-21).
+The engine is ordinary Python functions: state and an action in, a new state and a list of results out. Everything around it (web, database, email) is the "shell". This split is called *functional core, imperative shell*. The engine is itself cut in two: a shared kernel (`shared/engine/`) holds the month loop, the ledger, wellbeing, the rule 8 check, the draws, the selection step and the player view, and each slice's own `engine/` holds that domain's rules (the card, the job, the moped). A slice registers its rules at the kernel's extension points: a step in the month loop, an option effect, a crisis option, a message proposer, a fact. Each step has an explicit place in the order, so the order of a month still lives in one place. One function, `build_kernel()`, collects every registration at startup (AD-21).
 
 **Why it matters for this game:**
 
@@ -211,7 +213,7 @@ A player who returns during setup goes straight on with it, with no recap. The r
 
 **Tests: against the real backend (AD-20).** Vitest tests the game client, `gateFor` and components with logic, using player views dumped from the seeded test games. Playwright runs the main flow end to end against the whole local stack in Chromium, WebKit and Firefox at 320, 390, 900 and 1280 px, and axe fails the build on any serious or critical accessibility finding. Before each playtest, the team checks phones, keyboard and screen reader by hand and writes the results to `frontend/e2e/manual-checks.md`.
 
-**Rules of the road.** ESLint, Prettier, stylelint and the type check run on every PR, next to ruff on the backend. `main` needs green CI and an approval from another group member, also for AI-written code.
+**Rules of the road.** ESLint, Prettier, stylelint and the type check run on every PR, next to ruff on the backend. Nothing is merged on red CI or without review: either comments or an approval from another group member in GitHub, or a live review with the group, after which the author may merge. AI-written code is reviewed the same way.
 
 ### 9.2 Where the frontend meets the backend
 
@@ -260,6 +262,7 @@ The exact request and response shapes are in `openapi.json`, which is generated 
 | Our own small game client | TanStack Query | The protocol (same `request_id` on retry, no polling, fetch before the next input) is specific to this game; a cache library's refetch on focus and timers would have to be switched off one by one |
 | CSS Modules with generated tokens | Tailwind, a component library (shadcn/Radix) | `DESIGN.md` already names every token; one generated file keeps them in step, and the sheets need nothing beyond `<dialog>` |
 | End-to-end tests against the real backend | A mocked API | A mock drifts from the backend; the seeded test games already exist for the examiner (NFR-6) |
+| Vertical slices with a shared kernel and registered extension points (AD-21) | Horizontal layers (engine, API, persistence); later slices importing earlier ones; one slice per mechanism; the whole engine as one shared package with a module per domain | Each domain can be built, reviewed and cut on its own, and CI keeps it that way. The cost: the game is one tightly coupled simulation, so the kernel is large, is built in Epics 1-2, and has a dozen registration points the team must keep. The review on 2026-11-26 showed that without those points the slices would have had to import each other |
 
 The team's reference setup (`architecture/technology.md`) is adapted, not copied. Left out because the MVP doesn't need them: Redis, file storage, payments, AI, backups and feature flags, and on the frontend Tailwind, shadcn/Radix, TanStack Query and `NEXT_PUBLIC_*` flags.
 
@@ -287,4 +290,5 @@ If one fails, round trips are cut first. The database moves only if Supabase pau
 - Two reconciliations against the PRD and its addendum (2026-11-13 and 2026-11-15). The second read every requirement against the finished spine; its 20 findings are closed (`reviews/reconcile-prd-2026-11-15.md`).
 - Three independent reviews on 2026-11-13: a checklist review, an adversarial review looking for ways two builders could follow every rule and still build incompatible parts, and a check of every named technology and version against current sources (`reviews/`).
 - The frontend part (AD-17 to AD-20, 2026-11-23) had its own four reviews: adversarial, checklist, versions, and a reconciliation against EXPERIENCE, DESIGN and the PRD (`reviews/review-2026-11-23-frontend-*.md`). Their fixes are in the spine.
+- The vertical slices (AD-21, 2026-11-26) had an adversarial and an edge-case review (`../../review-ad21-2026-11-26/report.md`, 53 findings). The fixes are in the spine, recorded in `../../sprint-change-proposal-2026-11-26-kernel.md`.
 - Every decision and the reasoning behind it is in `.memlog.md`, oldest first.
