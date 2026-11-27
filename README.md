@@ -15,7 +15,7 @@ Repoet inneholder gruppens applikasjon og dokumentasjon av utvikling, testing og
 
 LifeMode er et spill om liv og penger for 15–20-åringer i Norge. Spilleren lever fem år av et liv, noen minutter om gangen, og hvert valg får følger senere. Spillet bruker norske regler og tall for 2026, som BSU, frikort, kreditt først fra 18 og mopedlappen fra 16. Trivselen teller også, så å bli rik for enhver pris gir en hul seier. Første versjon har ingen KI. En motor regner ut alle tallene, og hendelsene er skrevet på forhånd.
 
-**Status (26.11.2026):** planleggingen er ferdig (PRD, arkitektur, UX, 73 storyer i 10 epics). Byggingen starter med sprintplanleggingen. Slik kjører og tester du appen, kommer her med den første storyen (1.1).
+**Status (26.11.2026):** planleggingen er ferdig (PRD, arkitektur, UX, 74 storyer i 10 epics). Byggingen starter med sprintplanleggingen. Slik kjører og tester du appen, kommer her med den første storyen (1.1).
 
 ## Hvor finner du hva
 

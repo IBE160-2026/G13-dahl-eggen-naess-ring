@@ -20,7 +20,7 @@ This document provides the complete epic and story breakdown for IBE160-G13 (Lif
 
 **How to read the inventory.** Requirement IDs keep the PRD's numbering (FR-1 to FR-58, NFR-1 to NFR-11), because the architecture, UX, worked examples and issues all refer to them. Each line is a summary for planning. The PRD's "Consequences (testable)" lists hold the full acceptance detail, and stories cite them. The tier (§4.4) is given in brackets. "Rule N" is Rule Set v1 in the brief addendum. "WE N" is worked example N there.
 
-**Not in this breakdown:** FR-35 (visible future opportunities) is left out of the MVP (#115). FR-51 (minigames, the driving game) is V2 (#51); the licences are a payment only. F5 (AI fallback) is V2 (A-26).
+**Not in this breakdown:** FR-35 (visible future opportunities) is left out of the MVP (#115). FR-51 (minigames, the driving game) is V2 (#51); the licences are payment-only (no driving game). F5 (AI fallback) is V2 (A-26).
 
 ## Requirements Inventory
 
@@ -62,8 +62,8 @@ This document provides the complete epic and story breakdown for IBE160-G13 (Lif
 - FR-46a: Active months and pace [Core]. The same active months every year (default 4: Jan, Apr, Jul, Oct; configuration); months 59-60 quiet unless a crisis, card warning or pushed-out follow-up takes them. Month 1 is always the pengegave choice. A card warning makes a quiet month active. A session fits 10-15 minutes on a phone.
 - FR-46b: Which event an active month gets [Core; events can be cut to 40]. Eligible events: age in range, required flags set, no blocking flags, not seen this playthrough. Drawn uniformly and stored. No regular event repeats; crisis events and the card warning can. No eligible event makes the month quiet (CI fails if it happens more than once per seeded run). The car-licence draw runs in month 37 and arrives as a message.
 - FR-46c: Follow-ups and collisions [Core]. A boomerang follow-up is due after a delay drawn from its pair's range and takes the first active month at or after that; an opener is drawable only if its longest delay lands by the last active month; a follow-up whose flag was cleared is dropped. Collision order: crisis, card warning, follow-ups in due order, drawn event. A pushed-out follow-up takes the next active month or makes month 59 or 60 active; if none is left it's dropped and reported.
-- FR-18: Unlock options by age [Core]. The FR-18 table (savings and BSU from month 1; part-time job month 3; moped licence month 13; owning a moped with a licence; part-time up to 40 h from 19; summer jobs offered 18/30/42, paid 19/31/43; car licence draw and paid licence 37; credit card 37, offered 39; consumer loan 37, offered 49; the experience 44-56; full-time job offered 54, starts 55). No offer before its month; the engine refuses options not yet open. Teasers and recaps use the table. Only age unlocks.
-- FR-48: Options that stay open [Core]. Moped licence, buying a moped, the paid car licence, credit card, consumer loan, part- or full-time job and the experience stay open until taken, from the offer message, the money view or the job view, as the same option everywhere (content check). Can't pay yet: the missing amount shows and the option stays open (test: NOK 8,000 saved in month 13, bought after the summer job in month 19). Blocked for another reason: shows what's missing and is refused. Declining or quitting a job allows another later. Dated offers (summer job until that July's income step; the experience until the end of month 56) then show as expired. Taking one is a choice (cause links) but not the month's real choice. Gifts and family help aren't open options. One-at-a-time table (#83): licences and the experience once per playthrough (paid car licence never after the gift); one moped at a time; one credit card per playthrough; one consumer loan at a time; one job at a time. Family loans and payment plans are also one at a time.
+- FR-18: Unlock options by age [Core]. The FR-18 table (savings and BSU from month 1; part-time job month 3; moped licence month 13; owning a moped with a licence; part-time up to 40 h from 19; summer jobs offered 18/30/42, paid 19/31/43; car licence draw and paid licence 37; credit card 37, offered 39; consumer loan 37, offered 49; the experience 44-56, for goal-3 players only; full-time job offered 54, starts 55). No offer before its month; the engine refuses options not yet open. Teasers and recaps use the table. Only age unlocks.
+- FR-48: Options that stay open [Core]. Moped licence, buying a moped, the paid car licence, credit card, consumer loan, part- or full-time job and the experience (for goal-3 players only) stay open until taken, from the offer message, the money view or the job view, as the same option everywhere (content check). Can't pay yet: the missing amount shows and the option stays open (test: NOK 8,000 saved in month 13, bought after the summer job in month 19). Blocked for another reason: shows what's missing and is refused. Declining or quitting a job allows another later. Dated offers (summer job until that July's income step; the experience until the end of month 56) then show as expired. Taking one is a choice (cause links) but not the month's real choice. Gifts and family help aren't open options. One-at-a-time table (#83): licences and the experience once per playthrough (paid car licence never after the gift); one moped at a time; one credit card per playthrough; one consumer loan at a time; one job at a time. Family loans and payment plans are also one at a time.
 - FR-19: Tips in events and offers [Extension]. General, pre-written, ignorable, no game effect, never personal advice. Credit card and consumer loan offer messages always carry a tip, a teaching point and the engine's cost in kroner.
 
 **Month plan and activities (PRD 5.5)**
@@ -169,10 +169,10 @@ This document provides the complete epic and story breakdown for IBE160-G13 (Lif
 - AD-10 Own login with revocable sessions: email normalized by one function; password `bcrypt(base64(sha256(pw)))`, 8-128 characters; `sessions` rows are the authority behind an HS256 JWT (`sid`, `exp`) in an httpOnly, SameSite=Lax cookie (Secure outside local/ci); sliding expiry at most once a minute with cookie re-issue; only the auth dependency writes `users.last_active_at`; the client never calls the API from a timer, except AD-18's retries of a pending action. Revocation per FR-3/4/5/44; a completed reset logs this device in. Attempt limits in `auth_attempts` keyed by HMAC-SHA256 address and network keys (IPv4 or IPv6 /64), unknown addresses do the same work, only sign-up and login answer 429, the reset cap follows Resend's UTC day. Client address only from `X-Client-IP` set by Caddy (`CADDY_MODE`); Vercel/Railway header choice and the route-handler fallback are verified in the spike. Reset links stored as SHA-256, one function for endpoint and CLI.
 - AD-11 Email through one module: Resend when keyed; local stand-in (`[email:mock]` in the backend log) in local/ci without a key; null sender in the playtest; one Jinja2 template; the CLI prints playtest reset links without logging addresses.
 - AD-12 One origin: playtest frontend is Next.js on Vercel Hobby (`fra1`), proxying `/api/(.*)` via `vercel.json` to Caddy on Railway with `x-origin-secret` set from `ORIGIN_SECRET`, rewrite caching off; Next.js server code never calls `/api`; `Cache-Control: no-store` on every API response; no CORS. Caddy is the only way into the backend in every environment (403 `origin_refused` without the secret, 503 `unavailable`); `/docs` only in local/ci. Locally Caddy serves the frontend and the API on one origin. Reset link `{PUBLIC_BASE_URL}/nytt-passord#token=…`. The player information page `/personvern` is a static frontend page reachable before sign-up, with NFR-3's list of contents. `vercel.json`: route `env: ["ORIGIN_SECRET"]`, `regions: ["fra1"]`; previews get 403 on `/api`; `next.config` has no `/api` rewrites, redirects or headers. Locally Caddy's frontend upstream can point at a host `next dev`.
-- AD-13 API contract, player view and errors: the generated OpenAPI schema is committed and CI fails if stale. One engine `view(state, content, last_action_at, seen_disclosure_ids, nickname)` builds every response's player view and leaves out the seed, future schedule data and unpicked wellbeing effects (tested). Results are stored in the state as ids, integers, cause links and text parameters; the envelope's `result` is a reference `{result_id, replayed}`. The no-playthrough, ended and completed views carry the start screens. Every route declares its error responses with the shared envelope model. Identity `playthrough_id` + `state_version`; envelope `{result?, state, server_time, recap_threshold, client_times}` (saving-notice and idle times from settings). The backend renders all game text with one formatting function (NBSP group separator, U+2212 minus, «kr»); parameters captured when items enter the state; nickname and month placeholder resolved at view time; the frontend owns only UI chrome text. Derived figures in the view: wellbeing `{value, band}`, calendar (year, month, age from `start_year`), money per month (twelve entries, year so far, expected BSU deduction), trigger status, offer previews, slot counts, message `new` flags, loan quotes for 12/24/36 months, `pending` (`none`, `setup_avatar`, `setup_gift`, `event`, `crisis_step`), `year_end`, `continue_warning` (`none`, `trigger`, `month_59`, `month_60`) with its text, a `crisis_skipped` result entry, `min`/`max`/`step` on every amount action, room-layer state ids, the scene's text alternative and marker text; the place action's `slot` is optional (engine picks the first free evening). The frontend owns chrome text and form error texts, pre-validates only `required` and `type=email`, and formats only typed amounts through one `formatKroner(int)`. Errors: one `AppError(code, status)` and one envelope `{code, message, state?, fields?}` with the status table (401, 403, 404, 409, 410, 422, 429, 500, 503).
+- AD-13 API contract, player view and errors: the generated OpenAPI schema is committed and CI fails if stale. One engine `view(state, content, kernel, last_action_at, seen_disclosure_ids, nickname)` builds every response's player view and leaves out the seed, future schedule data and unpicked wellbeing effects (tested). Results are stored in the state as ids, integers, cause links and text parameters; the envelope's `result` is a reference `{result_id, replayed}`. The no-playthrough, ended and completed views carry the start screens. Every route declares its error responses with the shared envelope model. Identity `playthrough_id` + `state_version`; envelope `{result?, state, server_time, recap_threshold, client_times}` (saving-notice and idle times from settings). The backend renders all game text with one formatting function (NBSP group separator, U+2212 minus, «kr»); parameters captured when items enter the state; nickname and month placeholder resolved at view time; the frontend owns only UI chrome text. Derived figures in the view: wellbeing `{value, band}`, calendar (year, month, age from `start_year`), money per month (twelve entries, year so far, expected BSU deduction), trigger status, offer previews, slot counts, message `new` flags, loan quotes for 12/24/36 months, `pending` (`none`, `setup_avatar`, `setup_gift`, `event`, `crisis_step`), `year_end`, `continue_warning` (`none`, `trigger`, `month_59`, `month_60`) with its text, a `crisis_skipped` result entry, `min`/`max`/`step` on every amount action, room-layer state ids, the scene's text alternative and marker text; the place action's `slot` is optional (engine picks the first free evening). The frontend owns chrome text and form error texts, pre-validates only `required` and `type=email`, and formats only typed amounts through one `formatKroner(int)`. Errors: one `AppError(code, status)` and one envelope `{code, message, state?, fields?}` with the status table (401, 403, 404, 409, 410, 422, 429, 500, 503).
 - AD-14 Environments and operations: one backend image; all settings in `settings.py` (pydantic-settings), listed in `.env.example`; `APP_ENV` (`local | ci | playtest`) required; secrets ≥ 32 bytes and no placeholders outside local/ci; one Uvicorn worker. `python -m app.cli schema upgrade` before start (Railway pre-deploy in `.railway/railway.ts`; compose entrypoint), then `cli seed --if-empty` locally; seeding refused outside local/ci; seeded users made by scripted play through the pipeline and asserted in CI. `DATABASE_URL` normalized for asyncpg; Supabase session pooler, pool 5 with no overflow, NullPool for Alembic/CLI. Railway Hobby EU West with sleeping off; Supabase Free Frankfurt; Vercel Hobby `fra1`; deploy from a `playtest` branch; usage alert USD 6, hard limit USD 10; delete everything after the analysis. Ops commands via `railway run`. Sprint-1 hosting spike verifies the AD-3/10/12/14 assumptions (#92). During the playtest `openapi.json` changes only add, and the backend deploys before the frontend. The `ci` environment raises the auth limits for Playwright.
-- AD-15 Playtest data stays separate: everything playtest-only gated by `PLAYTEST_RECORDS` (default off); `records.on_action(...)` in the pipeline's transaction, registered by `features/playtest` as the pipeline's on-action hook; records never rebuilt from `action_log`; one `delete_account(user_id)` in `features/account` for every deletion, following the lock order and running every slice's registered on-account-deleted hook, where `features/playtest` deletes the records and increments `testers_left` when applicable; tester codes loaded by CLI into their own table and resolved only at export; `users.is_test` set by CLI and skipped; exports hold codes, never email or nickname.
-- AD-16 Typed facts have one owner: belongings, licences, job, BSU, card, loans and payment plan are typed fields; content sees them only as derived flags; each fact is declared by name and type in `shared/engine/facts.py`, provided by one registered provider in the owning slice and merged by one kernel function (AD-21); content may require or block them but never set or clear them; `lists.yaml` marks derived flags and the content check rejects options that set them.
+- AD-15 Playtest data stays separate: everything playtest-only gated by `PLAYTEST_RECORDS` (default off); `records.on_action(...)` in the pipeline's transaction, registered by `features/playtest` as the pipeline's on-action hook; records never rebuilt from `action_log`; one `delete_account(session, user_id, kernel)` in `features/account` for every deletion, following the lock order and running every slice's registered on-account-deleted hook, where `features/playtest` deletes the records and increments `testers_left` when applicable; tester codes loaded by CLI into their own table and resolved only at export; `users.is_test` set by CLI and skipped; exports hold codes, never email or nickname.
+- AD-16 Typed facts have one owner: belongings, licences, job, BSU, card, loans and payment plan are typed fields; content sees them only as derived flags; each fact is declared by name, type and default in `shared/engine/facts.py`, provided by one registered provider in the owning slice and merged by one kernel function (AD-21), and takes its default while no provider is registered; content may require or block them but never set or clear them; `lists.yaml` marks derived flags and the content check rejects options that set them.
 - AD-17 Game state decides the gate screens, the URL the area: `gateFor(envelope, session)` returns the first match of start screens, ending, setup step, recap, result, event (incl. card warning), crisis step, year end (from the view's `year_end`). Full-screen gates (start, setup, recap, ending) hide tabs, with `/meny`, `/om-tallene`, `/personvern` reachable over them; Hjem gates (result, year end, event, crisis step) replace only Hjem, other areas stay reachable and `cannot_continue` alone blocks the month (FR-32b). Recap while `recapDue` is set (login or completed reset, or the first envelope after load or a tab return over the threshold), cleared by «Fortsett» and by a setup step; year end dismissed per (playthrough, month); result only from a success response's `result_id`, closed by «Fortsett»; «Nytt liv» on a completed or ended life only sets `playAgain`. Routes `/hjem`, `/plan`, `/mobil` (`/mobil/[id]`), `/jobb`, `/penger`, `/aaret`, `/meny`, `/om-tallene`; outside the game `/`, `/logg-inn`, `/ny-bruker`, `/glemt-passord`, `/nytt-passord`, `/personvern`. From 1100 px one game layout with Hjem centre and a right pane (CSS breakpoint). A gate change counts as a route change (focus to `h1`, title, one live region). Static «Laster …» before the first envelope; Norwegian error and not-found pages.
 - AD-18 One game client: only `frontend/src/shared/api/` calls `fetch`; types generated by openapi-typescript (committed, regenerated in the PR that changes `openapi.json`, CI staleness check), calls via openapi-fetch. One store (`useSyncExternalStore` + `getServerSnapshot`) with the envelope and a page-session record (`recapDue`, `playAgain`, dismissed gates, `shownResult`, opened message ids, seen disclosure ids, toast closed, pending action); client sequence numbers, so an older response never replaces a newer one; `state: null` never touches it; the first envelope into an empty store never clears the record; `reset()` aborts requests in flight and starts a new epoch, called after a 2xx logout or deletion and on `401 not_logged_in` (a lost logout is never taken as done; `login_failed` is a form refusal; `/`, `/logg-inn` and `/ny-bruker` make one entry check and go to `/hjem` only on a `200`, the other routes outside the game never fetch it). `sendAction(action, shown)` uses the shown view's fields, single-flight with controls locked; request timeout; transport retries with the same `request_id` 2, 5 and 10 s after each failure, then every 30 s while visible, plus «Prøv igjen» and `online`; a failed GET is a transport failure and drops a waiting input; «Prøver fortsatt …» after 5 s; turn refusals (and `game_changed` with a new playthrough) show «Spillet ble oppdatert på en annen enhet.»; a list of what goes to `announce()` (saving, saved, still trying, offline, back online, new messages). `GET /api/game` on page load of a game route, the entry check, login/sign-up/reset, `online`, state-null refusal, lost account response, nickname change, and before the next input after 5 min idle or tab return (input dropped if the state changed or the recap is due). Quotes kept out of the store. Saving and idle times come from the envelope; the timeout and retry schedule live in `frontend/src/shared/api/config.ts`. Unit tests for retry, error classes, triggers, single flight, stale envelopes, `reset()`.
 - AD-19 Tokens and CSS Modules: `frontend/src/shared/styles/tokens.css` generated from DESIGN.md's frontmatter (`colors` → `--color-*`, `scene-*` → `--sc-*`, `rounded` → `--radius-*`, `spacing` → `--space-*`, typography → `--font-<name>-*`), committed, CI staleness check; colours only there (stylelint and ESLint bans in CSS, TSX and SVG). One `.module.css` per component; no component library; shared primitives in `shared/ui/` (sheet on `<dialog>`, locked control, one live region with `announce()`, money figure, bar) built in the first frontend story. Scenes as inline SVG switched by the view's state ids; avatar colours from DESIGN's `scene-look-1-*` to `scene-look-6-*` tokens. Fonts self-hosted with `next/font/local` as `--font-bricolage` and `--font-kalam`. Light mode only. Pieces with several users (the scene, timeline, result list and the «Hvorfor?», «Tidligere valg» and «Forenklet» controls) are built in `shared/ui/` the first time (AD-21).
@@ -355,7 +355,7 @@ Not mapped: FR-35 (left out of the MVP, #115) and FR-51 (V2, #51). NFR-1, NFR-2,
 
 ## Epic List
 
-Ten epics, each a vertical slice: backend, frontend and tests for the same player outcome (the group builds both sides), with the code in the epic's own slice folder (AD-21). Order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10, one after the other. Each epic uses only earlier epics; where a story shows something a later epic builds, it says so, and the later story adds that part.
+Ten epics, each a vertical slice: backend, frontend and tests for the same player outcome (the group builds both sides), with the code in the epic's own slice folder (AD-21). Order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10, one after the other. Within that order, a Core story comes before Extension and Can-be-cut stories once the stories it uses are done: 9.1 («Hvorfor?») can start after 2.5 and 9.4 (upcoming costs) after Epic 3, before 8.4, 8.5 and 9.2-9.5, so a time cut never removes them. Stories that use only finished stories can run in parallel, and each epic's Notes name the ones that can start early. Each epic uses only earlier epics; where a story shows something a later epic builds, it says so, and the later story adds that part.
 
 **Rule for every story: the game says no the right way (NFR-7, NFR-9).** A story that builds an action also builds every NFR-7 refusal that belongs to it, whether or not its own criteria repeat it (for example selling a moped the player doesn't own, or placing the same one-off shift twice). For each refusal:
 
@@ -381,13 +381,13 @@ The story isn't done until these are in place. Story 10.4 checks NFR-7's whole l
 | `belongings` | 8 | Moped, licences, room layers |
 | `explain` | 9 | «Hvorfor?», «Tidligere valg», «Forenklet», «Om tallene», savings target, upcoming costs |
 | `playtest` | 1, 10 | Tester codes and the sign-up guard (1.8), records, export, clean-up |
-| `shared` | — | The kernel (AD-21): Stories 1.1, 1.2, 2.1, 2.8, 2.9, 2.10 and 8.11, and the kernel parts of 1.3, 1.4, 1.8, 2.2, 2.3, 2.5, 2.6, 2.7, 3.4, 4.1, 4.4, 4.6, 7.2, 7.5 and 9.1-9.3, named on their Slice lines |
+| `shared` | — | The kernel (AD-21): Stories 1.1, 1.2, 2.1, 2.8, 2.9, 2.10 and 8.11, and the kernel parts of 1.3, 1.4, 1.8, 2.2, 2.3, 2.5, 2.6, 2.7, 3.4, 3.6, 4.1, 4.4, 4.6, 7.2, 7.5 and 9.1-9.3, named on their Slice lines |
 
-**Tiers (PRD §4.4).** Each story has a **Tier** line under its heading, from the PRD's FR overview (§5): Core must be in, Extension is built when it is started before the freeze, and Can be cut goes first when time runs short. Setup, safety and check stories with no FR tier of their own are Core, because the Core stories or an NFR need them.
+**Tiers (PRD §4.4).** Each story has a **Tier** line under its heading, from the PRD's FR overview (§5): Core must be in, Extension is built only if work on it starts before the freeze, and Can be cut goes first when time runs short. Setup, safety and check stories with no FR tier of their own are Core, because the Core stories or an NFR need them.
 
 | Tier | Stories |
 |---|---|
-| Extension | 1.6, 2.4, 4.2, 4.3, 7.3, 9.2, 9.3 |
+| Extension | 1.10, 2.4, 4.2, 4.3, 7.3, 9.2, 9.3 |
 | Can be cut | 8.4, 8.5, 9.5 |
 | Core | all the others, 9.1 («Hvorfor?») included |
 
@@ -429,7 +429,7 @@ A player can take a credit card and a consumer loan, borrow from family, gets th
 ### Epic 8: Moped, lappene, rommet og hele innholdet
 A player takes the moped licence, buys and sells a moped, gets or pays for the car licence and borrows the parents' car, sees belongings in the mirror's room, and plays the full event library with tips.
 **FRs covered:** FR-9b, FR-17, FR-19, FR-28, FR-29, FR-30, FR-34, FR-58
-**Notes:** Car fuel can go on the card, so Epic 7 comes first. The full library (8.6-8.10, one story per year) and the content check (8.11) come last, since events use jobs, cards, loans and the moped. Drafting events can start once Story 2.1 is done. Story 8.11 needs only the engine and the starter set, so it can be built before 8.6; its reports then help the authors and the tuning (#48, 10.3) while the library grows. NFR-8 tone is checked with the content. The freeze and event-authoring plan (#126) and tuning with real event costs (#48) come before 8.6-8.11.
+**Notes:** Car fuel can go on the card, so Epic 7 comes first. The full library (8.6-8.10, one story per year) comes last, since events use jobs, cards, loans and the moped; the content check (8.11) is listed with it. Drafting events can start once Story 2.1 is done. Story 8.11 needs only the engine and the starter set, so it can be built before 8.6; its reports then help the authors and the tuning (#48, 10.3) while the library grows. NFR-8 tone is checked with the content. Each year story (8.6-8.10) writes its share of the boomerang pairs (at least 2 openers whose follow-ups land within the playthrough), the crisis events and the offer messages for that year's ages, so the minimums in 8.10 are met year by year. The freeze and event-authoring plan (#126) and tuning with real event costs (#48) come before 8.6-8.11.
 
 ### Epic 9: Forstå tallene
 A player can ask «Hvorfor?», sees «Tidligere valg» on effects of earlier choices, reads «Forenklet» notes and «Om tallene», pins a savings target and sees what comes next month.
@@ -437,7 +437,7 @@ A player can ask «Hvorfor?», sees «Tidligere valg» on effects of earlier cho
 **Notes:** Story 9.1 («Hvorfor?», FR-38) and Story 9.4 (what comes next month, FR-57) are Core, are always built and are never cut. 9.2 and 9.3 are Extension and 9.5 is Can be cut, so scope can be cut there first.
 
 ### Epic 10: Playtesten
-The group can run the playtest: records per tester and export by tester code, the content freeze, the manual and measured checks before the playtest, the test players close to each ending, and the clean-up afterwards. Sign-up limited to testers, the playtest environment and the daily check are in Epic 1.
+The group can run the playtest: records per tester and export by tester code, the content freeze, the manual and measured checks before the playtest, the test players close to each ending, and the clean-up afterwards. Epic 1 covers the tester-only sign-up, the playtest environment and the daily check.
 **FRs covered:** FR-50 (playtest records)
 **Notes:** Also NFR-10 (measured), and the playtest-safety items in #125. NFR-11's environment and daily check are set up in Story 1.9. The metric definitions and rubrics (#82, #69, #108) come before these stories.
 
@@ -473,8 +473,9 @@ So that I can run and grade it without the team's keys or secrets (NFR-6).
 
 **Given** a pull request
 **When** CI runs
-**Then** it runs `ruff check`, `ruff format --check`, the import-boundary checks (`shared.engine` and every `features.*.engine` pure, AD-1; slices independent of each other, `shared` never importing a slice, AD-21), the engine packages also barred from `settings`, the app's shell and the composition roots; two stub slices, `account` and `life`, each with an empty `engine/`, and a self-test that plants each kind of violation (slice to slice, `shared` to a slice, an engine to `fastapi`, an engine to `app.settings`) in a temporary copy and fails unless `lint-imports` fails on each; the banned-api rules (AD-1, and `importlib.import_module` and `__import__` under `app/`), pytest with `--import-mode=importlib` against a Postgres 17 service container, with real-app and cross-slice tests in `backend/tests/` outside the `app` package, the `openapi.json` staleness check and the single-Alembic-head check, and fails if any fails
+**Then** it runs `ruff check`, `ruff format --check`, the import-boundary checks (`shared.engine` and every `features.*.engine` pure, AD-1; slices independent of each other, `shared` never importing a slice, AD-21), the engine packages also barred from `settings`, the app's shell and the composition roots; two stub slices, `account` and `life`, each with an empty `engine/`, and a self-test that plants one violation per forbidden target of each contract, plus one banned dynamic import, in a temporary copy and fails unless `lint-imports` or ruff fails on each; the banned-api rules (AD-1, and the dynamic imports AD-21 lists under `app/`); the test that slice foreign keys and relationships point only at kernel tables (AD-21); pytest with `--import-mode=importlib` against a Postgres 17 service container, with real-app and cross-slice tests in `backend/tests/` outside the `app` package, the `openapi.json` staleness check and the single-Alembic-head check, and fails if any fails
 **And** every `/api` response carries `Cache-Control: no-store`, logs are JSON lines written by one access-log middleware without client addresses or query strings, and unhandled exceptions return `500 internal_error` in the AD-13 error envelope
+**And** the backend refuses to start when `APP_ENV` isn't `local`, `ci` or `playtest`, or when, outside `local` and `ci`, a secret is shorter than 32 bytes or equal to its placeholder (AD-14)
 
 ### Story 1.2: Open the first screen on any device
 
@@ -505,7 +506,7 @@ So that I can choose to create a user or log in.
 
 **Given** a pull request
 **When** CI runs
-**Then** ESLint (including the `fetch` global banned outside `shared/api/` with `no-restricted-globals`, and the import zones `app` → `features` → `shared` with no feature → feature, generated per slice and resolved with the TypeScript resolver, with a lint fixture that must fail, AD-21), Prettier `--check`, stylelint, `tsc --noEmit` and Vitest run, and Playwright runs against the compose stack in Chromium, WebKit and Firefox with `@axe-core/playwright` on `/` using the WCAG 2.2 AA tags, failing on any `serious` or `critical` finding (AD-20)
+**Then** ESLint (including `fetch`, `XMLHttpRequest`, `EventSource` and `window.fetch`, `globalThis.fetch` and `self.fetch` banned outside `shared/api/`, and the import zones `app` → `features` → `shared` with no feature → feature and no feature → app, generated from the folders in `src/features/` and resolved with the TypeScript resolver, with a lint fixture holding one violation of each kind, an `@/` import included, that must fail, AD-21), Prettier `--check`, stylelint, `tsc --noEmit` and Vitest run, and Playwright runs against the compose stack in Chromium, WebKit and Firefox with `@axe-core/playwright` on `/` using the WCAG 2.2 AA tags, failing on any `serious` or `critical` finding (AD-20)
 **And** `error.tsx`, `global-error.tsx` and `not-found.tsx` show Norwegian text with a link back
 **And** the primitives follow the three elevation levels and shapes (UX-DR4), chrome text uses EXPERIENCE's word table (UX-DR5), and every control is tap-or-select and keyboard-operable with targets of at least 24 × 24 px (44 × 44 for options and tabs), no dragging, no timers and motion off under reduced motion (UX-DR43)
 
@@ -545,6 +546,8 @@ So that my game is saved and only I can reach it (FR-1).
 **Then** I get `422 invalid_input` listing every failing field (`too_short`, `invalid_chars`, `invalid_email`), all errors show at once with `aria-invalid`, linked messages and focus on the first error, worded as in EXPERIENCE
 **And** sign-ups from one network above the limit (default 60 an hour, settings) get `429 rate_limited` with the neutral message, counted in `auth_attempts` by HMAC keys
 **And** no log line holds the email address, password or nickname, and each refusal has an automated test with `null` and omitted fields tested separately (NFR-7)
+**And** the nickname is normalized to NFC before it is checked and counted, so «æ», «ø» and «å» typed as combining characters are accepted
+**And** the confirm button is single-flight, so a double tap sends one sign-up, and a completed sign-up clears the game store (`reset()`) before the first `GET /api/game`, so nothing from an earlier player in this browser shows
 
 ### Story 1.4: Log in, stay logged in and log out
 
@@ -570,7 +573,7 @@ So that I can play on my own phone and on a shared school PC safely (FR-2, FR-5)
 **Given** I log in with «Forbli innlogget» unticked
 **When** I am inactive for 30 minutes or the browser ends its session
 **Then** my next request gets `401 not_logged_in` and I am sent to `/logg-inn`
-**And** with it ticked, the session lasts until I log out or 30 days without play; expiry slides at most once a minute, and only the auth dependency writes `users.last_active_at` (AD-10)
+**And** with it ticked, the session lasts until I log out or until 30 days pass without play; expiry slides at most once a minute, and only the auth dependency writes `users.last_active_at` (AD-10)
 
 **Given** I am logged in
 **When** I open `/meny` and choose «Logg ut» or «Logg ut på alle enheter» (with a confirmation)
@@ -581,7 +584,8 @@ So that I can play on my own phone and on a shared school PC safely (FR-2, FR-5)
 **When** I open `/`, `/logg-inn` or `/ny-bruker`
 **Then** the page calls `GET /api/game` once, and the `200` replaces the route with `/hjem` (AD-17, AD-18)
 **And** when I am not logged in or my session has ended, the `401 not_logged_in` leaves me on the page with no redirect, and any other failure leaves the form usable
-**And** this is tested once the first version of the app (the prototype) is built, in Story 10.4, since there is no app to run the test against before that
+**And** a Playwright test on the compose stack (Story 1.2) checks these redirects and that an ended session opening `/hjem` ends on `/logg-inn` with no loop; Story 10.4 repeats the check by hand in the playtest environment
+**And** a successful login clears the failed attempts counted for that address and network
 
 ### Story 1.5: Get a new password with a reset link
 
@@ -615,28 +619,25 @@ So that I can get back to my game (FR-3).
 **When** I submit
 **Then** I get `410 reset_link_invalid` and the page offers a new link (UX-DR45)
 **And** when no email is sent (the playtest), surface 04 and the expired-link state say «Ta kontakt med teamet for ny lenke», by the mechanism #125 decides
+**And** `/nytt-passord` opened without a token shows the invalid-link state, a new password outside the FR-1 lengths gets `422 invalid_input` on that field, and a completed reset clears the game store (`reset()`) before the first `GET /api/game`
 
-### Story 1.6: Change my password and nickname
+### Story 1.6: Change my nickname
 
-**Tier:** Extension (FR-4). Changing the nickname is Core (FR-1)
+**Tier:** Core (FR-1). Changing the password is Story 1.10, which is Extension and can be cut on its own
 
 **Slice:** `account`
 
 As a player,
-I want to change my password and my nickname from the menu,
-So that I can keep my account safe and be called what I like (FR-4, FR-1).
+I want to change my nickname from the menu,
+So that I can be called what I like (FR-1).
 
 **Acceptance Criteria:**
 
 **Given** I am in `/meny`
-**When** I open «Bytt passord» and enter my current password and a new one of at least the FR-1 minimum
-**Then** the old password stops working at once, my other devices are logged out, this device stays logged in, and the game is unchanged
-**And** a wrong current password gives `403 wrong_password` on that field, and a too-short one gives `422 invalid_input`
-
-**Given** I am in `/meny`
 **When** I open «Bytt kallenavn» and save a valid nickname
 **Then** `users.nickname` changes through the same FR-1 validation function, and the menu and every later view show the new nickname
-**And** both sheets are one level deep, single-flight with their submit locked while saving, and never retried automatically (AD-18)
+**And** the sheet is one level deep, single-flight with its submit locked while saving, and never retried automatically (AD-18)
+**And** an invalid nickname gets `422 invalid_input` with its FR-1 field code shown in the sheet, with a test
 
 ### Story 1.7: Delete my user
 
@@ -653,7 +654,7 @@ So that no data about me is kept when I stop playing (FR-44, NFR-3).
 
 **Given** I am in `/meny`
 **When** I choose «Slett bruker», confirm, and enter my current password
-**Then** one `delete_account(user_id)` deletes the user row and every child row by cascade (sessions, reset links and any table later stories add) and runs every slice's registered on-account-deleted hook after its `DELETE … RETURNING`, in the same transaction, each called as `hook(session, deleted)` with `deleted = DeletedUser(user_id, normalized_email, is_test, removed)` (Story 10.1 registers the playtest records' one), every device is logged out, and I land on `/`
+**Then** one `delete_account(session, user_id, kernel)` deletes the user row and every child row by cascade (sessions, reset links and any table later stories add) and runs every slice's registered on-account-deleted hook after its `DELETE … RETURNING`, in the same transaction, each called as `hook(session, deleted)` with `deleted = DeletedUser(user_id, normalized_email, is_test, removed)` (Story 10.1 registers the playtest records' one), every device is logged out, and I land on `/`
 **And** the same address can sign up again, and a wrong password gives `403 wrong_password` with nothing deleted
 
 **Given** the backend is running
@@ -680,10 +681,12 @@ So that the playtest stays within the 18-20-year-olds the privacy assessment cov
 **Given** `PLAYTEST_RECORDS` is on
 **When** someone signs up with an address that isn't in `tester_codes`
 **Then** the sign-up is refused with a neutral Norwegian message, and with the switch off (local, the examiner's run) sign-up is open, with a test for each state
+**And** the guard runs before the email-in-use check, so an address that isn't in `tester_codes` gets the same refusal whether or not a user with that address exists, and never `409 email_in_use`, with a test
 
 **Given** the team's own and check accounts, whose addresses are on the list too
 **When** a team member marks them with the CLI command
 **Then** `users.is_test` is set, and Stories 10.1 and 10.2 leave those accounts out of the records and the export
+**And** loading the list again replaces it, with each normalized address once, and the guard's refusal is one NFR-7 code (`403 sign_up_closed`) with a test
 
 ### Story 1.9: Reach the app in the playtest environment
 
@@ -714,6 +717,24 @@ So that testers can reach it at one address and we know the hosting assumptions 
 **When** the daily GitHub Actions check runs
 **Then** it logs in with a test account, asserts Caddy's `403` without the secret, fails on any `error` log line in the last 24 hours, and alerts the team on failure
 **And** the spike results (server time per request, no cold start, usage, pooler clients during a deploy, client-address header, cookies passed through, no `/api` caching, Supabase counting the check as activity) are written to the repo, and the usage alert (USD 6) and hard limit (USD 10) are set
+
+### Story 1.10: Change my password
+
+**Tier:** Extension (FR-4); it can be cut without cutting the nickname change (Story 1.6)
+
+**Slice:** `account`
+
+As a player,
+I want to change my password from the menu,
+So that I can keep my account safe (FR-4).
+
+**Acceptance Criteria:**
+
+**Given** I am in `/meny`
+**When** I open «Bytt passord» and enter my current password and a new one of at least the FR-1 minimum
+**Then** the old password stops working at once, my other devices are logged out, this device stays logged in, and the game is unchanged
+**And** a wrong current password gives `403 wrong_password` on that field, and a too-short one gives `422 invalid_input`
+**And** the sheet is one level deep, single-flight with its submit locked while saving, and never retried automatically (AD-18)
 
 ## Epic 2: Start et liv og spill måned for måned
 
@@ -771,7 +792,7 @@ So that my life starts with a goal I chose (FR-9a, FR-11).
 **And** a gate entering or leaving counts as a route change: one focus manager moves focus to the new screen's `h1`, sets «<screen> · LifeMode», and announces the change, and nothing re-renders a focused control without restoring focus (UX-DR41)
 
 **Given** the start action
-**When** it carries a library version that is no longer the one a start would pin, or a playthrough already exists
+**When** it carries a library version that is no longer the one a start would pin, or an active playthrough already exists (a `completed` or `ended` one is replaced, Story 4.6)
 **Then** it is refused (`409 game_changed` or the matching NFR-7 code) with the current view and nothing saved, and the start screens show again
 
 **Given** any request to the game API
@@ -783,6 +804,7 @@ So that my life starts with a goal I chose (FR-9a, FR-11).
 **When** the second arrives
 **Then** nothing is applied again and the response marks the result `replayed`, tested for start and for every later action (NFR-7)
 **And** the game client is single-flight: while the action is pending, the controls are locked and read «Lagrer …» (UX-DR21)
+**And** a `request_id` already logged with a different action is refused with `422 request_id_reused`, never replayed as the first action's result
 
 ### Story 2.3: Get the pengegave and make my first choice
 
@@ -833,6 +855,7 @@ So that the mirror shows me (FR-10).
 **Given** I stop playing before I have picked a look
 **When** I log in again
 **Then** the game resumes at the look step with no recap first, and the goal isn't asked again (FR-11, AD-17)
+**And** while no look is picked, or if this Extension story is cut, the scene and the ending use the default look `look-1`
 
 ### Story 2.5: Make a choice in an event and see what happened
 
@@ -867,11 +890,16 @@ So that my choices change my money and my life (FR-13, FR-45, FR-36).
 **Then** the choice is applied once and the second gets `already_chosen` or a replay (FR-13)
 **And** every amount in the view is a formatted string beside its raw integer, with U+00A0, U+2212 and «kr» (AD-13), and the frontend never formats or computes a figure
 
+**Given** an option with several typed effects, possibly from several slices
+**When** it is chosen
+**Then** it is possible only if every effect's `possible(state, effect, ctx)` is true on the state before the option, its effects apply in content order under one choice sequence number, and the loader rejects an effect whose parameters don't match its kind's `ParamModel` (AD-21)
+**And** startup and the content check fail on an effect kind with no registered handler, or with a handler from another slice than the one `lists.yaml` names
+
 ### Story 2.6: Continue to the next month
 
 **Tier:** Core
 
-**Slice:** `shared` (month loop with its slots, kernel actions, selection step) + `life`
+**Slice:** `shared` (month loop with its slots, kernel actions, selection step, facts) + `life`
 **Extension points:** selection proposers (`life` registers the drawn-event proposer); continue guards (`life`: the real choice not yet made)
 
 As a player,
@@ -890,15 +918,31 @@ So that my life moves forward month by month (FR-49, FR-12, FR-14, FR-46b).
 **Then** one selection step draws its event uniformly from the eligible ones (age in range, required flags set, no blocking flags, not seen this playthrough) and stores it; with none eligible the month is quiet (FR-46b, AD-8)
 **And** proposing candidates and the eligibility check are separate functions in the selection step, and the stored event carries `source: library` with its id and version (AD-8)
 
+**Given** the facts declared in `shared/engine/facts.py`, each with a name, a type and a default (AD-16)
+**When** the kernel merges the registered fact providers
+**Then** a declared fact with no provider, because its slice isn't built yet or is cut, takes its default (`owns_moped` and `experience_bought` false, `steady_monthly_wage` none)
+**And** `build_kernel()` fails on two providers for one fact or on a provider for an undeclared fact, a test asserts every default, and tests replace a provider with a stub through a test kernel
+
+**Given** the slices' registrations
+**When** `registry.build_kernel()` calls each slice's `contrib.py`
+**Then** it fails on a duplicate `order`, a duplicate key across slices or a slot the kernel doesn't define, and a test compares the built kernel with `backend/tests/kernel_order.txt`, which lists every slot with its kernel steps and each registration's `order` and owner (AD-21)
+**And** a kernel test runs every registered handler through the worked examples and fails if it changed a section other than its own and the kernel's
+
 **Given** a quiet month
 **When** it opens
 **Then** the hub shows a short summary and one tap continues (FR-14)
-**And** the timeline shows «<month> · <age> år · <year>» from the view's calendar fields, with 12 segments for past, current and future months (UX-DR6), the stickers on the mirror are real links with their count or state in text (UX-DR9), for the areas that are built, and the hub keeps the timeline, the mirror, «Denne måneden» with its chips, and the CTA at 320 px (UX-DR38)
+**And** the timeline shows «<month> · <age> år · <year>» from the view's calendar fields, with 12 segments for past, current and future months (UX-DR6), the stickers on the mirror, for the areas that are built, are real links with their count or state in text (UX-DR9), and the hub keeps the timeline, the mirror, «Denne måneden» with its chips, and the CTA at 320 px (UX-DR38)
 
 **Given** the same start state, draws and choices
 **When** a playthrough is replayed from its `action_log`
 **Then** every month gives the same result, tested by a replay test on every PR (FR-12)
 **And** after month 60's continue, once the after-month-60 slot has run, the kernel sets the playthrough's status to `completed` (the ending comes in Story 4.4) and further game actions get `game_ended`
+
+**Given** the kernel state
+**When** a plan action or a continue arrives
+**Then** `plan_version` is a kernel field that every plan action bumps, continue carries it, and a stale one gets `409 plan_changed` with the current view (AD-4)
+**And** every action member declares whether its effect starts next month; in month 60 the view marks those actions as having no effect and hides their previews (FR-49), so spending levels, jobs, hours and a December BSU deposit follow this without their own code
+**And** CI times month process and save over a seeded run and fails when the p90 is above the bound in config, which sits below NFR-9's 300 ms
 
 ### Story 2.7: See how I'm doing
 
@@ -953,6 +997,7 @@ So that I never lose a choice or make one twice (FR-6, FR-7, FR-8).
 **Given** the game client
 **When** its unit tests and a two-browser Playwright test run
 **Then** they cover the same `request_id` on retry, the retry schedule, the error classes, the fetch triggers, single flight, stale responses and the other-device case
+**And** a request whose response was lost is retried with the same `request_id` (AD-18) before any «oppdatert på en annen enhet» notice, so its replay shows my own result
 
 ### Story 2.9: Log in as a seeded test player
 
@@ -968,12 +1013,12 @@ So that I can see the game mid-life without playing from the start (NFR-6, AD-14
 
 **Given** the local stack starts on an empty database
 **When** the entrypoint runs `cli seed --if-empty`
-**Then** each seeded user is made by scripted play from month 1 through the pipeline, with a fixed seed, pinned content versions and stored choices, never by writing state
+**Then** each seeded user is made by scripted play from month 1 through the pipeline with a fixed seed, never by writing state, in two sets: CI's users play `config/test-v1` and the frozen test library `content/library/test-v1/` (Epic 2's starter set, which content PRs don't touch) by stored choices, and the examiner's users play the newest library by rule-based scripts, such as taking the first free option
 **And** seeding is refused outside `local` and `ci`, and the README lists each seeded user, its state and its password
 
 **Given** CI
 **When** the seed script runs
-**Then** it asserts each seeded user's target state, and later stories add their own seeded users the same way (just before 18 with a steady wage in 7.1, in debt with a crisis due in 7.7, month 59 close to each ending in 10.5)
+**Then** it asserts the exact target state of CI's users and the target ranges of the examiner's users (an age, a wage, a debt band), and a content-only pull request never needs a seed edited; later stories add their own seeded users the same way (just before 18 with a steady wage in 7.1, in debt with a crisis due in 7.7, month 59 close to each ending in 10.5)
 
 **Given** the seeded states
 **When** `cli dump-view-fixtures` runs
@@ -1057,8 +1102,9 @@ So that I can learn how tax-favoured saving works (FR-22).
 
 **Given** I make a full withdrawal
 **When** I confirm it
-**Then** the money moves to the current account, the BSU closes for the rest of the playthrough, and any tax deductions received are clawed back once tax exists (Epic 6)
-**And** with no tax, the expected BSU deduction is plainly NOK 0, and the BSU still pays through interest (worked example 6)
+**Then** the money moves to the current account, the BSU closes for the rest of the playthrough, and the deductions recorded in `money`'s section are clawed back from the payout at once (NOK 0 until Story 6.5 brings tax)
+**And** the December BSU step pays and records the rule 9 deduction from the `tax_this_year` fact, whose default is 0 until Story 6.5 provides it, so with no tax the expected deduction is plainly NOK 0 and the BSU still pays through interest (worked example 6)
+**And** a deposit larger than the current account, or from a current account at or below NOK 0, is refused (NFR-7)
 
 ### Story 3.3: Pay my costs and choose how much I spend
 
@@ -1147,13 +1193,14 @@ So that I learn why a buffer matters (FR-24).
 **When** its month is processed
 **Then** it is deducted at its rule 1 step with a system cause, even below NOK 0, uses no active month, and shows in the month summary
 **And** a current account pushed below 0 by it can start a crisis under rule 8 once crises exist (Epic 7)
+**And** the expense kind is checked again when its month comes, so an expense tied to something I no longer own, such as a moped sold since the draw, becomes a general one
 
 ### Story 3.6: See how close I am to my life goal
 
 **Tier:** Core
 
-**Slice:** `money`
-**Extension points:** facts (reads `life_goal`; provides `goal_measure`, the rule 13 measure that the ending check reads)
+**Slice:** `shared` (`goals.py`, rule 13) + `money`
+**Extension points:** facts (`goals.py` reads `life_goal` from `life` and `experience_bought` from `phone`); view parts (the progress bar is `money`'s, and calls `goals.progress`)
 
 As a player,
 I want to see my progress towards my life goal,
@@ -1163,8 +1210,15 @@ So that I know whether my choices are taking me there (FR-9c).
 
 **Given** I have a life goal
 **When** I open the bank
-**Then** the life-goal progress bar shows the engine's progress, worked out the same way as the check after month 60, with the percentage beside the heading (UX-DR23)
+**Then** the life-goal progress bar shows the engine's progress from `goals.py`, the same function the check after month 60 runs, with the percentage beside the heading (UX-DR23)
 **And** for the debt-free goal it includes the lowest available money at a month's end from month 49
+**And** `goals.py` has `available_money`, `net_savings` and `debt`, which read ledger balances only, never the month totals, and which any engine code may call (debt is the card, consumer loans, payment plans and family loans; BSU counts in net savings but not in available money; belongings don't count), and `progress` and `check`, which also read facts and are called by the kernel and view parts
+**And** after each month close from month 49 the kernel's `goals.record_month_end` keeps `lowest_available_from_49` (`None` before month 49 closes), and a document upgraded to this schema after its month 49 records from the next close and is marked as a partial window, which `check` judges on the months recorded
+
+**Given** the progress bar
+**When** `goals.progress` works it out
+**Then** it is clamped to 0-100 %: goal 1 is net savings against the target; goal 2 is available money against the buffer, from month 49 the lower of `lowest_available_from_49` and this month's available money after the plan, with debt shown beside it; goal 3 is available money against the experience price until it is bought, then whether available money is at least NOK 0
+**And** until Story 5.4, `experience_bought` takes its default (false), and goal 3 after a purchase is tested with a stub provider (Story 2.6)
 
 **Given** I have planned payments this month (added in Story 6.1, which builds planning)
 **When** I look at the progress before continuing
@@ -1256,8 +1310,8 @@ So that I can pick up the game after a break (FR-16).
 
 **Tier:** Core; the avatar on the ending is Extension (FR-10)
 
-**Slice:** `shared` (`triggers.py` for the triggers that exist) + `year`
-**Extension points:** month-step slot after month 60 (the ending handler); facts (`life_goal` from `life`, `goal_measure` from `money`, `experience_bought` from `phone`, debt from `credit`)
+**Slice:** `shared` (`triggers.py` for the triggers that exist; the rule 13 step after month 60) + `year`
+**Extension points:** month-step slot after month 60 (the ending handler, after the kernel's rule 13 check); reads `state.goal_result` (`GoalResult`, Story 3.6)
 
 As a player,
 I want my life to end at 20 with an ending that reflects my money and my wellbeing,
@@ -1267,12 +1321,12 @@ So that I see what my choices added up to (FR-41, FR-9a).
 
 **Given** month 60 is continued
 **When** the engine checks the endings
-**Then** it checks in order: loss (a rule 8 trigger true at the end of month 59 is still true at the end of month 60), real win (goal reached under rule 13 and ending wellbeing at or above the threshold), hollow win (goal reached, below the threshold), goal not reached; the ending handler registered in the after-month-60 slot stores the ending in `year`'s section, and the kernel's continue action sets `completed` (Story 2.6)
+**Then** it checks in order: loss (a rule 8 trigger true at the end of month 59 is still true at the end of month 60), real win (goal reached under rule 13 and ending wellbeing at or above the threshold), hollow win (goal reached, below the threshold), goal not reached; the kernel's rule 13 check (`goals.check`, Story 3.6) runs first and stores `state.goal_result`, and the ending handler registered in the after-month-60 slot reads it and stores the ending in `year`'s section, and the kernel's continue action sets `completed` (Story 2.6)
 **And** ending wellbeing is the average of months 19-60 under rule 2, a value exactly at the threshold or a goal measure exactly at its target counts as reached (worked example 18), and every end state gives exactly one ending (F9, one test per end state, plus both boundaries)
 
 **Given** the three goals
 **When** the goal is checked under rule 13
-**Then** savings ≥ NOK 100,000, the debt-free buffer (available money ≥ NOK 30,000 at the end of each of months 49-60 and no debt at 20, BSU not counted) and the experience (bought by the end of month 56 and available money ≥ 0 at 20) are checked from measurable state with targets from config; the experience is tested with a prepared state until Story 5.4
+**Then** savings ≥ NOK 100,000, the debt-free buffer (available money ≥ NOK 30,000 at the end of each of months 49-60 and no debt at 20, family loans and payment plans included, BSU not counted) and the experience (bought by the end of month 56 and available money ≥ 0 at 20) are checked from measurable state with targets from config; the experience is tested with a prepared state until Story 5.4
 
 **Given** a trigger first true at the end of month 60
 **When** the ending is chosen
@@ -1280,7 +1334,7 @@ So that I see what my choices added up to (FR-41, FR-9a).
 
 **Given** a `completed` view
 **When** the ending (surface 25) shows as a full-screen gate
-**Then** it shows the player's avatar with its chosen look in the mirror, as in the mockup (`#slutt`, FR-10), the ending's heading and sentence, three facts (saved against the livsmål, average wellbeing against the trivselsmål with a status in past tense, debt), and one «Spill på nytt» (UX-DR34); «goal not reached» gives general advice and is never framed as failure (NFR-8)
+**Then** it shows the player's avatar with its chosen look in the mirror, as in the mockup (`#slutt`, FR-10), the ending's heading and sentence, three facts (saved against the livsmål, average wellbeing against the trivselsmål with a status in past tense, debt; saved and debt from `state.goal_result`), and one «Spill på nytt» (UX-DR34); «goal not reached» gives general advice and is never framed as failure (NFR-8)
 **And** the menu stays reachable over the ending; the seeded users at month 59 close to each ending come last, in Story 10.5, since they need wages, open options and crises
 
 ### Story 4.5: See the three choices that mattered most
@@ -1297,7 +1351,7 @@ So that I learn from my life (FR-42, FR-39).
 
 **Given** a completed playthrough
 **When** the ending summary is built
-**Then** choices are ranked by their kroner effect (the sum of money effects linked to them through FR-36, with own-account transfers, taking a loan and paying down debt counting zero but the interest that follows counting), ties go to the earliest by month and then confirmation order, and fewer than three show when fewer have an effect
+**Then** choices are ranked by their kroner effect (the sum of money effects linked to them through FR-36; own-account transfers, taking a loan and paying down debt count as zero, but the interest they lead to counts), ties go to the earliest by month and then confirmation order, and fewer than three show when fewer have an effect
 **And** applied activities of the same kind rank as one group by their summed effect, counted from the first one, and one activity alone is never ranked; activity groups are tested with prepared states until Story 6.2
 
 **Given** a hollow win
@@ -1324,16 +1378,21 @@ So that I can try other choices (FR-43).
 **Given** my life is `completed`
 **When** I press «Spill på nytt»
 **Then** `playAgain` is set and the start screens show from the `completed` view's start texts and versions, and only confirming a life goal sends the start (AD-17)
-**And** the start creates a new playthrough with a new pengegave; the finished one is deleted in the same transaction, and nothing from it carries over (FR-43). Seen disclosures belong to the account, not the playthrough, so deleting a life never touches them; Story 9.3 adds them and tests that they survive a new life
+**And** the start creates a new playthrough with a new pengegave; in one transaction the on-action hooks run with the old state (Story 10.1's record), the finished playthrough is deleted and the new one is created, and a failure rolls back all three, with a test; and nothing from it carries over (FR-43). Seen disclosures belong to the account, not the playthrough, so deleting a life never touches them; Story 9.3 adds them and tests that they survive a new life
 
 **Given** a life in progress
 **When** I choose «Nytt liv» in the menu and confirm
 **Then** the end-early action ends the life (`ended`), it can't be resumed, and the start screens follow; on a `completed` or `ended` life the menu only sets `playAgain`
 **And** an account never has more than one playthrough in progress, and a start while one is active is refused (NFR-7)
 
-**Given** my life has ended
+**Given** my life is `completed`
 **When** I log in or come back
 **Then** I see the ending summary with «Spill på nytt» instead of a recap, and the finished life stays read-only until a new life starts or the account is deleted
+
+**Given** I ended my life early (`ended`)
+**When** I log in or come back
+**Then** the start screens show (AD-17), with no ending summary, since an ended life has no ending
+**And** «Nytt liv» is hidden during the setup steps, and an end-early sent then is refused (NFR-7), so starting over can't redraw the pengegave
 
 ## Epic 5: Mobilen og valgene som står åpne
 
@@ -1365,6 +1424,7 @@ So that the game world talks to me like real life does (FR-54).
 **Given** the month opens with a new message below 1100 px
 **When** the hub shows
 **Then** a toast (surface 09) shows first in reading order with the sender and one line, opens the thread, closes with × or Esc with focus to «Denne måneden», never closes by itself, never takes focus, and is announced once (UX-DR18)
+**And** when several messages are new, the toast shows the first in fill order (Story 5.2) and how many more there are
 
 ### Story 5.2: Get the right messages each month
 
@@ -1392,6 +1452,7 @@ So that the phone feels alive without flooding me (FR-55).
 **When** the month's messages are chosen
 **Then** at most 3 new messages arrive (config), offers and the event copy always arrive and don't count, the fill order is bank, invitations, info, and a bank message that doesn't fit comes next month
 **And** each message's arrival month and `new` flag are in the view (AD-13), and the recap from Story 4.3 says how many messages arrived this month (FR-16)
+**And** when savings pass several thresholds in one month, all of them count as passed and only the highest sends a message, and a bank message moved to next month is dropped if a higher one replaces it
 
 ### Story 5.3: Unlock options as I grow up
 
@@ -1422,7 +1483,7 @@ So that the game grows with me from 15 to 20 (FR-18).
 **Tier:** Core
 
 **Slice:** `phone`
-**Extension points:** effect handlers (an option takes effect through the handler of the slice that owns its kind); selection proposers (offer messages); message actions (taking an offer); facts (reads `owns_moped`, the licences, `has_job`, `has_card`, `has_consumer_loan`, `has_family_loan`, `has_payment_plan`, `life_goal` and debt; provides `experience_bought`); view parts (the option rows on `/penger` and `/jobb`)
+**Extension points:** effect handlers (an option takes effect through the handler of the slice that owns its kind); selection proposers (offer messages); message actions (taking an offer); facts (reads `owns_moped`, the licences, `has_job`, `has_card`, `has_consumer_loan`, `has_family_loan`, `has_payment_plan` and `life_goal`; provides `experience_bought`; debt and available money come from `goals.py`, never from a fact); view parts (the option rows on `/penger` and `/jobb`)
 
 As a player,
 I want offers like the big experience to stay open until I can take them,
@@ -1446,7 +1507,7 @@ So that I can save up instead of being rushed (FR-48, FR-9a).
 
 **Given** I chose life goal 3 and the experience (NOK 60,000, config) is offered in month 44
 **When** I buy it by the end of month 56
-**Then** it is paid from the current account and savings, never on credit, and buying it with less available money after debt than its price is refused (FR-9a, rule 13)
+**Then** it is paid from the current account and savings, never on credit, and buying it with less available money after debt than its price is refused, with `goals.available_money(state)` (FR-9a, rule 13)
 **And** a player with life goal 1 or 2 never gets the offer, and taking it anyway is refused (FR-18, FR-48, NFR-7)
 
 ### Story 5.5: Meet follow-ups to my earlier choices
@@ -1471,6 +1532,7 @@ So that I see that choices have consequences later (FR-46c).
 **When** the month opens
 **Then** the order is crisis, card warning, follow-ups in due order, drawn event; a pushed-out follow-up takes the next active month or makes month 59 or 60 active, and if none is left it is dropped and reported (FR-58); the card warning and the crisis join the order in 7.6 and 7.7
 **And** with nothing left to unlock, the teasers in the year end and the recap hint at an open boomerang pair (FR-15, Stories 4.1 and 4.3)
+**And** a follow-up whose age range or flags no longer fit in its due month is dropped and reported by the content check, never shown out of range
 
 ## Epic 6: Jobb, fritid og månedsplan
 
@@ -1503,6 +1565,8 @@ So that I choose how to spend my free time (FR-52, FR-53).
 **Then** planning moves no money, removal is free while the month is open, an activity is placed at most once a month, an unaffordable one shows the missing amount and can't be placed, and «Samme kvelder som i <måned>» re-places last month's activities with the same checks
 **And** empty evenings never block continue, the plan's total is the engine's activity cost only, continue carries `plan_version` (that planning works in crisis months is tested in Story 7.7); the library has at least 5 basic activities, 2 of them free for ages 15-20, and the activity catalogue with sourced prices (#57) is in place first
 **And** the recap from Story 4.3 says what is planned (FR-16), and the life-goal progress in the bank is shown after the planned payments (Story 3.6, FR-9c)
+**And** an activity fits only if its price plus the activities already placed this month can be paid (FR-45)
+**And** while free evenings are left this month, the Plan tab shows a bare coral dot with «, noe nytt» for screen readers (UX-DR40), checked with axe and the keyboard
 
 ### Story 6.2: Live my planned activities when the month ends
 
@@ -1531,6 +1595,7 @@ So that they change my wellbeing and my money (FR-53, FR-55).
 **When** it arrives (0-2 a month, each at most once per in-game year, FR-55)
 **Then** its activity is available in the plan that month only, and «Legg i planen» places it while «Nei takk» only closes the message (UX-DR17)
 **And** the month summary lists last month's evenings and their cost (UX-DR29)
+**And** activities dropped at month 60's continue are listed on the ending summary, since there is no next month to show «Ble ikke noe av»
 
 ### Story 6.3: Get a job and earn a wage
 
@@ -1548,7 +1613,7 @@ So that I earn my own money (FR-20, FR-47, FR-56).
 **Given** a job offer has arrived (part-time from month 3, full-time offered in month 54 and starting in month 55, FR-18)
 **When** I take it from the offer message or the job view
 **Then** I get the offer's weekly hours from the next month, I have at most one part- or full-time job, and taking it is a choice with a cause link
-**And** I can quit in any month, from the next month, which also ends any extra shifts
+**And** I can quit in any month; quitting takes effect from the next month and also ends any extra shifts
 
 **Given** I have a job
 **When** the income step runs
@@ -1559,6 +1624,7 @@ So that I earn my own money (FR-20, FR-47, FR-56).
 **When** the job view (surface 16) loads
 **Then** it shows workplace and role, the hourly rate for my age, weekly hours and this month's hours, the rule 10 limit, expected monthly pay and current offers, and with no job the open job offers or when the next one unlocks (UX-DR19); hours offers and extra shifts are added in Story 6.6 and one-off shifts in Story 6.7
 **And** each job action previews the kroner left after spending each month and next month's free evenings, with a warning when free time would fall below 50
+**And** taking the full-time job offered in month 54 while I have a part-time job replaces it from the next month, never both
 
 ### Story 6.4: Work a summer job
 
@@ -1579,7 +1645,7 @@ So that I can earn extra money in the holidays (FR-20, FR-47).
 
 **Given** a summer job and part-time hours in the same July
 **When** July's income step runs
-**Then** they share one cap of 173 h, and the summer job is cut to fit using that month's hours with extra shifts (30 h a week of part-time cuts 120 h to 43 h), an NFR-7 non-refusal case with its own test; hours above the offer's and extra shifts are prepared states until Story 6.6
+**Then** they share one cap of 173 h, and the summer job is cut to fit using that month's hours with extra shifts (30 h a week of part-time cuts 120 h to 43 h), an NFR-7 non-refusal case with its own test; until Story 6.6, raised hours and extra shifts are tested with prepared states
 **And** if the cut leaves 0 h, the summer job is cancelled with a note (non-refusal case with its own test)
 
 **Given** my hours leave 0 h when the offer is made
@@ -1592,7 +1658,6 @@ So that I can earn extra money in the holidays (FR-20, FR-47).
 
 **Slice:** `work`
 **Extension points:** month-step slot (tax); facts (provides `tax_this_year`, which `money`'s December BSU step reads); view parts (the year end's and the month summary's tax rows)
-**Touches:** `money` (its December BSU step reads `tax_this_year`, and a full BSU withdrawal takes back the deductions recorded in its own section)
 
 As a player,
 I want tax worked out from my year's wages,
@@ -1609,7 +1674,7 @@ So that I learn how tax and trygdeavgift work (FR-21).
 **Given** December
 **When** the year end shows
 **Then** it carries the year's tax and the expected BSU deduction under rule 9, and the deduction is paid when December is continued
-**And** a full BSU withdrawal takes any deductions received from the payout at once
+**And** with tax, Story 3.2's December step pays a real deduction and a full withdrawal claws it back, tested here with real tax; `work` only provides the fact
 
 ### Story 6.6: Ask for more or fewer hours and take extra shifts
 
@@ -1639,6 +1704,7 @@ So that I can balance money and free time (FR-47).
 **Then** they add +4 h a week (config) for 3 months (config) from the next month, capped at the weekly limit, and can be ended from the job view from the next month («Avsluttet», «Slutter etter <måned>»)
 **And** weekly hours and extra shifts never take an evening in the plan
 **And** if an hours change or extra shifts would cut a summer job I have taken, the game warns before I confirm
+**And** while an hours answer or an extra-shift offer is unanswered, the Jobb tab shows a bare coral dot with «, noe nytt» for screen readers (UX-DR40)
 
 ### Story 6.7: Take one-off shifts
 
@@ -1682,7 +1748,7 @@ So that I learn what a card really costs (FR-26, FR-19).
 **Given** I am 18 or older with a steady wage, and the card offer has arrived (month 39, open from month 37)
 **When** I take the card
 **Then** it has the limit fixed for the playthrough (config, default NOK 10,000), I choose to pay the whole balance, the minimum, or a fixed amount of at least the minimum in NOK 100 steps, and it stays open if my wage stops later
-**And** the offer message carries a tip, a teaching point and the engine's cost in kroner (FR-19), and taking a card under 18, without a steady wage, or a second card in the playthrough is refused (NFR-7)
+**And** the offer message carries the engine's cost in kroner, plus its tip and teaching point unless FR-19 is cut (FR-19), and taking a card under 18, without a steady wage, or a second card in the playthrough is refused (NFR-7)
 
 **Given** a card balance
 **When** the debt step runs
@@ -1719,6 +1785,7 @@ So that I control when I borrow (FR-26).
 **Given** card use is on
 **When** I turn it off
 **Then** it is off at once, and purchases are paid from the accounts
+**And** a card-payable monthly cost that doesn't fit under the card limit is paid from the accounts in the FR-45 order and noted, like an event purchase
 
 ### Story 7.3: Take a consumer loan
 
@@ -1742,6 +1809,7 @@ So that I understand borrowing before I do it (FR-25).
 **When** it is paid out
 **Then** it is an annuity at 15 % a year (rule 4), and NOK 20,000 over 12 months gives NOK 1,805 a month, a final NOK 1,808 and NOK 21,663 in total (worked example 3, F1); instalments are always charged, even below NOK 0
 **And** a term outside the config list, an amount outside the range or not in NOK 1,000 steps, a second loan, or a loan in months 59-60 is refused (NFR-7); early payoff is free, and a loan running past 20 counts as debt at the ending
+**And** paying a loan off early with less money in the accounts than the amount left is refused (NFR-7), as for a family loan (Story 7.4)
 
 ### Story 7.4: Ask my family for help
 
@@ -1767,6 +1835,7 @@ So that I learn what family can and can't do (FR-27).
 **And** an instalment the accounts can't cover moves to the end and raises stress (up to 50), never takes the account below 0, what's left at 20 is debt, and family loans don't count in the debt trigger
 **And** I can pay off the rest early from the bank with no fee, paid from the current account and then savings, and an amount above what they hold is refused (FR-45, NFR-7)
 **And** while a family loan runs, family can still give advice or a gift but lends nothing more
+**And** asking family in a regular event when they can't help is not the month's real choice, and the event stays open for another option
 
 ### Story 7.5: Know before I continue whether a crisis is coming
 
@@ -1794,6 +1863,7 @@ So that I can fix it first (FR-32a, FR-49).
 **Given** a crisis month opens
 **When** the triggers are rechecked and none is true
 **Then** the crisis is skipped with no stress and no cooldown, a `crisis_skipped` note shows in «Denne måneden», and the month's event is chosen again (worked example 10)
+**And** when the skipped crisis month is a quiet month, no event is chosen for it after the skip
 
 ### Story 7.6: Get a card warning
 
@@ -1834,18 +1904,19 @@ So that I learn to handle a money crisis (FR-32b, FR-32c).
 
 **Given** a crisis month
 **When** it opens
-**Then** its crisis event is drawn among those that fit the most urgent trigger (below zero, missed minimum, debt) and my age, preferring the one seen longest ago, stored, and it names all true triggers; the library has about 10 crisis events covering every trigger possible at each age
+**Then** its crisis event is drawn among those that fit the most urgent trigger (below zero, missed minimum, debt) and my age, preferring the one seen longest ago, stored, and it names all true triggers; this story writes one starter crisis event per trigger, and the library's about 10 crisis events covering every trigger possible at each age are written in 8.6-8.10 with the NFR-8 tone review
 **And** when a card warning is due in the same month, the crisis shows its figures first and the warning counts as shown (FR-31)
 
 **Given** a crisis step
 **When** it shows (the Hjem gate, with «Valg n av maks 3» and three step pills)
-**Then** it offers only options possible now, each saying when it lands, always asking family (Story 7.4) and doing nothing, with the payment plan added in Story 7.8, and hides options landing after month 60 (UX-DR27)
+**Then** it offers only options possible now, each saying when it lands, always including asking family (Story 7.4) and doing nothing, with the payment plan added in Story 7.8, and hides options landing after month 60 (UX-DR27)
 **And** money actions, open options and the plan stay available, use no step, and the triggers are rechecked after them; money arriving goes first to a negative current account and then to overdue minimums
 
 **Given** a step is taken
 **When** the triggers are rechecked
-**Then** the crisis ends when none is true, when I ignore it, or after the third step, the end screen lists what changed, continue is refused (`cannot_continue`) until then, and a crisis never ends the game before 20
+**Then** the crisis ends when none is true, when I ignore it, or after the third step; until it ends, continue is refused (`cannot_continue`); the end screen lists what changed, and a crisis never ends the game before 20
 **And** ignored debt keeps growing and starts new crises after each cooldown, the loss ending's tests (Story 4.4) now run on played states, and the seeded user «in debt with a crisis due» is added and asserted in CI (NFR-6)
+**And** when no crisis event fits the most urgent trigger and my age, an event for the next most urgent trigger is used, then a general crisis event, and the content check reports the gap
 
 ### Story 7.8: Split my card debt into a payment plan
 
@@ -1864,6 +1935,7 @@ So that I can get out of card debt step by step (FR-32b, rule 15).
 **When** I choose «Del opp hele kortgjelden»
 **Then** the card balance becomes a 12-month annuity at the card's rate, the card is blocked until the plan is paid, card use turns off, and the instalment shows against what's left each month (worked example 12)
 **And** turning card use on while the plan runs is refused (NFR-7), only one payment plan runs at a time, instalments are always charged even below NOK 0, and the plan can be paid off early
+**And** paying a payment plan off early with less money in the accounts than the amount left is refused (NFR-7)
 
 ## Epic 8: Moped, lappene, rommet og hele innholdet
 
@@ -1927,11 +1999,11 @@ So that I learn what owning something costs over time (FR-29, FR-23).
 **Given** I have the moped licence and own no moped
 **When** I buy one
 **Then** it is paid like an open option, I own one moped at a time, and buying one without the licence or while owning one is refused (NFR-7)
-**And** whether the parents pay part of the insurance is drawn once when I get it and stored
+**And** whether the parents pay part of the insurance is drawn once per playthrough, the first time I get a moped, stored, and used for any later moped, so buying again can't redraw it
 
 **Given** I own a moped
 **When** a month is processed
-**Then** insurance (flat NOK 3,000 a year in the MVP, per month) and fuel are charged instead of the transport ticket, never both, moped repairs (FR-24) and moped events can be drawn, and none of these happen in months I don't own it
+**Then** insurance (a flat NOK 3,000 a year in the MVP, charged monthly) and fuel are charged instead of the transport ticket, never both, moped repairs (FR-24) and moped events can be drawn, and none of these happen in months I don't own it
 **And** the resale value starts at the price paid, drops by 15 % of it a year, a little each month, never below 20 % (rule 14), and a used moped sold after two years fetches NOK 8,152 (worked example 19)
 
 **Given** I own a moped
@@ -1985,6 +2057,7 @@ So that I meet the costs and choices that come with driving (FR-30, FR-23).
 **When** I start or stop borrowing the parents' car from the bank
 **Then** fuel is charged as a transport cost only in months I borrow it, goes on the card first when card use is on, and borrowing opens car events
 **And** the licence layer shows the car licence in the room
+**And** in a month I borrow the car while owning a moped, the car's fuel is charged on top of the moped's costs
 
 ### Story 8.6: Play the events of year 1 (age 15)
 
@@ -2108,7 +2181,7 @@ So that this year of my life feels different (FR-17, FR-19, NFR-8).
 
 **Tier:** Core
 
-**Slice:** `shared`
+**Slice:** `shared` (the item check in `shared/content`; the seeded runs run from `cli.py`)
 
 As the team,
 I want an automated content check that plays seeded runs on every pull request,
@@ -2124,10 +2197,11 @@ So that a content or config change can't silently break the rules (FR-58, FR-9b,
 **Given** seeded runs
 **When** they play
 **Then** they follow the careless and careful policies of FR-9b with unexpected expenses from the run's seed, and every careless run in worked example 21 misses all three goals while the reference run (worked example 20) reaches all three
+**And** the seeded runs build the kernel with `registry.build_kernel()` and run from `cli.py`, a composition root, because they need every slice's registrations; only the item check lives in `shared/content`, which imports no slice (AD-21)
 
 **Given** the library is not frozen
 **When** a gate other than the schema gate and the open-option gate fails
-**Then** it reports a warning; from the freeze before the playtest every gate fails the check
+**Then** it reports a warning; from the freeze before the playtest, any failing gate fails the check
 
 ## Epic 9: Forstå tallene
 
@@ -2154,7 +2228,7 @@ So that I understand which choice or rule caused it (FR-38).
 **Given** an effect with shared causes, such as interest on a balance built from several choices
 **When** it is explained
 **Then** it lists up to the three largest whole-kroner shares and sums the rest, and the shares add up to the effect (FR-36)
-**And** the BSU comparison line («I BSU ville dette vært …») is built only if the team keeps the in-play lines (cut list)
+**And** the BSU comparison line («I BSU ville dette vært …») is built only if the team keeps the in-play lines (they are on the cut list)
 
 ### Story 9.2: See when an earlier choice comes back
 
@@ -2199,6 +2273,7 @@ So that I know what's real and what isn't (FR-40).
 **Given** I open «Om tallene» from the menu (`/om-tallene`)
 **When** the page loads
 **Then** it shows all 26 disclosures grouped by theme, rendered from my playthrough's pinned library, or from the start versions when no life is active (UX-DR39, AD-13)
+**And** when «Skjønner» fails or the device is offline, the note stays, an error shows with «Prøv igjen», and it is never marked as seen only on the device
 
 ### Story 9.4: See what's coming next month
 
@@ -2243,10 +2318,11 @@ So that I can follow my progress towards it (FR-57).
 **Given** the bank
 **When** I open «Aktiviteter i år»
 **Then** it shows this in-game year's applied activity cost by kind (worked example 25)
+**And** only options that can open in this playthrough can be pinned, so a goal-1 or goal-2 player can't pin the experience
 
 ## Epic 10: Playtesten
 
-The group can run the playtest: records per tester and export by tester code, the content freeze, the manual and measured checks before the playtest, the test players close to each ending, and the clean-up afterwards. Sign-up limited to testers, the playtest environment and the daily check are in Epic 1.
+The group can run the playtest: records per tester and export by tester code, the content freeze, the manual and measured checks before the playtest, the test players close to each ending, and the clean-up afterwards. Epic 1 covers the tester-only sign-up, the playtest environment and the daily check.
 
 ### Story 10.1: Record what testers do
 
@@ -2263,7 +2339,7 @@ So that we can measure the success metrics in §7.1 (FR-50).
 
 **Given** `PLAYTEST_RECORDS` is on
 **When** the pipeline confirms an action
-**Then** one `records.on_action(user, before, after, action, now)` updates the account's record in the same transaction: time to the first real choice (from sign-up), session lengths (time between confirmed actions within an in-game year, gaps above 10 minutes, config, not counted), play days in Europe/Oslo, the highest month per playthrough, completed playthroughs with ending, goal and net savings at 20, playing again, starting over, months with applied activities, months whose activities differ from the month before, plan time, and invitations whose activity was applied
+**Then** one `records.on_action(session, user, before, after, action, now)` updates the account's record in the same transaction: time to the first real choice (from sign-up), session lengths (time between confirmed actions within an in-game year, not counting gaps above the configured 10 minutes), play days in Europe/Oslo, the highest month per playthrough, completed playthroughs with ending, goal and net savings at 20, playing again, starting over, months with applied activities, months whose activities differ from the month before, plan time, and invitations whose activity was applied
 **And** all times come from the server's `now`, records are never rebuilt from `action_log`, and they hold no choices, game content, email address or nickname
 
 **Given** a playthrough is deleted by a new life (FR-43)
@@ -2293,7 +2369,7 @@ So that the analysis never sees an email address (FR-50, NFR-3).
 
 **Given** the database has to move to the Railway Postgres fallback during the playtest
 **When** the team switches
-**Then** it starts with `pg_dump` and a restore, and is recorded as a deviation from the course requirement (AD-14)
+**Then** the switch starts with `pg_dump` and a restore and is recorded as a deviation from the course requirement (AD-14)
 
 ### Story 10.3: Freeze and tune the content before the playtest
 
@@ -2313,7 +2389,7 @@ So that every tester plays the same, checked game (FR-58, NFR-4, #126, #48).
 
 **Given** the library and config are ready
 **When** the team freezes v1 (`frozen: true`)
-**Then** every FR-58 gate fails the content check from then on, mechanics changes need a new version folder, text-only corrections are allowed, and `cli clear-game-data` runs once (AD-7)
+**Then** any failing FR-58 gate fails the content check from then on, mechanics changes need a new version folder, text-only corrections are allowed, and `cli clear-game-data` runs once (AD-7)
 **And** the playtest minimum and the rule for a library that isn't ready follow the team's decision in #126
 
 ### Story 10.4: Check devices, accessibility and speed by hand before the playtest
@@ -2331,19 +2407,19 @@ So that what CI can't measure is still verified (NFR-1, NFR-2, NFR-9, NFR-10).
 **Given** the playtest environment
 **When** the team runs the main flow from creating a user to the ending
 **Then** it works on Safari on an iPhone, Chrome on an Android phone, a tablet, and Chrome or Edge on a Windows laptop (NFR-1)
-**And** a keyboard-only run and a phone screen-reader run pass, including 2.5.7 dragging, 2.5.8 target size and 3.3.7 redundant entry (NFR-2)
+**And** a keyboard-only run and a phone screen-reader run pass, including WCAG 2.5.7 dragging, 2.5.8 target size and 3.3.7 redundant entry (NFR-2)
 
 **Given** NFR-7's list of refusals and its five cases that aren't refusals
 **When** the team compares it with the automated tests
 **Then** every line has a test, and a missing one is written before the playtest
 
-**Given** the first version of the app is built
+**Given** the playtest environment
 **When** an ended session, with its cookie still in the browser, opens `/hjem`, and a logged-in player opens `/`, `/logg-inn` and `/ny-bruker`
-**Then** the first ends on `/logg-inn` with no loop, and the others end on `/hjem` (Story 1.4)
+**Then** the first ends on `/logg-inn` with no loop, and the others end on `/hjem` (Story 1.4 tests this automatically; here it is repeated by hand)
 
 **Given** a mid-range phone on throttled 4G
 **When** the team measures against the playtest environment
-**Then** the result after a choice shows within 1 s for 9 of 10 choices and within 3 s for all, the same for a quiet month and for placing or removing an activity, the first visit is usable within 3 s, and a loading message shows within 1 s and the game is usable within 10 s (NFR-10)
+**Then** the result after a choice shows within 1 s for 9 of 10 choices and within 3 s for all, the same for a quiet month and for placing or removing an activity, the first visit is usable within 3 s, and when the server was asleep, a loading message shows within 1 s and the game is usable within 10 s (NFR-10)
 **And** the logged server time per month process and save has a p90 of at most 300 ms, and all results are written to `frontend/e2e/manual-checks.md`, with the aggregated playtest results added to the repo afterwards (NFR-9)
 
 ### Story 10.5: Log in as a test player close to each ending
@@ -2361,7 +2437,7 @@ So that I can see every ending without playing a whole life (NFR-6, FR-41).
 
 **Given** every other story that changes play is done (wages, open options, activities and crises included)
 **When** the seed script runs
-**Then** it adds users in month 59 close to each of the four endings (real win, hollow win, goal not reached, loss), each made by scripted play from month 1 through the pipeline as in Story 2.9, never by writing state
+**Then** it adds users in month 59 close to each of the four endings (real win, hollow win, goal not reached, loss), each made by scripted play from month 1 through the pipeline in both of Story 2.9's sets, never by writing state
 **And** CI asserts each user's target state and that the last months give its ending, and the README lists each user, its state and its password
 
 **Given** these users and their dumped view fixtures
@@ -2383,3 +2459,4 @@ So that no data outlives the project and nothing keeps costing (NFR-3, NFR-5).
 **Given** the analysis is done
 **When** the team cleans up, no later than the December delivery
 **Then** the tester codes, the records and the playtest accounts are deleted, and the Railway and Vercel projects are deleted and the Railway plan cancelled, so nothing keeps costing (NFR-5)
+**And** the Supabase project is deleted, the email-to-code list and every local export (Story 10.2) are deleted, `daily-check.yml` is disabled and its secrets revoked, and the deletion date is written in the repo (NFR-3)
