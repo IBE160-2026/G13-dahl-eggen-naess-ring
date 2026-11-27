@@ -172,7 +172,7 @@ This document provides the complete epic and story breakdown for IBE160-G13 (Lif
 - AD-13 API contract, player view and errors: the generated OpenAPI schema is committed and CI fails if stale. One engine `view(state, content, last_action_at, seen_disclosure_ids, nickname)` builds every response's player view and leaves out the seed, future schedule data and unpicked wellbeing effects (tested). Results are stored in the state as ids, integers, cause links and text parameters; the envelope's `result` is a reference `{result_id, replayed}`. The no-playthrough, ended and completed views carry the start screens. Every route declares its error responses with the shared envelope model. Identity `playthrough_id` + `state_version`; envelope `{result?, state, server_time, recap_threshold, client_times}` (saving-notice and idle times from settings). The backend renders all game text with one formatting function (NBSP group separator, U+2212 minus, «kr»); parameters captured when items enter the state; nickname and month placeholder resolved at view time; the frontend owns only UI chrome text. Derived figures in the view: wellbeing `{value, band}`, calendar (year, month, age from `start_year`), money per month (twelve entries, year so far, expected BSU deduction), trigger status, offer previews, slot counts, message `new` flags, loan quotes for 12/24/36 months, `pending` (`none`, `setup_avatar`, `setup_gift`, `event`, `crisis_step`), `year_end`, `continue_warning` (`none`, `trigger`, `month_59`, `month_60`) with its text, a `crisis_skipped` result entry, `min`/`max`/`step` on every amount action, room-layer state ids, the scene's text alternative and marker text; the place action's `slot` is optional (engine picks the first free evening). The frontend owns chrome text and form error texts, pre-validates only `required` and `type=email`, and formats only typed amounts through one `formatKroner(int)`. Errors: one `AppError(code, status)` and one envelope `{code, message, state?, fields?}` with the status table (401, 403, 404, 409, 410, 422, 429, 500, 503).
 - AD-14 Environments and operations: one backend image; all settings in `settings.py` (pydantic-settings), listed in `.env.example`; `APP_ENV` (`local | ci | playtest`) required; secrets ≥ 32 bytes and no placeholders outside local/ci; one Uvicorn worker. `python -m app.cli schema upgrade` before start (Railway pre-deploy in `.railway/railway.ts`; compose entrypoint), then `cli seed --if-empty` locally; seeding refused outside local/ci; seeded users made by scripted play through the pipeline and asserted in CI. `DATABASE_URL` normalized for asyncpg; Supabase session pooler, pool 5 with no overflow, NullPool for Alembic/CLI. Railway Hobby EU West with sleeping off; Supabase Free Frankfurt; Vercel Hobby `fra1`; deploy from a `playtest` branch; usage alert USD 6, hard limit USD 10; delete everything after the analysis. Ops commands via `railway run`. Sprint-1 hosting spike verifies the AD-3/10/12/14 assumptions (#92). During the playtest `openapi.json` changes only add, and the backend deploys before the frontend. The `ci` environment raises the auth limits for Playwright.
 - AD-15 Playtest data stays separate: everything playtest-only gated by `PLAYTEST_RECORDS` (default off); `records.on_action(...)` in the pipeline's transaction, registered by `features/playtest` as the pipeline's on-action hook; records never rebuilt from `action_log`; one `delete_account(user_id)` in `features/account` for every deletion, following the lock order and running every slice's registered on-account-deleted hook, where `features/playtest` deletes the records and increments `testers_left` when applicable; tester codes loaded by CLI into their own table and resolved only at export; `users.is_test` set by CLI and skipped; exports hold codes, never email or nickname.
-- AD-16 Typed facts have one owner: belongings, licences, job, BSU, card, loans and payment plan are typed fields; content sees them only as derived flags; each fact is declared by name and type in `shared/engine/facts.py`, provided by one registered provider in the owning slice and merged by one kernel function (AD-21); content may require or block them but never set or clear them; `lists.yaml` marks derived flags and the content check rejects options that set them.
+- AD-16 Typed facts have one owner: belongings, licences, job, BSU, card, loans and payment plan are typed fields; content sees them only as derived flags; each fact is declared by name, type and default in `shared/engine/facts.py`, provided by one registered provider in the owning slice and merged by one kernel function (AD-21), and takes its default while no provider is registered; content may require or block them but never set or clear them; `lists.yaml` marks derived flags and the content check rejects options that set them.
 - AD-17 Game state decides the gate screens, the URL the area: `gateFor(envelope, session)` returns the first match of start screens, ending, setup step, recap, result, event (incl. card warning), crisis step, year end (from the view's `year_end`). Full-screen gates (start, setup, recap, ending) hide tabs, with `/meny`, `/om-tallene`, `/personvern` reachable over them; Hjem gates (result, year end, event, crisis step) replace only Hjem, other areas stay reachable and `cannot_continue` alone blocks the month (FR-32b). Recap while `recapDue` is set (login or completed reset, or the first envelope after load or a tab return over the threshold), cleared by «Fortsett» and by a setup step; year end dismissed per (playthrough, month); result only from a success response's `result_id`, closed by «Fortsett»; «Nytt liv» on a completed or ended life only sets `playAgain`. Routes `/hjem`, `/plan`, `/mobil` (`/mobil/[id]`), `/jobb`, `/penger`, `/aaret`, `/meny`, `/om-tallene`; outside the game `/`, `/logg-inn`, `/ny-bruker`, `/glemt-passord`, `/nytt-passord`, `/personvern`. From 1100 px one game layout with Hjem centre and a right pane (CSS breakpoint). A gate change counts as a route change (focus to `h1`, title, one live region). Static «Laster …» before the first envelope; Norwegian error and not-found pages.
 - AD-18 One game client: only `frontend/src/shared/api/` calls `fetch`; types generated by openapi-typescript (committed, regenerated in the PR that changes `openapi.json`, CI staleness check), calls via openapi-fetch. One store (`useSyncExternalStore` + `getServerSnapshot`) with the envelope and a page-session record (`recapDue`, `playAgain`, dismissed gates, `shownResult`, opened message ids, seen disclosure ids, toast closed, pending action); client sequence numbers, so an older response never replaces a newer one; `state: null` never touches it; the first envelope into an empty store never clears the record; `reset()` aborts requests in flight and starts a new epoch, called after a 2xx logout or deletion and on `401 not_logged_in` (a lost logout is never taken as done; `login_failed` is a form refusal; `/`, `/logg-inn` and `/ny-bruker` make one entry check and go to `/hjem` only on a `200`, the other routes outside the game never fetch it). `sendAction(action, shown)` uses the shown view's fields, single-flight with controls locked; request timeout; transport retries with the same `request_id` 2, 5 and 10 s after each failure, then every 30 s while visible, plus «Prøv igjen» and `online`; a failed GET is a transport failure and drops a waiting input; «Prøver fortsatt …» after 5 s; turn refusals (and `game_changed` with a new playthrough) show «Spillet ble oppdatert på en annen enhet.»; a list of what goes to `announce()` (saving, saved, still trying, offline, back online, new messages). `GET /api/game` on page load of a game route, the entry check, login/sign-up/reset, `online`, state-null refusal, lost account response, nickname change, and before the next input after 5 min idle or tab return (input dropped if the state changed or the recap is due). Quotes kept out of the store. Saving and idle times come from the envelope; the timeout and retry schedule live in `frontend/src/shared/api/config.ts`. Unit tests for retry, error classes, triggers, single flight, stale envelopes, `reset()`.
 - AD-19 Tokens and CSS Modules: `frontend/src/shared/styles/tokens.css` generated from DESIGN.md's frontmatter (`colors` → `--color-*`, `scene-*` → `--sc-*`, `rounded` → `--radius-*`, `spacing` → `--space-*`, typography → `--font-<name>-*`), committed, CI staleness check; colours only there (stylelint and ESLint bans in CSS, TSX and SVG). One `.module.css` per component; no component library; shared primitives in `shared/ui/` (sheet on `<dialog>`, locked control, one live region with `announce()`, money figure, bar) built in the first frontend story. Scenes as inline SVG switched by the view's state ids; avatar colours from DESIGN's `scene-look-1-*` to `scene-look-6-*` tokens. Fonts self-hosted with `next/font/local` as `--font-bricolage` and `--font-kalam`. Light mode only. Pieces with several users (the scene, timeline, result list and the «Hvorfor?», «Tidligere valg» and «Forenklet» controls) are built in `shared/ui/` the first time (AD-21).
@@ -381,7 +381,7 @@ The story isn't done until these are in place. Story 10.4 checks NFR-7's whole l
 | `belongings` | 8 | Moped, licences, room layers |
 | `explain` | 9 | «Hvorfor?», «Tidligere valg», «Forenklet», «Om tallene», savings target, upcoming costs |
 | `playtest` | 1, 10 | Tester codes and the sign-up guard (1.8), records, export, clean-up |
-| `shared` | — | The kernel (AD-21): Stories 1.1, 1.2, 2.1, 2.8, 2.9, 2.10 and 8.11, and the kernel parts of 1.3, 1.4, 1.8, 2.2, 2.3, 2.5, 2.6, 2.7, 3.4, 4.1, 4.4, 4.6, 7.2, 7.5 and 9.1-9.3, named on their Slice lines |
+| `shared` | — | The kernel (AD-21): Stories 1.1, 1.2, 2.1, 2.8, 2.9, 2.10 and 8.11, and the kernel parts of 1.3, 1.4, 1.8, 2.2, 2.3, 2.5, 2.6, 2.7, 3.4, 3.6, 4.1, 4.4, 4.6, 7.2, 7.5 and 9.1-9.3, named on their Slice lines |
 
 **Tiers (PRD §4.4).** Each story has a **Tier** line under its heading, from the PRD's FR overview (§5): Core must be in, Extension is built when it is started before the freeze, and Can be cut goes first when time runs short. Setup, safety and check stories with no FR tier of their own are Core, because the Core stories or an NFR need them.
 
@@ -871,7 +871,7 @@ So that my choices change my money and my life (FR-13, FR-45, FR-36).
 
 **Tier:** Core
 
-**Slice:** `shared` (month loop with its slots, kernel actions, selection step) + `life`
+**Slice:** `shared` (month loop with its slots, kernel actions, selection step, facts) + `life`
 **Extension points:** selection proposers (`life` registers the drawn-event proposer); continue guards (`life`: the real choice not yet made)
 
 As a player,
@@ -889,6 +889,11 @@ So that my life moves forward month by month (FR-49, FR-12, FR-14, FR-46b).
 **When** it opens
 **Then** one selection step draws its event uniformly from the eligible ones (age in range, required flags set, no blocking flags, not seen this playthrough) and stores it; with none eligible the month is quiet (FR-46b, AD-8)
 **And** proposing candidates and the eligibility check are separate functions in the selection step, and the stored event carries `source: library` with its id and version (AD-8)
+
+**Given** the facts declared in `shared/engine/facts.py`, each with a name, a type and a default (AD-16)
+**When** the kernel merges the registered fact providers
+**Then** a declared fact with no provider, because its slice isn't built yet or is cut, takes its default (`owns_moped` and `experience_bought` false, `steady_monthly_wage` none)
+**And** `build_kernel()` fails on two providers for one fact or on a provider for an undeclared fact, a test asserts every default, and tests replace a provider with a stub through a test kernel
 
 **Given** a quiet month
 **When** it opens
@@ -1152,8 +1157,8 @@ So that I learn why a buffer matters (FR-24).
 
 **Tier:** Core
 
-**Slice:** `money`
-**Extension points:** facts (reads `life_goal`; provides `goal_measure`, the rule 13 measure that the ending check reads)
+**Slice:** `shared` (`goals.py`, rule 13) + `money`
+**Extension points:** facts (`goals.py` reads `life_goal` from `life` and `experience_bought` from `phone`); view parts (the progress bar is `money`'s, and calls `goals.progress`)
 
 As a player,
 I want to see my progress towards my life goal,
@@ -1163,8 +1168,15 @@ So that I know whether my choices are taking me there (FR-9c).
 
 **Given** I have a life goal
 **When** I open the bank
-**Then** the life-goal progress bar shows the engine's progress, worked out the same way as the check after month 60, with the percentage beside the heading (UX-DR23)
+**Then** the life-goal progress bar shows the engine's progress from `goals.py`, the same function the check after month 60 runs, with the percentage beside the heading (UX-DR23)
 **And** for the debt-free goal it includes the lowest available money at a month's end from month 49
+**And** `goals.py` has `available_money`, `net_savings` and `debt`, which read ledger balances only, never the month totals, and which any engine code may call (debt is the card, consumer loans, payment plans and family loans; BSU counts in net savings but not in available money; belongings don't count), and `progress` and `check`, which also read facts and are called by the kernel and view parts
+**And** after each month close from month 49 the kernel's `goals.record_month_end` keeps `lowest_available_from_49` (`None` before month 49 closes), and a document upgraded to this schema after its month 49 records from the next close and is marked as a partial window, which `check` judges on the months recorded
+
+**Given** the progress bar
+**When** `goals.progress` works it out
+**Then** it is clamped to 0-100 %: goal 1 is net savings against the target; goal 2 is available money against the buffer, from month 49 the lower of `lowest_available_from_49` and this month's available money after the plan, with debt shown beside it; goal 3 is available money against the experience price until it is bought, then whether available money is at least NOK 0
+**And** until Story 5.4, `experience_bought` takes its default (false), and goal 3 after a purchase is tested with a stub provider (Story 2.6)
 
 **Given** I have planned payments this month (added in Story 6.1, which builds planning)
 **When** I look at the progress before continuing
@@ -1256,8 +1268,8 @@ So that I can pick up the game after a break (FR-16).
 
 **Tier:** Core; the avatar on the ending is Extension (FR-10)
 
-**Slice:** `shared` (`triggers.py` for the triggers that exist) + `year`
-**Extension points:** month-step slot after month 60 (the ending handler); facts (`life_goal` from `life`, `goal_measure` from `money`, `experience_bought` from `phone`, debt from `credit`)
+**Slice:** `shared` (`triggers.py` for the triggers that exist; the rule 13 step after month 60) + `year`
+**Extension points:** month-step slot after month 60 (the ending handler, after the kernel's rule 13 check); reads `state.goal_result` (`GoalResult`, Story 3.6)
 
 As a player,
 I want my life to end at 20 with an ending that reflects my money and my wellbeing,
@@ -1267,12 +1279,12 @@ So that I see what my choices added up to (FR-41, FR-9a).
 
 **Given** month 60 is continued
 **When** the engine checks the endings
-**Then** it checks in order: loss (a rule 8 trigger true at the end of month 59 is still true at the end of month 60), real win (goal reached under rule 13 and ending wellbeing at or above the threshold), hollow win (goal reached, below the threshold), goal not reached; the ending handler registered in the after-month-60 slot stores the ending in `year`'s section, and the kernel's continue action sets `completed` (Story 2.6)
+**Then** it checks in order: loss (a rule 8 trigger true at the end of month 59 is still true at the end of month 60), real win (goal reached under rule 13 and ending wellbeing at or above the threshold), hollow win (goal reached, below the threshold), goal not reached; the kernel's rule 13 check (`goals.check`, Story 3.6) runs first and stores `state.goal_result`, and the ending handler registered in the after-month-60 slot reads it and stores the ending in `year`'s section, and the kernel's continue action sets `completed` (Story 2.6)
 **And** ending wellbeing is the average of months 19-60 under rule 2, a value exactly at the threshold or a goal measure exactly at its target counts as reached (worked example 18), and every end state gives exactly one ending (F9, one test per end state, plus both boundaries)
 
 **Given** the three goals
 **When** the goal is checked under rule 13
-**Then** savings ≥ NOK 100,000, the debt-free buffer (available money ≥ NOK 30,000 at the end of each of months 49-60 and no debt at 20, BSU not counted) and the experience (bought by the end of month 56 and available money ≥ 0 at 20) are checked from measurable state with targets from config; the experience is tested with a prepared state until Story 5.4
+**Then** savings ≥ NOK 100,000, the debt-free buffer (available money ≥ NOK 30,000 at the end of each of months 49-60 and no debt at 20, family loans and payment plans included, BSU not counted) and the experience (bought by the end of month 56 and available money ≥ 0 at 20) are checked from measurable state with targets from config; the experience is tested with a prepared state until Story 5.4
 
 **Given** a trigger first true at the end of month 60
 **When** the ending is chosen
@@ -1280,7 +1292,7 @@ So that I see what my choices added up to (FR-41, FR-9a).
 
 **Given** a `completed` view
 **When** the ending (surface 25) shows as a full-screen gate
-**Then** it shows the player's avatar with its chosen look in the mirror, as in the mockup (`#slutt`, FR-10), the ending's heading and sentence, three facts (saved against the livsmål, average wellbeing against the trivselsmål with a status in past tense, debt), and one «Spill på nytt» (UX-DR34); «goal not reached» gives general advice and is never framed as failure (NFR-8)
+**Then** it shows the player's avatar with its chosen look in the mirror, as in the mockup (`#slutt`, FR-10), the ending's heading and sentence, three facts (saved against the livsmål, average wellbeing against the trivselsmål with a status in past tense, debt; saved and debt from `state.goal_result`), and one «Spill på nytt» (UX-DR34); «goal not reached» gives general advice and is never framed as failure (NFR-8)
 **And** the menu stays reachable over the ending; the seeded users at month 59 close to each ending come last, in Story 10.5, since they need wages, open options and crises
 
 ### Story 4.5: See the three choices that mattered most
@@ -1422,7 +1434,7 @@ So that the game grows with me from 15 to 20 (FR-18).
 **Tier:** Core
 
 **Slice:** `phone`
-**Extension points:** effect handlers (an option takes effect through the handler of the slice that owns its kind); selection proposers (offer messages); message actions (taking an offer); facts (reads `owns_moped`, the licences, `has_job`, `has_card`, `has_consumer_loan`, `has_family_loan`, `has_payment_plan`, `life_goal` and debt; provides `experience_bought`); view parts (the option rows on `/penger` and `/jobb`)
+**Extension points:** effect handlers (an option takes effect through the handler of the slice that owns its kind); selection proposers (offer messages); message actions (taking an offer); facts (reads `owns_moped`, the licences, `has_job`, `has_card`, `has_consumer_loan`, `has_family_loan`, `has_payment_plan` and `life_goal`; provides `experience_bought`; debt and available money come from `goals.py`, never from a fact); view parts (the option rows on `/penger` and `/jobb`)
 
 As a player,
 I want offers like the big experience to stay open until I can take them,
@@ -1446,7 +1458,7 @@ So that I can save up instead of being rushed (FR-48, FR-9a).
 
 **Given** I chose life goal 3 and the experience (NOK 60,000, config) is offered in month 44
 **When** I buy it by the end of month 56
-**Then** it is paid from the current account and savings, never on credit, and buying it with less available money after debt than its price is refused (FR-9a, rule 13)
+**Then** it is paid from the current account and savings, never on credit, and buying it with less available money after debt than its price is refused, with `goals.available_money(state)` (FR-9a, rule 13)
 **And** a player with life goal 1 or 2 never gets the offer, and taking it anyway is refused (FR-18, FR-48, NFR-7)
 
 ### Story 5.5: Meet follow-ups to my earlier choices
