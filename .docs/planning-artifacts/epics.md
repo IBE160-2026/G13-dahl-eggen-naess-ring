@@ -387,7 +387,7 @@ The story isn't done until these are in place. Story 10.4 checks NFR-7's whole l
 
 | Tier | Stories |
 |---|---|
-| Extension | 1.6, 2.4, 4.2, 4.3, 7.3, 9.2, 9.3 |
+| Extension | 1.10, 2.4, 4.2, 4.3, 7.3, 9.2, 9.3 |
 | Can be cut | 8.4, 8.5, 9.5 |
 | Core | all the others, 9.1 («Hvorfor?») included |
 
@@ -581,7 +581,7 @@ So that I can play on my own phone and on a shared school PC safely (FR-2, FR-5)
 **When** I open `/`, `/logg-inn` or `/ny-bruker`
 **Then** the page calls `GET /api/game` once, and the `200` replaces the route with `/hjem` (AD-17, AD-18)
 **And** when I am not logged in or my session has ended, the `401 not_logged_in` leaves me on the page with no redirect, and any other failure leaves the form usable
-**And** this is tested once the first version of the app (the prototype) is built, in Story 10.4, since there is no app to run the test against before that
+**And** a Playwright test on the compose stack (Story 1.2) checks these redirects and that an ended session opening `/hjem` ends on `/logg-inn` with no loop; Story 10.4 repeats the check by hand in the playtest environment
 
 ### Story 1.5: Get a new password with a reset link
 
@@ -616,27 +616,22 @@ So that I can get back to my game (FR-3).
 **Then** I get `410 reset_link_invalid` and the page offers a new link (UX-DR45)
 **And** when no email is sent (the playtest), surface 04 and the expired-link state say «Ta kontakt med teamet for ny lenke», by the mechanism #125 decides
 
-### Story 1.6: Change my password and nickname
+### Story 1.6: Change my nickname
 
-**Tier:** Extension (FR-4). Changing the nickname is Core (FR-1)
+**Tier:** Core (FR-1). Changing the password is Story 1.10, which is Extension and can be cut on its own
 
 **Slice:** `account`
 
 As a player,
-I want to change my password and my nickname from the menu,
-So that I can keep my account safe and be called what I like (FR-4, FR-1).
+I want to change my nickname from the menu,
+So that I can be called what I like (FR-1).
 
 **Acceptance Criteria:**
 
 **Given** I am in `/meny`
-**When** I open «Bytt passord» and enter my current password and a new one of at least the FR-1 minimum
-**Then** the old password stops working at once, my other devices are logged out, this device stays logged in, and the game is unchanged
-**And** a wrong current password gives `403 wrong_password` on that field, and a too-short one gives `422 invalid_input`
-
-**Given** I am in `/meny`
 **When** I open «Bytt kallenavn» and save a valid nickname
 **Then** `users.nickname` changes through the same FR-1 validation function, and the menu and every later view show the new nickname
-**And** both sheets are one level deep, single-flight with their submit locked while saving, and never retried automatically (AD-18)
+**And** the sheet is one level deep, single-flight with its submit locked while saving, and never retried automatically (AD-18)
 
 ### Story 1.7: Delete my user
 
@@ -680,6 +675,7 @@ So that the playtest stays within the 18-20-year-olds the privacy assessment cov
 **Given** `PLAYTEST_RECORDS` is on
 **When** someone signs up with an address that isn't in `tester_codes`
 **Then** the sign-up is refused with a neutral Norwegian message, and with the switch off (local, the examiner's run) sign-up is open, with a test for each state
+**And** the guard runs before the email-in-use check, so an address that isn't in `tester_codes` gets the same refusal whether or not a user with that address exists, and never `409 email_in_use`, with a test
 
 **Given** the team's own and check accounts, whose addresses are on the list too
 **When** a team member marks them with the CLI command
@@ -714,6 +710,24 @@ So that testers can reach it at one address and we know the hosting assumptions 
 **When** the daily GitHub Actions check runs
 **Then** it logs in with a test account, asserts Caddy's `403` without the secret, fails on any `error` log line in the last 24 hours, and alerts the team on failure
 **And** the spike results (server time per request, no cold start, usage, pooler clients during a deploy, client-address header, cookies passed through, no `/api` caching, Supabase counting the check as activity) are written to the repo, and the usage alert (USD 6) and hard limit (USD 10) are set
+
+### Story 1.10: Change my password
+
+**Tier:** Extension (FR-4); it can be cut without cutting the nickname change (Story 1.6)
+
+**Slice:** `account`
+
+As a player,
+I want to change my password from the menu,
+So that I can keep my account safe (FR-4).
+
+**Acceptance Criteria:**
+
+**Given** I am in `/meny`
+**When** I open «Bytt passord» and enter my current password and a new one of at least the FR-1 minimum
+**Then** the old password stops working at once, my other devices are logged out, this device stays logged in, and the game is unchanged
+**And** a wrong current password gives `403 wrong_password` on that field, and a too-short one gives `422 invalid_input`
+**And** the sheet is one level deep, single-flight with its submit locked while saving, and never retried automatically (AD-18)
 
 ## Epic 2: Start et liv og spill måned for måned
 
@@ -973,12 +987,12 @@ So that I can see the game mid-life without playing from the start (NFR-6, AD-14
 
 **Given** the local stack starts on an empty database
 **When** the entrypoint runs `cli seed --if-empty`
-**Then** each seeded user is made by scripted play from month 1 through the pipeline, with a fixed seed, pinned content versions and stored choices, never by writing state
+**Then** each seeded user is made by scripted play from month 1 through the pipeline with a fixed seed, never by writing state, in two sets: CI's users play `config/test-v1` and the frozen test library `content/library/test-v1/` (Epic 2's starter set, which content PRs don't touch) by stored choices, and the examiner's users play the newest library by rule-based scripts, such as taking the first free option
 **And** seeding is refused outside `local` and `ci`, and the README lists each seeded user, its state and its password
 
 **Given** CI
 **When** the seed script runs
-**Then** it asserts each seeded user's target state, and later stories add their own seeded users the same way (just before 18 with a steady wage in 7.1, in debt with a crisis due in 7.7, month 59 close to each ending in 10.5)
+**Then** it asserts the exact target state of CI's users and the target ranges of the examiner's users (an age, a wage, a debt band), and a content-only pull request never needs a seed edited; later stories add their own seeded users the same way (just before 18 with a steady wage in 7.1, in debt with a crisis due in 7.7, month 59 close to each ending in 10.5)
 
 **Given** the seeded states
 **When** `cli dump-view-fixtures` runs
@@ -2120,7 +2134,7 @@ So that this year of my life feels different (FR-17, FR-19, NFR-8).
 
 **Tier:** Core
 
-**Slice:** `shared`
+**Slice:** `shared` (the item check in `shared/content`; the seeded runs run from `cli.py`)
 
 As the team,
 I want an automated content check that plays seeded runs on every pull request,
@@ -2136,6 +2150,7 @@ So that a content or config change can't silently break the rules (FR-58, FR-9b,
 **Given** seeded runs
 **When** they play
 **Then** they follow the careless and careful policies of FR-9b with unexpected expenses from the run's seed, and every careless run in worked example 21 misses all three goals while the reference run (worked example 20) reaches all three
+**And** the seeded runs build the kernel with `registry.build_kernel()` and run from `cli.py`, a composition root, because they need every slice's registrations; only the item check lives in `shared/content`, which imports no slice (AD-21)
 
 **Given** the library is not frozen
 **When** a gate other than the schema gate and the open-option gate fails
@@ -2349,9 +2364,9 @@ So that what CI can't measure is still verified (NFR-1, NFR-2, NFR-9, NFR-10).
 **When** the team compares it with the automated tests
 **Then** every line has a test, and a missing one is written before the playtest
 
-**Given** the first version of the app is built
+**Given** the playtest environment
 **When** an ended session, with its cookie still in the browser, opens `/hjem`, and a logged-in player opens `/`, `/logg-inn` and `/ny-bruker`
-**Then** the first ends on `/logg-inn` with no loop, and the others end on `/hjem` (Story 1.4)
+**Then** the first ends on `/logg-inn` with no loop, and the others end on `/hjem` (Story 1.4 tests this automatically; here it is repeated by hand)
 
 **Given** a mid-range phone on throttled 4G
 **When** the team measures against the playtest environment
@@ -2373,7 +2388,7 @@ So that I can see every ending without playing a whole life (NFR-6, FR-41).
 
 **Given** every other story that changes play is done (wages, open options, activities and crises included)
 **When** the seed script runs
-**Then** it adds users in month 59 close to each of the four endings (real win, hollow win, goal not reached, loss), each made by scripted play from month 1 through the pipeline as in Story 2.9, never by writing state
+**Then** it adds users in month 59 close to each of the four endings (real win, hollow win, goal not reached, loss), each made by scripted play from month 1 through the pipeline in both of Story 2.9's sets, never by writing state
 **And** CI asserts each user's target state and that the last months give its ending, and the README lists each user, its state and its password
 
 **Given** these users and their dumped view fixtures

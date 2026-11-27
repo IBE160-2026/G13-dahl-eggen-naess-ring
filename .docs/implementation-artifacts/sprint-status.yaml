@@ -41,10 +41,11 @@ development_status:
   1-3-create-a-user: backlog
   1-4-log-in-stay-logged-in-and-log-out: backlog
   1-5-get-a-new-password-with-a-reset-link: backlog
-  1-6-change-my-password-and-nickname: backlog
+  1-6-change-my-nickname: backlog
   1-7-delete-my-user: backlog
   1-8-let-only-invited-testers-sign-up-in-the-playtest: backlog
   1-9-reach-the-app-in-the-playtest-environment: backlog
+  1-10-change-my-password: backlog
   epic-1-retrospective: optional
 
   epic-2: backlog
